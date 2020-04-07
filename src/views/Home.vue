@@ -1,18 +1,34 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    <div class="home">
+        <recent-transactions class="card"></recent-transactions>
+    </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
-export default {
-  name: 'Home',
-  components: {
-    HelloWorld
-  }
-}
+    import RecentTransactions from '@/components/Home/RecentTransactions'
+    export default {
+        name: 'Home',
+        components: {
+            RecentTransactions
+        },
+    }
 </script>
+<style>
+    h4{
+        margin: 0;
+        padding: 10px 14px;
+        border-bottom: 1px solid #d2d2d2;
+    }
+</style>
+<style scoped>
+    .home{
+        padding: 30px 8vw;
+    }
+
+
+    .card{
+        border-radius: 2px;
+        border: 1px solid #d2d2d2
+    }
+
+</style>
