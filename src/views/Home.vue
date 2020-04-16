@@ -5,12 +5,18 @@
 </template>
 
 <script>
+    import api from '@/axios';
     import RecentTransactions from '@/components/Home/RecentTransactions'
     export default {
         name: 'Home',
         components: {
             RecentTransactions
         },
+        created() {
+            // api.get('/transactions/count').then( (res) => {
+            //     console.log(res);
+            // })
+        }
     }
 </script>
 <style>

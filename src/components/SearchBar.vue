@@ -5,7 +5,7 @@
                @keyup.enter="search"
                placeholder="Search by Address / Txn Hash ">
         <v-btn @click="search"
-               color="#404040"
+               color="primary"
                :disabled="!canSearch"
                :loading="isAjax"
         >
@@ -64,6 +64,6 @@
         border-radius: 0;
         cursor: pointer;
         font-size: 12px;
-        border-left: 1px solid #d2d2d2;
+        border-left: 1px solid #303030;
     }
 </style>

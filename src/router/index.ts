@@ -13,7 +13,12 @@ const routes = [
   {
     path: '/tx/:id',
     name: 'Transaction',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Transaction.vue')
+    component: () => import(/* webpackChunkName: "transaction" */ '../views/Transaction.vue')
+  },
+  {
+    path: '/address/:address',
+    name: 'Address',
+    component: () => import(/* webpackChunkName: "address" */ '../views/Address.vue')
   }
 
 ];

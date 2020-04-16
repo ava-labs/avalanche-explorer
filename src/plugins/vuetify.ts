@@ -13,4 +13,15 @@ Vue.component('fa', FontAwesomeIcon);
 Vue.use(Vuetify);
 
 export default new Vuetify({
+    theme: {
+        themes: {
+            light: {
+
+            },
+            dark: {
+                nav_bar: "#35373c",
+                primary: "#4fb1d6",
+            }
+        }
+    }
 });

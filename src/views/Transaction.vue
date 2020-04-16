@@ -59,7 +59,11 @@
 
                         <p class="label">Addresses</p>
                         <div>
-                            <p v-for="(addr, i) in output.output.addresses" :key="i">{{addr}}</p>
+                            <router-link v-for="(addr, i) in output.output.addresses"
+                                         :to="`/address/${addr}`"
+                                         :key="i">
+                                {{addr}}
+                            </router-link>
                         </div>
                     </div>
                 </div>
