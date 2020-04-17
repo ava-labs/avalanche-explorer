@@ -61,8 +61,8 @@
     }
 
     .col_title{
-        font-weight: bold;
-        font-size: 12px;
+        /*font-weight: bold;*/
+        font-size: 11px;
         opacity: 0.7;
     }
 

@@ -1,6 +1,9 @@
 <template>
     <div class="recent_tx">
-        <h4>Recent Transactions</h4>
+        <div class="header">
+            <h4>Recent Transactions</h4>
+            <router-link to="/tx">View All</router-link>
+        </div>
         <div class="list">
             <recent-tx-row v-for="tx in transactions" :key="tx" class="recent_tx_rows" :tx_id="tx"></recent-tx-row>
         </div>
@@ -36,8 +39,7 @@
         }
     });
 </script>
-<style scoped>
-
+<style scoped lang="scss">
     .list{
         /*max-height: 500px;*/
         /*overflow-y: scroll;*/

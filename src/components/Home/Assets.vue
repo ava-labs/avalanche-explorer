@@ -1,6 +1,9 @@
 <template>
     <div class="recent_tx">
-        <h4>Assets</h4>
+        <div class="header">
+            <h4>Assets</h4>
+            <router-link to="/assets">View All</router-link>
+        </div>
         <div class="list">
             <asset-row v-for="asset in assets" :key="asset.id" :asset="asset"></asset-row>
         </div>
@@ -30,3 +33,6 @@
         }
     }
 </script>
+<style scoped lang="scss">
+
+</style>

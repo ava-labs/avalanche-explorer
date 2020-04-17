@@ -1,5 +1,6 @@
 <template>
     <div class="home">
+        <h1>AVA EXPLORER</h1>
         <search-bar class="search"></search-bar>
         <div class="tables">
             <recent-transactions class="card"></recent-transactions>
@@ -11,7 +12,6 @@
 
 <script>
     import SearchBar from "@/components/SearchBar";
-    import api from '@/axios';
     import RecentTransactions from '@/components/Home/RecentTransactions'
     import Assets from "@/components/Home/Assets";
     export default {
@@ -21,28 +21,35 @@
             RecentTransactions,
             Assets
         },
-        created() {
-            // api.get('/transactions/count').then( (res) => {
-            //     console.log(res);
-            // })
-
-
-        }
     }
 </script>
-<style>
-    .home h4{
+<style lang="scss">
+    .home .header{
         margin: 0;
         padding: 10px 14px;
-        /*border-bottom: 1px solid #d2d2d2;*/
+        display: flex;
+        align-items: center;
+
+        h4{
+            font-weight: lighter;
+            margin: 0;
+            flex-grow: 1;
+        }
+        a{
+            font-size: 12px;
+        }
     }
 </style>
-<style scoped>
+<style scoped lang="scss">
+    h1{
+        font-weight: lighter;
+        font-size: 48px;
+    }
     .home{
         margin: 0px auto;
         height: 100%;
         max-width: 900px;
-        padding: 30px 8vw;
+        /*padding: 30px 8vw;*/
         /*display: grid;*/
         /*grid-template-columns: 1fr 1fr;*/
         /*grid-gap: 30px;*/
@@ -54,6 +61,12 @@
 
     .search{
         width: 100%;
+        margin-bottom: 30px;
+        background-color: #f4f4f4;
+
+        input{
+            color: #222 !important;
+        }
     }
 
     .card{
@@ -65,7 +78,7 @@
     .tables{
         display: grid;
         width: 100%;
-        grid-template-columns: 1fr 240px;
+        grid-template-columns: 1fr 280px;
         grid-gap: 30px;
     }
 </style>
