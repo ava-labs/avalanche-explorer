@@ -23,38 +23,37 @@
         },
         created(){
             const parent = this;
-            api.get('/transactions/recent').then((res) => {
+            api.get('/x/transactions/recent').then((res) => {
                 const list = res.data;
                 parent.all_tx = list;
+                // console.log(res);
             });
         },
         computed: {
             transactions(){
-                return this.all_tx.slice(0,50);
+                return this.all_tx.slice(0,8);
             }
         }
     });
 </script>
 <style scoped>
-    .recent_tx{
-        background-color: #f2f2f2;
-
-    }
 
     .list{
-        max-height: 500px;
-        overflow-y: scroll;
+        /*max-height: 500px;*/
+        /*overflow-y: scroll;*/
     }
 
     .col_1{
         padding: 0px 30px;
     }
     .recent_tx_rows{
-        padding: 4px 14px;
-        display: grid;
+        /*display: grid;*/
         width: 100%;
-        grid-template-columns: max-content 1fr 80px;
+        /*grid-template-columns: max-content 1fr 80px;*/
         font-size: 12px;
-        border-bottom: 1px solid #e2e2e2;
+        background-color: #f4f4f4;
+        border-radius: 2px;
+        margin-bottom: 2px;
+        box-sizing: border-box;
     }
 </style>

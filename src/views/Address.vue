@@ -25,7 +25,7 @@
         },
         created(){
             let parent = this;
-            let url = `/addresses/${this.address}/transactions`;
+            let url = `/x/addresses/${this.address}/transactions`;
             api.get(url).then((res) => {
                 const data = res.data;
                 parent.transactions = data;

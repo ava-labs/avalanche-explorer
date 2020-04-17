@@ -83,10 +83,11 @@
         },
         created(){
             let parent = this;
-            let url = `/transactions/${this.txId}`;
+            let url = `/x/transactions/${this.txId}`;
             api.get(url).then((res) => {
                 const data = res.data;
                 parent.tx_data = data;
+                console.log(data.unsignedTx.initialStates[0].outputs[0])
             });
         },
         computed: {
