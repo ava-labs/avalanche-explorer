@@ -123,6 +123,10 @@
         }
     }
 
+    .time{
+        opacity: 0.7;
+        margin-top: 5px;
+    }
     .label{
         font-size: 12px;
         font-weight: bold;
@@ -146,10 +150,16 @@
     .addr{
         display: flex;
         justify-content: end;
+        line-height: 20px;
         p{
             width: 40px;
             text-align: right;
             margin-right: 10px;
+            opacity: 0.7;
+        }
+
+        a{
+            text-decoration: none;
         }
     }
 

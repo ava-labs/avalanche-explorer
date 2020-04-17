@@ -52,6 +52,7 @@
         background-color: #f4f4f4;
         /*border: 1px solid #e2e2e2;*/
         border-radius: 2px;
+        color: #3e3e3e;
     }
 
 
