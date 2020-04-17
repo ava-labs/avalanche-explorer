@@ -12,10 +12,10 @@ module.exports = {
     ecmaVersion: 2020
   },
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     '@typescript-eslint/camelcase': 'off',
     '@typescript-eslint/no-this-alias': 'off',
-    'prefer-const': 'off'
+    'prefer-const': 'off',
+    "no-console": "off"
   }
 }
