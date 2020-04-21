@@ -65,26 +65,19 @@
     export default Vue.extend({
         data(){
             return{
-                tx_data: null as null|ApiTransaction
             }
         },
         props:{
-            tx_id: String
-        },
-        created() {
-            let parent = this;
-            let url = `/x/transactions/${this.tx_id}`;
-            api.get(url).then((res) => {
-                const data = res.data;
-                console.log(data);
-                parent.tx_data = data;
-            });
+            transaction: {
+                type: Object,
+                required: true,
+            }
         },
         computed: {
             inputAssets(){
                 let res: any = {};
-                if(this.tx_data) {
-                    let inputs = this.tx_data.unsignedTx.inputs;
+                if(this.transaction) {
+                    let inputs = this.transaction.unsignedTx.inputs;
                     for (let i=0; i< inputs.length; i++){
                         let input = inputs[i];
                         if(res[input.assetID]){

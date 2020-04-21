@@ -5,7 +5,7 @@
             <router-link to="/tx">View All</router-link>
         </div>
         <div class="list">
-            <recent-tx-row v-for="tx in transactions" :key="tx" class="recent_tx_rows" :tx_id="tx"></recent-tx-row>
+            <recent-tx-row v-for="tx in transactions" :key="tx.id" class="recent_tx_rows" :transaction="tx"></recent-tx-row>
         </div>
     </div>
 </template>
@@ -26,8 +26,10 @@
         },
         created(){
             const parent = this;
-            api.get('/x/transactions/recent').then((res) => {
+            let txNum = 10;
+            api.get('/x/transactions?sort=timestamp-desc&limit=10').then((res) => {
                 const list = res.data;
+                console.log(list);
                 parent.all_tx = list;
                 // console.log(res);
             });
