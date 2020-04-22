@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
@@ -11,9 +11,14 @@ const routes = [
     component: Home
   },
   {
+    path: '/tokens',
+    name: 'Tokens',
+    component: () => import(/* webpackChunkName: "tokens" */ '../views/Tokens.vue')
+  },
+  {
     path: '/tx',
     name: 'Transactions',
-    component: () => import(/* webpackChunkName: "transaction" */ '../views/AllTransactions.vue')
+    component: () => import(/* webpackChunkName: "transactions" */ '../views/AllTransactions.vue')
   },
   {
     path: '/tx/:id',

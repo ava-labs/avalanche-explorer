@@ -1,71 +1,50 @@
 <template>
     <div class="recent_tx">
+
         <div class="avatar">
             <p>Tx</p>
         </div>
+
+
         <div class="info_col">
             <router-link :to="`/tx/${tx_id}`" class="id">{{tx_id.substring(0,12)}}...</router-link>
-            <p class="time">35 seconds ago</p>
+            <p class="time">{{ago}}</p>
         </div>
+
+
         <div class="info_col">
-            <div class="addr">
-                <p>From</p>
-                <router-link :to="`/address/${tx_id}`" class="id">
-                    0x386927318...
-                </router-link>
-            </div>
-            <div class="addr">
-                <p>To</p>
-                <router-link :to="`/address/${tx_id}`" class="id">
-                    0x386345532...
-                </router-link>
+            <div  class="to" v-for="(input,i) in inputs" :key="i">
+                <p class="bold"><b>From</b> </p>
+                <router-link class="addr" to="/">???</router-link>
             </div>
         </div>
-        <div>
-            <p class="amount">0.0053 <span>AVA</span></p>
+
+
+        <div class="info_col">
+            <div  class="to" v-for="(output,i) in outputs" :key="i">
+                <p class="bold"><b>To</b> </p>
+                <router-link class="addr" :to="`/address/`+output.output.addresses[0]">{{output.output.addresses[0]}}</router-link>
+                <p class="amount">{{output.output.amount.toFixed(1)}} <span>{{output.assetID.substr(0,3)}}</span></p>
+            </div>
         </div>
-<!--        <div v-if="tx_data" class="data">-->
-<!--            <div>-->
-<!--&lt;!&ndash;                <p class="label">Tx Id:</p>&ndash;&gt;-->
-<!--                <router-link :to="`/tx/${tx_id}`">{{tx_id}}</router-link>-->
-
-<!--&lt;!&ndash;                <p class="label">Network Id:</p>&ndash;&gt;-->
-<!--&lt;!&ndash;                <p>{{tx_data.unsignedTx.networkID}}</p>&ndash;&gt;-->
-
-<!--&lt;!&ndash;                <p class="label">Chain Id:</p>&ndash;&gt;-->
-<!--&lt;!&ndash;                <p>{{tx_data.unsignedTx.blockchainID}}</p>&ndash;&gt;-->
-<!--            </div>-->
-<!--            <div class="inputs">-->
-<!--                <p>Inputs</p>-->
-<!--                <div v-for="(input, i) in tx_data.unsignedTx.inputs" :key="i">-->
-<!--                    <p>Tx Id: {{input.txID}}</p>-->
-<!--                    <p>Asset Id: {{input.assetID}}</p>-->
-<!--                    <p>Amount: {{input.input.amount}}</p>-->
-<!--                    {{inputAssets}}-->
-<!--&lt;!&ndash;                    {{input}}&ndash;&gt;-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="outputs">-->
-<!--                <p>Outputs</p>-->
-<!--                <div v-for="(output, i) in tx_data.unsignedTx.outputs" :key="i">-->
-<!--                    {{output.assetID}}-->
-<!--                    {{output.output.addresses}}-->
-<!--                    {{output.output.amount}}-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-
     </div>
 </template>
-<script lang="ts">
-    import api from "@/axios";
+<script >
+    // import api from "@/axios";
     import Vue from 'vue';
-    import {ApiTransaction} from "@/js/types";
+    // import {ApiTransaction} from "@/js/types";
+    import moment from 'moment';
 
-    export default Vue.extend({
+    moment().format();
+
+    export default {
         data(){
             return{
+
             }
+        },
+        created() {
+            console.log(this.transaction)
         },
         props:{
             transaction: {
@@ -74,12 +53,28 @@
             }
         },
         computed: {
+            assets(){
+                return this.$store.state.assets;
+            },
+            tx_id(){
+                return this.transaction.id;
+            },
+            ago(){
+                let stamp = this.transaction.timestamp;
+                let date = new Date(stamp);
+                // console.log(stamp);
+                // console.log()
+                return moment(date).fromNow();
+                // return `2 seconds ago`
+            },
             inputAssets(){
-                let res: any = {};
+                let res = {};
                 if(this.transaction) {
+                    console.log('inputs:');
                     let inputs = this.transaction.unsignedTx.inputs;
                     for (let i=0; i< inputs.length; i++){
                         let input = inputs[i];
+                        console.log(input);
                         if(res[input.assetID]){
                             res[input.assetID] += input.input.amount;
                         }else{
@@ -88,16 +83,56 @@
                     }
                 }
                 return res;
+            },
+            outputs(){
+                let res = this.transaction.unsignedTx.outputs.filter((val,index) => {
+                    if(val.output.amount > 1000000000){
+                        return false
+                    }
+                    return true
+                });
+                return res;
+            },
+            inputs(){
+                return this.transaction.unsignedTx.inputs;
+            },
+
+
+
+            outputAssets(){
+                let res = {};
+                if(this.transaction) {
+                    console.log('Outs:')
+                    let outputs = this.transaction.unsignedTx.outputs;
+                    for (let i=0; i< outputs.length; i++){
+                        let output = outputs[i];
+                        console.log(output);
+                        let addr = output.output.addresses[0];
+                        // If this is a change output utxo skip it
+                        console.log(addr);
+                        if(this.inputAssets[addr]){
+                            console.log(`${addr} is change`);
+                            continue;
+                        }
+
+                        if(res[output.assetID]){
+                            res[output.assetID] += output.output.amount;
+                        }else{
+                            res[output.assetID] = output.output.amount;
+                        }
+                    }
+                }
+                return res;
             }
         }
-    })
+    }
 </script>
 <style scoped lang="scss">
     .recent_tx{
-        padding: 6px 14px;
+        padding: 12px 14px;
         position: relative;
         display: grid;
-        grid-template-columns: 40px 1fr 1fr 40px;
+        grid-template-columns: min-content 120px 1fr 1fr 40px;
         flex-direction: row;
         align-items: center;
     }
@@ -107,18 +142,20 @@
         border-radius: 35px;
         line-height: 35px;
         text-align: center;
-        background-color: #c4c4c4;
+        background-color: #F1F2F3;
 
         p{
             width: 100%;
             font-weight: bold;
-            color: #6b6b6b;
+            color: #272727;
         }
     }
 
     .time{
-        opacity: 0.7;
+        font-weight: bold;
+        font-size: 10px;
         margin-top: 5px;
+        color: #7A838E;
     }
     .label{
         font-size: 12px;
@@ -135,35 +172,68 @@
     }
 
     .id{
+        color: #71C5FF;
+        text-decoration: none;
+        font-weight: normal;
         max-width: 80px;
         overflow: hidden;
         text-overflow: ellipsis;
     }
 
-    .addr{
-        display: flex;
-        justify-content: end;
-        line-height: 20px;
-        p{
-            width: 40px;
-            text-align: right;
-            margin-right: 10px;
-            opacity: 0.7;
-        }
+    .to{
+        display: grid;
+        grid-template-columns: max-content 1fr max-content;
+        white-space: nowrap;
+        overflow: hidden;
 
-        a{
+        .bold{
+            padding: 4px 0px;
+            text-align: right;
+            padding-right: 2px;
+        }
+        .addr{
+            text-overflow: ellipsis;
+            overflow: hidden;
+            padding-left: 0;
+            color: #7A838E;
+            font-family: monospace;
             text-decoration: none;
         }
+        .addr:hover{
+            text-decoration: underline;
+        }
+
+        .amount{
+
+        }
+        p, a{
+            padding: 4px 12px;
+        }
     }
+    /*.addr{*/
+    /*    display: flex;*/
+    /*    justify-content: end;*/
+    /*    line-height: 20px;*/
+    /*    p{*/
+    /*        width: 40px;*/
+    /*        text-align: right;*/
+    /*        margin-right: 10px;*/
+    /*        word-break: break-all;*/
+    /*        opacity: 0.7;*/
+    /*    }*/
+
+    /*    a{*/
+    /*        text-decoration: none;*/
+    /*    }*/
+    /*}*/
 
     .amount{
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        background-color: #C8C8C8;
-        padding: 4px 12px;
+        /*position: absolute;*/
+        /*top: 5px;*/
+        /*right: 5px;*/
+        background-color: #E6F5FF;
         font-size: 11px;
-        color: #646464;
+        color: #71C5FF;
         border-radius: 4px;
     }
 </style>

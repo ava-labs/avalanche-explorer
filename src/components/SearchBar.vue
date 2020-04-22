@@ -3,11 +3,12 @@
         <input type="text"
                v-model="search_val"
                @keyup.enter="search"
-               placeholder="Search by Address / Txn Hash ">
+               @input="autoSearch"
+               :placeholder="placeholder">
         <v-btn @click="search"
-               color="primary"
-               :disabled="!canSearch"
+               color="#71C5FF"
                :loading="isAjax"
+               depressed
         >
             <fa icon="search"></fa>
         </v-btn>
@@ -15,6 +16,7 @@
 </template>
 <script>
     import Vue from "vue";
+    import axios from "@/axios";
 
     export default Vue.extend({
         data(){
@@ -23,12 +25,28 @@
                 search_val : '',
             }
         },
+        props: {
+            placeholder: {
+                type: String,
+                default: ''
+            }
+        },
         methods: {
             search(){
                 if(!this.canSearch) return;
 
                 this.isAjax = true;
                 console.log(`Searching ${this.search_val}`)
+            },
+
+            autoSearch(){
+                let query = this.search_val;
+
+                console.log(`Searching: ${query}`)
+                axios.get('/x/search?query='+query).then(res => {
+                    let data = res.data;
+                    console.log(res);
+                })
             }
         },
         computed: {
@@ -44,19 +62,22 @@
 <style scoped>
     .search_bar{
         display: flex;
-        background-color: #303030;
-        border-radius: 4px;
+        background-color: transparent;
         overflow: hidden;
     }
 
     input{
         background-color: transparent;
-        border: none;
-        color: #d2d2d2;
+        color: #333;
         padding: 8px 13px;
         flex-grow: 1;
         outline: none;
-        font-size: 13px;
+        border: 1px solid #D6DAE1;
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+
+        border-right: none;
+        font-size: 12px;
     }
 
     .v-btn{
@@ -64,6 +85,8 @@
         border-radius: 0;
         cursor: pointer;
         font-size: 12px;
-        border-left: 1px solid #303030;
+        color: #fff !important;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
     }
 </style>

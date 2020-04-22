@@ -4,9 +4,10 @@ import Vuetify from 'vuetify';
 // Font Awesome
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import {faTwitter, faDiscord, faReddit} from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faSearch);
+library.add(faSearch, faTwitter, faDiscord, faReddit);
 Vue.component('fa', FontAwesomeIcon);
 
 
@@ -19,7 +20,7 @@ export default new Vuetify({
 
             },
             dark: {
-                nav_bar: "#35373c",
+                nav_bar: "#fff",
                 primary: "#4fb1d6",
             }
         }
