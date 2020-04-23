@@ -87,9 +87,9 @@
             },
             outputs(){
                 let res = this.transaction.unsignedTx.outputs.filter((val,index) => {
-                    if(val.output.amount > 1000000000){
-                        return false
-                    }
+                    // if(val.output.amount > 1000000000){
+                    //     return false
+                    // }
                     return true
                 });
                 return res;

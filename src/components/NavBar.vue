@@ -19,7 +19,7 @@
         </div>
         <v-spacer></v-spacer>
         <div class="rightside">
-            <div class="row">
+            <div class="row" style="display: flex">
                 <div class="routes">
                     <router-link to="/">Home</router-link>
                     <router-link to="/blockchain">Blockchain</router-link>
