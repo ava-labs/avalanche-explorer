@@ -31,7 +31,7 @@
         padding-bottom: 0px;
         color: #fff !important;
         display: flex;
-        align-items: start;
+        align-items: flex-start;
     }
     .powered_by{
         margin-right: 90px;
