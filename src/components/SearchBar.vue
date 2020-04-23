@@ -3,7 +3,7 @@
         <input type="text"
                v-model="search_val"
                @keyup.enter="search"
-               @input="autoSearch"
+               @input="oninput"
                :placeholder="placeholder">
         <v-btn @click="search"
                color="#71C5FF"
@@ -34,19 +34,21 @@
         methods: {
             search(){
                 if(!this.canSearch) return;
-
-                this.isAjax = true;
-                console.log(`Searching ${this.search_val}`)
+                this.$emit('search', this.search_val);
+            },
+            oninput(){
+                this.$emit('input', this.search_val);
+                this.autoSearch();
             },
 
             autoSearch(){
                 let query = this.search_val;
 
-                console.log(`Searching: ${query}`)
-                axios.get('/x/search?query='+query).then(res => {
-                    let data = res.data;
-                    console.log(res);
-                })
+                console.log(`Searching: ${query}`);
+                // axios.get('/x/search?query='+query).then(res => {
+                //     let data = res.data;
+                //     console.log(res);
+                // })
             }
         },
         computed: {

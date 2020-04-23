@@ -1,6 +1,5 @@
 <template>
-    <div class="recent_tx">
-
+    <div class="tx_row">
         <div class="avatar">
             <p>Tx</p>
         </div>
@@ -24,7 +23,7 @@
             <div  class="to" v-for="(output,i) in outputs" :key="i">
                 <p class="bold"><b>To</b> </p>
                 <router-link class="addr" :to="`/address/`+output.output.addresses[0]">{{output.output.addresses[0]}}</router-link>
-<!--                <p class="amount">{{output.output.amount.toFixed(1)}} <span>{{output.assetID}}</span></p>-->
+                <!--                <p class="amount">{{output.output.amount.toFixed(1)}} <span>{{output.assetID}}</span></p>-->
                 <p class="amount">{{output.output.amount.toFixed(1)}} <span>AVA</span></p>
             </div>
         </div>
@@ -129,14 +128,16 @@
     }
 </script>
 <style scoped lang="scss">
-    .recent_tx{
+    .tx_row{
         padding: 12px 14px;
         position: relative;
         display: grid;
         grid-template-columns: min-content 120px 1fr 1fr;
         flex-direction: row;
         align-items: center;
+        font-size: 12px;
     }
+
     .avatar{
         width: 35px;
         height: 35px;
@@ -214,6 +215,9 @@
     }
 
     .amount{
+        /*position: absolute;*/
+        /*top: 5px;*/
+        /*right: 5px;*/
         background-color: #E6F5FF;
         font-size: 11px;
         color: #71C5FF;

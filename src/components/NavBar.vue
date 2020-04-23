@@ -30,7 +30,7 @@
                 <div class="avatar"></div>
             </div>
             <div class="row">
-                <search-bar class="search_bar" placeholder="Search by Address / TxId / BlockId / AssetId"></search-bar>
+                <search-bar class="search_bar" placeholder="Search by Address / TxId / BlockId / AssetId" @search="onsearch"></search-bar>
             </div>
         </div>
     </v-app-bar>
@@ -42,6 +42,11 @@
     export default Vue.extend({
         components: {
             SearchBar,
+        },
+        methods: {
+            onsearch(val){
+                this.$router.push({ path: '/search', query: { query: val } })
+            }
         },
         computed:{
             themeType(){
@@ -58,12 +63,12 @@
             },
             navColor(){
                 let res = '#fff';
-                console.log(this.theme);
+                // console.log(this.theme);
 
                 // if(this.$router.currentRoute.name == "Home"){
                 //     res = "transparent";
                 // }
-                console.log(res);
+                // console.log(res);
                 return res;
             }
         }
