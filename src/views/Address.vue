@@ -12,7 +12,7 @@
 
         <div class="transactions">
             <h4>Transactions</h4>
-            <tx-table class="tx_table" :transactions="transactions"></tx-table>
+            <tx-table class="tx_table" :transactions="orderedTx"></tx-table>
         </div>
     </div>
 </template>
@@ -26,7 +26,7 @@
         },
         data(){
             return{
-                transactions: null,
+                transactions: [],
             }
         },
         created(){
@@ -39,6 +39,20 @@
             });
         },
         computed: {
+            orderedTx(){
+                let txs = this.transactions;
+                txs.sort((a,b) => {
+                    let timeA = new Date(a.timestamp);
+                    let timeB = new Date(b.timestamp);
+
+                    if(timeA.getTime() > timeB.getTime()){
+                        return -1;
+                    }else{
+                        return  1;
+                    }
+                });
+                return txs
+            },
             address(){
                 return this.$route.params.address;
             }

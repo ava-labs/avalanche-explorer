@@ -24,7 +24,8 @@
             <div  class="to" v-for="(output,i) in outputs" :key="i">
                 <p class="bold"><b>To</b> </p>
                 <router-link class="addr" :to="`/address/`+output.output.addresses[0]">{{output.output.addresses[0]}}</router-link>
-                <p class="amount">{{output.output.amount.toFixed(1)}} <span>{{output.assetID.substr(0,3)}}</span></p>
+<!--                <p class="amount">{{output.output.amount.toFixed(1)}} <span>{{output.assetID}}</span></p>-->
+                <p class="amount">{{output.output.amount.toFixed(1)}} <span>AVA</span></p>
             </div>
         </div>
     </div>
@@ -132,7 +133,7 @@
         padding: 12px 14px;
         position: relative;
         display: grid;
-        grid-template-columns: min-content 120px 1fr 1fr 40px;
+        grid-template-columns: min-content 120px 1fr 1fr;
         flex-direction: row;
         align-items: center;
     }
@@ -185,6 +186,7 @@
         grid-template-columns: max-content 1fr max-content;
         white-space: nowrap;
         overflow: hidden;
+        margin-bottom: 5px;
 
         .bold{
             padding: 4px 0px;

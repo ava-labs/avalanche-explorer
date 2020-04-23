@@ -1,81 +1,45 @@
 <template>
     <div class="transaction_details">
-        <h1>Transaction Details</h1>
-        <div v-if="tx_data">
-            <div>
-                <p class="id">{{txId}}</p>
-                <div class="main_info">
-                    <div>
-                        <p class="label">Network</p>
-                        <p>{{tx_data.unsignedTx.networkID}}</p>
-                    </div>
-                    <div>
-                        <p class="label">Blockchain</p>
-                        <p>{{tx_data.unsignedTx.blockchainID}}</p>
-                    </div>
-                </div>
+        <div class="meta" v-if="tx_data">
+            <h1>Transaction Details</h1>
+            <div class="meta_row">
+                <p class="label">ID</p>
+                <p>{{txId}}</p>
             </div>
-            <div class="io">
-                <div class="inputs">
-                    <h4>Inputs</h4>
-                    <div class="io_item" v-for="input in tx_data.unsignedTx.inputs" :key="input.txID">
-                        <p class="label">Tx Id</p>
-                        <p>
-                            <router-link :to="`/tx/${input.txID}`">{{input.txID}}</router-link>
-                        </p>
-
-                        <p class="label">Asset</p>
-                        <p>{{input.assetID}}</p>
-
-                        <p class="label">Amount</p>
-                        <p>{{input.input.amount}}</p>
-                    </div>
-                </div>
-                <div class="outputs">
-                    <h4>Outputs</h4>
-                    <div class="io_item" v-for="(output, i) in tx_data.unsignedTx.outputs"
-                         :key="i">
-                        <div style="display: flex;">
-                            <div>
-                                <p class="label">Asset</p>
-                                <p>{{output.assetID}}</p>
-                            </div>
-                            <div style="text-align: right; flex-grow: 1">
-                                <p class="label">Amount</p>
-                                <p>{{output.output.amount}}</p>
-                            </div>
-                        </div>
-
-                        <div style="display: flex">
-                            <div>
-                                <p class="label">Lock Time: </p>
-                                <p>{{output.output.locktime}}</p>
-                            </div>
-                            <div>
-                                <p class="label">Threshold</p>
-                                <p>{{output.output.threshold}}</p>
-                            </div>
-                        </div>
-
-                        <p class="label">Addresses</p>
-                        <div>
-                            <router-link v-for="(addr, i) in output.output.addresses"
-                                         :to="`/address/${addr}`"
-                                         :key="i">
-                                {{addr}}
-                            </router-link>
-                        </div>
-                    </div>
-                </div>
+            <div class="meta_row">
+                <p class="label">Network</p>
+                <p>{{networkId}}</p>
+            </div>
+            <div class="meta_row">
+                <p class="label">Blockchain</p>
+                <p>{{chainId}}</p>
             </div>
         </div>
 
+        <div v-if="tx_data" class="io">
+            <div class="inputs">
+                <h4>Inputs</h4>
+                <utxo-input class="io_item" v-for="(input, i) in tx_data.unsignedTx.inputs" :key="i" :input="input"></utxo-input>
+            </div>
+            <div class="outputs">
+                <h4>Outputs</h4>
+                <Output  class="io_item" v-for="(output, i) in tx_data.unsignedTx.outputs"
+                         :key="i" :output="output"></Output>
+            </div>
+        </div>
     </div>
 </template>
 <script>
     import api from "../axios";
 
+    import Output from "../components/Transaction/Output";
+    import UtxoInput from "../components/Transaction/Input";
+
     export default {
+        components: {
+            UtxoInput,
+            Output
+        },
         data(){
             return{
                 tx_data: null,
@@ -93,17 +57,67 @@
         computed: {
             txId(){
                 return this.$route.params.id;
+            },
+            networkId(){
+                return this.tx_data.unsignedTx.networkID
+            },
+            chainId(){
+                return this.tx_data.unsignedTx.blockchainID
             }
         }
     }
 </script>
-<style scoped>
+<style lang="scss">
     .transaction_details{
-        padding: 30px 15vw;
+        a{
+            color: #71C5FF;
+            text-decoration: none;
+
+            &:hover{
+                text-decoration: underline;
+            }
+        }
+    }
+</style>
+<style scoped lang="scss">
+    h1{
+        margin: 0;
+        font-size: 16px;
+        margin-left: 80px;
+        margin-bottom: 12px;
+    }
+
+
+    .transaction_details{
+        margin: 30px 18vw;
+        font-size: 13px;
+
+
+        > div{
+
+        }
+    }
+
+    .meta{
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 6px;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .meta_row{
+        /*display: flex;*/
+        display: grid;
+        grid-template-columns: 80px 1fr;
+        margin-bottom: 8px;
+        .label{
+            font-weight: bold;
+            text-align: right;
+            margin-right: 8px;
+        }
     }
 
     .id{
-        font-size: 4em;
         overflow: hidden;
         text-overflow: ellipsis;
     }
@@ -126,19 +140,19 @@
 
 
     .io_item{
-        padding: 5px 12px;
-        font-size: 12px;
+        padding: 15px 30px;
+        font-size: 13px;
         margin: 14px 0px;
-        background-color: #f2f2f2;
-        border-radius: 3px;
-        border: 1px solid #eaeaea;
+        background-color: #fff;
+        border-radius: 6px;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
     }
 
-    .label{
-        font-size: 11px;
-        font-weight: bold;
-        letter-spacing: 0.1em;
-        color: #808080;
-        margin-top: 6px;
-    }
+    /*.label{*/
+    /*    font-size: 11px;*/
+    /*    font-weight: bold;*/
+    /*    letter-spacing: 0.1em;*/
+    /*    color: #808080;*/
+    /*    margin-top: 6px;*/
+    /*}*/
 </style>

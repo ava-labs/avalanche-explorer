@@ -10,7 +10,7 @@
                 <p>ID</p>
                 <p>From</p>
                 <p>To</p>
-                <p>Amount</p>
+<!--                <p>Amount</p>-->
             </div>
             <recent-tx-row v-for="tx in transactions" :key="tx.id" class="recent_tx_rows" :transaction="tx"></recent-tx-row>
         </div>
@@ -50,7 +50,7 @@
 
     .table_headers{
         display: grid;
-        grid-template-columns: 35px 120px 1fr 1fr 40px;
+        grid-template-columns: 35px 120px 1fr 1fr;
         border: none !important;
         padding: 0px 14px;
 
