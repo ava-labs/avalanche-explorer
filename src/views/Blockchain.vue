@@ -7,6 +7,7 @@
             </div>
         </div>
         <div class="validators">
+            <h2>Validators</h2>
             <div class="validator" v-for="validator in validators" :key="validator.id">
                 <div class="id_col">
                     <p class="label">ID</p>
