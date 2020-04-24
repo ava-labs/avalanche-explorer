@@ -6,7 +6,7 @@
 
 
         <div class="info_col">
-            <router-link :to="`/tx/${tx_id}`" class="id">{{tx_id.substring(0,12)}}...</router-link>
+            <router-link :to="`/tx/${tx_id}`" class="id">{{tx_id}}...</router-link>
             <p class="time">{{ago}}</p>
         </div>
 
@@ -128,6 +128,8 @@
     }
 </script>
 <style scoped lang="scss">
+    @use '../../main';
+
     .tx_row{
         padding: 12px 14px;
         position: relative;
@@ -171,13 +173,16 @@
 
     .info_col{
         padding: 0px 10px;
+        overflow: auto;
     }
 
     .id{
         color: #71C5FF;
         text-decoration: none;
         font-weight: normal;
-        max-width: 80px;
+        display: block;
+        /*max-width: 80px;*/
+        /*width: 80px;*/
         overflow: hidden;
         text-overflow: ellipsis;
     }
@@ -222,5 +227,17 @@
         font-size: 11px;
         color: #71C5FF;
         border-radius: 4px;
+    }
+
+    @media only screen and (max-width: main.$mobile_width) {
+        .tx_row{
+            padding: 8px;
+            grid-template-columns: none;
+            grid-template-rows: max-content max-content max-content;
+        }
+
+        .avatar{
+            display: none;
+        }
     }
 </style>

@@ -76,6 +76,7 @@
 </script>
 
 <style scoped lang="scss">
+    @use'../main';
 
     .navbar{
         padding: 0px 18vw;
@@ -146,5 +147,9 @@
         width: 24px;
     }
 
-
+    @media only screen and (max-width: main.$mobile_width) {
+        .navbar{
+            padding: main.$container_padding_mobile;
+        }
+    }
 </style>

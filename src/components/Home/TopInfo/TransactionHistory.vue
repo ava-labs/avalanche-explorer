@@ -12,16 +12,20 @@
             </div>
         </div>
         <div>
-<!--            <p>{{history}}</p>-->
+            <canvas ref="canv"></canvas>
         </div>
     </div>
 </template>
 <script>
     import axios from '@/axios';
+    import Chart from 'chart.js'
+    import moment from 'moment';
+
 
     export default {
         data(){
             return {
+                context: null,
                 options: [
                     'year',
                     'month',
@@ -31,7 +35,8 @@
                     'minute',
                 ],
                 scope: 'day',
-                history: {},
+                history: null,
+                chart: null,
             }
         },
         methods: {
@@ -43,19 +48,268 @@
             updateHistory(){
                 let parent = this;
                 let scope = this.scope;
-                axios.get('/x/transactions/aggregates?timeframe='+scope).then(res => {
+
+                // our selected interval in ms
+                let interval = this.intervalMs;
+                let intervalSize = this.intervalSize;
+                let endMs = Date.now();
+                let startMs = endMs - interval;
+
+                let startTime = this.startDate.toISOString();
+                let endTime = this.endDate.toISOString();
+
+                let startSec = Math.round(startMs/1000);
+                let endSec = Math.round(endMs/1000);
+                console.log(startTime);
+                console.log(endTime);
+                // console.log( new Date().toISOString());
+                axios.get(`/x/transactions/aggregates?startTime=${startTime}&endTime=${endTime}&intervalSize=${intervalSize}`).then(res => {
                     let data = res.data;
-                    // console.log(data);
+                    console.log(data);
                     parent.history = data;
+                    parent.draw();
                 });
+            },
+
+            clearChart(){
+                let chart = this.chart;
+                chart.data.labels = [];
+                chart.data.datasets.forEach((dataset) => {
+                    dataset.data = [];
+                });
+                chart.update();
+            },
+            draw(){
+                this.clearChart();
+                let parent = this;
+
+                let dataX = this.dataX;
+                let chart = this.chart;
+
+                console.log(dataX);
+                dataX.forEach((data,index) => {
+                    // let date =  Date.parse(data.startTime);
+                    // console.log(date);
+                    let label = parent.labelsX[index];
+
+                    chart.data.labels.push(label);
+                    chart.data.datasets.forEach((dataset) => {
+                        dataset.data.push(data);
+                    });
+                });
+                chart.update();
+
+
             }
+        },
+        computed: {
+            intervalMs(){
+                let res = 0;
+                switch (this.scope) {
+                    case 'year':
+                        res = 1000 * 60 * 60 * 24 * 365;
+                        break;
+                    case 'month':
+                        res = 1000 * 60 * 60 * 24 * 30;
+                        break;
+                    case 'week':
+                        res = 1000 * 60 * 60 * 24 * 7;
+                        break;
+                    case 'day':
+                        res = 1000 * 60 * 60 * 24;
+                        break;
+                    case 'hour':
+                        res = 1000 * 60 * 60;
+                        break;
+                    case 'minute':
+                        res = 1000 * 60;
+                        break;
+                }
+                return res;
+            },
+            intervalSize(){
+                let res = 'minute';
+                switch (this.scope) {
+                    case 'year':
+                        res = 'month';
+                        break;
+                    case 'month':
+                        // res = `${24*7}h`;
+                        res = `day`;
+                        break;
+                    case 'week':
+                        res = 'day';
+                        break;
+                    case 'day':
+                        res = 'hour';
+                        break;
+                    case 'hour':
+                        res = '5m';
+                        break;
+                    case 'minute':
+                        res = '5s';
+                        break;
+                }
+                return res;
+            },
+            intervalSizeMs(){
+                let res = 0;
+                switch (this.intervalSize) {
+                    case 'month':
+                        res = 1000 * 60 * 60 * 24 * 30;
+                        break;
+                    case 'day':
+                        res = 1000 * 60 * 60 * 24;
+                        break;
+                    case 'hour':
+                        res = 1000 * 60 * 60;
+                        break;
+                    case '5m':
+                        res = 1000 * 60 * 5;
+                        break;
+                    case '5s':
+                        res = 1000 * 5;
+                        break;
+                }
+                return res;
+            },
+            intervalFormat(){
+                let res = '';
+                switch (this.intervalSize) {
+                    case 'month':
+                        res = 'MMM';
+                        break;
+                    case `${24*7}h`:
+                        res = 'd';
+                        break;
+                    case 'day':
+                        res = 'd';
+                        break;
+                    case 'hour':
+                        res = 'HH:m';
+                        break;
+                    case '5m':
+                        res = 'HH:m';
+                        break;
+                    case '5s':
+                        res = 's';
+                        break;
+                }
+                return res;
+            },
+            startDate(){
+                let startMs = Date.now() - this.intervalMs;
+                return new Date(startMs);
+            },
+            endDate(){
+                return new Date();
+            },
+            dataX(){
+                if(!this.history) return  [];
+                let res = [];
+                let intervals = this.history.intervals;
+                intervals.forEach((val,i) => {
+                    res.push(val.aggregates.transactionCount);
+                });
+                return res;
+            },
+            labelsX(){
+                let res = [];
+
+                let date = this.startDate;
+                let len = this.dataX.length;
+                let intervalSizeMs = this.intervalSizeMs;
+
+                for(let i=0; i<len; i++){
+                    date = new Date(date.getTime() + intervalSizeMs);
+                    let mom = moment(date)
+
+                    if(i%2===0){
+                        res.push('')
+                        continue;
+                    }
+
+                    let label = mom.format(this.intervalFormat);
+                    res.push(label)
+                }
+
+                return res;
+            },
         },
         created() {
             this.updateHistory();
+        },
+        mounted(){
+            let cont = this.$refs.canv.getContext('2d');
+            this.context = cont;
+
+            let dataX = this.dataX;
+
+            let myLineChart = new Chart(cont, {
+                type: 'line',
+                data: {
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                    datasets: [{
+                        label: 'My First dataset',
+                        backgroundColor: '#71C5FF',
+                        borderColor: '#71C5FF',
+                        pointBackgroundColor: 'transparent',
+                        pointBorderColor: 'transparent',
+                        pointHoverBackgroundColor: '#71C5FF',
+                        pointHoverBorderColor: '#71C5FF',
+                        data: dataX,
+                        fill: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    title: {
+                        display: false,
+                        text: 'Chart.js Line Chart'
+                    },
+                    tooltips: {
+                        mode: 'index',
+                        enabled: true,
+                        intersect: false,
+                    },
+                    legend: {
+                        display: false
+                    },
+                    hover: {
+                        mode: 'nearest',
+                        intersect: true
+                    },
+                    scales: {
+                        x: {
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Month'
+                            }
+                        },
+                        y: {
+                            display: false,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Value'
+                            },
+                            ticks: {
+                                callback: function(value, index, values) {
+                                    return '$' + value;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            this.chart = myLineChart;
         }
     }
 </script>
 <style lang="scss" scoped>
+    @use '../../../main';
+
     .header{
         display: flex;
         align-items: flex-start;
@@ -83,6 +337,31 @@
                 font-weight: bold;
                 background-color: #71C5FF;
             }
+        }
+    }
+    canvas{
+        /*position: absolute;*/
+        width: 100%;
+        height: 100%;
+    }
+
+
+    @media only screen and (max-width: main.$mobile_width) {
+        .header{
+            flex-direction: column;
+        }
+
+        .history_settings{
+            margin: 8px 0px;
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+
+            button{
+                flex-grow: 1;
+                width: auto;
+            }
+
         }
     }
 </style>

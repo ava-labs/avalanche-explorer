@@ -38,6 +38,9 @@
     /*}*/
 </style>
 <style scoped lang="scss">
+    @use '../main';
+
+
     h1{
         font-weight: lighter;
         font-size: 48px;
@@ -46,6 +49,7 @@
         margin: 0px auto;
         height: 100%;
         padding: 30px 18vw;
+        padding: main.$container_padding_l;
         /*padding: 30px 8vw;*/
         /*display: grid;*/
         /*grid-template-columns: 1fr 1fr;*/
@@ -71,7 +75,8 @@
         /*border-radius: 2px;*/
         /*border: 1px solid #d2d2d2*/
         background-color: #fff;
-        width: 100%;
+        /*width: 100%;*/
+        max-width: 100%;
         border-radius: 6px;
         margin-top: 15px;
         box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
@@ -82,5 +87,12 @@
         width: 100%;
         grid-template-columns: 1fr 280px;
         grid-gap: 30px;
+    }
+
+
+    @media only screen and (max-width: main.$mobile_width) {
+        .home {
+            padding: main.$container_padding_mobile;
+        }
     }
 </style>

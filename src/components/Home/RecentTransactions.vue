@@ -12,7 +12,7 @@
                 <p>To</p>
 <!--                <p>Amount</p>-->
             </div>
-            <recent-tx-row v-for="tx in transactions" :key="tx.id" class="recent_tx_rows" :transaction="tx"></recent-tx-row>
+            <tx-row v-for="tx in transactions" :key="tx.id" class="recent_tx_rows" :transaction="tx"></tx-row>
         </div>
         <div class="bottom">
             <router-link to="/tx" class="view_all">View All transactions</router-link>
@@ -23,11 +23,11 @@
     import api from '@/axios';
     import Vue from 'vue';
 
-    import RecentTxRow from "@/components/Home/RecentTxRow";
+    import TxRow from "@/components/rows/TxRow";
 
     export default Vue.extend({
         components: {
-            RecentTxRow
+            TxRow
         },
         data(){
             return {
@@ -46,6 +46,7 @@
     });
 </script>
 <style scoped lang="scss">
+    @use '../../main';
 
 
     .table_headers{
@@ -63,12 +64,16 @@
         font-size: 12px;
         color: #929BA6;
         font-weight: lighter;
+        text-align: right;
 
         span{
             padding: 4px 12px;
             border-radius: 4px;
             color: #976CFA;
             background-color: #EBE4FB;
+            line-height: 2em;
+            word-break: keep-all;
+            white-space: nowrap;
         }
     }
     .col_1{
@@ -77,8 +82,6 @@
 
 
     .list{
-        /*max-height: 500px;*/
-        /*overflow-y: scroll;*/
         padding: 0px 30px;
     }
 
@@ -125,5 +128,23 @@
         padding: 12px 24px;
         font-size: 12px;
         border-radius: 4px;
+    }
+
+    @media only screen and (max-width: main.$mobile_width) {
+        .view_all{
+            width: 100%;
+            text-align: center;
+        }
+
+        .table_headers{
+            display: none;
+        }
+
+        .header{
+            padding: 15px;
+        }
+        .list{
+            padding: 0;
+        }
     }
 </style>

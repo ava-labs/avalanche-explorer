@@ -45,6 +45,8 @@
     }
 </style>
 <style scoped lang="scss">
+    @use '../../../main';
+
     .top_info{
         display: grid;
         grid-template-columns: 1fr 1fr max-content;
@@ -102,7 +104,23 @@
 
 
 
+    @media only screen and (max-width: main.$mobile_width) {
+        .top_info {
+            grid-template-columns: none;
+            grid-template-rows: max-content max-content max-content;
 
+
+            > div{
+                padding:14px;
+                border: none;
+                border-bottom: 1px solid #C4C4C455;
+            }
+        }
+
+        .asset{
+            column-gap: 3px;
+        }
+    }
 
 
 

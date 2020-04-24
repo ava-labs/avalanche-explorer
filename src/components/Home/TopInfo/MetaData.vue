@@ -60,12 +60,20 @@ import axios from "@/axios";
         },
         created() {
             let parent = this;
+
+            let dayMs = 1000 * 60 * 60 * 24;
+            let endMs = Date.now();
+            let startMs = endMs - dayMs;
+
+            let startTime = new Date(startMs).toISOString();
+            let endTime = new Date(endMs).toISOString();
+
             // get 24h transaction counts
-            axios.get('/x/transactions/aggregates?timeframe=day').then(res => {
+            axios.get(`/x/transactions/aggregates?startTime=${startTime}&endTime=${endTime}`).then(res => {
                 // const list = res.data;
                 // parent.transactions = list;
                 console.log(res);
-                parent.avaTxCount = res.data.transactionCount;
+                parent.avaTxCount = res.data.aggregates.transactionCount;
             });
         },
         computed: {
