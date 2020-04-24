@@ -48,8 +48,6 @@
     .home{
         margin: 0px auto;
         height: 100%;
-        padding: 30px 18vw;
-        padding: main.$container_padding_l;
         /*padding: 30px 8vw;*/
         /*display: grid;*/
         /*grid-template-columns: 1fr 1fr;*/
@@ -91,9 +89,5 @@
     }
 
 
-    @media only screen and (max-width: main.$mobile_width) {
-        .home {
-            padding: main.$container_padding_mobile;
-        }
-    }
+
 </style>

@@ -8,7 +8,12 @@ import {Asset} from "@/js/Asset";
 
 import {RootState} from "@/store/types";
 
+import Platform from './modules/platform/platform';
+
 export default new Vuex.Store({
+    modules: {
+        Platform
+    },
     state: {
         assets: {}
     },
@@ -33,15 +38,9 @@ export default new Vuex.Store({
 
                 data.forEach( (assetData: any) => {
                     let asset = new Asset(assetData);
-                    // store.state.assets[asset.id] = asset;
                     Vue.set(store.state.assets,asset.id,asset);
-
-                    console.log(asset);
                 });
             })
         }
     },
-
-    modules: {
-    }
 })

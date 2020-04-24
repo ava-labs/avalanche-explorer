@@ -31,46 +31,55 @@ export default Vue.extend({
 
     created(): void {
       this.$store.dispatch('init');
+      this.$store.dispatch('Platform/init');
     }
 });
 </script>
 <style scoped lang="scss">
-  .v-application{
-    background-color: #F8F9FA !important;
-  }
-  .bg{
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    left: 0;
-
-    img{
-      width: 100%;
-      object-fit: cover;
-      opacity: 0.03;
+    @use 'main';
+    .v-application{
+        background-color: #F8F9FA !important;
     }
-  }
+    .bg{
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        left: 0;
 
-  .content{
-    position: relative;
-  }
+        img{
+          width: 100%;
+          object-fit: cover;
+          opacity: 0.03;
+        }
+    }
 
-  .router_view{
-    box-sizing: border-box;
-  }
+    .content{
+        position: relative;
+    }
+
+    .router_view{
+        box-sizing: border-box;
+        padding: main.$container_padding_l;
+    }
 
     .footer{
         margin-top: 15vh;
     }
+
+    @media only screen and (max-width: main.$mobile_width) {
+        .router_view {
+            padding: main.$container_padding_mobile;
+        }
+    }
 </style>
 <style>
-  body{
-    font-family: 'Helvetica';
-    margin: 0;
-    background-color: #F8F9FA;
-  }
-  p{
-    margin: 0;
-  }
+    body{
+        font-family: 'Helvetica';
+        margin: 0;
+        background-color: #F8F9FA;
+    }
+    p{
+        margin: 0;
+    }
 </style>

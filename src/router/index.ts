@@ -15,6 +15,11 @@ const routes = [
     name: 'Tokens',
     component: () => import(/* webpackChunkName: "tokens" */ '../views/Tokens.vue')
   },
+  {
+    path: '/blockchain',
+    name: 'Blockchain',
+    component: () => import(/* webpackChunkName: "blockchain" */ '../views/Blockchain.vue')
+  },
     {
     path: '/search',
     name: 'Search',

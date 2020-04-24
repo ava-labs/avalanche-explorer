@@ -1,24 +1,26 @@
 <template>
     <div class="tokens">
         <h1>Tokens</h1>
-
-        <div class="grid_headers token_row">
-            <p>id</p>
-            <p>Symbol / Name</p>
-            <p>Chain</p>
-            <p class="denomination">Denomination</p>
-            <p>Supply</p>
-        </div>
-        <div v-for="token in tokens" :key="token.id" class="token_row">
-            <p class="id">{{token.id}}</p>
-            <div>
-                <p class="symbol">{{token.symbol}}</p>
-                <p class="name">{{token.name}}</p>
+        <div class="token_list">
+            <div class="grid_headers token_row">
+                <p>id</p>
+                <p>Symbol / Name</p>
+                <p>Chain</p>
+                <p class="denomination">Denomination</p>
+                <p>Supply</p>
             </div>
-            <p class="chain">{{token.chainID}}</p>
-            <p class="denomination">{{token.denomination}}</p>
-            <p class="supply">{{token.currentSupply}}</p>
+            <div v-for="token in tokens" :key="token.id" class="token_row">
+                <p class="id">{{token.id}}</p>
+                <div>
+                    <p class="symbol">{{token.symbol}}</p>
+                    <p class="name">{{token.name}}</p>
+                </div>
+                <p class="chain">{{token.chainID}}</p>
+                <p class="denomination">{{token.denomination}}</p>
+                <p class="supply">{{token.currentSupply}}</p>
+            </div>
         </div>
+
     </div>
 </template>
 <script>
@@ -49,13 +51,15 @@
     }
 
     .tokens{
-        margin: 30px 18vw;
+
+    }
+
+    .token_list{
         background-color: #fff;
         padding: 30px;
         box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
         border-radius: 6px;
     }
-
 
     .grid_headers{
         font-weight: bold;

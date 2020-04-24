@@ -52,7 +52,6 @@ import axios from "@/axios";
     export default {
         data(){
             return {
-                totalStake: 123994324,
                 avaMarketCap: 0,
                 avaTxCount: 0,
                 avaPrice: 34.00,
@@ -81,6 +80,9 @@ import axios from "@/axios";
                 let day = (60*60*24)
                 let avg = (this.avaTxCount/day);
                 return avg.toFixed(0);
+            },
+            totalStake(){
+                return this.$store.getters['Platform/totalStakeAmount'];
             }
         }
     }

@@ -86,7 +86,6 @@
                 let dataX = this.valuesX;
                 let chart = this.chart;
 
-                console.log(dataX);
                 dataX.forEach((data,index) => {
                     // let date =  Date.parse(data.startTime);
                     // console.log(date);
@@ -141,7 +140,7 @@
                         res = 'day';
                         break;
                     case 'day':
-                        res = 'hour';
+                        res = '2h';
                         break;
                     case 'hour':
                         res = '5m';
@@ -187,8 +186,11 @@
                         if(scope === 'month'){
                             res = 'MMM DD';
                         }else{
-                            res = 'dd';
+                            res = 'D dd';
                         }
+                        break;
+                    case '2h':
+                        res = 'HH';
                         break;
                     case 'hour':
                         res = 'HH';
@@ -214,7 +216,6 @@
                 let res = [];
                 let intervals = this.history.intervals;
                 intervals.forEach((val,i) => {
-                    console.log(val);
                     res.push(val);
                 });
                 return res;
@@ -309,6 +310,7 @@
                                 labelString: 'Month'
                             }
                         },
+
                         y: {
                             display: false,
                             scaleLabel: {
@@ -320,7 +322,17 @@
                                     return '$' + value;
                                 }
                             }
-                        }
+                        },
+                        xAxes: [{
+                            gridLines: {
+                                color: "rgba(0, 0, 0, 0.03)",
+                            }
+                        }],
+                        yAxes: [{
+                            gridLines: {
+                                color: "rgba(0, 0, 0, 0.03)",
+                            }
+                        }],
                     }
                 }
             });
