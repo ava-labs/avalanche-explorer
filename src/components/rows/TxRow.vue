@@ -27,7 +27,7 @@
                 </div>
             </div>
 
-            <div class="info_col">
+            <div class="info_col" style="padding-right: 0;">
                 <div  class="amount_col to" v-for="(output,i) in outputs" :key="i">
                     <p class="amount">{{output.output.amount.toFixed(1)}} <span>AVA</span></p>
                 </div>
@@ -137,7 +137,7 @@
     @use '../../main';
 
     .tx_row{
-        padding: 12px 14px;
+        padding: 12px 0px;
         position: relative;
         display: grid;
         grid-template-columns: min-content 120px 1fr 1fr;

@@ -13,7 +13,7 @@
                     <p class="label">ID</p>
                     <p>{{validator.id}}</p>
                 </div>
-                <div>
+                <div class="stake_col">
                     <p class="label">Stake Amount</p>
                     <p>{{validator.stakeAmount}}</p>
                 </div>
@@ -31,7 +31,7 @@
                         </div>
                         <div>
                             <p class="label">Duration</p>
-                            <p>{{validator.startTime | date}}</p>
+                            <p>{{(validator.endTime-validator.startTime) | date}}</p>
                         </div>
                         <div>
                             <p class="label">End</p>
@@ -91,6 +91,9 @@
     }
 </script>
 <style scoped lang="scss">
+    @use '../main';
+
+
     .validators{
         background-color: #fff;
         border-radius: 6px;
@@ -98,7 +101,7 @@
     }
     .validator{
         display: grid;
-        grid-template-columns: 1fr 1fr 2fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
         padding: 14px 0px;
         border-bottom: 1px solid #E7E7E7;
 
@@ -119,7 +122,7 @@
     }
 
     .time{
-
+        grid-column: 3/5;
         >div{
             padding: 0px 15px;
         }
@@ -174,6 +177,41 @@
             padding: 15px;
             text-align: center;
             line-height: 1.4em;
+        }
+    }
+
+
+    @media only screen and (max-width: main.$mobile_width) {
+        .validators{
+            padding: 5px;
+        }
+        .validator{
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: max-content max-content;
+            /*grid-template-rows: max-content max-content max-content;*/
+
+            > div{
+                margin-bottom: 10px;
+            }
+        }
+
+        .time{
+            grid-column: 1/3;
+            grid-row: 2;
+        }
+
+        .meta_data{
+            grid-template-columns: none;
+            grid-template-rows: max-content max-content max-content;
+
+            > div{
+                text-align: left;
+
+            }
+        }
+
+        .stake_col p{
+            text-align: right;
         }
     }
 </style>
