@@ -19,12 +19,18 @@
         </div>
 
 
-        <div class="info_col">
-            <div  class="to" v-for="(output,i) in outputs" :key="i">
-                <p class="bold"><b>To</b> </p>
-                <router-link class="addr" :to="`/address/`+output.output.addresses[0]">{{output.output.addresses[0]}}</router-link>
-                <!--                <p class="amount">{{output.output.amount.toFixed(1)}} <span>{{output.assetID}}</span></p>-->
-                <p class="amount">{{output.output.amount.toFixed(1)}} <span>AVA</span></p>
+        <div class="to_amount">
+            <div class="info_col">
+                <div  class="to" v-for="(output,i) in outputs" :key="i">
+                    <p class="bold"><b>To</b> </p>
+                    <router-link class="addr" :to="`/address/`+output.output.addresses[0]">{{output.output.addresses[0]}}</router-link>
+                </div>
+            </div>
+
+            <div class="info_col">
+                <div  class="amount_col to" v-for="(output,i) in outputs" :key="i">
+                    <p class="amount">{{output.output.amount.toFixed(1)}} <span>AVA</span></p>
+                </div>
             </div>
         </div>
     </div>
@@ -160,6 +166,8 @@
         font-size: 10px;
         margin-top: 5px;
         color: #7A838E;
+        word-break: keep-all;
+        white-space: nowrap;
     }
     .label{
         font-size: 12px;
@@ -185,6 +193,10 @@
         /*width: 80px;*/
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+    .to_amount{
+        display: grid;
+        grid-template-columns: 1fr max-content;
     }
 
     .to{
@@ -219,6 +231,10 @@
         }
     }
 
+    .amount_col{
+        display: flex;
+        justify-content: flex-end;
+    }
     .amount{
         /*position: absolute;*/
         /*top: 5px;*/
@@ -233,7 +249,9 @@
         .tx_row{
             padding: 8px;
             grid-template-columns: none;
-            grid-template-rows: max-content max-content max-content;
+            /*grid-template-columns: min-content 120px 1fr 1fr 1fr;*/
+
+            grid-template-rows: max-content max-content max-content max-content max-content;
         }
 
         .avatar{

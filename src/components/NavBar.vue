@@ -151,5 +151,11 @@
         .navbar{
             padding: main.$container_padding_mobile;
         }
+        h1{
+            display: none;
+        }
+        .search_bar{
+            width: 100%;
+        }
     }
 </style>

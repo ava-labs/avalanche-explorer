@@ -70,8 +70,10 @@
     }
 </style>
 <style scoped lang="scss">
+    @use '../main';
+
     .address_detail{
-        padding: 30px 18vw;
+        padding: main.$container_padding_l;
     }
 
 
@@ -111,5 +113,12 @@
     .tx_table{
         font-size: 12px;
         max-height: 500px;
+    }
+
+
+    @media only screen and (max-width: main.$mobile_width) {
+        .address_detail{
+            padding: main.$container_padding_mobile;
+        }
     }
 </style>

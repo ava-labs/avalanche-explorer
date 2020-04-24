@@ -1,15 +1,17 @@
 <template>
     <div class="all_transactions">
-        <recent-tx-row class="tx_item" v-for="tx in transactions" :transaction="tx" :key="tx.id"></recent-tx-row>
+        <div class="rows">
+            <tx-row class="tx_item" v-for="tx in transactions" :transaction="tx" :key="tx.id"></tx-row>
+        </div>
     </div>
 </template>
 <script>
     import api from "@/axios";
     import RecentTxRow from "../components/Home/RecentTxRow";
-
+    import TxRow from "../components/rows/TxRow";
     export default {
         components: {
-            RecentTxRow
+            TxRow
         },
         data(){
             return{
@@ -44,17 +46,26 @@
         }
     }
 </script>
-<style scoped>
+<style scoped lang="scss">
+    @use '../main';
+
     .all_transactions{
-        margin: 30px 18vw;
-        background-color: #fff;
-        padding: 30px;
-        border-radius: 6px;
-        box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
         font-size: 12px;
+        padding: 30px 18vw;
     }
 
+    .rows{
+        background-color: #fff;
+        border-radius: 6px;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    }
     .tx_item{
         border-bottom: 1px solid #e7e7e7;
+    }
+
+    @media only screen and (max-width: main.$mobile_width) {
+        .all_transactions {
+            padding: main.$container_padding_mobile;
+        }
     }
 </style>

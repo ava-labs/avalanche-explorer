@@ -1,16 +1,16 @@
 <template>
     <div class="tx_table" v-if="transactions">
-        <recent-tx-row v-for="(tx, i) in tx_page" class="tx_item" :key="i" :transaction="tx"></recent-tx-row>
+        <tx-row v-for="(tx, i) in tx_page" class="tx_item" :key="i" :transaction="tx"></tx-row>
     </div>
 </template>
 
 <script>
-    import RecentTxRow from "../Home/RecentTxRow";
+    import TxRow from "../rows/TxRow";
 
     const PAGINATION = 25;
     export default {
         components: {
-            RecentTxRow
+            TxRow
         },
 
         data(){
@@ -50,7 +50,7 @@
 
 <style scoped lang="scss">
     .tx_table{
-        padding: 0px 30px;
+        /*padding: 0px 30px;*/
     }
 
     .tx_item{
