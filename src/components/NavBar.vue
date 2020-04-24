@@ -150,9 +150,16 @@
     @media only screen and (max-width: main.$mobile_width) {
         .navbar{
             padding: main.$container_padding_mobile;
+            /*display: flex;*/
+            /*flex-direction: column;*/
         }
         h1{
             display: none;
+        }
+
+        .logo{
+            height: 40px;
+            padding: 0;
         }
         .search_bar{
             width: 100%;

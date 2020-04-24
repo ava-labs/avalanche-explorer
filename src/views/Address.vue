@@ -112,7 +112,7 @@
 
     .tx_table{
         font-size: 12px;
-        max-height: 500px;
+        /*max-height: 500px;*/
     }
 
 

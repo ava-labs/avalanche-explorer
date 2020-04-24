@@ -70,6 +70,10 @@
 <style lang="scss">
     .transaction_details{
         a{
+            max-width: 90px;
+            overflow: hidden;
+            display: block;
+            text-overflow: ellipsis;
             color: #71C5FF;
             text-decoration: none;
 
@@ -80,6 +84,7 @@
     }
 </style>
 <style scoped lang="scss">
+    @use '../main';
     h1{
         margin: 0;
         font-size: 16px;
@@ -89,7 +94,7 @@
 
 
     .transaction_details{
-        margin: 30px 18vw;
+        padding: main.$container_padding_l;
         font-size: 13px;
 
 
@@ -102,6 +107,7 @@
         background-color: #fff;
         padding: 30px;
         border-radius: 6px;
+        word-break: break-all;
         box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
     }
 
@@ -155,4 +161,21 @@
     /*    color: #808080;*/
     /*    margin-top: 6px;*/
     /*}*/
+
+    @media only screen and (max-width: main.$mobile_width) {
+        .transaction_details{
+            padding: main.$container_padding_mobile;
+        }
+
+        .io{
+            grid-template-columns: none;
+            grid-template-rows: max-content max-content;
+        }
+        .io_item{
+            padding: 12px;
+        }
+
+        .data_row{
+        }
+    }
 </style>
