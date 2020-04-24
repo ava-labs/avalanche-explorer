@@ -175,6 +175,7 @@
             },
             intervalFormat(){
                 let res = '';
+                let scope = this.scope;
                 switch (this.intervalSize) {
                     case 'month':
                         res = 'MMM';
@@ -183,7 +184,11 @@
                         res = 'd';
                         break;
                     case 'day':
-                        res = 'dd';
+                        if(scope === 'month'){
+                            res = 'MMM DD';
+                        }else{
+                            res = 'dd';
+                        }
                         break;
                     case 'hour':
                         res = 'HH';
