@@ -83,7 +83,7 @@
                 this.clearChart();
                 let parent = this;
 
-                let dataX = this.dataX;
+                let dataX = this.valuesX;
                 let chart = this.chart;
 
                 console.log(dataX);
@@ -214,20 +214,36 @@
                 let res = [];
                 let intervals = this.history.intervals;
                 intervals.forEach((val,i) => {
-                    res.push(val.aggregates.transactionCount);
+                    console.log(val);
+                    res.push(val);
                 });
+                return res;
+            },
+            valuesX(){
+                let res = [];
+
+                for(let i=0 ;i<this.dataX.length; i++){
+                    let data = this.dataX[i];
+                    let txCount = data.aggregates.transactionCount;
+                    res.push(txCount)
+                }
                 return res;
             },
             labelsX(){
                 let res = [];
 
-                let date = this.startDate;
-                let len = this.dataX.length;
-                let intervalSizeMs = this.intervalSizeMs;
+                // let date = this.startDate;
+                // let len = this.dataX.length;
+                // let intervalSizeMs = this.intervalSizeMs;
+
+                let datas = this.dataX;
+                let len = datas.length;
 
                 for(let i=0; i<len; i++){
-                    date = new Date(date.getTime() + intervalSizeMs);
-                    let mom = moment(date)
+                    let data = datas[i];
+
+                    let date = new Date(data.startTime);
+                    let mom = moment(date);
 
                     // if(i%2===0){
                     //     res.push('')
@@ -248,21 +264,21 @@
             let cont = this.$refs.canv.getContext('2d');
             this.context = cont;
 
-            let dataX = this.dataX;
+            let valuesX = this.valuesX;
 
             let myLineChart = new Chart(cont, {
                 type: 'line',
                 data: {
                     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
                     datasets: [{
-                        label: 'My First dataset',
+                        label: 'Tx Volume',
                         backgroundColor: '#71C5FF',
                         borderColor: '#71C5FF',
                         pointBackgroundColor: 'transparent',
                         pointBorderColor: 'transparent',
                         pointHoverBackgroundColor: '#71C5FF',
                         pointHoverBorderColor: '#71C5FF',
-                        data: dataX,
+                        data: valuesX,
                         fill: false,
                     }]
                 },
