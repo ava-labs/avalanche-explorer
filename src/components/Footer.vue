@@ -26,8 +26,9 @@
     </v-footer>
 </template>
 <style scoped lang="scss">
+    @use '../main';
     .v-footer{
-        padding: 30px 18vw;
+        padding: main.$container_padding_l;
         padding-bottom: 0px;
         color: #fff !important;
         display: flex;
@@ -94,6 +95,19 @@
                 font-size: 16px;
                 margin-right: 8px;
             }
+        }
+    }
+
+    @media only screen and (max-width: main.$mobile_width) {
+        .v-footer{
+            padding: 20px 30px;
+            padding-bottom: 0;
+            flex-direction: column-reverse;
+            justify-content: center;
+        }
+
+        .list{
+            width: 100%;
         }
     }
 </style>
