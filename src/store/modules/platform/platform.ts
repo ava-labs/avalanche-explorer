@@ -3,6 +3,7 @@ import {RootState} from "@/store/types";
 import Vue from "vue";
 import {PlatformState, Validator} from "@/store/modules/platform/types";
 import gecko_api from "@/gecko_api";
+import Big from 'big.js';
 
 
 
@@ -57,10 +58,10 @@ const platform_module: Module<PlatformState, RootState> = {
     },
     getters: {
         totalStakeAmount(state){
-            let res = 0;
+            let res = Big(0);
 
             state.validators.forEach(validator => {
-                res += validator.stakeAmount
+                res = res.add(validator.stakeAmount)
             });
             return res;
         }

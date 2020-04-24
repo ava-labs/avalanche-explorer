@@ -3,67 +3,23 @@
         <div class="meta_data">
             <div>
                 <p class="label">Total Stake Amount</p>
-                <p>{{totalStake}} nAVA</p>
+                <p>{{totalStake}} $AVA</p>
             </div>
         </div>
         <div class="validators">
             <h2>Validators</h2>
-            <div class="validator" v-for="validator in validators" :key="validator.id">
-                <div class="id_col">
-                    <p class="label">ID</p>
-                    <p>{{validator.id}}</p>
-                </div>
-                <div class="stake_col">
-                    <p class="label">Stake Amount</p>
-                    <p>{{validator.stakeAmount}}</p>
-                </div>
-
-                <div class="time">
-                    <div class="display">
-                        <time-display :start="validator.startTime"
-                                      color_fill="#8be2b8"
-                                      :end="validator.endTime"></time-display>
-                    </div>
-                    <div class="time_info">
-                        <div>
-                            <p class="label">Start</p>
-                            <p>{{validator.startTime | date}}</p>
-                        </div>
-                        <div>
-                            <p class="label">Duration</p>
-                            <p>{{(validator.endTime-validator.startTime) | date}}</p>
-                        </div>
-                        <div>
-                            <p class="label">End</p>
-                            <p>{{validator.endTime | date}}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <validator-row class="validator" v-for="validator in validators" :key="validator.id" :validator="validator"></validator-row>
         </div>
     </div>
 </template>
 <script>
-    import moment from 'moment';
-    import TimeDisplay from "../components/Blockchain/TimeDisplay";
+    import ValidatorRow from "../components/rows/ValidatorRow";
 
     export default {
         components: {
-            TimeDisplay
+            ValidatorRow
         },
-        filters: {
-            date(date){
-                let today = new Date();
-                let mom =  moment(date).fromNow();
 
-
-                return mom;
-                // if(date.getDay() === today.getUTCDay() && date.getMonth() === today.getUTCMonth() && date.getFullYear() === today.getUTCFullYear()){
-                //     return 'Now'
-                // }
-                // return date.toLocaleString()
-            }
-        },
         computed:{
             validators(){
                 let vals = this.$store.state.Platform.validators;
@@ -85,7 +41,10 @@
                 return vals;
             },
             totalStake(){
-                return this.$store.getters['Platform/totalStakeAmount'];
+                let valBig = this.$store.getters['Platform/totalStakeAmount'];
+
+                let res = valBig.div(Math.pow(10,9));
+                return res;
             }
         }
     }
@@ -100,84 +59,31 @@
         padding: 30px;
     }
     .validator{
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        padding: 14px 0px;
         border-bottom: 1px solid #E7E7E7;
-
-        > div{
-            text-align: center;
-            padding: 0px 15px;
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-        }
-
-        p{
-            text-align: left;
-            text-overflow: ellipsis;
-            font-size: 12px;
-            overflow: hidden;
-        }
-    }
-
-    .time{
-        grid-column: 3/5;
-        >div{
-            padding: 0px 15px;
-        }
-
-        .display{
-            height: 4px;
-            position: relative;
-            background-color: #dfdfdf;
-            border-radius: 3px;
-            overflow: hidden;
-        }
-    }
-
-    .time_info{
-        display: flex;
-        margin-top: 6px;
-
-        >div{
-            flex-grow: 1;
-        }
-        >div:nth-of-type(2) p{
-            text-align: center;
-        }
-
-        >div:nth-of-type(3) p{
-            text-align: right;
-        }
-
-        .label{
-            font-size: 10px;
-        }
-    }
-
-    .label{
-        opacity: 0.7;
-        font-weight: lighter;
-    }
-
-
-    .id_col{
-        width: 140px;
-        overflow: hidden;
     }
 
     .meta_data{
         display: grid;
         width: 100%;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr;
         margin-bottom: 30px;
 
         > div{
             padding: 15px;
-            text-align: center;
+            text-align: left;
             line-height: 1.4em;
         }
+
+        p{
+            font-size: 32px;
+        }
+
+        .label{
+            font-size: 14px;
+            margin-bottom: 6px;
+            opacity: 0.7;
+        }
+
     }
 
 
@@ -185,20 +91,7 @@
         .validators{
             padding: 5px;
         }
-        .validator{
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: max-content max-content;
-            /*grid-template-rows: max-content max-content max-content;*/
 
-            > div{
-                margin-bottom: 10px;
-            }
-        }
-
-        .time{
-            grid-column: 1/3;
-            grid-row: 2;
-        }
 
         .meta_data{
             grid-template-columns: none;
@@ -208,10 +101,9 @@
                 text-align: left;
 
             }
-        }
 
-        .stake_col p{
-            text-align: right;
+
+
         }
     }
 </style>
