@@ -86,12 +86,16 @@ import axios from "@/axios";
     }
 </script>
 <style scoped lang="scss">
+    @use '../../../main';
     .meta_data{
         display: grid;
         grid-template-columns: 1fr 1fr;
         row-gap: 30px;
         column-gap: 30px;
         padding: 10px 0px;
+        display: flex;
+        flex-wrap: wrap;
+        overflow: auto;
 
 
         .meta{
@@ -99,9 +103,22 @@ import axios from "@/axios";
             grid-template-columns: 35px 1fr;
             font-size: 12px;
             column-gap: 10px;
+            margin: 1px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-grow: 1;
+            justify-content: flex-start;
+
+            /*&:nth-of-type(2n){*/
+            /*    justify-content: flex-end;*/
+            /*}*/
+
+
 
             img{
-                width: 100%;
+                /*width: 100%;*/
+                width: 35px;
+                height: 35px;
                 max-height: 35px;
                 object-fit: contain;
             }
@@ -136,5 +153,11 @@ import axios from "@/axios";
         }
     }
 
-
+    @media only screen and (max-width: main.$mobile_width) {
+        .meta_data{
+            flex-direction: column;
+            /*grid-template-columns: none;*/
+            /*grid-template-rows: min-content min-content min-content min-content;*/
+        }
+    }
 </style>

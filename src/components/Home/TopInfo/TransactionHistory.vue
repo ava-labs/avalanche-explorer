@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="tx_history">
         <div class="header">
             <h4>AVA Transaction History</h4>
             <div class="history_settings">
@@ -11,7 +11,7 @@
                 <button :active="scope===options[5]" @click="setScope(options[5])">Min</button>
             </div>
         </div>
-        <div>
+        <div class="canv_cont">
             <canvas ref="canv"></canvas>
         </div>
     </div>
@@ -47,25 +47,25 @@
 
             updateHistory(){
                 let parent = this;
-                let scope = this.scope;
+                // let scope = this.scope;
 
                 // our selected interval in ms
                 let interval = this.intervalMs;
                 let intervalSize = this.intervalSize;
                 let endMs = Date.now();
-                let startMs = endMs - interval;
+                // let startMs = endMs - interval;
 
                 let startTime = this.startDate.toISOString();
                 let endTime = this.endDate.toISOString();
 
-                let startSec = Math.round(startMs/1000);
-                let endSec = Math.round(endMs/1000);
-                console.log(startTime);
-                console.log(endTime);
+                // let startSec = Math.round(startMs/1000);
+                // let endSec = Math.round(endMs/1000);
+                // console.log(startTime);
+                // console.log(endTime);
                 // console.log( new Date().toISOString());
                 axios.get(`/x/transactions/aggregates?startTime=${startTime}&endTime=${endTime}&intervalSize=${intervalSize}`).then(res => {
                     let data = res.data;
-                    console.log(data);
+                    // console.log(data);
                     parent.history = data;
                     parent.draw();
                 });
@@ -183,16 +183,16 @@
                         res = 'd';
                         break;
                     case 'day':
-                        res = 'd';
+                        res = 'dd';
                         break;
                     case 'hour':
-                        res = 'HH:m';
+                        res = 'HH';
                         break;
                     case '5m':
-                        res = 'HH:m';
+                        res = 'mm';
                         break;
                     case '5s':
-                        res = 's';
+                        res = 'ss';
                         break;
                 }
                 return res;
@@ -224,10 +224,10 @@
                     date = new Date(date.getTime() + intervalSizeMs);
                     let mom = moment(date)
 
-                    if(i%2===0){
-                        res.push('')
-                        continue;
-                    }
+                    // if(i%2===0){
+                    //     res.push('')
+                    //     continue;
+                    // }
 
                     let label = mom.format(this.intervalFormat);
                     res.push(label)
@@ -262,6 +262,7 @@
                     }]
                 },
                 options: {
+                    maintainAspectRatio: false,
                     responsive: true,
                     title: {
                         display: false,
@@ -310,21 +311,33 @@
 <style lang="scss" scoped>
     @use '../../../main';
 
-    .header{
+    .tx_history{
         display: flex;
-        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .header{
+        /*display: flex;*/
+        /*flex-wrap: wrap;*/
+        /*align-items: flex-start;*/
+        margin-bottom: 10px;
     }
     h4{
         font-size: 12px;
         margin: 0 !important;
     }
     .history_settings{
-        margin-left: 15px;
+        display: flex;
+        flex-direction: row;
+        margin: 6px 0px;
+
         button{
+
+            flex-grow: 1;
             font-size: 9px;
             background-color: #F1F2F3;
             color: #7A838E;
-            height: 24px;
+            height: 22px;
             width: 28px;
             border: none;
             margin-left: 3px;
@@ -339,11 +352,18 @@
             }
         }
     }
-    canvas{
-        /*position: absolute;*/
+
+    .canv_cont{
+        flex-grow: 1;
         width: 100%;
-        height: 100%;
+        max-width: 100%;
+        position: relative;
     }
+    /*canvas{*/
+    /*    position: absolute;*/
+    /*    width: 100%;*/
+    /*    height: 100%;*/
+    /*}*/
 
 
     @media only screen and (max-width: main.$mobile_width) {

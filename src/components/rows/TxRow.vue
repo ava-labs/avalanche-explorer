@@ -5,7 +5,7 @@
         </div>
 
 
-        <div class="info_col">
+        <div class="info_col id_col">
             <router-link :to="`/tx/${tx_id}`" class="id">{{tx_id}}...</router-link>
             <p class="time">{{ago}}</p>
         </div>
@@ -31,7 +31,7 @@
 </template>
 <script >
     // import api from "@/axios";
-    import Vue from 'vue';
+    // import Vue from 'vue';
     // import {ApiTransaction} from "@/js/types";
     import moment from 'moment';
 
@@ -44,7 +44,7 @@
             }
         },
         created() {
-            console.log(this.transaction)
+            // console.log(this.transaction)
         },
         props:{
             transaction: {
@@ -70,11 +70,11 @@
             inputAssets(){
                 let res = {};
                 if(this.transaction) {
-                    console.log('inputs:');
+                    // console.log('inputs:');
                     let inputs = this.transaction.unsignedTx.inputs;
                     for (let i=0; i< inputs.length; i++){
                         let input = inputs[i];
-                        console.log(input);
+                        // console.log(input);
                         if(res[input.assetID]){
                             res[input.assetID] += input.input.amount;
                         }else{
@@ -102,14 +102,14 @@
             outputAssets(){
                 let res = {};
                 if(this.transaction) {
-                    console.log('Outs:')
+                    // console.log('Outs:')
                     let outputs = this.transaction.unsignedTx.outputs;
                     for (let i=0; i< outputs.length; i++){
                         let output = outputs[i];
-                        console.log(output);
+                        // console.log(output);
                         let addr = output.output.addresses[0];
                         // If this is a change output utxo skip it
-                        console.log(addr);
+                        // console.log(addr);
                         if(this.inputAssets[addr]){
                             console.log(`${addr} is change`);
                             continue;
@@ -238,6 +238,14 @@
 
         .avatar{
             display: none;
+        }
+
+        .id_col{
+            display: flex;
+            align-items: baseline;
+            a{
+                flex-grow: 1;
+            }
         }
     }
 </style>

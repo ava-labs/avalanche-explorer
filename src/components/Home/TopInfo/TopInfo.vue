@@ -49,7 +49,7 @@
 
     .top_info{
         display: grid;
-        grid-template-columns: 1fr 1fr max-content;
+        grid-template-columns: 1fr 1fr 360px;
         padding: 25px 0px;
 
 
