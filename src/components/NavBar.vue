@@ -37,7 +37,7 @@
 </template>
 <script>
     import Vue from "vue";
-    import SearchBar from "@/components/SearchBar";
+    import SearchBar from "@/components/misc/SearchBar/SearchBar";
 
     export default Vue.extend({
         components: {

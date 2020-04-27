@@ -3,11 +3,11 @@ import Vuetify from 'vuetify';
 
 // Font Awesome
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faSnowman } from '@fortawesome/free-solid-svg-icons'
 import {faTwitter, faDiscord, faReddit} from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faSearch, faTwitter, faDiscord, faReddit);
+library.add(faSearch, faTwitter, faDiscord, faReddit, faSnowman);
 Vue.component('fa', FontAwesomeIcon);
 
 
