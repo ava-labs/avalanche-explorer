@@ -8,7 +8,7 @@
 <script>
     import api from "@/axios";
     import RecentTxRow from "../components/Home/RecentTxRow";
-    import TxRow from "../components/rows/TxRow";
+    import TxRow from "../components/rows/TxRow/TxRow";
     export default {
         components: {
             TxRow

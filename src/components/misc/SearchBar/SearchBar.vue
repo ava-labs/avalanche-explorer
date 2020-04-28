@@ -1,10 +1,11 @@
 <template>
-    <div class="search_bar"  @blur="onblur" tabindex="-1">
+    <div class="search_bar">
         <input type="text"
                v-model="search_val"
                @keyup.enter="search"
                @input="oninput"
                @focus="onfocus"
+               @blur="onblur"
                :placeholder="placeholder">
         <v-btn @click="search"
                color="#71C5FF"
@@ -13,13 +14,16 @@
         >
             <fa icon="search"></fa>
         </v-btn>
-        <div class="search_results" v-if="showResults" tabindex="0">
-            <div class="no_result"  v-if="results.length===0">
-                <p class="icon"><fa icon="snowman"></fa></p>
-                <p>No Results Found</p>
+
+        <transition name="fade">
+            <div class="search_results" v-if="showResults">
+                <div class="no_result"  v-if="results.length===0">
+                    <p class="icon"><fa icon="snowman"></fa></p>
+                    <p>No Results Found</p>
+                </div>
+                <search-result class="search_result" v-for="res in results" :key="res.data.id" :item="res" @click="onselect(res)"></search-result>
             </div>
-            <search-result class="search_result" v-for="res in results" :key="res.data.id" :item="res"></search-result>
-        </div>
+        </transition>
     </div>
 </template>
 <script>
@@ -46,6 +50,9 @@
             }
         },
         methods: {
+            onselect(item){
+                this.showResults = false;
+            },
             onblur(){
                 console.log("BLUR");
                 this.showResults = false;
@@ -136,6 +143,7 @@
         font-size: 12px;
         color: #333;
         border: 1px solid #d2d2d2;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
         & :last-child{
             border: none !important;
         }
@@ -143,7 +151,7 @@
 
 
     .no_result{
-        padding: 30px;
+        padding: 10px 30px;
         display: flex;
         align-items: center;
 
@@ -155,7 +163,14 @@
     }
     .search_result{
         border-bottom: 1px solid #d2d2d2;
+        cursor: pointer;
+    }
 
 
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .3s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0;
     }
 </style>

@@ -10,14 +10,14 @@
                 </router-link>
             </div>
             <div class="amount_symbol">
-                <p>{{output.output.amount}} AVA</p>
+                <p>{{amount}} {{asset.name}}</p>
             </div>
         </div>
 
         <div class="data_row minidata">
             <div style="flex-grow: 1">
                 <p class="label">Asset</p>
-                <p>{{output.assetID.substr(0,3)}}</p>
+                <p>{{asset.name}}</p>
             </div>
             <div style="flex-grow: 1">
                 <p class="label">Lock Time</p>
@@ -31,11 +31,27 @@
     </div>
 </template>
 <script>
+    import Big from "big.js";
+
     export default {
         props: {
             output: {
                 type: Object,
                 required: true,
+            }
+        },
+        computed:{
+            amount(){
+                let asset = this.asset;
+                let res = Big(this.output.output.amount).div(Math.pow(10,asset.denomination));
+                return res.toFixed(asset.denomination);
+            },
+            asset(){
+                let assets = this.$store.state.assets;
+                let id = this.output.assetID;
+
+                let res = assets[id];
+                return res;
             }
         }
     }
@@ -44,7 +60,7 @@
     .amount_symbol{
         background-color: #E6F5FF;
         color: #71C5FF;
-        padding: 4px 30px;
+        padding: 8px 30px;
         border-radius: 2px;
         white-space: nowrap;
     }

@@ -12,30 +12,20 @@
 
 
         <div class="info_col">
-            <div  class="to" v-for="(input,i) in inputs" :key="i">
-                <p class="bold"><b>From</b> </p>
-                <router-link class="addr" to="/">???</router-link>
-            </div>
+            <utxo-input v-for="(input,i) in inputs" :key="i" :input="input"></utxo-input>
+
         </div>
 
 
         <div class="to_amount">
-            <div class="info_col">
-                <div  class="to" v-for="(output,i) in outputs" :key="i">
-                    <p class="bold"><b>To</b> </p>
-                    <router-link class="addr" :to="`/address/`+output.output.addresses[0]">{{output.output.addresses[0]}}</router-link>
-                </div>
-            </div>
-
-            <div class="info_col" style="padding-right: 0;">
-                <div  class="amount_col to" v-for="(output,i) in outputs" :key="i">
-                    <p class="amount">{{output.output.amount.toFixed(1)}} <span>AVA</span></p>
-                </div>
-            </div>
+            <output-utxo class="utxo_out" v-for="(output,i) in outputs" :key="i" :output="output"></output-utxo>
         </div>
     </div>
 </template>
 <script >
+    import UtxoInput from './Input';
+    import OutputUtxo from "@/components/rows/TxRow/OutputUtxo";
+
     // import api from "@/axios";
     // import Vue from 'vue';
     // import {ApiTransaction} from "@/js/types";
@@ -44,6 +34,10 @@
     moment().format();
 
     export default {
+        components: {
+            UtxoInput,
+            OutputUtxo
+        },
         data(){
             return{
 
@@ -91,16 +85,39 @@
                 return res;
             },
             outputs(){
-                let res = this.transaction.unsignedTx.outputs.filter((val,index) => {
-                    // if(val.output.amount > 1000000000){
-                    //     return false
-                    // }
+                let ins = this.inputs;
+
+                let senders = [];
+
+                for(let i=0 ;i<ins.length; i++){
+                    let input = ins[i];
+                    let addrs = input.output.addresses;
+                    senders.push(...addrs)
+                }
+
+                console.log(senders);
+
+                let res = this.transaction.outputs.filter((val,index) => {
+                    console.log(val);
+                    let addrs = val.addresses;
+                    let flag = false;
+                    if(addrs.length === 1){
+                        return true;
+                    }
+
+                    // If change UTXO then don't show
+                    addrs.forEach(addr => {
+                        if(senders.includes(addr)) flag = true;
+                    });
+                    if(flag) return false;
+
+
                     return true
                 });
                 return res;
             },
             inputs(){
-                return this.transaction.unsignedTx.inputs;
+                return this.transaction.inputs;
             },
 
 
@@ -134,7 +151,7 @@
     }
 </script>
 <style scoped lang="scss">
-    @use '../../main';
+    @use '../../../main';
 
     .tx_row{
         padding: 12px 0px;
@@ -194,56 +211,19 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
-    .to_amount{
-        display: grid;
-        grid-template-columns: 1fr max-content;
+
+
+
+    .utxo_out{
+        /*border-bottom: 1px dashed #dedede;*/
+        margin-bottom: 6px;
+        /**/
+        /*&:last-of-type{*/
+        /*    border: none;*/
+        /*}*/
     }
 
-    .to{
-        display: grid;
-        grid-template-columns: max-content 1fr max-content;
-        white-space: nowrap;
-        overflow: hidden;
-        margin-bottom: 5px;
 
-        .bold{
-            padding: 4px 0px;
-            text-align: right;
-            padding-right: 2px;
-        }
-        .addr{
-            text-overflow: ellipsis;
-            overflow: hidden;
-            padding-left: 0;
-            color: #7A838E;
-            font-family: monospace;
-            text-decoration: none;
-        }
-        .addr:hover{
-            text-decoration: underline;
-        }
-
-        .amount{
-
-        }
-        p, a{
-            padding: 4px 12px;
-        }
-    }
-
-    .amount_col{
-        display: flex;
-        justify-content: flex-end;
-    }
-    .amount{
-        /*position: absolute;*/
-        /*top: 5px;*/
-        /*right: 5px;*/
-        background-color: #E6F5FF;
-        font-size: 11px;
-        color: #71C5FF;
-        border-radius: 4px;
-    }
 
     @media only screen and (max-width: main.$mobile_width) {
         .tx_row{

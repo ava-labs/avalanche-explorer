@@ -23,7 +23,7 @@
     import api from '@/axios';
     import Vue from 'vue';
 
-    import TxRow from "@/components/rows/TxRow";
+    import TxRow from "@/components/rows/TxRow/TxRow";
 
     export default Vue.extend({
         components: {

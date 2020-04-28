@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import TxRow from "../rows/TxRow";
+    import TxRow from "../rows/TxRow/TxRow";
 
     const PAGINATION = 25;
     export default {

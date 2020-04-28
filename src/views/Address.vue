@@ -9,11 +9,17 @@
         </div>
 
 
-
-        <div class="transactions">
-            <h4>Transactions</h4>
-            <tx-table class="tx_table" :transactions="orderedTx"></tx-table>
+        <div v-if="isAjax">
+            <p>Loading</p>
         </div>
+        <transition name="fade">
+            <div v-if="!isAjax" class="transactions">
+                <h4>Transactions</h4>
+                <tx-table class="tx_table" :transactions="orderedTx"></tx-table>
+            </div>
+        </transition>
+
+
     </div>
 </template>
 <script>
@@ -27,16 +33,29 @@
         data(){
             return{
                 transactions: [],
+                isAjax: false,
+            }
+        },
+        watch:{
+            address(val){
+                this.updateData();
+            }
+        },
+        methods: {
+            updateData(){
+                let parent = this;
+                let url = `/x/addresses/${this.address}/transactions`;
+                this.isAjax = true;
+                api.get(url).then((res) => {
+                    parent.isAjax = false;
+                    const data = res.data;
+                    parent.transactions = data;
+                    console.log(res);
+                });
             }
         },
         created(){
-            let parent = this;
-            let url = `/x/addresses/${this.address}/transactions`;
-            api.get(url).then((res) => {
-                const data = res.data;
-                parent.transactions = data;
-                console.log(res);
-            });
+            this.updateData();
         },
         computed: {
             orderedTx(){
@@ -76,7 +95,12 @@
         padding: main.$container_padding_l;
     }
 
-
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .3s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0;
+    }
 
     .meta{
         overflow: auto;

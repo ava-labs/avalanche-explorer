@@ -1,15 +1,16 @@
 <template>
-    <div class="search_result">
+    <div class="search_result" @click="select">
         <p class="symbol">Tx</p>
         <div class="data">
             <p class="id">{{tx.id}}</p>
-            <p> ADDRS: {{addresses.length}}</p>
+            <p class="ago">{{tx.data.timestamp | date}}</p>
         </div>
-        <router-link :to="`/tx/${tx.id}`"></router-link>
+<!--        <router-link :to="`/tx/${tx.id}`"></router-link>-->
     </div>
 </template>
 <script>
     import {Transaction} from "@/js/Transaction";
+    import moment from "moment";
 
     export default {
         data(){
@@ -22,6 +23,19 @@
             item: {
                 type: Object,
                 required: true
+            }
+        },
+        filters: {
+            date(val){
+                let date = new Date(val);
+                return moment(date).fromNow();
+            }
+        },
+        methods: {
+            select(){
+                let url = `/tx/${this.tx.id}`;
+                this.$router.push(url);
+                this.$emit('select');
             }
         },
         computed: {
@@ -55,16 +69,26 @@
         }
     }
 
+    $symbol_W: 20px;
     .symbol{
         padding: 10px;
         background-color: #F1F2F3;
         border-radius: 6px;
         font-weight: bold;
+        height: $symbol_W;
+        width: $symbol_W;
+        text-align: center;
+        line-height: $symbol_W;
     }
     .data{
         width: 100%;
         overflow: auto;
-        padding: 4px;
+        padding: 4px 10px;
+    }
+
+    .ago{
+        margin-top: 4px;
+        opacity: 0.7;
     }
 
     .id{

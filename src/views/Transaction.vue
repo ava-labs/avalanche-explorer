@@ -17,9 +17,12 @@
         </div>
 
         <div v-if="tx_data" class="io">
-            <div class="inputs">
+            <div class="inputs" v-if="inputs.length > 0">
                 <h4>Inputs</h4>
-                <utxo-input class="io_item" v-for="(input, i) in tx_data.unsignedTx.inputs" :key="i" :input="input"></utxo-input>
+                <utxo-input class="io_item" v-for="(input, i) in inputs" :key="i" :input="input"></utxo-input>
+            </div>
+            <div v-else class="inputs_genesis">
+                <p>Asset Genesis</p>
             </div>
             <div class="outputs">
                 <h4>Outputs</h4>
@@ -34,6 +37,7 @@
 
     import Output from "../components/Transaction/Output";
     import UtxoInput from "../components/Transaction/Input";
+    import {Transaction} from "../js/Transaction";
 
     export default {
         components: {
@@ -46,13 +50,12 @@
             }
         },
         created(){
-            let parent = this;
-            let url = `/x/transactions/${this.txId}`;
-            api.get(url).then((res) => {
-                const data = res.data;
-                parent.tx_data = data;
-                console.log(data.unsignedTx.initialStates[0].outputs[0])
-            });
+            this.getData();
+        },
+        watch: {
+            txId(val){
+                this.getData();
+            }
         },
         computed: {
             txId(){
@@ -63,6 +66,22 @@
             },
             chainId(){
                 return this.tx_data.unsignedTx.blockchainID
+            },
+            inputs(){
+                return this.tx_data.inputs || [];
+            }
+        },
+        methods:{
+            getData(){
+                let parent = this;
+                let url = `/x/transactions/${this.txId}`;
+                api.get(url).then((res) => {
+                    const data = res.data;
+                    parent.tx_data = data;
+                    let tx = new Transaction(data);
+                }).catch(err => {
+                    console.log(err);
+                });
             }
         }
     }
@@ -152,6 +171,23 @@
         background-color: #fff;
         border-radius: 6px;
         box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .inputs_genesis{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        p{
+            padding: 16px 30px;
+            background-color: #e6ffe6;
+            border-radius: 4px;
+            border: 1px solid #56C18D;
+            color: #56C18D;
+            font-size: 16px;
+            text-align: center;
+        }
     }
 
     /*.label{*/

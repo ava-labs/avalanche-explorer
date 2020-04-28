@@ -1,10 +1,10 @@
 <template>
     <address-row v-if="type==='address'" :address="result"></address-row>
-    <tx-row v-else-if="type==='transaction'" :transaction="result.Data"></tx-row>
+    <tx-row v-else-if="type==='transaction'" :transaction="result.data"></tx-row>
     <asset-row v-else :token="result.Data"></asset-row>
 </template>
 <script>
-    import TxRow from "../rows/TxRow";
+    import TxRow from "../rows/TxRow/TxRow";
     import AssetRow from "../rows/AssetRow";
     import AddressRow from "../rows/AddressRow";
 

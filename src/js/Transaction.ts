@@ -9,7 +9,7 @@ export class Transaction{
         this.data=data;
         this.id = data.id;
 
-        console.log(data);
+        // console.log(data);
     }
 
     getInputAddresses(): string[]{
@@ -18,7 +18,7 @@ export class Transaction{
 
 
         inputs.forEach(input => {
-            console.log(input)
+            // console.log(input)
            res.push(...input.output.addresses)
         });
 
