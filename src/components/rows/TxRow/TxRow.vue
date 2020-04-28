@@ -98,14 +98,14 @@
                 console.log(senders);
 
                 let res = this.transaction.outputs.filter((val,index) => {
-                    console.log(val);
+                    // console.log(val);
                     let addrs = val.addresses;
-                    let flag = false;
                     if(addrs.length === 1){
                         return true;
                     }
 
                     // If change UTXO then don't show
+                    let flag = false;
                     addrs.forEach(addr => {
                         if(senders.includes(addr)) flag = true;
                     });
