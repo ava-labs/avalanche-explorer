@@ -44,7 +44,7 @@
         methods: {
             updateData(){
                 let parent = this;
-                let url = `/x/addresses/${this.address}/transactions`;
+                let url = `/x/transactions?address=${this.address}`;
                 this.isAjax = true;
                 api.get(url).then((res) => {
                     parent.isAjax = false;
