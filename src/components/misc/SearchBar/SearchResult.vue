@@ -46,12 +46,14 @@
         display: flex;
         position: relative;
 
-        $symbol_W: 20px;
+        $symbol_W: 40px;
         .symbol{
-            padding: 10px;
+            /*padding: 10px 0;*/
+            padding: 0;
             background-color: #F1F2F3;
             border-radius: 6px;
             font-weight: bold;
+            font-size: 11px;
             height: $symbol_W;
             width: $symbol_W;
             text-align: center;

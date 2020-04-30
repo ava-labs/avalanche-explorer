@@ -68,16 +68,18 @@
 
                 let senders = [];
 
+
                 for(let i=0 ;i<ins.length; i++){
                     let input = ins[i];
                     let addrs = input.output.addresses;
                     senders.push(...addrs)
                 }
 
-                console.log(senders);
+                // console.log(senders);
 
-                let res = this.transaction.outputs.filter((val,index) => {
-                    console.log(val);
+                let outs = this.transaction.outputs;
+                let res = outs.filter((val,index) => {
+                    // console.log(val);
                     let addrs = val.addresses;
                     // if(addrs.length === 1){
                     //     return true;
@@ -96,7 +98,7 @@
                 return res;
             },
             inputs(){
-                return this.transaction.inputs;
+                return this.transaction.inputs || [];
             },
         }
     }

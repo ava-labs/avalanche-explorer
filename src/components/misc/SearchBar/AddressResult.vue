@@ -19,7 +19,7 @@
         },
         methods: {
             select(){
-                let url = `/address/${this.tx.id}`;
+                let url = `/address/${this.item.address}`;
                 this.$router.push(url);
                 this.$emit('select');
             }

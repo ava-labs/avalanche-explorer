@@ -9,18 +9,25 @@
 <!--            <router-link :to="`/tx/${asset}`">{{asset.name}}</router-link>-->
 <!--        </div>-->
 
-        <div class="data_row">
+        <div class="data_row top_data">
+            <div class="from">
+                <b>From</b><router-link class="address"
+                             v-for="addr in addresses"
+                             :to="`/address/${addr}`"
+                             :key="addr">{{addr}}</router-link>
+            </div>
             <div>
-                <p class="label">Tx</p>
+                <p class="amount">{{amount}} <b>{{asset.symbol}}</b></p>
+            </div>
+        </div>
+        <div class="data_row minidata">
+            <div>
+                <p class="label">Root Tx</p>
                 <p class="tx_id"><router-link :to="txLink">{{input.output.transactionID}}</router-link></p>
             </div>
             <div>
-                <p class="label">From</p>
-                <p class="address" v-for="addr in addresses" :key="addr">{{addr}}</p>
-            </div>
-            <div>
-                <p class="label">Amount</p>
-                <p class="amount">{{amount}} {{asset.name}}</p>
+                <p class="label">Timestamp</p>
+                <p>{{timestamp}}</p>
             </div>
         </div>
     </div>
@@ -51,6 +58,9 @@
             },
             txLink(){
                 return `/tx/${this.input.output.transactionID}`
+            },
+            timestamp(){
+                return this.input.output.timestamp;
             }
         }
     }
@@ -61,7 +71,7 @@
         white-space: nowrap;
     }
 
-    .data_row{
+    .minidata{
         display: grid;
         grid-template-columns: 1fr  1fr max-content;
 
@@ -70,15 +80,41 @@
             text-overflow: ellipsis;
         }
     }
+
+    .data_row{
+        align-items: center;
+        display: flex;
+    }
+
+    .top_data{
+        display: grid;
+        grid-template-columns: minmax(0,1fr) max-content;
+    }
+
+    .from{
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        font-family: Helvetica, monospace;
+        a{
+            margin-left: 10px;
+        }
+    }
     .minidata > div{
         flex-grow: 1;
+        margin-right: 4em;
     }
 
     .tx_id{
         margin: 4px 0px;
         padding-right: 10px;
+        white-space: nowrap;
+        max-width: 130px;
     }
-
+    .label{
+        font-weight: lighter;
+        opacity: 0.7;
+    }
     .address{
         width: 100%;
         overflow: hidden;
@@ -92,7 +128,7 @@
         background-color: #E6F5FF;
         color: #71C5FF;
         width: max-content;
-        padding: 8px 30px;
-        border-radius: 4px;
+        padding: 4px 8px;
+        border-radius: 3px;
     }
 </style>

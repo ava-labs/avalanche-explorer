@@ -24,9 +24,9 @@
                 required: true
             }
         },
-        mounted() {
-            console.log(this.output);
-        },
+        // mounted() {
+            // console.log(this.output);
+        // },
         computed: {
             asset(){
                 let id = this.output.assetID;

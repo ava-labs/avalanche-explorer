@@ -37,7 +37,7 @@
         },
         methods: {
             select(){
-                let url = `/asset/${this.id}`;
+                let url = `/tx/${this.id}`;
                 this.$router.push(url);
                 this.$emit('select');
             }

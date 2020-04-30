@@ -21,7 +21,7 @@
                     <p class="icon"><fa icon="snowman"></fa></p>
                     <p>No Results Found</p>
                 </div>
-                <search-result class="search_result" v-for="(res) in results" :key="(res.type + res.data.id)" :item="res" @click="onselect(res)"></search-result>
+                <search-result class="search_result" v-for="(res) in results" :key="getKey(res)" :item="res" @click="onselect(res)"></search-result>
             </div>
         </transition>
     </div>
@@ -50,15 +50,25 @@
             }
         },
         methods: {
+            getKey(item){
+                let res = item.type;
+                if(item.type === 'address'){
+                    res += item.data.address
+                }else{
+                    res += item.data.id;
+                }
+
+                return res;
+            },
             onselect(item){
                 this.showResults = false;
             },
             onblur(){
-                console.log("BLUR");
+                // console.log("BLUR");
                 this.showResults = false;
             },
             onfocus(){
-                console.log("FOCUS");
+                // console.log("FOCUS");
                 this.showResults = true;
             },
             search(){
@@ -80,12 +90,12 @@
                     return;
                 }
 
-                console.log(`Searching: ${query}`);
+                // console.log(`Searching: ${query}`);
                 axios.get(`/x/search?query=${query}&limit=${SEARCH_LIM}`).then(res => {
                     let data = res.data;
                     parent.showResults = true;
                     parent.results = data.results;
-                    console.log(data);
+                    // console.log(data);
                 })
             }
         },
