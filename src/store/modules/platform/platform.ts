@@ -33,7 +33,7 @@ const platform_module: Module<PlatformState, RootState> = {
                 let validatorList: Validator[] = list.map((val: any) => {
                     val.stakeAmount = parseInt(val.stakeAmount);
                     val.startTime = new Date(parseInt(val.startTime) * 1000);
-                    val.endTime = new Date(parseInt(val.endtime) * 1000);
+                    val.endTime = new Date(parseInt(val.endTime) * 1000);
                     return val;
                 });
 

@@ -6,7 +6,7 @@
                 <p class="label">ID</p>
                 <p>
                     <b>{{txId}}</b>
-                    <span v-if="type==='create_asset'" class="genesis">Asset Genesis</span>
+                    <span v-if="isAssetGenesis" class="genesis">Asset Genesis</span>
                 </p>
 
             </div>
@@ -33,9 +33,9 @@
             </div>
 
 
-            <div class="meta_row" v-if="inputs.length>0">
+            <div class="meta_row" v-if="!isAssetGenesis">
                 <p class="label">Input UTXOs ({{inputs.length}})</p>
-                <div>
+                <div v-if="inputs.length > 0">
                     <div class="utxo_headers">
                         <p>Tx</p>
                         <p>Lock Time</p>
@@ -45,12 +45,15 @@
                     </div>
                     <utxo-row class="io_item" v-for="(input, i) in inputs" :key="i" :utxo="input" type="input"></utxo-row>
                 </div>
+                <div v-else>
+                    <p>No input utxos found for this transaction.</p>
+                </div>
             </div>
 
 
-            <div class="meta_row" v-if="outputs.length>0">
+            <div class="meta_row">
                 <p class="label">Output UTXOs ({{outputs.length}})</p>
-                <div>
+                <div v-if="outputs.length > 0">
                     <div class="utxo_headers">
                         <p>Tx</p>
                         <p>Lock Time</p>
@@ -59,6 +62,9 @@
                         <p class="amount">Amount</p>
                     </div>
                     <utxo-row class="io_item" v-for="(output, i) in outputs" :key="i" :utxo="output" type="output"></utxo-row>
+                </div>
+                <div v-else>
+                    <p>No output utxos found for this transaction.</p>
                 </div>
             </div>
 
@@ -143,6 +149,9 @@
                     res.push(ins[i].output)
                 }
                 return res;
+            },
+            isAssetGenesis(){
+                return this.type === 'create_asset';
             },
             outputs(){
                 return this.tx.data.outputs || [];
