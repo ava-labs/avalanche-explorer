@@ -15,7 +15,8 @@ export default new Vuex.Store({
         Platform
     },
     state: {
-        assets: {}
+        assets: {},
+        chainId: 'X',
     },
     getters: {
         assetsArray(store: RootState){

@@ -1,3 +1,4 @@
 export interface RootState {
-    assets: any
+    assets: any,
+    chainId: string
 }

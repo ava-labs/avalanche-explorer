@@ -31,7 +31,6 @@
     // import {ApiTransaction} from "@/js/types";
     import moment from 'moment';
 
-    moment().format();
 
     export default {
         components: {
@@ -62,27 +61,7 @@
             ago(){
                 let stamp = this.transaction.timestamp;
                 let date = new Date(stamp);
-                // console.log(stamp);
-                // console.log()
                 return moment(date).fromNow();
-                // return `2 seconds ago`
-            },
-            inputAssets(){
-                let res = {};
-                if(this.transaction) {
-                    // console.log('inputs:');
-                    let inputs = this.transaction.unsignedTx.inputs;
-                    for (let i=0; i< inputs.length; i++){
-                        let input = inputs[i];
-                        // console.log(input);
-                        if(res[input.assetID]){
-                            res[input.assetID] += input.input.amount;
-                        }else{
-                            res[input.assetID] = input.input.amount;
-                        }
-                    }
-                }
-                return res;
             },
             outputs(){
                 let ins = this.inputs;
@@ -98,11 +77,11 @@
                 console.log(senders);
 
                 let res = this.transaction.outputs.filter((val,index) => {
-                    // console.log(val);
+                    console.log(val);
                     let addrs = val.addresses;
-                    if(addrs.length === 1){
-                        return true;
-                    }
+                    // if(addrs.length === 1){
+                    //     return true;
+                    // }
 
                     // If change UTXO then don't show
                     let flag = false;
@@ -119,34 +98,6 @@
             inputs(){
                 return this.transaction.inputs;
             },
-
-
-
-            outputAssets(){
-                let res = {};
-                if(this.transaction) {
-                    // console.log('Outs:')
-                    let outputs = this.transaction.unsignedTx.outputs;
-                    for (let i=0; i< outputs.length; i++){
-                        let output = outputs[i];
-                        // console.log(output);
-                        let addr = output.output.addresses[0];
-                        // If this is a change output utxo skip it
-                        // console.log(addr);
-                        if(this.inputAssets[addr]){
-                            console.log(`${addr} is change`);
-                            continue;
-                        }
-
-                        if(res[output.assetID]){
-                            res[output.assetID] += output.output.amount;
-                        }else{
-                            res[output.assetID] = output.output.amount;
-                        }
-                    }
-                }
-                return res;
-            }
         }
     }
 </script>

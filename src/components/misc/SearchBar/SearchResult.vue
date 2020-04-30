@@ -1,17 +1,19 @@
 <template>
     <transaction-result v-if="type===`transaction`" class="search_result" :item="item.data"></transaction-result>
-    <div v-else-if="type===`address`" class="search_result">
-        {{type}}
-        <p class="symbol">Tx</p>
-    </div>
+    <address-result v-else-if="type===`address`" class="search_result" :item="item.data"></address-result>
+    <asset-result v-else-if="type===`asset`" class="search_result" :item="item.data"></asset-result>
 </template>
 <script>
     import TransactionResult from "@/components/misc/SearchBar/TransactionResult";
+    import AddressResult from './AddressResult';
+    import AssetResult from "@/components/misc/SearchBar/AssetResult";
     import {Transaction} from "@/js/Transaction";
 
     export default {
         components: {
-            TransactionResult
+            TransactionResult,
+            AddressResult,
+            AssetResult
         },
         data(){
             return{
@@ -37,14 +39,30 @@
         }
     }
 </script>
-<style scoped lang="scss">
+<style lang="scss">
     .search_result{
         padding: 8px 13px;
         background-color: #fff;
-        display: grid;
-        grid-template-columns: max-content 1fr;
+        display: flex;
         position: relative;
 
+        $symbol_W: 20px;
+        .symbol{
+            padding: 10px;
+            background-color: #F1F2F3;
+            border-radius: 6px;
+            font-weight: bold;
+            height: $symbol_W;
+            width: $symbol_W;
+            text-align: center;
+            line-height: $symbol_W;
+        }
+
+        .data{
+            width: 100%;
+            overflow: auto;
+            padding: 4px 10px;
+        }
 
         a{
             position: absolute;
@@ -54,16 +72,10 @@
             height: 100%;
         }
 
-
         &:hover{
-            background-color: #f0f0f0;
+            background-color: #efefef;
         }
     }
-
-    .symbol{
-        padding: 10px;
-        background-color: #F1F2F3;
-        border-radius: 6px;
-        font-weight: bold;
-    }
+</style>
+<style scoped lang="scss">
 </style>

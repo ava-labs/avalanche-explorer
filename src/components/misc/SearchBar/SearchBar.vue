@@ -21,7 +21,7 @@
                     <p class="icon"><fa icon="snowman"></fa></p>
                     <p>No Results Found</p>
                 </div>
-                <search-result class="search_result" v-for="res in results" :key="res.data.id" :item="res" @click="onselect(res)"></search-result>
+                <search-result class="search_result" v-for="(res) in results" :key="(res.type + res.data.id)" :item="res" @click="onselect(res)"></search-result>
             </div>
         </transition>
     </div>

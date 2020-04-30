@@ -48,44 +48,6 @@
     }
 </script>
 <style scoped lang="scss">
-    .search_result{
-        padding: 8px 13px;
-        background-color: #fff;
-        display: flex;
-        position: relative;
-
-
-        a{
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-
-        &:hover{
-            background-color: #efefef;
-        }
-    }
-
-    $symbol_W: 20px;
-    .symbol{
-        padding: 10px;
-        background-color: #F1F2F3;
-        border-radius: 6px;
-        font-weight: bold;
-        height: $symbol_W;
-        width: $symbol_W;
-        text-align: center;
-        line-height: $symbol_W;
-    }
-    .data{
-        width: 100%;
-        overflow: auto;
-        padding: 4px 10px;
-    }
-
     .ago{
         margin-top: 4px;
         opacity: 0.7;
