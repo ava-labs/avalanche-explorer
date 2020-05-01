@@ -16,6 +16,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "tokens" */ '../views/Tokens.vue')
   },
   {
+    path: '/resources',
+    name: 'Resources',
+    component: () => import(/* webpackChunkName: "resources" */ '../views/Resources.vue')
+  },
+  {
     path: '/blockchain',
     name: 'Blockchain',
     component: () => import(/* webpackChunkName: "blockchain" */ '../views/Blockchain.vue')

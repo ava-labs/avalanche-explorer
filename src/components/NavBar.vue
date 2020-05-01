@@ -129,14 +129,14 @@
     }
 
     .routes a{
-        color: #7A838E;
+        color: #7A838E !important;
         text-decoration: none;
         font-weight: lighter;
         font-size: 14px;
         padding-right: 10px;
 
         &.router-link-exact-active{
-            color: #000;
+            color: #000 !important;
         }
     }
 
