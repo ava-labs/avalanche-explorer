@@ -2,27 +2,57 @@
     <div class="blockchain">
         <div class="meta_data">
             <div>
-                <p class="label">Total Stake Amount</p>
+                <p class="label">Total {{validatorType}} Stake Amount</p>
                 <p>{{totalStake}} $AVA</p>
             </div>
         </div>
         <div class="validators">
-            <h2>Validators</h2>
-            <validator-row class="validator" v-for="validator in validators" :key="validator.id" :validator="validator"></validator-row>
+            <v-tabs class="tabs" @change="typeChange">
+                <v-tab>Active</v-tab>
+                <v-tab>Pending</v-tab>
+            </v-tabs>
+            <div class="headers">
+                <p style="text-align: center;">Rank</p>
+                <p>Validator</p>
+                <p style="text-align: right;">Stake</p>
+                <p style="text-align: right;">Comulative Stake</p>
+                <p style="text-align: right;">Commission</p>
+            </div>
+            <div v-if="validators.length === 0" class="empty">
+                <p>No Validators</p>
+            </div>
+            <validator-row class="validator" v-for="(validator, i) in validators" :key="validator.id" :rank="i+1" :validator="validator" :cumulative-stake="cummulativeStake[i]"></validator-row>
         </div>
     </div>
 </template>
 <script>
-    import ValidatorRow from "../components/rows/ValidatorRow";
+    import ValidatorRow from "../components/rows/ValidatorRow/ValidatorRow";
 
     export default {
+        data(){
+            return {
+                validatorType: 'active', // active | pending
+            }
+        },
         components: {
             ValidatorRow
         },
-
+        methods: {
+            typeChange(val){
+                if(val){
+                    this.validatorType = 'pending';
+                }else{
+                    this.validatorType = 'active';
+                }
+            }
+        },
         computed:{
             validators(){
                 let vals = this.$store.state.Platform.validators;
+
+                if(this.validatorType === 'pending'){
+                    vals = this.$store.state.Platform.validatorsPending
+                }
 
                 vals.sort((a,b) => {
                     let valA = parseInt(a.stakeAmount);
@@ -43,8 +73,21 @@
             totalStake(){
                 let valBig = this.$store.getters['Platform/totalStakeAmount'];
 
+                if(this.validatorType === 'pending'){
+                    valBig = this.$store.getters['Platform/totalStakeAmountPending'];
+                }
+
+
                 let res = valBig.div(Math.pow(10,9));
                 return res;
+            },
+            cummulativeStake(){
+                let valBig = this.$store.getters['Platform/cumulativeStakeAmount'];
+                if(this.validatorType === 'pending'){
+                    valBig = this.$store.getters['Platform/cumulativeStakeAmountPending'];
+                }
+
+                return valBig;
             }
         }
     }
@@ -60,6 +103,17 @@
     }
     .validator{
         border-bottom: 1px solid #E7E7E7;
+    }
+
+    .headers{
+        display: grid;
+        grid-template-columns: 70px 1fr 1fr 1fr 1fr;
+        font-size: 12px;
+        font-weight: bold;
+
+        p{
+            padding: 12px 15px;
+        }
     }
 
     .meta_data{
@@ -79,11 +133,26 @@
         }
 
         .label{
+            text-transform: capitalize;
             font-size: 14px;
             margin-bottom: 6px;
             opacity: 0.7;
         }
 
+    }
+
+
+    .tabs{
+        display: flex;
+        flex-direction: row-reverse;
+        margin-bottom: 30px;
+    }
+
+    .empty{
+        text-align: center;
+        padding: 30px;
+        opacity: 0.7;
+        font-size: 12px;
     }
 
 

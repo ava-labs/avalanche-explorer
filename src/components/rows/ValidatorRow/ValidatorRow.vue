@@ -1,41 +1,32 @@
 <template>
     <div class="validator">
+        <div class="rank">
+            <div>
+                <p>{{rank}}</p>
+            </div>
+        </div>
         <div class="id_col">
-            <p class="label">ID</p>
             <p>{{validator.id}}</p>
         </div>
         <div class="stake_col">
-            <p class="label">Stake Amount</p>
-            <p class="amount">{{stakeAmountText}} <span>{{stakeAmountSymbol}}</span></p>
+            <p>{{stakeAmountText}}</p>
+            <p>{{stakePercText}}%</p>
         </div>
-
-        <div class="time">
-            <div class="time_info">
-                <div>
-                    <p class="label">Start</p>
-                    <p>{{validator.startTime | date}}</p>
-                </div>
-                <div>
-                    <p class="label">Duration</p>
-                    <p>{{duration}}</p>
-                </div>
-                <div>
-                    <p class="label">End</p>
-                    <p>{{validator.endTime | date}}</p>
-                </div>
-            </div>
-            <div class="display">
-                <time-display :start="validator.startTime"
-                              color_fill="#8bbae2"
-                              :end="validator.endTime"></time-display>
-            </div>
+        <div class="comm_col">
+            <p>{{cumulativePercText}}%</p>
+            <comulative-bar :total="totalStake" :accumulated="cumulativeStake" :amount="stakeAmount"></comulative-bar>
+        </div>
+        <div class="commission_col">
+            <p>4%</p>
         </div>
     </div>
 </template>
 <script>
     import moment from 'moment';
-    import TimeDisplay from "@/components/Blockchain/TimeDisplay";
+    // import TimeDisplay from "@/components/Blockchain/TimeDisplay";
     import Big from 'big.js';
+    import {stringToBig} from "../../../helper";
+    import ComulativeBar from "./ComulativeBar";
 
     // if below this amount will display in nAVA
     const nanoThresh = 100000000;
@@ -55,24 +46,30 @@
             }
         },
         components: {
-            TimeDisplay
+            // TimeDisplay
+            ComulativeBar,
         },
         props: {
             validator: {
                 type: Object,
                 required: true
+            },
+            rank: {
+                type: Number,
+                required: true,
+            },
+            cumulativeStake: {
+                type: Big,
+                required: true,
             }
         },
         computed: {
+            totalStake(){
+                return this.$store.getters['Platform/totalStakeAmount'];
+            },
             stakeAmountText(){
                 let amount = this.validator.stakeAmount;
-
-                let res = amount.toLocaleString();
-
-                if(amount > nanoThresh) {
-                    res = Big(amount).div(Math.pow(10,9)).toFixed(1);
-                }
-
+                let res = stringToBig(amount,9);
 
                 return res.toLocaleString();
             },
@@ -90,21 +87,34 @@
                 let dur = end-start;
 
                 return moment.duration(dur).humanize();
+            },
+            stakeAmount(){
+                return Big(this.validator.stakeAmount);
+            },
+            stakePerc(){
+                let amt = this.stakeAmount;
+                let tot = this.totalStake;
+                return amt.div(tot)
+            },
+            stakePercText(){
+                return this.stakePerc.times(100).toFixed(8);
+            },
+            cumulativePercText(){
+                return this.cumulativeStake.div(this.totalStake).times(100).toFixed(2);
             }
         }
     }
 </script>
 <style scoped lang="scss">
-    @use '../../main';
+    @use '../../../main';
 
     .validator{
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        padding: 14px 0px;
+        grid-template-columns: 70px 1fr 1fr 1fr 1fr;
 
         > div{
             text-align: center;
-            padding: 0px 15px;
+            padding: 10px 15px;
             display: flex;
             justify-content: center;
             flex-direction: column;
@@ -117,6 +127,25 @@
             overflow: hidden;
         }
     }
+
+
+    .rank{
+        >div{
+            /*background-color: #56C18D;*/
+            width: 40px;
+            height: 40px;
+            border-radius: 40px;
+            line-height: 40px;
+        }
+
+        p{
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+
+
 
     .time{
         grid-column: 3/5;
@@ -162,6 +191,12 @@
         overflow: hidden;
     }
 
+    .commission_col{
+        p{
+            text-align: right;
+        }
+    }
+
     .meta_data{
         display: grid;
         width: 100%;
@@ -192,19 +227,31 @@
     }
 
     .stake_col{
-        justify-self: end;
+        /*justify-self: end;*/
         p{
+            text-align: right;
+
+            &:last-of-type{
+                opacity: 0.4;
+            }
+        }
+    }
+
+    .comm_col{
+        position: relative;
+        border-right: 1px solid #f0f0f0;
+        border-left: 1px solid #f0f0f0;
+
+        p{
+            z-index: 2;
             text-align: right;
         }
     }
     @media only screen and (max-width: main.$mobile_width) {
         .validator{
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 70px 1fr 1fr 1fr 1fr;
             grid-template-rows: max-content max-content;
 
-            > div{
-                margin-bottom: 10px;
-            }
         }
 
         .time{

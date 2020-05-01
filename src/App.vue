@@ -83,6 +83,6 @@ export default Vue.extend({
         margin: 0;
     }
     a{
-        color: #71C5FF !important;
+        color: #71C5FF;
     }
 </style>
