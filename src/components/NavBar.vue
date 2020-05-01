@@ -75,6 +75,12 @@
     })
 </script>
 
+<style>
+    .v-toolbar__content{
+        padding: 0;
+    }
+</style>
+
 <style scoped lang="scss">
     @use'../main';
 

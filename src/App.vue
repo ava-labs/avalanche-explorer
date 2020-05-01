@@ -72,6 +72,11 @@ export default Vue.extend({
             padding: main.$container_padding_mobile;
         }
     }
+    @media only screen and (max-width: main.$small_width) {
+        .router_view {
+            padding: main.$container_padding_s;
+        }
+    }
 </style>
 <style>
     body{

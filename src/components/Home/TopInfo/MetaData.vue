@@ -97,7 +97,7 @@ import {stringToBig} from "@/helper";
         row-gap: 30px;
         column-gap: 30px;
         padding: 10px 0px;
-        display: flex;
+        /*display: flex;*/
         flex-wrap: wrap;
         overflow: auto;
 
