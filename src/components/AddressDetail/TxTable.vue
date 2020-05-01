@@ -51,7 +51,6 @@
 <style scoped lang="scss">
     .tx_table{
         /*padding: 0px 30px;*/
-        padding: 15px;
     }
 
     .tx_item{

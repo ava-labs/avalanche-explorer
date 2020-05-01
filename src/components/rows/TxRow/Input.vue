@@ -2,7 +2,7 @@
     <div>
         <div class="from" v-for="addr in addresses" :key="addr">
             <p class="bold" ><b>From</b></p>
-            <router-link class="addr" :to="`/address/${addr}`">{{addr}}</router-link>
+            <router-link class="addr" :to="`/address/${addr}`">X-{{addr}}</router-link>
         </div>
     </div>
 </template>

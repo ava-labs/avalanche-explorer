@@ -22,9 +22,8 @@
             let parent = this;
             let url = `/x/transactions`;
             api.get(url).then((res) => {
-                const data = res.data;
+                const data = res.data.transactions;
                 parent.txs = data;
-                console.log(data);
             });
         },
         computed:{

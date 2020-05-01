@@ -32,7 +32,7 @@
             let parent = this;
             axios.get('/x/assets').then(res => {
                 console.log(res.data);
-               parent.assets = res.data;
+               parent.assets = res.data.assets;
             });
         }
     }

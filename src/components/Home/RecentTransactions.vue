@@ -39,7 +39,7 @@
             const parent = this;
             let txNum = 8;
             api.get(`/x/transactions?sort=timestamp-desc&limit=${txNum}`).then((res) => {
-                const list = res.data;
+                const list = res.data.transactions;
                 parent.transactions = list;
             });
         },

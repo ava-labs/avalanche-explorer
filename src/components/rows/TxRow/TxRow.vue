@@ -75,8 +75,6 @@
                     senders.push(...addrs)
                 }
 
-                // console.log(senders);
-
                 let outs = this.transaction.outputs;
                 let res = outs.filter((val,index) => {
                     // console.log(val);
@@ -91,8 +89,6 @@
                         if(senders.includes(addr)) flag = true;
                     });
                     if(flag) return false;
-
-
                     return true
                 });
                 return res;

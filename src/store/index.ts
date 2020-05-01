@@ -35,9 +35,8 @@ export default new Vuex.Store({
 
             api.get('/x/assets').then( res => {
 
-                let data = res.data;
-
-                data.forEach( (assetData: any) => {
+                let assets = res.data.assets;
+                assets.forEach( (assetData: any) => {
                     let asset = new Asset(assetData);
                     Vue.set(store.state.assets,asset.id,asset);
                 });

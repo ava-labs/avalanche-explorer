@@ -65,7 +65,7 @@
                 // console.log( new Date().toISOString());
                 axios.get(`/x/transactions/aggregates?startTime=${startTime}&endTime=${endTime}&intervalSize=${intervalSize}`).then(res => {
                     let data = res.data;
-                    // console.log(data);
+                    console.log(data);
                     parent.history = data;
                     parent.draw();
                 });
@@ -225,7 +225,7 @@
 
                 for(let i=0 ;i<this.dataX.length; i++){
                     let data = this.dataX[i];
-                    let txCount = data.aggregates.transactionCount;
+                    let txCount = data.transactionCount;
                     res.push(txCount)
                 }
                 return res;

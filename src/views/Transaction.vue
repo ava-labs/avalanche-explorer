@@ -378,7 +378,7 @@
     .utxo_headers{
         display: grid;
         grid-gap: 10px;
-        grid-template-columns: 120px 140px 140px 120px 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 
         p{
             font-weight: bold;

@@ -90,6 +90,10 @@
                     return;
                 }
 
+
+                let split = query.split('-');
+                query = split[split.length-1];
+
                 // console.log(`Searching: ${query}`);
                 axios.get(`/x/search?query=${query}&limit=${SEARCH_LIM}`).then(res => {
                     let data = res.data;

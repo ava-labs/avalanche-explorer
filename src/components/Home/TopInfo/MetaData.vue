@@ -49,6 +49,7 @@
 </template>
 <script>
 import axios from "@/axios";
+import {stringToBig} from "@/helper";
     export default {
         data(){
             return {
@@ -82,7 +83,8 @@ import axios from "@/axios";
                 return avg.toFixed(0);
             },
             totalStake(){
-                return this.$store.getters['Platform/totalStakeAmount'];
+                let res =  this.$store.getters['Platform/totalStakeAmount'];
+                return stringToBig(res,9).toFixed(0)
             }
         }
     }

@@ -1,10 +1,26 @@
 <template>
     <div class="address_detail">
-
-        <div class="meta">
+        <div class="meta" v-if="this.metaData">
+            <h1>Address Details</h1>
             <div class="meta_row">
                 <p class="label">Address</p>
-                <p>{{address}}</p>
+                <p class="addr"><b>X-{{address}}</b></p>
+            </div>
+            <div class="meta_row">
+                <p class="label">Balance</p>
+                <p>{{balance}} AVA</p>
+            </div>
+            <div class="meta_row">
+                <p class="label">Total Received</p>
+                <p>{{totalReceived}} AVA</p>
+            </div>
+            <div class="meta_row">
+                <p class="label">Total Sent</p>
+                <p>{{totalSent}} AVA</p>
+            </div>
+            <div class="meta_row">
+                <p class="label">Transaction Count</p>
+                <p>{{txCount}}</p>
             </div>
         </div>
 
@@ -25,6 +41,8 @@
 <script>
     import api from "../axios";
     import TxTable from "../components/AddressDetail/TxTable";
+    import Big from "big.js";
+    import {stringToBig} from "../helper";
 
     export default {
         components: {
@@ -34,6 +52,7 @@
             return{
                 transactions: [],
                 isAjax: false,
+                metaData: null,
             }
         },
         watch:{
@@ -48,9 +67,18 @@
                 this.isAjax = true;
                 api.get(url).then((res) => {
                     parent.isAjax = false;
-                    const data = res.data;
+                    const data = res.data.transactions;
                     parent.transactions = data;
-                    console.log(res);
+                    // console.log(res);
+                });
+
+
+                url = `/x/addresses/${this.address}`;
+                api.get(url).then((res) => {
+                    parent.isAjax = false;
+                    const data = res.data;
+                    parent.metaData = data;
+                    console.log(data);
                 });
             }
         },
@@ -74,7 +102,23 @@
             },
             address(){
                 return this.$route.params.address;
-            }
+            },
+            balance(){
+                if(!this.metaData) return Big(0);
+                return stringToBig(this.metaData.balance, 9);
+                // return Big(this.metaData.balance);
+            },
+            txCount(){
+                return this.metaData.transactionCount;
+            },
+            totalReceived(){
+                return stringToBig(this.metaData.totalReceived, 9);
+                // return this.metaData.totalReceived;
+            },
+            totalSent(){
+                let total = this.metaData.totalSent;
+                return stringToBig(total, 9);
+            },
         }
     }
 </script>
@@ -102,6 +146,11 @@
         opacity: 0;
     }
 
+    h1{
+        padding: 15px 30px;
+        font-size: 16px;
+    }
+
     .meta{
         overflow: auto;
         background-color: #fff;
@@ -115,13 +164,18 @@
     .meta_row{
         /*padding: 0px 15px;*/
         font-size: 12px;
-        display: flex;
+        display: grid;
+        grid-template-columns: 140px 1fr;
 
+        padding: 15px 30px;
+        border-bottom: 1px solid #f2f2f2;
         .label{
-            font-weight: bold;
-            /*width: 90px;*/
-            text-align: right;
+            font-weight: normal;
             margin-right: 8px;
+        }
+
+        &:last-of-type{
+            border: none;
         }
     }
 
@@ -132,17 +186,34 @@
         border-radius: 6px;
         /*height: 500px;*/
         overflow: auto;
+        padding: 15px 30px;
     }
 
     .tx_table{
         font-size: 12px;
         /*max-height: 500px;*/
+
     }
 
+
+    .addr{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: keep-all;
+        white-space: nowrap;
+    }
 
     @media only screen and (max-width: main.$mobile_width) {
         .address_detail{
             padding: main.$container_padding_mobile;
+        }
+
+        .meta{
+            padding: 15px;
+        }
+
+        .meta_row{
+            padding: 8px;
         }
     }
 </style>
