@@ -114,6 +114,7 @@
     })
 </script>
 <style scoped lang="scss">
+    @use '../../../main';
     .search_bar{
         display: flex;
         background-color: transparent;
@@ -186,5 +187,12 @@
     }
     .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
         opacity: 0;
+    }
+
+
+    @media only screen and (max-width: main.$mobile_width) {
+        .search_results{
+            position: fixed;
+        }
     }
 </style>

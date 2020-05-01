@@ -1,8 +1,7 @@
 <template>
     <div class="home">
         <top-info class="card"></top-info>
-        <recent-transactions class="card"></recent-transactions>
-
+        <recent-transactions class="card recent_tx"></recent-transactions>
     </div>
 </template>
 
@@ -73,17 +72,21 @@
         /*border-radius: 2px;*/
         /*border: 1px solid #d2d2d2*/
         background-color: #fff;
-        /*width: 100%;*/
-        max-width: 100%;
-        min-width: 100%;
+        width: 100%;
+        /*max-width: 100%;*/
+        /*min-width: 100%;*/
         border-radius: 6px;
         margin-top: 15px;
         box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
     }
 
+    .recent_tx{
+        width: 100%;
+    }
+
     .tables{
         display: grid;
-        width: 100%;
+        /*width: 100%;*/
         grid-template-columns: 1fr 280px;
         grid-gap: 30px;
     }

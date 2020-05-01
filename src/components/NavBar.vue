@@ -17,7 +17,7 @@
                 <h1>AVA Block Explorer</h1>
             </router-link>
         </div>
-        <v-spacer></v-spacer>
+        <v-spacer class="spacer_mid"></v-spacer>
         <div class="rightside">
             <div class="row" style="display: flex">
                 <div class="routes">
@@ -77,7 +77,7 @@
 
 <style>
     .v-toolbar__content{
-        padding: 0;
+        padding: 0 !important;
     }
 </style>
 
@@ -85,8 +85,8 @@
     @use'../main';
 
     .navbar{
-        padding: 0px 18vw;
-
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
         > .v-toolbar__content{
             padding: 0;
         }
@@ -122,16 +122,21 @@
 
     .rightside{
         justify-content: end;
+        overflow: auto;
 
         > div{
             justify-content: flex-end;
             margin: 8px 0px;
+            white-space: nowrap;
+            flex-wrap: nowrap;
         }
     }
 
     .routes{
+        overflow: auto;
         border-right: 1px solid #D6DAE1;
         padding: 4px 0px;
+        white-space: normal;
     }
 
     .routes a{
@@ -149,23 +154,24 @@
     .avatar{
         margin-left: 10px;
         background-color: #F1F2F3;
-        height: auto;
         width: 24px;
+        height: 24px;
+        flex-shrink: 0;
+        flex-basis: 24px;
     }
 
     @media only screen and (max-width: main.$mobile_width) {
-        .navbar{
-            padding: main.$container_padding_mobile;
-            /*display: flex;*/
-            /*flex-direction: column;*/
-        }
         h1{
             display: none;
         }
 
         .logo{
+            display: none;
             height: 40px;
             padding: 0;
+        }
+        .spacer_mid{
+            display: none;
         }
         .search_bar{
             width: 100%;

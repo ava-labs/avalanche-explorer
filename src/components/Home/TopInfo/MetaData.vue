@@ -93,7 +93,7 @@ import {stringToBig} from "@/helper";
     @use '../../../main';
     .meta_data{
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: minmax(0,1fr) minmax(0,1fr);
         row-gap: 30px;
         column-gap: 30px;
         padding: 10px 0px;
@@ -143,7 +143,7 @@ import {stringToBig} from "@/helper";
 
             .data .meta_title{
                 color: #000000;
-                white-space: nowrap;
+                /*white-space: nowrap;*/
                 margin-bottom: 4px;
             }
 

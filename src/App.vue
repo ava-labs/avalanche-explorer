@@ -3,7 +3,7 @@
     <div class="bg">
 <!--      <img src="@/assets/bg_black.png">-->
     </div>
-    <nav-bar></nav-bar>
+    <nav-bar class="navbar"></nav-bar>
     <v-content class="content">
       <router-view class="router_view"></router-view>
     </v-content>
@@ -63,6 +63,10 @@ export default Vue.extend({
         padding: main.$container_padding_l;
     }
 
+    .navbar{
+        padding: main.$container_padding_l;
+    }
+
     .footer{
         margin-top: 15vh;
     }
@@ -71,9 +75,15 @@ export default Vue.extend({
         .router_view {
             padding: main.$container_padding_mobile;
         }
+        .navbar {
+            padding: main.$container_padding_mobile;
+        }
     }
     @media only screen and (max-width: main.$small_width) {
         .router_view {
+            padding: main.$container_padding_s;
+        }
+        .navbar {
             padding: main.$container_padding_s;
         }
     }

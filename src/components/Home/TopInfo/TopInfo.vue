@@ -51,6 +51,7 @@
         display: grid;
         grid-template-columns: 1fr 1fr 360px;
         padding: 25px 0px;
+        overflow: auto;
 
 
         > div{
@@ -106,7 +107,7 @@
 
     @media only screen and (max-width: main.$mobile_width) {
         .top_info {
-            grid-template-columns: none;
+            grid-template-columns: 1fr;
             grid-template-rows: max-content max-content max-content;
 
 
