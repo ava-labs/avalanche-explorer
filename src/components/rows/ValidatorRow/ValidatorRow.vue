@@ -36,13 +36,7 @@
             date(date){
                 let today = new Date();
                 let mom =  moment(date).fromNow();
-
-
                 return mom;
-                // if(date.getDay() === today.getUTCDay() && date.getMonth() === today.getUTCMonth() && date.getFullYear() === today.getUTCFullYear()){
-                //     return 'Now'
-                // }
-                // return date.toLocaleString()
             }
         },
         components: {
@@ -258,7 +252,5 @@
             grid-column: 1/3;
             grid-row: 2;
         }
-
-
     }
 </style>

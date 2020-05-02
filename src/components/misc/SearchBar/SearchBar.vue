@@ -159,6 +159,7 @@
         color: #333;
         border: 1px solid #d2d2d2;
         box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+
         & :last-child{
             border: none !important;
         }

@@ -40,6 +40,14 @@
                 this.search();
             }
         },
+        watch: {
+            $route(val){
+                console.log("WATCH ROUTE")
+                let query = val.currentRoute.query;
+                this.query = query;
+                this.search();
+            }
+        },
         methods: {
             search(){
                 let parent = this;
@@ -57,9 +65,7 @@
     }
 </script>
 <style scoped lang="scss">
-    .search{
-        padding: 30px 18vw;
-    }
+    @use '../main';
 
     .results{
         margin-top: 40px;
@@ -70,6 +76,7 @@
         padding: 25px 30px;
         box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
         border-radius: 6px;
+        margin-bottom: 4px;
     }
 
     .not_found{
@@ -79,5 +86,11 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+    }
+
+    @media only screen and (max-width: main.$mobile_width) {
+        .result_row{
+            padding: 6px 12px;
+        }
     }
 </style>

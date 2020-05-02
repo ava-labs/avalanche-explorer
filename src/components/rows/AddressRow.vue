@@ -33,14 +33,14 @@
         },
         computed: {
             txCount(){
-                return this.address.Data.transactionCount;
+                return this.address.data.transactionCount;
             },
             balance(){
-                return this.address.Data.balance;
+                return this.address.data.balance;
 
             },
             lifetimeValue(){
-                return this.address.Data.lifetimeValue;
+                return this.address.data.lifetimeValue;
             },
             url(){
                 return `/`;

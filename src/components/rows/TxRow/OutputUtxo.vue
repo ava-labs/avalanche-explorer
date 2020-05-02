@@ -9,7 +9,7 @@
 
         <div class="info_col" style="padding-right: 0;">
             <div  class="amount_col to">
-                <p class="amount">{{amount}} <span>{{asset.name}}</span></p>
+                <p class="amount">{{amount}} <span>{{asset.symbol}}</span></p>
             </div>
         </div>
     </div>
@@ -24,9 +24,6 @@
                 required: true
             }
         },
-        // mounted() {
-            // console.log(this.output);
-        // },
         computed: {
             asset(){
                 let id = this.output.assetID;

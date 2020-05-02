@@ -122,7 +122,7 @@
 
     .rightside{
         justify-content: end;
-        overflow: auto;
+        /*overflow: auto;*/
 
         > div{
             justify-content: flex-end;
@@ -169,6 +169,10 @@
             display: none;
             height: 40px;
             padding: 0;
+        }
+        .rightside{
+            width: 100%;
+            overflow: auto;
         }
         .spacer_mid{
             display: none;
