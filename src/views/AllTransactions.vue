@@ -20,7 +20,8 @@
         },
         created() {
             let parent = this;
-            let url = `/x/transactions`;
+            let sort = "timestamp-desc";
+            let url = `/x/transactions?sort=${sort}`;
             api.get(url).then((res) => {
                 const data = res.data.transactions;
                 parent.txs = data;
@@ -29,16 +30,16 @@
         computed:{
             transactions(){
                 let res = this.txs;
-                    res.sort((a,b) => {
-                        let timeA = new Date(a.timestamp);
-                        let timeB = new Date(b.timestamp);
-
-                        if(timeA.getTime() > timeB.getTime()){
-                            return -1;
-                        }else{
-                            return  1;
-                        }
-                    });
+                    // res.sort((a,b) => {
+                    //     let timeA = new Date(a.timestamp);
+                    //     let timeB = new Date(b.timestamp);
+                    //
+                    //     if(timeA.getTime() > timeB.getTime()){
+                    //         return -1;
+                    //     }else{
+                    //         return  1;
+                    //     }
+                    // });
 
                 return res;
             }

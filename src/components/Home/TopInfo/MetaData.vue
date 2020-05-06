@@ -2,16 +2,16 @@
     <div>
         <h4>Network Meta Data</h4>
         <div class="meta_data">
-            <div class="meta">
-                <img src="@/assets/ava_price.png">
-                <div class="data">
-                    <p class="meta_title">AVA Market Cap</p>
-                    <div>
-                        <p>$2.3B</p>
-                        <p class="change">+ 24%</p>
-                    </div>
-                </div>
-            </div>
+<!--            <div class="meta">-->
+<!--                <img src="@/assets/ava_price.png">-->
+<!--                <div class="data">-->
+<!--                    <p class="meta_title">AVA Market Cap</p>-->
+<!--                    <div>-->
+<!--                        <p>$2.3B</p>-->
+<!--                        <p class="change">+ 24%</p>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
 
             <div class="meta">
                 <img src="@/assets/ava_transactions.png">
@@ -23,16 +23,16 @@
                 </div>
             </div>
 
-            <div class="meta">
-                <img src="@/assets/price.png">
-                <div class="data">
-                    <p class="meta_title">AVA Price</p>
-                    <div>
-                        <p>${{avaPrice.toFixed(2)}}</p>
-                        <p class="change">+ 24%</p>
-                    </div>
-                </div>
-            </div>
+<!--            <div class="meta">-->
+<!--                <img src="@/assets/price.png">-->
+<!--                <div class="data">-->
+<!--                    <p class="meta_title">AVA Price</p>-->
+<!--                    <div>-->
+<!--                        <p>${{avaPrice.toFixed(2)}}</p>-->
+<!--                        <p class="change">+ 24%</p>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
 
 
             <div class="meta">
@@ -80,7 +80,11 @@ import {stringToBig} from "@/helper";
             tpsText(){
                 let day = (60*60*24)
                 let avg = (this.avaTxCount/day);
-                return avg.toFixed(0);
+                if(avg > 1){
+                    return avg.toFixed(0)
+                }else{
+                    return avg.toFixed(2);
+                }
             },
             totalStake(){
                 let res =  this.$store.getters['Platform/totalStakeAmount'];

@@ -25,9 +25,9 @@
                     <router-link to="/blockchain">Blockchain</router-link>
                     <router-link to="/tokens">Tokens</router-link>
                     <router-link to="/resources">Resources</router-link>
-                    <router-link to="/developers">Developers</router-link>
+<!--                    <router-link to="/developers">Developers</router-link>-->
                 </div>
-                <div class="avatar"></div>
+<!--                <div class="avatar"></div>-->
             </div>
             <div class="row">
                 <search-bar class="search_bar" placeholder="Search by Address / TxId / BlockId / AssetId" @search="onsearch"></search-bar>

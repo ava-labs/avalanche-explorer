@@ -46,8 +46,6 @@
                     </div>
                 </div>
             </div>
-
-            <p class="found_more">Found something interesting or a must read? <a>Submit it here</a></p>
         </div>
     </div>
 </template>

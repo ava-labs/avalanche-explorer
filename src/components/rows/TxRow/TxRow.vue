@@ -94,7 +94,22 @@
                 return res;
             },
             inputs(){
-                return this.transaction.inputs || [];
+                let addedAddr = [];
+                let ins = this.transaction.inputs || [];
+                let res = ins.filter((val,index) => {
+                    let addrs = val.output.addresses;
+                    let flag = false;
+                    addrs.forEach(addr => {
+                        if(addedAddr.includes(addr)){
+                            flag = true;
+                        }else{
+                            addedAddr.push(addr)
+                        }
+                    });
+                    if(flag) return false;
+                    return true
+                });
+                return res;
             },
         }
     }

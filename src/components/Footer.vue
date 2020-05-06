@@ -15,7 +15,7 @@
             <router-link to="/blockchain">Blockchain</router-link>
             <router-link to="/tokens">Tokens</router-link>
             <router-link to="/resources">Resources</router-link>
-            <router-link to="/developers">Developers</router-link>
+<!--            <router-link to="/developers">Developers</router-link>-->
         </div>
         <div class="list">
             <h4>Social</h4>

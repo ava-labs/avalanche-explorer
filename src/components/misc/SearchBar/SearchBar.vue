@@ -17,11 +17,17 @@
 
         <transition name="fade">
             <div class="search_results" v-if="showResults">
-                <div class="no_result"  v-if="results.length===0">
-                    <p class="icon"><fa icon="snowman"></fa></p>
-                    <p>No Results Found</p>
+                <div class="no_result"  v-if="isAjax">
+                    <p>Searching...</p>
                 </div>
-                <search-result class="search_result" v-for="(res) in results" :key="getKey(res)" :item="res" @click="onselect(res)"></search-result>
+                <div v-else>
+                    <div class="no_result"  v-if="results.length===0">
+                        <p class="icon"><fa icon="snowman"></fa></p>
+                        <p>No Results Found</p>
+                    </div>
+                    <search-result class="search_result" v-for="(res) in results" :key="getKey(res)" :item="res" @click="onselect(res)"></search-result>
+                </div>
+
             </div>
         </transition>
     </div>
@@ -95,10 +101,12 @@
                 query = split[split.length-1];
 
                 // console.log(`Searching: ${query}`);
+                this.isAjax = true;
                 axios.get(`/x/search?query=${query}&limit=${SEARCH_LIM}`).then(res => {
                     let data = res.data;
                     parent.showResults = true;
                     parent.results = data.results;
+                    parent.isAjax = false;
                     // console.log(data);
                 })
             }

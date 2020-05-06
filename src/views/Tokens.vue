@@ -58,6 +58,8 @@
 
     .grid_headers{
         font-weight: bold;
+        /*overflow: hidden;*/
+        /*text-overflow: ellipsis;*/
     }
 
     .token_row{
@@ -65,6 +67,11 @@
         grid-template-columns: 1fr 90px 90px 1fr 1fr;
         padding: 15px 15px;
         border-bottom: 1px solid #E7E7E7;
+        column-gap: 10px;
+    }
+
+    .denomination{
+        text-align: center;
     }
 
 
