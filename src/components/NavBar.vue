@@ -14,7 +14,7 @@
         <div class="logo">
             <router-link to="/">
                 <img src="@/assets/yeti_logo.png">
-                <h1>AVA Block Explorer</h1>
+                <h1>AVA Explorer</h1>
             </router-link>
         </div>
         <v-spacer class="spacer_mid"></v-spacer>

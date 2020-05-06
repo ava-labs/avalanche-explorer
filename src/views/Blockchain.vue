@@ -1,22 +1,29 @@
 <template>
     <div class="blockchain">
-        <div class="meta_data">
-            <div>
-                <p class="label">Total {{validatorType}} Stake Amount</p>
-                <p>{{totalStake}} $AVA</p>
-            </div>
-        </div>
+
         <div class="validators">
-            <v-tabs class="tabs" @change="typeChange">
-                <v-tab>Active</v-tab>
-                <v-tab>Pending</v-tab>
-            </v-tabs>
+            <div class="meta_data">
+                <div>
+                    <p class="label">Total {{validatorType}} Stake Amount</p>
+                    <p>{{totalStake}} $AVA</p>
+
+                </div>
+                <div>
+                    <p class="label">Number of Valdiators</p>
+                    <p>{{validators.length}}</p>
+                </div>
+                <v-tabs class="tabs" @change="typeChange">
+                    <v-tab>Active</v-tab>
+                    <v-tab>Pending</v-tab>
+                </v-tabs>
+            </div>
+
             <div class="headers">
                 <p style="text-align: center;">Rank</p>
                 <p>Validator</p>
                 <p style="text-align: right;">Stake</p>
                 <p style="text-align: right;">Comulative Stake</p>
-                <p style="text-align: right;">Commission</p>
+<!--                <p style="text-align: right;">Commission</p>-->
             </div>
             <div v-if="validators.length === 0" class="empty">
                 <p>No Validators</p>
@@ -107,7 +114,7 @@
 
     .headers{
         display: grid;
-        grid-template-columns: 70px 1fr 1fr 1fr 1fr;
+        grid-template-columns: 70px 1fr 1fr 1fr;
         font-size: 12px;
         font-weight: bold;
 
@@ -119,8 +126,8 @@
     .meta_data{
         display: grid;
         width: 100%;
-        grid-template-columns: 1fr;
-        margin-bottom: 30px;
+        grid-template-columns: 1fr 1fr max-content;
+        /*margin-bottom: 30px;*/
 
         > div{
             padding: 15px;

@@ -9,16 +9,16 @@
             <p>{{validator.id}}</p>
         </div>
         <div class="stake_col">
-            <p>{{stakeAmountText}}</p>
+            <p>{{stakeAmountText}} AVA</p>
             <p>{{stakePercText}}%</p>
         </div>
         <div class="comm_col">
             <p>{{cumulativePercText}}%</p>
             <comulative-bar :total="totalStake" :accumulated="cumulativeStake" :amount="stakeAmount"></comulative-bar>
         </div>
-        <div class="commission_col">
-            <p>4%</p>
-        </div>
+<!--        <div class="commission_col">-->
+<!--            <p>4%</p>-->
+<!--        </div>-->
     </div>
 </template>
 <script>
@@ -104,7 +104,7 @@
 
     .validator{
         display: grid;
-        grid-template-columns: 70px 1fr 1fr 1fr 1fr;
+        grid-template-columns: 70px 1fr 1fr 1fr;
 
         > div{
             text-align: center;
