@@ -6,11 +6,11 @@
             <div class="cards">
                 <div class="card">
                     <img src="@/assets/resources_view/Wallet.png">
-                    <h4>Wallet</h4>
+                    <h4>Wallet & Faucet</h4>
                     <p>Used to receive and spend cryptoassets</p>
                     <div class="buts">
-                        <button>Top Accounts</button>
-                        <button>Verified Contracts</button>
+                        <a href="https://wallet.ava.network" target="_blank">Wallet</a>
+                        <a href="https://faucet.ava.network" target="_blank">Faucet</a>
                     </div>
                 </div>
 
@@ -20,30 +20,29 @@
                     <h4>Learning Resources</h4>
                     <p>Learn more about blockchain basics</p>
                     <div class="buts">
-                        <button>Top Accounts</button>
-                        <button>Verified Contracts</button>
+                        <a href="https://docs.ava.network/" target="_blank">Documentation</a>
+                        <a href="https://github.com/ava-labs" target="_blank">Github</a>
                     </div>
                 </div>
 
 
                 <div class="card">
                     <img src="@/assets/resources_view/Blog.png">
-                    <h4>Blog</h4>
+                    <h4>Social</h4>
                     <p>Get close to the community</p>
                     <div class="buts">
-                        <button>Top Accounts</button>
-                        <button>Verified Contracts</button>
+                        <a href="https://discord.com/invite/Ja3CSs7" target="_blank">Discord</a>
+                        <a href="https://twitter.com/avalabsofficial" target="_blank">Twitter</a>
                     </div>
                 </div>
 
 
-                <div class="card">
+                <div class="card ava_x">
                     <img src="@/assets/resources_view/ice_cream.png">
-                    <h4>Other</h4>
-                    <p>Extra resources</p>
+                    <h4>AVA-X</h4>
+                    <p>Apply for grants to build on AVA.</p>
                     <div class="buts">
-                        <button>Top Accounts</button>
-                        <button>Verified Contracts</button>
+                        <a href="https://www.avalabs.org/ava-x" target="_blank">Apply for Grants</a>
                     </div>
                 </div>
             </div>
@@ -113,17 +112,22 @@
             grid-gap: 20px;
         }
 
-        button{
+        button, a{
             padding: 6px 0;
             border-radius: 4px;
             background-color: #fff;
             border: none;
             outline: none;
             color: #7A838E;
+            text-align: center;
+            text-decoration: none;
+            font-size: 12px;
             box-shadow: 0px 1px #B5BAC088;
         }
     }
-
+    .ava_x .buts{
+        grid-template-columns: 1fr;
+    }
 
     .found_more{
         margin: 30px;
