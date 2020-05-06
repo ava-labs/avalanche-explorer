@@ -30,7 +30,7 @@
 <!--                <div class="avatar"></div>-->
             </div>
             <div class="row">
-                <search-bar class="search_bar" placeholder="Search by Address / TxId / BlockId / AssetId" @search="onsearch"></search-bar>
+                <search-bar class="search_bar" placeholder="Search by Address / TxId / Asset" @search="onsearch"></search-bar>
             </div>
         </div>
     </v-app-bar>
