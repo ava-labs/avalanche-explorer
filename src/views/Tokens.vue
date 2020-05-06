@@ -7,7 +7,7 @@
                 <p>ID</p>
                 <p>Chain</p>
                 <p class="denomination">Denomination</p>
-                <p>Supply</p>
+                <p class="supply">Supply</p>
             </div>
             <token v-for="token in tokens" :key="token.id" class="token_row" :token="token"></token>
         </div>
@@ -24,13 +24,6 @@
         data(){
             return {
             }
-        },
-        created() {
-            let parent = this;
-            // axios.get('/x/assets').then(res => {
-            //     parent.tokens = res.data;
-            //     console.log(res);
-            // });
         },
         computed: {
             tokens(){
@@ -74,5 +67,9 @@
         text-align: center;
     }
 
+
+    .supply{
+        text-align: right;
+    }
 
 </style>

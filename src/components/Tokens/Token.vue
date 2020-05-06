@@ -8,15 +8,22 @@
 
         <p class="chain">{{token.chainID}}</p>
         <p class="denomination">{{token.denomination}}</p>
-        <p class="supply">{{token.currentSupply}}</p>
+        <p class="supply">{{supply}} <span>{{token.symbol}}</span></p>
     </div>
 </template>
 <script>
+    import {stringToBig} from "../../helper";
+
     export default {
         props: {
             token: {
                 type: Object,
                 required: true
+            }
+        },
+        computed: {
+            supply(){
+                return stringToBig(this.token.currentSupply, this.token.denomination);
             }
         }
     }
@@ -62,5 +69,16 @@
     .data_col{
         display: flex;
         flex-direction: column;
+    }
+
+    .supply{
+        text-align: right;
+        font-size: 16px !important;
+        display: flex;
+        flex-direction: column;
+        span{
+            font-size: 14px;
+            opacity: 0.4;
+        }
     }
 </style>
