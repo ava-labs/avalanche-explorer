@@ -3,7 +3,7 @@
         <div class="info_col">
             <div  class="to" v-for="(addr,i) in addresses" :key="i">
                 <p class="bold"><b>To</b> </p>
-                <router-link class="addr" :to="`/address/`+addr">X-{{addr}}</router-link>
+                <router-link class="addr" :to="`/address/`+addr">{{addr | address}}</router-link>
             </div>
         </div>
 
@@ -16,8 +16,14 @@
 </template>
 <script>
     import Big from "big.js";
+    import { addressMap } from "@/helper";
 
     export default {
+        filters: {
+            address(val){
+                return addressMap(val);
+            }
+        },
         props: {
             output: {
                 type: Object,

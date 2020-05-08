@@ -1,4 +1,7 @@
 export interface RootState {
     assets: any,
-    chainId: string
+    chainId: string,
+    known_addresses: {
+        [key:string]: string
+    }
 }

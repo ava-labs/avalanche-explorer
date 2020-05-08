@@ -146,7 +146,7 @@
                         res = '5m';
                         break;
                     case 'minute':
-                        res = '5s';
+                        res = '1s';
                         break;
                 }
                 return res;
@@ -198,7 +198,7 @@
                     case '5m':
                         res = 'HH:mm';
                         break;
-                    case '5s':
+                    case '1s':
                         res = 'mm:ss';
                         break;
                 }

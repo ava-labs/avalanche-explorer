@@ -7,6 +7,7 @@ import api from '../axios';
 import {Asset} from "@/js/Asset";
 
 import {RootState} from "@/store/types";
+import AddressDict from '@/known_addresses';
 
 import Platform from './modules/platform/platform';
 
@@ -16,6 +17,7 @@ export default new Vuex.Store({
     },
     state: {
         assets: {},
+        known_addresses: AddressDict,
         chainId: 'X',
     },
     getters: {
@@ -33,6 +35,7 @@ export default new Vuex.Store({
     actions: {
         init(store){
 
+            console.log(AddressDict);
             api.get('/x/assets').then( res => {
 
                 let assets = res.data.assets;

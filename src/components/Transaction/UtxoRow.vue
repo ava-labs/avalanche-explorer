@@ -9,7 +9,7 @@
             <router-link v-for="(addr, i) in utxo.addresses"
                          :to="`/address/${addr}`"
                          :key="i">
-                X-{{addr}}
+                {{addr | address}}
             </router-link>
         </div>
         <div class="col_amount">
@@ -18,9 +18,14 @@
     </div>
 </template>
 <script>
-    import {stringToBig} from "../../helper";
+    import {addressMap, stringToBig} from "../../helper";
 
     export default {
+        filters: {
+            address(val){
+                return addressMap(val);
+            }
+        },
         props: {
             utxo: {
                 type: Object,

@@ -2,12 +2,19 @@
     <div>
         <div class="from" v-for="addr in addresses" :key="addr">
             <p class="bold" ><b>From</b></p>
-            <router-link class="addr" :to="`/address/${addr}`">X-{{addr}}</router-link>
+            <router-link class="addr" :to="`/address/${addr}`">{{addr | address}}</router-link>
         </div>
     </div>
 </template>
 <script>
+    import { addressMap } from "@/helper";
+
     export default {
+        filters: {
+            address(val){
+                return addressMap(val);
+            }
+        },
         props: {
             input: {
                 type: Object,
@@ -19,8 +26,9 @@
         },
         computed: {
             addresses(){
-                return this.input.output.addresses;
-            }
+                let res = this.input.output.addresses;
+                return res;
+            },
         }
     }
 </script>

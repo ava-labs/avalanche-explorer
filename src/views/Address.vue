@@ -4,7 +4,7 @@
             <h1>Address Details</h1>
             <div class="meta_row">
                 <p class="label">Address</p>
-                <p class="addr"><b>X-{{address}}</b></p>
+                <p class="addr"><b>X-{{address}}</b> <span v-if="alias">{{alias}}</span></p>
             </div>
             <div class="meta_row">
                 <p class="label">Balance</p>
@@ -43,6 +43,7 @@
     import TxTable from "../components/AddressDetail/TxTable";
     import Big from "big.js";
     import {stringToBig} from "../helper";
+    import AddressDict from '@/known_addresses';
 
     export default {
         components: {
@@ -86,6 +87,12 @@
             this.updateData();
         },
         computed: {
+            alias(){
+                if(AddressDict[this.address]){
+                    return AddressDict[this.address]
+                }
+                return '';
+            },
             orderedTx(){
                 let txs = this.transactions;
                 txs.sort((a,b) => {
@@ -197,10 +204,18 @@
 
 
     .addr{
-        overflow: hidden;
         text-overflow: ellipsis;
         word-break: keep-all;
         white-space: nowrap;
+
+        span{
+            background-color: #e6ffe6;
+            border: 1px solid #56C18D;
+            color: #56C18D;
+            width: max-content;
+            padding: 4px 8px;
+            margin: 0px 30px;
+        }
     }
 
     @media only screen and (max-width: main.$mobile_width) {

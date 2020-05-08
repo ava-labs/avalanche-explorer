@@ -6,7 +6,6 @@
             :height="100"
             flat
             dense
-            hide-on-scroll
             :style="{
                 backgroundColor: navColor
             }"

@@ -1,18 +1,23 @@
 <template>
     <div class="blockchain">
+        <div class="meta_data">
+            <div>
+                <p class="label">Total {{validatorType}} Stake Amount</p>
+                <p>{{totalStake}} $AVA</p>
 
+            </div>
+            <div>
+                <p class="label">Number of Validators</p>
+                <p>{{validators.length}}</p>
+            </div>
+
+        </div>
         <div class="validators">
-            <div class="meta_data">
-                <div>
-                    <p class="label">Total {{validatorType}} Stake Amount</p>
-                    <p>{{totalStake}} $AVA</p>
 
-                </div>
-                <div>
-                    <p class="label">Number of Valdiators</p>
-                    <p>{{validators.length}}</p>
-                </div>
-                <v-tabs class="tabs" @change="typeChange">
+            <div class="search_tabs">
+                <p>Validators</p>
+                <input class="search" type="text" v-model="search" placeholder="Search validator..">
+                <v-tabs class="tabs" @change="typeChange" active-class="tab_active" height="32" hide-slider>
                     <v-tab>Active</v-tab>
                     <v-tab>Pending</v-tab>
                 </v-tabs>
@@ -22,7 +27,7 @@
                 <p style="text-align: center;">Rank</p>
                 <p>Validator</p>
                 <p style="text-align: right;">Stake</p>
-                <p style="text-align: right;">Comulative Stake</p>
+                <p style="text-align: right;">Cumulative Stake</p>
 <!--                <p style="text-align: right;">Commission</p>-->
             </div>
             <div v-if="validators.length === 0" class="empty">
@@ -34,14 +39,17 @@
 </template>
 <script>
     import ValidatorRow from "../components/rows/ValidatorRow/ValidatorRow";
+    // import Input from "../components/Transaction/Input";
 
     export default {
         data(){
             return {
+                search: '',
                 validatorType: 'active', // active | pending
             }
         },
         components: {
+            // Input,
             ValidatorRow
         },
         methods: {
@@ -55,6 +63,7 @@
         },
         computed:{
             validators(){
+                let parent = this;
                 let vals = this.$store.state.Platform.validators;
 
                 if(this.validatorType === 'pending'){
@@ -74,6 +83,15 @@
                     }
 
                     return 0;
+                });
+
+                vals = vals.filter((val) => {
+                    if(parent.search){
+                        if(!val.id.includes(parent.search)){
+                            return false;
+                        }
+                    }
+                    return true;
                 });
                 return vals;
             },
@@ -102,6 +120,12 @@
 <style scoped lang="scss">
     @use '../main';
 
+    .meta_data{
+        background-color: #fff;
+        border-radius: 6px;
+        padding: 30px;
+        margin-bottom: 30px;
+    }
 
     .validators{
         background-color: #fff;
@@ -109,7 +133,12 @@
         padding: 30px;
     }
     .validator{
-        border-bottom: 1px solid #E7E7E7;
+        border-top: 1px solid #E7E7E7;
+
+
+        &:nth-of-type(2n){
+            background-color: #F1F9FF;
+        }
     }
 
     .headers{
@@ -149,11 +178,7 @@
     }
 
 
-    .tabs{
-        display: flex;
-        flex-direction: row-reverse;
-        margin-bottom: 30px;
-    }
+
 
     .empty{
         text-align: center;
@@ -163,6 +188,52 @@
     }
 
 
+    .search_tabs{
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-bottom: 30px;
+
+        >p{
+            flex-grow: 1;
+            font-weight: bold;
+        }
+    }
+
+    .tabs{
+        /*display: flex;*/
+        flex-direction: row-reverse;
+        display: inline-block;
+        width: max-content;
+        flex-grow: 0;
+    }
+
+    .v-tab{
+        color: #000 !important;
+        border: 1px solid #000;
+        background-color: transparent;
+        font-size: 13px;
+        margin: 0px 5px;
+        border-radius: 4px;
+        text-transform: none;
+    }
+
+    .tab_active{
+        background-color: #000;
+        color: #fff !important;
+    }
+
+
+    .search{
+        border: 1px solid #D6DAE1;
+        height: 32px;
+        width: 320px;
+        box-sizing: border-box;
+        border-radius: 4px;
+        padding: 0px 12px;
+        outline: none;
+        margin-right: 10px;
+    }
     @media only screen and (max-width: main.$mobile_width) {
         .validators{
             padding: 5px;

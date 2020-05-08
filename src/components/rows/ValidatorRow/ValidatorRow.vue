@@ -16,9 +16,6 @@
             <p>{{cumulativePercText}}%</p>
             <comulative-bar :total="totalStake" :accumulated="cumulativeStake" :amount="stakeAmount"></comulative-bar>
         </div>
-<!--        <div class="commission_col">-->
-<!--            <p>4%</p>-->
-<!--        </div>-->
     </div>
 </template>
 <script>
@@ -120,16 +117,26 @@
             font-size: 12px;
             overflow: hidden;
         }
+
+        &:nth-child(-n+10){
+            .rank > div{
+                background-color: #71C5FF;
+                color: #fff;
+            }
+        }
     }
 
 
     .rank{
         >div{
-            /*background-color: #56C18D;*/
+            background-color: #EAECF0;
+            color: #000;
             width: 40px;
             height: 40px;
             border-radius: 40px;
             line-height: 40px;
+
+
         }
 
         p{

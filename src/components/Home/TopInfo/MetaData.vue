@@ -103,7 +103,11 @@ import {stringToBig} from "@/helper";
             avaVolume(){
                 console.log(this.$store.state);
                 let assets =this.$store.state.assets;
-                let ava = assets['21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA']
+                let ava = assets['21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA'];
+
+                if(!ava){
+                    return 0;
+                }
 
                 let res = stringToBig(1214999998627353340, ava.denomination);
                 return parseInt(res.toFixed(0)).toLocaleString();
