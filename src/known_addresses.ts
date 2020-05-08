@@ -1,8 +1,8 @@
 interface AddressDict {
-  [key:string]: string
+  [key: string]: string
 }
 
-let dict:AddressDict = {
+let dict: AddressDict = {
   "6cesTteH62Y5mLoDBUASaBvCXuL2AthL": "AVA Faucet"
 };
 
