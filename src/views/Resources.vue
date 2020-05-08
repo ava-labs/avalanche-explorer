@@ -116,7 +116,7 @@
             background-color: #fff;
             border: none;
             outline: none;
-            color: #7A838E;
+            color: #7A838E !important;
             text-align: center;
             text-decoration: none;
             font-size: 12px;

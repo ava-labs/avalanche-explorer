@@ -86,7 +86,7 @@
 
         a{
             font-weight: lighter;
-            color: #fff;
+            color: #fff !important;
             margin-bottom: 14px;
             text-decoration: none;
 

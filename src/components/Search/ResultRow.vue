@@ -2,7 +2,7 @@
     <address-row v-if="type==='address'" :address="result"></address-row>
     <tx-row v-else-if="type==='transaction'" :transaction="result.data"></tx-row>
     <asset-row v-else-if="type==='asset'" :token="result.data"></asset-row>
-    <utxo-row v-else :utxo="result.data"></utxo-row>
+<!--    <utxo-row v-else :utxo="result.data"></utxo-row>-->
 </template>
 <script>
     import TxRow from "../rows/TxRow/TxRow";
@@ -15,7 +15,7 @@
             AddressRow,
             TxRow,
             AssetRow,
-            UtxoRow
+            // UtxoRow
         },
         props: {
             query: {
