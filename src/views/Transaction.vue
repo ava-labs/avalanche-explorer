@@ -395,8 +395,9 @@
         }
 
         .meta_row {
-            /*grid-template-columns: none;*/
-            /*grid-template-rows: 1fr 1fr;*/
+            padding: 10px;
+            grid-template-columns: none;
+            grid-template-rows: 1fr 1fr;
         }
 
         .io{
@@ -408,6 +409,11 @@
         }
 
         .data_row{
+        }
+
+        .label{
+            font-weight: bold !important;
+            margin-bottom: 8px;
         }
     }
 </style>

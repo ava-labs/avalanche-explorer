@@ -78,7 +78,7 @@ import {stringToBig} from "@/helper";
             axios.get(`/x/transactions/aggregates?startTime=${startTime}&endTime=${endTime}`).then(res => {
                 // const list = res.data;
                 // parent.transactions = list;
-                console.log(res);
+                // console.log(res);
                 parent.avaTxCount = res.data.aggregates.transactionCount;
             });
         },
@@ -101,7 +101,7 @@ import {stringToBig} from "@/helper";
                 return this.$store.state.Platform.validators.length;
             },
             avaVolume(){
-                console.log(this.$store.state);
+                // console.log(this.$store.state);
                 let assets =this.$store.state.assets;
                 let ava = assets['21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA'];
 

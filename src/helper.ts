@@ -3,7 +3,7 @@ import Big from 'big.js';
 import AddressDict from './known_addresses';
 
 
-function stringToBig(raw: string, denomination = 0){
+function stringToBig(raw: string, denomination = 0): Big{
     return Big(raw).div(Math.pow(10,denomination));
 }
 

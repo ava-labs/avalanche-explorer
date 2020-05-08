@@ -112,19 +112,20 @@
             },
             balance(){
                 if(!this.metaData) return Big(0);
-                return stringToBig(this.metaData.balance, 9);
+                return stringToBig(this.metaData.balance, 9).toFixed(9);
                 // return Big(this.metaData.balance);
             },
             txCount(){
                 return this.metaData.transactionCount;
             },
             totalReceived(){
-                return stringToBig(this.metaData.totalReceived, 9);
+                return stringToBig(this.metaData.totalReceived, 9).toFixed(9);
                 // return this.metaData.totalReceived;
             },
             totalSent(){
                 let total = this.metaData.totalSent;
-                return stringToBig(total, 9);
+                console.log(total)
+                return stringToBig(total, 9).toFixed(9);
             },
         }
     }
@@ -142,9 +143,6 @@
 <style scoped lang="scss">
     @use '../main';
 
-    .address_detail{
-        padding: main.$container_padding_l;
-    }
 
     .fade-enter-active, .fade-leave-active {
         transition: opacity .3s;
@@ -219,15 +217,15 @@
     }
 
     @media only screen and (max-width: main.$mobile_width) {
-        .address_detail{
-            padding: main.$container_padding_mobile;
-        }
-
         .meta{
             padding: 15px;
         }
 
         .meta_row{
+            padding: 8px;
+        }
+
+        .transactions{
             padding: 8px;
         }
     }

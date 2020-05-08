@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <div class="bg">
+<!--    <div class="bg">-->
 <!--      <img src="@/assets/bg_black.png">-->
-    </div>
+<!--    </div>-->
     <nav-bar class="navbar"></nav-bar>
     <v-content class="content">
       <router-view class="router_view"></router-view>

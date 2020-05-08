@@ -120,12 +120,6 @@
 <style scoped lang="scss">
     @use '../main';
 
-    .meta_data{
-        background-color: #fff;
-        border-radius: 6px;
-        padding: 30px;
-        margin-bottom: 30px;
-    }
 
     .validators{
         background-color: #fff;
@@ -156,10 +150,14 @@
         display: grid;
         width: 100%;
         grid-template-columns: 1fr 1fr max-content;
+        background-color: #fff;
+        border-radius: 6px;
+        /*padding: 30px;*/
+        margin-bottom: 30px;
         /*margin-bottom: 30px;*/
 
         > div{
-            padding: 15px;
+            padding: 30px;
             text-align: left;
             line-height: 1.4em;
         }
@@ -239,6 +237,23 @@
             padding: 5px;
         }
 
+        .search_tabs{
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: baseline;
+        }
+
+        .tabs {
+            width: 100%;
+        }
+        .v-tab {
+            flex-grow: 1;
+        }
+
+        .search{
+            margin: 10px 0px;
+            width: 100%;
+        }
 
         .meta_data{
             grid-template-columns: none;
@@ -246,11 +261,8 @@
 
             > div{
                 text-align: left;
-
+                padding: 10px;
             }
-
-
-
         }
     }
 </style>
