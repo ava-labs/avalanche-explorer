@@ -34,7 +34,7 @@
 
 
             <div class="meta_row" v-if="!isAssetGenesis">
-                <p class="label">Input UTXOs ({{inputs.length}})</p>
+                <p class="label">Input UTXOs</p>
                 <div v-if="inputs.length > 0">
                     <div class="utxo_headers">
                         <p>Tx</p>
@@ -46,13 +46,13 @@
                     <utxo-row class="io_item" v-for="(input, i) in inputs" :key="i" :utxo="input" type="input"></utxo-row>
                 </div>
                 <div v-else>
-                    <p>No input utxos found for this transaction.</p>
+                    <p>No input utxos found for this transaction on the explorer.</p>
                 </div>
             </div>
 
 
             <div class="meta_row">
-                <p class="label">Output UTXOs ({{outputs.length}})</p>
+                <p class="label">Output UTXOs</p>
                 <div v-if="outputs.length > 0">
                     <div class="utxo_headers">
                         <p>Tx</p>
