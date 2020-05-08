@@ -329,7 +329,8 @@
                             },
                             ticks: {
                                 autoSkip: true,
-                                maxTicksLimit: 3
+                                maxTicksLimit: 3,
+                                maxRotation: 0,
                             }
                         }],
                         yAxes: [{
