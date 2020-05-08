@@ -121,10 +121,10 @@
     .view_all{
         display: block;
         width: max-content;
-        text-decoration: none;
+        text-decoration: none !important;
         margin: 30px;
         background-color: #000;
-        color: #fff;
+        color: #fff !important;
         padding: 12px 24px;
         font-size: 12px;
         border-radius: 4px;

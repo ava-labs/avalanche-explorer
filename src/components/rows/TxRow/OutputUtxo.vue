@@ -65,7 +65,7 @@
             text-overflow: ellipsis;
             overflow: hidden;
             padding-left: 0;
-            color: #7A838E;
+            color: #7A838E !important;
             font-family: monospace;
             text-decoration: none;
         }

@@ -21,9 +21,9 @@ const routes = [
     component: () => import(/* webpackChunkName: "resources" */ '../views/Resources.vue')
   },
   {
-    path: '/blockchain',
-    name: 'Blockchain',
-    component: () => import(/* webpackChunkName: "blockchain" */ '../views/Blockchain.vue')
+    path: '/validators',
+    name: 'Validators',
+    component: () => import(/* webpackChunkName: "blockchain" */ '../views/Validators.vue')
   },
     {
     path: '/search',

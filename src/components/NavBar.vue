@@ -22,7 +22,7 @@
             <div class="row" style="display: flex">
                 <div class="routes">
                     <router-link to="/">Home</router-link>
-                    <router-link to="/blockchain">Blockchain</router-link>
+                    <router-link to="/validators">Validators</router-link>
                     <router-link to="/tokens">Tokens</router-link>
                     <router-link to="/resources">Resources</router-link>
 <!--                    <router-link to="/developers">Developers</router-link>-->
@@ -102,7 +102,7 @@
             align-items: center;
             flex-direction: row;
             height: 100%;
-            color: #000;
+            color: #000 !important;
             text-decoration: none;
         }
 

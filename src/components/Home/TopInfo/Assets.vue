@@ -2,9 +2,12 @@
     <div>
         <h4>Highest Volume Assets (Past 24Hr)</h4>
         <div class="asset" v-for="(asset,i) in assets" :key="asset.id">
-            <p class="name">{{i+1}}. {{asset.name}}</p>
-            <p class="chain">{{asset.chainID}}</p>
-            <p class="change">+ 21.4%</p>
+            <p>{{i+1}}.</p>
+<!--            <p class="name">{{asset.name}}</p>-->
+            <router-link :to="`/tx/${asset.id}`">{{asset.name}}</router-link>
+            <p class="chain">{{asset.symbol}}</p>
+<!--            <p class="chain">{{asset.volume_day}} Txs</p>-->
+            <p class="change">{{asset.txCount_day}} Tx</p>
         </div>
     </div>
 </template>
@@ -28,6 +31,21 @@
         computed:{
             assets(){
                 let res = this.$store.getters.assetsArray;
+
+                res.sort((a,b) => {
+                    let valA = a.txCount_day;
+                    let valB = b.txCount_day;
+
+                    if(valA < valB){
+                        return 1;
+                    }
+
+                    if(valA > valB){
+                        return -1;
+                    }
+
+                    return 0;
+                });
                 return res.slice(0,5);
             }
         }
@@ -39,9 +57,13 @@
     .asset{
         display: grid;
         column-gap: 10px;
-        grid-template-columns: 1fr 90px 70px;
+        grid-template-columns: max-content 1fr 60px 90px;
         margin-bottom: 8px;
         font-size: 12px;
+
+        > * {
+            align-self: center;
+        }
 
         p{
             text-overflow: ellipsis;

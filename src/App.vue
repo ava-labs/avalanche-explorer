@@ -88,7 +88,7 @@ export default Vue.extend({
         }
     }
 </style>
-<style>
+<style lang="scss">
     body{
         font-family: 'Helvetica';
         margin: 0;
@@ -97,7 +97,13 @@ export default Vue.extend({
     p{
         margin: 0;
     }
-    a{
-        color: #71C5FF;
+    .v-application a{
+        color: #71C5FF !important;
+        text-decoration: none;
+        font-weight: normal;
+
+        &:hover{
+            text-decoration: underline;
+        }
     }
 </style>

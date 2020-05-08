@@ -76,21 +76,21 @@
                 }
 
                 let outs = this.transaction.outputs;
-                let res = outs.filter((val,index) => {
-                    // console.log(val);
-                    let addrs = val.addresses;
-                    // if(addrs.length === 1){
-                    //     return true;
-                    // }
+                let res = outs;
+                if(outs.length > 1){
+                    res = outs.filter((val,index) => {
+                        let addrs = val.addresses;
 
-                    // If change UTXO then don't show
-                    let flag = false;
-                    addrs.forEach(addr => {
-                        if(senders.includes(addr)) flag = true;
+                        // If change UTXO then don't show
+                        let flag = false;
+                        addrs.forEach(addr => {
+                            if(senders.includes(addr)) flag = true;
+                        });
+                        if(flag) return false;
+                        return true
                     });
-                    if(flag) return false;
-                    return true
-                });
+                }
+
                 return res;
             },
             inputs(){

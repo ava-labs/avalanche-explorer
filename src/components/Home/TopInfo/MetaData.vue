@@ -2,16 +2,7 @@
     <div>
         <h4>Network Meta Data</h4>
         <div class="meta_data">
-<!--            <div class="meta">-->
-<!--                <img src="@/assets/ava_price.png">-->
-<!--                <div class="data">-->
-<!--                    <p class="meta_title">AVA Market Cap</p>-->
-<!--                    <div>-->
-<!--                        <p>$2.3B</p>-->
-<!--                        <p class="change">+ 24%</p>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
+
 
             <div class="meta">
                 <img src="@/assets/ava_transactions.png">
@@ -23,16 +14,29 @@
                 </div>
             </div>
 
-<!--            <div class="meta">-->
-<!--                <img src="@/assets/price.png">-->
-<!--                <div class="data">-->
-<!--                    <p class="meta_title">AVA Price</p>-->
-<!--                    <div>-->
-<!--                        <p>${{avaPrice.toFixed(2)}}</p>-->
+
+            <div class="meta">
+                <img src="@/assets/ava_price.png">
+                <div class="data">
+                    <p class="meta_title">AVA Volume (24h)</p>
+                    <div>
+                        <p>{{avaVolume}}</p>
 <!--                        <p class="change">+ 24%</p>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="meta">
+                <img src="@/assets/validators.png">
+                <div class="data">
+                    <p class="meta_title">Number of Valdiators</p>
+                    <div>
+                        <p>{{valdiatorCount}}</p>
+<!--                        <p class="change">+ 24%</p>-->
+                    </div>
+                </div>
+            </div>
 
 
             <div class="meta">
@@ -44,6 +48,8 @@
                     </div>
                 </div>
             </div>
+
+
         </div>
     </div>
 </template>
@@ -88,7 +94,19 @@ import {stringToBig} from "@/helper";
             },
             totalStake(){
                 let res =  this.$store.getters['Platform/totalStakeAmount'];
-                return stringToBig(res,9).toFixed(0)
+                    res = stringToBig(res,9).toFixed(0);
+                return parseInt(res).toLocaleString();
+            },
+            valdiatorCount(){
+                return this.$store.state.Platform.validators.length;
+            },
+            avaVolume(){
+                console.log(this.$store.state);
+                let assets =this.$store.state.assets;
+                let ava = assets['21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA']
+
+                let res = stringToBig(1214999998627353340, ava.denomination);
+                return parseInt(res.toFixed(0)).toLocaleString();
             }
         }
     }
@@ -98,7 +116,7 @@ import {stringToBig} from "@/helper";
     .meta_data{
         display: grid;
         grid-template-columns: minmax(0,1fr) minmax(0,1fr);
-        row-gap: 30px;
+        row-gap: 15px;
         column-gap: 30px;
         padding: 10px 0px;
         /*display: flex;*/
@@ -107,21 +125,15 @@ import {stringToBig} from "@/helper";
 
 
         .meta{
-            display: grid;
-            grid-template-columns: 35px 1fr;
+            /*display: grid;*/
+            /*grid-template-columns: 35px 1fr;*/
             font-size: 12px;
-            column-gap: 10px;
+            /*column-gap: 10px;*/
             margin: 1px;
             margin-bottom: 20px;
             display: flex;
             flex-grow: 1;
             justify-content: flex-start;
-
-            /*&:nth-of-type(2n){*/
-            /*    justify-content: flex-end;*/
-            /*}*/
-
-
 
             img{
                 /*width: 100%;*/
@@ -129,10 +141,12 @@ import {stringToBig} from "@/helper";
                 height: 35px;
                 max-height: 35px;
                 object-fit: contain;
+                margin-right: 10px;
             }
 
             .meta_title{
                 font-weight: bold;
+                /*white-space: nowrap;*/
             }
 
             .data > div{

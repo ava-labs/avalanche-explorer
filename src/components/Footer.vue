@@ -12,7 +12,7 @@
         <div class="list">
             <h4>Menu</h4>
             <router-link to="/">Home</router-link>
-            <router-link to="/blockchain">Blockchain</router-link>
+            <router-link to="/validators">Validators</router-link>
             <router-link to="/tokens">Tokens</router-link>
             <router-link to="/resources">Resources</router-link>
 <!--            <router-link to="/developers">Developers</router-link>-->

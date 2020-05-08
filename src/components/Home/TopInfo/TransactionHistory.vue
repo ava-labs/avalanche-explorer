@@ -1,7 +1,7 @@
 <template>
     <div class="tx_history">
         <div class="header">
-            <h4>AVA Transaction History</h4>
+            <h4>Transaction History</h4>
             <div class="history_settings">
                 <button :active="scope===options[0]" @click="setScope(options[0])">Yr</button>
                 <button :active="scope===options[1]" @click="setScope(options[1])">Mo</button>
@@ -140,7 +140,7 @@
                         res = 'day';
                         break;
                     case 'day':
-                        res = '2h';
+                        res = 'hour';
                         break;
                     case 'hour':
                         res = '5m';
@@ -190,16 +190,16 @@
                         }
                         break;
                     case '2h':
-                        res = 'HH';
+                        res = 'HH:mm';
                         break;
                     case 'hour':
-                        res = 'HH';
+                        res = 'HH:mm';
                         break;
                     case '5m':
-                        res = 'mm';
+                        res = 'HH:mm';
                         break;
                     case '5s':
-                        res = 'ss';
+                        res = 'mm:ss';
                         break;
                 }
                 return res;
@@ -326,11 +326,21 @@
                         xAxes: [{
                             gridLines: {
                                 color: "rgba(0, 0, 0, 0.03)",
+                            },
+                            ticks: {
+                                autoSkip: true,
+                                maxTicksLimit: 3
                             }
                         }],
                         yAxes: [{
                             gridLines: {
                                 color: "rgba(0, 0, 0, 0.03)",
+                            },
+                            ticks: {
+                                autoSkip: true,
+                                maxTicksLimit: 3,
+                                precision: 0,
+                                min: 0
                             }
                         }],
                     }

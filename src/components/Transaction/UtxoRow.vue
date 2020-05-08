@@ -9,7 +9,7 @@
             <router-link v-for="(addr, i) in utxo.addresses"
                          :to="`/address/${addr}`"
                          :key="i">
-                {{addr}}
+                X-{{addr}}
             </router-link>
         </div>
         <div class="col_amount">
@@ -69,6 +69,7 @@
         word-break: keep-all;
         overflow: hidden;
         text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .col_amount{
