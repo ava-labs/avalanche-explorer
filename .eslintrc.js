@@ -19,6 +19,7 @@ module.exports = {
     "no-console": "off",
     " @typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-unused-vars": "off",
-    "@typescript-eslint/type-annotation-spacing": "off"
+    "@typescript-eslint/type-annotation-spacing": "off",
+    "@typescript-eslint/member-delimiter-style": "off"
   }
 }
