@@ -2,13 +2,18 @@
     <div class="blockchain">
         <div class="meta_data">
             <div>
-                <p class="label">Total {{validatorType}} Stake Amount</p>
-                <p>{{totalStake}} $AVA</p>
-
+                <img src="@/assets/ava_price.png">
+                <div>
+                    <p class="label">Total {{validatorType}} Stake Amount</p>
+                    <p class="meta_val">{{totalStake}} AVA</p>
+                </div>
             </div>
             <div>
-                <p class="label">Number of Validators</p>
-                <p>{{validators.length}}</p>
+                <img src="@/assets/validators.png">
+                <div>
+                    <p class="label">Number of Validators</p>
+                    <p class="meta_val">{{validators.length}}</p>
+                </div>
             </div>
 
         </div>
@@ -87,7 +92,9 @@
 
                 vals = vals.filter((val) => {
                     if(parent.search){
-                        if(!val.id.includes(parent.search)){
+                        let idUpper = val.id.toUpperCase()
+                        let queryUpper = parent.search.toUpperCase();
+                        if(!idUpper.includes(queryUpper)){
                             return false;
                         }
                     }
@@ -156,10 +163,19 @@
         margin-bottom: 30px;
         /*margin-bottom: 30px;*/
 
+
+        img{
+            object-fit: contain;
+            width: 40px;
+            margin-right: 15px;
+        }
         > div{
             padding: 30px;
             text-align: left;
             line-height: 1.4em;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
         }
 
         p{
@@ -232,6 +248,11 @@
         outline: none;
         margin-right: 10px;
     }
+
+    .meta_val{
+        font-weight: lighter !important;
+    }
+
     @media only screen and (max-width: main.$mobile_width) {
         .validators{
             padding: 5px;

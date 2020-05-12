@@ -1,10 +1,18 @@
 <template>
     <div class="pagination_control">
-        <button @click="page=1">First</button>
-        <button @click="pageDown">&#60;</button>
+        <button @click="page=1" :class="{
+            'disabled': page==1
+        }">First</button>
+        <button @click="pageDown" :class="{
+            'disabled': page==1
+        }">&#60;</button>
         <p class="disabled">Page <b>{{page}}</b> of <b>{{totalPages}}</b></p>
-        <button @click="pageUp">&#62;</button>
-        <button @click="page=totalPages">Last</button>
+        <button @click="pageUp" :class="{
+            'disabled': page==totalPages
+        }">&#62;</button>
+        <button @click="page=totalPages" :class="{
+            'disabled': page==totalPages
+        }">Last</button>
     </div>
 </template>
 <script>

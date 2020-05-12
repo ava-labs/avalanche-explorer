@@ -60,9 +60,9 @@
             },
             stakeAmountText(){
                 let amount = this.validator.stakeAmount;
-                let res = stringToBig(amount,9);
+                let res = stringToBig(amount,9).toFixed(9);
 
-                return res.toLocaleString();
+                return res;
             },
             stakeAmountSymbol(){
                 let amount = this.validator.stakeAmount;
@@ -118,12 +118,12 @@
             overflow: hidden;
         }
 
-        &:nth-child(-n+10){
-            .rank > div{
-                background-color: #71C5FF;
-                color: #fff;
-            }
-        }
+        /*&:nth-child(-n+12){*/
+        /*    .rank > div{*/
+        /*        background-color: #71C5FF;*/
+        /*        color: #fff;*/
+        /*    }*/
+        /*}*/
     }
 
 
@@ -231,9 +231,10 @@
         /*justify-self: end;*/
         p{
             text-align: right;
+            padding: 2px 0;
 
             &:last-of-type{
-                opacity: 0.4;
+                font-weight: bold;
             }
         }
     }

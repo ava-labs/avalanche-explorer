@@ -1,12 +1,15 @@
 <template>
     <div class="all_transactions">
         <div class="card">
+            <h4>All Transactions</h4>
             <div class="bar">
                 <p class="count">{{totalTx}} transactions found</p>
                 <pagination-controls :total="totalTx" :limit="limit" @change="page_change"></pagination-controls>
             </div>
             <div class="rows">
-                <tx-row class="tx_item" v-for="tx in transactions" :transaction="tx" :key="tx.id"></tx-row>
+<!--                <transition-group name="fade">-->
+                    <tx-row class="tx_item" v-for="tx in transactions" :transaction="tx" :key="tx.id"></tx-row>
+<!--                </transition-group>-->
             </div>
         </div>
     </div>

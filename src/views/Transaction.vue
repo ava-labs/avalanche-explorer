@@ -47,7 +47,7 @@
                     <utxo-row class="io_item" v-for="(input, i) in inputs" :key="i" :utxo="input" type="input"></utxo-row>
                 </div>
                 <div v-else>
-                    <p>No input utxos found for this transaction on the explorer.</p>
+                    <p>No input UTXOs found for this transaction on the explorer.</p>
                 </div>
             </div>
 

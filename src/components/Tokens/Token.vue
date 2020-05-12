@@ -1,9 +1,8 @@
 <template>
     <div class="token_row">
-        <div class="data_col">
-            <p class="symbol">{{token.symbol}}</p>
-            <p class="name">{{token.name}}</p>
-        </div>
+        <p class="symbol">{{token.symbol}}</p>
+        <p class="name">{{token.name}}</p>
+
         <router-link class="id" :to="`/tx/${token.id}`">{{token.id}}</router-link>
 
         <p class="chain">{{token.chainID}}</p>
@@ -23,16 +22,15 @@
         },
         computed: {
             supply(){
-                return stringToBig(this.token.currentSupply, this.token.denomination);
+                return stringToBig(this.token.currentSupply, this.token.denomination).toFixed(this.token.denomination);
             }
         }
     }
 </script>
 <style scoped lang="scss">
+    @use '../../main';
+
     .token_row{
-
-
-
         > *{
             align-self: center;
         }
@@ -43,14 +41,17 @@
 
         p{
             overflow: hidden;
-            font-size: 13px;
+            font-size: 12px;
             text-overflow: ellipsis;
         }
     }
     .symbol{
-        /*color: #71C5FF;*/
-        /*width: 40px;*/
-        font-weight: bold;
+        background-color: #EBE4FB;
+        color: #976CFA;
+        padding: 6px 12px;
+        /*font-weight: bold;*/
+        text-align: center;
+        border-radius: 4px;
     }
     .name{
         opacity: 0.7;
@@ -73,12 +74,26 @@
 
     .supply{
         text-align: right;
-        font-size: 16px !important;
-        display: flex;
-        flex-direction: column;
         span{
+            display: inline-block;
+            width: 40px;
             font-size: 14px;
             opacity: 0.4;
+        }
+    }
+
+
+    @media only screen and (max-width: main.$mobile_width) {
+        .symbol{
+            padding: 2px;
+        }
+        .name{
+            grid-column: 2/4;
+        }
+
+        .supply{
+            grid-column: 1/4;
+            text-align: right;
         }
     }
 </style>

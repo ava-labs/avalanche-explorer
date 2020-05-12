@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h4>Network Meta Data</h4>
+        <h4>Network Metadata</h4>
         <div class="meta_data">
 
 
@@ -20,7 +20,7 @@
                 <div class="data">
                     <p class="meta_title">AVA Volume (24h)</p>
                     <div>
-                        <p>{{avaVolume}}</p>
+                        <p>{{avaVolume}} AVA</p>
 <!--                        <p class="change">+ 24%</p>-->
                     </div>
                 </div>

@@ -3,7 +3,8 @@
         <h1>Tokens</h1>
         <div class="token_list">
             <div class="grid_headers token_row">
-                <p>Symbol / Name</p>
+                <p>Symbol</p>
+                <p>Name</p>
                 <p>ID</p>
                 <p>Chain</p>
                 <p class="denomination">Denomination</p>
@@ -33,6 +34,8 @@
     }
 </script>
 <style scoped lang="scss">
+    @use '../main';
+
     h1{
         /*font-size: 12px;*/
         padding-left: 15px;
@@ -51,16 +54,21 @@
 
     .grid_headers{
         font-weight: bold;
+        font-size: 12px;
         /*overflow: hidden;*/
         /*text-overflow: ellipsis;*/
     }
 
     .token_row{
         display: grid;
-        grid-template-columns: 1fr 90px 90px 1fr 1fr;
-        padding: 15px 15px;
+        grid-template-columns: 60px 200px 90px 90px 90px 1fr;
+        padding: 5px 15px;
         border-bottom: 1px solid #E7E7E7;
         column-gap: 10px;
+
+        &:last-of-type{
+            border: none;
+        }
     }
 
     .denomination{
@@ -72,4 +80,17 @@
         text-align: right;
     }
 
+    @media only screen and (max-width: main.$mobile_width) {
+        .grid_headers{
+            display: none;
+        }
+
+        .token_list{
+            padding: 5px 0;
+        }
+
+        .token_row{
+            grid-template-columns: 50px 1fr 1fr;
+        }
+    }
 </style>
