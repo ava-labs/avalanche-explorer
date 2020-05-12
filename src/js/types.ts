@@ -1,36 +1,48 @@
 
 
+
+// The main Transaction type of the API
 export interface ApiTransaction {
     unsignedTx: {
         networkID: number,
         blockchainID: string
-        inputs: ApiTransactionInput[],
-        outputs: ApiTransactionOutput[]
     }
-    credentials: ApiCredential[]
+    inputs: ApiTransactionInput[],
+    outputs: ApiTransactionOutput[]
+    id: string,
+    timestamp: string,
+    type: string,
+    chainID: string
 }
 
 
+// Transaction Input type
 export interface ApiTransactionInput {
-    txID: string
-    outputIndex: number,
-    assetID: string,
-    input: {
-        amount: number,
-        signatureIndices: number[]
-    }
+    credentials: ApiCredential
+    output: ApiTransactionOutput
 }
 
+
+// Transaction Output type
 export interface ApiTransactionOutput {
+    addresses: string[],
+    amount: number,
     assetID: string,
-    output: {
-        amount: number,
-        locktime: number,
-        threshold: number,
-        addresses: string[]
-    }
+    id: string,
+    locktime: number,
+    outputIndex: number,
+    outputType: number,
+    redeemingTransactionID: string,
+    threshold: number,
+    timestamp: string,
+    transactionID: string
 }
+
+
+
 
 export interface ApiCredential {
-    signatures: number[][]
+    signature: string,
+    public_key: string,
+    address: string
 }

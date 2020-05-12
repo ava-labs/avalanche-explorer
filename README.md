@@ -1,24 +1,7 @@
-# dag-explorer
+# AVA Explorer
 
-## Project setup
-```
-yarn install
-```
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
 
-### Compiles and minifies for production
-```
-yarn build
-```
+## Known Addresses
 
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+The file `/src/known_addresses.ts` is a dictionary that maps an address to a name. This can be customized freely. 

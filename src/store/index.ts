@@ -4,40 +4,46 @@ import Vuex from 'vuex'
 Vue.use(Vuex);
 
 import api from '../axios';
+import {Asset} from "@/js/Asset";
 
+import {RootState} from "@/store/types";
+import AddressDict from '@/known_addresses';
+
+import Platform from './modules/platform/platform';
 
 export default new Vuex.Store({
-  state: {
-    recent_tx: [
-      {
-        id: 0,
-        from: "0x2378194792837123",
-        to: "0xF01238o9asdf4",
-        time: 926664348572
-      },
-      {
-        id: 1,
-        from: "0x2378194792837123",
-        to: "0xF01238o9asdf4",
-        time: 926664348572
-      },
-      {
-        id: 2,
-        from: "0x2378194792837123",
-        to: "0xF01238o9asdf4",
-        time: 926664348572
-      }
-    ],
-  },
-  mutations: {
-  },
-  actions: {
-    getRecentTx(){
-      api.get('/transactions/recent').then((res) => {
-        console.log(res);
-      });
-    }
-  },
-  modules: {
-  }
+    modules: {
+        Platform
+    },
+    state: {
+        assets: {},
+        known_addresses: AddressDict,
+        chainId: 'X',
+    },
+    getters: {
+        assetsArray(store: RootState){
+            let res = [];
+            for(let i in store.assets){
+                res.push(store.assets[i]);
+            }
+            return res;
+        }
+    },
+    mutations: {
+
+    },
+    actions: {
+        init(store){
+
+            console.log(AddressDict);
+            api.get('/x/assets').then( res => {
+
+                let assets = res.data.assets;
+                assets.forEach( (assetData: any) => {
+                    let asset = new Asset(assetData);
+                    Vue.set(store.state.assets,asset.id,asset);
+                });
+            })
+        }
+    },
 })
