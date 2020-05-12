@@ -40,7 +40,9 @@
             },
             amount(){
                 let amt = Big(this.output.amount);
-                return amt.div(Math.pow(10, this.asset.denomination)).toFixed(4);
+
+                let denom = Math.min(this.asset.denomination, 2);
+                return amt.div(Math.pow(10, this.asset.denomination)).toFixed(denom);
             }
         }
     }

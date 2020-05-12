@@ -30,7 +30,7 @@
             <div class="meta">
                 <img src="@/assets/validators.png">
                 <div class="data">
-                    <p class="meta_title">Number of Valdiators</p>
+                    <p class="meta_title">Number of <br>Validators</p>
                     <div>
                         <p>{{valdiatorCount}}</p>
 <!--                        <p class="change">+ 24%</p>-->
@@ -42,7 +42,7 @@
             <div class="meta">
                 <img src="@/assets/stake_amount.png">
                 <div class="data">
-                    <p class="meta_title">Total Stake Amount</p>
+                    <p class="meta_title">Total Stake <br>Amount</p>
                     <div>
                         <p>{{totalStake}} AVA</p>
                     </div>
@@ -101,7 +101,6 @@ import {stringToBig} from "@/helper";
                 return this.$store.state.Platform.validators.length;
             },
             avaVolume(){
-                // console.log(this.$store.state);
                 let assets =this.$store.state.assets;
                 let ava = assets['21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA'];
 
@@ -109,7 +108,7 @@ import {stringToBig} from "@/helper";
                     return 0;
                 }
 
-                let res = stringToBig(1214999998627353340, ava.denomination);
+                let res = stringToBig(ava.volume_day, ava.denomination);
                 return parseInt(res.toFixed(0)).toLocaleString();
             }
         }
@@ -120,7 +119,7 @@ import {stringToBig} from "@/helper";
     .meta_data{
         display: grid;
         grid-template-columns: minmax(0,1fr) minmax(0,1fr);
-        row-gap: 15px;
+        row-gap: 30px;
         column-gap: 30px;
         padding: 10px 0px;
         /*display: flex;*/
@@ -129,15 +128,11 @@ import {stringToBig} from "@/helper";
 
 
         .meta{
-            /*display: grid;*/
-            /*grid-template-columns: 35px 1fr;*/
             font-size: 12px;
-            /*column-gap: 10px;*/
-            margin: 1px;
-            margin-bottom: 20px;
             display: flex;
             flex-grow: 1;
             justify-content: flex-start;
+            flex-wrap: wrap;
 
             img{
                 /*width: 100%;*/
@@ -161,6 +156,7 @@ import {stringToBig} from "@/helper";
                 color: #7A838E;
                 flex-grow: 1;
                 padding: 2px 4px;
+                /*word-break: break-word;*/
             }
 
             .data .meta_title{
@@ -182,6 +178,14 @@ import {stringToBig} from "@/helper";
     @media only screen and (max-width: main.$mobile_width) {
         .meta_data{
             flex-direction: column;
+            /*grid-template-columns: none;*/
+            /*grid-template-rows: min-content min-content min-content min-content;*/
+        }
+    }
+
+    @media only screen and (max-width: main.$medium_width) {
+        .meta_data{
+            /*grid-template-columns: none;*/
             /*grid-template-columns: none;*/
             /*grid-template-rows: min-content min-content min-content min-content;*/
         }

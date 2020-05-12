@@ -4,10 +4,11 @@
             <h1>Transaction Details</h1>
             <div class="meta_row">
                 <p class="label">ID</p>
-                <p>
-                    <b>{{txId}}</b>
-                    <span v-if="isAssetGenesis" class="genesis">Asset Genesis</span>
-                </p>
+                <div class="meta_data">
+                    <p><b>{{txId}}</b></p>
+                    <p v-if="isAssetGenesis" class="genesis">Asset Genesis</p>
+<!--                    <span v-if="isAssetGenesis" class="genesis">Asset Genesis</span>-->
+                </div>
 
             </div>
             <div class="meta_row">
@@ -235,7 +236,6 @@
 
 
     .transaction_details{
-        padding: main.$container_padding_l;
         font-size: 13px;
 
 
@@ -254,6 +254,7 @@
         /*position: absolute;*/
         padding: 4px 8px;
         margin: 0px 30px;
+        word-break: keep-all;
         /*top: 10px;*/
         /*right: 20px;*/
     }
@@ -283,6 +284,12 @@
         }
     }
 
+
+    .meta_data{
+        display: flex;
+        align-items: center;
+    }
+
     .id{
         overflow: hidden;
         text-overflow: ellipsis;
@@ -297,6 +304,15 @@
         margin-right: 14px;
     }
 
+    .utxo_headers{
+        display: grid;
+        grid-gap: 10px;
+
+        p{
+            font-weight: bold;
+        }
+    }
+
     .io{
         display: grid;
         grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -305,6 +321,9 @@
         overflow: auto;
     }
 
+    .utxo_headers, .io_item{
+        grid-template-columns: 80px 80px 80px 100px 1fr;
+    }
 
 
     .io_item{
@@ -332,20 +351,21 @@
         padding: 4px 8px;
     }
 
-    .inputs_genesis{
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    /*.inputs_genesis{*/
+    /*    width: 100%;*/
+    /*    display: flex;*/
+    /*    justify-content: center;*/
+    /*    align-items: center;*/
 
-        p{
-            padding: 16px 30px;
-            border-radius: 4px;
+    /*    p{*/
+    /*        padding: 16px 30px;*/
+    /*        border-radius: 4px;*/
 
-            font-size: 16px;
-            text-align: center;
-        }
-    }
+    /*        font-size: 16px;*/
+    /*        text-align: center;*/
+    /*        word-break: keep-all;*/
+    /*    }*/
+    /*}*/
 
     .amount{
         text-align: right;
@@ -375,15 +395,7 @@
         }
     }
 
-    .utxo_headers{
-        display: grid;
-        grid-gap: 10px;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 
-        p{
-            font-weight: bold;
-        }
-    }
 
     @media only screen and (max-width: main.$mobile_width) {
         .transaction_details{
@@ -397,7 +409,7 @@
         .meta_row {
             padding: 10px;
             grid-template-columns: none;
-            grid-template-rows: 1fr 1fr;
+            grid-template-rows: max-content 1fr;
         }
 
         .io{

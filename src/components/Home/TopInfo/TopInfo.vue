@@ -30,13 +30,14 @@
 
     .top_info{
         display: grid;
-        grid-template-columns: 1fr 1fr 360px;
+        grid-template-columns: min-content 1fr 360px;
         padding: 25px 0px;
         overflow: auto;
 
 
         > div{
             padding: 0px 35px;
+            overflow: auto;
             border-right: 1px solid #C4C4C455;
         }
 

@@ -63,7 +63,7 @@
     .utxo_row{
         display: grid;
         grid-gap: 10px;
-        grid-template-columns: minmax(0,1fr) 1fr 1fr minmax(0,1fr) 1fr;
+        /*grid-template-columns: minmax(0,1fr) 1fr 1fr minmax(0,1fr) 1fr;*/
 
         > * {
             align-self: center;

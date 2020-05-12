@@ -1,31 +1,53 @@
 <template>
     <div class="all_transactions">
-        <div class="rows">
-            <tx-row class="tx_item" v-for="tx in transactions" :transaction="tx" :key="tx.id"></tx-row>
+        <div class="card">
+            <div class="bar">
+                <p class="count">{{totalTx}} transactions found</p>
+                <pagination-controls :total="totalTx" :limit="limit" @change="page_change"></pagination-controls>
+            </div>
+            <div class="rows">
+                <tx-row class="tx_item" v-for="tx in transactions" :transaction="tx" :key="tx.id"></tx-row>
+            </div>
         </div>
     </div>
 </template>
 <script>
     import api from "@/axios";
-    import RecentTxRow from "../components/Home/RecentTxRow";
     import TxRow from "../components/rows/TxRow/TxRow";
+    import PaginationControls from "../components/misc/PaginationControls";
+
     export default {
         components: {
-            TxRow
+            TxRow,
+            PaginationControls
         },
         data(){
             return{
+                totalTx: 0,
+                limit: 25, // how many to display
+                offset: 0,
                 txs: [],
             }
         },
         created() {
-            let parent = this;
-            let sort = "timestamp-desc";
-            let url = `/x/transactions?sort=${sort}`;
-            api.get(url).then((res) => {
-                const data = res.data.transactions;
-                parent.txs = data;
-            });
+            this.getTx();
+        },
+        methods: {
+            page_change(val){
+                this.offset = val;
+                this.getTx();
+            },
+            getTx(){
+                let parent = this;
+                let sort = "timestamp-desc";
+                let url = `/x/transactions?sort=${sort}&offset=${this.offset}&limit=${this.limit}`;
+                api.get(url).then((res) => {
+                    const data = res.data.transactions;
+                    parent.txs = data;
+                    parent.totalTx = res.data.count;
+                    console.log(res.data);
+                });
+            }
         },
         computed:{
             transactions(){
@@ -42,7 +64,7 @@
                     // });
 
                 return res;
-            }
+            },
         }
     }
 </script>
@@ -51,22 +73,34 @@
 
     .all_transactions{
         font-size: 12px;
-        padding: 30px 18vw;
     }
 
-    .rows{
+    .count{
+        font-size: 20px;
+        color: #808080;
+        font-weight: lighter;
+    }
+
+    .bar{
+        display: flex;
+        align-items: center;
+        > p{
+            flex-grow: 1;
+        }
+    }
+    .card{
         background-color: #fff;
         border-radius: 6px;
         padding: 15px;
         box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
     }
+
+
     .tx_item{
         border-bottom: 1px solid #e7e7e7;
-    }
 
-    @media only screen and (max-width: main.$mobile_width) {
-        .all_transactions {
-            padding: main.$container_padding_mobile;
+        &:last-of-type{
+            border: none !important;
         }
     }
 </style>

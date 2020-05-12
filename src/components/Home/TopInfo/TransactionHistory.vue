@@ -269,6 +269,7 @@
 
             let myLineChart = new Chart(cont, {
                 type: 'line',
+                // maintainAspectRatio: false,
                 data: {
                     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
                     datasets: [{

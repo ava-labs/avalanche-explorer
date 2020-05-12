@@ -41,6 +41,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "transaction" */ '../views/Transaction.vue')
   },
   {
+    path: '/asset/:id',
+    name: 'Asset',
+    component: () => import(/* webpackChunkName: "asset" */ '../views/Asset.vue')
+  },
+  {
     path: '/address/:address',
     name: 'Address',
     component: () => import(/* webpackChunkName: "address" */ '../views/Address.vue')
@@ -51,6 +56,7 @@ const routes = [
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
+  // Scroll to top on route change
   scrollBehavior() {
     return { x: 0, y: 0 };
   },

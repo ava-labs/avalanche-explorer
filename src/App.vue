@@ -69,6 +69,7 @@ export default Vue.extend({
 
     .footer{
         margin-top: 15vh;
+        padding: main.$container_padding_l;
     }
 
     @media only screen and (max-width: main.$mobile_width) {
@@ -78,12 +79,21 @@ export default Vue.extend({
         .navbar {
             padding: main.$container_padding_mobile;
         }
+
+        .footer{
+            padding: main.$container_padding_mobile;
+        }
     }
-    @media only screen and (max-width: main.$small_width) {
+
+    @media only screen and (max-width: main.$medium_width) {
         .router_view {
             padding: main.$container_padding_s;
         }
         .navbar {
+            padding: main.$container_padding_s;
+        }
+
+        .footer{
             padding: main.$container_padding_s;
         }
     }
@@ -105,5 +115,13 @@ export default Vue.extend({
         &:hover{
             text-decoration: underline;
         }
+    }
+
+
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .3s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0;
     }
 </style>

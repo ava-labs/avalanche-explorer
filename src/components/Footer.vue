@@ -5,8 +5,9 @@
                 <img src="@/assets/ava_logo_white.png">
                 <h4>Powered by AVA</h4>
             </div>
-            <p>AVA is a Block Explorer and Analytics
-                Platform for AVA Labs, a decentralized smart contracts platform.</p>
+            <p class="ava_desc">The AVA Explorer is a block explorer and analytics tool for AVA,
+                a next-gen smart contracts platform for decentralization applications and the Internet of Finance.
+            </p>
             <img class="yeti" src="@/assets/yeti_footer.png">
         </div>
         <div class="list">
@@ -28,15 +29,21 @@
 <style scoped lang="scss">
     @use '../main';
     .v-footer{
-        padding: main.$container_padding_l;
-        padding-bottom: 0px;
+        padding-bottom: 0px !important;
         color: #fff !important;
-        display: flex;
+        /*display: flex;*/
         align-items: flex-start;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        column-gap: 60px;
+
+        /*> div{*/
+        /*    width: 100%;*/
+        /*}*/
     }
     .powered_by{
-        margin-right: 90px;
-        width: 300px;
+        /*margin-right: 90px;*/
+        /*width: 300px;*/
 
 
         .header{
@@ -63,14 +70,19 @@
 
         img.yeti{
             width: 60%;
+            max-width: 240px;
         }
+    }
+
+    .ava_desc{
+        line-height: 1.5em;
     }
 
     .list{
         display: flex;
         flex-direction: column;
-        min-width: 200px;
-        margin-right: 60px;
+        /*min-width: 200px;*/
+        /*margin-right: 60px;*/
         padding-bottom: 30px;
 
         font-size: 14px;
@@ -100,6 +112,9 @@
 
     @media only screen and (max-width: main.$mobile_width) {
         .v-footer{
+            grid-template-columns:none;
+            grid-template-rows: max-content max-content max-content;
+
             padding: 20px 30px;
             padding-bottom: 0;
             flex-direction: column-reverse;
@@ -108,6 +123,11 @@
 
         .list{
             width: 100%;
+        }
+
+
+        .powered_by{
+            grid-row: 3;
         }
     }
 </style>

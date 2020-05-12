@@ -2,6 +2,7 @@
     <div class="recent_tx">
         <div class="header">
             <h4>Latest Transactions</h4>
+            <v-btn :loading="isAjax" :text="true" @click="updateTx" class="refresh"><fa icon="sync"></fa> Refresh</v-btn>
             <p class="chain">You are viewing transactions for <span>AVA X-Chain</span></p>
         </div>
         <div class="list">
@@ -10,9 +11,10 @@
                 <p>ID</p>
                 <p>From</p>
                 <p>To</p>
-<!--                <p>Amount</p>-->
             </div>
-            <tx-row v-for="tx in transactions" :key="tx.id" class="recent_tx_rows" :transaction="tx"></tx-row>
+            <transition-group name="fade">
+                <tx-row v-for="tx in transactions" :key="tx.id" class="recent_tx_rows" :transaction="tx"></tx-row>
+            </transition-group>
         </div>
         <div class="bottom">
             <router-link to="/tx" class="view_all">View All transactions</router-link>
@@ -31,18 +33,26 @@
         },
         data(){
             return {
+                isAjax: false,
                 // all_tx: [],
                 transactions: [],
             }
         },
         created(){
-            const parent = this;
-            let txNum = 8;
-            api.get(`/x/transactions?sort=timestamp-desc&limit=${txNum}`).then((res) => {
-                const list = res.data.transactions;
-                parent.transactions = list;
-            });
+            this.updateTx();
         },
+        methods:{
+            updateTx(){
+                const parent = this;
+                let txNum = 8;
+                this.isAjax = true;
+                api.get(`/x/transactions?sort=timestamp-desc&limit=${txNum}`).then((res) => {
+                    const list = res.data.transactions;
+                    parent.transactions = list;
+                    parent.isAjax = false;
+                });
+            },
+        }
     });
 </script>
 <style scoped lang="scss">
@@ -53,18 +63,20 @@
         display: grid;
         grid-template-columns: 35px 120px 1fr 1fr;
         border: none !important;
-        padding: 0px 14px;
 
         p{
             padding: 0px 10px;
             font-weight: bold;
         }
     }
+
+
     .chain{
         font-size: 12px;
         color: #929BA6;
         font-weight: lighter;
         text-align: right;
+        flex-grow: 1;
 
         span{
             padding: 4px 12px;
@@ -94,12 +106,18 @@
 
         h4{
             margin: 0;
-            flex-grow: 1;
             font-size: 12px;
         }
     }
 
 
+
+    .refresh{
+        font-size: 12px;
+        text-transform: none;
+        border: none;
+        opacity: 0.5;
+    }
 
     .recent_tx_rows{
         /*display: grid;*/
@@ -146,5 +164,12 @@
         .list{
             padding: 0;
         }
+    }
+
+
+
+
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity 1s;
     }
 </style>

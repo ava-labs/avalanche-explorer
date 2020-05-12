@@ -4,7 +4,7 @@
         <div class="asset" v-for="(asset,i) in assets" :key="asset.id">
             <p>{{i+1}}.</p>
 <!--            <p class="name">{{asset.name}}</p>-->
-            <router-link :to="`/tx/${asset.id}`">{{asset.name}}</router-link>
+            <router-link :to="`/tx/${asset.id}`" class="name">{{asset.name}}</router-link>
             <p class="chain">{{asset.symbol}}</p>
 <!--            <p class="chain">{{asset.volume_day}} Txs</p>-->
             <p class="change">{{asset.txCount_day}} Tx</p>
@@ -57,9 +57,12 @@
     .asset{
         display: grid;
         column-gap: 10px;
-        grid-template-columns: max-content 1fr 60px 90px;
+        grid-template-columns: max-content 1fr 60px 70px;
         margin-bottom: 8px;
         font-size: 12px;
+        display: flex;
+        flex-direction: row;
+        /*flex-wrap: wrap;*/
 
         > * {
             align-self: center;
@@ -75,17 +78,22 @@
 
         .name{
             padding-left: 0px;
+            flex-grow: 1;
         }
         .chain{
             background-color: #EBE4FB;
             color: #976CFA;
             text-align: center;
+            width: 35px;
+            padding: inherit 0px;
+            margin: 0px 10px;
         }
 
         .change{
             background-color: #E4FBEF;
             color: #56C18D;
             text-align: center;
+            width: 45px;
         }
     }
 
@@ -95,4 +103,7 @@
             column-gap: 3px;
         }
     }
+
+
+
 </style>
