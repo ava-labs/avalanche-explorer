@@ -95,6 +95,7 @@
         }
 
         .change{
+            flex-shrink: 0;
             background-color: #E4FBEF;
             color: #56C18D;
             text-align: center;
