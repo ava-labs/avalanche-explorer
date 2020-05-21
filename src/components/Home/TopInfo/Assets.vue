@@ -55,13 +55,14 @@
     @use '../../../main';
 
     .asset{
-        display: grid;
+        /*display: grid;*/
         column-gap: 10px;
-        grid-template-columns: max-content 1fr 60px 70px;
+        /*grid-template-columns: max-content 1fr 60px 70px;*/
         margin-bottom: 8px;
         font-size: 12px;
         display: flex;
         flex-direction: row;
+        overflow: auto;
         /*flex-wrap: wrap;*/
 
         > * {
@@ -69,8 +70,8 @@
         }
 
         p{
-            text-overflow: ellipsis;
-            overflow: hidden;
+            /*text-overflow: ellipsis;*/
+            /*overflow: hidden;*/
             white-space: nowrap;
             padding: 6px 12px;
             border-radius: 2px;
@@ -79,8 +80,12 @@
         .name{
             padding-left: 0px;
             flex-grow: 1;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
         .chain{
+            flex-shrink: 0;
             background-color: #EBE4FB;
             color: #976CFA;
             text-align: center;

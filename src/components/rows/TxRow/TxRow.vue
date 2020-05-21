@@ -179,7 +179,6 @@
 
 
     .utxo_out{
-        /*border-bottom: 1px dashed #dedede;*/
         margin-bottom: 6px;
         /**/
         /*&:last-of-type{*/

@@ -30,7 +30,7 @@
 
     .top_info{
         display: grid;
-        grid-template-columns: min-content 1fr 360px;
+        grid-template-columns: minmax(0,30%) 1fr 360px;
         padding: 25px 0px;
         overflow: auto;
 
