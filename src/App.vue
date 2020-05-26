@@ -87,7 +87,8 @@ export default Vue.extend({
 body {
     font-family: "Helvetica";
     margin: 0;
-    background-color: #f8f9fa;
+    /* background-color: #f8f9fa; */
+    background-color: #fff !important;
 }
 
 p {
