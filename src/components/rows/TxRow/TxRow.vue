@@ -160,7 +160,7 @@ export default {
 }
 
 .utxo_out {
-    margin-bottom: 6px
+    margin-bottom: 6px;
 }
 
 @media only screen and (max-width: main.$mobile_width) {

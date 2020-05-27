@@ -1,5 +1,5 @@
 <template>
-    <div class="all_transactions">
+    <div class="transactions">
         <div class="card">
             <div class="header">
                 <h2>All Transactions</h2>
@@ -15,9 +15,9 @@
                 <p>To</p>
             </div>
             <div class="rows">
-                <!--                <transition-group name="fade">-->
+                <!--<transition-group name="fade">-->
                 <tx-row class="tx_item" v-for="tx in transactions" :transaction="tx" :key="tx.id"></tx-row>
-                <!--                </transition-group>-->
+                <!--</transition-group>-->
             </div>
         </div>
     </div>
@@ -63,17 +63,6 @@ export default {
     computed: {
         transactions() {
             let res = this.txs;
-            // res.sort((a,b) => {
-            //     let timeA = new Date(a.timestamp);
-            //     let timeB = new Date(b.timestamp);
-            //
-            //     if(timeA.getTime() > timeB.getTime()){
-            //         return -1;
-            //     }else{
-            //         return  1;
-            //     }
-            // });
-
             return res;
         }
     }
@@ -82,7 +71,7 @@ export default {
 <style scoped lang="scss">
 @use '../main';
 
-.all_transactions {
+.transactions {
     font-size: 12px;
 }
 
@@ -91,6 +80,7 @@ export default {
     margin-bottom: 10px;
 
     h2 {
+        font-size: 18px;
         margin: 0;
     }
 }
