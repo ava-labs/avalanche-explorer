@@ -7,15 +7,35 @@
             </v-btn>
             <p class="chain">
                 You are viewing transactions for
-                <span>AVA X-Chain</span>
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                        <span v-on="on">AVA X-Chain</span>
+                    </template>
+                    <span>The X-Chain acts as a decentralized platform for creating and trading smart digital assets. (Think X for eXchanging assets.)</span>
+                </v-tooltip>
             </p>
         </div>
         <div class="list">
             <div class="table_headers recent_tx_rows">
                 <p></p>
-                <p>ID</p>
-                <p>From</p>
-                <p>To</p>
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                        <p v-on="on">ID</p>
+                    </template>
+                    <span>A transaction queries or modifies the state of a blockchain.</span>
+                </v-tooltip>
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                        <p v-on="on">From</p>
+                    </template>
+                    <span>Address that sends transfer value</span>
+                </v-tooltip>
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                        <p v-on="on">To</p>
+                    </template>
+                    <span>Address that receives transfer value</span>
+                </v-tooltip>
             </div>
             <transition-group name="fade">
                 <tx-row

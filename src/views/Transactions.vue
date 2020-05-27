@@ -10,9 +10,24 @@
             </div>
             <div class="table_headers all_tx_rows">
                 <p></p>
-                <p>ID</p>
-                <p>From</p>
-                <p>To</p>
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                        <p v-on="on">ID</p>
+                    </template>
+                    <span>A transaction queries or modifies the state of a blockchain.</span>
+                </v-tooltip>
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                        <p v-on="on">From</p>
+                    </template>
+                    <span>Address that sends transfer value</span>
+                </v-tooltip>
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                        <p v-on="on">To</p>
+                    </template>
+                    <span>Address that receives transfer value</span>
+                </v-tooltip>
             </div>
             <div class="rows">
                 <!--<transition-group name="fade">-->

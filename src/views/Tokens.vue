@@ -2,19 +2,59 @@
     <div class="tokens">
         <div class="card">
             <div class="header">
-                <h2>Tokens</h2>
+                <v-tooltip bottom left>
+                    <template v-slot:activator="{ on }">
+                        <h2 v-on="on">Tokens</h2>
+                    </template>
+                    <span>
+                        A smart digital asset is a digital representation of a real-world thing such as an equity, bond, money etc.
+                        <br />They can have a complex ruleset that defines their behavior and how they are handled.
+                        <br />This ruleset can include things like, “can’t be traded until next year,” for example.
+                    </span>
+                </v-tooltip>
                 <div class="bar">
                     <p class="count">{{Object.keys(tokens).length}} tokens found</p>
                 </div>
             </div>
             <div class="token_list">
                 <div class="grid_headers token_row">
-                    <p>Symbol</p>
-                    <p>Name</p>
-                    <p>ID</p>
-                    <p>Chain</p>
-                    <p class="denomination">Denomination</p>
-                    <p class="supply">Supply</p>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on }">
+                            <p v-on="on">Symbol</p>
+                        </template>
+                        <span>Shorthand ticker symbol of the asset.<br>
+                        Between 0 and 4 characters. Not necessarily unique.</span>
+                    </v-tooltip>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on }">
+                            <p v-on="on">Name</p>
+                        </template>
+                        <span>Human-readable name for the asset. Not necessarily unique.</span>
+                    </v-tooltip>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on }">
+                            <p v-on="on">Genesis Tx ID</p>
+                        </template>
+                        <span>A transaction queries or modifies the state of a blockchain.</span>
+                    </v-tooltip>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on }">
+                            <p v-on="on">Chain</p>
+                        </template>
+                        <span>The blockchain on which this token was minted.</span>
+                    </v-tooltip>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on }">
+                            <p v-on="on" class="denomination">Denomination</p>
+                        </template>
+                        <span>Determines how balances of this asset are displayed by user interfaces</span>
+                    </v-tooltip>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on }">
+                            <p v-on="on" class="supply">Supply</p>
+                        </template>
+                        <span>Units of the asset that have been created</span>
+                    </v-tooltip>
                 </div>
                 <token v-for="token in tokens" :key="token.id" class="token_row" :token="token"></token>
             </div>

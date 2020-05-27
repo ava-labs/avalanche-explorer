@@ -1,14 +1,32 @@
 <template>
     <div>
         <div class="header">
-            <h2>24h Highest Volume Assets</h2>
+            <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                    <h2 v-on="on">24h Highest Volume Assets</h2>
+                </template>
+                <span>The most transferred smart digital assets on the AVA platform in the past 24 hours.</span>
+            </v-tooltip>
         </div>
         <div class="asset column_headers">
-            <p class="name">Name</p>
-            <p class="metric">Txs</p>
+            <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                    <p class="name" v-on="on">Name</p>
+                </template>
+                <span>Human-readable name for the asset. Not necessarily unique.</span>
+            </v-tooltip>
+            <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                    <p class="metric" v-on="on">Txs</p>
+                </template>
+                <span>Number of transactions of this asset.</span>
+            </v-tooltip>
         </div>
         <div class="asset" v-for="(asset,i) in assets" :key="asset.id">
-            <div class="name"><router-link :to="`/tx/${asset.id}`">{{asset.name}}</router-link> <span class="symbol">{{asset.symbol}}</span></div>
+            <div class="name">
+                <router-link :to="`/tx/${asset.id}`">{{asset.name}}</router-link>
+                <span class="symbol">{{asset.symbol}}</span>
+            </div>
             <p class="metric ava-monospace">{{asset.txCount_day}}</p>
             <!--TODO: normalize asset.volume_day -->
         </div>

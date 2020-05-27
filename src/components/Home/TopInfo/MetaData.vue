@@ -1,13 +1,23 @@
 <template>
     <div>
         <div class="header">
-            <h2>AVA Network Activity</h2>
+            <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                    <h2 class="meta_title" v-on="on">AVA Network Activity</h2>
+                </template>
+                <span>Key figures of the AVA network.</span>
+            </v-tooltip>
         </div>
         <div class="meta_data">
             <div class="meta">
                 <img src="@/assets/ava_transactions.png" />
                 <div class="data">
-                    <p class="meta_title">24h Transactions</p>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on }">
+                            <p class="meta_title" v-on="on">24h Transactions</p>
+                        </template>
+                        <span>Total number of queries or modifications of the states of all blockchains on the AVA network in the past 24 hours.</span>
+                    </v-tooltip>
                     <div>
                         <p>{{avaTxCount}} ({{tpsText}} TPS)</p>
                     </div>
@@ -16,7 +26,12 @@
             <div class="meta">
                 <img src="@/assets/ava_price.png" />
                 <div class="data">
-                    <p class="meta_title">24h Volume</p>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on }">
+                            <p class="meta_title" v-on="on">24h Volume</p>
+                        </template>
+                        <span>Total value of $AVA tokens transferred on the AVA network in the past 24 hours.</span>
+                    </v-tooltip>
                     <div>
                         <p>{{avaVolume}} AVA</p>
                         <!--<p class="change">+ 24%</p>-->
@@ -26,9 +41,12 @@
             <div class="meta">
                 <img src="@/assets/validators.png" />
                 <div class="data">
-                    <p class="meta_title">
-                        Validators
-                    </p>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on }">
+                            <p class="meta_title" v-on="on">Validators</p>
+                        </template>
+                        <span>Total number of nodes participating in the consensus protocol of the AVA network.</span>
+                    </v-tooltip>
                     <div>
                         <p>{{valdiatorCount}}</p>
                         <!--<p class="change">+ 24%</p>-->
@@ -38,9 +56,12 @@
             <div class="meta">
                 <img src="@/assets/stake_amount.png" />
                 <div class="data">
-                    <p class="meta_title">
-                        Total Staked
-                    </p>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on }">
+                            <p class="meta_title" v-on="on">Total Staked</p>
+                        </template>
+                        <span>Total value of $AVA tokens used as a scarce resource to secure the AVA network using the Proof-of-Stake method.</span>
+                    </v-tooltip>
                     <div>
                         <p>{{totalStake}} AVA</p>
                     </div>
