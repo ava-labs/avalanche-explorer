@@ -22,7 +22,7 @@
                 <span>Number of transactions of this asset.</span>
             </v-tooltip>
         </div>
-        <div class="asset" v-for="(asset,i) in assets" :key="asset.id">
+        <div class="asset" v-for="(asset) in assets" :key="asset.id">
             <div class="name">
                 <router-link :to="`/tx/${asset.id}`">{{asset.name}}</router-link>
                 <span class="symbol">{{asset.symbol}}</span>
