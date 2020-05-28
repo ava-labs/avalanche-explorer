@@ -4,7 +4,7 @@
             <div class="header">
                 <v-tooltip bottom left>
                     <template v-slot:activator="{ on }">
-                        <h2 v-on="on">Subnet Overview</h2>
+                        <h2 v-on="on">Subnets</h2>
                     </template>
                     <span>
                         A Subnet is a set of validators. A Subnet validates a set of blockchains.
@@ -23,13 +23,16 @@
             <template v-else>
                 <v-tabs vertical>
                     <v-tab v-for="s in subnets" :key="s.id">{{s.id | subnet}}</v-tab>
-                    <v-tab-item v-for="s in subnets" :key="s.id">
+                    <v-tab-item v-for="s in subnets" :key="s.id" :vertical="true">
                         <v-card flat>
                             <v-card-text>
+                                <div class="subnet_header"></div>
                                 <h2>{{s.id | subnet}}</h2>
                                 <div class="stats">
                                     <div class="bar">
-                                        <p class="count">{{s.blockchains.length}} blockchains found for this subnet</p>
+                                        <p
+                                            class="subnet_count"
+                                        >{{s.blockchains.length}} blockchains validated by this subnet</p>
                                     </div>
                                 </div>
                                 <v-tabs>
@@ -42,16 +45,16 @@
                                                 <thead>
                                                     <tr>
                                                         <th class="text-left">Name</th>
-                                                        <th class="text-left">Tx ID</th>
-                                                        <th class="text-left">vmID</th>
+                                                        <th class="text-left">Genesis Tx ID</th>
+                                                        <th class="text-left">Virtual Machine ID</th>
                                                         <th class="text-left">Status</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr v-for="b in s.blockchains" :key="b.id">
                                                         <td>{{ b.name }}</td>
-                                                        <td>{{ b.id }}</td>
-                                                        <td>{{ b.vmID }}</td>
+                                                        <td class="id_overflow">{{ b.id }}</td>
+                                                        <td class="id_overflow">{{ b.vmID }}</td>
                                                         <td>{{ b.status }}</td>
                                                     </tr>
                                                 </tbody>
@@ -59,7 +62,7 @@
                                         </v-simple-table>
                                     </v-tab-item>
                                     <v-tab-item>
-                                        <v-simple-table>
+                                        <v-simple-table :dense="dense">
                                             <template v-slot:default>
                                                 <thead>
                                                     <tr>
@@ -74,9 +77,9 @@
                                                         v-for="v in s.blockchains[0].validators"
                                                         :key="v.id"
                                                     >
-                                                        <td>{{v.id}}</td>
-                                                        <td>{{ new Date(parseInt(v.startTime)) }}</td>
-                                                        <td>{{ new Date(parseInt(v.endTime)) }}</td>
+                                                        <td class="id_overflow">{{v.id}}</td>
+                                                        <td>{{ new Date(parseInt(v.startTime * 1000)).toLocaleString()}}</td>
+                                                        <td>{{ new Date(parseInt(v.endTime * 1000)).toLocaleString()}}</td>
                                                         <td>{{ v.stakeAmount }}</td>
                                                     </tr>
                                                 </tbody>
@@ -84,7 +87,7 @@
                                         </v-simple-table>
                                     </v-tab-item>
                                     <v-tab-item>
-                                        <v-simple-table>
+                                        <v-simple-table :dense="dense">
                                             <template v-slot:default>
                                                 <thead>
                                                     <tr>
@@ -99,9 +102,9 @@
                                                         v-for="v in s.blockchains[0].pendingValidators"
                                                         :key="v.id"
                                                     >
-                                                        <td>{{ v.id }}</td>
-                                                        <td>{{ new Date(parseInt(v.startTime)) }}</td>
-                                                        <td>{{ new Date(parseInt(v.endTime)) }}</td>
+                                                        <td class="id_overflow">{{ v.id }}</td>
+                                                        <td>{{ new Date(parseInt(v.startTime * 1000)).toLocaleString()}}</td>
+                                                        <td>{{ new Date(parseInt(v.endTime * 1000)).toLocaleString()}}</td>
                                                         <td>{{ v.stakeAmount }}</td>
                                                     </tr>
                                                 </tbody>
@@ -130,6 +133,8 @@ export default {
     },
     data() {
         return {
+            dense: true,
+            fixedHeader: true,
             loading: true,
             blockchains: [],
             subnets: []
@@ -243,15 +248,55 @@ h3 {
     margin: 0;
 }
 
-.flex_wrapper {
-    display: flex;
+.subnet_count {
+    margin-top: 5px;
 }
 
-.flex_left {
-    width: 500px;
-    background-color: rgba(0, 0, 0, 0.1);
-    background-color: rgba(0, 0, 0, 0.1);
+.bar {
+    margin-bottom: 15px;
+}
+
+.id_overflow {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.v-tabs--vertical {
     margin-right: 30px;
+}
+
+.v-tabs--vertical > .v-tabs-bar {
+    max-width: 200px !important;
+}
+
+.v-tabs--vertical > .v-tabs-bar .v-tab {
+    width: 150px;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12px;
+    justify-content: flex-start;
+    min-height: 48px;
+    height: 30px;
+    text-transform: none;
+}
+
+.v-card__text {
+    padding-top: 0;
+    padding-left: 30px;
+    box-sizing: border-box;
+    border-radius: 0 !important;
+    margin-left: 30px;
+    border-left: 1px solid #cecece;
+}
+
+.v-tab {
+    font-weight: bold;
+    text-transform: none;
+    letter-spacing: 0;
 }
 
 .card {
