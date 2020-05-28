@@ -19,6 +19,7 @@
             <div class="row" style="display: flex">
                 <div class="routes">
                     <router-link to="/">Home</router-link>
+                    <router-link to="/subnets">Subnets</router-link>
                     <router-link to="/validators">Validators</router-link>
                     <router-link to="/tokens">Tokens</router-link>
                     <router-link to="/resources">Resources</router-link>
