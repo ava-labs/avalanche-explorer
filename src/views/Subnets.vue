@@ -29,7 +29,7 @@
                                 <h2>{{s.id | subnet}}</h2>
                                 <div class="stats">
                                     <div class="bar">
-                                        <p class="count">{{s.chains.length}} blockchains found for this subnet</p>
+                                        <p class="count">{{s.blockchains.length}} blockchains found for this subnet</p>
                                     </div>
                                 </div>
                                 <v-tabs>
@@ -48,7 +48,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr v-for="b in s.chains" :key="b.id">
+                                                    <tr v-for="b in s.blockchains" :key="b.id">
                                                         <td>{{ b.name }}</td>
                                                         <td>{{ b.id }}</td>
                                                         <td>{{ b.vmID }}</td>
@@ -71,7 +71,7 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr
-                                                        v-for="v in s.chains[0].validators"
+                                                        v-for="v in s.blockchains[0].validators"
                                                         :key="v.id"
                                                     >
                                                         <td>{{v.id}}</td>
@@ -96,7 +96,7 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr
-                                                        v-for="v in s.chains[0].pendingValidators"
+                                                        v-for="v in s.blockchains[0].pendingValidators"
                                                         :key="v.id"
                                                     >
                                                         <td>{{ v.id }}</td>
@@ -139,13 +139,9 @@ export default {
         // get blockchains
         this.blockchains = await this.getBlockchains();
         this.addBlockchainData();
-        this.addPChain();
+        await this.addPChain();
         // group blockchains by subnet
         this.subnets = this.getSubnets(this.blockchains);
-        this.subnets = this.getChainsBySubnet(
-            this.subnets,
-            this.blockchains
-        );
     },
     methods: {
         async getBlockchains() {
@@ -211,13 +207,11 @@ export default {
                 .catch(error => console.log(error));
         },
         getSubnets(blockchains) {
-            return [...new Set(blockchains.map(b => b.subnetID))];
-        },
-        getChainsBySubnet(subnets, blockchains) {
+            let subnets = [...new Set(blockchains.map(b => b.subnetID))];
             return subnets.map(s => {
                 return {
                     id: s,
-                    chains: blockchains.filter(b => b.subnetID === s)
+                    blockchains: blockchains.filter(b => b.subnetID === s)
                 };
             });
         }
