@@ -74,10 +74,7 @@
                                                         v-for="v in s.chains[0].validators"
                                                         :key="v.id"
                                                     >
-                                                        <td>
-                                                            <router-link :to="`/tx/${b.id}`" class="id">{{b.id}}...</router-link>
-                                                            {{ v.id }}
-                                                            </td>
+                                                        <td>{{v.id}}</td>
                                                         <td>{{ new Date(parseInt(v.startTime)) }}</td>
                                                         <td>{{ new Date(parseInt(v.endTime)) }}</td>
                                                         <td>{{ v.stakeAmount }}</td>
