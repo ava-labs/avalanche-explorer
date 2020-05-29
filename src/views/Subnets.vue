@@ -96,12 +96,7 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr v-for="b in s.blockchains" :key="b.id">
-                                                        <td>
-                                                            <router-link
-                                                                :to="`/tx/${b.id}`"
-                                                                class="id_overflow"
-                                                            >{{ b.name }}</router-link>
-                                                        </td>
+                                                        <td>{{ b.name }}</td>
                                                         <td class="id_overflow">{{ b.vmID }}</td>
                                                         <td>{{ b.status }}</td>
                                                     </tr>
@@ -184,6 +179,7 @@
 <script>
 import { ava } from "@/ava";
 import { subnetMap } from "@/helper";
+import Vue from "vue";
 
 export default {
     filters: {
@@ -263,6 +259,7 @@ export default {
                 .getBlockchains()
                 .then(res => {
                     this.loading = false;
+                    // TODO: blockchain class
                     return res;
                 })
                 .catch(error => console.log(error));
@@ -274,13 +271,9 @@ export default {
                     this.getCurrentValidators(b.subnetID),
                     this.getPendingValidators(b.subnetID)
                 ]).then(values => {
-                    b.status = values[0];
-                    b.validators = values[1];
-                    b.pendingValidators = values[2];
-                    // rerender hack
-                    let id = b.id;
-                    b.id = "";
-                    b.id = id;
+                    Vue.set(b, "status", values[0]);
+                    Vue.set(b, "validators", values[1]);
+                    Vue.set(b, "pendingValidators", values[2]);
                 });
             });
         },
