@@ -40,7 +40,7 @@
                     <div>
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
-                                <p class="label" v-on="on">Number of Validators</p>
+                                <p class="label" v-on="on">Validators</p>
                             </template>
                             <span>Total number of nodes participating in the consensus protocol of the AVA network.</span>
                         </v-tooltip>
@@ -230,8 +230,6 @@ export default {
     display: grid;
     width: 100%;
     grid-template-columns: 1fr 1fr max-content;
-    /*padding: 30px;*/
-    /*margin-bottom: 30px;*/
 
     img {
         object-fit: contain;
@@ -249,6 +247,7 @@ export default {
 
     p {
         font-size: 32px;
+        font-weight: bold;
     }
 
     .label {
@@ -311,10 +310,6 @@ export default {
     padding: 0px 12px;
     outline: none;
     margin-right: 10px;
-}
-
-.meta_val {
-    font-weight: lighter !important;
 }
 
 @media only screen and (max-width: main.$mobile_width) {

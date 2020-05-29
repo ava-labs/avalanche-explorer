@@ -110,6 +110,10 @@ p {
     }
 }
 
+.v-content__wrap {
+    min-height: calc(100vh - 130px);
+}
+
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.3s;
