@@ -1,28 +1,22 @@
-import {ApiTransaction} from "@/js/types";
+import { ITransactionData } from "@/js/ITransaction";
 
-
-export class Transaction{
-    data: ApiTransaction;
+export class Transaction {
+    data: ITransactionData;
     id: string;
 
-    constructor(data: ApiTransaction) {
-        this.data=data;
+    constructor(data: ITransactionData) {
+        this.data = data;
         this.id = data.id;
-
-        // console.log(data);
     }
 
-    getInputAddresses(): string[]{
+    getInputAddresses(): string[] {
         let res: string[] = [];
         let inputs = this.data.inputs || [];
 
-
         inputs.forEach(input => {
-            // console.log(input)
-           res.push(...input.output.addresses)
+            res.push(...input.output.addresses)
         });
 
         return res;
     }
 }
-

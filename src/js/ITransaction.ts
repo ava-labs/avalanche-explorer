@@ -1,30 +1,27 @@
-
-
+import { ICredentialData } from './ICredential';
 
 // The main Transaction type of the API
-export interface ApiTransaction {
+export interface ITransactionData {
     unsignedTx: {
         networkID: number,
         blockchainID: string
-    }
-    inputs: ApiTransactionInput[],
-    outputs: ApiTransactionOutput[]
+    },
+    inputs: ITransactionInputData[],
+    outputs: ITransactionOutputData[],
     id: string,
     timestamp: string,
     type: string,
     chainID: string
 }
 
-
 // Transaction Input type
-export interface ApiTransactionInput {
-    credentials: ApiCredential
-    output: ApiTransactionOutput
+export interface ITransactionInputData {
+    credentials: ICredentialData,
+    output: ITransactionOutputData
 }
 
-
 // Transaction Output type
-export interface ApiTransactionOutput {
+export interface ITransactionOutputData {
     addresses: string[],
     amount: number,
     assetID: string,
@@ -36,13 +33,4 @@ export interface ApiTransactionOutput {
     threshold: number,
     timestamp: string,
     transactionID: string
-}
-
-
-
-
-export interface ApiCredential {
-    signature: string,
-    public_key: string,
-    address: string
 }
