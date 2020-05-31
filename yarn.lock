@@ -7731,10 +7731,10 @@ slice-ansi@^2.1.0:
     astral-regex "^1.0.0"
     is-fullwidth-code-point "^2.0.0"
 
-slopes@^1.5.2:
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/slopes/-/slopes-1.5.2.tgz#60bc820d93351e157ed55723b2f64280cf076527"
-  integrity sha512-XQKo5keaRfnknMajVA/dPdQDZRq0jsJWuQmQt9ONPbfbbN+v4z3mWYxvzLJoyZOTBuzUzFmVRlWkS3Wwq9a4Dg==
+slopes@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/slopes/-/slopes-1.7.0.tgz#8e7dd6d353c3189d0d1bb469ca5635daee69936e"
+  integrity sha512-PGIDCpnfsVq6IMoy/1xbD3TyzDCNFFHd40FywvrJIKhrHvefuT96tSEj8jhc0lUc3ItktEK7Iy5S0fqRHir4Og==
   dependencies:
     axios "^0.19.2"
     bn.js "^4.11.8"
