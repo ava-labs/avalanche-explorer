@@ -1,6 +1,6 @@
 import { IValidator, IValidatorData } from './IValidator';
 
 export interface IPlatformState {
-    validators: IValidator[]
+    validators: IValidator[],
     validatorsPending: IValidatorData[]
 }
