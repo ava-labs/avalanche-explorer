@@ -24,7 +24,7 @@
         </div>
         <div class="asset" v-for="(asset) in assets" :key="asset.id">
             <div class="name">
-                <router-link :to="`/tx/${asset.id}`">{{asset.name}}</router-link>
+                <router-link :to="`/tx/${asset.id}`" class="asset_name">{{asset.name}}</router-link>
                 <span class="symbol">{{asset.symbol}}</span>
             </div>
             <p class="metric ava-monospace">{{asset.txCount_day}}</p>
@@ -115,15 +115,22 @@ export default {
         text-overflow: ellipsis;
     }
 
+    .asset_name {
+        font-size: 16px;
+    }
+
     .symbol {
         flex-shrink: 0;
         color: #976cfa;
         background-color: #ebe4fb;
-        width: 35px;
+        width: 20px;
         text-align: center;
-        margin: 0px 10px;
-        padding: 2 6;
-        font-size: 8px;
+        margin: 0px 10px 5px;
+        padding: 3px 4px;
+        font-size: 9px;
+        border-radius: 3px;
+        display: inline-block;
+        vertical-align: middle;
     }
 
     .metric {

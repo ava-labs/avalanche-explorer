@@ -45,7 +45,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>  
     </div>
 </template>
 <style scoped lang="scss">
@@ -94,7 +94,7 @@ h3 {
     font-size: 20px;
     line-height: 1.2em;
     max-width: 900px;
-    margin-bottom: 1em;
+    margin-bottom: .5em;
 }
 
 hr {
@@ -102,18 +102,18 @@ hr {
 }
 
 .card {
-    background-color: #f1f2f3;
+    background-color: #fff;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 14px 30px;
-    border-radius: 6px;
-    box-shadow: 0px 1px #b5bac088;
+    padding: 45px 30px 30px;
+    border: 3px solid #e8e7ea; 
+    border-radius: 7px;
 
     h3 {
-        font-weight: lighter;
+        font-weight: 600;
         font-size: 22px;
-        margin: 8px 0px;
+        margin: 14px 0px 8px;
         text-align: center;
     }
 
@@ -121,7 +121,10 @@ hr {
         text-align: center;
         color: #7a838e;
         font-size: 13px;
+        padding-bottom: 12px;
+
     }
+    
     img {
         max-height: 40px;
         object-fit: contain;
@@ -132,6 +135,13 @@ hr {
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-gap: 20px;
+
+        a {
+            border: 2px solid #17171d;
+            color: #17171d !important;
+            font-weight: bold;
+            padding: 14px;
+        }
     }
 
     button,
@@ -145,7 +155,6 @@ hr {
         text-align: center;
         text-decoration: none;
         font-size: 12px;
-        box-shadow: 0px 1px #b5bac088;
     }
 }
 
