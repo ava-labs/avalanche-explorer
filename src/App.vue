@@ -1,124 +1,126 @@
 <template>
-  <v-app>
-    <nav-bar class="navbar"></nav-bar>
-    <v-content class="content">
-      <router-view class="router_view"></router-view>
-    </v-content>
-      <Footer class="footer"></Footer>
-  </v-app>
+    <v-app>
+        <nav-bar class="navbar"></nav-bar>
+        <v-content class="content">
+            <router-view class="router_view"></router-view>
+        </v-content>
+        <Footer class="footer"></Footer>
+    </v-app>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import NavBar from './components/NavBar.vue';
-import Footer from './components/Footer.vue';
-
-// import HelloWorld from './components/HelloWorld.vue';
+import Vue from "vue";
+import NavBar from "./components/NavBar.vue";
+import Footer from "./components/Footer.vue";
 
 export default Vue.extend({
-  name: 'App',
-
-  components: {
-      NavBar,
-      Footer
-  },
-
-  data: () => ({
-  }),
-
+    name: "App",
+    components: {
+        NavBar,
+        Footer
+    },
+    data: () => ({}),
     created(): void {
-      this.$store.dispatch('init');
-      this.$store.dispatch('Platform/init');
+        this.$store.dispatch("init");
+        this.$store.dispatch("Platform/init");
     }
 });
 </script>
+
 <style scoped lang="scss">
-    @use 'main';
-    .v-application{
-        background-color: #F8F9FA !important;
-    }
-    .bg{
-        position: fixed;
-        top: 0;
+@use 'main';
+.v-application {
+    background-color: #f8f9fa !important;
+}
+.bg {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    left: 0;
+
+    img {
         width: 100%;
-        height: 100%;
-        left: 0;
-
-        img{
-          width: 100%;
-          object-fit: cover;
-          opacity: 0.03;
-        }
+        object-fit: cover;
+        opacity: 0.03;
     }
+}
 
-    .content{
-        position: relative;
+.content {
+    position: relative;
+}
+
+.router_view {
+    box-sizing: border-box;
+}
+
+.footer {
+    margin-top: 15vh;
+}
+
+.router_view, 
+.navbar, 
+.footer {
+    padding: main.$container_padding_l;
+}
+
+@media only screen and (max-width: main.$mobile_width) {
+    .router_view, 
+    .navbar, 
+    .footer {
+        padding: main.$container_padding_mobile;
     }
+}
 
-    .router_view{
-        box-sizing: border-box;
-        padding: main.$container_padding_l;
+@media only screen and (max-width: main.$medium_width) {
+    .router_view, 
+    .navbar,
+    .footer {
+        padding: main.$container_padding_s;
     }
-
-    .navbar{
-        padding: main.$container_padding_l;
-    }
-
-    .footer{
-        margin-top: 15vh;
-        padding: main.$container_padding_l;
-    }
-
-    @media only screen and (max-width: main.$mobile_width) {
-        .router_view {
-            padding: main.$container_padding_mobile;
-        }
-        .navbar {
-            padding: main.$container_padding_mobile;
-        }
-
-        .footer{
-            padding: main.$container_padding_mobile;
-        }
-    }
-
-    @media only screen and (max-width: main.$medium_width) {
-        .router_view {
-            padding: main.$container_padding_s;
-        }
-        .navbar {
-            padding: main.$container_padding_s;
-        }
-
-        .footer{
-            padding: main.$container_padding_s;
-        }
-    }
+}
 </style>
+
 <style lang="scss">
-    body{
-        font-family: 'Helvetica';
-        margin: 0;
-        background-color: #F8F9FA;
-    }
-    p{
-        margin: 0;
-    }
-    .v-application a{
-        color: #71C5FF !important;
-        text-decoration: none;
-        font-weight: normal;
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&display=swap');
 
-        &:hover{
-            text-decoration: underline;
-        }
-    }
+body {
+    font-family: "Helvetica";
+    margin: 0;
+    /* background-color: #f8f9fa; */
+    background-color: #fff !important;
+}
 
+p {
+    margin: 0;
+}
 
-    .fade-enter-active, .fade-leave-active {
-        transition: opacity .3s;
+.ava-monospace {
+    font-family: "Inconsolata", monospace;
+    font-size: 1.2em;
+}
+
+.v-application a {
+    color: #71c5ff !important;
+    text-decoration: none;
+    font-weight: normal;
+
+    &:hover {
+        text-decoration: underline;
     }
-    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-        opacity: 0;
-    }
+}
+
+.v-content__wrap {
+    min-height: calc(100vh - 130px);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.3s;
+}
+.fade-enter, 
+.fade-leave-to 
+/* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+}
 </style>

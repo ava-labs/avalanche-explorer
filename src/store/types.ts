@@ -1,4 +1,4 @@
-export interface RootState {
+export interface IRootState {
     assets: any,
     chainId: string,
     known_addresses: {

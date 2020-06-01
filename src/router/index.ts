@@ -11,21 +11,21 @@ const routes = [
     component: Home
   },
   {
+    path: '/subnets',
+    name: 'Subnets',
+    component: () => import(/* webpackChunkName: "subnets" */ '../views/Subnets.vue')
+  },
+  {
     path: '/tokens',
     name: 'Tokens',
     component: () => import(/* webpackChunkName: "tokens" */ '../views/Tokens.vue')
   },
   {
-    path: '/resources',
-    name: 'Resources',
-    component: () => import(/* webpackChunkName: "resources" */ '../views/Resources.vue')
-  },
-  {
     path: '/validators',
     name: 'Validators',
-    component: () => import(/* webpackChunkName: "blockchain" */ '../views/Validators.vue')
+    component: () => import(/* webpackChunkName: "validators" */ '../views/Validators.vue')
   },
-    {
+  {
     path: '/search',
     name: 'Search',
     component: () => import(/* webpackChunkName: "search" */ '../views/Search.vue')
@@ -33,7 +33,7 @@ const routes = [
   {
     path: '/tx',
     name: 'Transactions',
-    component: () => import(/* webpackChunkName: "transactions" */ '../views/AllTransactions.vue')
+    component: () => import(/* webpackChunkName: "transactions" */ '../views/Transactions.vue')
   },
   {
     path: '/tx/:id',
@@ -49,8 +49,12 @@ const routes = [
     path: '/address/:address',
     name: 'Address',
     component: () => import(/* webpackChunkName: "address" */ '../views/Address.vue')
+  },
+  {
+    path: '/resources',
+    name: 'Resources',
+    component: () => import(/* webpackChunkName: "resources" */ '../views/Resources.vue')
   }
-
 ];
 
 const router = new VueRouter({

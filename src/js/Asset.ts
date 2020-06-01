@@ -1,15 +1,5 @@
-import api from '@/axios';
-
-interface AssetData {
-    id: string;
-    alias: string;
-    chainID: string;
-    currentSupply: number;
-    denomination: number;
-    name: string;
-    symbol: string;
-}
-
+import api from "@/axios";
+import { IAssetData } from "./IAsset";
 
 class Asset {
     id: string;
@@ -22,8 +12,7 @@ class Asset {
     volume_day: string;
     txCount_day: number;
 
-
-    constructor(assetData: AssetData) {
+    constructor(assetData: IAssetData) {
         this.id = assetData.id;
         this.alias = assetData.alias;
         this.chainID = assetData.chainID;
@@ -31,18 +20,16 @@ class Asset {
         this.denomination = assetData.denomination;
         this.name = assetData.name;
         this.symbol = assetData.symbol;
-        this.volume_day = '0';
+        this.volume_day = "0";
         this.txCount_day = 0;
-
         this.updateVolumeHistory();
     }
 
-
     // Daily Volume
-    updateVolumeHistory(){
+    updateVolumeHistory() {
         let parent = this;
         let endDate = new Date();
-        let startTime = Date.now() - (1000 *60 * 60 * 24);
+        let startTime = Date.now() - (1000 * 60 * 60 * 24);
         let startDate = new Date(startTime);
 
         api.get(`/x/transactions/aggregates?startTime=${startDate.toISOString()}&endTime=${endDate.toISOString()}&assetID=${this.id}`).then(res => {
@@ -50,10 +37,8 @@ class Asset {
             let txVolume = res.data.aggregates.transactionVolume;
             parent.volume_day = txVolume;
             parent.txCount_day = txCount;
-
-            // console.log(res.data);
         });
     }
 }
 
-export {Asset}
+export { Asset }
