@@ -11,7 +11,7 @@
         <div class="logo">
             <router-link to="/">
                 <img style="width: 60px" src="@/assets/AVA-black.png" />
-                <h1>AVA Explorer</h1>
+                <h1>Explorer <span>Denali</span></h1>
             </router-link>
         </div>
         <v-spacer class="spacer_mid"></v-spacer>
@@ -103,12 +103,22 @@ export default Vue.extend({
         flex-direction: row;
         height: 100%;
         color: #000 !important;
-        text-decoration: none;
+        text-decoration: none !important;
     }
 
     h1 {
         font-size: 24px;
         padding-left: 10px;
+
+        &:hover {
+            opacity: 0.7;
+            text-decoration: none !important;
+        }
+
+        span {
+            font-size: 12px;
+            color: #71c5ff;
+        }
     }
     img {
         max-height: calc(100% - 15px);

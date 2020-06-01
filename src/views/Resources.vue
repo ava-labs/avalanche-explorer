@@ -3,6 +3,11 @@
         <div class="main">
             <h2>AVA Directory</h2>
             <hr />
+            <div class="denali">
+                <img src="https://assets-global.website-files.com/5d80307810123f5ffbb34d6e/5eced3b22c4c3f38823c7fd3_Denali%20Big.svg" width="2280" alt="">
+                <h3>Welcome to the Denali Incentivized Testnet</h3>
+                <p class="description">Denali is the last phase of the public testnet and a global community effort to test the network in the most realistic conditions. Denali is designed to build, educate, and reward the first community of AVA validators, preparing them for a healthy, decentralized, and widely distributed mainnet launch!</p>
+            </div>
             <div class="cards">
                 <div class="card">
                     <img src="@/assets/resources_view/Wallet.png" />
@@ -52,6 +57,18 @@
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.denali {
+    border: 0;
+    width: 100%;
+    
+    img {
+        max-width: 100%;
+        max-height: 100%;
+        display: block;
+    }
+
+}
+
 .cards {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -64,6 +81,20 @@
 h2 {
     margin: 30px auto;
     font-size: 18px;
+}
+
+h3 {
+    margin-top: 1.4em;
+    margin-bottom: .79em;
+    font-size: 38px;
+    line-height: 1.16em;
+}
+
+.description {
+    font-size: 20px;
+    line-height: 1.2em;
+    max-width: 900px;
+    margin-bottom: 1em;
 }
 
 hr {
@@ -130,6 +161,15 @@ hr {
 }
 
 @media only screen and (max-width: main.$mobile_width) {
+
+    h3 {
+        font-size: 18px;
+    }
+
+    .description {
+        font-size: 14px;
+    }
+
     .cards {
         display: flex;
         flex-direction: column;
