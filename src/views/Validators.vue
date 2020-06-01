@@ -135,11 +135,9 @@ export default {
                 if (valA < valB) {
                     return 1;
                 }
-
                 if (valA > valB) {
                     return -1;
                 }
-
                 return 0;
             });
 
@@ -156,13 +154,13 @@ export default {
             return vals;
         },
         totalStake() {
-            let valBig = this.$store.getters["Platform/totalStakeAmount"];
+            let valBig = this.$store.getters["Platform/avaTotalStakeAmount"];
 
             if (this.validatorType === "pending") {
-                valBig = this.$store.getters[
-                    "Platform/totalStakeAmountPending"
-                ];
+                valBig = this.$store.getters["Platform/avaTotalPendingStakeAmount"];
             }
+
+            console.log(valBig);
 
             let res = valBig.div(Math.pow(10, 9));
             return res;

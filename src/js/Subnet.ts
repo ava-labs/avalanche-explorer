@@ -34,13 +34,20 @@ export default class Subnet {
             },
             "id": 1
         };
-        let validatorsData = await gecko_api.post("", req) as IValidatorData[];
-        this.validators = validatorsData.map((val: IValidatorData) => ({
+        let response = await gecko_api.post("", req);
+        let validatorsData = response.data.result.validators as IValidatorData[];
+        let validators = validatorsData.map((val: IValidatorData) => ({
             id: val.id,
             stakeAmount: parseInt(val.stakeAmount),
             startTime: new Date(parseInt(val.startTime) * 1000),
             endTime: new Date(parseInt(val.endTime) * 1000)
         }));
+
+        console.log(validators);
+        // validators.sort((a,b) => {
+        //     return b.stakeAmount - a.stakeAmount;
+        // });
+        this.validators = validators;
     }
     
     async updatePendingValidators() {
@@ -52,7 +59,9 @@ export default class Subnet {
             },
             "id": 1
         };
-        let pendingValidatorsData = await gecko_api.post("", req) as IValidatorData[];
+        let response = await gecko_api.post("", req) as IValidatorData[];
+        let pendingValidatorsData = response.data.result.validators as IValidatorData[];
+
         this.pendingValidators = pendingValidatorsData.map((val: IValidatorData) => ({
             id: val.id,
             stakeAmount: parseInt(val.stakeAmount),

@@ -48,7 +48,7 @@
                         <span>Total number of nodes participating in the consensus protocol of the AVA network.</span>
                     </v-tooltip>
                     <div>
-                        <p>{{valdiatorCount}}</p>
+                        <p>{{validatorCount}}</p>
                         <!--<p class="change">+ 24%</p>-->
                     </div>
                 </div>
@@ -114,12 +114,13 @@ export default {
             }
         },
         totalStake() {
-            let res = this.$store.getters["Platform/totalStakeAmount"];
-            res = stringToBig(res, 9).toFixed(0);
+            let res = this.$store.getters["Platform/avaTotalStakeAmount"];
+            res = stringToBig(res.toString(), 9).toFixed(0);
             return parseInt(res).toLocaleString();
         },
-        valdiatorCount() {
-            return this.$store.state.Platform.validators.length;
+        validatorCount() {
+            return this.$store.getters['Platform/avaValidatorCount'];
+            // return this.$store.getters.Platform.avaValidatorCount;
         },
         avaVolume() {
             let assets = this.$store.state.assets;
