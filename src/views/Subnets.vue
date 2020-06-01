@@ -91,14 +91,12 @@
                                                     <tr>
                                                         <th class="text-left">Name</th>
                                                         <th class="text-left">Virtual Machine ID</th>
-                                                        <th class="text-left">Status</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr v-for="b in s.blockchains" :key="b.id">
                                                         <td>{{ b.name }}</td>
                                                         <td class="id_overflow">{{ b.vmID }}</td>
-                                                        <td>{{ b.status }}</td>
                                                     </tr>
                                                 </tbody>
                                             </template>
@@ -203,6 +201,7 @@ export default {
         await this.addPChain();
         // group blockchains by subnet
         this.subnets = this.getSubnets(this.blockchains);
+        console.log("subnets", this.subnets);
     },
     computed: {
         validators() {

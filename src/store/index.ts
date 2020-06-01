@@ -26,15 +26,17 @@ export default new Vuex.Store({
             return res;
         }
     },
-    mutations: {},
+    mutations: {
+        addAsset(state, asset) {
+            Vue.set(state.assets, asset.id, asset);
+        }
+    },
     actions: {
         init(store) {
-            console.log(AddressDict);
             api.get("/x/assets").then(res => {
                 let assets = res.data.assets;
                 assets.forEach((assetData: any) => {
-                    let asset = new Asset(assetData);
-                    Vue.set(store.state.assets, asset.id, asset);
+                    store.commit("addAsset", new Asset(assetData));
                 });
             })
         }
