@@ -8,18 +8,16 @@ import { ISubnetData } from './ISubnet';
 import { IBlockchainData } from './IBlockchain';
 import Vue from 'vue';
 
-const AVA_SUBNET_ID = "11111111111111111111111111111111LpoYY";
+export const AVA_SUBNET_ID = "11111111111111111111111111111111LpoYY";
 
 const platform_module: Module<IPlatformState, IRootState> = {
     namespaced: true,
     state: {
-        subnets: {},
-        // validators: [],
-        // validatorsPending: [],
+        subnets: {}
     },
     mutations: {
-        addSubnet(state, net){
-            Vue.set(state.subnets, net.id, net);
+        setSubnet(state, s) {
+            Vue.set(state.subnets, s.id, s);
         }
     },
     actions: {
@@ -27,118 +25,89 @@ const platform_module: Module<IPlatformState, IRootState> = {
             dispatch("getSubnets");
         },
         async getSubnets({ state, commit }) {
+            // Get subnets and init classes
+            let subnets = (await platform.getSubnets() as ISubnetData[])
+                .map((s: ISubnetData) => new Subnet(s));
 
-            // Get subnets from gecko and init classes
-            let subnets = (await platform.getSubnets() as ISubnetData[]).map((s: ISubnetData) => {
-                return new Subnet(s);
-            });
-
-            // Force add default subnet since it is not returned...
-            // Possibly an issue with gecko
-
+            // Add Default Subnet manually for now (https://github.com/ava-labs/gecko/issues/200)
             subnets.push(new Subnet({
                 id: AVA_SUBNET_ID,
                 controlKeys: [],
-                threshold: '1',
+                threshold: "1"
             }));
 
+            // Get and set validators for each subnet
             subnets.forEach(s => {
-                s.updateCurrentValidators();
+                s.updateValidators();
                 s.updatePendingValidators();
-                // state.subnets[s.id] = s;
-                commit('addSubnet', s);
+                commit("setSubnet", s);
             });
 
-
-            // get blockchains for each subnet
+            // Get blockchains
             let blockchains = await platform.getBlockchains() as IBlockchainData[];
+            
+            // Add P-Chain manually
+            blockchains.push({
+                name: "P-Chain",
+                id: "11111111111111111111111111111111LpoYY",
+                subnetID: "11111111111111111111111111111111LpoYY",
+                vmID: "???"
+            });
 
-            console.log(subnets);
-            console.log(blockchains);
-
+            // Map blockchains to their subnet
             blockchains.forEach(b => {
                 let subnetID = b.subnetID;
-                console.log(subnetID);
                 state.subnets[subnetID].addBlockchain(b);
             });
         }
     },
     getters: {
-        avaValidatorCount(state){
-            if(!state.subnets[AVA_SUBNET_ID]) return 0;
-            return state.subnets[AVA_SUBNET_ID].validators.length;
+        totalValidators(state) {
+            // Count of active validators in default subnet
+            let defaultSubnet = state.subnets[AVA_SUBNET_ID];
+            return (!defaultSubnet) ? 
+                0 : defaultSubnet.validators.length;
         },
-
-        avaTotalStakeAmount(state){
-            if(!state.subnets[AVA_SUBNET_ID]) return Big('0');
-
-            // Default net stake amount is the total amount
+        totalStake(state) {
+            // returns Big Number. Total $AVA active stake on default subnet
+            let defaultSubnet = state.subnets[AVA_SUBNET_ID];
             let total = Big(0);
-            let net = state.subnets[AVA_SUBNET_ID];
-
-            let validators = net.validators;
-            let totalStake = validators.reduce((acc, validator) => {
-                    let stake = Big(validator.stakeAmount);
-                    return acc.add(stake);
-                }, total);
-
-            return totalStake;
+            return (!defaultSubnet) ? total : 
+                total = defaultSubnet.validators.reduce((a, v) => a.add(Big(v.stakeAmount as number)), total);
         },
-
-        avaTotalPendingStakeAmount(state){
-            if(!state.subnets[AVA_SUBNET_ID]) return Big('0');
-
-            // Default net stake amount is the total amount
+        totalPendingStake(state) {
+            // returns Big Number. Total $AVA pending stake on default subnet
+            let defaultSubnet = state.subnets[AVA_SUBNET_ID];
             let total = Big(0);
-            let net = state.subnets[AVA_SUBNET_ID];
-
-            let validators = net.pendingValidators;
-            let totalStake = validators.reduce((acc, validator) => {
-                let stake = Big(validator.stakeAmount);
-                return acc.add(stake);
-            }, total);
-
-            return totalStake;
+            return (!defaultSubnet) ? total : 
+                total = defaultSubnet.pendingValidators.reduce((a, v) => a.add(Big(v.stakeAmount as number)), total);
         },
-
-        // cumulativeStakeAmount(){
-        //     return Big(0);
-        // }
-
-        // totalStakeAmount(state) {
-        //     let res = Big(0);
-        //     state.validators.forEach(validator => {
-        //         res = res.add(validator.stakeAmount)
-        //     });
-        //     return res;
-        // },
-        // cumulativeStakeAmount(state) {
-        //     let res: Big[] = [];
-        //     let total = Big(0);
-        //     state.validators.forEach(validator => {
-        //         let val = Big(validator.stakeAmount);
-        //         total = total.add(val);
-        //         res.push(total)
-        //     });
-        //     return res;
-        // },
-        // totalStakeAmountPending(state) {
-        //     let res = Big(0);
-        //     state.validatorsPending.forEach(validator => {
-        //         res = res.add(validator.stakeAmount)
-        //     });
-        //     return res;
-        // },
-        // cumulativeStakeAmountPending(state) {
-        //     let res: Big[] = [];
-        //     let total = Big(0);
-        //     state.validatorsPending.forEach(validator => {
-        //         let val = Big(validator.stakeAmount);
-        //         total = total.add(val);
-        //         res.push(total)
-        //     });
-        //     return res;
-        // }
+        cumulativeStake(state) {
+            // returns Big Number[]. Accumulative distribution of active stakes
+            let defaultSubnet = state.subnets[AVA_SUBNET_ID];
+            let res: Big[] = [];
+            let total = Big(0)
+            if (defaultSubnet) {
+                defaultSubnet.validators.forEach(v => {
+                    total = total.add(Big(v.stakeAmount as number));
+                    res.push(total)
+                });
+            }
+            return res;
+        },
+        cumulativePendingStake(state) {
+            // returns Big Number[]. Accumulative distribution of pending stakes
+            let defaultSubnet = state.subnets[AVA_SUBNET_ID];
+            let res: Big[] = [];
+            let total = Big(0);
+            if (defaultSubnet) {
+                defaultSubnet.pendingValidators.forEach(v => {
+                    total = total.add(Big(v.stakeAmount as number));
+                    res.push(total)
+                });
+            }
+            return res;
+        }
     }
 };
 

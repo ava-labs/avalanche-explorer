@@ -28,7 +28,7 @@
                     <div>
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
-                                <p class="label" v-on="on">Total {{validatorType}} Stake Amount</p>
+                                <p class="label" v-on="on">Total {{toggle}} Stake Amount</p>
                             </template>
                             <span>Total value of $AVA tokens used as a scarce resource to secure the AVA network using the Proof-of-Stake method.</span>
                         </v-tooltip>
@@ -54,9 +54,13 @@
                 <h2>Staking Distribution</h2>
             </div>
             <div class="search_tabs">
-                <input class="search" type="text" v-model="search" placeholder="Search by Address" />
+                <input
+                    class="search"
+                    type="text"
+                    v-model="search"
+                    placeholder="Search by Validator ID"
+                />
             </div>
-
             <div class="headers">
                 <p style="text-align: center;">Rank</p>
                 <v-tooltip bottom>
@@ -80,99 +84,100 @@
                         <br />The distribution is proportional to the influence a single node can have on the decentraled network.
                     </span>
                 </v-tooltip>
-                <!--<p style="text-align: right;">Commission</p>-->
             </div>
             <div v-if="validators.length === 0" class="empty">
                 <p>No Validators</p>
             </div>
-            <validator-row
-                class="validator"
-                v-for="(validator, i) in validators"
-                :key="validator.id"
-                :rank="i+1"
-                :validator="validator"
-                :cumulative-stake="cummulativeStake[i]"
-            ></validator-row>
+            <div v-show="validators.length > 0 && toggle === 'active'">
+                <validator-row
+                    class="validator"
+                    v-for="(v, i) in validators"
+                    :key="v.id + v.stakeAmount"
+                    :rank="i+1"
+                    :validator="v"
+                    v-show="matchSearch(v)"
+                    :cumulative-stake="cummulativeStake[i]"
+                ></validator-row>
+            </div>
+            <div v-show="validators.length > 0 && toggle === 'pending'">
+                <validator-row
+                    class="validator"
+                    v-for="(v, i) in pendingValidators"
+                    :key="v.id + v.stakeAmount"
+                    :rank="i+1"
+                    :validator="v"
+                    v-show="matchSearch(v)"
+                    :cumulative-stake="cummulativeStake[i]"
+                ></validator-row>
+            </div>
         </div>
     </div>
 </template>
 <script>
 import ValidatorRow from "../components/rows/ValidatorRow/ValidatorRow";
+import { AVA_SUBNET_ID } from '@/store/modules/platform/platform';
 
 export default {
     data() {
         return {
             search: "",
-            validatorType: "active" // active | pending
+            toggle: "active" // active | pending
         };
     },
     components: {
-        // Input,
         ValidatorRow
     },
     methods: {
         typeChange(val) {
             if (val) {
-                this.validatorType = "pending";
+                this.toggle = "pending";
             } else {
-                this.validatorType = "active";
+                this.toggle = "active";
             }
+        },
+        matchSearch(val) {
+            if (this.search) {
+                let idUpper = val.id.toUpperCase();
+                let queryUpper = this.search.toUpperCase();
+                if (!idUpper.includes(queryUpper)) {
+                    return false;
+                }
+            }
+            return true;
         }
     },
     computed: {
         validators() {
-            let parent = this;
-            let vals = this.$store.state.Platform.validators;
+            let defaultSubnet = this.$store.state.Platform.subnets[AVA_SUBNET_ID];
 
-            if (this.validatorType === "pending") {
-                vals = this.$store.state.Platform.validatorsPending;
+            if (defaultSubnet) {
+                let vals = defaultSubnet.validators;
+                return vals;
             }
 
-            vals.sort((a, b) => {
-                let valA = parseInt(a.stakeAmount);
-                let valB = parseInt(b.stakeAmount);
+            return [];
+        },
+        pendingValidators() {
+            let parent = this;
+            let defaultSubnet = this.$store.state.Platform.subnets[AVA_SUBNET_ID];
 
-                if (valA < valB) {
-                    return 1;
-                }
-                if (valA > valB) {
-                    return -1;
-                }
-                return 0;
-            });
+            if (defaultSubnet) {
+                let vals = defaultSubnet.pendingValidators;
+                return vals;
+            }
 
-            vals = vals.filter(val => {
-                if (parent.search) {
-                    let idUpper = val.id.toUpperCase();
-                    let queryUpper = parent.search.toUpperCase();
-                    if (!idUpper.includes(queryUpper)) {
-                        return false;
-                    }
-                }
-                return true;
-            });
-            return vals;
+            return [];
         },
         totalStake() {
-            let valBig = this.$store.getters["Platform/avaTotalStakeAmount"];
-
-            if (this.validatorType === "pending") {
-                valBig = this.$store.getters["Platform/avaTotalPendingStakeAmount"];
-            }
-
-            console.log(valBig);
-
-            let res = valBig.div(Math.pow(10, 9));
-            return res;
+            let valBig = this.toggle === "active" ? 
+                this.$store.getters["Platform/totalStake"]: 
+                this.$store.getters["Platform/totalPendingStake"];
+            return valBig.div(Math.pow(10, 9));
         },
         cummulativeStake() {
-            let valBig = this.$store.getters["Platform/cumulativeStakeAmount"];
-            if (this.validatorType === "pending") {
-                valBig = this.$store.getters[
-                    "Platform/cumulativeStakeAmountPending"
-                ];
-            }
-
+            let valBig = this.toggle === "active" ? 
+                this.$store.getters["Platform/cumulativeStake"]: 
+                this.$store.getters["Platform/cumulativePendingStake"];
             return valBig;
         }
     }
@@ -277,7 +282,6 @@ export default {
 }
 
 .tabs {
-    /*display: flex;*/
     flex-direction: row-reverse;
     display: inline-block;
     width: max-content;
