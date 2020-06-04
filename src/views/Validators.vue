@@ -54,7 +54,7 @@
                 <h2>Staking Distribution</h2>
             </div>
             <div class="search_tabs">
-                <input class="search" type="text" v-model="search" placeholder="Search by Address" />
+                <input class="search" type="text" v-model="search" placeholder="Search by Node ID" />
             </div>
 
             <div class="headers">
@@ -63,7 +63,7 @@
                     <template v-slot:activator="{ on }">
                         <p v-on="on">Validator</p>
                     </template>
-                    <span>Address of the node participating in the consensus protocol.</span>
+                    <span>Node ID of the node participating in the consensus protocol.</span>
                 </v-tooltip>
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
