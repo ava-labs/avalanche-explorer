@@ -114,18 +114,16 @@ export default {
             }
         },
         totalStake() {
-            let res = this.$store.getters["Platform/avaTotalStakeAmount"];
+            let res = this.$store.getters["Platform/totalStake"];
             res = stringToBig(res.toString(), 9).toFixed(0);
             return parseInt(res).toLocaleString();
         },
         validatorCount() {
-            return this.$store.getters['Platform/avaValidatorCount'];
-            // return this.$store.getters.Platform.avaValidatorCount;
+            return this.$store.getters['Platform/totalValidators'];
         },
         avaVolume() {
             let assets = this.$store.state.assets;
-            let ava =
-                assets["21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA"];
+            let ava = assets["21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA"];
 
             if (!ava) {
                 return 0;

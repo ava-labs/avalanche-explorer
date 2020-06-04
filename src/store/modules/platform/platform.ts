@@ -45,7 +45,7 @@ const platform_module: Module<IPlatformState, IRootState> = {
 
             // Get blockchains
             let blockchains = await platform.getBlockchains() as IBlockchainData[];
-            
+
             // Add P-Chain manually
             blockchains.push({
                 name: "P-Chain",
@@ -65,21 +65,27 @@ const platform_module: Module<IPlatformState, IRootState> = {
         totalValidators(state) {
             // Count of active validators in default subnet
             let defaultSubnet = state.subnets[AVA_SUBNET_ID];
-            return (!defaultSubnet) ? 
+            return (!defaultSubnet) ?
                 0 : defaultSubnet.validators.length;
+        },
+        totalPendingValidators(state) {
+            // Count of active validators in default subnet
+            let defaultSubnet = state.subnets[AVA_SUBNET_ID];
+            return (!defaultSubnet) ?
+                0 : defaultSubnet.pendingValidators.length;
         },
         totalStake(state) {
             // returns Big Number. Total $AVA active stake on default subnet
             let defaultSubnet = state.subnets[AVA_SUBNET_ID];
             let total = Big(0);
-            return (!defaultSubnet) ? total : 
+            return (!defaultSubnet) ? total :
                 total = defaultSubnet.validators.reduce((a, v) => a.add(Big(v.stakeAmount as number)), total);
         },
         totalPendingStake(state) {
             // returns Big Number. Total $AVA pending stake on default subnet
             let defaultSubnet = state.subnets[AVA_SUBNET_ID];
             let total = Big(0);
-            return (!defaultSubnet) ? total : 
+            return (!defaultSubnet) ? total :
                 total = defaultSubnet.pendingValidators.reduce((a, v) => a.add(Big(v.stakeAmount as number)), total);
         },
         cumulativeStake(state) {
@@ -107,6 +113,13 @@ const platform_module: Module<IPlatformState, IRootState> = {
                 });
             }
             return res;
+        },
+        totalBlockchains(state) {
+            let total = 0;
+            for (const subnetID of Object.keys(state.subnets)) {
+                total += state.subnets[subnetID].blockchains.length;
+            }
+            return total;
         }
     }
 };
