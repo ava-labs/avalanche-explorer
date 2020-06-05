@@ -1,5 +1,5 @@
 <template>
-    <div class="comulative_bar">
+    <div class="cumulative_bar">
         <div ref="agg_bar" class="agg_bar" :style="{
             width: `${barPerc}%`
         }">

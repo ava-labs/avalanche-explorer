@@ -44,7 +44,7 @@
                             </template>
                             <span>Total number of nodes participating in the consensus protocol of the AVA network.</span>
                         </v-tooltip>
-                        <p class="meta_val">{{validators.length}}</p>
+                        <p class="meta_val">{{totalValidatorsCount}}</p>
                     </div>
                 </div>
             </div>
@@ -52,6 +52,12 @@
         <div class="validators">
             <div class="header">
                 <h2>Staking Distribution</h2>
+            </div>
+            <div v-show="search.length === 0">
+                <p class="count">{{totalValidatorsCount}} validators found</p>
+            </div>
+            <div v-show="search.length > 0 && searchResultsValidators">
+                <p class="count">{{searchResultsValidators.length}} results found</p>
             </div>
             <div class="search_tabs">
                 <input
@@ -61,11 +67,20 @@
                     placeholder="Search by Validator ID"
                 />
             </div>
+            <div v-show="search.length === 0">
+                <div class="bar">
+                    <validator-pagination-controls
+                        :total="totalValidatorsCount"
+                        :limit="limit"
+                        @change="handleChange"
+                    ></validator-pagination-controls>
+                </div>
+            </div>
             <div class="headers">
                 <p style="text-align: center;">Rank</p>
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
-                        <p v-on="on">Validator</p>
+                        <p v-on="on">Validator ID</p>
                     </template>
                     <span>Address of the node participating in the consensus protocol.</span>
                 </v-tooltip>
@@ -75,7 +90,7 @@
                     </template>
                     <span>The amount of $AVA staked by this node.</span>
                 </v-tooltip>
-                <v-tooltip bottom>
+                <!-- <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
                         <p v-on="on" style="text-align: right;">Cumulative Stake</p>
                     </template>
@@ -83,49 +98,60 @@
                         The percentage of scarce resource ($AVA) concentrated up to this validator ranking.
                         <br />The distribution is proportional to the influence a single node can have on the decentraled network.
                     </span>
-                </v-tooltip>
+                </v-tooltip>-->
             </div>
             <div v-if="validators.length === 0" class="empty">
                 <p>No Validators</p>
             </div>
-            <div v-show="validators.length > 0 && toggle === 'active'">
-                <validator-row
-                    class="validator"
-                    v-for="(v, i) in validators"
-                    :key="v.id + v.stakeAmount"
-                    :rank="i+1"
-                    :validator="v"
-                    v-show="matchSearch(v)"
-                    :cumulative-stake="cummulativeStake[i]"
-                ></validator-row>
+            <div v-show="search.length === 0">
+                <div v-show="validators.length > 0 && toggle === 'active'">
+                    <validator-row
+                        class="validator"
+                        v-for="v in paginatedValidators"
+                        :key="v.id + v.stakeAmount"
+                        :validator="v"
+                    ></validator-row>
+                    <!-- :cumulative-stake="cumulativeStake[v.rank - 1]" -->
+                </div>
+                <div v-show="validators.length > 0 && toggle === 'pending'">
+                    <validator-row
+                        class="validator"
+                        v-for="v in paginatedValidators"
+                        :key="v.id + v.stakeAmount"
+                        :validator="v"
+                    ></validator-row>
+                    <!-- :cumulative-stake="cumulativeStake[v.rank - 1]" -->
+                </div>
             </div>
-            <div v-show="validators.length > 0 && toggle === 'pending'">
+            <div v-show="search.length > 0">
                 <validator-row
                     class="validator"
-                    v-for="(v, i) in pendingValidators"
+                    v-for="v in searchResultsValidators"
                     :key="v.id + v.stakeAmount"
-                    :rank="i+1"
                     :validator="v"
-                    v-show="matchSearch(v)"
-                    :cumulative-stake="cummulativeStake[i]"
                 ></validator-row>
+                <!-- :cumulative-stake="cumulativeStake[v.rank - 1]" -->
             </div>
         </div>
     </div>
 </template>
 <script>
 import ValidatorRow from "../components/rows/ValidatorRow/ValidatorRow";
-import { AVA_SUBNET_ID } from '@/store/modules/platform/platform';
+import ValidatorPaginationControls from "../components/misc/ValidatorPaginationControls";
+import { AVA_SUBNET_ID } from "@/store/modules/platform/platform";
 
 export default {
     data() {
         return {
             search: "",
-            toggle: "active" // active | pending
+            toggle: "active", // active | pending
+            limit: 25, // how many rows  to display
+            start: 0
         };
     },
     components: {
-        ValidatorRow
+        ValidatorRow,
+        ValidatorPaginationControls
     },
     methods: {
         typeChange(val) {
@@ -144,11 +170,22 @@ export default {
                 }
             }
             return true;
+        },
+        handleChange(val) {
+            this.start = val; // all computed values will react to change
         }
     },
     computed: {
+        end() {
+            return this.start + this.limit;
+        },
+        totalValidatorsCount() {
+            return this.$store.getters["Platform/totalValidators"];
+        },
         validators() {
-            let defaultSubnet = this.$store.state.Platform.subnets[AVA_SUBNET_ID];
+            let defaultSubnet = this.$store.state.Platform.subnets[
+                AVA_SUBNET_ID
+            ];
 
             if (defaultSubnet) {
                 let vals = defaultSubnet.validators;
@@ -156,6 +193,12 @@ export default {
             }
 
             return [];
+        },
+        searchResultsValidators() {
+            return this.validators.filter(v => v.id.includes(this.search)).slice(0, 10);
+        },
+        paginatedValidators() {
+            return this.validators.slice(this.start, this.start + this.limit);
         },
         pendingValidators() {
             let parent = this;

@@ -2,7 +2,7 @@
     <div class="validator">
         <div class="rank">
             <div>
-                <p>{{rank}}</p>
+                <p>{{validator.rank}}</p>
             </div>
         </div>
         <div class="id_col">
@@ -13,12 +13,12 @@
             <p>{{stakePercText}}%</p>
         </div>
         <div class="comm_col">
-            <p>{{cumulativePercText}}%</p>
-            <comulative-bar
+            <!-- <p>{{cumulativePercText}}%</p> -->
+            <!-- <cumulative-bar
                 :total="totalStake"
-                :accumulated="cumulativeStake"
                 :amount="stakeAmount"
-            ></comulative-bar>
+                :accumulated="cumulativeStake"
+            ></cumulative-bar> -->
         </div>
     </div>
 </template>
@@ -26,11 +26,8 @@
 import moment from "moment";
 // import TimeDisplay from "@/components/Blockchain/TimeDisplay";
 import Big from "big.js";
-import { stringToBig } from "../../../helper";
-import ComulativeBar from "./ComulativeBar";
-
-// if below this amount will display in nAVA
-const nanoThresh = 100000000;
+import { toAVA, stringToBig } from "../../../helper";
+// import CumulativeBar from "./CumulativeBar";
 
 export default {
     filters: {
@@ -42,63 +39,48 @@ export default {
     },
     components: {
         // TimeDisplay
-        ComulativeBar
+        // CumulativeBar
     },
     props: {
         validator: {
             type: Object,
             required: true
         },
-        rank: {
-            type: Number,
-            required: true
-        },
-        cumulativeStake: {
-            type: Big,
-            required: true
-        }
+        // cumulativeStake: {
+        //     type: Number,
+        //     required: true
+        // }
     },
     computed: {
         totalStake() {
-            return this.$store.getters["Platform/totalStake"];
-        },
-        stakeAmountText() {
-            let amount = this.validator.stakeAmount;
-            let res = stringToBig(amount, 9).toFixed(9);
-            return res;
-        },
-        stakeAmountSymbol() {
-            let amount = this.validator.stakeAmount;
-
-            if (amount <= nanoThresh) {
-                return " $nAVA";
-            }
-            return "$AVA";
-        },
-        duration() {
-            let start = this.validator.startTime;
-            let end = this.validator.endTime;
-            let dur = end - start;
-
-            return moment.duration(dur).humanize();
+            let val = this.$store.getters["Platform/totalStake"];
+            return toAVA(parseInt(val.toString()));
         },
         stakeAmount() {
-            return Big(this.validator.stakeAmount);
+            return toAVA(this.validator.stakeAmount);
+        },
+        stakeAmountText() {
+            return toAVA(this.validator.stakeAmount).toFixed(9);
         },
         stakePerc() {
-            let amt = this.stakeAmount;
-            let tot = this.totalStake;
-            return amt.div(tot);
+            return this.stakeAmount / this.totalStake * 100;
         },
-        stakePercText() {
-            return this.stakePerc.times(100).toFixed(8);
+        stakePercText() {            
+            // redundant assignments bc referencing computed values affect performance
+            let stakeAmount = toAVA(this.validator.stakeAmount);
+            let totalStake = toAVA(parseInt(this.$store.getters["Platform/totalStake"].toString()));
+            return (stakeAmount / totalStake * 100).toFixed(8);
         },
         cumulativePercText() {
-            return this.cumulativeStake
-                .div(this.totalStake)
-                .times(100)
-                .toFixed(2);
-        }
+            return this.cumulativeStake;
+                // .div(this.totalStake)
+                // .times(100)
+                // .toFixed(2);
+        },
+        duration() {
+            let dur = this.validator.endTime - this.validator.startTime;
+            return moment.duration(dur).humanize();
+        },
     }
 };
 </script>

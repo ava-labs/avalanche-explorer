@@ -6,6 +6,12 @@ function stringToBig(raw: string, denomination = 0): Big {
     return Big(raw).div(Math.pow(10, denomination));
 }
 
+function toAVA(nAVA: string | number) {
+    return (typeof nAVA === "string") ?
+        parseInt(nAVA) / Math.pow(10, 9) : 
+        nAVA / Math.pow(10, 9);
+}
+
 function bigToDenomString(val: Big, denomination = 0) {
     return val.div(Math.pow(10, denomination));
 }
@@ -27,6 +33,7 @@ function subnetMap(id: string): string {
 }
 
 export {
+    toAVA,
     stringToBig,
     bigToDenomString,
     addressMap,

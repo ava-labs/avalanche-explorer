@@ -88,14 +88,14 @@ const platform_module: Module<IPlatformState, IRootState> = {
             return (!defaultSubnet) ? total :
                 total = defaultSubnet.pendingValidators.reduce((a, v) => a.add(Big(v.stakeAmount as number)), total);
         },
-        cumulativeStake(state) {
-            // returns Big Number[]. Accumulative distribution of active stakes
+        cumulativeStake(state): number[] {
+            // Accumulative distribution of active stakes
             let defaultSubnet = state.subnets[AVA_SUBNET_ID];
-            let res: Big[] = [];
-            let total = Big(0)
+            let res: number[] = [];
+            let total = 0;
             if (defaultSubnet) {
                 defaultSubnet.validators.forEach(v => {
-                    total = total.add(Big(v.stakeAmount as number));
+                    total += v.stakeAmount as number;
                     res.push(total)
                 });
             }

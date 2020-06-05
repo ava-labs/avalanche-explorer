@@ -58,11 +58,11 @@ export default class Subnet {
             return validator;
         });
 
-        if (this.id === AVA_SUBNET_ID) {
-            validators.sort((a, b) => (b.stakeAmount as number) - (a.stakeAmount as number));
-        } else {
-            validators.sort((a, b) => (b.weight as number) - (a.weight as number));
-        }
+        // sort list and set rank prop
+        (this.id === AVA_SUBNET_ID) ?
+            validators.sort((a, b) => (b.stakeAmount as number) - (a.stakeAmount as number)) :
+            validators.sort((a, b) => (b.weight as number) - (a.weight as number));        
+        validators.forEach((v, i) => v.rank = i + 1);
 
         this.validators = validators;
     }
@@ -98,11 +98,10 @@ export default class Subnet {
             return validator;
         });
 
-        if (this.id === AVA_SUBNET_ID) {
-            pendingValidators.sort((a, b) => (b.stakeAmount as number) - (a.stakeAmount as number));
-        } else {
+        (this.id === AVA_SUBNET_ID) ? 
+            pendingValidators.sort((a, b) => (b.stakeAmount as number) - (a.stakeAmount as number)) :
             pendingValidators.sort((a, b) => (b.weight as number) - (a.weight as number));
-        }
+        pendingValidators.forEach((v, i) => v.rank = i + 1);
 
         this.pendingValidators = pendingValidators;
     }
