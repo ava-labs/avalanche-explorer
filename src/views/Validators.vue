@@ -90,7 +90,7 @@
                     </template>
                     <span>The amount of $AVA staked by this node.</span>
                 </v-tooltip>
-                <!-- <v-tooltip bottom>
+                <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
                         <p v-on="on" style="text-align: right;">Cumulative Stake</p>
                     </template>
@@ -98,7 +98,7 @@
                         The percentage of scarce resource ($AVA) concentrated up to this validator ranking.
                         <br />The distribution is proportional to the influence a single node can have on the decentraled network.
                     </span>
-                </v-tooltip>-->
+                </v-tooltip>
             </div>
             <div v-if="validators.length === 0" class="empty">
                 <p>No Validators</p>
@@ -110,8 +110,8 @@
                         v-for="v in paginatedValidators"
                         :key="v.id + v.stakeAmount"
                         :validator="v"
+                        :cumulative-stake="cumulativeStake[v.rank - 1]"
                     ></validator-row>
-                    <!-- :cumulative-stake="cumulativeStake[v.rank - 1]" -->
                 </div>
                 <div v-show="validators.length > 0 && toggle === 'pending'">
                     <validator-row
@@ -119,8 +119,8 @@
                         v-for="v in paginatedValidators"
                         :key="v.id + v.stakeAmount"
                         :validator="v"
+                        :cumulative-stake="cumulativeStake[v.rank - 1]"
                     ></validator-row>
-                    <!-- :cumulative-stake="cumulativeStake[v.rank - 1]" -->
                 </div>
             </div>
             <div v-show="search.length > 0">
@@ -129,8 +129,8 @@
                     v-for="v in searchResultsValidators"
                     :key="v.id + v.stakeAmount"
                     :validator="v"
+                    :cumulative-stake="cumulativeStake[v.rank - 1]"
                 ></validator-row>
-                <!-- :cumulative-stake="cumulativeStake[v.rank - 1]" -->
             </div>
         </div>
     </div>
@@ -217,11 +217,19 @@ export default {
                 this.$store.getters["Platform/totalPendingStake"];
             return valBig.div(Math.pow(10, 9));
         },
-        cummulativeStake() {
-            let valBig = this.toggle === "active" ? 
-                this.$store.getters["Platform/cumulativeStake"]: 
-                this.$store.getters["Platform/cumulativePendingStake"];
-            return valBig;
+        cumulativeStake() {
+            let defaultSubnet = this.$store.state.Platform.subnets[
+                AVA_SUBNET_ID
+            ];
+
+            if (defaultSubnet) {
+                let vals = this.toggle === "active" ? 
+                    this.$store.getters["Platform/cumulativeStake"]: 
+                    this.$store.getters["Platform/cumulativePendingStake"];
+                return vals;
+            }
+            
+            return[];
         }
     }
 };

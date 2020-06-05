@@ -13,21 +13,20 @@
             <p>{{stakePercText}}%</p>
         </div>
         <div class="comm_col">
-            <!-- <p>{{cumulativePercText}}%</p> -->
-            <!-- <cumulative-bar
+            <p>{{cumulativePercText}}%</p>
+            <cumulative-bar
                 :total="totalStake"
                 :amount="stakeAmount"
                 :accumulated="cumulativeStake"
-            ></cumulative-bar> -->
+            ></cumulative-bar>
         </div>
     </div>
 </template>
 <script>
 import moment from "moment";
-// import TimeDisplay from "@/components/Blockchain/TimeDisplay";
 import Big from "big.js";
-import { toAVA, stringToBig } from "../../../helper";
-// import CumulativeBar from "./CumulativeBar";
+import { toAVA } from "../../../helper";
+import CumulativeBar from "./CumulativeBar";
 
 export default {
     filters: {
@@ -38,18 +37,17 @@ export default {
         }
     },
     components: {
-        // TimeDisplay
-        // CumulativeBar
+        CumulativeBar
     },
     props: {
         validator: {
             type: Object,
             required: true
         },
-        // cumulativeStake: {
-        //     type: Number,
-        //     required: true
-        // }
+        cumulativeStake: {
+            type: Number,
+            required: true
+        }
     },
     computed: {
         totalStake() {
@@ -72,10 +70,9 @@ export default {
             return (stakeAmount / totalStake * 100).toFixed(8);
         },
         cumulativePercText() {
-            return this.cumulativeStake;
-                // .div(this.totalStake)
-                // .times(100)
-                // .toFixed(2);
+            let cumulativeStake = toAVA(this.cumulativeStake);
+            let totalStake = toAVA(parseInt(this.$store.getters["Platform/totalStake"].toString()));
+            return (cumulativeStake / totalStake * 100).toFixed(2);
         },
         duration() {
             let dur = this.validator.endTime - this.validator.startTime;

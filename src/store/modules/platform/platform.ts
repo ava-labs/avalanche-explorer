@@ -62,27 +62,27 @@ const platform_module: Module<IPlatformState, IRootState> = {
         }
     },
     getters: {
-        totalValidators(state) {
+        totalValidators(state): number {
             // Count of active validators in default subnet
             let defaultSubnet = state.subnets[AVA_SUBNET_ID];
             return (!defaultSubnet) ?
                 0 : defaultSubnet.validators.length;
         },
-        totalPendingValidators(state) {
-            // Count of active validators in default subnet
+        totalPendingValidators(state): number {
+            // Count of pending validators in default subnet
             let defaultSubnet = state.subnets[AVA_SUBNET_ID];
             return (!defaultSubnet) ?
                 0 : defaultSubnet.pendingValidators.length;
         },
-        totalStake(state) {
-            // returns Big Number. Total $AVA active stake on default subnet
+        totalStake(state): Big {
+            // Total $AVA active stake on default subnet
             let defaultSubnet = state.subnets[AVA_SUBNET_ID];
             let total = Big(0);
             return (!defaultSubnet) ? total :
                 total = defaultSubnet.validators.reduce((a, v) => a.add(Big(v.stakeAmount as number)), total);
         },
-        totalPendingStake(state) {
-            // returns Big Number. Total $AVA pending stake on default subnet
+        totalPendingStake(state): Big {
+            // Total $AVA pending stake on default subnet
             let defaultSubnet = state.subnets[AVA_SUBNET_ID];
             let total = Big(0);
             return (!defaultSubnet) ? total :
@@ -101,20 +101,21 @@ const platform_module: Module<IPlatformState, IRootState> = {
             }
             return res;
         },
-        cumulativePendingStake(state) {
-            // returns Big Number[]. Accumulative distribution of pending stakes
+        cumulativePendingStake(state): number[] {
+            // Accumulative distribution of pending stakes
             let defaultSubnet = state.subnets[AVA_SUBNET_ID];
-            let res: Big[] = [];
-            let total = Big(0);
+            let res: number[] = [];
+            let total = 0;
             if (defaultSubnet) {
                 defaultSubnet.pendingValidators.forEach(v => {
-                    total = total.add(Big(v.stakeAmount as number));
+                    total += v.stakeAmount as number;
                     res.push(total)
                 });
             }
             return res;
         },
-        totalBlockchains(state) {
+        totalBlockchains(state): number {
+            // Count of blockchains across all subnets
             let total = 0;
             for (const subnetID of Object.keys(state.subnets)) {
                 total += state.subnets[subnetID].blockchains.length;
