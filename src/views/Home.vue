@@ -39,12 +39,12 @@ h1 {
     background-color: #fff;
     width: 100%;
     border-radius: 6px;
-    margin-top: 15px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .recent_tx {
     width: 100%;
+    margin-top: 15px;
 }
 
 .tables {

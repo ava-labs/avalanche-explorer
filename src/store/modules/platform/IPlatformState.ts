@@ -1,6 +1,8 @@
-import { IValidator, IValidatorData } from './IValidator';
+import Subnet from '@/js/Subnet';
 
 export interface IPlatformState {
-    validators: IValidator[],
-    validatorsPending: IValidatorData[]
+    subnets: {
+        [key: string]: Subnet
+    }
 }
+

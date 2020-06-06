@@ -22,7 +22,7 @@
                             </template>
                             <span>A Subnet is a set of validators. A Subnet validates a set of blockchains.</span>
                         </v-tooltip>
-                        <p class="meta_val">{{subnets.length}}</p>
+                        <p class="meta_val">{{totalSubnets}}</p>
                     </div>
                 </div>
                 <div>
@@ -34,7 +34,7 @@
                             </template>
                             <span>Total number of blockchains created on the AVA network.</span>
                         </v-tooltip>
-                        <p class="meta_val">{{blockchains.length}}</p>
+                        <p class="meta_val">{{totalBlockchains}}</p>
                     </div>
                 </div>
                 <div>
@@ -46,7 +46,7 @@
                             </template>
                             <span>Total number of nodes participating in the consensus protocol of the AVA network.</span>
                         </v-tooltip>
-                        <p class="meta_val">{{validators.length}}</p>
+                        <p class="meta_val">{{totalValidators}}</p>
                     </div>
                 </div>
                 <div>
@@ -63,27 +63,25 @@
                 </div>
             </div>
         </div>
-        <div class="card">
+         <div class="card"> 
             <template v-if="loading">Loading</template>
             <template v-else>
                 <v-tabs vertical>
-                    <v-tab v-for="s in subnets" :key="s.id">{{s.id | subnet}}</v-tab>
-                    <v-tab-item v-for="s in subnets" :key="s.id" :vertical="true">
+                    <v-tab v-for="(s, subnetID) in subnets" :key="s.id">{{subnetID | subnet}}</v-tab>
+                    <v-tab-item v-for="(s, subnetID) in subnets" :key="s.id" :vertical="true">
                         <v-card flat>
                             <v-card-text>
                                 <div class="subnet_header"></div>
-                                <h2>{{s.id | subnet}}</h2>
+                                <h2>{{subnetID | subnet}}</h2>
                                 <div class="stats">
                                     <div class="bar">
-                                        <p
-                                            class="subnet_count"
-                                        >{{s.blockchains.length}} blockchains validated by this subnet</p>
+                                        <p class="subnet_count">{{s.blockchains.length}} blockchains validated by this subnet</p>
                                     </div>
                                 </div>
                                 <v-tabs>
                                     <v-tab>Blockchains</v-tab>
                                     <v-tab>Validators</v-tab>
-                                    <v-tab>Pending Validators</v-tab>
+                                    <v-tab>Pending Validators</v-tab> 
                                     <v-tab-item class="tab_content">
                                         <v-simple-table>
                                             <template v-slot:default>
@@ -91,21 +89,19 @@
                                                     <tr>
                                                         <th class="text-left">Name</th>
                                                         <th class="text-left">Virtual Machine ID</th>
-                                                        <th class="text-left">Status</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr v-for="b in s.blockchains" :key="b.id">
                                                         <td>{{ b.name }}</td>
                                                         <td class="id_overflow">{{ b.vmID }}</td>
-                                                        <td>{{ b.status }}</td>
                                                     </tr>
                                                 </tbody>
                                             </template>
                                         </v-simple-table>
                                     </v-tab-item>
                                     <v-tab-item class="tab_content">
-                                        <template v-if="s.blockchains[0].validators.length === 0">
+                                        <template v-if="s.validators.length === 0">
                                             <p>There are no validators for this subnet.</p>
                                         </template>
                                         <template v-else>
@@ -120,10 +116,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr
-                                                            v-for="v in s.blockchains[0].validators"
-                                                            :key="v.id"
-                                                        >
+                                                        <tr v-for="v in s.validators" :key="v.id">
                                                             <td class="id_overflow">{{v.id}}</td>
                                                             <td>{{ new Date(parseInt(v.startTime * 1000)).toLocaleString()}}</td>
                                                             <td>{{ new Date(parseInt(v.endTime * 1000)).toLocaleString()}}</td>
@@ -135,9 +128,7 @@
                                         </template>
                                     </v-tab-item>
                                     <v-tab-item class="tab_content">
-                                        <template
-                                            v-if="s.blockchains[0].pendingValidators.length === 0"
-                                        >
+                                        <template v-if="s.pendingValidators.length === 0">
                                             <p>There are no pending validators for this subnet.</p>
                                         </template>
                                         <template v-else>
@@ -152,10 +143,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr
-                                                            v-for="v in s.blockchains[0].pendingValidators"
-                                                            :key="v.id"
-                                                        >
+                                                        <tr v-for="v in s.pendingValidators" :key="v.id">
                                                             <td class="id_overflow">{{ v.id }}</td>
                                                             <td>{{ new Date(parseInt(v.startTime * 1000)).toLocaleString()}}</td>
                                                             <td>{{ new Date(parseInt(v.endTime * 1000)).toLocaleString()}}</td>
@@ -172,7 +160,7 @@
                     </v-tab-item>
                 </v-tabs>
             </template>
-        </div>
+         </div>
     </div>
 </template>
 
@@ -193,64 +181,27 @@ export default {
             fixedHeader: true,
             loading: true,
             blockchains: [],
-            subnets: []
+            subnets: this.$store.state.Platform.subnets
         };
     },
     async created() {
         // get blockchains
         this.blockchains = await this.getBlockchains();
-        this.addBlockchainData();
-        await this.addPChain();
-        // group blockchains by subnet
-        this.subnets = this.getSubnets(this.blockchains);
     },
     computed: {
-        validators() {
-            let parent = this;
-            let vals = this.$store.state.Platform.validators;
-
-            if (this.validatorType === "pending") {
-                vals = this.$store.state.Platform.validatorsPending;
-            }
-
-            vals.sort((a, b) => {
-                let valA = parseInt(a.stakeAmount);
-                let valB = parseInt(b.stakeAmount);
-
-                if (valA < valB) {
-                    return 1;
-                }
-
-                if (valA > valB) {
-                    return -1;
-                }
-
-                return 0;
-            });
-
-            vals = vals.filter(val => {
-                if (parent.search) {
-                    let idUpper = val.id.toUpperCase();
-                    let queryUpper = parent.search.toUpperCase();
-                    if (!idUpper.includes(queryUpper)) {
-                        return false;
-                    }
-                }
-                return true;
-            });
-            return vals;
+        totalValidators() {
+            return this.$store.getters["Platform/totalValidators"];
+        },
+        totalBlockchains() {
+            return this.$store.getters["Platform/totalBlockchains"];
         },
         totalStake() {
-            let valBig = this.$store.getters["Platform/totalStakeAmount"];
-
-            if (this.validatorType === "pending") {
-                valBig = this.$store.getters[
-                    "Platform/totalStakeAmountPending"
-                ];
-            }
-
+            let valBig = this.$store.getters["Platform/totalStake"];
             let res = valBig.div(Math.pow(10, 9));
             return res;
+        },
+        totalSubnets() {
+            return Object.keys(this.$store.state.Platform.subnets).length;
         }
     },
     methods: {
@@ -259,68 +210,9 @@ export default {
                 .getBlockchains()
                 .then(res => {
                     this.loading = false;
-                    // TODO: blockchain class
                     return res;
                 })
                 .catch(error => console.log(error));
-        },
-        async addBlockchainData() {
-            this.blockchains.forEach(async b => {
-                await Promise.all([
-                    this.getBlockchainStatus(b.id),
-                    this.getCurrentValidators(b.subnetID),
-                    this.getPendingValidators(b.subnetID)
-                ]).then(values => {
-                    Vue.set(b, "status", values[0]);
-                    Vue.set(b, "validators", values[1]);
-                    Vue.set(b, "pendingValidators", values[2]);
-                });
-            });
-        },
-        async addPChain() {
-            let pChain = {
-                name: "P-Chain",
-                id: "11111111111111111111111111111111LpoYY",
-                subnetID: "11111111111111111111111111111111LpoYY",
-                vmID: "???"
-            };
-            await Promise.all([
-                this.getBlockchainStatus(pChain.id),
-                this.getCurrentValidators(pChain.subnetID),
-                this.getPendingValidators(pChain.subnetID)
-            ]).then(values => {
-                pChain.status = values[0];
-                pChain.validators = values[1];
-                pChain.pendingValidators = values[2];
-            });
-            this.blockchains.push(pChain);
-        },
-        getBlockchainStatus(id) {
-            return ava.apis.platform
-                .getBlockchainStatus(id)
-                .then(res => res)
-                .catch(error => console.log(error));
-        },
-        getCurrentValidators(subnetID) {
-            return ava.apis.platform
-                .getCurrentValidators(subnetID)
-                .then(res => res)
-                .catch(error => console.log(error));
-        },
-        getPendingValidators(subnetID) {
-            return ava.apis.platform
-                .getPendingValidators(subnetID)
-                .then(res => res)
-                .catch(error => console.log(error));
-        },
-        getSubnets(blockchains) {
-            let subnets = [...new Set(blockchains.map(b => b.subnetID))];
-            return subnets.map(s => {
-                return {
-                    id: s,
-                    blockchains: blockchains.filter(b => b.subnetID === s)
-                };
-            });
         }
     }
 };

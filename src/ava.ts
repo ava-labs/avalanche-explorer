@@ -1,5 +1,5 @@
 import * as slopes from "slopes"
-let AVA_IP = 'bootstrap.ava.network';
+let AVA_IP = 'explorerapi.ava.network';
 let AVA_PORT = 21000;
 let AVA_PROTOCOL = 'https';
 let AVA_NETWORK_ID = '3';
