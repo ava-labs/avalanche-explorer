@@ -28,7 +28,7 @@
                     <div>
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
-                                <p class="label" v-on="on">Total {{toggle}} Stake Amount</p>
+                                <p class="label" v-on="on">Total {{toggle}} Stake</p>
                             </template>
                             <span>Total value of $AVA tokens used as a scarce resource to secure the AVA network using the Proof-of-Stake method.</span>
                         </v-tooltip>
@@ -40,7 +40,7 @@
                     <div>
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
-                                <p class="label" v-on="on">Validators</p>
+                                <p class="label" v-on="on">{{toggle}} Validators</p>
                             </template>
                             <span>Total number of nodes participating in the consensus protocol of the AVA network.</span>
                         </v-tooltip>
@@ -53,22 +53,26 @@
             <div class="header">
                 <h2>Staking Distribution</h2>
             </div>
-            <div v-show="search.length === 0">
-                <p class="count">{{totalValidatorsCount}} validators found</p>
-            </div>
-            <div v-show="search.length > 0 && searchResultsValidators">
-                <p class="count">{{searchResultsValidators.length}} results found</p>
-            </div>
-            <div class="search_tabs">
-                <input
-                    class="search"
-                    type="text"
-                    v-model="search"
-                    placeholder="Search by Validator ID"
-                />
-            </div>
-            <div v-show="search.length === 0">
-                <div class="bar">
+            <div class="controls">
+                <div class="search_container">
+                    <div class="search_count">
+                        <p
+                            v-show="search.length === 0"
+                        >{{totalValidatorsCount}} {{toggle}} validators</p>
+                        <p
+                            v-show="search.length > 0 && matchedValidators"
+                        >{{matchedValidators.length}} results found</p>
+                    </div>
+                    <div class="search_tabs">
+                        <input
+                            class="search"
+                            type="text"
+                            v-model="search"
+                            placeholder="Search by Validator ID"
+                        />
+                    </div>
+                </div>
+                <div v-show="search.length === 0" class="pagination_container">
                     <validator-pagination-controls
                         :total="totalValidatorsCount"
                         :limit="limit"
@@ -100,20 +104,11 @@
                     </span>
                 </v-tooltip>
             </div>
-            <div v-if="validators.length === 0" class="empty">
-                <p>No Validators</p>
+            <div v-if="validators.length === 0" class="empty_table">
+                <p>No {{toggle}} Validators</p>
             </div>
             <div v-show="search.length === 0">
-                <div v-show="validators.length > 0 && toggle === 'active'">
-                    <validator-row
-                        class="validator"
-                        v-for="v in paginatedValidators"
-                        :key="v.id + v.stakeAmount"
-                        :validator="v"
-                        :cumulative-stake="cumulativeStake[v.rank - 1]"
-                    ></validator-row>
-                </div>
-                <div v-show="validators.length > 0 && toggle === 'pending'">
+                <div v-show="validators.length > 0">
                     <validator-row
                         class="validator"
                         v-for="v in paginatedValidators"
@@ -126,7 +121,7 @@
             <div v-show="search.length > 0">
                 <validator-row
                     class="validator"
-                    v-for="v in searchResultsValidators"
+                    v-for="v in matchedValidators"
                     :key="v.id + v.stakeAmount"
                     :validator="v"
                     :cumulative-stake="cumulativeStake[v.rank - 1]"
@@ -155,11 +150,7 @@ export default {
     },
     methods: {
         typeChange(val) {
-            if (val) {
-                this.toggle = "pending";
-            } else {
-                this.toggle = "active";
-            }
+            this.toggle = val ? "pending" : "active";
         },
         matchSearch(val) {
             if (this.search) {
@@ -176,60 +167,57 @@ export default {
         }
     },
     computed: {
-        end() {
-            return this.start + this.limit;
+        totalStake() {
+            let valBig =
+                this.toggle === "active"
+                    ? this.$store.getters["Platform/totalStake"]
+                    : this.$store.getters["Platform/totalPendingStake"];
+            return valBig.div(Math.pow(10, 9));
         },
         totalValidatorsCount() {
-            return this.$store.getters["Platform/totalValidators"];
+            return this.toggle === "active"
+                ? this.$store.getters["Platform/totalValidators"]
+                : this.$store.getters["Platform/totalPendingValidators"];
         },
         validators() {
             let defaultSubnet = this.$store.state.Platform.subnets[
                 AVA_SUBNET_ID
             ];
-
             if (defaultSubnet) {
-                let vals = defaultSubnet.validators;
-                return vals;
+                return this.toggle === "active"
+                    ? defaultSubnet.validators
+                    : defaultSubnet.pendingValidators;
             }
-
             return [];
         },
-        searchResultsValidators() {
-            return this.validators.filter(v => v.id.includes(this.search)).slice(0, 10);
+        matchedValidators() {
+            return this.validators
+                .filter(v => v.id.includes(this.search))
+                .slice(0, 10);
         },
         paginatedValidators() {
             return this.validators.slice(this.start, this.start + this.limit);
         },
         pendingValidators() {
-            let parent = this;
-            let defaultSubnet = this.$store.state.Platform.subnets[AVA_SUBNET_ID];
-
+            let defaultSubnet = this.$store.state.Platform.subnets[
+                AVA_SUBNET_ID
+            ];
             if (defaultSubnet) {
                 let vals = defaultSubnet.pendingValidators;
                 return vals;
             }
-
             return [];
-        },
-        totalStake() {
-            let valBig = this.toggle === "active" ? 
-                this.$store.getters["Platform/totalStake"]: 
-                this.$store.getters["Platform/totalPendingStake"];
-            return valBig.div(Math.pow(10, 9));
         },
         cumulativeStake() {
             let defaultSubnet = this.$store.state.Platform.subnets[
                 AVA_SUBNET_ID
             ];
-
             if (defaultSubnet) {
-                let vals = this.toggle === "active" ? 
-                    this.$store.getters["Platform/cumulativeStake"]: 
-                    this.$store.getters["Platform/cumulativePendingStake"];
-                return vals;
+                return this.toggle === "active"
+                    ? this.$store.getters["Platform/cumulativeStake"]
+                    : this.$store.getters["Platform/cumulativePendingStake"];
             }
-            
-            return[];
+            return [];
         }
     }
 };
@@ -241,30 +229,6 @@ export default {
     h2 {
         font-size: 18px;
         margin: 0;
-    }
-}
-
-.validators {
-    background-color: #fff;
-    border-radius: 6px;
-    padding: 30px;
-}
-.validator {
-    border-top: 1px solid #e7e7e7;
-
-    &:nth-of-type(2n) {
-        background-color: #f1f9ff;
-    }
-}
-
-.headers {
-    display: grid;
-    grid-template-columns: 70px 1fr 1fr 1fr;
-    font-size: 12px;
-    font-weight: bold;
-
-    p {
-        padding: 12px 15px;
     }
 }
 
@@ -313,23 +277,73 @@ export default {
     }
 }
 
-.empty {
+.controls {
+
+    margin-bottom: 12px;
+
+    .search_container {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+
+        .search_count {
+            text-transform: capitalize;
+        }
+
+        .search_tabs {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-bottom: 18px;
+        }
+
+        .search {
+            border: 1px solid #d6dae1;
+            height: 36px;
+            width: 320px;
+            box-sizing: border-box;
+            border-radius: 4px;
+            padding: 8px 12px;
+            outline: none;
+            font-size: 12px;
+        }
+    }
+
+    .pagination_container {
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+
+.validators {
+    background-color: #fff;
+    border-radius: 6px;
+    padding: 30px;
+}
+.validator {
+    border-top: 1px solid #e7e7e7;
+
+    &:nth-of-type(2n) {
+        background-color: #f1f9ff;
+    }
+}
+
+.headers {
+    display: grid;
+    grid-template-columns: 70px 1fr 1fr 1fr;
+    font-size: 12px;
+    font-weight: bold;
+
+    p {
+        padding: 12px 15px;
+    }
+}
+
+.empty_table {
     text-align: center;
     padding: 30px;
     opacity: 0.7;
     font-size: 12px;
-}
-
-.search_tabs {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    margin-bottom: 30px;
-
-    > p {
-        flex-grow: 1;
-        font-weight: bold;
-    }
 }
 
 .tabs {
@@ -352,17 +366,6 @@ export default {
 .tab_active {
     background-color: #000;
     color: #fff !important;
-}
-
-.search {
-    border: 1px solid #d6dae1;
-    height: 32px;
-    width: 320px;
-    box-sizing: border-box;
-    border-radius: 4px;
-    padding: 0px 12px;
-    outline: none;
-    margin-right: 10px;
 }
 
 @media only screen and (max-width: main.$mobile_width) {
