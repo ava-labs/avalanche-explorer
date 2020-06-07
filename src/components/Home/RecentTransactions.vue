@@ -131,13 +131,8 @@ export default Vue.extend({
     padding: 0px 30px;
 }
 
-.list {
-    padding: 0px 30px;
-}
-
 .header {
     display: flex;
-    padding: 15px 30px;
     align-items: center;
     padding-bottom: 10px;
     margin-bottom: 10px;
@@ -173,7 +168,7 @@ export default Vue.extend({
     display: block;
     width: max-content;
     text-decoration: none !important;
-    margin: 30px;
+    margin-top: 30px;
     background-color: #71c5ff;
     color: #fff !important;
     padding: 12px 24px;

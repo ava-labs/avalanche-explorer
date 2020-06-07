@@ -1,17 +1,15 @@
 <template>
     <div class="tx_history">
         <div class="header">
-            <div class="header">
-                <h2>Transaction History</h2>
-            </div>
-            <div class="history_settings">
+            <h2>Transaction History</h2>
+        </div>
+        <div class="history_settings">
                 <button :active="scope===options[0]" @click="setScope(options[0])">Yr</button>
                 <button :active="scope===options[1]" @click="setScope(options[1])">Mo</button>
                 <button :active="scope===options[2]" @click="setScope(options[2])">Wk</button>
                 <button :active="scope===options[3]" @click="setScope(options[3])">D</button>
                 <button :active="scope===options[4]" @click="setScope(options[4])">Hr</button>
                 <button :active="scope===options[5]" @click="setScope(options[5])">Min</button>
-            </div>
         </div>
         <div class="canv_cont">
             <canvas ref="canv"></canvas>
@@ -366,34 +364,19 @@ export default {
 <style lang="scss" scoped>
 @use '../../../main';
 
-.header {
-    padding-bottom: 10px;
-
-    h2 {
-        margin: 0;
-        font-size: 18px;
-    }
-}
-
 .tx_history {
     display: flex;
     flex-direction: column;
 }
 
 .header {
-    /*display: flex;*/
-    /*flex-wrap: wrap;*/
-    /*align-items: flex-start;*/
-    margin-bottom: 10px;
+    padding-bottom: 20px;
 }
-h4 {
-    font-size: 12px;
-    margin: 0 !important;
-}
+
 .history_settings {
     display: flex;
     flex-direction: row;
-    margin: 6px 0px;
+    margin: 6px 0 20px;
 
     button {
         flex-grow: 1;
@@ -421,17 +404,8 @@ h4 {
     max-width: 100%;
     position: relative;
 }
-/*canvas{*/
-/*    position: absolute;*/
-/*    width: 100%;*/
-/*    height: 100%;*/
-/*}*/
 
 @media only screen and (max-width: main.$mobile_width) {
-    .header {
-        flex-direction: column;
-    }
-
     .history_settings {
         margin: 8px 0px;
         display: flex;

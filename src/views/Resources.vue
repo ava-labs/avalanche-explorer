@@ -1,15 +1,17 @@
 <template>
     <div class="resources">
-        <div class="main">
-            <h2>AVA Directory</h2>
+        <div class="card">
+            <div class="header">
+                <h2>AVA Directory</h2>
+            </div>
             <hr />
             <div class="denali">
                 <img src="https://assets-global.website-files.com/5d80307810123f5ffbb34d6e/5eced3b22c4c3f38823c7fd3_Denali%20Big.svg" width="2280" alt="">
                 <h3>Welcome to the Denali Incentivized Testnet</h3>
                 <p class="description">Denali is the last phase of the public testnet and a global community effort to test the network in the most realistic conditions. Denali is designed to build, educate, and reward the first community of AVA validators, preparing them for a healthy, decentralized, and widely distributed mainnet launch!</p>
             </div>
-            <div class="cards">
-                <div class="card">
+            <div class="resource_container">
+                <div class="resource">
                     <img src="@/assets/resources_view/Wallet.png" />
                     <h3>Wallet & Faucet</h3>
                     <p>Used to receive and spend cryptoassets</p>
@@ -18,7 +20,7 @@
                         <a href="https://faucet.ava.network" target="_blank">Faucet</a>
                     </div>
                 </div>
-                <div class="card">
+                <div class="resource">
                     <img src="@/assets/resources_view/Group.png" />
                     <h3>Learning Resources</h3>
                     <p>Learn more about blockchain basics</p>
@@ -27,7 +29,7 @@
                         <a href="https://github.com/ava-labs" target="_blank">Github</a>
                     </div>
                 </div>
-                <div class="card">
+                <div class="resource">
                     <img src="@/assets/resources_view/Blog.png" />
                     <h3>Social</h3>
                     <p>Get close to the AVA community</p>
@@ -36,7 +38,7 @@
                         <a href="https://twitter.com/avalabsofficial" target="_blank">Twitter</a>
                     </div>
                 </div>
-                <div class="card ava_x">
+                <div class="resource ava_x">
                     <img src="@/assets/resources_view/ice_cream.png" />
                     <h3>AVA-X</h3>
                     <p>Apply for grants to build on AVA.</p>
@@ -50,11 +52,10 @@
 </template>
 <style scoped lang="scss">
 @use '../main';
-.main {
-    padding: 15px 30px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+
+hr {
+    margin-top: 20px;
+    opacity: 0.2;
 }
 
 .denali {
@@ -67,9 +68,22 @@
         display: block;
     }
 
+    h3 {
+        margin-top: 1.4em;
+        margin-bottom: .79em;
+        font-size: 38px;
+        line-height: 1.16em;
+    }
+
+    .description {
+        font-size: 20px;
+        line-height: 1.2em;
+        max-width: 900px;
+        margin-bottom: .5em;
+    }
 }
 
-.cards {
+.resource_container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 30px;
@@ -78,31 +92,7 @@
     margin-bottom: 10vh;
 }
 
-h2 {
-    margin: 30px auto;
-    font-size: 18px;
-}
-
-h3 {
-    margin-top: 1.4em;
-    margin-bottom: .79em;
-    font-size: 38px;
-    line-height: 1.16em;
-}
-
-.description {
-    font-size: 20px;
-    line-height: 1.2em;
-    max-width: 900px;
-    margin-bottom: .5em;
-}
-
-hr {
-    opacity: 0.2;
-}
-
-.card {
-    background-color: #fff;
+.resource {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -179,12 +169,12 @@ hr {
         font-size: 14px;
     }
 
-    .cards {
+    .resource_container {
         display: flex;
         flex-direction: column;
     }
 
-    .card {
+    .resource {
         margin-bottom: 30px;
     }
 }

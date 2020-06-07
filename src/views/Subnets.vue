@@ -1,6 +1,6 @@
 <template>
     <div class="subnets">
-        <div class="meta_data_container">
+        <div class="card meta_data_container">
             <div class="header">
                 <v-tooltip bottom left>
                     <template v-slot:activator="{ on }">
@@ -221,19 +221,6 @@ export default {
 <style scoped lang="scss">
 @use '../main';
 
-.header {
-    h2 {
-        font-size: 18px;
-        margin: 0;
-    }
-
-    .count {
-        padding-top: 5px;
-        color: #808080;
-        font-size: 12px;
-    }
-}
-
 .validators {
     background-color: #fff;
     border-radius: 6px;
@@ -260,10 +247,7 @@ export default {
 }
 
 .meta_data_container {
-    background-color: #fff;
-    border-radius: 6px;
     margin-bottom: 30px;
-    padding: 30px;
 
     .header {
         display: flex;
@@ -304,7 +288,6 @@ export default {
     }
 }
 
-h2,
 h3 {
     margin: 0;
 }
@@ -366,12 +349,5 @@ h3 {
 
 .v-tab:before {
     background-color: #71c5ff !important;
-}
-
-.card {
-    background-color: #fff;
-    border-radius: 6px;
-    padding: 30px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 </style>

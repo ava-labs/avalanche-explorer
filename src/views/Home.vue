@@ -21,11 +21,6 @@ export default {
 <style scoped lang="scss">
 @use '../main';
 
-h1 {
-    font-weight: lighter;
-    font-size: 48px;
-}
-
 .home {
     margin: 0px auto;
     height: 100%;
@@ -35,16 +30,10 @@ h1 {
     justify-content: flex-start;
 }
 
-.card {
-    background-color: #fff;
-    width: 100%;
-    border-radius: 6px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-}
-
 .recent_tx {
     width: 100%;
     margin-top: 15px;
+    box-sizing: border-box;
 }
 
 .tables {
