@@ -78,11 +78,6 @@ export default {
 
 .header {
     padding-bottom: 20px;
-
-    h2 {
-        margin: 0;
-        font-size: 18px;
-    }
 }
 
 .column_headers {

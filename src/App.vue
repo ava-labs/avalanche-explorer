@@ -114,6 +114,20 @@ p {
     min-height: calc(100vh - 130px);
 }
 
+.card {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 6px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    h2 {
+        font-size: 18px;
+        margin: 0;
+    }
+}
+
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.3s;

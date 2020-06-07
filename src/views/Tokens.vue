@@ -85,23 +85,11 @@ export default {
     padding-bottom: 20px;
     margin-bottom: 10px;
 
-    h2 {
-        font-size: 18px;
-        margin: 0;
-    }
-
     .count {
         padding-top: 5px;
         color: #808080;
         font-size: 12px;
     }
-}
-
-.card {
-    background-color: #fff;
-    border-radius: 6px;
-    padding: 15px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .grid_headers {

@@ -1,6 +1,6 @@
 <template>
     <div class="subnets">
-        <div class="meta_data_container">
+        <div class="card meta_data_container">
             <div class="header">
                 <v-tooltip bottom left>
                     <template v-slot:activator="{ on }">
@@ -68,7 +68,7 @@
             <template v-else>
                 <v-tabs vertical>
                     <v-tab v-for="(s, subnetID) in subnets" :key="s.id">{{subnetID | subnet}}</v-tab>
-                    <v-tab-item v-for="(s, subnetID) in subnets" :key="s.id" :vertical="true">
+                    <v-tab-item v-for="(s, subnetID) in subnets" :key="s.id" :vertical="true" class="fart">
                         <v-card flat>
                             <v-card-text>
                                 <div class="subnet_header"></div>
@@ -221,19 +221,6 @@ export default {
 <style scoped lang="scss">
 @use '../main';
 
-.header {
-    h2 {
-        font-size: 18px;
-        margin: 0;
-    }
-
-    .count {
-        padding-top: 5px;
-        color: #808080;
-        font-size: 12px;
-    }
-}
-
 .validators {
     background-color: #fff;
     border-radius: 6px;
@@ -260,10 +247,7 @@ export default {
 }
 
 .meta_data_container {
-    background-color: #fff;
-    border-radius: 6px;
     margin-bottom: 30px;
-    padding: 30px;
 
     .header {
         display: flex;
@@ -281,6 +265,7 @@ export default {
         width: 40px;
         margin-right: 15px;
     }
+
     > div {
         padding: 30px;
         text-align: left;
@@ -302,9 +287,12 @@ export default {
         margin-bottom: 6px;
         opacity: 0.7;
     }
+
+    .meta_val {
+        line-height: 1em;
+    }
 }
 
-h2,
 h3 {
     margin: 0;
 }
@@ -368,10 +356,17 @@ h3 {
     background-color: #71c5ff !important;
 }
 
-.card {
-    background-color: #fff;
-    border-radius: 6px;
-    padding: 30px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+@include main.mobile-device {
+    .meta_data {
+        grid-template-columns: none;
+        grid-template-rows: max-content max-content max-content;
+    }
 }
+</style>
+
+<style lang="scss">
+    /* v-window */
+    .v-tabs--vertical > .v-window {
+        overflow: scroll !important;
+    }
 </style>

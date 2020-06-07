@@ -94,14 +94,17 @@ export default {
     padding-bottom: 20px;
     margin-bottom: 10px;
 
-    h2 {
-        font-size: 18px;
-        margin: 0;
+    .count {
+        color: #808080;
     }
 }
 
-.count {
-    color: #808080;
+.bar {
+    display: flex;
+    align-items: center;
+    > p {
+        flex-grow: 1;
+    }
 }
 
 .table_headers {
@@ -123,21 +126,6 @@ export default {
     margin-bottom: 2px;
     box-sizing: border-box;
     border-bottom: 1px solid #e7e7e7;
-}
-
-.bar {
-    display: flex;
-    align-items: center;
-    > p {
-        flex-grow: 1;
-    }
-}
-
-.card {
-    background-color: #fff;
-    border-radius: 6px;
-    padding: 15px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .tx_item {

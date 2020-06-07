@@ -1,6 +1,6 @@
 <template>
     <div class="blockchain">
-        <div class="meta_data_container">
+        <div class="card meta_data_container">
             <div class="header">
                 <v-tooltip bottom left>
                     <template v-slot:activator="{ on }">
@@ -225,18 +225,8 @@ export default {
 <style scoped lang="scss">
 @use '../main';
 
-.header {
-    h2 {
-        font-size: 18px;
-        margin: 0;
-    }
-}
-
-.meta_data_container {
-    background-color: #fff;
-    border-radius: 6px;
+.meta_data_container {    
     margin-bottom: 30px;
-    padding: 30px;
 
     .header {
         display: flex;

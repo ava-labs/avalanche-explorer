@@ -25,8 +25,9 @@ export default {
 .top_info {
     display: grid;
     grid-template-columns: minmax(0, 30%) 1fr 360px;
-    padding: 25px 0px;
+    padding: 30px 0;
     overflow: auto;
+    width: 100%;
 
     > div {
         padding: 0px 35px;
@@ -37,12 +38,6 @@ export default {
     > div:last-of-type {
         border: none;
     }
-}
-
-h4 {
-    margin: 0;
-    margin-bottom: 20px;
-    font-size: 12px;
 }
 
 @media only screen and (max-width: main.$mobile_width) {
