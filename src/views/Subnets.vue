@@ -68,7 +68,7 @@
             <template v-else>
                 <v-tabs vertical>
                     <v-tab v-for="(s, subnetID) in subnets" :key="s.id">{{subnetID | subnet}}</v-tab>
-                    <v-tab-item v-for="(s, subnetID) in subnets" :key="s.id" :vertical="true">
+                    <v-tab-item v-for="(s, subnetID) in subnets" :key="s.id" :vertical="true" class="fart">
                         <v-card flat>
                             <v-card-text>
                                 <div class="subnet_header"></div>
@@ -265,6 +265,7 @@ export default {
         width: 40px;
         margin-right: 15px;
     }
+
     > div {
         padding: 30px;
         text-align: left;
@@ -285,6 +286,10 @@ export default {
         font-weight: bold;
         margin-bottom: 6px;
         opacity: 0.7;
+    }
+
+    .meta_val {
+        line-height: 1em;
     }
 }
 
@@ -350,4 +355,18 @@ h3 {
 .v-tab:before {
     background-color: #71c5ff !important;
 }
+
+@include main.mobile-device {
+    .meta_data {
+        grid-template-columns: none;
+        grid-template-rows: max-content max-content max-content;
+    }
+}
+</style>
+
+<style lang="scss">
+    /* v-window */
+    .v-tabs--vertical > .v-window {
+        overflow: scroll !important;
+    }
 </style>
