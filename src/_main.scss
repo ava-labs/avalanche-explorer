@@ -1,17 +1,17 @@
-$mobile_width: 900px;
-$medium_width: 1468px;
-$large_width: 1200px;
 $max_width: 1800px;
+$large_width: 1200px;
+$medium_width: 1468px;
+$mobile_width: 900px;
 
 $container_padding_l: 30px 18vw;
 $container_padding_m: 30px 6vw;
 $container_padding_s: 30px 6vw;
 $container_padding_mobile: 10px 10px;
 
-@mixin mobile-device{
-    @media only screen and (max-width: $mobile_width) { @content; }
-  }
-  
 @mixin medium-device {
     @media only screen and (min-width: $mobile_width) and (max-width: $width_m) { @content; }
+}
+
+@mixin mobile-device {
+  @media only screen and (max-width: $mobile_width) { @content; }
 }

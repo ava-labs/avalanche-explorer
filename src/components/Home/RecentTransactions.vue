@@ -122,6 +122,7 @@ export default Vue.extend({
         border-radius: 4px;
         color: #976cfa;
         background-color: #ebe4fb;
+        min-height: 1em;
         line-height: 2em;
         word-break: keep-all;
         white-space: nowrap;

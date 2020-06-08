@@ -37,36 +37,13 @@
 import axios from "@/axios";
 
 export default {
-    data() {
-        return {
-            // assetData: []
-        };
-    },
     created() {
         let parent = this;
-        // axios.get('/x/assets').then(res => {
-        //     console.log(res.data);
-        //     parent.assets = res.data.assets;
-        // });
     },
     computed: {
         assets() {
             let res = this.$store.getters.assetsArray;
-
-            res.sort((a, b) => {
-                let valA = a.txCount_day;
-                let valB = b.txCount_day;
-
-                if (valA < valB) {
-                    return 1;
-                }
-
-                if (valA > valB) {
-                    return -1;
-                }
-
-                return 0;
-            });
+            res.sort((a, b) => b.txCount_day - a.txCount_day);
             return res.slice(0, 5);
         }
     }
@@ -118,7 +95,8 @@ export default {
         flex-shrink: 0;
         color: #976cfa;
         background-color: #ebe4fb;
-        width: 20px;
+        min-height: 1em;
+        min-width: 20px;
         text-align: center;
         margin: 0px 10px 5px;
         padding: 3px 4px;
