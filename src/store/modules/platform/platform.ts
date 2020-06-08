@@ -29,13 +29,6 @@ const platform_module: Module<IPlatformState, IRootState> = {
             let subnets = (await platform.getSubnets() as ISubnetData[])
                 .map((s: ISubnetData) => new Subnet(s));
 
-            // Add Default Subnet manually for now (https://github.com/ava-labs/gecko/issues/200)
-            subnets.push(new Subnet({
-                id: AVA_SUBNET_ID,
-                controlKeys: [],
-                threshold: "1"
-            }));
-
             // Get and set validators for each subnet
             subnets.forEach(s => {
                 s.updateValidators();
@@ -51,7 +44,7 @@ const platform_module: Module<IPlatformState, IRootState> = {
                 name: "P-Chain",
                 id: "11111111111111111111111111111111LpoYY",
                 subnetID: "11111111111111111111111111111111LpoYY",
-                vmID: "???"
+                vmID: ""
             });
 
             // Map blockchains to their subnet
