@@ -405,7 +405,7 @@ export default {
     position: relative;
 }
 
-@media only screen and (max-width: main.$mobile_width) {
+@include main.sm-device {
     .history_settings {
         margin: 8px 0px;
         display: flex;

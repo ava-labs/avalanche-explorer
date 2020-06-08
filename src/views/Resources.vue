@@ -159,7 +159,7 @@ hr {
     font-size: 12px;
 }
 
-@media only screen and (max-width: main.$mobile_width) {
+@include main.sm-device {
 
     h3 {
         font-size: 18px;

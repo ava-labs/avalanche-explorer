@@ -272,7 +272,7 @@ h3 {
     background-color: #71c5ff !important;
 }
 
-@include main.mobile-device {
+@include main.sm-device {
     .meta_data {
         grid-template-columns: none;
         grid-template-rows: max-content max-content max-content;

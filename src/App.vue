@@ -64,7 +64,7 @@ export default Vue.extend({
     padding: main.$container_padding_l;
 }
 
-@media only screen and (max-width: main.$mobile_width) {
+@include main.sm-device {
     .router_view, 
     .navbar, 
     .footer {
@@ -72,7 +72,7 @@ export default Vue.extend({
     }
 }
 
-@media only screen and (max-width: main.$medium_width) {
+@include main.md-device {
     .router_view, 
     .navbar,
     .footer {

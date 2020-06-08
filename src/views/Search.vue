@@ -88,7 +88,7 @@
         justify-content: center;
     }
 
-    @media only screen and (max-width: main.$mobile_width) {
+    @include main.sm-device {
         .result_row{
             padding: 6px 12px;
         }

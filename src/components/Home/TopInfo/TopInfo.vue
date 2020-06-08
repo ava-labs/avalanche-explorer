@@ -40,7 +40,7 @@ export default {
     }
 }
 
-@media only screen and (max-width: main.$mobile_width) {
+@include main.sm-device {
     .top_info {
         grid-template-columns: 1fr;
         grid-template-rows: max-content max-content max-content;

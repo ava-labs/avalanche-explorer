@@ -136,7 +136,7 @@ export default {
     }
 }
 
-@media only screen and (max-width: main.$mobile_width) {
+@include main.sm-device {
     .table_headers {
         display: none;
     }

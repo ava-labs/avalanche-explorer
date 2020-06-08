@@ -117,7 +117,7 @@ export default {
     text-align: right;
 }
 
-@media only screen and (max-width: main.$mobile_width) {
+@include main.sm-device {
     .grid_headers {
         display: none;
     }

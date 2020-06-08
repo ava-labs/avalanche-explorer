@@ -174,7 +174,7 @@ export default Vue.extend({
     flex-basis: 24px;
 }
 
-@media only screen and (max-width: main.$mobile_width) {
+@include main.sm-device {
     h1 {
         display: none;
     }

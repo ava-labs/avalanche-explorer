@@ -85,7 +85,7 @@ export default {
     }
 }
 
-@media only screen and (max-width: main.$mobile_width) {
+@include main.sm-device {
     .symbol {
         padding: 2px;
     }

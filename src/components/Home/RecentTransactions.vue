@@ -177,7 +177,7 @@ export default Vue.extend({
     border-radius: 4px;
 }
 
-@media only screen and (max-width: main.$mobile_width) {
+@include main.sm-device {
     .view_all {
         width: 100%;
         text-align: center;

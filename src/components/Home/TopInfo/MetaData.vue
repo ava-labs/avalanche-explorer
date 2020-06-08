@@ -192,7 +192,7 @@ export default {
     }
 }
 
-@media only screen and (max-width: main.$mobile_width) {
+@include main.sm-device {
     .meta_data {
         flex-direction: column;
         /*grid-template-columns: none;*/
@@ -200,7 +200,7 @@ export default {
     }
 }
 
-@media only screen and (max-width: main.$medium_width) {
+@include main.md-device {
     .meta_data {
         /*grid-template-columns: none;*/
         /*grid-template-columns: none;*/
