@@ -81,7 +81,8 @@
                                 <v-tabs>
                                     <v-tab>Blockchains</v-tab>
                                     <v-tab>Validators</v-tab>
-                                    <v-tab>Pending Validators</v-tab> 
+                                    <v-tab>Pending Validators</v-tab>
+                                    <v-tab>Control Keys</v-tab> 
                                     <v-tab-item class="tab_content">
                                         <v-simple-table>
                                             <template v-slot:default>
@@ -153,6 +154,22 @@
                                                 </template>
                                             </v-simple-table>
                                         </template>
+                                    </v-tab-item>
+                                    <v-tab-item class="tab_content">
+                                        <v-simple-table>
+                                            <template v-slot:default>
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-left">Address of Control Key</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr v-for="ck in s.controlKeys" :key="ck">
+                                                        <td>{{ ck }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </template>
+                                        </v-simple-table>
                                     </v-tab-item>
                                 </v-tabs>
                             </v-card-text>
