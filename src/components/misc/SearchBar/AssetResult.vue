@@ -7,45 +7,50 @@
         </div>
     </div>
 </template>
-<script>
-    import {stringToBig} from "@/helper";
 
-    export default {
-        props: {
-            item: {
-                type: Object,
-                required: true
-            }
+<script>
+import { stringToBig } from "@/helper";
+
+export default {
+    props: {
+        item: {
+            type: Object,
+            required: true
+        }
+    },
+    computed: {
+        id() {
+            return this.item.id;
         },
-        computed: {
-            id(){
-                return this.item.id
-            },
-            name(){
-                return this.item.name;
-            },
-            symbol(){
-                return this.item.symbol;
-            },
-            supply(){
-                let res = stringToBig(this.item.currentSupply, this.item.denomination);
-                return res;
-            },
-            createdAt(){
-                return new Date(this.item.timestamp);
-            }
+        name() {
+            return this.item.name;
         },
-        methods: {
-            select(){
-                let url = `/tx/${this.id}`;
-                this.$router.push(url);
-                this.$emit('select');
-            }
+        symbol() {
+            return this.item.symbol;
+        },
+        supply() {
+            let res = stringToBig(
+                this.item.currentSupply,
+                this.item.denomination
+            );
+            return res;
+        },
+        createdAt() {
+            return new Date(this.item.timestamp);
+        }
+    },
+    methods: {
+        select() {
+            let url = `/tx/${this.id}`;
+            this.$router.push(url);
+            this.$emit("select");
         }
     }
+};
 </script>
+
 <style scoped lang="scss">
-    .id{
-        color: #71C5FF;
-    }
+.id {
+    color: #71c5ff;
+}
 </style>
