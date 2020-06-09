@@ -1,74 +1,22 @@
 <template>
     <div class="subnets">
-        <div class="card meta_data_container">
-            <div class="header">
-                <v-tooltip bottom left>
-                    <template v-slot:activator="{ on }">
-                        <h2 v-on="on">Subnets</h2>
-                    </template>
-                    <span>
-                        A Subnet is a set of validators. A Subnet validates a set of blockchains.
-                        <br />Each blockchain is validated by exactly one Subnet, which is specified on blockchain creation.
-                    </span>
-                </v-tooltip>
-            </div>
-            <div class="meta_data">
-                <div>
-                    <img src="@/assets/subnet.png" />
-                    <div>
-                        <v-tooltip bottom>
-                            <template v-slot:activator="{ on }">
-                                <p class="label" v-on="on">Subnetworks</p>
-                            </template>
-                            <span>A Subnet is a set of validators. A Subnet validates a set of blockchains.</span>
-                        </v-tooltip>
-                        <p class="meta_val">{{totalSubnets}}</p>
-                    </div>
-                </div>
-                <div>
-                    <img src="@/assets/blockchain.png" />
-                    <div>
-                        <v-tooltip bottom>
-                            <template v-slot:activator="{ on }">
-                                <p class="label" v-on="on">Blockchains</p>
-                            </template>
-                            <span>Total number of blockchains created on the AVA network.</span>
-                        </v-tooltip>
-                        <p class="meta_val">{{totalBlockchains}}</p>
-                    </div>
-                </div>
-                <div>
-                    <img src="@/assets/validators.png" />
-                    <div>
-                        <v-tooltip bottom>
-                            <template v-slot:activator="{ on }">
-                                <p class="label" v-on="on">Validators</p>
-                            </template>
-                            <span>Total number of nodes participating in the consensus protocol of the AVA network.</span>
-                        </v-tooltip>
-                        <p class="meta_val">{{totalValidators}}</p>
-                    </div>
-                </div>
-                <div>
-                    <img src="@/assets/ava_price.png" />
-                    <div>
-                        <v-tooltip bottom>
-                            <template v-slot:activator="{ on }">
-                                <p class="label" v-on="on">Total Stake Amount</p>
-                            </template>
-                            <span>Total value of $AVA tokens used as a scarce resource to secure the AVA network using the Proof-of-Stake method.</span>
-                        </v-tooltip>
-                        <p class="meta_val">{{(totalStake).toFixed(2)}} AVA</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-         <div class="card"> 
+        <Metadata
+            :totalSubnets="totalSubnets"
+            :totalValidators="totalValidators"
+            :totalBlockchains="totalBlockchains"
+            :totalStake="totalStake"
+        ></Metadata>
+        <div class="card">
             <template v-if="loading">Loading</template>
             <template v-else>
-                <v-tabs vertical>
+                <v-tabs vertical right>
                     <v-tab v-for="(s, subnetID) in subnets" :key="s.id">{{subnetID | subnet}}</v-tab>
-                    <v-tab-item v-for="(s, subnetID) in subnets" :key="s.id" :vertical="true" class="fart">
+                    <v-tab-item
+                        v-for="(s, subnetID) in subnets"
+                        :key="s.id"
+                        :vertical="true"
+                        class="fart"
+                    >
                         <v-card flat>
                             <v-card-text>
                                 <div class="subnet_header"></div>
@@ -78,28 +26,33 @@
                                         <p class="subnet_count">{{s.blockchains.length}} blockchains validated by this subnet</p>
                                     </div>
                                 </div>
-                                <v-tabs>
+                                <v-tabs right show-arrows>
                                     <v-tab>Blockchains</v-tab>
                                     <v-tab>Validators</v-tab>
                                     <v-tab>Pending Validators</v-tab>
-                                    <v-tab>Control Keys</v-tab> 
+                                    <v-tab>Control Keys</v-tab>
                                     <v-tab-item class="tab_content">
-                                        <v-simple-table>
-                                            <template v-slot:default>
-                                                <thead>
-                                                    <tr>
-                                                        <th class="text-left">Name</th>
-                                                        <th class="text-left">Virtual Machine ID</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr v-for="b in s.blockchains" :key="b.id">
-                                                        <td>{{ b.name }}</td>
-                                                        <td class="id_overflow">{{ b.vmID }}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </template>
-                                        </v-simple-table>
+                                        <template v-if="s.blockchains.length === 0">
+                                            <p>There are no blockchains for this subnet.</p>
+                                        </template>
+                                        <template v-else>
+                                            <v-simple-table>
+                                                <template v-slot:default>
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-left">Name</th>
+                                                            <th class="text-left">Virtual Machine ID</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr v-for="b in s.blockchains" :key="b.id">
+                                                            <td>{{ b.name }}</td>
+                                                            <td class="id_overflow">{{ b.vmID }}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </template>
+                                            </v-simple-table>
+                                        </template>
                                     </v-tab-item>
                                     <v-tab-item class="tab_content">
                                         <template v-if="s.validators.length === 0">
@@ -117,7 +70,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr v-for="v in s.validators" :key="v.id">
+                                                        <tr v-for="v in s.validators" :key="v.id + v.stakeAmount">
                                                             <td class="id_overflow">{{v.id}}</td>
                                                             <td>{{ new Date(parseInt(v.startTime * 1000)).toLocaleString()}}</td>
                                                             <td>{{ new Date(parseInt(v.endTime * 1000)).toLocaleString()}}</td>
@@ -144,7 +97,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr v-for="v in s.pendingValidators" :key="v.id">
+                                                        <tr v-for="v in s.pendingValidators" :key="v.id + v.stakeAmount"> 
                                                             <td class="id_overflow">{{ v.id }}</td>
                                                             <td>{{ new Date(parseInt(v.startTime * 1000)).toLocaleString()}}</td>
                                                             <td>{{ new Date(parseInt(v.endTime * 1000)).toLocaleString()}}</td>
@@ -156,20 +109,27 @@
                                         </template>
                                     </v-tab-item>
                                     <v-tab-item class="tab_content">
-                                        <v-simple-table>
-                                            <template v-slot:default>
-                                                <thead>
-                                                    <tr>
-                                                        <th class="text-left">Address of Control Key</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr v-for="ck in s.controlKeys" :key="ck">
-                                                        <td>{{ ck }}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </template>
-                                        </v-simple-table>
+                                        <template v-if="s.controlKeys.length === 0">
+                                            <p>There are no control keys for this subnet.</p>
+                                        </template>
+                                        <template v-else>
+                                            <v-simple-table :dense="dense">
+                                                <template v-slot:default>
+                                                    <thead>
+                                                        <tr>
+                                                            <th
+                                                                class="text-left"
+                                                            >Address of Control Key</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr v-for="ck in s.controlKeys" :key="ck">
+                                                            <td>{{ ck }}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </template>
+                                            </v-simple-table>
+                                        </template>
                                     </v-tab-item>
                                 </v-tabs>
                             </v-card-text>
@@ -177,7 +137,7 @@
                     </v-tab-item>
                 </v-tabs>
             </template>
-         </div>
+        </div>
     </div>
 </template>
 
@@ -185,8 +145,12 @@
 import { ava } from "@/ava";
 import { subnetMap } from "@/helper";
 import Vue from "vue";
+import Metadata from "../components/Subnets/Metadata";
 
 export default {
+    components: {
+        Metadata
+    },
     filters: {
         subnet(val) {
             return subnetMap(val);
@@ -198,14 +162,18 @@ export default {
             fixedHeader: true,
             loading: true,
             blockchains: [],
-            subnets: this.$store.state.Platform.subnets
         };
     },
     async created() {
-        // get blockchains
         this.blockchains = await this.getBlockchains();
     },
     computed: {
+        subnets() {
+            const subnets = this.$store.state.Platform.subnets;
+            const ordered = {};
+            Object.keys(subnets).sort().forEach(key => ordered[key] = subnets[key]);
+            return ordered;
+        },
         totalValidators() {
             return this.$store.getters["Platform/totalValidators"];
         },
@@ -263,53 +231,6 @@ export default {
     }
 }
 
-.meta_data_container {
-    margin-bottom: 30px;
-
-    .header {
-        display: flex;
-        justify-content: space-between;
-    }
-}
-
-.meta_data {
-    display: grid;
-    width: 100%;
-    grid-template-columns: 20% 20% 20% 40%;
-
-    img {
-        object-fit: contain;
-        width: 40px;
-        margin-right: 15px;
-    }
-
-    > div {
-        padding: 30px;
-        text-align: left;
-        line-height: 1.4em;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
-
-    p {
-        font-size: 32px;
-        font-weight: bold;
-    }
-
-    .label {
-        text-transform: capitalize;
-        font-size: 12px;
-        font-weight: bold;
-        margin-bottom: 6px;
-        opacity: 0.7;
-    }
-
-    .meta_val {
-        line-height: 1em;
-    }
-}
-
 h3 {
     margin: 0;
 }
@@ -337,10 +258,6 @@ h3 {
     margin-right: 30px;
 }
 
-.v-tabs--vertical > .v-tabs-bar {
-    max-width: 200px !important;
-}
-
 .v-tabs--vertical > .v-tabs-bar .v-tab {
     width: 150px;
     text-align: left;
@@ -356,11 +273,9 @@ h3 {
 
 .v-card__text {
     padding-top: 0;
-    padding-left: 30px;
     box-sizing: border-box;
     border-radius: 0 !important;
-    margin-left: 30px;
-    border-left: 1px solid #cecece;
+    padding-left: 45px;
 }
 
 .v-tab {
@@ -372,18 +287,16 @@ h3 {
 .v-tab:before {
     background-color: #71c5ff !important;
 }
-
-@include main.mobile-device {
-    .meta_data {
-        grid-template-columns: none;
-        grid-template-rows: max-content max-content max-content;
-    }
-}
 </style>
 
 <style lang="scss">
-    /* v-window */
-    .v-tabs--vertical > .v-window {
-        overflow: scroll !important;
-    }
+.v-tabs--vertical > .v-tabs-bar {
+    max-width: 200px !important;
+    padding-right: 30px;
+    border-right: 1px solid #cecece;
+}
+
+.v-tabs--vertical > .v-window {
+    overflow: scroll !important;
+}
 </style>

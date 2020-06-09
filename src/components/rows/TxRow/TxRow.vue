@@ -163,7 +163,7 @@ export default {
     margin-bottom: 6px;
 }
 
-@media only screen and (max-width: main.$mobile_width) {
+@include main.sm-device {
     .tx_row {
         padding: 8px;
         grid-template-columns: none;

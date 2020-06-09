@@ -102,7 +102,7 @@
     }
 }
 
-@media only screen and (max-width: main.$mobile_width) {
+@include main.sm-device {
     .v-footer {
         grid-template-columns: none;
         grid-template-rows: max-content max-content max-content;

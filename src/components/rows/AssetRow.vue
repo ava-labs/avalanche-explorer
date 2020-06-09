@@ -14,49 +14,49 @@
     </div>
 </template>
 <script>
-    export default {
-        props: {
-            token: {
-                type: Object,
-                required: true
-            }
+export default {
+    props: {
+        token: {
+            type: Object,
+            required: true
         }
     }
+};
 </script>
 <style scoped lang="scss">
-    .avatar{
-        width: 35px;
-        height: 35px;
-        border-radius: 35px;
-        line-height: 35px;
-        text-align: center;
-        background-color: #F1F2F3;
+.avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 35px;
+    line-height: 35px;
+    text-align: center;
+    background-color: #f1f2f3;
 
-        p{
-            width: 100%;
-            font-weight: bold;
-            color: #272727;
-        }
+    p {
+        width: 100%;
+        font-weight: bold;
+        color: #272727;
+    }
+}
+
+.token_row {
+    display: grid;
+    grid-template-columns: max-content 70px 1fr 90px 1fr 1fr;
+    padding: 15px 15px;
+    border-bottom: 1px solid #e7e7e7;
+
+    > * {
+        align-self: center;
+    }
+    
+    > div {
+        display: flex;
     }
 
-    .token_row{
-        display: grid;
-        grid-template-columns: max-content 70px 1fr 90px 1fr 1fr;
-        padding: 15px 15px;
-        border-bottom: 1px solid #E7E7E7;
-
-
-        > *{
-            align-self: center;
-        }
-        > div{
-            display: flex;
-        }
-
-        p{
-            overflow: hidden;
-            font-size: 13px;
-            text-overflow: ellipsis;
-        }
+    p {
+        overflow: hidden;
+        font-size: 13px;
+        text-overflow: ellipsis;
     }
+}
 </style>

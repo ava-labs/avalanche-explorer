@@ -1,15 +1,18 @@
 <template>
     <div class="recent_tx">
         <div class="header">
-            <h2>Latest Transactions</h2>
-            <v-btn :loading="isAjax" :text="true" @click="updateTx" class="refresh">
-                <fa icon="sync"></fa> <span class="ava-btn-label">Refresh</span>
-            </v-btn>
-            <p class="chain">
-                You are viewing transactions for
+            <div class="left">
+                <h2>Latest Transactions</h2>
+                <v-btn :loading="isAjax" :text="true" @click="updateTx" class="refresh">
+                    <fa icon="sync"></fa>
+                    <span class="ava-btn-label">Refresh</span>
+                </v-btn>
+            </div>
+            <p class="chain right">
+                <span class="label">You are viewing transactions for</span>
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
-                        <span v-on="on">AVA X-Chain</span>
+                        <span v-on="on" class="tag">AVA X-Chain</span>
                     </template>
                     <span>The X-Chain acts as a decentralized platform for creating and trading smart digital assets. (Think X for eXchanging assets.)</span>
                 </v-tooltip>
@@ -110,23 +113,6 @@ export default Vue.extend({
     }
 }
 
-.chain {
-    font-size: 12px;
-    color: #929ba6;
-    font-weight: lighter;
-    text-align: right;
-    flex-grow: 1;
-
-    span {
-        padding: 4px 12px;
-        border-radius: 4px;
-        color: #976cfa;
-        background-color: #ebe4fb;
-        line-height: 2em;
-        word-break: keep-all;
-        white-space: nowrap;
-    }
-}
 .col_1 {
     padding: 0px 30px;
 }
@@ -134,20 +120,49 @@ export default Vue.extend({
 .header {
     display: flex;
     align-items: center;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-
+    margin-bottom: 20px;
+    
     h2 {
-        margin: 0;
-        font-size: 18px;
+        padding-bottom: 2px;
     }
-}
 
-.refresh {
-    font-size: 12px;
-    text-transform: none;
-    border: none;
-    opacity: 0.5;
+    .refresh {
+        font-size: 12px;
+        text-transform: none;
+        border: none;
+        opacity: 0.5;
+    }
+    
+    .chain {
+        font-size: 12px;
+        color: #929ba6;
+        font-weight: lighter;
+        text-align: right;
+        flex-grow: 1;
+
+        .label {
+            padding: 4px 12px 4px 0;
+            min-height: 1em;
+            line-height: 2em;
+        }
+        
+        .tag {
+            padding: 4px 12px;
+            border-radius: 4px;
+            color: #976cfa;
+            background-color: #ebe4fb;
+            min-height: 1em;
+            line-height: 2em;
+            word-break: keep-all;
+            white-space: nowrap;
+        }
+    }
+
+    .left {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
 }
 
 .recent_tx_rows {
@@ -176,7 +191,12 @@ export default Vue.extend({
     border-radius: 4px;
 }
 
-@media only screen and (max-width: main.$mobile_width) {
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 1s;
+}
+
+@include main.sm-device {
     .view_all {
         width: 100%;
         text-align: center;
@@ -187,15 +207,33 @@ export default Vue.extend({
     }
 
     .header {
-        padding: 15px;
+        padding-bottom: 0;
     }
+
     .list {
         padding: 0;
     }
 }
 
-.fade-enter-active,
-.fade-leave-active {
-    transition: opacity 1s;
+@include main.xs-device {
+    .header {
+        display: flex;
+        flex-direction: column;
+    
+    .left {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        margin-bottom: 5px;
+    }
+
+    .right {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-content: center;
+    }
+}
 }
 </style>

@@ -210,7 +210,7 @@ export default {
         text-align: right;
     }
 }
-@media only screen and (max-width: main.$mobile_width) {
+@include main.sm-device {
     .validator {
         grid-template-columns: 70px 1fr 1fr 1fr 1fr;
         grid-template-rows: max-content max-content;

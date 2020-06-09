@@ -64,7 +64,7 @@ export default Vue.extend({
     padding: main.$container_padding_l;
 }
 
-@media only screen and (max-width: main.$mobile_width) {
+@include main.sm-device {
     .router_view, 
     .navbar, 
     .footer {
@@ -72,7 +72,7 @@ export default Vue.extend({
     }
 }
 
-@media only screen and (max-width: main.$medium_width) {
+@include main.md-device {
     .router_view, 
     .navbar,
     .footer {
@@ -82,6 +82,7 @@ export default Vue.extend({
 </style>
 
 <style lang="scss">
+@use 'main';
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&display=swap');
 
 body {
@@ -136,5 +137,9 @@ p {
 .fade-leave-to 
 /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
+}
+
+@include main.sm-device {
+
 }
 </style>

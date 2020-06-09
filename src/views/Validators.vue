@@ -49,7 +49,7 @@
                 </div>
             </div>
         </div>
-        <div class="validators">
+        <div class="validators card">
             <div class="header">
                 <h2>Staking Distribution</h2>
             </div>
@@ -71,13 +71,6 @@
                             placeholder="Search by Validator ID"
                         />
                     </div>
-                </div>
-                <div v-show="search.length === 0" class="pagination_container">
-                    <validator-pagination-controls
-                        :total="totalValidatorsCount"
-                        :limit="limit"
-                        @change="handleChange"
-                    ></validator-pagination-controls>
                 </div>
             </div>
             <div class="headers">
@@ -126,6 +119,13 @@
                     :validator="v"
                     :cumulative-stake="cumulativeStake[v.rank - 1]"
                 ></validator-row>
+            </div>
+            <div v-show="search.length === 0" class="pagination_container">
+                <validator-pagination-controls
+                    :total="totalValidatorsCount"
+                    :limit="limit"
+                    @change="handleChange"
+                ></validator-pagination-controls>
             </div>
         </div>
     </div>
@@ -225,7 +225,7 @@ export default {
 <style scoped lang="scss">
 @use '../main';
 
-.meta_data_container {    
+.meta_data_container {
     margin-bottom: 30px;
 
     .header {
@@ -265,10 +265,13 @@ export default {
         margin-bottom: 6px;
         opacity: 0.7;
     }
+
+    .meta_val {
+        line-height: 1em;
+    }
 }
 
 .controls {
-
     margin-bottom: 12px;
 
     .search_container {
@@ -298,11 +301,11 @@ export default {
             font-size: 12px;
         }
     }
+}
 
-    .pagination_container {
-        display: flex;
-        justify-content: flex-end;
-    }
+.pagination_container {
+    display: flex;
+    justify-content: flex-end;
 }
 
 .validators {
@@ -358,27 +361,51 @@ export default {
     color: #fff !important;
 }
 
-@media only screen and (max-width: main.$mobile_width) {
-    .validators {
-        padding: 5px;
+@include main.sm-device {
+    .header {
+        flex-direction: column;
     }
 
-    .search_tabs {
-        flex-direction: column;
-        justify-content: flex-end;
-        align-items: baseline;
+    .controls {
+        margin-bottom: 12px;
+
+        .search_container {
+            display: flex;
+            flex-direction: column;
+            /* justify-content: space-between; */
+            /* align-items: baseline; */
+
+            .search_count {
+                padding-top: 5px;
+            }
+
+            .search_tabs {
+                flex-direction: column;
+                justify-content: flex-end;
+                align-items: baseline;
+                margin-bottom: 0;
+                width: 100%;
+            }
+
+            .search {
+                width: 100%;
+                margin: 20px 0 5px;
+            }
+        }
+    }
+
+    .pagination_container {
+        margin-top: 30px;
+        justify-content: center;
     }
 
     .tabs {
+        margin-top: 20px;
         width: 100%;
-    }
-    .v-tab {
-        flex-grow: 1;
     }
 
-    .search {
-        margin: 10px 0px;
-        width: 100%;
+    .v-tab {
+        flex-grow: 1;
     }
 
     .meta_data {
@@ -387,7 +414,7 @@ export default {
 
         > div {
             text-align: left;
-            padding: 10px;
+            padding: 30px 0 0;
         }
     }
 }

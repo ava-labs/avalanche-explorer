@@ -1,17 +1,32 @@
-$mobile_width: 900px;
-$medium_width: 1468px;
-$large_width: 1200px;
 $max_width: 1800px;
+
+$xs_width: 600px;
+$sm_width: 960px;
+$md_width: 1264px;
+$lg_width: 1904px;
 
 $container_padding_l: 30px 18vw;
 $container_padding_m: 30px 6vw;
 $container_padding_s: 30px 6vw;
 $container_padding_mobile: 10px 10px;
 
-@mixin mobile-device{
-    @media only screen and (max-width: $mobile_width) { @content; }
-  }
-  
-@mixin medium-device {
-    @media only screen and (min-width: $mobile_width) and (max-width: $width_m) { @content; }
+@mixin xs-device {
+  @media only screen and (max-width: $xs_width) { @content; }
+}
+
+@mixin sm-device {
+  @media only screen and (max-width: $sm_width) { @content; }
+  // @media only screen and (min-width: $xs) and (max-width: $sm_width) { @content; }
+}
+
+@mixin md-device {
+  @media only screen and (min-width: $sm_width) and (max-width: $md_width) { @content; }
+}
+
+@mixin lg-device {
+  @media only screen and (min-width: $md_width) and (max-width: $lg_width) { @content; }
+}
+
+@mixin xl-device {
+  @media only screen and (min-width: $lg_width) { @content; }
 }

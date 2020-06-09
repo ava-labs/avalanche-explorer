@@ -235,7 +235,7 @@ h2 {
     }
 }
 
-@media only screen and (max-width: main.$mobile_width) {
+@include main.sm-device {
     .meta {
         padding: 15px;
     }

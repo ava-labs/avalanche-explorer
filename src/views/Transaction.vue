@@ -367,7 +367,7 @@ h2 {
     }
 }
 
-@media only screen and (max-width: main.$mobile_width) {
+@include main.sm-device {
     .transaction_details {
         padding: main.$container_padding_mobile;
     }

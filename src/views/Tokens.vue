@@ -117,7 +117,7 @@ export default {
     text-align: right;
 }
 
-@media only screen and (max-width: main.$mobile_width) {
+@include main.sm-device {
     .grid_headers {
         display: none;
     }
@@ -128,6 +128,7 @@ export default {
 
     .token_row {
         grid-template-columns: 50px 1fr 1fr;
+        padding: 10px 0 5px;
     }
 }
 </style>

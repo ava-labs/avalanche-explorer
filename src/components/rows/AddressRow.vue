@@ -24,70 +24,68 @@
     </div>
 </template>
 <script>
-    export default {
-        props: {
-            address: {
-                type: Object,
-                required: true,
-            }
+export default {
+    props: {
+        address: {
+            type: Object,
+            required: true
+        }
+    },
+    computed: {
+        txCount() {
+            return this.address.data.transactionCount;
         },
-        computed: {
-            txCount(){
-                return this.address.data.transactionCount;
-            },
-            balance(){
-                return this.address.data.balance;
-
-            },
-            lifetimeValue(){
-                return this.address.data.lifetimeValue;
-            },
-            url(){
-                return `/`;
-            }
+        balance() {
+            return this.address.data.balance;
+        },
+        lifetimeValue() {
+            return this.address.data.lifetimeValue;
+        },
+        url() {
+            return `/`;
         }
     }
+};
 </script>
 <style scoped lang="scss">
-    .address_row{
-        display: flex;
-        align-items: center;
-    }
-    $symbol_w: 35px;
-    .symbol{
+.address_row {
+    display: flex;
+    align-items: center;
+}
+$symbol_w: 35px;
+.symbol {
+    text-align: center;
+    line-height: $symbol_w;
+    background-color: #f1f2f3;
+    color: #000;
+    font-size: 14px;
+    font-weight: bold;
+    box-sizing: border-box;
+    height: $symbol_w;
+    width: $symbol_w;
+    border-radius: $symbol_w;
+}
+
+.link {
+    text-decoration: none;
+    text-transform: capitalize;
+}
+
+.center_info {
+    display: flex;
+    flex-grow: 1;
+
+    > div {
+        /*flex-grow: 1;*/
         text-align: center;
-        line-height: $symbol_w;
-        background-color: #F1F2F3;
-        color: #000;
-        font-size: 14px;
-        font-weight: bold;
-        box-sizing: border-box;
-        height: $symbol_w;
-        width: $symbol_w;
-        border-radius: $symbol_w;
+        padding-left: 30px;
     }
 
-    .link{
-        text-decoration: none;
-        text-transform: capitalize;
+    .label {
+        font-size: 12px;
+        opacity: 0.7;
+        font-weight: lighter;
+        margin-bottom: 6px;
     }
-
-
-    .center_info{
-        display: flex;
-        flex-grow: 1;
-
-        >div{
-            /*flex-grow: 1;*/
-            text-align: center;
-            padding-left: 30px;
-        }
-
-        .label{
-            font-size: 12px;
-            opacity: 0.7;
-            font-weight: lighter;
-            margin-bottom: 6px;
-        }
-    }
+}
 </style>
