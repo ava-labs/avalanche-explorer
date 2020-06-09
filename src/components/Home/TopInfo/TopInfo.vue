@@ -44,12 +44,14 @@ export default {
     .top_info {
         grid-template-columns: 1fr;
         grid-template-rows: max-content max-content max-content;
+        padding: 0;
 
         > div {
-            padding: 14px;
+            padding: 30px;
             border: none;
             border-bottom: 1px solid #c4c4c455;
         }
     }
 }
+
 </style>

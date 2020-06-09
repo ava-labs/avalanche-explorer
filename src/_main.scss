@@ -11,7 +11,7 @@ $container_padding_s: 30px 6vw;
 $container_padding_mobile: 10px 10px;
 
 @mixin xs-device {
-  @media only screen and (max-width: $xs) { @content; }
+  @media only screen and (max-width: $xs_width) { @content; }
 }
 
 @mixin sm-device {
@@ -20,7 +20,7 @@ $container_padding_mobile: 10px 10px;
 }
 
 @mixin md-device {
-    @media only screen and (min-width: $sm_width) and (max-width: $md_width) { @content; }
+  @media only screen and (min-width: $sm_width) and (max-width: $md_width) { @content; }
 }
 
 @mixin lg-device {

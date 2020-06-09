@@ -40,7 +40,7 @@ const platform_module: Module<IPlatformState, IRootState> = {
             let blockchains = await platform.getBlockchains() as IBlockchainData[];
 
             // Add P-Chain manually
-            blockchains.push({
+            blockchains.unshift({
                 name: "P-Chain",
                 id: "11111111111111111111111111111111LpoYY",
                 subnetID: "11111111111111111111111111111111LpoYY",

@@ -82,6 +82,7 @@ export default Vue.extend({
 </style>
 
 <style lang="scss">
+@use 'main';
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&display=swap');
 
 body {
@@ -136,5 +137,9 @@ p {
 .fade-leave-to 
 /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
+}
+
+@include main.sm-device {
+
 }
 </style>

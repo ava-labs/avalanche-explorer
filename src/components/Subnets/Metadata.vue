@@ -126,4 +126,15 @@ export default {
         line-height: 1em;
     }
 }
+
+@include main.sm-device {
+    .meta_data {
+        grid-template-columns: none;
+        grid-template-rows: max-content max-content max-content;
+
+        > div {
+            padding: 30px 0 0;
+        }
+    }
+}
 </style>
