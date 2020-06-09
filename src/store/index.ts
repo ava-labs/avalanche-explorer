@@ -17,20 +17,6 @@ export default new Vuex.Store({
         known_addresses: AddressDict,
         chainId: "X",
     },
-    getters: {
-        assetsArray(state: IRootState) {
-            let res = [];
-            for (let i in state.assets) {
-                res.push(state.assets[i]);
-            }
-            return res;
-        }
-    },
-    mutations: {
-        addAsset(state, asset) {
-            Vue.set(state.assets, asset.id, asset);
-        }
-    },
     actions: {
         init(store) {
             api.get("/x/assets").then(res => {
@@ -41,4 +27,18 @@ export default new Vuex.Store({
             })
         }
     },
+    mutations: {
+        addAsset(state, asset) {
+            Vue.set(state.assets, asset.id, asset);
+        }
+    },
+    getters: {
+        assetsArray(state: IRootState) {
+            let res = [];
+            for (let i in state.assets) {
+                res.push(state.assets[i]);
+            }
+            return res;
+        }
+    }
 })

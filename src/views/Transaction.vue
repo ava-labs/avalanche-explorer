@@ -231,13 +231,11 @@ h2 {
     border: 1px solid #56c18d;
     color: #56c18d;
     width: max-content;
-    /*position: absolute;*/
     padding: 4px 8px;
     margin: 0px 30px;
     word-break: keep-all;
-    /*top: 10px;*/
-    /*right: 20px;*/
 }
+
 .meta {
     background-color: #fff;
     padding: 30px;
@@ -248,10 +246,8 @@ h2 {
 }
 
 .meta_row {
-    /*display: flex;*/
     display: grid;
     grid-template-columns: 140px 1fr;
-    /*margin-bottom: 8px;*/
     padding: 15px 30px;
     border-bottom: 1px solid #f2f2f2;
     .label {
@@ -305,14 +301,10 @@ h2 {
 }
 
 .io_item {
-    /*padding: 15px 30px;*/
     font-size: 13px;
     padding: 10px 0px;
     overflow: auto;
     border-bottom: 1px solid #f2f2f2;
-    /*background-color: #fff;*/
-    /*border-radius: 6px;*/
-    /*box-shadow: 2px 2px 5px rgba(0,0,0,0.1);*/
 
     &:last-of-type {
         border: none;
@@ -326,22 +318,6 @@ h2 {
     border-radius: 3px;
     padding: 4px 8px;
 }
-
-/*.inputs_genesis{*/
-/*    width: 100%;*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-
-/*    p{*/
-/*        padding: 16px 30px;*/
-/*        border-radius: 4px;*/
-
-/*        font-size: 16px;*/
-/*        text-align: center;*/
-/*        word-break: keep-all;*/
-/*    }*/
-/*}*/
 
 .amount {
     text-align: right;
@@ -386,13 +362,7 @@ h2 {
         grid-template-columns: none;
         grid-template-rows: max-content max-content;
     }
-    .io_item {
-        /*padding: 12px;*/
-    }
-
-    .data_row {
-    }
-
+    
     .label {
         font-weight: bold !important;
         margin-bottom: 8px;

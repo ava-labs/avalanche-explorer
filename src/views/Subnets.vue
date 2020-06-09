@@ -19,21 +19,23 @@
                     >
                         <v-card flat>
                             <v-card-text>
-                                <div class="subnet_header"></div>
-                                <h2>{{subnetID | subnet}}</h2>
-                                <div class="stats">
-                                    <div class="bar">
-                                        <p class="subnet_count">{{s.blockchains.length}} blockchains validated by this subnet</p>
+                                <div class="subnet_header">
+                                    <div class="subhheading">Subnetwork</div>
+                                    <h2>{{subnetID | subnet}}</h2>
+                                    <div class="stats">
+                                        <div class="bar">
+                                            <p class="subnet_count">{{s.blockchains.length | pluralize}} validated by this subnet</p>
+                                        </div>
                                     </div>
                                 </div>
                                 <v-tabs right show-arrows>
-                                    <v-tab>Blockchains</v-tab>
-                                    <v-tab>Validators</v-tab>
-                                    <v-tab>Pending Validators</v-tab>
-                                    <v-tab>Control Keys</v-tab>
+                                    <v-tab>Blockchains ({{s.blockchains.length}})</v-tab>
+                                    <v-tab>Validators ({{s.validators.length}})</v-tab>
+                                    <v-tab>Pending Validators ({{s.pendingValidators.length}})</v-tab>
+                                    <v-tab>Control Keys ({{s.controlKeys.length}})</v-tab>
                                     <v-tab-item class="tab_content">
                                         <template v-if="s.blockchains.length === 0">
-                                            <p>There are no blockchains for this subnet.</p>
+                                            <p class="null">There are no blockchains for this subnet.</p>
                                         </template>
                                         <template v-else>
                                             <v-simple-table>
@@ -56,7 +58,7 @@
                                     </v-tab-item>
                                     <v-tab-item class="tab_content">
                                         <template v-if="s.validators.length === 0">
-                                            <p>There are no validators for this subnet.</p>
+                                            <p class="null">There are no validators for this subnet.</p>
                                         </template>
                                         <template v-else>
                                             <v-simple-table :dense="dense">
@@ -70,7 +72,10 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr v-for="v in s.validators" :key="v.id + v.stakeAmount">
+                                                        <tr
+                                                            v-for="v in s.validators"
+                                                            :key="v.id + v.stakeAmount"
+                                                        >
                                                             <td class="id_overflow">{{v.id}}</td>
                                                             <td>{{ new Date(parseInt(v.startTime * 1000)).toLocaleString()}}</td>
                                                             <td>{{ new Date(parseInt(v.endTime * 1000)).toLocaleString()}}</td>
@@ -83,7 +88,7 @@
                                     </v-tab-item>
                                     <v-tab-item class="tab_content">
                                         <template v-if="s.pendingValidators.length === 0">
-                                            <p>There are no pending validators for this subnet.</p>
+                                            <p class="null">There are no pending validators for this subnet.</p>
                                         </template>
                                         <template v-else>
                                             <v-simple-table :dense="dense">
@@ -97,7 +102,10 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr v-for="v in s.pendingValidators" :key="v.id + v.stakeAmount"> 
+                                                        <tr
+                                                            v-for="v in s.pendingValidators"
+                                                            :key="v.id + v.stakeAmount"
+                                                        >
                                                             <td class="id_overflow">{{ v.id }}</td>
                                                             <td>{{ new Date(parseInt(v.startTime * 1000)).toLocaleString()}}</td>
                                                             <td>{{ new Date(parseInt(v.endTime * 1000)).toLocaleString()}}</td>
@@ -110,10 +118,10 @@
                                     </v-tab-item>
                                     <v-tab-item class="tab_content">
                                         <template v-if="s.controlKeys.length === 0">
-                                            <p>There are no control keys for this subnet.</p>
+                                            <p class="null">There are no control keys for this subnet.</p>
                                         </template>
                                         <template v-else>
-                                            <v-simple-table :dense="dense">
+                                            <v-simple-table>
                                                 <template v-slot:default>
                                                     <thead>
                                                         <tr>
@@ -129,6 +137,7 @@
                                                     </tbody>
                                                 </template>
                                             </v-simple-table>
+                                            <p class="threshold">{{s.threshold | pluralizeThreshold}} needed to add a validator to the subnet.</p>
                                         </template>
                                     </v-tab-item>
                                 </v-tabs>
@@ -154,6 +163,20 @@ export default {
     filters: {
         subnet(val) {
             return subnetMap(val);
+        },
+        pluralize(val) {
+            return val === 0
+                ? `${val} blockchains`
+                : val > 1
+                ? `${val} blockchains`
+                : `${val} blockchain`;
+        },
+        pluralizeThreshold(val) {
+            return val === 0
+                ? `${val} threshold signatures from addresses in Control Keys are`
+                : val > 1
+                ? `${val} threshold signatures from addresses in Control Keys are`
+                : `${val} threshold signature from address in Control Keys is`;
         }
     },
     data() {
@@ -161,7 +184,7 @@ export default {
             dense: true,
             fixedHeader: true,
             loading: true,
-            blockchains: [],
+            blockchains: []
         };
     },
     async created() {
@@ -171,7 +194,9 @@ export default {
         subnets() {
             const subnets = this.$store.state.Platform.subnets;
             const ordered = {};
-            Object.keys(subnets).sort().forEach(key => ordered[key] = subnets[key]);
+            Object.keys(subnets)
+                .sort()
+                .forEach(key => (ordered[key] = subnets[key]));
             return ordered;
         },
         totalValidators() {
@@ -244,7 +269,7 @@ h3 {
 }
 
 .tab_content {
-    padding-top: 30px;
+    padding-top: 15px;
 }
 
 .id_overflow {
@@ -286,6 +311,30 @@ h3 {
 
 .v-tab:before {
     background-color: #71c5ff !important;
+}
+
+.subnet_header {
+    .subhheading {
+        text-transform: capitalize;
+        font-size: 12px;
+        font-weight: bold;
+        margin-bottom: 6px;
+        opacity: 0.7;
+    }
+    
+    h2 {
+        margin: 0 0 8px;
+    }
+}
+
+.null {
+    padding-top: 10px;
+    font-size: .75rem;
+    font-weight: bold;
+}
+
+.threshold {
+    padding: 32px 16px;
 }
 </style>
 

@@ -35,6 +35,7 @@
         </div>
     </v-app-bar>
 </template>
+
 <script>
 import Vue from "vue";
 import SearchBar from "@/components/misc/SearchBar/SearchBar";
@@ -56,30 +57,14 @@ export default Vue.extend({
             return this.$vuetify.theme.themes[this.themeType];
         },
         showSearch() {
-            if (this.$router.currentRoute.name == "Home") {
-                return false;
-            }
-            return true;
+            return (this.$router.currentRoute.name === "Home") ? false : true;
         },
         navColor() {
-            let res = "#fff";
-            // console.log(this.theme);
-
-            // if(this.$router.currentRoute.name == "Home"){
-            //     res = "transparent";
-            // }
-            // console.log(res);
-            return res;
+            return "#fff";
         }
     }
 });
 </script>
-
-<style>
-.v-toolbar__content {
-    padding: 0 !important;
-}
-</style>
 
 <style scoped lang="scss">
 @use '../main';
@@ -194,5 +179,11 @@ export default Vue.extend({
     .search_bar {
         width: 100%;
     }
+}
+</style>
+
+<style lang="scss">
+.v-toolbar__content {
+    padding: 0 !important;
 }
 </style>

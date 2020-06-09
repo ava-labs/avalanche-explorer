@@ -68,7 +68,7 @@
                             class="search"
                             type="text"
                             v-model="search"
-                            placeholder="Search by Validator ID"
+                            placeholder="Filter by Validator ID"
                         />
                     </div>
                 </div>
@@ -306,6 +306,7 @@ export default {
 .pagination_container {
     display: flex;
     justify-content: flex-end;
+    margin-top: 30px;
 }
 
 .validators {
@@ -372,8 +373,6 @@ export default {
         .search_container {
             display: flex;
             flex-direction: column;
-            /* justify-content: space-between; */
-            /* align-items: baseline; */
 
             .search_count {
                 padding-top: 5px;
@@ -395,7 +394,6 @@ export default {
     }
 
     .pagination_container {
-        margin-top: 30px;
         justify-content: center;
     }
 

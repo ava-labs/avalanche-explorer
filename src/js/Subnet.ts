@@ -25,6 +25,8 @@ export default class Subnet {
         this.blockchains.push(data);
     }
 
+    // TODO: get address details for Platform Keys (https://docs.ava.network/v1.0/en/api/platform/#platformgetaccount)
+    
     async updateValidators() {
         let req = {
             "jsonrpc": "2.0",
