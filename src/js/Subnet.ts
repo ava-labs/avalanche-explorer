@@ -39,8 +39,8 @@ export default class Subnet {
         let validators = validatorsData.map((v: IValidatorData) => {
             let validator: IValidator = {
                 id: v.id,
-                startTime: new Date(parseInt(v.startTime) * 1000),
-                endTime: new Date(parseInt(v.endTime) * 1000)
+                startTime: new Date(parseInt(v.startTime)),
+                endTime: new Date(parseInt(v.endTime))
             }
 
             // set optional props for validators of default subnet
@@ -81,8 +81,8 @@ export default class Subnet {
         let pendingValidators = pendingValidatorsData.map((v: IValidatorData) => {
             let validator: IValidator = {
                 id: v.id,
-                startTime: new Date(parseInt(v.startTime) * 1000),
-                endTime: new Date(parseInt(v.endTime) * 1000)
+                startTime: new Date(parseInt(v.startTime)),
+                endTime: new Date(parseInt(v.endTime))
             }
 
             if ({}.hasOwnProperty.call(v, "address") &&
