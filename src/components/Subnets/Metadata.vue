@@ -2,62 +2,103 @@
     <div class="metadata">
         <div class="card">
             <div class="header">
-                <v-tooltip bottom left>
-                    <template v-slot:activator="{ on }">
-                        <h2 v-on="on">Subnets</h2>
-                    </template>
-                    <span>
-                        A Subnet is a set of validators. A Subnet validates a set of blockchains.
-                        <br />Each blockchain is validated by exactly one Subnet, which is specified on blockchain creation.
-                    </span>
-                </v-tooltip>
+                <h2>
+                    Subnets
+                    <v-tooltip bottom left>
+                        <template v-slot:activator="{ on }">
+                            <fa
+                                v-on="on"
+                                icon="info-circle"
+                                transform="shrink-3"
+                                :style="{ color: '#e8e7ea' }"
+                            ></fa>
+                        </template>
+                        <span>
+                            A Subnet is a set of validators. A Subnet validates a set of blockchains.
+                            <br />Each blockchain is validated by exactly one Subnet, which is specified on blockchain creation.
+                        </span>
+                    </v-tooltip>
+                </h2>
             </div>
             <div class="meta_data">
                 <div>
                     <img src="@/assets/subnet.png" />
                     <div>
-                        <v-tooltip bottom>
-                            <template v-slot:activator="{ on }">
-                                <p class="label" v-on="on">Subnetworks</p>
-                            </template>
-                            <span>A Subnet is a set of validators. A Subnet validates a set of blockchains.</span>
-                        </v-tooltip>
+                        <p class="label">
+                            Subnetworks
+                            <v-tooltip bottom>
+                                <template v-slot:activator="{ on }">
+                                    <fa
+                                        v-on="on"
+                                        icon="info-circle"
+                                        transform="shrink-3"
+                                        :style="{ color: '#e8e7ea' }"
+                                    ></fa>
+                                </template>
+                                <span>total number of subnets created on the AVA network</span>
+                            </v-tooltip>
+                        </p>
                         <p class="meta_val">{{totalSubnets}}</p>
                     </div>
                 </div>
                 <div>
                     <img src="@/assets/blockchain.png" />
                     <div>
-                        <v-tooltip bottom>
-                            <template v-slot:activator="{ on }">
-                                <p class="label" v-on="on">Blockchains</p>
-                            </template>
-                            <span>Total number of blockchains created on the AVA network.</span>
-                        </v-tooltip>
+                        <p class="label">
+                            Blockchains
+                            <v-tooltip bottom>
+                                <template v-slot:activator="{ on }">
+                                    <fa
+                                        v-on="on"
+                                        icon="info-circle"
+                                        transform="shrink-3"
+                                        :style="{ color: '#e8e7ea' }"
+                                    ></fa>
+                                </template>
+                                <span>total number of blockchains created on the AVA network</span>
+                            </v-tooltip>
+                        </p>
                         <p class="meta_val">{{totalBlockchains}}</p>
                     </div>
                 </div>
                 <div>
                     <img src="@/assets/validators.png" />
                     <div>
-                        <v-tooltip bottom>
-                            <template v-slot:activator="{ on }">
-                                <p class="label" v-on="on">Validators</p>
-                            </template>
-                            <span>Total number of nodes participating in the consensus protocol of the AVA network.</span>
-                        </v-tooltip>
+                        <p class="label">
+                            Validators
+                            <v-tooltip bottom>
+                                <template v-slot:activator="{ on }">
+                                    <fa
+                                        v-on="on"
+                                        icon="info-circle"
+                                        transform="shrink-3"
+                                        :style="{ color: '#e8e7ea' }"
+                                    ></fa>
+                                </template>
+                                <span>total number of nodes participating in the consensus protocol of the AVA network</span>
+                            </v-tooltip>
+                        </p>
+
                         <p class="meta_val">{{totalValidators}}</p>
                     </div>
                 </div>
                 <div>
                     <img src="@/assets/ava_price.png" />
                     <div>
-                        <v-tooltip bottom>
-                            <template v-slot:activator="{ on }">
-                                <p class="label" v-on="on">Total Stake Amount</p>
-                            </template>
-                            <span>Total value of $AVA tokens used as a scarce resource to secure the AVA network using the Proof-of-Stake method.</span>
-                        </v-tooltip>
+                        <p class="label">
+                            Total Stake Amount
+                            <v-tooltip bottom>
+                                <template v-slot:activator="{ on }">
+                                    <fa
+                                        v-on="on"
+                                        icon="info-circle"
+                                        transform="shrink-3"
+                                        :style="{ color: '#e8e7ea' }"
+                                    ></fa>
+                                </template>
+                                <span>total value of $AVA tokens used as a scarce resource to secure the AVA network using the Proof-of-Stake method</span>
+                            </v-tooltip>
+                        </p>
                         <p class="meta_val">{{(totalStake).toFixed(2)}} AVA</p>
                     </div>
                 </div>

@@ -21,24 +21,48 @@
         <div class="list">
             <div class="table_headers recent_tx_rows">
                 <p></p>
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                        <p v-on="on">ID</p>
-                    </template>
-                    <span>A transaction queries or modifies the state of a blockchain.</span>
-                </v-tooltip>
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                        <p v-on="on">From</p>
-                    </template>
-                    <span>Address that sends transfer value</span>
-                </v-tooltip>
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                        <p v-on="on">To</p>
-                    </template>
-                    <span>Address that receives transfer value</span>
-                </v-tooltip>
+                <p>
+                    ID
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on }">
+                            <fa
+                                v-on="on"
+                                icon="info-circle"
+                                transform="shrink-6"
+                                :style="{ color: '#e8e7ea' }"
+                            ></fa>
+                        </template>
+                        <span>a transaction queries or modifies the state of a blockchain</span>
+                    </v-tooltip>
+                </p>
+                <p>
+                    From
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on }">
+                            <fa
+                                v-on="on"
+                                icon="info-circle"
+                                transform="shrink-6"
+                                :style="{ color: '#e8e7ea' }"
+                            ></fa>
+                        </template>
+                        <span>address that sends transfer value</span>
+                    </v-tooltip>
+                </p>
+                <p>
+                    To
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on }">
+                            <fa
+                                v-on="on"
+                                icon="info-circle"
+                                transform="shrink-6"
+                                :style="{ color: '#e8e7ea' }"
+                            ></fa>
+                        </template>
+                        <span>address that receives transfer value</span>
+                    </v-tooltip>
+                </p>
             </div>
             <transition-group name="fade">
                 <tx-row
@@ -121,7 +145,7 @@ export default Vue.extend({
     display: flex;
     align-items: center;
     margin-bottom: 20px;
-    
+
     h2 {
         padding-bottom: 2px;
     }
@@ -132,7 +156,7 @@ export default Vue.extend({
         border: none;
         opacity: 0.5;
     }
-    
+
     .chain {
         font-size: 12px;
         color: #929ba6;
@@ -145,7 +169,7 @@ export default Vue.extend({
             min-height: 1em;
             line-height: 2em;
         }
-        
+
         .tag {
             padding: 4px 12px;
             border-radius: 4px;
@@ -219,21 +243,21 @@ export default Vue.extend({
     .header {
         display: flex;
         flex-direction: column;
-    
-    .left {
-        display: flex;
-        width: 100%;
-        justify-content: space-between;
-        margin-bottom: 5px;
-    }
 
-    .right {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        align-content: center;
+        .left {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .right {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-content: center;
+        }
     }
-}
 }
 </style>
