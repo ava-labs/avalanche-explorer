@@ -210,7 +210,7 @@ export default {
         text-align: right;
     }
 }
-@include main.sm-device {
+@include main.device_sm {
     .validator {
         grid-template-columns: 70px 1fr 1fr 1fr 1fr;
         grid-template-rows: max-content max-content;

@@ -405,7 +405,7 @@ export default {
     position: relative;
 }
 
-@include main.sm-device {
+@include main.device_sm {
     .history_settings {
         margin: 8px 0px;
         display: flex;

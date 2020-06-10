@@ -117,7 +117,7 @@ export default {
     }
 }
 
-@include main.sm-device {
+@include main.device_sm {
     .asset {
         column-gap: 3px;
     }

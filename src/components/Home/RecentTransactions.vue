@@ -196,7 +196,7 @@ export default Vue.extend({
     transition: opacity 1s;
 }
 
-@include main.sm-device {
+@include main.device_sm {
     .view_all {
         width: 100%;
         text-align: center;
@@ -215,7 +215,7 @@ export default Vue.extend({
     }
 }
 
-@include main.xs-device {
+@include main.device_xs {
     .header {
         display: flex;
         flex-direction: column;

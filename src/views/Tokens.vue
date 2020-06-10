@@ -117,7 +117,7 @@ export default {
     text-align: right;
 }
 
-@include main.sm-device {
+@include main.device_sm {
     .grid_headers {
         display: none;
     }

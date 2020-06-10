@@ -192,7 +192,7 @@ export default {
     }
 }
 
-@include main.sm-device {
+@include main.device_sm {
     .meta_data {
         flex-direction: column;
         /*grid-template-columns: none;*/
@@ -200,7 +200,7 @@ export default {
     }
 }
 
-@include main.md-device {
+@include main.device_md {
     .meta_data {
         /*grid-template-columns: none;*/
         /*grid-template-columns: none;*/

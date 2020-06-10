@@ -10,23 +10,28 @@ $container_padding_m: 30px 6vw;
 $container_padding_s: 30px 6vw;
 $container_padding_mobile: 10px 10px;
 
-@mixin xs-device {
+@mixin device_xs {
   @media only screen and (max-width: $xs_width) { @content; }
 }
 
-@mixin sm-device {
+@mixin device_sm {
   @media only screen and (max-width: $sm_width) { @content; }
   // @media only screen and (min-width: $xs) and (max-width: $sm_width) { @content; }
 }
 
-@mixin md-device {
+@mixin device_md {
   @media only screen and (min-width: $sm_width) and (max-width: $md_width) { @content; }
 }
 
-@mixin lg-device {
+@mixin device_lg {
   @media only screen and (min-width: $md_width) and (max-width: $lg_width) { @content; }
 }
 
-@mixin xl-device {
+@mixin device_xl {
   @media only screen and (min-width: $lg_width) { @content; }
 }
+
+
+$red: #e84142;
+$blue: #71c5ff; 
+$blue-light: #e6f5ff;

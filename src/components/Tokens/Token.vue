@@ -85,7 +85,7 @@ export default {
     }
 }
 
-@include main.sm-device {
+@include main.device_sm {
     .symbol {
         padding: 2px;
     }

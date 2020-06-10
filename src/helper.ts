@@ -1,6 +1,7 @@
 import Big from 'big.js';
 import AddressDict from './known_addresses';
-import SubnetDict from './known_subnets'
+import SubnetDict from './known_subnets';
+import {Quote, quotes} from './quotes';
 
 function stringToBig(raw: string, denomination = 0): Big {
     return Big(raw).div(Math.pow(10, denomination));
@@ -8,7 +9,7 @@ function stringToBig(raw: string, denomination = 0): Big {
 
 function toAVA(nAVA: string | number) {
     return (typeof nAVA === "string") ?
-        parseInt(nAVA) / Math.pow(10, 9) : 
+        parseInt(nAVA) / Math.pow(10, 9) :
         nAVA / Math.pow(10, 9);
 }
 
@@ -32,10 +33,15 @@ function subnetMap(id: string): string {
     }
 }
 
+function getRandomQuote(): Quote {
+    return quotes[Math.floor(Math.random() * quotes.length)];
+}
+
 export {
     toAVA,
     stringToBig,
     bigToDenomString,
     addressMap,
-    subnetMap
+    subnetMap,
+    getRandomQuote
 }

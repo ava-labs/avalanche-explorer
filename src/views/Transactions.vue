@@ -136,7 +136,7 @@ export default {
     }
 }
 
-@include main.sm-device {
+@include main.device_sm {
     .table_headers {
         display: none;
     }

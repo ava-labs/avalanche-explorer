@@ -362,7 +362,7 @@ export default {
     color: #fff !important;
 }
 
-@include main.sm-device {
+@include main.device_sm {
     .header {
         flex-direction: column;
     }
