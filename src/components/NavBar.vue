@@ -159,7 +159,7 @@ export default Vue.extend({
     flex-basis: 24px;
 }
 
-@include main.sm-device {
+@include main.device_sm {
     h1 {
         display: none;
     }

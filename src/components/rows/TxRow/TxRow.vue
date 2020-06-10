@@ -163,7 +163,7 @@ export default {
     margin-bottom: 6px;
 }
 
-@include main.sm-device {
+@include main.device_sm {
     .tx_row {
         padding: 8px;
         grid-template-columns: none;

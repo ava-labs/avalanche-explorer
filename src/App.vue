@@ -64,7 +64,7 @@ export default Vue.extend({
     padding: main.$container_padding_l;
 }
 
-@include main.sm-device {
+@include main.device_sm {
     .router_view, 
     .navbar, 
     .footer {
@@ -72,7 +72,7 @@ export default Vue.extend({
     }
 }
 
-@include main.md-device {
+@include main.device_md {
     .router_view, 
     .navbar,
     .footer {
@@ -129,6 +129,17 @@ p {
     }
 }
 
+.v-tooltip__content {
+    background: #fff !important;
+    border: 2px solid rgba(0, 0, 0, 0.87);
+    color: rgba(0, 0, 0, 0.87) !important;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 12px !important;
+    line-height: 1.57em !important;
+    padding: 5px 16px;
+}
+
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.3s;
@@ -139,7 +150,7 @@ p {
     opacity: 0;
 }
 
-@include main.sm-device {
+@include main.device_sm {
 
 }
 </style>

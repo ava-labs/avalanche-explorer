@@ -2,15 +2,23 @@
     <div class="blockchain">
         <div class="card meta_data_container">
             <div class="header">
-                <v-tooltip bottom left>
-                    <template v-slot:activator="{ on }">
-                        <h2 v-on="on">Validators</h2>
-                    </template>
-                    <span>
-                        A validator is a node participating in the consensus protocol.
-                        <br />Validators work together to achieve consensus as to which transactions have taken place on a blockchain.
-                    </span>
-                </v-tooltip>
+                <h2>
+                    Validators
+                    <v-tooltip bottom left>
+                        <template v-slot:activator="{ on }">
+                            <fa
+                                v-on="on"
+                                icon="info-circle"
+                                transform="shrink-3"
+                                :style="{ color: '#e8e7ea' }"
+                            ></fa>
+                        </template>
+                        <span>
+                            A validator is a node participating in the consensus protocol.
+                            <br />Validators work together to achieve consensus as to which transactions have taken place on a blockchain.
+                        </span>
+                    </v-tooltip>
+                </h2>
                 <v-tabs
                     class="tabs"
                     @change="typeChange"
@@ -26,24 +34,43 @@
                 <div>
                     <img src="@/assets/ava_price.png" />
                     <div>
-                        <v-tooltip bottom>
-                            <template v-slot:activator="{ on }">
-                                <p class="label" v-on="on">Total {{toggle}} Stake</p>
-                            </template>
-                            <span>Total value of $AVA tokens used as a scarce resource to secure the AVA network using the Proof-of-Stake method.</span>
-                        </v-tooltip>
+                        <p class="label">
+                            Total {{toggle}} Stake
+                            <v-tooltip bottom>
+                                <template v-slot:activator="{ on }">
+                                    <fa
+                                        v-on="on"
+                                        icon="info-circle"
+                                        transform="shrink63"
+                                        :style="{ color: '#e8e7ea' }"
+                                    ></fa>
+                                </template>
+                                <span>
+                                    total value of scarce resource ($AVA) used to secure the
+                                    <br />AVA network using the Proof-of-Stake method
+                                </span>
+                            </v-tooltip>
+                        </p>
                         <p class="meta_val">{{totalStake}} AVA</p>
                     </div>
                 </div>
                 <div>
                     <img src="@/assets/validators.png" />
                     <div>
-                        <v-tooltip bottom>
-                            <template v-slot:activator="{ on }">
-                                <p class="label" v-on="on">{{toggle}} Validators</p>
-                            </template>
-                            <span>Total number of nodes participating in the consensus protocol of the AVA network.</span>
-                        </v-tooltip>
+                        <p class="label">
+                            {{toggle}} Validators
+                            <v-tooltip bottom>
+                                <template v-slot:activator="{ on }">
+                                    <fa
+                                        v-on="on"
+                                        icon="info-circle"
+                                        transform="shrink6"
+                                        :style="{ color: '#e8e7ea' }"
+                                    ></fa>
+                                </template>
+                                <span>total number of nodes participating in the consensus protocol</span>
+                            </v-tooltip>
+                        </p>
                         <p class="meta_val">{{totalValidatorsCount}}</p>
                     </div>
                 </div>
@@ -75,27 +102,48 @@
             </div>
             <div class="headers">
                 <p style="text-align: center;">Rank</p>
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                        <p v-on="on">Validator ID</p>
-                    </template>
-                    <span>Address of the node participating in the consensus protocol.</span>
-                </v-tooltip>
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                        <p v-on="on" style="text-align: right;">Stake</p>
-                    </template>
-                    <span>The amount of $AVA staked by this node.</span>
-                </v-tooltip>
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                        <p v-on="on" style="text-align: right;">Cumulative Stake</p>
-                    </template>
-                    <span>
-                        The percentage of scarce resource ($AVA) concentrated up to this validator ranking.
-                        <br />The distribution is proportional to the influence a single node can have on the decentraled network.
-                    </span>
-                </v-tooltip>
+                <p>
+                    Validator ID
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on }">
+                            <fa
+                                v-on="on"
+                                icon="info-circle"
+                                transform="shrink6"
+                                :style="{ color: '#e8e7ea' }"
+                            ></fa>
+                        </template>
+                        <span>address of the node participating in the consensus protocol</span>
+                    </v-tooltip>
+                </p>
+                <p style="text-align: right;">
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on }">
+                            <fa
+                                v-on="on"
+                                icon="info-circle"
+                                transform="shrink6"
+                                :style="{ color: '#e8e7ea' }"
+                            ></fa>
+                        </template>
+                        <span>amount of $AVA staked by this node</span>
+                    </v-tooltip>
+                    Stake
+                </p>
+                <p style="text-align: right;">
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on }">
+                            <fa
+                                v-on="on"
+                                icon="info-circle"
+                                transform="shrink6"
+                                :style="{ color: '#e8e7ea' }"
+                            ></fa>
+                        </template>
+                        <span>percentage of scarce resource ($AVA) concentrated up to this validator ranking</span>
+                    </v-tooltip>
+                    Cumulative Stake
+                </p>
             </div>
             <div v-if="validators.length === 0" class="empty_table">
                 <p>No {{toggle}} Validators</p>
@@ -362,7 +410,7 @@ export default {
     color: #fff !important;
 }
 
-@include main.sm-device {
+@include main.device_sm {
     .header {
         flex-direction: column;
     }

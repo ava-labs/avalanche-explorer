@@ -159,7 +159,7 @@ hr {
     font-size: 12px;
 }
 
-@include main.sm-device {
+@include main.device_sm {
 
     h3 {
         font-size: 18px;

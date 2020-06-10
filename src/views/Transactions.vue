@@ -2,7 +2,7 @@
     <div class="transactions">
         <div class="card">
             <div class="header">
-                <h2>All Transactions</h2>
+                <h2>Transactions</h2>
                 <div class="bar">
                     <p class="count">{{totalTx}} transactions found</p>
                     <pagination-controls :total="totalTx" :limit="limit" @change="page_change"></pagination-controls>
@@ -10,24 +10,48 @@
             </div>
             <div class="table_headers all_tx_rows">
                 <p></p>
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                        <p v-on="on">ID</p>
-                    </template>
-                    <span>A transaction queries or modifies the state of a blockchain.</span>
-                </v-tooltip>
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                        <p v-on="on">From</p>
-                    </template>
-                    <span>Address that sends transfer value</span>
-                </v-tooltip>
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                        <p v-on="on">To</p>
-                    </template>
-                    <span>Address that receives transfer value</span>
-                </v-tooltip>
+                <p>
+                    ID
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on }">
+                            <fa
+                                v-on="on"
+                                icon="info-circle"
+                                transform="shrink-6"
+                                :style="{ color: '#e8e7ea' }"
+                            ></fa>
+                        </template>
+                        <span>a transaction queries or modifies the state of a blockchain</span>
+                    </v-tooltip>
+                </p>
+                <p>
+                    From
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on }">
+                            <fa
+                                v-on="on"
+                                icon="info-circle"
+                                transform="shrink-6"
+                                :style="{ color: '#e8e7ea' }"
+                            ></fa>
+                        </template>
+                        <span>address that sends transfer value</span>
+                    </v-tooltip>
+                </p>
+                <p>
+                    To
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on }">
+                            <fa
+                                v-on="on"
+                                icon="info-circle"
+                                transform="shrink-6"
+                                :style="{ color: '#e8e7ea' }"
+                            ></fa>
+                        </template>
+                        <span>address that receives transfer value</span>
+                    </v-tooltip>
+                </p>
             </div>
             <div class="rows">
                 <!--<transition-group name="fade">-->
@@ -136,7 +160,7 @@ export default {
     }
 }
 
-@include main.sm-device {
+@include main.device_sm {
     .table_headers {
         display: none;
     }

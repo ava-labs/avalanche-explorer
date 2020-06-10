@@ -206,7 +206,7 @@ export default {
             return this.$store.getters["Platform/totalBlockchains"];
         },
         totalStake() {
-            let valBig = this.$store.getters["Platform/totalStake"];
+                let valBig = this.$store.getters["Platform/totalStake"];
             let res = valBig.div(Math.pow(10, 9));
             return res;
         },
@@ -300,7 +300,7 @@ h3 {
     padding-top: 0;
     box-sizing: border-box;
     border-radius: 0 !important;
-    padding-left: 45px;
+    padding-left: 16px;
 }
 
 .v-tab {
@@ -314,6 +314,9 @@ h3 {
 }
 
 .subnet_header {
+    
+    padding: 13px 0 0 16px;
+
     .subhheading {
         text-transform: capitalize;
         font-size: 12px;
@@ -328,13 +331,19 @@ h3 {
 }
 
 .null {
-    padding-top: 10px;
+    padding: 10px 0 0 16px;
     font-size: .75rem;
     font-weight: bold;
 }
 
 .threshold {
     padding: 32px 16px;
+}
+
+@include main.device_xs {
+    .subnet_header {
+        padding: 0;
+    }
 }
 </style>
 

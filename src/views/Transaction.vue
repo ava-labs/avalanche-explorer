@@ -1,5 +1,8 @@
 <template>
     <div class="transaction_details">
+        <template v-if="!tx">
+            <Loader :contentId="txId" :message="'Fetching Transaction Details'"></Loader>
+        </template>
         <div class="meta" v-if="tx">
             <h2>Transaction Details</h2>
             <div class="meta_row">
@@ -83,15 +86,17 @@
     </div>
 </template>
 <script>
-import api from "../axios";
-import UtxoRow from "../components/Transaction/UtxoRow";
-import Big from "big.js";
+import Loader from "../components/misc/Loader";
 import { Transaction } from "../js/Transaction";
+import UtxoRow from "../components/Transaction/UtxoRow";
+import api from "../axios";
+import Big from "big.js";
 import moment from "moment";
 import { bigToDenomString, stringToBig } from "../helper";
 
 export default {
     components: {
+        Loader,
         UtxoRow
     },
     data() {
@@ -152,9 +157,7 @@ export default {
         },
         outValues() {
             let dict = {};
-
             let outs = this.outputs;
-
             outs.forEach(out => {
                 let assetId = out.assetID;
                 let amount = out.amount;
@@ -343,7 +346,7 @@ h2 {
     }
 }
 
-@include main.sm-device {
+@include main.device_sm {
     .transaction_details {
         padding: main.$container_padding_mobile;
     }

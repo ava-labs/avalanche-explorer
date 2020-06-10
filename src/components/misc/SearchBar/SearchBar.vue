@@ -55,7 +55,7 @@ export default Vue.extend({
         };
     },
     created() {
-        // assign debounce here (not in methods, which is trouble)
+        // assign debounce here (not in methods)
         this.debounceSearch = this.debounce(this.autoSearch, 500);
     },
     props: {
@@ -216,7 +216,7 @@ input {
     opacity: 0;
 }
 
-@include main.sm-device {
+@include main.device_sm {
     .search_results {
         position: fixed;
     }

@@ -40,7 +40,7 @@ export default {
     }
 }
 
-@include main.sm-device {
+@include main.device_sm {
     .top_info {
         grid-template-columns: 1fr;
         grid-template-rows: max-content max-content max-content;

@@ -235,7 +235,7 @@ h2 {
     }
 }
 
-@include main.sm-device {
+@include main.device_sm {
     .meta {
         padding: 15px;
     }
