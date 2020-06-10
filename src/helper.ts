@@ -1,6 +1,7 @@
 import Big from 'big.js';
 import AddressDict from './known_addresses';
 import SubnetDict from './known_subnets';
+import BlockchainDict from './known_blockchains';
 import {Quote, quotes} from './quotes';
 
 function stringToBig(raw: string, denomination = 0): Big {
@@ -33,6 +34,14 @@ function subnetMap(id: string): string {
     }
 }
 
+function blockchainMap(id: string): string {
+    if (BlockchainDict[id]) {
+        return BlockchainDict[id]
+    } else {
+        return id;
+    }
+}
+
 function getRandomQuote(): Quote {
     return quotes[Math.floor(Math.random() * quotes.length)];
 }
@@ -43,5 +52,6 @@ export {
     bigToDenomString,
     addressMap,
     subnetMap,
+    blockchainMap,
     getRandomQuote
 }

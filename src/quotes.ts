@@ -21,10 +21,6 @@ let quotes: Quote[] = [
         quote: "If you can't give me poetry, can't you give me poetical science?"
     },
     {
-        author: "Ada Lovelace",
-        quote: "One essential object is to choose that arrangement which shall tend to reduce to a minimum the time necessary for completing the calculation."
-    },
-    {
         author: "Grace Hopper",
         quote: "The most damaging phrase in the language is: 'It's always been done that way.'"
     },

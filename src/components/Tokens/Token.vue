@@ -1,15 +1,17 @@
 <template>
     <div class="token_row">
-        <p class="symbol">{{token.symbol}}</p>
+        <p v-if="token.symbol" class="symbol">{{token.symbol}}</p>
+        <p v-else class="no_symbol"></p>
         <p class="name">{{token.name}}</p>
         <router-link class="id" :to="`/tx/${token.id}`">{{token.id}}</router-link>
-        <p class="chain">{{token.chainID}}</p>
+        <p class="chain">{{token.chainID | blockchain}}</p>
         <p class="denomination">{{token.denomination}}</p>
         <p class="supply">{{supply}} <span>{{token.symbol}}</span></p>
     </div>
 </template>
 <script>
 import { stringToBig } from "../../helper";
+import { blockchainMap } from "@/helper";
 
 export default {
     props: {
@@ -17,6 +19,11 @@ export default {
             type: Object,
             required: true
         }
+    },
+    filters: {
+        blockchain(val) {
+            return blockchainMap(val);
+        },
     },
     computed: {
         supply() {
@@ -46,9 +53,19 @@ export default {
         text-overflow: ellipsis;
     }
 }
+
 .symbol {
-    background-color: #ebe4fb;
     color: #976cfa;
+    background-color: #ebe4fb;
+    padding: 6px 12px;
+    text-align: center;
+    border-radius: 4px;
+    min-height: 1em;
+}
+
+.no_symbol {
+    color: transparent;
+    background-color: transparent;
     padding: 6px 12px;
     text-align: center;
     border-radius: 4px;
@@ -60,7 +77,7 @@ export default {
 }
 
 .denomination {
-    text-align: center;
+    text-align: right;
 }
 
 .id {
@@ -79,7 +96,7 @@ export default {
     text-align: right;
     span {
         display: inline-block;
-        width: 40px;
+        width: 43px;
         font-size: 14px;
         opacity: 0.4;
     }
@@ -89,6 +106,7 @@ export default {
     .symbol {
         padding: 2px;
     }
+
     .name {
         grid-column: 2/4;
     }

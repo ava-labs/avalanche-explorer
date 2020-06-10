@@ -1,17 +1,18 @@
 <template>
-    <div class="page_loader">
-        <img src="@/assets/yeti_logo.png" />
-
-        <div class="quote_container">
-            <div class="quote">
-                "{{quote.quote}}"
-                <br />
-                - {{quote.author}}
+    <div v-if="display" class="page_loader">
+        <transition-group name="fade">
+            <div class="quote_container" key="0">
+                <img src="@/assets/yeti_logo.png" />
+                <div class="quote">
+                    "{{quote.quote}}"
+                    <br />
+                    - {{quote.author}}
+                </div>
             </div>
-        </div>
-        <v-progress-circular :size="16" :width="2" color="#71c5ff" indeterminate></v-progress-circular>
-        <div class="message ava-monospace">{{message}}</div>
-        <div class="content_id ava-monospace">{{contentId}}</div>
+            <v-progress-circular :size="16" :width="2" color="#71c5ff" indeterminate key="1"></v-progress-circular>
+            <div class="message ava-monospace" key="2">{{message}}</div>
+            <div class="content_id ava-monospace" key="3">{{contentId}}</div>
+        </transition-group>
     </div>
 </template>
 
@@ -19,19 +20,49 @@
 import { getRandomQuote } from "../../helper";
 
 export default {
+    data() {
+        return {
+            display: false
+        };
+    },
     props: {
         contentId: String,
         message: String
+    },
+    created() {
+        // assign debounce here (not in methods)
+        this.debounceShow = this.debounce(this.show, 500);
+        this.debounceShow();
     },
     computed: {
         quote() {
             return getRandomQuote();
         }
+    },
+    methods: {
+        show() {
+            this.display = true;
+        },
+        debounce(func, wait, immediate) {
+            let timeout;
+            return function executedFunction(...theArgs) {
+                let context = this;
+                let args = theArgs;
+                let later = function() {
+                    timeout = null;
+                    if (!immediate) func.apply(context, args);
+                };
+                let callNow = immediate && !timeout;
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+                if (callNow) func.apply(context, args);
+            };
+        }
     }
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 @use '../../main';
 .page_loader {
     display: flex;
@@ -41,13 +72,14 @@ export default {
     overflow: auto;
     white-space: nowrap;
     text-overflow: ellipsis;
+    text-align: center;
 }
 
 img {
     width: auto;
-    margin-right: 10px;
     height: 150px;
     object-fit: contain;
+    padding-bottom: 30px;
 }
 
 .quote_container {
@@ -57,12 +89,11 @@ img {
     white-space: initial;
     text-overflow: wrap;
     margin: 30px 0 30px;
-    text-align: center;
 }
 
 .quote {
     font-weight: 700;
-    font-size: 48px;
+    font-size: 36px;
     line-height: 1.25em;
     max-width: 800px;
 }
@@ -78,46 +109,55 @@ img {
     color: main.$blue;
 }
 
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.3s;
+}
+.fade-enter, 
+.fade-leave-to 
+/* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+}
+
 @include main.device_sm {
-    .page_loader {
-        font-size: 18px;
+    .quote_container {
+        margin-top: 15px;
     }
 
     img {
-        margin-right: 5px;
         height: 100px;
+        padding-bottom: 20px;
     }
 
     .quote {
-        font-size: 36px;
-        max-width: 600px;
+        font-size: 24px;
+        max-width: 500px;
     }
 }
 
 @include main.device_xs {
-    .page_loader {
-        font-size: 12px;
+
+    .quote_container {
+        margin-top: 0;
     }
-    
+
     img {
-        margin-right: 2px;
         height: 75px;
+        padding-bottom: 10px;
     }
 
     .quote {
         font-size: 20px;
-        max-width: none;
+        max-width: 350px;
     }
 
     .message {
         margin: 12px 0 0.5em;
         font-size: 12px;
-        color: main.$blue;
     }
 
     .content_id {
         font-size: 12px;
-        color: main.$blue;
     }
 }
 </style>    

@@ -55,7 +55,7 @@ export default Vue.extend({
         };
     },
     created() {
-        // assign debounce here (not in methods, which is trouble)
+        // assign debounce here (not in methods)
         this.debounceSearch = this.debounce(this.autoSearch, 500);
     },
     props: {
