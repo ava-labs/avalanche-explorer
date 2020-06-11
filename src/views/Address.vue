@@ -9,21 +9,33 @@
                     <span v-if="alias">{{alias}}</span>
                 </p>
             </div>
-            <div class="meta_row">
-                <p class="label">Balance</p>
-                <p>{{balance}} AVA</p>
-            </div>
-            <div class="meta_row">
-                <p class="label">Total Received</p>
-                <p>{{totalReceived}} AVA</p>
-            </div>
-            <div class="meta_row">
-                <p class="label">Total Sent</p>
-                <p>{{totalSent}} AVA</p>
-            </div>
-            <div class="meta_row">
-                <p class="label">Transaction Count</p>
-                <p>{{txCount}}</p>
+        </div>
+        <div class="meta" v-if="this.metaData">
+            <h2>Asset Balances</h2>
+            <div v-for="(asset, index) in metaData.assets" v-bind:key="index">
+                <h3>
+                    {{index}}
+                </h3>
+                <div class="meta_row">
+                    <p class="label">Balance</p>
+                    <p>{{asset.balance}}</p>
+                </div>
+                <div class="meta_row">
+                    <p class="label">Total Received</p>
+                    <p>{{asset.totalReceived}}</p>
+                </div>
+                <div class="meta_row">
+                    <p class="label">Total Sent</p>
+                    <p>{{asset.totalSent}}</p>
+                </div>
+                <div class="meta_row">
+                    <p class="label">Transaction Count</p>
+                    <p>{{asset.transactionCount}}</p>
+                </div>
+                <div class="meta_row">
+                    <p class="label">UTXO Count</p>
+                    <p>{{asset.utxoCount}}</p>
+                </div>
             </div>
         </div>
         <div v-if="isAjax">
@@ -75,7 +87,7 @@ export default {
                 parent.isAjax = false;
                 const data = res.data.transactions;
                 parent.transactions = data;
-                // console.log(res);
+                console.log("/transactions?address=:", res);
             });
 
             url = `/x/addresses/${this.address}`;
@@ -83,7 +95,7 @@ export default {
                 parent.isAjax = false;
                 const data = res.data;
                 parent.metaData = data;
-                console.log(data);
+                console.log("/addresses/address:", data);
             });
         }
     },
