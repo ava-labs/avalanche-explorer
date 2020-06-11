@@ -5,7 +5,7 @@
 <!--            <router-link :to="`/tx/${input.output.id}`">{{input.output.id}}</router-link>-->
 <!--        </div>-->
 <!--        <div class="data_row">-->
-<!--            <p class="label" style="flex-grow: 1;">Token</p>-->
+<!--            <p class="label" style="flex-grow: 1;">Asset</p>-->
 <!--            <router-link :to="`/tx/${asset}`">{{asset.name}}</router-link>-->
 <!--        </div>-->
 

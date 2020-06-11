@@ -1,5 +1,6 @@
 <template>
     <div class="transaction_details">
+        <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
         <template v-if="!tx">
             <Loader :contentId="txId" :message="'Fetching Transaction Details'"></Loader>
         </template>
@@ -102,7 +103,19 @@ export default {
     data() {
         return {
             tx_data: null,
-            tx: null
+            tx: null,
+            breadcrumbs: [
+                {
+                    text: "Home",
+                    disabled: false,
+                    href: "/"
+                },
+                {
+                    text: "Transaction",
+                    disabled: true,
+                    href: ""
+                }
+            ]
         };
     },
     created() {

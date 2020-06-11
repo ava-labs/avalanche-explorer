@@ -16,9 +16,9 @@ const routes = [
     component: () => import(/* webpackChunkName: "subnets" */ '../views/Subnets.vue')
   },
   {
-    path: '/tokens',
-    name: 'Tokens',
-    component: () => import(/* webpackChunkName: "tokens" */ '../views/Tokens.vue')
+    path: '/assets',
+    name: 'Assets',
+    component: () => import(/* webpackChunkName: "assets" */ '../views/Assets.vue')
   },
   {
     path: '/validators',

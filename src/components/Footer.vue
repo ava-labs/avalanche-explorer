@@ -14,7 +14,7 @@
             <h4>Menu</h4>
             <router-link to="/">Home</router-link>
             <router-link to="/validators">Validators</router-link>
-            <router-link to="/tokens">Tokens</router-link>
+            <router-link to="/assets">Assets</router-link>
             <router-link to="/resources">Resources</router-link>
         </div>
         <div class="list">

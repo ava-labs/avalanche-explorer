@@ -1,7 +1,7 @@
 <template>
     <div class="asset_detail">
+        <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
         <Metadata :asset="asset"></Metadata>
-
         <div v-if="!tx">Loading</div>
         <div class="tx_meta asset_genesis">
             <h2>Asset Genesis Details</h2>
@@ -40,7 +40,7 @@
             </div>
             <div class="meta_row" v-if="!isAssetGenesis">
                 <p class="label">Input UTXOs</p>
-                <div v-if="inputs.length > 0">
+                <div v-if="tx && inputs.length > 0">
                     <div class="utxo_headers">
                         <p>Tx</p>
                         <p>Lock Time</p>
@@ -65,7 +65,7 @@
 
             <div class="meta_row">
                 <p class="label">Output UTXOs</p>
-                <div v-if="outputs.length > 0">
+                <div v-if="tx && outputs.length > 0">
                     <div class="utxo_headers">
                         <p>Tx</p>
                         <p>Lock Time</p>
@@ -114,15 +114,39 @@ export default {
     filters: {
         name(val) {
             return val.name ? val.name : val.id;
-        },
+        }
     },
     computed: {
+        breadcrumbs() {
+            return [
+                {
+                    text: "Home",
+                    disabled: false,
+                    href: "/"
+                },
+                {
+                    text: "Assets",
+                    disabled: false,
+                    href: "/assets"
+                },
+                {
+                    text: `${
+                        this.asset
+                            ? this.asset.symbol
+                                ? this.asset.symbol
+                                : this.asset.id
+                            : "Asset"
+                    }`,
+                    disabled: true,
+                    href: ""
+                }
+            ];
+        },
         assetID() {
             return this.$route.params.id;
         },
         asset() {
-            let asset = this.$store.state.assets[this.$route.params.id];
-            return asset;
+            return this.$store.state.assets[this.$route.params.id];
         },
         txId() {
             return this.$route.params.id;

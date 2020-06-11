@@ -1,22 +1,22 @@
 <template>
-    <div :key="token.id" class="token_row">
+    <div :key="asset.id" class="asset_row">
         <div class="avatar">
-            <p>{{token.symbol}}</p>
+            <p>{{asset.symbol}}</p>
         </div>
-        <p class="id">{{token.id}}</p>
+        <p class="id">{{asset.id}}</p>
         <div>
-            <p class="symbol">{{token.symbol}}</p>
-            <p class="name">{{token.name}}</p>
+            <p class="symbol">{{asset.symbol}}</p>
+            <p class="name">{{asset.name}}</p>
         </div>
-        <p class="chain">{{token.chainID}}</p>
-        <p class="denomination">{{token.denomination}}</p>
-        <p class="supply">{{token.currentSupply}}</p>
+        <p class="chain">{{asset.chainID}}</p>
+        <p class="denomination">{{asset.denomination}}</p>
+        <p class="supply">{{asset.currentSupply}}</p>
     </div>
 </template>
 <script>
 export default {
     props: {
-        token: {
+        asset: {
             type: Object,
             required: true
         }
@@ -39,7 +39,7 @@ export default {
     }
 }
 
-.token_row {
+.asset_row {
     display: grid;
     grid-template-columns: max-content 70px 1fr 90px 1fr 1fr;
     padding: 15px 15px;

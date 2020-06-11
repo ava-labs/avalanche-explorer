@@ -1,9 +1,9 @@
 <template>
-    <div class="tokens">
+    <div class="assets">
         <div class="card">
             <div class="header">
                 <h2>
-                    Tokens
+                    Assets
                     <v-tooltip bottom left>
                         <template v-slot:activator="{ on }">
                             <fa
@@ -21,11 +21,11 @@
                     </v-tooltip>
                 </h2>
                 <div class="bar">
-                    <p class="count">{{Object.keys(tokens).length}} tokens found</p>
+                    <p class="count">{{Object.keys(assets).length}} assets found</p>
                 </div>
             </div>
-            <div class="token_list">
-                <div class="grid_headers token_row">
+            <div class="asset_list">
+                <div class="grid_headers asset_row">
                     <p>
                         Symbol
                         <v-tooltip bottom>
@@ -85,7 +85,7 @@
                                     :style="{ color: '#e8e7ea' }"
                                 ></fa>
                             </template>
-                            <span>Blockchain where this token was minted.</span>
+                            <span>Blockchain where this asset was minted.</span>
                         </v-tooltip>
                     </p>
                     <p class="denomination">
@@ -99,8 +99,7 @@
                                 ></fa>
                             </template>
                             <span>Determines how balances of this asset are displayed by user interfaces</span>
-                        </v-tooltip>
-                        Denomination
+                        </v-tooltip>Denomination
                     </p>
                     <p class="supply">
                         <v-tooltip bottom>
@@ -113,28 +112,27 @@
                                 ></fa>
                             </template>
                             <span>Units of the asset that have been created</span>
-                        </v-tooltip>
-                        Supply
+                        </v-tooltip>Supply
                     </p>
                 </div>
-                <token v-for="token in tokens" :key="token.id" class="token_row" :token="token"></token>
+                <asset v-for="asset in assets" :key="asset.id" class="asset_row" :asset="asset"></asset>
             </div>
         </div>
     </div>
 </template>
 <script>
-import Token from "@/components/Tokens/Token";
+import Asset from "@/components/Assets/Asset";
 import axios from "@/axios";
 
 export default {
     components: {
-        Token
+        Asset
     },
     data() {
         return {};
     },
     computed: {
-        tokens() {
+        assets() {
             return this.$store.state.assets;
         }
     }
@@ -159,7 +157,7 @@ export default {
     font-size: 12px;
 }
 
-.token_row {
+.asset_row {
     display: grid;
     grid-template-columns: 60px 200px 110px 90px 110px 1fr;
     padding: 5px 15px;
@@ -184,11 +182,11 @@ export default {
         display: none;
     }
 
-    .token_list {
+    .asset_list {
         padding: 5px 0;
     }
 
-    .token_row {
+    .asset_row {
         grid-template-columns: 50px 1fr 1fr;
         padding: 10px 0 5px;
     }

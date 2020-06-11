@@ -21,7 +21,7 @@
                     <router-link to="/">Home</router-link>
                     <router-link to="/subnets">Subnets</router-link>
                     <router-link to="/validators">Validators</router-link>
-                    <router-link to="/tokens">Tokens</router-link>
+                    <router-link to="/assets">Assets</router-link>
                     <router-link to="/resources">Resources</router-link>
                 </div>
             </div>

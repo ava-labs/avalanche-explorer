@@ -130,6 +130,10 @@ p {
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.theme--light.v-breadcrumbs .v-breadcrumbs__divider, .theme--light.v-breadcrumbs .v-breadcrumbs__item--disabled {
+    color: rgba(0, 0, 0, 0.38) !important;
+}
+
 .header {
     h2 {
         font-size: 18px;

@@ -1,12 +1,12 @@
 <template>
-    <div class="token_row">
-        <p v-if="token.symbol" class="symbol">{{token.symbol}}</p>
+    <div class="asset_row">
+        <p v-if="asset.symbol" class="symbol">{{asset.symbol}}</p>
         <p v-else class="no_symbol"></p>
-        <p class="name">{{token.name}}</p>
-        <router-link class="id" :to="`/asset/${token.id}`">{{token.id}}</router-link>
-        <p class="chain">{{token.chainID | blockchain}}</p>
-        <p class="denomination">{{token.denomination}}</p>
-        <p class="supply">{{supply}} <span>{{token.symbol}}</span></p>
+        <p class="name">{{asset.name}}</p>
+        <router-link class="id" :to="`/asset/${asset.id}`">{{asset.id}}</router-link>
+        <p class="chain">{{asset.chainID | blockchain}}</p>
+        <p class="denomination">{{asset.denomination}}</p>
+        <p class="supply">{{supply}} <span>{{asset.symbol}}</span></p>
     </div>
 </template>
 <script>
@@ -15,7 +15,7 @@ import { blockchainMap } from "@/helper";
 
 export default {
     props: {
-        token: {
+        asset: {
             type: Object,
             required: true
         }
@@ -28,9 +28,9 @@ export default {
     computed: {
         supply() {
             return stringToBig(
-                this.token.currentSupply,
-                this.token.denomination
-            ).toFixed(this.token.denomination);
+                this.asset.currentSupply,
+                this.asset.denomination
+            ).toFixed(this.asset.denomination);
         }
     }
 };
@@ -38,7 +38,7 @@ export default {
 <style scoped lang="scss">
 @use '../../main';
 
-.token_row {
+.asset_row {
     > * {
         align-self: center;
     }

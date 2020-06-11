@@ -1,7 +1,7 @@
 <template>
     <address-row v-if="type==='address'" :address="result"></address-row>
     <tx-row v-else-if="type==='transaction'" :transaction="result.data"></tx-row>
-    <asset-row v-else-if="type==='asset'" :token="result.data"></asset-row>
+    <asset-row v-else-if="type==='asset'" :asset="result.data"></asset-row>
     <!--    <utxo-row v-else :utxo="result.data"></utxo-row>-->
 </template>
 

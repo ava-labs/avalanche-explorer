@@ -1,5 +1,6 @@
 <template>
     <div class="address_detail">
+        <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
         <div class="meta" v-if="this.metaData">
             <h2>Address Details</h2>
             <div class="meta_row">
@@ -13,9 +14,7 @@
         <div class="meta" v-if="this.metaData">
             <h2>Asset Balances</h2>
             <div v-for="(asset, index) in metaData.assets" v-bind:key="index">
-                <h3>
-                    {{index}}
-                </h3>
+                <h3>{{index}}</h3>
                 <div class="meta_row">
                     <p class="label">Balance</p>
                     <p>{{asset.balance}}</p>
@@ -70,7 +69,19 @@ export default {
         return {
             transactions: [],
             isAjax: false,
-            metaData: null
+            metaData: null,
+            breadcrumbs: [
+                {
+                    text: "Home",
+                    disabled: false,
+                    href: "/"
+                },
+                {
+                    text: "Address",
+                    disabled: true,
+                    href: ""
+                }
+            ]
         };
     },
     watch: {

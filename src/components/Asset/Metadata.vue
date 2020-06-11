@@ -2,7 +2,6 @@
     <div class="metadata">
         <div class="card">
             <div class="header">
-                <span class="subheading">Asset</span>
                 <h2>
                     {{asset | name}}
                     <span class="symbol">{{asset.symbol}}</span>
@@ -124,14 +123,6 @@ export default {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-    }
-
-    .subheading {
-        text-transform: capitalize;
-        font-size: 12px;
-        font-weight: bold;
-        margin-bottom: 6px;
-        opacity: 0.7;
     }
 
     .symbol {
