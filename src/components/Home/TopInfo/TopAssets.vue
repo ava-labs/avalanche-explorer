@@ -48,7 +48,7 @@
         </div>
         <div class="asset" v-for="(asset) in assets" :key="asset.id">
             <div class="name">
-                <router-link :to="`/tx/${asset.id}`" class="asset_name">{{asset.name}}</router-link>
+                <router-link :to="`/asset/${asset.id}`" class="asset_name">{{asset.name}}</router-link>
                 <span class="symbol">{{asset.symbol}}</span>
             </div>
             <p class="metric ava-monospace">{{asset.txCount_day}}</p>

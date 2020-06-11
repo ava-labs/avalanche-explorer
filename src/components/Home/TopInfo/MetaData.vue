@@ -31,7 +31,7 @@
                                     :style="{ color: '#e8e7ea' }"
                                 ></fa>
                             </template>
-                            <span>Total number of queries or modifications of the states of all blockchains on the AVA network in the past 24 hours</span>
+                            <span>total number of queries or modifications of the states of all blockchains on the AVA network in the past 24 hours</span>
                         </v-tooltip>
                     </p>
                     <div>
@@ -53,7 +53,7 @@
                                     :style="{ color: '#e8e7ea' }"
                                 ></fa>
                             </template>
-                            <span>Total value of $AVA tokens transferred on the AVA network in the past 24 hours</span>
+                            <span>total value of $AVA tokens transferred on the AVA network in the past 24 hours</span>
                         </v-tooltip>
                     </p>
                     <div>
@@ -76,7 +76,7 @@
                                     :style="{ color: '#e8e7ea' }"
                                 ></fa>
                             </template>
-                            <span>Total number of nodes participating in the consensus protocol of the AVA network</span>
+                            <span>total number of nodes participating in the consensus protocol of the AVA network</span>
                         </v-tooltip>
                     </p>
                     <div>

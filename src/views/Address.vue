@@ -45,7 +45,7 @@
 </template>
 <script>
 import api from "../axios";
-import TxTable from "../components/AddressDetail/TxTable";
+import TxTable from "../components/Address/TxTable";
 import Big from "big.js";
 import { stringToBig } from "../helper";
 import AddressDict from "@/known_addresses";
