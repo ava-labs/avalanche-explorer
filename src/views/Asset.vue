@@ -1,21 +1,13 @@
 <template>
     <div class="asset_detail">
         <Metadata :asset="asset"></Metadata>
-        <div class="card">
-            <div class="header">
-                <div>
-                    <p v-if="asset.name">ID: {{asset.id}}</p>
-                    <p v-if="asset.alias">Alias: {{asset.alias}}</p>
-                    <p>Minted on: {{asset.chainID | blockchain }}</p>
-                    <p>Denomination: {{asset.denomination}}</p>
-                </div>
-            </div>            
-        </div>
-        <div class="tx_meta asset_genesis" v-if="tx">
+
+        <div v-if="!tx">Loading</div>
+        <div class="tx_meta asset_genesis">
             <h2>Asset Genesis Details</h2>
             <div class="meta_row">
                 <p class="label">Tx ID</p>
-                <div class="meta_data">
+                <div class="meta_data" v-if="tx">
                     <p>
                         <b>{{txId}}</b>
                     </p>
@@ -24,29 +16,28 @@
             </div>
             <div class="meta_row">
                 <p class="label">Status</p>
-                <div>
+                <div v-if="tx">
                     <p class="status">Success</p>
                     <p class="status" v-if="type==='assetCreation'">Success</p>
                 </div>
             </div>
             <div class="meta_row">
                 <p class="label">Timestamp</p>
-                <p class="date">
+                <p class="date" v-if="tx">
                     <fa :icon="['far','clock']"></fa>
                     {{dateAgo}} ({{date.toLocaleString()}})
                 </p>
             </div>
             <div class="meta_row">
                 <p class="label">Value</p>
-                <p class="values">
+                <p class="values" v-if="tx">
                     <span v-for="(val, id) in outValues" :key="id">{{val.amount}} {{val.symbol}}</span>
                 </p>
             </div>
             <div class="meta_row">
                 <p class="label">Transaction Fee</p>
-                <p>0.00 AVA</p>
+                <p v-if="tx">0.00 AVA</p>
             </div>
-
             <div class="meta_row" v-if="!isAssetGenesis">
                 <p class="label">Input UTXOs</p>
                 <div v-if="inputs.length > 0">
@@ -57,13 +48,15 @@
                         <p>From</p>
                         <p class="amount">Amount</p>
                     </div>
-                    <utxo-row
-                        class="io_item"
-                        v-for="(input, i) in inputs"
-                        :key="i"
-                        :utxo="input"
-                        type="input"
-                    ></utxo-row>
+                    <div v-if="tx">
+                        <utxo-row
+                            class="io_item"
+                            v-for="(input, i) in inputs"
+                            :key="i"
+                            :utxo="input"
+                            type="input"
+                        ></utxo-row>
+                    </div>
                 </div>
                 <div v-else>
                     <p>No input UTXOs found for this transaction on the explorer.</p>
@@ -123,9 +116,6 @@ export default {
         name(val) {
             return val.name ? val.name : val.id;
         },
-        blockchain(val) {
-            return blockchainMap(val);
-        }
     },
     computed: {
         assetID() {
@@ -257,43 +247,6 @@ h2 {
     margin: 0;
     font-size: 18px;
     padding: 0 0 15px;
-}
-
-.meta_data {
-    display: grid;
-    width: 100%;
-    grid-template-columns: 1fr 1fr max-content;
-
-    img {
-        object-fit: contain;
-        width: 40px;
-        margin-right: 15px;
-    }
-    > div {
-        padding: 30px;
-        text-align: left;
-        line-height: 1.4em;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
-
-    p {
-        font-size: 32px;
-        font-weight: bold;
-    }
-
-    .label {
-        text-transform: capitalize;
-        font-size: 12px;
-        font-weight: bold;
-        margin-bottom: 6px;
-        opacity: 0.7;
-    }
-
-    .meta_val {
-        line-height: 1em;
-    }
 }
 
 .asset_genesis {

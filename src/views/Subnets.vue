@@ -20,7 +20,7 @@
                         <v-card flat>
                             <v-card-text>
                                 <div class="subnet_header">
-                                    <div class="subhheading">Subnetwork</div>
+                                    <div class="subheading">Subnetwork</div>
                                     <h2>{{subnetID | subnet}}</h2>
                                     <div class="stats">
                                         <div class="bar">
@@ -317,7 +317,7 @@ h3 {
     
     padding: 13px 0 0 16px;
 
-    .subhheading {
+    .subheading {
         text-transform: capitalize;
         font-size: 12px;
         font-weight: bold;
