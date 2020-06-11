@@ -160,7 +160,7 @@ export default {
     }
 }
 
-@include main.device_sm {
+@include main.device_s {
     .table_headers {
         display: none;
     }

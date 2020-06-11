@@ -58,6 +58,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+@use '../../main';
 .validator_pagination_control {
     display: flex;
 
@@ -68,7 +69,7 @@ export default {
         margin: 0px 2px;
         padding: 6px 12px;
         border-radius: 4px;
-        color: #71c5ff;
+        color: main.$primary-color;
     }
 }
 

@@ -126,7 +126,7 @@
 
     .amount{
         background-color: #E6F5FF;
-        color: #71C5FF;
+        color: main.$primary-color;
         width: max-content;
         padding: 4px 8px;
         border-radius: 3px;

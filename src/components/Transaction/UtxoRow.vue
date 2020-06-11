@@ -60,6 +60,7 @@
     }
 </script>
 <style scoped lang="scss">
+@use '../../main';
     .utxo_row{
         display: grid;
         grid-gap: 10px;
@@ -86,7 +87,7 @@
         white-space: nowrap;
         width: max-content;
         background-color: #E6F5FF;
-        color: #71C5FF;
+        color: main.$primary-color;
         padding: 4px 8px;
         border-radius: 3px;
     }

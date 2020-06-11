@@ -168,7 +168,7 @@ export default {
     }
 }
 
-@include main.device_sm {
+@include main.device_s {
     .meta_data {
         grid-template-columns: none;
         grid-template-rows: max-content max-content max-content;

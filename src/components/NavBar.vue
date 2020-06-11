@@ -102,7 +102,7 @@ export default Vue.extend({
 
         span {
             font-size: 12px;
-            color: #71c5ff;
+            color: main.$primary-color;
         }
     }
     img {
@@ -137,7 +137,7 @@ export default Vue.extend({
     padding-right: 20px;
 
     &.router-link-exact-active {
-        color: #71C5FF !important;
+        color: main.$primary-color !important;
     }
     
     &:hover {
@@ -159,7 +159,7 @@ export default Vue.extend({
     flex-basis: 24px;
 }
 
-@include main.device_sm {
+@include main.device_s {
     h1 {
         display: none;
     }

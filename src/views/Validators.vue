@@ -41,7 +41,7 @@
                                     <fa
                                         v-on="on"
                                         icon="info-circle"
-                                        transform="shrink63"
+                                        transform="shrink6"
                                         :style="{ color: '#e8e7ea' }"
                                     ></fa>
                                 </template>
@@ -410,7 +410,7 @@ export default {
     color: #fff !important;
 }
 
-@include main.device_sm {
+@include main.device_s {
     .header {
         flex-direction: column;
     }

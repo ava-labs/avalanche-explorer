@@ -43,6 +43,7 @@
     }
 </script>
 <style scoped lang="scss">
+@use '../../main';
     .utxo_row{
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;

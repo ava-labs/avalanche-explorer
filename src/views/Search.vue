@@ -88,7 +88,7 @@ export default {
     justify-content: center;
 }
 
-@include main.device_sm {
+@include main.device_s {
     .result_row {
         padding: 6px 12px;
     }

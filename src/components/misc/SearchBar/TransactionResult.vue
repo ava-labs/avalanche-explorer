@@ -46,6 +46,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@use '../../../main';
 .ago {
     margin-top: 4px;
     opacity: 0.7;
@@ -54,6 +55,6 @@ export default {
 .id {
     overflow: hidden;
     text-overflow: ellipsis;
-    color: #71c5ff;
+    color: main.$primary-color;
 }
 </style>

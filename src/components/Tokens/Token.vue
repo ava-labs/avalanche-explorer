@@ -3,7 +3,7 @@
         <p v-if="token.symbol" class="symbol">{{token.symbol}}</p>
         <p v-else class="no_symbol"></p>
         <p class="name">{{token.name}}</p>
-        <router-link class="id" :to="`/tx/${token.id}`">{{token.id}}</router-link>
+        <router-link class="id" :to="`/asset/${token.id}`">{{token.id}}</router-link>
         <p class="chain">{{token.chainID | blockchain}}</p>
         <p class="denomination">{{token.denomination}}</p>
         <p class="supply">{{supply}} <span>{{token.symbol}}</span></p>
@@ -102,7 +102,7 @@ export default {
     }
 }
 
-@include main.device_sm {
+@include main.device_s {
     .symbol {
         padding: 2px;
     }
