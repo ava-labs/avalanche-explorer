@@ -60,6 +60,8 @@
     }
 </script>
 <style scoped lang="scss">
+@use '../../main';
+
     .pagination_control{
         display: flex;
 
@@ -70,7 +72,7 @@
             margin: 0px 2px;
             padding: 6px 12px;
             border-radius: 4px;
-            color: #71C5FF;
+            color: main.$primary-color;
         }
     }
 

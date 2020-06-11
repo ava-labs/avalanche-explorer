@@ -109,7 +109,6 @@ export default {
         };
     },
     created() {
-        console.log(this.$store.state.assets[this.$route.params.id]);
         this.getData();
     },
     filters: {
@@ -211,12 +210,13 @@ export default {
 </script>
 
 <style lang="scss">
+@use '../main';
 .transaction_details {
     a {
         overflow: hidden;
         display: block;
         text-overflow: ellipsis;
-        color: #71c5ff;
+        color: main.$primary-color;
         text-decoration: none;
 
         &:hover {
@@ -371,16 +371,16 @@ h2 {
 .values {
     span {
         background-color: #e6f5ff;
-        color: #71c5ff;
+        color: main.$primary-color;
         margin-right: 4px;
         padding: 4px 8px;
         border-radius: 3px;
     }
 }
 
-@include main.device_sm {
+@include main.device_s {
     .transaction_details {
-        padding: main.$container_padding_mobile;
+        padding: main.$container_padding_xs;
     }
 
     .meta {

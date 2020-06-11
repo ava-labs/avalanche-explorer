@@ -50,7 +50,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@use '../../../main';
 .id {
-    color: #71c5ff;
+    color: main.$primary-color;
 }
 </style>

@@ -141,7 +141,7 @@ export default {
     }
 }
 
-@include main.device_sm {
+@include main.device_s {
     .asset {
         column-gap: 3px;
     }

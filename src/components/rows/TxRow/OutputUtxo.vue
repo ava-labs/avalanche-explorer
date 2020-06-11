@@ -53,6 +53,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@use '../../../main';
 .to_amount {
     display: grid;
     grid-template-columns: 1fr max-content;
@@ -102,6 +103,6 @@ export default {
     font-weight: bold;
     letter-spacing: 0.1em;
     font-size: 11px;
-    color: #71c5ff;
+    color: main.$primary-color;
 }
 </style>

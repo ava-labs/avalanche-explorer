@@ -208,7 +208,7 @@ export default Vue.extend({
     width: max-content;
     text-decoration: none !important;
     margin-top: 30px;
-    background-color: #71c5ff;
+    background-color: main.$primary-color;
     color: #fff !important;
     padding: 12px 24px;
     font-size: 12px;
@@ -220,7 +220,7 @@ export default Vue.extend({
     transition: opacity 1s;
 }
 
-@include main.device_sm {
+@include main.device_s {
     .view_all {
         width: 100%;
         text-align: center;

@@ -310,7 +310,7 @@ h3 {
 }
 
 .v-tab:before {
-    background-color: #71c5ff !important;
+    background-color: main.$primary-color !important;
 }
 
 .subnet_header {

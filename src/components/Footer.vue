@@ -102,7 +102,7 @@
     }
 }
 
-@include main.device_sm {
+@include main.device_s {
     .v-footer {
         grid-template-columns: none;
         grid-template-rows: max-content max-content max-content;

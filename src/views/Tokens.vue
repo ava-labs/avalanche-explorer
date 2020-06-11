@@ -179,7 +179,7 @@ export default {
     text-align: right;
 }
 
-@include main.device_sm {
+@include main.device_s {
     .grid_headers {
         display: none;
     }

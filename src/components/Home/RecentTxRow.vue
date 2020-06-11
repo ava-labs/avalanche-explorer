@@ -173,7 +173,7 @@
     }
 
     .id{
-        color: #71C5FF;
+        color: main.$primary-color;
         text-decoration: none;
         font-weight: normal;
         max-width: 80px;
@@ -216,7 +216,7 @@
     .amount{
         background-color: #E6F5FF;
         font-size: 11px;
-        color: #71C5FF;
+        color: main.$primary-color;
         border-radius: 4px;
     }
 </style>

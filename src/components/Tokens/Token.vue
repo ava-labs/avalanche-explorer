@@ -102,7 +102,7 @@ export default {
     }
 }
 
-@include main.device_sm {
+@include main.device_s {
     .symbol {
         padding: 2px;
     }

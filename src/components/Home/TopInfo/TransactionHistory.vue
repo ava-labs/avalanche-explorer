@@ -393,7 +393,7 @@ export default {
         &[active] {
             color: #fff;
             font-weight: bold;
-            background-color: #71c5ff;
+            background-color: main.$primary-color;
         }
     }
 }
@@ -405,7 +405,7 @@ export default {
     position: relative;
 }
 
-@include main.device_sm {
+@include main.device_s {
     .history_settings {
         margin: 8px 0px;
         display: flex;

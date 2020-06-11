@@ -216,7 +216,7 @@ input {
     opacity: 0;
 }
 
-@include main.device_sm {
+@include main.device_s {
     .search_results {
         position: fixed;
     }

@@ -64,21 +64,30 @@ export default Vue.extend({
     padding: main.$container_padding_l;
 }
 
-@include main.device_sm {
-    .router_view, 
-    .navbar, 
-    .footer {
-        padding: main.$container_padding_mobile;
-    }
-}
-
-@include main.device_md {
+@include main.device_m {
     .router_view, 
     .navbar,
     .footer {
         padding: main.$container_padding_s;
     }
 }
+
+@include main.device_s {
+    .router_view, 
+    .navbar, 
+    .footer {
+        padding: main.$container_padding_xs;
+    }
+}
+
+@include main.device_s {
+    .router_view, 
+    .navbar, 
+    .footer {
+        padding: main.$container_padding_xs;
+    }
+}
+
 </style>
 
 <style lang="scss">
@@ -88,7 +97,6 @@ export default Vue.extend({
 body {
     font-family: "Helvetica";
     margin: 0;
-    /* background-color: #f8f9fa; */
     background-color: #fff !important;
 }
 
@@ -102,7 +110,7 @@ p {
 }
 
 .v-application a {
-    color: #71c5ff !important;
+    color: main.$primary-color !important;
     text-decoration: none;
     font-weight: normal;
 
@@ -150,7 +158,7 @@ p {
     opacity: 0;
 }
 
-@include main.device_sm {
+@include main.device_s {
 
 }
 </style>

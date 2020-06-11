@@ -186,7 +186,7 @@ export default {
     border-radius: 4px;
     padding: 6px 12px;
     background-color: #e6f5ff;
-    color: #71c5ff;
+    color: main.$primary-color;
 }
 
 .stake_col {
@@ -210,7 +210,7 @@ export default {
         text-align: right;
     }
 }
-@include main.device_sm {
+@include main.device_s {
     .validator {
         grid-template-columns: 70px 1fr 1fr 1fr 1fr;
         grid-template-rows: max-content max-content;

@@ -151,7 +151,7 @@ export default {
 }
 
 .id {
-    color: #71c5ff;
+    color: main.$primary-color;
     text-decoration: none;
     font-weight: normal;
     display: block;
@@ -163,7 +163,7 @@ export default {
     margin-bottom: 6px;
 }
 
-@include main.device_sm {
+@include main.device_s {
     .tx_row {
         padding: 8px;
         grid-template-columns: none;

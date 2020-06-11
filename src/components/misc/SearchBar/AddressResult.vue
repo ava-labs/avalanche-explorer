@@ -39,15 +39,16 @@
     }
 </script>
 <style scoped lang="scss">
+@use '../../../main';
     .id{
-        color: #71C5FF;
+        color: main.$primary-color;
     }
 
     .balance{
         span{
             background-color: #E6F5FF;
             padding: 3px 6px;
-            color: #71C5FF;
+            color: main.$primary-color;
             border-radius: 3px;
         }
     }

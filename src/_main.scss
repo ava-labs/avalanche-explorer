@@ -1,37 +1,39 @@
 $max_width: 1800px;
 
-$xs_width: 600px;
-$sm_width: 960px;
-$md_width: 1264px;
-$lg_width: 1904px;
+$width_xs: 600px;
+$width_s: 960px;
+$width_m: 1264px;
+$width_l: 1904px;
 
-$container_padding_l: 30px 18vw;
+$container_padding_xs: 10px 10px;
 $container_padding_m: 30px 6vw;
 $container_padding_s: 30px 6vw;
-$container_padding_mobile: 10px 10px;
+$container_padding_l: 30px 18vw;
 
 @mixin device_xs {
-  @media only screen and (max-width: $xs_width) { @content; }
+  @media only screen and (max-width: $width_xs) { @content; }
 }
 
-@mixin device_sm {
-  @media only screen and (max-width: $sm_width) { @content; }
-  // @media only screen and (min-width: $xs) and (max-width: $sm_width) { @content; }
+@mixin device_s {
+  @media only screen and (max-width: $width_s) { @content; }
+  // @media only screen and (min-width: $xs) and (max-width: $width_s) { @content; }
 }
 
-@mixin device_md {
-  @media only screen and (min-width: $sm_width) and (max-width: $md_width) { @content; }
+@mixin device_m {
+  @media only screen and (min-width: $width_s) and (max-width: $width_m) { @content; }
 }
 
-@mixin device_lg {
-  @media only screen and (min-width: $md_width) and (max-width: $lg_width) { @content; }
+@mixin device_l {
+  @media only screen and (min-width: $width_m) and (max-width: $width_l) { @content; }
 }
 
 @mixin device_xl {
-  @media only screen and (min-width: $lg_width) { @content; }
+  @media only screen and (min-width: $width_l) { @content; }
 }
 
 
 $red: #e84142;
 $blue: #71c5ff; 
 $blue-light: #e6f5ff;
+
+$primary-color: $blue;

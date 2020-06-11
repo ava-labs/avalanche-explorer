@@ -63,7 +63,7 @@
 <style scoped lang="scss">
     .amount_symbol{
         background-color: #E6F5FF;
-        color: #71C5FF;
+        color: main.$primary-color;
         padding: 4px 8px;
         border-radius: 3px;
         white-space: nowrap;
