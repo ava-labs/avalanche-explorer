@@ -3,7 +3,7 @@
         <div class="header">
             <h2>
                 24h Highest Volume Assets
-                <v-tooltip bottom>
+                <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                     <template v-slot:activator="{ on }">
                         <fa
                             v-on="on"
@@ -19,7 +19,7 @@
         <div class="asset column_headers">
             <p class="name">
                 Name
-                <v-tooltip bottom>
+                <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                     <template v-slot:activator="{ on }">
                         <fa
                             v-on="on"
@@ -32,7 +32,7 @@
                 </v-tooltip>
             </p>
             <p class="metric">
-                <v-tooltip bottom>
+                <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                     <template v-slot:activator="{ on }">
                         <fa
                             v-on="on"

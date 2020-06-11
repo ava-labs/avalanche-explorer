@@ -12,7 +12,7 @@
                 <p></p>
                 <p>
                     ID
-                    <v-tooltip bottom>
+                    <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                         <template v-slot:activator="{ on }">
                             <fa
                                 v-on="on"
@@ -26,7 +26,7 @@
                 </p>
                 <p>
                     From
-                    <v-tooltip bottom>
+                    <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                         <template v-slot:activator="{ on }">
                             <fa
                                 v-on="on"
@@ -40,7 +40,7 @@
                 </p>
                 <p>
                     To
-                    <v-tooltip bottom>
+                    <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                         <template v-slot:activator="{ on }">
                             <fa
                                 v-on="on"

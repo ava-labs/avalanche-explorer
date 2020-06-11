@@ -3,7 +3,7 @@
         <div class="header">
             <h2 class="meta_title">
                 AVA Network Activity
-                <v-tooltip bottom>
+                <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                     <template v-slot:activator="{ on }">
                         <fa
                             v-on="on"
@@ -22,7 +22,7 @@
                 <div class="data">
                     <p class="meta_title">
                         24h Transactions
-                        <v-tooltip bottom>
+                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                             <template v-slot:activator="{ on }">
                                 <fa
                                     v-on="on"
@@ -44,7 +44,7 @@
                 <div class="data">
                     <p class="meta_title">
                         24h Volume
-                        <v-tooltip bottom>
+                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                             <template v-slot:activator="{ on }">
                                 <fa
                                     v-on="on"
@@ -67,7 +67,7 @@
                 <div class="data">
                     <p class="meta_title">
                         Validators
-                        <v-tooltip bottom>
+                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                             <template v-slot:activator="{ on }">
                                 <fa
                                     v-on="on"
@@ -90,7 +90,7 @@
                 <div class="data">
                     <p class="meta_title">
                         Total Staked
-                        <v-tooltip bottom>
+                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                             <template v-slot:activator="{ on }">
                                 <fa
                                     v-on="on"

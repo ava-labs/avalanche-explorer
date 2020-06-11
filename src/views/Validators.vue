@@ -4,7 +4,7 @@
             <div class="header">
                 <h2>
                     Validators
-                    <v-tooltip bottom left>
+                    <v-tooltip bottom left v-if="$vuetify.breakpoint.smAndUp">
                         <template v-slot:activator="{ on }">
                             <fa
                                 v-on="on"
@@ -36,7 +36,7 @@
                     <div>
                         <p class="label">
                             Total {{toggle}} Stake
-                            <v-tooltip bottom>
+                            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                                 <template v-slot:activator="{ on }">
                                     <fa
                                         v-on="on"
@@ -59,7 +59,7 @@
                     <div>
                         <p class="label">
                             {{toggle}} Validators
-                            <v-tooltip bottom>
+                            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                                 <template v-slot:activator="{ on }">
                                     <fa
                                         v-on="on"
@@ -104,7 +104,7 @@
                 <p style="text-align: center;">Rank</p>
                 <p>
                     Validator ID
-                    <v-tooltip bottom>
+                    <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                         <template v-slot:activator="{ on }">
                             <fa
                                 v-on="on"
@@ -117,7 +117,7 @@
                     </v-tooltip>
                 </p>
                 <p style="text-align: right;">
-                    <v-tooltip bottom>
+                    <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                         <template v-slot:activator="{ on }">
                             <fa
                                 v-on="on"
@@ -131,7 +131,7 @@
                     Stake
                 </p>
                 <p style="text-align: right;">
-                    <v-tooltip bottom>
+                    <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                         <template v-slot:activator="{ on }">
                             <fa
                                 v-on="on"

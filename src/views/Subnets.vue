@@ -189,6 +189,7 @@ export default {
     },
     async created() {
         this.blockchains = await this.getBlockchains();
+        console.log("blah", this.$vuetify.breakpoint.mdAndUp);
     },
     computed: {
         subnets() {

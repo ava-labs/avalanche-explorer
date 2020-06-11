@@ -4,7 +4,7 @@
             <div class="header">
                 <h2>
                     Assets
-                    <v-tooltip bottom left>
+                    <v-tooltip bottom left v-if="$vuetify.breakpoint.smAndUp">
                         <template v-slot:activator="{ on }">
                             <fa
                                 v-on="on"
@@ -28,7 +28,7 @@
                 <div class="grid_headers asset_row">
                     <p>
                         Symbol
-                        <v-tooltip bottom>
+                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                             <template v-slot:activator="{ on }">
                                 <fa
                                     v-on="on"
@@ -45,7 +45,7 @@
                     </p>
                     <p>
                         Name
-                        <v-tooltip bottom>
+                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                             <template v-slot:activator="{ on }">
                                 <fa
                                     v-on="on"
@@ -62,7 +62,7 @@
                     </p>
                     <p>
                         Genesis Tx ID
-                        <v-tooltip bottom>
+                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                             <template v-slot:activator="{ on }">
                                 <fa
                                     v-on="on"
@@ -76,7 +76,7 @@
                     </p>
                     <p>
                         Chain
-                        <v-tooltip bottom>
+                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                             <template v-slot:activator="{ on }">
                                 <fa
                                     v-on="on"
@@ -89,7 +89,7 @@
                         </v-tooltip>
                     </p>
                     <p class="denomination">
-                        <v-tooltip bottom>
+                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                             <template v-slot:activator="{ on }">
                                 <fa
                                     v-on="on"
@@ -102,7 +102,7 @@
                         </v-tooltip>Denomination
                     </p>
                     <p class="supply">
-                        <v-tooltip bottom>
+                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                             <template v-slot:activator="{ on }">
                                 <fa
                                     v-on="on"

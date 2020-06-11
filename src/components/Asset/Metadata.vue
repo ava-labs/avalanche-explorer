@@ -14,7 +14,7 @@
                     <div class="stat_container">
                         <p class="label">
                             24h Volume
-                            <v-tooltip bottom>
+                            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                                 <template v-slot:activator="{ on }">
                                     <fa
                                         v-on="on"
@@ -34,7 +34,7 @@
                     <div class="stat_container">
                         <p class="label">
                             24h Transactions
-                            <v-tooltip bottom>
+                            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                                 <template v-slot:activator="{ on }">
                                     <fa
                                         v-on="on"
@@ -54,7 +54,7 @@
                     <div class="stat_container">
                         <p class="label">
                             Minted On
-                            <v-tooltip bottom>
+                            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                                 <template v-slot:activator="{ on }">
                                     <fa
                                         v-on="on"
@@ -74,7 +74,7 @@
                     <div class="stat_container">
                         <p class="label">
                             Initial Supply
-                            <v-tooltip bottom>
+                            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                                 <template v-slot:activator="{ on }">
                                     <fa
                                         v-on="on"

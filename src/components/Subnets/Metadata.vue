@@ -4,9 +4,10 @@
             <div class="header">
                 <h2>
                     Subnets
-                    <v-tooltip bottom left>
+                    <v-tooltip bottom left v-if="$vuetify.breakpoint.smAndUp">
                         <template v-slot:activator="{ on }">
                             <fa
+                                v-if="$vuetify.breakpoint.mdAndUp"
                                 v-on="on"
                                 icon="info-circle"
                                 transform="shrink-3"
@@ -26,7 +27,7 @@
                     <div>
                         <p class="label">
                             Subnetworks
-                            <v-tooltip bottom>
+                            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                                 <template v-slot:activator="{ on }">
                                     <fa
                                         v-on="on"
@@ -46,7 +47,7 @@
                     <div>
                         <p class="label">
                             Blockchains
-                            <v-tooltip bottom>
+                            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                                 <template v-slot:activator="{ on }">
                                     <fa
                                         v-on="on"
@@ -66,7 +67,7 @@
                     <div>
                         <p class="label">
                             Validators
-                            <v-tooltip bottom>
+                            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                                 <template v-slot:activator="{ on }">
                                     <fa
                                         v-on="on"
@@ -87,7 +88,7 @@
                     <div>
                         <p class="label">
                             Total Stake Amount
-                            <v-tooltip bottom>
+                            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                                 <template v-slot:activator="{ on }">
                                     <fa
                                         v-on="on"

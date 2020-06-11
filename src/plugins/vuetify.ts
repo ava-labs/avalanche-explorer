@@ -12,7 +12,6 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 library.add(faSearch, faTwitter, faDiscord, faReddit, faSnowman, faClock, faSync, faInfoCircle);
 Vue.component('fa', FontAwesomeIcon);
 
-
 Vue.use(Vuetify);
 
 export default new Vuetify({
