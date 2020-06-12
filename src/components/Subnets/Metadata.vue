@@ -23,7 +23,7 @@
             </div>
             <div class="meta_data">
                 <div>
-                    <img src="@/assets/subnet.png" />
+                    <img src="@/assets/subnet-purple.png" />
                     <div>
                         <p class="label">
                             Subnetworks
@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div>
-                    <img src="@/assets/blockchain.png" />
+                    <img src="@/assets/blockchain-purple.png" />
                     <div>
                         <p class="label">
                             Blockchains
@@ -63,7 +63,7 @@
                     </div>
                 </div>
                 <div>
-                    <img src="@/assets/validators.png" />
+                    <img src="@/assets/validators-purple.png" />
                     <div>
                         <p class="label">
                             Validators
@@ -84,7 +84,7 @@
                     </div>
                 </div>
                 <div>
-                    <img src="@/assets/ava_price.png" />
+                    <img src="@/assets/ava_price-purple.png" />
                     <div>
                         <p class="label">
                             Total Stake Amount
@@ -143,7 +143,7 @@ export default {
     }
 
     > div {
-        padding: 30px;
+        padding: 30px 15px;
         text-align: left;
         line-height: 1.4em;
         display: flex;
@@ -158,7 +158,7 @@ export default {
 
     .label {
         text-transform: capitalize;
-        font-size: 12px;
+        font-size: 14px;
         font-weight: bold;
         margin-bottom: 6px;
         opacity: 0.7;

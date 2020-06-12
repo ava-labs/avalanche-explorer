@@ -53,9 +53,6 @@ export default {
 
 <style scoped lang="scss">
 @use '../../../main';
-.id {
-    color: main.$primary-color;
-}
 
 .symbol_container {
     width: 50px;
@@ -76,5 +73,14 @@ export default {
     width: 40px;
     line-height: 40px;
     text-align: center;
+}
+
+.id {
+    color: main.$primary-color;
+}
+
+.supply {
+    margin-top: 4px;
+    opacity: 0.7;
 }
 </style>

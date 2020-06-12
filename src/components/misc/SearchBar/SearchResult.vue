@@ -51,9 +51,13 @@ export default {
     position: relative;
 
     .data {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
         width: 100%;
-        overflow: auto;
-        padding: 4px 10px;
+        height: 100%;
+        overflow: hidden;
+        padding: 9px 10px 4px 16px;
     }
 
     a {
@@ -67,14 +71,6 @@ export default {
     &:hover {
         background-color: main.$purple-light;
     }
-}
-
-.symbol_container {
-    width: 50px;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 </style>
 <style scoped lang="scss">

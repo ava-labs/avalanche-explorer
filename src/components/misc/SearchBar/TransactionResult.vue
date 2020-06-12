@@ -58,25 +58,23 @@ export default {
     align-items: center;
 }
 
-$symbol_W: 40px;
-
 .symbol {
     padding: 0;
     background-color: #fff;
     border-radius: 20px;
-    border: 2px solid blue;
+    border: 2px solid main.$black;
     font-weight: bold;
     font-size: 11px;
     height: 38px;
     width: 38px;
-    line-height: $symbol_W;
+    line-height: 38px;
     text-align: center;
 }
 
 .id {
+    color: main.$primary-color;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: main.$primary-color;
 }
 
 .ago {

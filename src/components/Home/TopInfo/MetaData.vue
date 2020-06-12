@@ -2,13 +2,13 @@
     <div>
         <div class="header">
             <h2 class="meta_title">
-                AVA Network Activity
+                Network Activity
                 <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                     <template v-slot:activator="{ on }">
                         <fa
                             v-on="on"
                             icon="info-circle"
-                            transform="shrink-3"
+                            transform="shrink-6"
                             :style="{ color: '#e8e7ea' }"
                         ></fa>
                     </template>
@@ -18,7 +18,7 @@
         </div>
         <div class="meta_data">
             <div class="meta">
-                <img src="@/assets/ava_transactions.png" />
+                <img src="@/assets/ava_transactions-purple.png" />
                 <div class="data">
                     <p class="meta_title">
                         24h Transactions
@@ -35,12 +35,12 @@
                         </v-tooltip>
                     </p>
                     <div>
-                        <p>{{avaTxCount}} ({{tpsText}} TPS)</p>
+                        <p class="meta_value">{{avaTxCount}} ({{tpsText}} TPS)</p>
                     </div>
                 </div>
             </div>
             <div class="meta">
-                <img src="@/assets/ava_price.png" />
+                <img src="@/assets/ava_price-purple.png" />
                 <div class="data">
                     <p class="meta_title">
                         24h Volume
@@ -57,13 +57,13 @@
                         </v-tooltip>
                     </p>
                     <div>
-                        <p>{{avaVolume}} AVA</p>
+                        <p class="meta_value">{{avaVolume}} AVA</p>
                         <!--<p class="change">+ 24%</p>-->
                     </div>
                 </div>
             </div>
             <div class="meta">
-                <img src="@/assets/validators.png" />
+                <img src="@/assets/validators-purple.png" />
                 <div class="data">
                     <p class="meta_title">
                         Validators
@@ -80,13 +80,13 @@
                         </v-tooltip>
                     </p>
                     <div>
-                        <p>{{validatorCount}}</p>
+                        <p class="meta_value">{{validatorCount}}</p>
                         <!--<p class="change">+ 24%</p>-->
                     </div>
                 </div>
             </div>
             <div class="meta">
-                <img src="@/assets/stake_amount.png" />
+                <img src="@/assets/stake_amount-purple.png" />
                 <div class="data">
                     <p class="meta_title">
                         Total Staked
@@ -103,7 +103,7 @@
                         </v-tooltip>
                     </p>
                     <div>
-                        <p>{{totalStake}} AVA</p>
+                        <p class="meta_value">{{totalStake}} AVA</p>
                     </div>
                 </div>
             </div>
@@ -220,7 +220,12 @@ export default {
         .data .meta_title {
             color: #7a838e;
             font-size: 12px;
+            font-weight: bold;
             margin-bottom: 4px;
+        }
+
+        .data .meta_value {
+            font-weight: bold;
         }
 
         .change {

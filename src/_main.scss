@@ -33,6 +33,7 @@ $container_padding_l: 30px 18vw;
 
 $black: #212121;
 $gray: #7a838e;
+$gray-input: #d6dae1;
 $gray-light: #e8e7ea;
 $red: #e84142;
 $pink: #F71064;
@@ -40,8 +41,12 @@ $blue: #71c5ff;
 $blue-light: #e6f5ff;
 $purple: #976cfa;
 $purple-light: #ebe4fb;
+
 $primary-color: $purple;
+$primary-color-light: $purple-light;
 
 $h2_xs: 18px;
 $h2_s: 20px;
 $h2_m: 26px;
+
+$box-shadow: 0 4px 20px 0 rgba(0,0,0,.05);

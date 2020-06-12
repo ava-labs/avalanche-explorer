@@ -24,7 +24,9 @@
                                     <h2>{{subnetID | subnet}}</h2>
                                     <div class="stats">
                                         <div class="bar">
-                                            <p class="subnet_count">{{s.blockchains.length | pluralize}} validated by this subnet</p>
+                                            <p
+                                                class="subnet_count"
+                                            >{{s.blockchains.length | pluralize}} validated by this subnet</p>
                                         </div>
                                     </div>
                                 </div>
@@ -35,7 +37,9 @@
                                     <v-tab>Control Keys ({{s.controlKeys.length}})</v-tab>
                                     <v-tab-item class="tab_content">
                                         <template v-if="s.blockchains.length === 0">
-                                            <p class="null">There are no blockchains for this subnet.</p>
+                                            <p
+                                                class="null"
+                                            >There are no blockchains for this subnet.</p>
                                         </template>
                                         <template v-else>
                                             <v-simple-table>
@@ -48,7 +52,14 @@
                                                     </thead>
                                                     <tbody>
                                                         <tr v-for="b in s.blockchains" :key="b.id">
-                                                            <td>{{ b.name }}</td>
+                                                            <td>
+                                                                <img
+                                                                    class="table_image"
+                                                                    src="@/assets/blockchain-purple.png"
+                                                                    alt
+                                                                />
+                                                                {{ b.name }}
+                                                            </td>
                                                             <td class="id_overflow">{{ b.vmID }}</td>
                                                         </tr>
                                                     </tbody>
@@ -88,7 +99,9 @@
                                     </v-tab-item>
                                     <v-tab-item class="tab_content">
                                         <template v-if="s.pendingValidators.length === 0">
-                                            <p class="null">There are no pending validators for this subnet.</p>
+                                            <p
+                                                class="null"
+                                            >There are no pending validators for this subnet.</p>
                                         </template>
                                         <template v-else>
                                             <v-simple-table :dense="dense">
@@ -118,7 +131,9 @@
                                     </v-tab-item>
                                     <v-tab-item class="tab_content">
                                         <template v-if="s.controlKeys.length === 0">
-                                            <p class="null">There are no control keys for this subnet.</p>
+                                            <p
+                                                class="null"
+                                            >There are no control keys for this subnet.</p>
                                         </template>
                                         <template v-else>
                                             <v-simple-table>
@@ -132,12 +147,21 @@
                                                     </thead>
                                                     <tbody>
                                                         <tr v-for="ck in s.controlKeys" :key="ck">
-                                                            <td>{{ ck }}</td>
+                                                            <td>
+                                                                <img
+                                                                    class="table_image"
+                                                                    src="@/assets/key-purple.png"
+                                                                    alt
+                                                                />
+                                                                {{ ck }}
+                                                            </td>
                                                         </tr>
                                                     </tbody>
                                                 </template>
                                             </v-simple-table>
-                                            <p class="threshold">{{s.threshold | pluralizeThreshold}} needed to add a validator to the subnet.</p>
+                                            <p
+                                                class="threshold"
+                                            >{{s.threshold | pluralizeThreshold}} needed to add a validator to the subnet.</p>
                                         </template>
                                     </v-tab-item>
                                 </v-tabs>
@@ -207,7 +231,7 @@ export default {
             return this.$store.getters["Platform/totalBlockchains"];
         },
         totalStake() {
-                let valBig = this.$store.getters["Platform/totalStake"];
+            let valBig = this.$store.getters["Platform/totalStake"];
             let res = valBig.div(Math.pow(10, 9));
             return res;
         },
@@ -315,30 +339,39 @@ h3 {
 }
 
 .subnet_header {
-    
     padding: 13px 0 0 16px;
+    color: main.$black;
 
     .subheading {
         text-transform: capitalize;
         font-size: 12px;
         font-weight: bold;
         margin-bottom: 6px;
-        opacity: 0.7;
+        /* opacity: 0.7; */
     }
-    
+
     h2 {
+        color: main.$primary-color;
         margin: 0 0 8px;
     }
 }
 
 .null {
     padding: 10px 0 0 16px;
-    font-size: .75rem;
+    font-size: 0.75rem;
     font-weight: bold;
 }
 
 .threshold {
     padding: 32px 16px;
+}
+
+.table_image {
+    height: 20px;
+    display: inline-block;
+    margin-top: -4px;
+    margin-right: 8px;
+    vertical-align: middle;
 }
 
 @include main.device_xs {
@@ -349,6 +382,7 @@ h3 {
 </style>
 
 <style lang="scss">
+@use '../main';
 .v-tabs--vertical > .v-tabs-bar {
     max-width: 200px !important;
     padding-right: 30px;
@@ -357,5 +391,10 @@ h3 {
 
 .v-tabs--vertical > .v-window {
     overflow: scroll !important;
+}
+
+.v-application .primary--text {
+    color: main.$primary-color !important;
+    caret-color: main.$primary-color !important;
 }
 </style>

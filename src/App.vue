@@ -128,9 +128,13 @@ p {
     background-color: #fff;
     padding: 30px;
     border-radius: 6px;
-    box-shadow: 0 4px 20px 0 rgba(0,0,0,.05);
+    box-shadow: main.$box-shadow;
 }
 
+.v-application .primary--text {
+    color: main.$primary-color !important;
+    caret-color: main.$primary-color !important;
+}    
 .theme--light.v-breadcrumbs .v-breadcrumbs__divider, .theme--light.v-breadcrumbs .v-breadcrumbs__item--disabled {
     color: rgba(0, 0, 0, 0.38) !important;
 }
