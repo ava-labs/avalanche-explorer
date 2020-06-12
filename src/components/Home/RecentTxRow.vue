@@ -205,9 +205,6 @@
             text-decoration: underline;
         }
 
-        .amount{
-
-        }
         p, a{
             padding: 4px 12px;
         }

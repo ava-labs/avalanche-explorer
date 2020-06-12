@@ -36,8 +36,8 @@ export default {
 <style scoped lang="scss">
 @use '../../../main';
 
-$color_bright: main.$primary-color;
-$color_dark: main.$primary-color-light;
+$color_bright: main.$primary-color-light;
+$color_dark: main.$primary-color;
 
 .cumulative_bar {
     position: absolute;
