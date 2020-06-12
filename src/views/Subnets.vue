@@ -173,10 +173,10 @@ export default {
         },
         pluralizeThreshold(val) {
             return val === 0
-                ? `${val} threshold signatures from addresses in Control Keys are`
+                ? `${val} threshold signatures from addresses are`
                 : val > 1
-                ? `${val} threshold signatures from addresses in Control Keys are`
-                : `${val} threshold signature from address in Control Keys is`;
+                ? `${val} threshold signatures from addresses are`
+                : `${val} threshold signature from address is`;
         }
     },
     data() {

@@ -52,4 +52,18 @@
             border-radius: 3px;
         }
     }
+    
+    $symbol_W: 40px;
+
+    .symbol {
+        padding: 0;
+        background-color: #f1f2f3;
+        border-radius: 6px;
+        font-weight: bold;
+        font-size: 11px;
+        height: $symbol_W;
+        width: $symbol_W;
+        text-align: center;
+        line-height: $symbol_W;
+    }
 </style>

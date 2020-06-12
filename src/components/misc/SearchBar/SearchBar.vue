@@ -9,7 +9,7 @@
             @blur="onblur"
             :placeholder="placeholder"
         />
-        <v-btn @click="search" color="#71C5FF" :loading="isAjax" depressed>
+        <v-btn @click="search" color="#212121" :loading="isAjax" depressed>
             <fa icon="search"></fa>
         </v-btn>
         <transition name="fade">
@@ -177,9 +177,9 @@ input {
     position: absolute;
     width: 100%;
     box-sizing: border-box;
-    border-radius: 2px;
+    border-radius: 0 0 2px 2px;
     background-color: #fff;
-    top: calc(100% + 4px);
+    top: calc(100% - 2px);
     left: 0px;
     font-size: 12px;
     color: #333;

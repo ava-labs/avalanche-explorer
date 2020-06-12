@@ -113,12 +113,13 @@ export default {
 
     .asset_name {
         font-size: 16px;
+        color: main.$black !important;
     }
 
     .symbol {
         flex-shrink: 0;
-        color: #976cfa;
-        background-color: #ebe4fb;
+        color: main.$purple;
+        background-color: main.$purple-light;
         min-height: 1em;
         min-width: 20px;
         text-align: center;

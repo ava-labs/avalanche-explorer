@@ -42,24 +42,13 @@ export default {
 </script>
 
 <style lang="scss">
+@use '../../../main';
+
 .search_result {
     padding: 8px 13px;
     background-color: #fff;
     display: flex;
     position: relative;
-
-    $symbol_W: 40px;
-    .symbol {
-        padding: 0;
-        background-color: #f1f2f3;
-        border-radius: 6px;
-        font-weight: bold;
-        font-size: 11px;
-        height: $symbol_W;
-        width: $symbol_W;
-        text-align: center;
-        line-height: $symbol_W;
-    }
 
     .data {
         width: 100%;
@@ -76,8 +65,16 @@ export default {
     }
 
     &:hover {
-        background-color: #efefef;
+        background-color: main.$purple-light;
     }
+}
+
+.symbol_container {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 </style>
 <style scoped lang="scss">

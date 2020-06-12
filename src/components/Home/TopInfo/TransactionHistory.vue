@@ -277,12 +277,12 @@ export default {
                 datasets: [
                     {
                         label: "Tx Volume",
-                        backgroundColor: "#71C5FF",
-                        borderColor: "#71C5FF",
+                        backgroundColor: "#976cfa",
+                        borderColor: "#976cfa",
                         pointBackgroundColor: "transparent",
                         pointBorderColor: "transparent",
-                        pointHoverBackgroundColor: "#71C5FF",
-                        pointHoverBorderColor: "#71C5FF",
+                        pointHoverBackgroundColor: "#976cfa",
+                        pointHoverBorderColor: "#976cfa",
                         data: valuesX,
                         fill: false
                     }
@@ -381,8 +381,8 @@ export default {
     button {
         flex-grow: 1;
         font-size: 9px;
-        background-color: #f1f2f3;
-        color: #7a838e;
+        background-color: transparent;
+        color: main.$black;
         height: 22px;
         width: 28px;
         border: none;
@@ -390,10 +390,14 @@ export default {
         outline: none;
         border-radius: 2px;
 
+        &:hover {
+            opacity: 0.7;
+        }
+
         &[active] {
             color: #fff;
             font-weight: bold;
-            background-color: main.$primary-color;
+            background-color: main.$black;
         }
     }
 }

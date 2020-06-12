@@ -134,6 +134,7 @@ export default Vue.extend({
     p {
         padding: 0px 10px;
         font-weight: bold;
+        font-size: 16px;
     }
 }
 
@@ -173,8 +174,8 @@ export default Vue.extend({
         .tag {
             padding: 4px 12px;
             border-radius: 4px;
-            color: #976cfa;
-            background-color: #ebe4fb;
+            color: main.$purple;
+            background-color: main.$purple-light;
             min-height: 1em;
             line-height: 2em;
             word-break: keep-all;
@@ -208,10 +209,11 @@ export default Vue.extend({
     width: max-content;
     text-decoration: none !important;
     margin-top: 30px;
-    background-color: main.$primary-color;
+    background-color: main.$black;
     color: #fff !important;
     padding: 12px 24px;
     font-size: 12px;
+    font-weight: 700;
     border-radius: 4px;
 }
 

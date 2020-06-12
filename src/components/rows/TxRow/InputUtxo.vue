@@ -31,6 +31,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@use '../../../main';
 .from {
     display: grid;
     grid-template-columns: max-content 1fr max-content;
@@ -42,7 +43,7 @@ export default {
         text-overflow: ellipsis;
         overflow: hidden;
         padding-left: 0;
-        color: #7a838e !important;
+        color: main.$black !important;
         text-decoration: none;
 
         &:hover {

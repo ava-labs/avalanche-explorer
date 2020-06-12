@@ -292,8 +292,9 @@ export default {
         width: 40px;
         margin-right: 15px;
     }
+
     > div {
-        padding: 30px;
+        padding: 30px 15px;
         text-align: left;
         line-height: 1.4em;
         display: flex;
@@ -308,14 +309,14 @@ export default {
 
     .label {
         text-transform: capitalize;
-        font-size: 12px;
+        font-size: 16px;
         font-weight: bold;
         margin-bottom: 6px;
-        opacity: 0.7;
     }
 
     .meta_val {
         line-height: 1em;
+        color: main.$blue;
     }
 }
 
@@ -329,6 +330,7 @@ export default {
 
         .search_count {
             text-transform: capitalize;
+            font-weight: 400;
         }
 
         .search_tabs {
@@ -339,14 +341,14 @@ export default {
         }
 
         .search {
-            border: 1px solid #d6dae1;
+            border: 2px solid main.$gray-light;
             height: 36px;
             width: 320px;
             box-sizing: border-box;
             border-radius: 4px;
             padding: 8px 12px;
             outline: none;
-            font-size: 12px;
+            font-size: 14px;
         }
     }
 }
@@ -373,7 +375,7 @@ export default {
 .headers {
     display: grid;
     grid-template-columns: 70px 1fr 1fr 1fr;
-    font-size: 12px;
+    font-size: 16px;
     font-weight: bold;
 
     p {
@@ -397,9 +399,11 @@ export default {
 
 .v-tab {
     color: #000 !important;
-    border: 1px solid #000;
+    border: 2px solid #000;
     background-color: transparent;
     font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0;
     margin: 0px 5px;
     border-radius: 4px;
     text-transform: none;

@@ -60,8 +60,7 @@
                             </span>
                         </v-tooltip>
                     </p>
-                    <p>
-                        Genesis Tx ID
+                    <p class="volume_day">
                         <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                             <template v-slot:activator="{ on }">
                                 <fa
@@ -71,11 +70,11 @@
                                     :style="{ color: '#e8e7ea' }"
                                 ></fa>
                             </template>
-                            <span>A transaction queries or modifies the state of a blockchain.</span>
+                            <span>volume for the past 24h</span>
                         </v-tooltip>
+                        24h Volume
                     </p>
-                    <p>
-                        Chain
+                    <p class="txCount_day">
                         <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                             <template v-slot:activator="{ on }">
                                 <fa
@@ -85,10 +84,11 @@
                                     :style="{ color: '#e8e7ea' }"
                                 ></fa>
                             </template>
-                            <span>Blockchain where this asset was minted.</span>
+                            <span>number of transactions for the past 24h</span>
                         </v-tooltip>
+                        24h Tx
                     </p>
-                    <p class="denomination">
+                    <p class="avgTx_day">
                         <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                             <template v-slot:activator="{ on }">
                                 <fa
@@ -98,9 +98,24 @@
                                     :style="{ color: '#e8e7ea' }"
                                 ></fa>
                             </template>
-                            <span>Determines how balances of this asset are displayed by user interfaces</span>
-                        </v-tooltip>Denomination
+                            <span>number of transactions for the past 24h</span>
+                        </v-tooltip>
+                        Avg Tx
                     </p>
+                    <!-- <p class="denomination">
+                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
+                            <template v-slot:activator="{ on }">
+                                <fa
+                                    v-on="on"
+                                    icon="info-circle"
+                                    transform="shrink-4"
+                                    :style="{ color: '#e8e7ea' }"
+                                ></fa>
+                            </template>
+                            <span>determines how balances of this asset are displayed by user interfaces</span>
+                        </v-tooltip>
+                        Denom.
+                    </p> -->
                     <p class="supply">
                         <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                             <template v-slot:activator="{ on }">
@@ -111,8 +126,22 @@
                                     :style="{ color: '#e8e7ea' }"
                                 ></fa>
                             </template>
-                            <span>Units of the asset that have been created</span>
+                            <span>units of the asset that have been created</span>
                         </v-tooltip>Supply
+                    </p>
+                    <p class="chain">
+                        Issuance
+                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
+                            <template v-slot:activator="{ on }">
+                                <fa
+                                    v-on="on"
+                                    icon="info-circle"
+                                    transform="shrink-4"
+                                    :style="{ color: '#e8e7ea' }"
+                                ></fa>
+                            </template>
+                            <span>blockchain where this asset was minted</span>
+                        </v-tooltip>
                     </p>
                 </div>
                 <asset v-for="asset in assets" :key="asset.id" class="asset_row" :asset="asset"></asset>
@@ -133,7 +162,8 @@ export default {
     },
     computed: {
         assets() {
-            return this.$store.state.assets;
+            // console.log("assets", this.$store.state.assets);
+            return this.$store.getters["assetsArray"];
         }
     }
 };
@@ -153,14 +183,14 @@ export default {
 }
 
 .grid_headers {
-    font-weight: bold;
+    font-weight: 500;
     font-size: 12px;
 }
 
 .asset_row {
     display: grid;
-    grid-template-columns: 60px 200px 110px 90px 110px 1fr;
-    padding: 5px 15px;
+    grid-template-columns: 60px 200px 150px 110px 110px 1fr 100px;
+    padding: 10px 0;
     border-bottom: 1px solid #e7e7e7;
     column-gap: 10px;
 
@@ -169,10 +199,14 @@ export default {
     }
 }
 
-.denomination {
-    text-align: right;
+.chain {
+    padding-left: 20px;
 }
 
+.volume_day,
+.txCount_day,
+.avgTx_day,
+.denomination,
 .supply {
     text-align: right;
 }

@@ -1,6 +1,8 @@
 <template>
     <div class="search_result" @click="select">
-        <p class="symbol">{{symbol}}</p>
+        <div class="symbol_container">
+            <p class="symbol">{{symbol}}</p>
+        </div>
         <div class="data">
             <p class="id">{{name}}</p>
             <p class="supply">Supply {{supply.toFixed(2)}} {{symbol}}</p>
@@ -53,5 +55,26 @@ export default {
 @use '../../../main';
 .id {
     color: main.$primary-color;
+}
+
+.symbol_container {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.symbol {
+    padding: 0;
+    background-color: main.$purple-light !important;
+    color: main.$purple;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 11px;
+    height: 40px;
+    width: 40px;
+    line-height: 40px;
+    text-align: center;
 }
 </style>

@@ -31,9 +31,17 @@ $container_padding_l: 30px 18vw;
   @media only screen and (min-width: $width_l) { @content; }
 }
 
-
+$black: #212121;
+$gray: #7a838e;
+$gray-light: #e8e7ea;
 $red: #e84142;
+$pink: #F71064;
 $blue: #71c5ff; 
 $blue-light: #e6f5ff;
+$purple: #976cfa;
+$purple-light: #ebe4fb;
+$primary-color: $purple;
 
-$primary-color: $blue;
+$h2_xs: 18px;
+$h2_s: 20px;
+$h2_m: 26px;

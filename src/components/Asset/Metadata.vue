@@ -127,8 +127,8 @@ export default {
 
     .symbol {
         flex-shrink: 0;
-        color: #976cfa;
-        background-color: #ebe4fb;
+        color: main.$purple;
+        background-color: main.$purple-light;
         min-height: 1em;
         min-width: 20px;
         text-align: center;
@@ -147,7 +147,7 @@ export default {
     grid-template-columns: 25% 25% 25% 25%;
 
     > article {
-        padding: 30px;
+        padding: 30px 15px;
         text-align: left;
         line-height: 1.4em;
         display: flex;

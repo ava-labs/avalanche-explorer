@@ -10,7 +10,7 @@
                                 v-if="$vuetify.breakpoint.mdAndUp"
                                 v-on="on"
                                 icon="info-circle"
-                                transform="shrink-3"
+                                transform="shrink-9"
                                 :style="{ color: '#e8e7ea' }"
                             ></fa>
                         </template>
@@ -88,7 +88,7 @@
                     <div>
                         <p class="label">
                             Total Stake Amount
-                            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
+                            <v-tooltip bottom>
                                 <template v-slot:activator="{ on }">
                                     <fa
                                         v-on="on"

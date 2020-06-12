@@ -30,7 +30,7 @@ export default Vue.extend({
 <style scoped lang="scss">
 @use 'main';
 .v-application {
-    background-color: #f8f9fa !important;
+    background-color: #f8f8f8 !important;
 }
 .bg {
     position: fixed;
@@ -98,6 +98,7 @@ body {
     font-family: "Helvetica";
     margin: 0;
     background-color: #fff !important;
+    color: main.$black;
 }
 
 p {
@@ -127,7 +128,7 @@ p {
     background-color: #fff;
     padding: 30px;
     border-radius: 6px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 20px 0 rgba(0,0,0,.05);
 }
 
 .theme--light.v-breadcrumbs .v-breadcrumbs__divider, .theme--light.v-breadcrumbs .v-breadcrumbs__item--disabled {
@@ -136,7 +137,7 @@ p {
 
 .header {
     h2 {
-        font-size: 18px;
+        font-size: 26px;
         margin: 0;
     }
 }
