@@ -218,7 +218,8 @@ export default {
         }
 
         .data .meta_title {
-            color: #7a838e;
+            color: main.$purple;
+
             font-size: 12px;
             font-weight: bold;
             margin-bottom: 4px;
@@ -229,8 +230,8 @@ export default {
         }
 
         .change {
-            background-color: #e4fbef;
-            color: #56c18d !important;
+            background-color: main.$green-light;
+            color: main.$green !important;
             padding: 2px 4px;
             border-radius: 2px;
             flex-grow: 0 !important;

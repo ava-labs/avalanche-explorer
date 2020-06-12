@@ -86,7 +86,7 @@
     .amount_symbol{
         white-space: nowrap;
         width: max-content;
-        background-color: #E6F5FF;
+        background-color: main.$primary-color-light;
         color: main.$primary-color;
         padding: 4px 8px;
         border-radius: 3px;

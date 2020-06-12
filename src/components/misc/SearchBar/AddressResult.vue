@@ -74,7 +74,7 @@ $symbol_W: 40px;
 
 .balance {
     span {
-        background-color: #e6f5ff;
+        background-color: main.$primary-color-light;
         padding: 3px 6px;
         color: main.$primary-color;
         border-radius: 3px;

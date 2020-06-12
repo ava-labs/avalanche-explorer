@@ -46,7 +46,7 @@ export default {
 
 .search_result {
     padding: 8px 13px;
-    background-color: #fff;
+    background-color: main.$white;
     display: flex;
     position: relative;
 

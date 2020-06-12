@@ -60,7 +60,7 @@ export default {
 
 .symbol {
     padding: 0;
-    background-color: #fff;
+    background-color: main.$white;
     border-radius: 20px;
     border: 2px solid main.$black;
     font-weight: bold;

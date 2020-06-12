@@ -106,7 +106,7 @@ export default {
 
 .rank {
     > div {
-        background-color: #fff;
+        background-color: main.$white;
         color: #000;
         border: 2px solid main.$primary-color;
         width: 40px;
@@ -182,14 +182,6 @@ export default {
         text-align: center;
         line-height: 1.4em;
     }
-}
-
-.amountd {
-    width: max-content;
-    border-radius: 4px;
-    padding: 6px 12px;
-    background-color: #e6f5ff;
-    color: main.$primary-color;
 }
 
 .stake_col {

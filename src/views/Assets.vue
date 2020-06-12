@@ -189,7 +189,7 @@ export default {
 
 .asset_row {
     display: grid;
-    grid-template-columns: 60px 200px 150px 110px 110px 1fr 100px;
+    grid-template-columns: 60px 200px 150px 110px 150px 1fr 100px;
     padding: 10px 0;
     border-bottom: 1px solid #e7e7e7;
     column-gap: 10px;

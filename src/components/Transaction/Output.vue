@@ -62,7 +62,7 @@
 </script>
 <style scoped lang="scss">
     .amount_symbol{
-        background-color: #E6F5FF;
+        background-color: main.$primary-color-light;
         color: main.$primary-color;
         padding: 4px 8px;
         border-radius: 3px;

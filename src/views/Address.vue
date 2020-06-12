@@ -185,7 +185,7 @@ h2 {
 
 .meta {
     overflow: auto;
-    background-color: #fff;
+    background-color: main.$white;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     border-radius: 6px;
     margin-bottom: 15px;
@@ -210,7 +210,7 @@ h2 {
 }
 
 .transactions {
-    background-color: #fff;
+    background-color: main.$white;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     border-radius: 6px;
     overflow: auto;
@@ -250,8 +250,8 @@ h2 {
 
     span {
         background-color: #e6ffe6;
-        border: 1px solid #56c18d;
-        color: #56c18d;
+        border: 1px solid main.$green;
+        color: main.$green;
         width: max-content;
         padding: 4px 8px;
         margin: 0px 30px;

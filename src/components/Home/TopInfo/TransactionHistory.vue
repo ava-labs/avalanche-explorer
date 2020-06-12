@@ -395,7 +395,7 @@ export default {
         }
 
         &[active] {
-            color: #fff;
+            color: main.$white;
             font-weight: bold;
             background-color: main.$black;
         }

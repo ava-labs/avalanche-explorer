@@ -316,7 +316,7 @@ export default {
 
     .meta_val {
         line-height: 1em;
-        color: main.$blue;
+        color: main.$primary-color;
     }
 }
 
@@ -360,7 +360,7 @@ export default {
 }
 
 .validators {
-    background-color: #fff;
+    background-color: main.$white;
     border-radius: 6px;
     padding: 30px;
 }
@@ -368,7 +368,7 @@ export default {
     border-top: 1px solid #e7e7e7;
 
     &:nth-of-type(2n) {
-        background-color: #f1f9ff;
+        background-color: main.$primary-color-xlight;
     }
 }
 
@@ -411,7 +411,7 @@ export default {
 
 .tab_active {
     background-color: #000;
-    color: #fff !important;
+    color: main.$white !important;
 }
 
 @include main.device_s {

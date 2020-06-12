@@ -138,7 +138,7 @@ hr {
     a {
         padding: 6px 0;
         border-radius: 4px;
-        background-color: #fff;
+        background-color: main.$white;
         border: none;
         outline: none;
         color: #7a838e !important;

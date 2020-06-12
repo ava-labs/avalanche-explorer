@@ -36,7 +36,7 @@
 @use '../main';
 .v-footer {
     padding-bottom: 0px !important;
-    color: #fff !important;
+    color: main.$white !important;
     align-items: flex-start;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -92,7 +92,7 @@
 
     a {
         font-weight: lighter;
-        color: #fff !important;
+        color: main.$white !important;
         margin-bottom: 14px;
         text-decoration: none;
 

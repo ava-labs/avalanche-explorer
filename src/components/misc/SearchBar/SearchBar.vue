@@ -168,7 +168,7 @@ input {
     border-radius: 0;
     cursor: pointer;
     font-size: 12px;
-    color: #fff !important;
+    color: main.$white !important;
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
 }
@@ -178,7 +178,7 @@ input {
     width: 100%;
     box-sizing: border-box;
     border-radius: 0 0 2px 2px;
-    background-color: #fff;
+    background-color: main.$white;
     top: calc(100% - 3px);
     left: 0px;
     font-size: 12px;

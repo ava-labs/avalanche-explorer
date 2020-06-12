@@ -116,6 +116,8 @@ export default {
         display: inline-block;
         width: 43px;
         opacity: 0.4;
+        text-align: left;
+        padding-left: 4px;
     }
 }
 

@@ -257,7 +257,7 @@ export default {
 @use '../main';
 
 .validators {
-    background-color: #fff;
+    background-color: main.$white;
     border-radius: 6px;
     padding: 30px;
 }

@@ -142,7 +142,7 @@ export default {
     }
 
     .metric-value {
-        color: #56c18d;
+        color: main.$green;
     }
 }
 

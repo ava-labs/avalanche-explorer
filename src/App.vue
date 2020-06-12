@@ -97,7 +97,7 @@ export default Vue.extend({
 body {
     font-family: "Helvetica";
     margin: 0;
-    background-color: #fff !important;
+    background-color: main.$white !important;
     color: main.$black;
 }
 
@@ -125,7 +125,7 @@ p {
 }
 
 .card {
-    background-color: #fff;
+    background-color: main.$white;
     padding: 30px;
     border-radius: 6px;
     box-shadow: main.$box-shadow;
@@ -134,7 +134,8 @@ p {
 .v-application .primary--text {
     color: main.$primary-color !important;
     caret-color: main.$primary-color !important;
-}    
+}
+
 .theme--light.v-breadcrumbs .v-breadcrumbs__divider, .theme--light.v-breadcrumbs .v-breadcrumbs__item--disabled {
     color: rgba(0, 0, 0, 0.38) !important;
 }

@@ -74,7 +74,7 @@
             </transition-group>
         </div>
         <div class="bottom">
-            <router-link to="/tx" class="view_all">View All transactions</router-link>
+            <router-link to="/tx" class="view_all">View All Transactions</router-link>
         </div>
     </div>
 </template>
@@ -210,11 +210,16 @@ export default Vue.extend({
     text-decoration: none !important;
     margin-top: 30px;
     background-color: main.$black;
-    color: #fff !important;
+    color: main.$white !important;
     padding: 12px 24px;
     font-size: 12px;
     font-weight: 700;
     border-radius: 4px;
+    transition: opacity 0.3s;
+
+    &:hover {
+        opacity: 0.9;
+    }
 }
 
 .fade-enter-active,

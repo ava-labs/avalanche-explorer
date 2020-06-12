@@ -287,8 +287,8 @@ h2 {
 
 .genesis {
     background-color: #e6ffe6;
-    border: 1px solid #56c18d;
-    color: #56c18d;
+    border: 1px solid main.$green;
+    color: main.$green;
     width: max-content;
     padding: 4px 8px;
     margin: 0px 30px;
@@ -296,7 +296,7 @@ h2 {
 }
 
 .tx_meta {
-    background-color: #fff;
+    background-color: main.$white;
     padding: 30px;
     overflow: auto;
     border-radius: 6px;
@@ -371,8 +371,8 @@ h2 {
 }
 
 .status {
-    background-color: #e4fbef;
-    color: #56c18d;
+    background-color: main.$green-light;
+    color: main.$green;
     width: max-content;
     border-radius: 3px;
     padding: 4px 8px;
@@ -383,9 +383,9 @@ h2 {
 }
 
 .no_input {
-    background-color: #ffe6e6;
-    border: 1px solid #c15656;
-    color: #c15656;
+    background-color: main.$red-xlight;
+    border: 1px solid main.$red-light;
+    color: main.$red-light;
 }
 
 .outputs {
@@ -394,7 +394,7 @@ h2 {
 
 .values {
     span {
-        background-color: #e6f5ff;
+        background-color: main.$primary-color-light;
         color: main.$primary-color;
         margin-right: 4px;
         padding: 4px 8px;
