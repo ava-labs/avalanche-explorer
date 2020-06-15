@@ -2,13 +2,13 @@
     <div>
         <div class="header">
             <h2>
-                24h Highest Volume Assets
-                <v-tooltip bottom>
+                Top Assets
+                <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                     <template v-slot:activator="{ on }">
                         <fa
                             v-on="on"
                             icon="info-circle"
-                            transform="shrink-3"
+                            transform="shrink-6"
                             :style="{ color: '#e8e7ea' }"
                         ></fa>
                     </template>
@@ -19,7 +19,7 @@
         <div class="asset column_headers">
             <p class="name">
                 Name
-                <v-tooltip bottom>
+                <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                     <template v-slot:activator="{ on }">
                         <fa
                             v-on="on"
@@ -32,7 +32,7 @@
                 </v-tooltip>
             </p>
             <p class="metric">
-                <v-tooltip bottom>
+                <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                     <template v-slot:activator="{ on }">
                         <fa
                             v-on="on"
@@ -43,7 +43,7 @@
                     </template>
                     <span>number of transactions of this asset</span>
                 </v-tooltip>
-                Txs
+                Txs (24h)
             </p>
         </div>
         <div class="asset" v-for="(asset) in assets" :key="asset.id">
@@ -83,6 +83,10 @@ export default {
 
 .column_headers {
     font-weight: bold;
+
+    p {
+        border-bottom: 1px solid main.$gray-light;
+    }
 }
 
 .asset {
@@ -112,13 +116,14 @@ export default {
     }
 
     .asset_name {
-        font-size: 16px;
+        font-size: 14px;
+        color: main.$black !important;
     }
 
     .symbol {
         flex-shrink: 0;
-        color: #976cfa;
-        background-color: #ebe4fb;
+        color: main.$purple;
+        background-color: main.$purple-light;
         min-height: 1em;
         min-width: 20px;
         text-align: center;
@@ -133,11 +138,11 @@ export default {
     .metric {
         flex-shrink: 0;
         text-align: right;
-        width: 45px;
+        width: 70px;
     }
 
     .metric-value {
-        color: #56c18d;
+        color: main.$green;
     }
 }
 

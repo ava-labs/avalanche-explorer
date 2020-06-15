@@ -5,7 +5,7 @@
 <!--            <router-link :to="`/tx/${input.output.id}`">{{input.output.id}}</router-link>-->
 <!--        </div>-->
 <!--        <div class="data_row">-->
-<!--            <p class="label" style="flex-grow: 1;">Token</p>-->
+<!--            <p class="label" style="flex-grow: 1;">Asset</p>-->
 <!--            <router-link :to="`/tx/${asset}`">{{asset.name}}</router-link>-->
 <!--        </div>-->
 
@@ -125,7 +125,7 @@
 
 
     .amount{
-        background-color: #E6F5FF;
+        background-color: main.$primary-color-light;
         color: main.$primary-color;
         width: max-content;
         padding: 4px 8px;

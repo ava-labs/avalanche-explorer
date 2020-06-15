@@ -4,7 +4,7 @@
             <div class="header">
                 <h2>
                     Validators
-                    <v-tooltip bottom left>
+                    <v-tooltip bottom left v-if="$vuetify.breakpoint.smAndUp">
                         <template v-slot:activator="{ on }">
                             <fa
                                 v-on="on"
@@ -36,7 +36,7 @@
                     <div>
                         <p class="label">
                             Total {{toggle}} Stake
-                            <v-tooltip bottom>
+                            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                                 <template v-slot:activator="{ on }">
                                     <fa
                                         v-on="on"
@@ -59,7 +59,7 @@
                     <div>
                         <p class="label">
                             {{toggle}} Validators
-                            <v-tooltip bottom>
+                            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                                 <template v-slot:activator="{ on }">
                                     <fa
                                         v-on="on"
@@ -104,7 +104,7 @@
                 <p style="text-align: center;">Rank</p>
                 <p>
                     Validator ID
-                    <v-tooltip bottom>
+                    <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                         <template v-slot:activator="{ on }">
                             <fa
                                 v-on="on"
@@ -117,7 +117,7 @@
                     </v-tooltip>
                 </p>
                 <p style="text-align: right;">
-                    <v-tooltip bottom>
+                    <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                         <template v-slot:activator="{ on }">
                             <fa
                                 v-on="on"
@@ -131,7 +131,7 @@
                     Stake
                 </p>
                 <p style="text-align: right;">
-                    <v-tooltip bottom>
+                    <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                         <template v-slot:activator="{ on }">
                             <fa
                                 v-on="on"
@@ -292,8 +292,9 @@ export default {
         width: 40px;
         margin-right: 15px;
     }
+
     > div {
-        padding: 30px;
+        padding: 30px 15px;
         text-align: left;
         line-height: 1.4em;
         display: flex;
@@ -308,14 +309,14 @@ export default {
 
     .label {
         text-transform: capitalize;
-        font-size: 12px;
+        font-size: 16px;
         font-weight: bold;
         margin-bottom: 6px;
-        opacity: 0.7;
     }
 
     .meta_val {
         line-height: 1em;
+        color: main.$primary-color;
     }
 }
 
@@ -329,6 +330,7 @@ export default {
 
         .search_count {
             text-transform: capitalize;
+            font-weight: 400;
         }
 
         .search_tabs {
@@ -339,14 +341,14 @@ export default {
         }
 
         .search {
-            border: 1px solid #d6dae1;
+            border: 2px solid main.$gray-light;
             height: 36px;
             width: 320px;
             box-sizing: border-box;
             border-radius: 4px;
             padding: 8px 12px;
             outline: none;
-            font-size: 12px;
+            font-size: 14px;
         }
     }
 }
@@ -358,7 +360,7 @@ export default {
 }
 
 .validators {
-    background-color: #fff;
+    background-color: main.$white;
     border-radius: 6px;
     padding: 30px;
 }
@@ -366,14 +368,14 @@ export default {
     border-top: 1px solid #e7e7e7;
 
     &:nth-of-type(2n) {
-        background-color: #f1f9ff;
+        background-color: main.$primary-color-xlight;
     }
 }
 
 .headers {
     display: grid;
     grid-template-columns: 70px 1fr 1fr 1fr;
-    font-size: 12px;
+    font-size: 16px;
     font-weight: bold;
 
     p {
@@ -397,9 +399,11 @@ export default {
 
 .v-tab {
     color: #000 !important;
-    border: 1px solid #000;
+    border: 2px solid #000;
     background-color: transparent;
     font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0;
     margin: 0px 5px;
     border-radius: 4px;
     text-transform: none;
@@ -407,7 +411,7 @@ export default {
 
 .tab_active {
     background-color: #000;
-    color: #fff !important;
+    color: main.$white !important;
 }
 
 @include main.device_s {

@@ -9,7 +9,7 @@
             @blur="onblur"
             :placeholder="placeholder"
         />
-        <v-btn @click="search" color="#71C5FF" :loading="isAjax" depressed>
+        <v-btn @click="search" color="#212121" :loading="isAjax" depressed>
             <fa icon="search"></fa>
         </v-btn>
         <transition name="fade">
@@ -72,7 +72,7 @@ export default Vue.extend({
             }
         },
         onblur() {
-            this.showResults = false;
+            // this.showResults = false;
         },
         search() {
             if (!this.canSearch) return;
@@ -156,7 +156,7 @@ input {
     padding: 8px 13px;
     flex-grow: 1;
     outline: none;
-    border: 1px solid #d6dae1;
+    border: 2px solid main.$gray-input;
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
     border-right: none;
@@ -168,7 +168,7 @@ input {
     border-radius: 0;
     cursor: pointer;
     font-size: 12px;
-    color: #fff !important;
+    color: main.$white !important;
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
 }
@@ -177,18 +177,14 @@ input {
     position: absolute;
     width: 100%;
     box-sizing: border-box;
-    border-radius: 2px;
-    background-color: #fff;
-    top: calc(100% + 4px);
+    border-radius: 0 0 2px 2px;
+    background-color: main.$white;
+    top: calc(100% - 3px);
     left: 0px;
     font-size: 12px;
     color: #333;
-    border: 1px solid #d2d2d2;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-
-    & :last-child {
-        border: none !important;
-    }
+    border: 2px solid main.$gray-input;
+    box-shadow: main.$box-shadow;
 }
 
 .no_result {
@@ -204,8 +200,12 @@ input {
 }
 
 .search_result {
-    border-bottom: 1px solid #d2d2d2;
+    border-bottom: 1px solid main.$gray-input;
     cursor: pointer;
+
+    &:last-child {
+        border-bottom: none;
+    }
 }
 
 .fade-enter-active,

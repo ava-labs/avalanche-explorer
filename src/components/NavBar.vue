@@ -21,7 +21,7 @@
                     <router-link to="/">Home</router-link>
                     <router-link to="/subnets">Subnets</router-link>
                     <router-link to="/validators">Validators</router-link>
-                    <router-link to="/tokens">Tokens</router-link>
+                    <router-link to="/assets">Assets</router-link>
                     <router-link to="/resources">Resources</router-link>
                 </div>
             </div>
@@ -92,7 +92,7 @@ export default Vue.extend({
     }
 
     h1 {
-        font-size: 24px;
+        font-size: 32px;
         padding-left: 10px;
 
         &:hover {
@@ -131,7 +131,7 @@ export default Vue.extend({
 }
 
 .routes a {
-    color: #222 !important;
+    color: main.$black !important;
     font-weight: 600;
     font-size: 14px;
     padding-right: 20px;
@@ -148,15 +148,6 @@ export default Vue.extend({
     &:last-child {
         padding-right: 0;
     }
-}
-
-.avatar {
-    margin-left: 10px;
-    background-color: #f1f2f3;
-    width: 24px;
-    height: 24px;
-    flex-shrink: 0;
-    flex-basis: 24px;
 }
 
 @include main.device_s {

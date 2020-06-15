@@ -118,7 +118,8 @@ export default {
     border-radius: 35px;
     line-height: 35px;
     text-align: center;
-    background-color: #f1f2f3;
+    background-color: main.$white;
+    border: 2px solid main.$black;
 
     p {
         width: 100%;

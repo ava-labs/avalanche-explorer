@@ -72,7 +72,7 @@ export default {
 }
 
 .result_row {
-    background-color: #fff;
+    background-color: main.$white;
     padding: 25px 30px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     border-radius: 6px;

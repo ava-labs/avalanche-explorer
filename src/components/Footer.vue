@@ -13,8 +13,9 @@
         <div class="list">
             <h4>Menu</h4>
             <router-link to="/">Home</router-link>
+            <router-link to="/subnets">Subnets</router-link>
             <router-link to="/validators">Validators</router-link>
-            <router-link to="/tokens">Tokens</router-link>
+            <router-link to="/assets">Assets</router-link>
             <router-link to="/resources">Resources</router-link>
         </div>
         <div class="list">
@@ -35,7 +36,7 @@
 @use '../main';
 .v-footer {
     padding-bottom: 0px !important;
-    color: #fff !important;
+    color: main.$white !important;
     align-items: flex-start;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -91,7 +92,7 @@
 
     a {
         font-weight: lighter;
-        color: #fff !important;
+        color: main.$white !important;
         margin-bottom: 14px;
         text-decoration: none;
 

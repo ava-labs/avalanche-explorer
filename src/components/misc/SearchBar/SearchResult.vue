@@ -42,29 +42,22 @@ export default {
 </script>
 
 <style lang="scss">
+@use '../../../main';
+
 .search_result {
     padding: 8px 13px;
-    background-color: #fff;
+    background-color: main.$white;
     display: flex;
     position: relative;
 
-    $symbol_W: 40px;
-    .symbol {
-        padding: 0;
-        background-color: #f1f2f3;
-        border-radius: 6px;
-        font-weight: bold;
-        font-size: 11px;
-        height: $symbol_W;
-        width: $symbol_W;
-        text-align: center;
-        line-height: $symbol_W;
-    }
-
     .data {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
         width: 100%;
-        overflow: auto;
-        padding: 4px 10px;
+        height: 100%;
+        overflow: hidden;
+        padding: 9px 10px 4px 16px;
     }
 
     a {
@@ -76,7 +69,7 @@ export default {
     }
 
     &:hover {
-        background-color: #efefef;
+        background-color: main.$purple-light;
     }
 }
 </style>

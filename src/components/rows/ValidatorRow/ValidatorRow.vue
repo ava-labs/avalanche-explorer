@@ -9,7 +9,7 @@
             <p>{{validator.id}}</p>
         </div>
         <div class="stake_col">
-            <p>{{stakeAmountText}} AVA</p>
+            <p class="stakeAmount">{{stakeAmountText}} AVA</p>
             <p>{{stakePercText}}%</p>
         </div>
         <div class="comm_col">
@@ -72,7 +72,7 @@ export default {
         cumulativePercText() {
             let cumulativeStake = toAVA(this.cumulativeStake);
             let totalStake = toAVA(parseInt(this.$store.getters["Platform/totalStake"].toString()));
-            return (cumulativeStake / totalStake * 100).toFixed(2);
+            return (cumulativeStake / totalStake * 100).toFixed(0);
         },
         duration() {
             let dur = this.validator.endTime - this.validator.startTime;
@@ -106,8 +106,9 @@ export default {
 
 .rank {
     > div {
-        background-color: #eaecf0;
+        background-color: main.$white;
         color: #000;
+        border: 2px solid main.$primary-color;
         width: 40px;
         height: 40px;
         border-radius: 40px;
@@ -117,6 +118,8 @@ export default {
     p {
         width: 100%;
         text-align: center;
+        font-weight: 900;
+        color: main.$primary-color;
     }
 }
 
@@ -181,14 +184,6 @@ export default {
     }
 }
 
-.amountd {
-    width: max-content;
-    border-radius: 4px;
-    padding: 6px 12px;
-    background-color: #e6f5ff;
-    color: main.$primary-color;
-}
-
 .stake_col {
     p {
         text-align: right;
@@ -197,6 +192,10 @@ export default {
         &:last-of-type {
             font-weight: bold;
         }
+    }
+
+    .stakeAmount {
+        /* color: main.$pink; */
     }
 }
 

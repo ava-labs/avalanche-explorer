@@ -1,6 +1,8 @@
 <template>
     <div class="search_result" @click="select">
-        <p class="symbol">Tx</p>
+        <div class="symbol_container">
+            <p class="symbol">Tx</p>
+        </div>
         <div class="data">
             <p class="id">{{tx.id}}</p>
             <p class="ago">{{tx.data.timestamp | date}}</p>
@@ -47,14 +49,36 @@ export default {
 
 <style scoped lang="scss">
 @use '../../../main';
-.ago {
-    margin-top: 4px;
-    opacity: 0.7;
+
+.symbol_container {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.symbol {
+    padding: 0;
+    background-color: main.$white;
+    border-radius: 20px;
+    border: 2px solid main.$black;
+    font-weight: bold;
+    font-size: 11px;
+    height: 38px;
+    width: 38px;
+    line-height: 38px;
+    text-align: center;
 }
 
 .id {
+    color: main.$primary-color;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: main.$primary-color;
+}
+
+.ago {
+    margin-top: 4px;
+    opacity: 0.7;
 }
 </style>

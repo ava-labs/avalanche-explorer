@@ -1,5 +1,6 @@
 <template>
     <div class="address_detail">
+        <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
         <div class="meta" v-if="this.metaData">
             <h2>Address Details</h2>
             <div class="meta_row">
@@ -13,9 +14,7 @@
         <div class="meta" v-if="this.metaData">
             <h2>Asset Balances</h2>
             <div v-for="(asset, index) in metaData.assets" v-bind:key="index">
-                <h3>
-                    {{index}}
-                </h3>
+                <h3>{{index}}</h3>
                 <div class="meta_row">
                     <p class="label">Balance</p>
                     <p>{{asset.balance}}</p>
@@ -70,7 +69,19 @@ export default {
         return {
             transactions: [],
             isAjax: false,
-            metaData: null
+            metaData: null,
+            breadcrumbs: [
+                {
+                    text: "Home",
+                    disabled: false,
+                    href: "/"
+                },
+                {
+                    text: "Address",
+                    disabled: true,
+                    href: ""
+                }
+            ]
         };
     },
     watch: {
@@ -174,7 +185,7 @@ h2 {
 
 .meta {
     overflow: auto;
-    background-color: #fff;
+    background-color: main.$white;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     border-radius: 6px;
     margin-bottom: 15px;
@@ -199,7 +210,7 @@ h2 {
 }
 
 .transactions {
-    background-color: #fff;
+    background-color: main.$white;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     border-radius: 6px;
     overflow: auto;
@@ -239,8 +250,8 @@ h2 {
 
     span {
         background-color: #e6ffe6;
-        border: 1px solid #56c18d;
-        color: #56c18d;
+        border: 1px solid main.$green;
+        color: main.$green;
         width: max-content;
         padding: 4px 8px;
         margin: 0px 30px;

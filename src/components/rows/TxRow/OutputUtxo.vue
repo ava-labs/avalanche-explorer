@@ -74,7 +74,7 @@ export default {
         text-overflow: ellipsis;
         overflow: hidden;
         padding-left: 0;
-        color: #7a838e !important;
+        color: main.$black !important;
         text-decoration: none;
 
         &:hover {
@@ -91,18 +91,15 @@ export default {
     display: flex;
     flex-direction: column-reverse;
     height: 100%;
-    background-color: #e6f5ff;
+    background-color: main.$purple-light;
     border-radius: 4px;
     justify-content: center;
     align-items: center;
 }
 .amount {
-    /*position: absolute;*/
-    /*top: 5px;*/
-    /*right: 5px;*/
+    color: main.$primary-color;
     font-weight: bold;
     letter-spacing: 0.1em;
     font-size: 11px;
-    color: main.$primary-color;
 }
 </style>

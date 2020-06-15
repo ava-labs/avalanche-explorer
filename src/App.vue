@@ -30,7 +30,7 @@ export default Vue.extend({
 <style scoped lang="scss">
 @use 'main';
 .v-application {
-    background-color: #f8f9fa !important;
+    background-color: #f8f8f8 !important;
 }
 .bg {
     position: fixed;
@@ -97,7 +97,8 @@ export default Vue.extend({
 body {
     font-family: "Helvetica";
     margin: 0;
-    background-color: #fff !important;
+    background-color: main.$white !important;
+    color: main.$black;
 }
 
 p {
@@ -124,15 +125,24 @@ p {
 }
 
 .card {
-    background-color: #fff;
+    background-color: main.$white;
     padding: 30px;
     border-radius: 6px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: main.$box-shadow;
+}
+
+.v-application .primary--text {
+    color: main.$primary-color !important;
+    caret-color: main.$primary-color !important;
+}
+
+.theme--light.v-breadcrumbs .v-breadcrumbs__divider, .theme--light.v-breadcrumbs .v-breadcrumbs__item--disabled {
+    color: rgba(0, 0, 0, 0.38) !important;
 }
 
 .header {
     h2 {
-        font-size: 18px;
+        font-size: 26px;
         margin: 0;
     }
 }

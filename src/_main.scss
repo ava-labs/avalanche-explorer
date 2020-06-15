@@ -31,9 +31,29 @@ $container_padding_l: 30px 18vw;
   @media only screen and (min-width: $width_l) { @content; }
 }
 
-
+$white: #fff;
+$black: #212121;
+$gray: #7a838e;
+$gray-input: #d6dae1;
+$gray-light: #e8e7ea;
 $red: #e84142;
+$red-light: #c15656;
+$red-xlight: #ffe6e6;
+$pink: #F71064;
 $blue: #71c5ff; 
 $blue-light: #e6f5ff;
+$purple: #976cfa;
+$purple-light: #ebe4fb;
+$purple-xlight: #fcfbfe;
+$green: #56c18d;
+$green-light: #e4fbef;
 
-$primary-color: $blue;
+$primary-color: $purple;
+$primary-color-light: $purple-light;
+$primary-color-xlight: $purple-xlight;
+
+$h2_xs: 18px;
+$h2_s: 20px;
+$h2_m: 26px;
+
+$box-shadow: 0 4px 20px 0 rgba(0,0,0,.05);

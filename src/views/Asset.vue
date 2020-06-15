@@ -1,7 +1,7 @@
 <template>
     <div class="asset_detail">
+        <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
         <Metadata :asset="asset"></Metadata>
-
         <div v-if="!tx">Loading</div>
         <div class="tx_meta asset_genesis">
             <h2>Asset Genesis Details</h2>
@@ -40,7 +40,7 @@
             </div>
             <div class="meta_row" v-if="!isAssetGenesis">
                 <p class="label">Input UTXOs</p>
-                <div v-if="inputs.length > 0">
+                <div v-if="tx && inputs.length > 0">
                     <div class="utxo_headers">
                         <p>Tx</p>
                         <p>Lock Time</p>
@@ -65,7 +65,7 @@
 
             <div class="meta_row">
                 <p class="label">Output UTXOs</p>
-                <div v-if="outputs.length > 0">
+                <div v-if="tx && outputs.length > 0">
                     <div class="utxo_headers">
                         <p>Tx</p>
                         <p>Lock Time</p>
@@ -114,15 +114,39 @@ export default {
     filters: {
         name(val) {
             return val.name ? val.name : val.id;
-        },
+        }
     },
     computed: {
+        breadcrumbs() {
+            return [
+                {
+                    text: "Home",
+                    disabled: false,
+                    href: "/"
+                },
+                {
+                    text: "Assets",
+                    disabled: false,
+                    href: "/assets"
+                },
+                {
+                    text: `${
+                        this.asset
+                            ? this.asset.symbol
+                                ? this.asset.symbol
+                                : this.asset.id
+                            : "Asset"
+                    }`,
+                    disabled: true,
+                    href: ""
+                }
+            ];
+        },
         assetID() {
             return this.$route.params.id;
         },
         asset() {
-            let asset = this.$store.state.assets[this.$route.params.id];
-            return asset;
+            return this.$store.state.assets[this.$route.params.id];
         },
         txId() {
             return this.$route.params.id;
@@ -263,8 +287,8 @@ h2 {
 
 .genesis {
     background-color: #e6ffe6;
-    border: 1px solid #56c18d;
-    color: #56c18d;
+    border: 1px solid main.$green;
+    color: main.$green;
     width: max-content;
     padding: 4px 8px;
     margin: 0px 30px;
@@ -272,7 +296,7 @@ h2 {
 }
 
 .tx_meta {
-    background-color: #fff;
+    background-color: main.$white;
     padding: 30px;
     overflow: auto;
     border-radius: 6px;
@@ -347,8 +371,8 @@ h2 {
 }
 
 .status {
-    background-color: #e4fbef;
-    color: #56c18d;
+    background-color: main.$green-light;
+    color: main.$green;
     width: max-content;
     border-radius: 3px;
     padding: 4px 8px;
@@ -359,9 +383,9 @@ h2 {
 }
 
 .no_input {
-    background-color: #ffe6e6;
-    border: 1px solid #c15656;
-    color: #c15656;
+    background-color: main.$red-xlight;
+    border: 1px solid main.$red-light;
+    color: main.$red-light;
 }
 
 .outputs {
@@ -370,7 +394,7 @@ h2 {
 
 .values {
     span {
-        background-color: #e6f5ff;
+        background-color: main.$primary-color-light;
         color: main.$primary-color;
         margin-right: 4px;
         padding: 4px 8px;

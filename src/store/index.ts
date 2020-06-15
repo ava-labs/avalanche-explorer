@@ -34,10 +34,11 @@ export default new Vuex.Store({
     },
     getters: {
         assetsArray(state: IRootState) {
-            let res = [];
+            let res: Asset[] = [];
             for (let i in state.assets) {
                 res.push(state.assets[i]);
             }
+            res.sort((a,b) => b.volume_day - a.volume_day);
             return res;
         }
     }

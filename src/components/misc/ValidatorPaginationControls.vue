@@ -6,7 +6,7 @@
         <button 
             @click="pageDown" 
             :class="{'disabled': page === 1}">&#60;</button>
-        <p class="disabled">Page <b>{{page}}</b> of <b>{{totalPages}}</b></p>
+        <p class="pages">Page <b>{{page}}</b> of <b>{{totalPages}}</b></p>
         <button 
             @click="pageUp" 
             :class="{'disabled': page === totalPages}">&#62;</button>
@@ -63,13 +63,19 @@ export default {
     display: flex;
 
     > * {
-        background-color: #e6f5ff;
-        color: #000;
+        background-color: transparent;
+        color: main.$primary-color;
         border: none;
         margin: 0px 2px;
         padding: 6px 12px;
         border-radius: 4px;
-        color: main.$primary-color;
+        transition: opacity 0.3s;
+        cursor: pointer;
+
+        &:hover {
+            opacity: 0.7;
+            text-decoration: underline;
+        }
     }
 }
 
@@ -77,7 +83,23 @@ button {
     outline: none;
 }
 
+.pages {
+    color: main.$black;
+    cursor: default;
+
+    &:hover {
+        opacity: 1;
+        text-decoration: none;
+    }
+}
+
 .disabled {
-    color: #7a838e;
+    color: main.$gray;
+    cursor: default;
+    
+    &:hover {
+        opacity: 1;
+        text-decoration: none;
+    }
 }
 </style>

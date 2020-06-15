@@ -205,16 +205,13 @@
             text-decoration: underline;
         }
 
-        .amount{
-
-        }
         p, a{
             padding: 4px 12px;
         }
     }
 
     .amount{
-        background-color: #E6F5FF;
+        background-color: main.$primary-color-light;
         font-size: 11px;
         color: main.$primary-color;
         border-radius: 4px;

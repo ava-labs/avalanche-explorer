@@ -1,10 +1,10 @@
 <template>
-    <div class="tokens">
+    <div class="assets">
         <div class="card">
             <div class="header">
                 <h2>
-                    Tokens
-                    <v-tooltip bottom left>
+                    Assets
+                    <v-tooltip bottom left v-if="$vuetify.breakpoint.smAndUp">
                         <template v-slot:activator="{ on }">
                             <fa
                                 v-on="on"
@@ -21,14 +21,14 @@
                     </v-tooltip>
                 </h2>
                 <div class="bar">
-                    <p class="count">{{Object.keys(tokens).length}} tokens found</p>
+                    <p class="count">{{Object.keys(assets).length}} assets found</p>
                 </div>
             </div>
-            <div class="token_list">
-                <div class="grid_headers token_row">
+            <div class="asset_list">
+                <div class="grid_headers asset_row">
                     <p>
                         Symbol
-                        <v-tooltip bottom>
+                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                             <template v-slot:activator="{ on }">
                                 <fa
                                     v-on="on"
@@ -45,7 +45,7 @@
                     </p>
                     <p>
                         Name
-                        <v-tooltip bottom>
+                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                             <template v-slot:activator="{ on }">
                                 <fa
                                     v-on="on"
@@ -60,9 +60,8 @@
                             </span>
                         </v-tooltip>
                     </p>
-                    <p>
-                        Genesis Tx ID
-                        <v-tooltip bottom>
+                    <p class="volume_day">
+                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                             <template v-slot:activator="{ on }">
                                 <fa
                                     v-on="on"
@@ -71,12 +70,12 @@
                                     :style="{ color: '#e8e7ea' }"
                                 ></fa>
                             </template>
-                            <span>A transaction queries or modifies the state of a blockchain.</span>
+                            <span>volume for the past 24h</span>
                         </v-tooltip>
+                        24h Volume
                     </p>
-                    <p>
-                        Chain
-                        <v-tooltip bottom>
+                    <p class="txCount_day">
+                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                             <template v-slot:activator="{ on }">
                                 <fa
                                     v-on="on"
@@ -85,11 +84,12 @@
                                     :style="{ color: '#e8e7ea' }"
                                 ></fa>
                             </template>
-                            <span>Blockchain where this token was minted.</span>
+                            <span>number of transactions for the past 24h</span>
                         </v-tooltip>
+                        24h Tx
                     </p>
-                    <p class="denomination">
-                        <v-tooltip bottom>
+                    <p class="avgTx_day">
+                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                             <template v-slot:activator="{ on }">
                                 <fa
                                     v-on="on"
@@ -98,12 +98,26 @@
                                     :style="{ color: '#e8e7ea' }"
                                 ></fa>
                             </template>
-                            <span>Determines how balances of this asset are displayed by user interfaces</span>
+                            <span>number of transactions for the past 24h</span>
                         </v-tooltip>
-                        Denomination
+                        Avg Tx
                     </p>
+                    <!-- <p class="denomination">
+                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
+                            <template v-slot:activator="{ on }">
+                                <fa
+                                    v-on="on"
+                                    icon="info-circle"
+                                    transform="shrink-4"
+                                    :style="{ color: '#e8e7ea' }"
+                                ></fa>
+                            </template>
+                            <span>determines how balances of this asset are displayed by user interfaces</span>
+                        </v-tooltip>
+                        Denom.
+                    </p> -->
                     <p class="supply">
-                        <v-tooltip bottom>
+                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                             <template v-slot:activator="{ on }">
                                 <fa
                                     v-on="on"
@@ -112,30 +126,44 @@
                                     :style="{ color: '#e8e7ea' }"
                                 ></fa>
                             </template>
-                            <span>Units of the asset that have been created</span>
+                            <span>units of the asset that have been created</span>
+                        </v-tooltip>Supply
+                    </p>
+                    <p class="chain">
+                        Issuance
+                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
+                            <template v-slot:activator="{ on }">
+                                <fa
+                                    v-on="on"
+                                    icon="info-circle"
+                                    transform="shrink-4"
+                                    :style="{ color: '#e8e7ea' }"
+                                ></fa>
+                            </template>
+                            <span>blockchain where this asset was minted</span>
                         </v-tooltip>
-                        Supply
                     </p>
                 </div>
-                <token v-for="token in tokens" :key="token.id" class="token_row" :token="token"></token>
+                <asset v-for="asset in assets" :key="asset.id" class="asset_row" :asset="asset"></asset>
             </div>
         </div>
     </div>
 </template>
 <script>
-import Token from "@/components/Tokens/Token";
+import Asset from "@/components/Assets/Asset";
 import axios from "@/axios";
 
 export default {
     components: {
-        Token
+        Asset
     },
     data() {
         return {};
     },
     computed: {
-        tokens() {
-            return this.$store.state.assets;
+        assets() {
+            // console.log("assets", this.$store.state.assets);
+            return this.$store.getters["assetsArray"];
         }
     }
 };
@@ -155,14 +183,14 @@ export default {
 }
 
 .grid_headers {
-    font-weight: bold;
+    font-weight: 500;
     font-size: 12px;
 }
 
-.token_row {
+.asset_row {
     display: grid;
-    grid-template-columns: 60px 200px 110px 90px 110px 1fr;
-    padding: 5px 15px;
+    grid-template-columns: 60px 200px 150px 110px 150px 1fr 100px;
+    padding: 10px 0;
     border-bottom: 1px solid #e7e7e7;
     column-gap: 10px;
 
@@ -171,10 +199,14 @@ export default {
     }
 }
 
-.denomination {
-    text-align: right;
+.chain {
+    padding-left: 20px;
 }
 
+.volume_day,
+.txCount_day,
+.avgTx_day,
+.denomination,
 .supply {
     text-align: right;
 }
@@ -184,11 +216,11 @@ export default {
         display: none;
     }
 
-    .token_list {
+    .asset_list {
         padding: 5px 0;
     }
 
-    .token_row {
+    .asset_row {
         grid-template-columns: 50px 1fr 1fr;
         padding: 10px 0 5px;
     }

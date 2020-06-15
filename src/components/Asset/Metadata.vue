@@ -2,7 +2,6 @@
     <div class="metadata">
         <div class="card">
             <div class="header">
-                <span class="subheading">Asset</span>
                 <h2>
                     {{asset | name}}
                     <span class="symbol">{{asset.symbol}}</span>
@@ -15,7 +14,7 @@
                     <div class="stat_container">
                         <p class="label">
                             24h Volume
-                            <v-tooltip bottom>
+                            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                                 <template v-slot:activator="{ on }">
                                     <fa
                                         v-on="on"
@@ -35,7 +34,7 @@
                     <div class="stat_container">
                         <p class="label">
                             24h Transactions
-                            <v-tooltip bottom>
+                            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                                 <template v-slot:activator="{ on }">
                                     <fa
                                         v-on="on"
@@ -55,7 +54,7 @@
                     <div class="stat_container">
                         <p class="label">
                             Minted On
-                            <v-tooltip bottom>
+                            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                                 <template v-slot:activator="{ on }">
                                     <fa
                                         v-on="on"
@@ -75,7 +74,7 @@
                     <div class="stat_container">
                         <p class="label">
                             Initial Supply
-                            <v-tooltip bottom>
+                            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                                 <template v-slot:activator="{ on }">
                                     <fa
                                         v-on="on"
@@ -126,18 +125,10 @@ export default {
         justify-content: space-between;
     }
 
-    .subheading {
-        text-transform: capitalize;
-        font-size: 12px;
-        font-weight: bold;
-        margin-bottom: 6px;
-        opacity: 0.7;
-    }
-
     .symbol {
         flex-shrink: 0;
-        color: #976cfa;
-        background-color: #ebe4fb;
+        color: main.$purple;
+        background-color: main.$purple-light;
         min-height: 1em;
         min-width: 20px;
         text-align: center;
@@ -156,7 +147,7 @@ export default {
     grid-template-columns: 25% 25% 25% 25%;
 
     > article {
-        padding: 30px;
+        padding: 30px 15px;
         text-align: left;
         line-height: 1.4em;
         display: flex;

@@ -34,8 +34,10 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-$color_bright: #cfebff;
-$color_dark: #a7d0f9;
+@use '../../../main';
+
+$color_bright: main.$primary-color-light;
+$color_dark: main.$primary-color;
 
 .cumulative_bar {
     position: absolute;
@@ -50,6 +52,7 @@ $color_dark: #a7d0f9;
     width: 10px;
     height: 100%;
     background-color: $color_bright;
+    border-bottom: 1px solid white;
 }
 
 .now_bar {

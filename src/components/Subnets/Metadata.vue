@@ -4,12 +4,13 @@
             <div class="header">
                 <h2>
                     Subnets
-                    <v-tooltip bottom left>
+                    <v-tooltip bottom left v-if="$vuetify.breakpoint.smAndUp">
                         <template v-slot:activator="{ on }">
                             <fa
+                                v-if="$vuetify.breakpoint.mdAndUp"
                                 v-on="on"
                                 icon="info-circle"
-                                transform="shrink-3"
+                                transform="shrink-9"
                                 :style="{ color: '#e8e7ea' }"
                             ></fa>
                         </template>
@@ -22,11 +23,11 @@
             </div>
             <div class="meta_data">
                 <div>
-                    <img src="@/assets/subnet.png" />
+                    <img src="@/assets/subnet-purple.png" />
                     <div>
                         <p class="label">
                             Subnetworks
-                            <v-tooltip bottom>
+                            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                                 <template v-slot:activator="{ on }">
                                     <fa
                                         v-on="on"
@@ -42,11 +43,11 @@
                     </div>
                 </div>
                 <div>
-                    <img src="@/assets/blockchain.png" />
+                    <img src="@/assets/blockchain-purple.png" />
                     <div>
                         <p class="label">
                             Blockchains
-                            <v-tooltip bottom>
+                            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                                 <template v-slot:activator="{ on }">
                                     <fa
                                         v-on="on"
@@ -62,11 +63,11 @@
                     </div>
                 </div>
                 <div>
-                    <img src="@/assets/validators.png" />
+                    <img src="@/assets/validators-purple.png" />
                     <div>
                         <p class="label">
                             Validators
-                            <v-tooltip bottom>
+                            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                                 <template v-slot:activator="{ on }">
                                     <fa
                                         v-on="on"
@@ -83,7 +84,7 @@
                     </div>
                 </div>
                 <div>
-                    <img src="@/assets/ava_price.png" />
+                    <img src="@/assets/ava_price-purple.png" />
                     <div>
                         <p class="label">
                             Total Stake Amount
@@ -142,7 +143,7 @@ export default {
     }
 
     > div {
-        padding: 30px;
+        padding: 30px 15px;
         text-align: left;
         line-height: 1.4em;
         display: flex;
@@ -157,7 +158,7 @@ export default {
 
     .label {
         text-transform: capitalize;
-        font-size: 12px;
+        font-size: 14px;
         font-weight: bold;
         margin-bottom: 6px;
         opacity: 0.7;

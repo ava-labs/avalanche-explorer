@@ -1,8 +1,8 @@
 <template>
     <div class="top_info">
-        <top-assets></top-assets>
-        <meta-data></meta-data>
         <transaction-history></transaction-history>
+        <meta-data></meta-data>
+        <top-assets></top-assets>
     </div>
 </template>
 <script>
@@ -24,7 +24,7 @@ export default {
 
 .top_info {
     display: grid;
-    grid-template-columns: minmax(0, 30%) 1fr 360px;
+    grid-template-columns: 360px 1fr minmax(0, 30%);
     padding: 30px 0;
     overflow: auto;
     width: 100%;

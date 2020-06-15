@@ -1,12 +1,14 @@
 <template>
-    <div class="token_row">
-        <p v-if="token.symbol" class="symbol">{{token.symbol}}</p>
+    <div class="asset_row">
+        <p v-if="asset.symbol" class="symbol">{{asset.symbol}}</p>
         <p v-else class="no_symbol"></p>
-        <p class="name">{{token.name}}</p>
-        <router-link class="id" :to="`/asset/${token.id}`">{{token.id}}</router-link>
-        <p class="chain">{{token.chainID | blockchain}}</p>
-        <p class="denomination">{{token.denomination}}</p>
-        <p class="supply">{{supply}} <span>{{token.symbol}}</span></p>
+        <router-link class="name_id" :to="`/asset/${asset.id}`">{{asset | nameOrID}}</router-link>
+        <p class="volume_day">{{asset.volume_day}}</p>
+        <p class="txCount_day">{{asset.txCount_day}}</p>
+        <p class="avgTx_day">{{avgTxValue}}</p>
+        <!-- <p class="denomination">{{asset.denomination}}</p> -->
+        <p class="supply">{{supply}} <span>{{asset.symbol}}</span></p>
+        <p class="chain">{{asset.chainID | blockchain}}</p>
     </div>
 </template>
 <script>
@@ -15,7 +17,7 @@ import { blockchainMap } from "@/helper";
 
 export default {
     props: {
-        token: {
+        asset: {
             type: Object,
             required: true
         }
@@ -24,13 +26,19 @@ export default {
         blockchain(val) {
             return blockchainMap(val);
         },
+        nameOrID(val) {
+            return val.name? val.name :val.id;
+        }
     },
     computed: {
         supply() {
             return stringToBig(
-                this.token.currentSupply,
-                this.token.denomination
-            ).toFixed(this.token.denomination);
+                this.asset.currentSupply,
+                this.asset.denomination
+            ).toFixed(this.asset.denomination);
+        },
+        avgTxValue() {
+            return (this.asset.txCount_day > 0) ? (this.asset.volume_day / this.asset.txCount_day).toFixed(0) : "";
         }
     }
 };
@@ -38,7 +46,8 @@ export default {
 <style scoped lang="scss">
 @use '../../main';
 
-.token_row {
+.asset_row {
+    font-weight: 700;
     > * {
         align-self: center;
     }
@@ -52,15 +61,20 @@ export default {
         font-size: 12px;
         text-overflow: ellipsis;
     }
+    
+    a {
+        color: main.$black !important;
+    }
 }
 
 .symbol {
-    color: #976cfa;
-    background-color: #ebe4fb;
+    color: main.$purple;
+    background-color: main.$purple-light;
     padding: 6px 12px;
     text-align: center;
     border-radius: 4px;
     min-height: 1em;
+    font-weight: 700;
 }
 
 .no_symbol {
@@ -72,18 +86,11 @@ export default {
     min-height: 1em;
 }
 
-.name {
-    opacity: 0.7;
-}
-
-.denomination {
-    text-align: right;
-}
-
-.id {
+.name_id {
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 12px;
+    font-size: 14px;
+    font-weight: 700;
     text-decoration: none;
 }
 
@@ -92,13 +99,25 @@ export default {
     flex-direction: column;
 }
 
+.chain {
+    padding-left: 20px;
+}
+
+.volume_day,
+.txCount_day,
+.avgTx_day,
+.denomination,
 .supply {
     text-align: right;
+}
+
+.supply {
     span {
         display: inline-block;
         width: 43px;
-        font-size: 14px;
         opacity: 0.4;
+        text-align: left;
+        padding-left: 4px;
     }
 }
 
@@ -107,7 +126,7 @@ export default {
         padding: 2px;
     }
 
-    .name {
+    .name_id {
         grid-column: 2/4;
     }
 

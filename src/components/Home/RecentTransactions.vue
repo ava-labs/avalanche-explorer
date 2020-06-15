@@ -10,7 +10,7 @@
             </div>
             <p class="chain right">
                 <span class="label">You are viewing transactions for</span>
-                <v-tooltip bottom>
+                <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                     <template v-slot:activator="{ on }">
                         <span v-on="on" class="tag">AVA X-Chain</span>
                     </template>
@@ -23,7 +23,7 @@
                 <p></p>
                 <p>
                     ID
-                    <v-tooltip bottom>
+                    <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                         <template v-slot:activator="{ on }">
                             <fa
                                 v-on="on"
@@ -37,7 +37,7 @@
                 </p>
                 <p>
                     From
-                    <v-tooltip bottom>
+                    <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                         <template v-slot:activator="{ on }">
                             <fa
                                 v-on="on"
@@ -51,7 +51,7 @@
                 </p>
                 <p>
                     To
-                    <v-tooltip bottom>
+                    <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
                         <template v-slot:activator="{ on }">
                             <fa
                                 v-on="on"
@@ -74,7 +74,7 @@
             </transition-group>
         </div>
         <div class="bottom">
-            <router-link to="/tx" class="view_all">View All transactions</router-link>
+            <router-link to="/tx" class="view_all">View All Transactions</router-link>
         </div>
     </div>
 </template>
@@ -134,6 +134,7 @@ export default Vue.extend({
     p {
         padding: 0px 10px;
         font-weight: bold;
+        font-size: 16px;
     }
 }
 
@@ -173,8 +174,8 @@ export default Vue.extend({
         .tag {
             padding: 4px 12px;
             border-radius: 4px;
-            color: #976cfa;
-            background-color: #ebe4fb;
+            color: main.$purple;
+            background-color: main.$purple-light;
             min-height: 1em;
             line-height: 2em;
             word-break: keep-all;
@@ -208,11 +209,17 @@ export default Vue.extend({
     width: max-content;
     text-decoration: none !important;
     margin-top: 30px;
-    background-color: main.$primary-color;
-    color: #fff !important;
+    background-color: main.$black;
+    color: main.$white !important;
     padding: 12px 24px;
     font-size: 12px;
+    font-weight: 700;
     border-radius: 4px;
+    transition: opacity 0.3s;
+
+    &:hover {
+        opacity: 0.9;
+    }
 }
 
 .fade-enter-active,
