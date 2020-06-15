@@ -38,10 +38,6 @@ let quotes: Quote[] = [
     },
     {
         author: "Ken Thompson",
-        quote: "When in doubt, use brute force."
-    },
-    {
-        author: "Ken Thompson",
         quote: "If you want to go somewhere, goto is the best way to get there."
     },
     {

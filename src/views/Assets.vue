@@ -27,121 +27,29 @@
             <div class="asset_list">
                 <div class="grid_headers asset_row">
                     <p>
-                        Symbol
-                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                            <template v-slot:activator="{ on }">
-                                <fa
-                                    v-on="on"
-                                    icon="info-circle"
-                                    transform="shrink-4"
-                                    :style="{ color: '#e8e7ea' }"
-                                ></fa>
-                            </template>
-                            <span>
-                                Shorthand ticker symbol of the asset.
-                                <br />Not necessarily unique.
-                            </span>
-                        </v-tooltip>
+                        Symbol <Tooltip content="shorthand ticker symbol of the asset"></Tooltip>
                     </p>
                     <p>
-                        Name
-                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                            <template v-slot:activator="{ on }">
-                                <fa
-                                    v-on="on"
-                                    icon="info-circle"
-                                    transform="shrink-4"
-                                    :style="{ color: '#e8e7ea' }"
-                                ></fa>
-                            </template>
-                            <span>
-                                Human-readable name for the asset.
-                                <br />Not necessarily unique.
-                            </span>
-                        </v-tooltip>
+                        Name <Tooltip content="human-readable name for the asset"></Tooltip>
                     </p>
                     <p class="volume_day">
-                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                            <template v-slot:activator="{ on }">
-                                <fa
-                                    v-on="on"
-                                    icon="info-circle"
-                                    transform="shrink-4"
-                                    :style="{ color: '#e8e7ea' }"
-                                ></fa>
-                            </template>
-                            <span>volume for the past 24h</span>
-                        </v-tooltip>
-                        24h Volume
+                        <Tooltip content="volume for the past 24h"></Tooltip>24h Volume
                     </p>
                     <p class="txCount_day">
-                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                            <template v-slot:activator="{ on }">
-                                <fa
-                                    v-on="on"
-                                    icon="info-circle"
-                                    transform="shrink-4"
-                                    :style="{ color: '#e8e7ea' }"
-                                ></fa>
-                            </template>
-                            <span>number of transactions for the past 24h</span>
-                        </v-tooltip>
-                        24h Tx
+                        <Tooltip content="number of transactions for the past 24h"></Tooltip>24h Tx
                     </p>
                     <p class="avgTx_day">
-                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                            <template v-slot:activator="{ on }">
-                                <fa
-                                    v-on="on"
-                                    icon="info-circle"
-                                    transform="shrink-4"
-                                    :style="{ color: '#e8e7ea' }"
-                                ></fa>
-                            </template>
-                            <span>number of transactions for the past 24h</span>
-                        </v-tooltip>
-                        Avg Tx
+                        <Tooltip content="average tx value over the past 24h"></Tooltip>Avg Tx
                     </p>
                     <!-- <p class="denomination">
-                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                            <template v-slot:activator="{ on }">
-                                <fa
-                                    v-on="on"
-                                    icon="info-circle"
-                                    transform="shrink-4"
-                                    :style="{ color: '#e8e7ea' }"
-                                ></fa>
-                            </template>
-                            <span>determines how balances of this asset are displayed by user interfaces</span>
-                        </v-tooltip>
+                        <Tooltip content="determines how balances of this asset are displayed by user interfaces"></Tooltip>
                         Denom.
-                    </p> -->
+                    </p>-->
                     <p class="supply">
-                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                            <template v-slot:activator="{ on }">
-                                <fa
-                                    v-on="on"
-                                    icon="info-circle"
-                                    transform="shrink-4"
-                                    :style="{ color: '#e8e7ea' }"
-                                ></fa>
-                            </template>
-                            <span>units of the asset that have been created</span>
-                        </v-tooltip>Supply
+                        <Tooltip content="units of the asset that have been created"></Tooltip>Supply
                     </p>
                     <p class="chain">
-                        Issuance
-                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                            <template v-slot:activator="{ on }">
-                                <fa
-                                    v-on="on"
-                                    icon="info-circle"
-                                    transform="shrink-4"
-                                    :style="{ color: '#e8e7ea' }"
-                                ></fa>
-                            </template>
-                            <span>blockchain where this asset was minted</span>
-                        </v-tooltip>
+                        Issuance <Tooltip content="blockchain where this asset was minted"></Tooltip>
                     </p>
                 </div>
                 <asset v-for="asset in assets" :key="asset.id" class="asset_row" :asset="asset"></asset>
@@ -151,10 +59,12 @@
 </template>
 <script>
 import Asset from "@/components/Assets/Asset";
+import Tooltip from "../components/rows/Tooltip";
 import axios from "@/axios";
 
 export default {
     components: {
+        Tooltip,
         Asset
     },
     data() {
