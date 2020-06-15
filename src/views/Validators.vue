@@ -71,7 +71,7 @@
                                 <span>total number of nodes participating in the consensus protocol</span>
                             </v-tooltip>
                         </p>
-                        <p class="meta_val">{{totalValidatorsCount}}</p>
+                        <p class="meta_val">{{totalValidatorsCount.toLocaleString()}}</p>
                     </div>
                 </div>
             </div>
@@ -85,10 +85,10 @@
                     <div class="search_count">
                         <p
                             v-show="search.length === 0"
-                        >{{totalValidatorsCount}} {{toggle}} validators</p>
+                        >{{totalValidatorsCount.toLocaleString()}} {{toggle}} validators</p>
                         <p
                             v-show="search.length > 0 && matchedValidators"
-                        >{{matchedValidators.length}} results found</p>
+                        >{{matchedValidators.length.toLocaleString()}} results found</p>
                     </div>
                     <div class="search_tabs">
                         <input
@@ -220,7 +220,7 @@ export default {
                 this.toggle === "active"
                     ? this.$store.getters["Platform/totalStake"]
                     : this.$store.getters["Platform/totalPendingStake"];
-            return valBig.div(Math.pow(10, 9));
+            return valBig.div(Math.pow(10, 9)).toLocaleString();
         },
         totalValidatorsCount() {
             return this.toggle === "active"

@@ -51,7 +51,7 @@
                 <router-link :to="`/asset/${asset.id}`" class="asset_name">{{asset.name}}</router-link>
                 <span class="symbol">{{asset.symbol}}</span>
             </div>
-            <p class="metric ava-monospace">{{asset.txCount_day}}</p>
+            <p class="metric ava-monospace">{{asset.txCount_day.toLocaleString()}}</p>
             <!--TODO: normalize asset.volume_day -->
         </div>
     </div>

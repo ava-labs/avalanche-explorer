@@ -39,7 +39,7 @@
                                 <span>total number of subnets created on the AVA network</span>
                             </v-tooltip>
                         </p>
-                        <p class="meta_val">{{totalSubnets}}</p>
+                        <p class="meta_val">{{totalSubnets.toLocaleString()}}</p>
                     </div>
                 </div>
                 <div>
@@ -59,7 +59,7 @@
                                 <span>total number of blockchains created on the AVA network</span>
                             </v-tooltip>
                         </p>
-                        <p class="meta_val">{{totalBlockchains}}</p>
+                        <p class="meta_val">{{totalBlockchains.toLocaleString()}}</p>
                     </div>
                 </div>
                 <div>
@@ -80,7 +80,7 @@
                             </v-tooltip>
                         </p>
 
-                        <p class="meta_val">{{totalValidators}}</p>
+                        <p class="meta_val">{{totalValidators.toLocaleString()}}</p>
                     </div>
                 </div>
                 <div>
@@ -100,7 +100,7 @@
                                 <span>total value of $AVA tokens used as a scarce resource to secure the AVA network using the Proof-of-Stake method</span>
                             </v-tooltip>
                         </p>
-                        <p class="meta_val">{{(totalStake).toFixed(2)}} AVA</p>
+                        <p class="meta_val">{{totalStake.toFixed(2)}} AVA</p>
                     </div>
                 </div>
             </div>

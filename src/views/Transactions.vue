@@ -12,67 +12,52 @@
                 <p></p>
                 <p>
                     ID
-                    <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                        <template v-slot:activator="{ on }">
-                            <fa
-                                v-on="on"
-                                icon="info-circle"
-                                transform="shrink-6"
-                                :style="{ color: '#e8e7ea' }"
-                            ></fa>
-                        </template>
-                        <span>a transaction queries or modifies the state of a blockchain</span>
-                    </v-tooltip>
+                    <Tooltip content="a transaction queries or modifies the state of a blockchain"></Tooltip>
                 </p>
                 <p>
                     From
-                    <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                        <template v-slot:activator="{ on }">
-                            <fa
-                                v-on="on"
-                                icon="info-circle"
-                                transform="shrink-6"
-                                :style="{ color: '#e8e7ea' }"
-                            ></fa>
-                        </template>
-                        <span>address that sends transfer value</span>
-                    </v-tooltip>
+                    <Tooltip content="address that sends transfer value"></Tooltip>
                 </p>
                 <p>
                     To
-                    <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                        <template v-slot:activator="{ on }">
-                            <fa
-                                v-on="on"
-                                icon="info-circle"
-                                transform="shrink-6"
-                                :style="{ color: '#e8e7ea' }"
-                            ></fa>
-                        </template>
-                        <span>address that receives transfer value</span>
-                    </v-tooltip>
+                    <Tooltip content="address that receives transfer value"></Tooltip>
                 </p>
             </div>
-            <div class="rows">
-                <!--<transition-group name="fade">-->
-                <tx-row class="tx_item" v-for="tx in transactions" :transaction="tx" :key="tx.id"></tx-row>
-                <!--</transition-group>-->
-            </div>
+            <template v-if="loading">
+                <Loader></Loader>
+            </template>
+            <template v-else>
+                <div class="rows">
+                    <!--<transition-group name="fade">-->
+                    <tx-row
+                        class="tx_item"
+                        v-for="tx in transactions"
+                        :transaction="tx"
+                        :key="tx.id"
+                    ></tx-row>
+                    <!--</transition-group>-->
+                </div>
+            </template>
         </div>
     </div>
 </template>
 <script>
 import api from "@/axios";
+import Tooltip from "../components/rows/Tooltip";
+import Loader from "../components/rows/Loader";
 import TxRow from "../components/rows/TxRow/TxRow";
 import PaginationControls from "../components/misc/PaginationControls";
 
 export default {
     components: {
+        Tooltip,
+        Loader,
         TxRow,
         PaginationControls
     },
     data() {
         return {
+            loading: true,
             totalTx: 0,
             limit: 25, // how many to display
             offset: 0,
@@ -89,20 +74,19 @@ export default {
         },
         getTx() {
             let parent = this;
+            parent.loading = true;
             let sort = "timestamp-desc";
             let url = `/x/transactions?sort=${sort}&offset=${this.offset}&limit=${this.limit}`;
             api.get(url).then(res => {
-                const data = res.data.transactions;
-                parent.txs = data;
+                parent.txs = res.data.transactions;
                 parent.totalTx = res.data.count;
-                console.log(res.data);
+                parent.loading = false;
             });
         }
     },
     computed: {
         transactions() {
-            let res = this.txs;
-            return res;
+            return this.txs;
         }
     }
 };

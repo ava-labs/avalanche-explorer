@@ -35,7 +35,7 @@
                         </v-tooltip>
                     </p>
                     <div>
-                        <p class="meta_value">{{avaTxCount}} ({{tpsText}} TPS)</p>
+                        <p class="meta_value">{{avaTxCount.toLocaleString()}} ({{tpsText}} TPS)</p>
                     </div>
                 </div>
             </div>
@@ -80,7 +80,7 @@
                         </v-tooltip>
                     </p>
                     <div>
-                        <p class="meta_value">{{validatorCount}}</p>
+                        <p class="meta_value">{{validatorCount.toLocaleString()}}</p>
                         <!--<p class="change">+ 24%</p>-->
                     </div>
                 </div>
