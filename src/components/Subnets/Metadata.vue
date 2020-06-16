@@ -4,21 +4,7 @@
             <div class="header">
                 <h2>
                     Subnets
-                    <v-tooltip bottom left v-if="$vuetify.breakpoint.smAndUp">
-                        <template v-slot:activator="{ on }">
-                            <fa
-                                v-if="$vuetify.breakpoint.mdAndUp"
-                                v-on="on"
-                                icon="info-circle"
-                                transform="shrink-9"
-                                :style="{ color: '#e8e7ea' }"
-                            ></fa>
-                        </template>
-                        <span>
-                            A Subnet is a set of validators. A Subnet validates a set of blockchains.
-                            <br />Each blockchain is validated by exactly one Subnet, which is specified on blockchain creation.
-                        </span>
-                    </v-tooltip>
+                    <TooltipHeading content="A Subnet is a set of validators. A Subnet validates a set of blockchains. Each blockchain is validated by exactly one Subnet, which is specified on blockchain creation."></TooltipHeading>
                 </h2>
             </div>
             <div class="meta_data">
@@ -27,17 +13,7 @@
                     <div>
                         <p class="label">
                             Subnetworks
-                            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                                <template v-slot:activator="{ on }">
-                                    <fa
-                                        v-on="on"
-                                        icon="info-circle"
-                                        transform="shrink-3"
-                                        :style="{ color: '#e8e7ea' }"
-                                    ></fa>
-                                </template>
-                                <span>total number of subnets created on the AVA network</span>
-                            </v-tooltip>
+                            <TooltipMeta content="total number of subnets created on the AVA network"></TooltipMeta>
                         </p>
                         <p class="meta_val">{{totalSubnets.toLocaleString()}}</p>
                     </div>
@@ -47,17 +23,7 @@
                     <div>
                         <p class="label">
                             Blockchains
-                            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                                <template v-slot:activator="{ on }">
-                                    <fa
-                                        v-on="on"
-                                        icon="info-circle"
-                                        transform="shrink-3"
-                                        :style="{ color: '#e8e7ea' }"
-                                    ></fa>
-                                </template>
-                                <span>total number of blockchains created on the AVA network</span>
-                            </v-tooltip>
+                            <TooltipMeta content="total number of blockchains created on the AVA network"></TooltipMeta>
                         </p>
                         <p class="meta_val">{{totalBlockchains.toLocaleString()}}</p>
                     </div>
@@ -67,19 +33,8 @@
                     <div>
                         <p class="label">
                             Validators
-                            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                                <template v-slot:activator="{ on }">
-                                    <fa
-                                        v-on="on"
-                                        icon="info-circle"
-                                        transform="shrink-3"
-                                        :style="{ color: '#e8e7ea' }"
-                                    ></fa>
-                                </template>
-                                <span>total number of nodes participating in the consensus protocol of the AVA network</span>
-                            </v-tooltip>
+                            <TooltipMeta content="total number of nodes participating in the consensus protocol of the AVA network"></TooltipMeta>
                         </p>
-
                         <p class="meta_val">{{totalValidators.toLocaleString()}}</p>
                     </div>
                 </div>
@@ -88,17 +43,7 @@
                     <div>
                         <p class="label">
                             Total Stake Amount
-                            <v-tooltip bottom>
-                                <template v-slot:activator="{ on }">
-                                    <fa
-                                        v-on="on"
-                                        icon="info-circle"
-                                        transform="shrink-3"
-                                        :style="{ color: '#e8e7ea' }"
-                                    ></fa>
-                                </template>
-                                <span>total value of $AVA tokens used as a scarce resource to secure the AVA network using the Proof-of-Stake method</span>
-                            </v-tooltip>
+                            <TooltipMeta content="total value of $AVA tokens used as a scarce resource to secure the AVA network using the Proof-of-Stake method"></TooltipMeta>
                         </p>
                         <p class="meta_val">{{totalStake.toFixed(2)}} AVA</p>
                     </div>
@@ -108,9 +53,15 @@
     </div>
 </template>
 <script>
+import TooltipHeading from "../../components/misc/TooltipHeading";
+import TooltipMeta from "../../components/misc/TooltipMeta";
 import Big from "big.js";
 
 export default {
+    components: {
+        TooltipHeading,
+        TooltipMeta
+    },
     props: {
         totalSubnets: Number,
         totalBlockchains: Number,

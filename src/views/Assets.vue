@@ -4,21 +4,7 @@
             <div class="header">
                 <h2>
                     Assets
-                    <v-tooltip bottom left v-if="$vuetify.breakpoint.smAndUp">
-                        <template v-slot:activator="{ on }">
-                            <fa
-                                v-on="on"
-                                icon="info-circle"
-                                transform="shrink-3"
-                                :style="{ color: '#e8e7ea' }"
-                            ></fa>
-                        </template>
-                        <span>
-                            A smart digital asset is a digital representation of a real-world thing such as an equity, bond, money etc.
-                            <br />They can have a complex ruleset that defines their behavior and how they are handled.
-                            <br />This ruleset can include things like, “can’t be traded until next year,” for example.
-                        </span>
-                    </v-tooltip>
+                    <TooltipHeading content="A smart digital asset is a digital representation of a real-world thing such as an equity, bond, money etc. They can have a complex ruleset that defines their behavior and how they are handled."></TooltipHeading>
                 </h2>
                 <div class="bar">
                     <p class="count">{{Object.keys(assets).length}} assets found</p>
@@ -60,11 +46,13 @@
 <script>
 import Asset from "@/components/Assets/Asset";
 import Tooltip from "../components/rows/Tooltip";
+import TooltipHeading from "../components/misc/TooltipHeading";
 import axios from "@/axios";
 
 export default {
     components: {
         Tooltip,
+        TooltipHeading,
         Asset
     },
     data() {

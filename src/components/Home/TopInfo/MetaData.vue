@@ -3,17 +3,7 @@
         <div class="header">
             <h2 class="meta_title">
                 Network Activity
-                <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                    <template v-slot:activator="{ on }">
-                        <fa
-                            v-on="on"
-                            icon="info-circle"
-                            transform="shrink-6"
-                            :style="{ color: '#e8e7ea' }"
-                        ></fa>
-                    </template>
-                    <span>key figures of the AVA network</span>
-                </v-tooltip>
+                <TooltipHeading content="key figures of the AVA network"></TooltipHeading>
             </h2>
         </div>
         <div class="meta_data">
@@ -22,17 +12,9 @@
                 <div class="data">
                     <p class="meta_title">
                         24h Transactions
-                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                            <template v-slot:activator="{ on }">
-                                <fa
-                                    v-on="on"
-                                    icon="info-circle"
-                                    transform="shrink-6"
-                                    :style="{ color: '#e8e7ea' }"
-                                ></fa>
-                            </template>
-                            <span>total number of queries or modifications of the states of all blockchains on the AVA network in the past 24 hours</span>
-                        </v-tooltip>
+                        <TooltipMeta
+                            content="total number of queries or modifications of the states of all blockchains on the AVA network in the past 24 hours"
+                        ></TooltipMeta>
                     </p>
                     <div>
                         <p class="meta_value">{{avaTxCount.toLocaleString()}} ({{tpsText}} TPS)</p>
@@ -44,17 +26,9 @@
                 <div class="data">
                     <p class="meta_title">
                         24h Volume
-                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                            <template v-slot:activator="{ on }">
-                                <fa
-                                    v-on="on"
-                                    icon="info-circle"
-                                    transform="shrink-6"
-                                    :style="{ color: '#e8e7ea' }"
-                                ></fa>
-                            </template>
-                            <span>total value of $AVA tokens transferred on the AVA network in the past 24 hours</span>
-                        </v-tooltip>
+                        <TooltipMeta
+                            content="total value of $AVA tokens transferred on the AVA network in the past 24 hours"
+                        ></TooltipMeta>
                     </p>
                     <div>
                         <p class="meta_value">{{avaVolume}} AVA</p>
@@ -67,17 +41,9 @@
                 <div class="data">
                     <p class="meta_title">
                         Validators
-                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                            <template v-slot:activator="{ on }">
-                                <fa
-                                    v-on="on"
-                                    icon="info-circle"
-                                    transform="shrink-6"
-                                    :style="{ color: '#e8e7ea' }"
-                                ></fa>
-                            </template>
-                            <span>total number of nodes participating in the consensus protocol of the AVA network</span>
-                        </v-tooltip>
+                        <TooltipMeta
+                            content="total value of $AVA tokens transferred on the AVA network in the past 24 hours"
+                        ></TooltipMeta>
                     </p>
                     <div>
                         <p class="meta_value">{{validatorCount.toLocaleString()}}</p>
@@ -90,17 +56,9 @@
                 <div class="data">
                     <p class="meta_title">
                         Total Staked
-                        <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                            <template v-slot:activator="{ on }">
-                                <fa
-                                    v-on="on"
-                                    icon="info-circle"
-                                    transform="shrink-6"
-                                    :style="{ color: '#e8e7ea' }"
-                                ></fa>
-                            </template>
-                            <span>Total value of $AVA tokens used as a scarce resource to secure the AVA network using the Proof-of-Stake method</span>
-                        </v-tooltip>
+                        <TooltipMeta
+                            content="total value of $AVA tokens used as a scarce resource to secure the AVA network using the Proof-of-Stake method"
+                        ></TooltipMeta>
                     </p>
                     <div>
                         <p class="meta_value">{{totalStake}} AVA</p>
@@ -113,7 +71,14 @@
 <script>
 import axios from "@/axios";
 import { stringToBig } from "@/helper";
+import TooltipHeading from "../../misc/TooltipHeading";
+import TooltipMeta from "../TopInfo/TooltipMeta";
+
 export default {
+    components: {
+        TooltipHeading,
+        TooltipMeta
+    },
     data() {
         return {
             avaMarketCap: 0,
