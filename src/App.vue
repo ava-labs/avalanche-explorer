@@ -14,6 +14,7 @@ import Vue from "vue";
 import NavBar from "./components/NavBar.vue";
 import Footer from "./components/Footer.vue";
 import ResponsiveGuidelines from "./components/misc/ResponsiveGuidelines.vue";
+import { IMetaTag } from "@/router/IMetaTag";
 
 export default Vue.extend({
     name: "App",
@@ -26,6 +27,34 @@ export default Vue.extend({
     created(): void {
         this.$store.dispatch("init");
         this.$store.dispatch("Platform/init");
+    },
+    watch: {
+        $route: {
+            handler: (to, from) => {
+                // Remove stale tags from the document using key attribute
+                Array.from(document.querySelectorAll("[vue-router-data]"))
+                    .map(el => {
+                        if (el.parentNode) {
+                            el.parentNode.removeChild(el);
+                            return;
+                        }
+                    }
+                );
+                // Update tags
+                document.title = to.meta.title || "AVA Explorer";
+                if (to.meta.metaTags) {
+                    to.meta.metaTags
+                        .map((tagDef: IMetaTag) => {
+                            const tag = document.createElement("meta");
+                            Object.keys(tagDef).forEach(key => tag.setAttribute(key, tagDef[key]));
+                            tag.setAttribute("vue-router-data", ""); 
+                            return tag;
+                        })
+                        .forEach((tag: HTMLMetaElement) => document.head.appendChild(tag));
+                }
+            },
+            immediate: true
+        }
     }
 });
 </script>
