@@ -115,11 +115,6 @@ export default {
     }
 }
 
-.grid_headers {
-    font-weight: 500;
-    font-size: 12px;
-}
-
 .table_headers {
     display: grid;
     grid-template-columns: 35px 120px 1fr 1fr;

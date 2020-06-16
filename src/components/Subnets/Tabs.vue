@@ -34,6 +34,7 @@ export default {
 
 .v-tabs--vertical {
     margin-right: 30px;
+    flex-direction: row-reverse;
 }
 
 .v-tabs--vertical > .v-tabs-bar .v-tab {
@@ -65,12 +66,16 @@ export default {
 @use '../../main';
 .v-tabs--vertical > .v-tabs-bar {
     max-width: 200px !important;
-    padding-right: 30px;
-    border-right: 1px solid #cecece;
+    border-left: 1px solid #cecece;
+    /* padding-left: 30px; */
 }
 
 .v-tabs--vertical > .v-window {
     overflow: scroll !important;
+}
+
+.v-card__text {
+    padding-left: 0 !important;
 }
 
 .v-application .primary--text {
