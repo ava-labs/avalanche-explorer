@@ -4,6 +4,39 @@
         <v-content class="content">
             <router-view class="router_view"></router-view>
         </v-content>
+
+        <!-- ruler -->
+        <div id="xs" class="tick-container">
+            <span class="tick-label">
+                xs
+                <br />600
+            </span>
+        </div>
+        <div id="guideline-xs" class="guideline"></div>
+
+        <div id="sm" class="tick-container">
+            <span class="tick-label">
+                sm
+                <br />960
+            </span>
+        </div>
+        <div id="guideline-sm" class="guideline"></div>
+        <div id="md" class="tick-container">
+            <span class="tick-label">
+                md
+                <br />1264
+            </span>
+        </div>
+        <div id="guideline-md" class="guideline"></div>
+
+        <div id="lg" class="tick-container">
+            <span class="tick-label">
+                lg
+                <br />1904
+            </span>
+        </div>
+        <div id="guideline-lg" class="guideline"></div>
+
         <Footer class="footer"></Footer>
     </v-app>
 </template>
@@ -58,14 +91,14 @@ export default Vue.extend({
     margin-top: 15vh;
 }
 
-.router_view, 
-.navbar, 
+.router_view,
+.navbar,
 .footer {
     padding: main.$container_padding_l;
 }
 
 @include main.device_m {
-    .router_view, 
+    .router_view,
     .navbar,
     .footer {
         padding: main.$container_padding_s;
@@ -73,26 +106,25 @@ export default Vue.extend({
 }
 
 @include main.device_s {
-    .router_view, 
-    .navbar, 
+    .router_view,
+    .navbar,
     .footer {
         padding: main.$container_padding_xs;
     }
 }
 
 @include main.device_s {
-    .router_view, 
-    .navbar, 
+    .router_view,
+    .navbar,
     .footer {
         padding: main.$container_padding_xs;
     }
 }
-
 </style>
 
 <style lang="scss">
 @use 'main';
-@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&display=swap");
 
 body {
     font-family: "Helvetica";
@@ -136,7 +168,8 @@ p {
     caret-color: main.$primary-color !important;
 }
 
-.theme--light.v-breadcrumbs .v-breadcrumbs__divider, .theme--light.v-breadcrumbs .v-breadcrumbs__item--disabled {
+.theme--light.v-breadcrumbs .v-breadcrumbs__divider,
+.theme--light.v-breadcrumbs .v-breadcrumbs__item--disabled {
     color: rgba(0, 0, 0, 0.38) !important;
 }
 
@@ -170,5 +203,94 @@ p {
 
 @include main.device_s {
 
+.header {
+    h2 {
+        font-size: 26px;
+        margin: 0;
+    }
+}
+}
+
+
+@include main.device_xs {
+
+.header {
+    h2 {
+        font-size: 18px;
+        margin: 0;
+    }
+}
+
+.card {
+    padding: 15px;
+}
+
+}
+
+/* ==========================================
+   Breakpoint Rulers
+   ========================================== */
+.tick-container {
+    position: fixed;
+    box-sizing: content-box;
+    height: 20px;
+    display: inline-block;
+    border-right: 1px solid #ec407a;
+    z-index: 1000;
+}
+
+.tick-label {
+    font-size: 8px;
+    text-align: right;
+    color: #ec407a;
+}
+
+.guideline {
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    border-right: 1px dashed #ec407a;
+    opacity: 0.5;
+    box-sizing: content-box;
+    z-index: 1001;
+}
+
+#xs,
+#sm,
+#md,
+#lg {
+    padding-right: 3px;
+    position: fixed;
+    z-index: 1000;
+    position: fixed;
+    top: 2px;
+    font-size: 8px;
+    text-align: right;
+    color: #ec407a;
+}
+
+#xs {
+    left: 583px;
+}
+#guideline-xs {
+    left: 599px;
+}
+#sm {
+    left: 943px;
+}
+#guideline-sm {
+    left: 959px;
+}
+#md {
+    left: 1242px;
+}
+#guideline-md {
+    left: 1263px;
+}
+#lg {
+    left: 1882px;
+}
+#guideline-lg {
+    left: 1903px;
 }
 </style>

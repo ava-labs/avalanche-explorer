@@ -4,20 +4,9 @@
             <div class="header">
                 <h2>
                     Validators
-                    <v-tooltip bottom left v-if="$vuetify.breakpoint.smAndUp">
-                        <template v-slot:activator="{ on }">
-                            <fa
-                                v-on="on"
-                                icon="info-circle"
-                                transform="shrink-3"
-                                :style="{ color: '#e8e7ea' }"
-                            ></fa>
-                        </template>
-                        <span>
-                            A validator is a node participating in the consensus protocol.
-                            <br />Validators work together to achieve consensus as to which transactions have taken place on a blockchain.
-                        </span>
-                    </v-tooltip>
+                    <TooltipHeading
+                        content="A validator is a node participating in the consensus protocol. Validators work together to achieve consensus as to which transactions have taken place on a blockchain."
+                    ></TooltipHeading>
                 </h2>
                 <v-tabs
                     class="tabs"
@@ -36,20 +25,9 @@
                     <div>
                         <p class="label">
                             Total {{toggle}} Stake
-                            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                                <template v-slot:activator="{ on }">
-                                    <fa
-                                        v-on="on"
-                                        icon="info-circle"
-                                        transform="shrink6"
-                                        :style="{ color: '#e8e7ea' }"
-                                    ></fa>
-                                </template>
-                                <span>
-                                    total value of scarce resource ($AVA) used to secure the
-                                    <br />AVA network using the Proof-of-Stake method
-                                </span>
-                            </v-tooltip>
+                            <TooltipMeta
+                                content="total value of scarce resource ($AVA) used to secure the AVA network using the Proof-of-Stake method"
+                            ></TooltipMeta>
                         </p>
                         <p class="meta_val">{{totalStake}} AVA</p>
                     </div>
@@ -59,17 +37,9 @@
                     <div>
                         <p class="label">
                             {{toggle}} Validators
-                            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                                <template v-slot:activator="{ on }">
-                                    <fa
-                                        v-on="on"
-                                        icon="info-circle"
-                                        transform="shrink6"
-                                        :style="{ color: '#e8e7ea' }"
-                                    ></fa>
-                                </template>
-                                <span>total number of nodes participating in the consensus protocol</span>
-                            </v-tooltip>
+                            <TooltipMeta
+                                content="total number of nodes participating in the consensus protocol"
+                            ></TooltipMeta>
                         </p>
                         <p class="meta_val">{{totalValidatorsCount.toLocaleString()}}</p>
                     </div>
@@ -101,48 +71,18 @@
                 </div>
             </div>
             <div class="headers">
-                <p style="text-align: center;">Rank</p>
+                <p>Rank</p>
                 <p>
                     Validator ID
-                    <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                        <template v-slot:activator="{ on }">
-                            <fa
-                                v-on="on"
-                                icon="info-circle"
-                                transform="shrink6"
-                                :style="{ color: '#e8e7ea' }"
-                            ></fa>
-                        </template>
-                        <span>address of the node participating in the consensus protocol</span>
-                    </v-tooltip>
+                    <Tooltip content="address of the node participating in the consensus protocol"></Tooltip>
                 </p>
                 <p style="text-align: right;">
-                    <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                        <template v-slot:activator="{ on }">
-                            <fa
-                                v-on="on"
-                                icon="info-circle"
-                                transform="shrink6"
-                                :style="{ color: '#e8e7ea' }"
-                            ></fa>
-                        </template>
-                        <span>amount of $AVA staked by this node</span>
-                    </v-tooltip>
-                    Stake
+                    <Tooltip content="amount of $AVA staked by this node"></Tooltip>Stake
                 </p>
-                <p style="text-align: right;">
-                    <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                        <template v-slot:activator="{ on }">
-                            <fa
-                                v-on="on"
-                                icon="info-circle"
-                                transform="shrink6"
-                                :style="{ color: '#e8e7ea' }"
-                            ></fa>
-                        </template>
-                        <span>percentage of scarce resource ($AVA) concentrated up to this validator ranking</span>
-                    </v-tooltip>
-                    Cumulative Stake
+                <p style="text-align: right;" v-if="$vuetify.breakpoint.smAndUp">
+                    <Tooltip
+                        content="percentage of scarce resource ($AVA) concentrated up to this validator ranking"
+                    ></Tooltip>Cumulative Stake
                 </p>
             </div>
             <div v-if="validators.length === 0" class="empty_table">
@@ -182,6 +122,9 @@
 import ValidatorRow from "../components/rows/ValidatorRow/ValidatorRow";
 import ValidatorPaginationControls from "../components/misc/ValidatorPaginationControls";
 import { AVA_SUBNET_ID } from "@/store/modules/platform/platform";
+import Tooltip from "../components/rows/Tooltip";
+import TooltipHeading from "../components/misc/TooltipHeading";
+import TooltipMeta from "../components/misc/TooltipMeta";
 
 export default {
     data() {
@@ -193,6 +136,9 @@ export default {
         };
     },
     components: {
+        Tooltip,
+        TooltipHeading,
+        TooltipMeta,
         ValidatorRow,
         ValidatorPaginationControls
     },
@@ -364,6 +310,7 @@ export default {
     border-radius: 6px;
     padding: 30px;
 }
+
 .validator {
     border-top: 1px solid #e7e7e7;
 
@@ -465,6 +412,40 @@ export default {
         > div {
             text-align: left;
             padding: 30px 0 0;
+        }
+    }
+}
+
+@include main.device_xs {
+    .validators {
+        padding: 15px;
+    }
+
+    .controls {
+        margin-bottom: 12px;
+
+        .search_container {
+            .search {
+                margin: 15px 0 0;
+            }
+        }
+    }
+    
+    .pagination_container {
+        margin-top: 15px;
+    }
+
+    .headers {
+        grid-template-columns: 42px 1fr 1fr .5fr;
+        font-size: 11px;
+        font-weight: bold;
+
+        p {
+            padding: 12px 15px 12px 0;
+        }
+
+        &:first-child {
+            text-align: left;
         }
     }
 }

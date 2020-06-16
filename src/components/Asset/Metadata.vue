@@ -196,4 +196,19 @@ export default {
         }
     }
 }
+
+
+@include main.device_xs {
+    .meta_data {
+
+        > div {
+            padding: 30px 0 0;
+        }
+    }
+
+    .meta_data > article {
+        padding: 15px 0;
+    }
+}
+
 </style>

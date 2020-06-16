@@ -427,4 +427,29 @@ h2 {
         margin-bottom: 8px;
     }
 }
+
+@include main.device_xs {
+    .transaction_details {
+        padding: main.$container_padding_xs;
+    }
+
+    .meta {
+        padding: 10px;
+    }
+
+    .meta_row {
+        padding: 10px;
+        grid-template-columns: none;
+        grid-template-rows: max-content 1fr;
+    }
+
+    .label {
+        margin-bottom: 8px;
+    }
+
+    .tx_meta {
+    padding: 15px;
+    border-radius: 6px;
+    }
+}
 </style>

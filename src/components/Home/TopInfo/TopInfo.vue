@@ -54,4 +54,12 @@ export default {
     }
 }
 
+@include main.device_xs {
+    .top_info {
+        > div {
+            padding: 15px;
+        }
+    }
+}
+
 </style>
