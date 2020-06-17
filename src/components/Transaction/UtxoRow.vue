@@ -60,7 +60,7 @@
     }
 </script>
 <style scoped lang="scss">
-@use '../../main';
+@use"../../main";
     .utxo_row{
         display: grid;
         grid-gap: 10px;

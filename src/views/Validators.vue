@@ -217,7 +217,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@use '../main';
+@use "../main";
 
 .meta_data_container {
     margin-bottom: 30px;

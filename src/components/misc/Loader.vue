@@ -63,7 +63,7 @@ computed: {
 </script>
 
 <style scoped lang="scss">
-@use '../../main';
+@use"../../main";
 .page_loader {
     display: flex;
     flex-direction: column;

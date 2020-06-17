@@ -31,7 +31,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use '../../../main';
+@use"../../../main";
 .from {
     display: grid;
     grid-template-columns: max-content 1fr max-content;

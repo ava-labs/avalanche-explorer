@@ -81,8 +81,9 @@ export default {
             text-decoration: underline;
         }
     }
-    
-    p, a {
+
+    p,
+    a {
         padding: 4px 12px;
     }
 }
@@ -101,5 +102,11 @@ export default {
     font-weight: bold;
     letter-spacing: 0.1em;
     font-size: 11px;
+}
+
+@include main.device_xs {
+    .info_col {
+        padding: 0 10px 0 0;
+    }
 }
 </style>

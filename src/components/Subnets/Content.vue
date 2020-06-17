@@ -202,7 +202,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use '../../main';
+@use"../../main";
 
 .subnet_count {
     margin-top: 5px;
@@ -288,7 +288,7 @@ export default {
 </style>
 
 <style lang="scss">
-@use '../../main';
+@use"../../main";
 .v-application .primary--text {
     color: main.$primary-color !important;
     caret-color: main.$primary-color !important;

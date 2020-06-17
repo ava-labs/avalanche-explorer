@@ -1,38 +1,43 @@
 <template>
-    <div class="address_detail">
+    <div class="detail">
         <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
-        <template v-if="isAjax">
-            <Loader :contentId="txId" :message="'Fetching Address Details'"></Loader>
+        <template v-if="loading">
+            <Loader :contentId="address" :message="'Fetching Address Details'"></Loader>
         </template>
-        <div class="meta" v-if="this.metaData">
-            <h2>X-{{address}}</h2>
-            <div class="meta_row">
+
+        <section class="card meta" v-if="this.metaData">
+            <header class="header">
+                <h2>X-{{address}}</h2>
+            </header>
+            <article class="meta_row">
                 <p class="label">Address</p>
                 <p class="addr">
                     <span>X-{{address}}</span>
                     <span class="alias" v-if="alias">{{alias}}</span>
                 </p>
-            </div>
-            <div class="meta_row">
+            </article>
+            <article class="meta_row">
                 <p class="label">AVA Balance</p>
                 <p>{{avaBalance}} nAVA</p>
-            </div>
-            <div class="meta_row">
+            </article>
+            <article class="meta_row">
                 <p class="label">Transactions</p>
                 <p>{{totalTransactionCount.toLocaleString()}}</p>
-            </div>
-            <div class="meta_row">
+            </article>
+            <article class="meta_row">
                 <p class="label">Portfolio</p>
-                <div class=balances_container>
+                <div class="balances_container">
                     <div class="bar">
                         <p class="count">{{Object.keys(assets).length}} assets found</p>
                     </div>
                     <div class="grid_headers balance_row">
                         <p>
-                            Symbol <Tooltip content="shorthand ticker symbol of the asset"></Tooltip>
+                            Symbol
+                            <Tooltip content="shorthand ticker symbol of the asset"></Tooltip>
                         </p>
                         <p>
-                            Name <Tooltip content="human-readable name for the asset"></Tooltip>
+                            Name
+                            <Tooltip content="human-readable name for the asset"></Tooltip>
                         </p>
                         <p class="balance">
                             <Tooltip content="balance held by this address"></Tooltip>Balance
@@ -56,43 +61,42 @@
                         :asset="asset"
                     ></BalanceRow>
                 </div>
-            </div>
-        </div>
-        <transition name="fade">
-            <div v-if="!isAjax" class="transactions">
+            </article>
+        </section>
+
+        <section v-if="!loading" class="card transactions">
+            <header class="header">
                 <h2>Transactions</h2>
-                <div class="table_headers tx_rows">
-                    <p></p>
-                    <p>
-                        ID
-                        <Tooltip
-                            content="a transaction queries or modifies the state of a blockchain"
-                        ></Tooltip>
-                    </p>
-                    <p>
-                        From
-                        <Tooltip content="address that sends transfer value"></Tooltip>
-                    </p>
-                    <p>
-                        To
-                        <Tooltip content="address that receives transfer value"></Tooltip>
-                    </p>
-                </div>
-                <tx-table class="tx_table" :transactions="orderedTx"></tx-table>
+            </header>
+            <div class="table_headers tx_rows">
+                <p></p>
+                <p>
+                    ID
+                    <Tooltip content="a transaction queries or modifies the state of a blockchain"></Tooltip>
+                </p>
+                <p>
+                    From
+                    <Tooltip content="address that sends transfer value"></Tooltip>
+                </p>
+                <p>
+                    To
+                    <Tooltip content="address that receives transfer value"></Tooltip>
+                </p>
             </div>
-        </transition>
+            <tx-table class="tx_table" :transactions="orderedTx"></tx-table>
+        </section>
     </div>
 </template>
+
 <script>
-import api from "../axios";
 import Loader from "../components/misc/Loader";
 import Tooltip from "../components/rows/Tooltip";
 import BalanceRow from "../components/Address/BalanceRow";
 import TxTable from "../components/Address/TxTable";
+import api from "../axios";
 import Big from "big.js";
-import { stringToBig } from "../helper";
+import { stringToBig, blockchainMap } from "@/helper";
 import AddressDict from "@/known_addresses";
-import { blockchainMap } from "@/helper";
 
 export default {
     components: {
@@ -103,7 +107,7 @@ export default {
     },
     data() {
         return {
-            isAjax: false,
+            loading: false,
             metaData: null,
             transactions: [],
             breadcrumbs: [
@@ -192,21 +196,19 @@ export default {
     methods: {
         updateData() {
             let parent = this;
-            this.isAjax = true;
+            this.loading = true;
 
             // Get txs by address
             let url = `/x/transactions?address=${this.address}`;
             api.get(url).then(res => {
-                console.log("/transactions?address=:", res);
-                parent.isAjax = false;
+                parent.loading = false;
                 parent.transactions = res.data.transactions;
             });
 
             // Get address details
             url = `/x/addresses/${this.address}`;
             api.get(url).then(res => {
-                console.log("/addresses/address:", res.data);
-                parent.isAjax = false;
+                parent.loading = false;
                 parent.metaData = res.data;
                 // Enrich assets data
                 let assets = parent.metaData.assets;
@@ -231,128 +233,13 @@ export default {
     }
 };
 </script>
-<style lang="scss">
-.address_detail {
-    h4 {
-        padding: 15px 30px;
-        font-size: 12px;
-        margin: 0;
-    }
-}
-</style>
+
 <style scoped lang="scss">
-@use '../main';
+@use "../main";
 
-.fade-enter-active,
-.fade-leave-active {
-    transition: opacity 0.3s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-    opacity: 0;
-}
-
-h2 {
-    padding: 15px 0px;
-    margin: 0;
-    font-size: 18px;
-}
-
-h3 {
-    font-size: 12px;
-}
-
-.meta {
-    overflow: auto;
-    background-color: main.$white;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-    border-radius: 6px;
-    margin-bottom: 15px;
-    padding: 15px 30px;
-}
-
-.meta_row {
-    font-size: 12px;
-    display: grid;
-    grid-template-columns: 140px 1fr;
-
-    padding: 15px 0;
-    border-bottom: 1px solid #f2f2f2;
-    .label {
-        font-weight: normal;
-        margin-right: 8px;
-    }
-
-    &:last-of-type {
-        border: none;
-    }
-}
-
-.count {
-    margin-bottom: 12px;
-}
-
-.grid_headers {
-    font-weight: 700;
-    font-size: 12px;
-}
-
-.balances_container {
-    overflow-x: scroll;
-}
-
-.balance,
-.sent,
-.received,
-.txs,
-.utxos {
-    text-align: right;
-}
-
-.balance_row {
-    display: grid;
-    grid-template-columns: 60px 1fr 100px 100px 100px 100px 100px;
-    padding: 10px 0;
-    border-bottom: 1px solid #e7e7e7;
-    column-gap: 10px;
-
-    &:last-of-type {
-        border: none;
-    }
-}
-
-
-.transactions {
-    background-color: main.$white;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-    border-radius: 6px;
-    overflow: auto;
-    padding: 15px 30px;
-}
-
-.table_headers {
-    display: grid;
-    grid-template-columns: 35px 120px 1fr 1fr;
-    padding-bottom: 7px;
-    border-bottom: 1px solid #e7e7e7;
-
-    p {
-        padding: 0px 10px;
-        font-weight: bold;
-        font-size: 12px;
-    }
-}
-
-.tx_rows {
-    width: 100%;
-    border-radius: 2px;
-    margin: 2px 0;
-    box-sizing: border-box;
-    border-bottom: 1px solid #e7e7e7;
-}
-
-.tx_table {
-    font-size: 12px;
-}
+/* ==========================================
+   details
+   ========================================== */
 
 .addr {
     text-overflow: ellipsis;
@@ -369,21 +256,78 @@ h3 {
     }
 }
 
-@include main.device_s {
-    .meta {
-        padding: 15px;
+.balances_container {
+    overflow-x: scroll;
+
+    .count {
+        margin-bottom: 12px;
     }
 
-    .meta_row {
-        padding: 8px;
+    .grid_headers {
+        font-weight: 700;
+        font-size: 12px;
     }
 
-    .transactions {
-        padding: 8px;
+    .balance,
+    .sent,
+    .received,
+    .txs,
+    .utxos {
+        text-align: right;
     }
+
+    .balance_row {
+        display: grid;
+        grid-template-columns: 60px 1fr 100px 100px 100px 100px 100px;
+        padding: 10px 0;
+        border-bottom: 1px solid #e7e7e7;
+        column-gap: 10px;
+
+        &:last-of-type {
+            border: none;
+        }
+    }
+}
+
+/* ==========================================
+   transactions
+   ========================================== */
+
+.transactions {
+    overflow: auto;
+    margin-top: 30px;
 
     .table_headers {
-        display: none;
+        display: grid;
+        grid-template-columns: 35px 120px 1fr 1fr;
+        padding-bottom: 7px;
+        border-bottom: 1px solid #e7e7e7;
+
+        p {
+            padding: 0px 10px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+    }
+
+    .tx_rows {
+        width: 100%;
+        border-radius: 2px;
+        margin: 2px 0;
+        box-sizing: border-box;
+        border-bottom: 1px solid #e7e7e7;
+    }
+
+    .tx_table {
+        font-size: 12px;
+    }
+}
+
+@include main.device_s {
+    .transactions {
+        .table_headers {
+            display: none;
+        }
     }
 }
 </style>

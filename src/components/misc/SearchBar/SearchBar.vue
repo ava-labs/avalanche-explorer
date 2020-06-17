@@ -142,7 +142,7 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-@use '../../../main';
+@use"../../../main";
 
 .search_bar {
     display: flex;

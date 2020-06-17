@@ -30,7 +30,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use '../../main';
+@use"../../main";
 
 .v-tabs--vertical {
     margin-right: 30px;
@@ -63,7 +63,7 @@ export default {
 </style>
 
 <style lang="scss">
-@use '../../main';
+@use"../../main";
 .v-tabs--vertical > .v-tabs-bar {
     max-width: 200px !important;
     border-left: 1px solid #cecece;

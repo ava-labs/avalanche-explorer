@@ -42,7 +42,7 @@ export default {
 </script>
 
 <style lang="scss">
-@use '../../../main';
+@use"../../../main";
 
 .search_result {
     padding: 8px 13px;

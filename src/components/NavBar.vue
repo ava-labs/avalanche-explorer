@@ -67,7 +67,7 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-@use '../main';
+@use "../main";
 
 .navbar {
     padding-top: 0 !important;

@@ -45,7 +45,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@use '../../main';
+@use"../../main";
 
 .balance_row {
     font-weight: 400;

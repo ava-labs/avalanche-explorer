@@ -362,7 +362,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@use '../../../main';
+@use"../../../main";
 
 .tx_history {
     display: flex;
@@ -376,7 +376,7 @@ export default {
 .history_settings {
     display: flex;
     flex-direction: row;
-    margin: 6px 0 20px;
+    margin: 2px 0 20px;
 
     button {
         flex-grow: 1;

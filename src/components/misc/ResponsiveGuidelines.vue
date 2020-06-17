@@ -38,28 +38,28 @@ export default {};
 </script>
 
 <style lang="scss">
-@use '../../main';
+@use"../../main";
 
 .tick-container {
     position: fixed;
     box-sizing: content-box;
     height: 20px;
     display: inline-block;
-    border-right: 1px solid #ec407a;
+    border-right: 1px solid main.$gray-light;
     z-index: 1000;
 }
 
 .tick-label {
     font-size: 8px;
     text-align: right;
-    color: #ec407a;
+    color: main.$gray-light;
 }
 
 .guideline {
     position: fixed;
     top: 0;
     height: 100vh;
-    border-right: 1px dashed #ec407a;
+    border-right: 1px dashed main.$gray-light;
     opacity: 0.5;
     box-sizing: content-box;
     z-index: 1001;
@@ -76,7 +76,7 @@ export default {};
     top: 2px;
     font-size: 8px;
     text-align: right;
-    color: #ec407a;
+    color: main.$gray-light;
 }
 
 #xs {

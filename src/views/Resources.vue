@@ -51,7 +51,7 @@
     </div>
 </template>
 <style scoped lang="scss">
-@use '../main';
+@use "../main";
 
 hr {
     margin-top: 20px;

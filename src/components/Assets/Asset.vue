@@ -44,7 +44,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@use '../../main';
+@use"../../main";
 
 .asset_row {
     font-weight: 700;

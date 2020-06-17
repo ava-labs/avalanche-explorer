@@ -85,7 +85,7 @@ export default Vue.extend({
 });
 </script>
 <style scoped lang="scss">
-@use '../../main';
+@use"../../main";
 
 .refresh {
     margin-left: 16px;

@@ -28,14 +28,14 @@
             </template>
             <template v-else>
                 <div class="rows">
-                    <!--<transition-group name="fade">-->
+                    <transition-group name="fade">
                     <tx-row
                         class="tx_item"
                         v-for="tx in transactions"
                         :transaction="tx"
                         :key="tx.id"
                     ></tx-row>
-                    <!--</transition-group>-->
+                    </transition-group>
                 </div>
             </template>
         </div>
@@ -92,7 +92,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@use '../main';
+@use "../main";
 
 .transactions {
     font-size: 12px;

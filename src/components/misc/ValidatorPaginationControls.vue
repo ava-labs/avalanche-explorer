@@ -58,7 +58,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@use '../../main';
+@use"../../main";
 .validator_pagination_control {
     display: flex;
 

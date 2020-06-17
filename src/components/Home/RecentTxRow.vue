@@ -216,4 +216,10 @@
         color: main.$primary-color;
         border-radius: 4px;
     }
+
+    @include main.device_xs {
+        .info_col{
+            padding: 0 10px 0 0;
+        }
+    }
 </style>
