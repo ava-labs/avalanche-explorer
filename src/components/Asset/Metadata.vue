@@ -14,19 +14,9 @@
                     <div class="stat_container">
                         <p class="label">
                             24h Volume
-                            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                                <template v-slot:activator="{ on }">
-                                    <fa
-                                        v-on="on"
-                                        icon="info-circle"
-                                        transform="shrink-3"
-                                        :style="{ color: '#e8e7ea' }"
-                                    ></fa>
-                                </template>
-                                <span>total value of {{asset.symbol}} tokens transferred on the AVA network in the past 24 hours</span>
-                            </v-tooltip>
+                            <TooltipMeta v-bind:content="'number of ' + asset.symbol + ' tokens transferred on the AVA network in the past 24 hours'"></TooltipMeta>
                         </p>
-                        <p class="meta_val">{{asset.volume_day}}</p>
+                        <p class="meta_val">{{asset.volume_day.toLocaleString()}} {{asset.symbol}}</p>
                     </div>
                 </article>
                 <article>
@@ -34,19 +24,9 @@
                     <div class="stat_container">
                         <p class="label">
                             24h Transactions
-                            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                                <template v-slot:activator="{ on }">
-                                    <fa
-                                        v-on="on"
-                                        icon="info-circle"
-                                        transform="shrink-3"
-                                        :style="{ color: '#e8e7ea' }"
-                                    ></fa>
-                                </template>
-                                <span>total number of transactions involving {{asset.symbol}} tokens in the past 24 hours</span>
-                            </v-tooltip>
+                            <TooltipMeta v-bind:content="'number of transactions involving ' + asset.symbol + ' tokens in the past 24 hours'"></TooltipMeta>
                         </p>
-                        <p class="meta_val">{{asset.txCount_day}}</p>
+                        <p class="meta_val">{{asset.txCount_day.toLocaleString()}}</p>
                     </div>
                 </article>
                 <article>
@@ -54,17 +34,7 @@
                     <div class="stat_container">
                         <p class="label">
                             Minted On
-                            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                                <template v-slot:activator="{ on }">
-                                    <fa
-                                        v-on="on"
-                                        icon="info-circle"
-                                        transform="shrink-3"
-                                        :style="{ color: '#e8e7ea' }"
-                                    ></fa>
-                                </template>
-                                <span>the blockchain on which {{asset.symbol}} was created</span>
-                            </v-tooltip>
+                            <TooltipMeta v-bind:content="'blockchain on which ' + asset.symbol + ' was created'"></TooltipMeta>
                         </p>
                         <p class="meta_val">{{asset.chainID | blockchain }}</p>
                     </div>
@@ -74,17 +44,7 @@
                     <div class="stat_container">
                         <p class="label">
                             Initial Supply
-                            <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                                <template v-slot:activator="{ on }">
-                                    <fa
-                                        v-on="on"
-                                        icon="info-circle"
-                                        transform="shrink-3"
-                                        :style="{ color: '#e8e7ea' }"
-                                    ></fa>
-                                </template>
-                                <span>total initial value of {{asset.symbol}} tokens minted</span>
-                            </v-tooltip>
+                            <TooltipMeta v-bind:content="'initial value of ' + asset.symbol + ' tokens minted'"></TooltipMeta>
                         </p>
                         <p class="meta_val">{{asset.currentSupply}} {{asset.symbol}}</p>
                         <p class="meta_annotation">Denomination: {{asset.denomination}}</p>
@@ -98,8 +58,12 @@
 import Big from "big.js";
 import IAsset from "../../js/IAsset";
 import { blockchainMap } from "../../helper";
+import TooltipMeta from "../../components/misc/TooltipMeta";
 
 export default {
+    components: {
+        TooltipMeta
+    },
     props: {
         asset: IAsset
     },
@@ -114,7 +78,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@use '../../main';
+@use"../../main";
 
 .metadata {
     margin-bottom: 30px;
@@ -196,4 +160,18 @@ export default {
         }
     }
 }
+
+
+@include main.device_xs {
+    .meta_data {
+        > div {
+            padding: 30px 0 0;
+        }
+    }
+
+    .meta_data > article {
+        padding: 15px 0;
+    }
+}
+
 </style>

@@ -67,7 +67,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@use '../../main';
+@use"../../main";
 
 .pagination_control {
     display: flex;

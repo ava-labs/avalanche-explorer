@@ -1,31 +1,15 @@
 <template>
     <div class="metadata">
-        <div class="card">
-            <div class="header">
-                <h2>
-                    Subnets
-                    <TooltipHeading content="A Subnet is a set of validators. A Subnet validates a set of blockchains. Each blockchain is validated by exactly one Subnet, which is specified on blockchain creation."></TooltipHeading>
-                </h2>
-            </div>
+        <div>
             <div class="meta_data">
-                <div>
-                    <img src="@/assets/subnet-purple.png" />
-                    <div>
-                        <p class="label">
-                            Subnetworks
-                            <TooltipMeta content="total number of subnets created on the AVA network"></TooltipMeta>
-                        </p>
-                        <p class="meta_val">{{totalSubnets.toLocaleString()}}</p>
-                    </div>
-                </div>
                 <div>
                     <img src="@/assets/blockchain-purple.png" />
                     <div>
                         <p class="label">
                             Blockchains
-                            <TooltipMeta content="total number of blockchains created on the AVA network"></TooltipMeta>
+                            <TooltipMeta content="total number of blockchains created on thiis subnetwork"></TooltipMeta>
                         </p>
-                        <p class="meta_val">{{totalBlockchains.toLocaleString()}}</p>
+                        <p class="meta_val">{{totalBlockchains}}</p>
                     </div>
                 </div>
                 <div>
@@ -33,19 +17,29 @@
                     <div>
                         <p class="label">
                             Validators
-                            <TooltipMeta content="total number of nodes participating in the consensus protocol of the AVA network"></TooltipMeta>
+                            <TooltipMeta content="total number of nodes participating in the consensus protocol of this subnetwork"></TooltipMeta>
                         </p>
-                        <p class="meta_val">{{totalValidators.toLocaleString()}}</p>
+                        <p class="meta_val">{{totalValidators}}</p>
                     </div>
                 </div>
                 <div>
-                    <img src="@/assets/ava_price-purple.png" />
+                    <img src="@/assets/validators-purple.png" />
                     <div>
                         <p class="label">
-                            Total Stake Amount
-                            <TooltipMeta content="total value of $AVA tokens used as a scarce resource to secure the AVA network using the Proof-of-Stake method"></TooltipMeta>
+                            Pending Val
+                            <TooltipMeta content="total number of nodes waiting to participate in the consensus protocol of this subnetwork"></TooltipMeta>
                         </p>
-                        <p class="meta_val">{{totalStake.toFixed(2)}} AVA</p>
+                        <p class="meta_val">{{totalPendingValidators}}</p>
+                    </div>
+                </div>
+                <div>
+                    <img src="@/assets/key-purple.png" />
+                    <div>
+                        <p class="label">
+                            Control Keys
+                            <TooltipMeta content="total number of nodes waiting to participate in the consensus protocol of this subnetwork"></TooltipMeta>
+                        </p>
+                        <p class="meta_val">{{totalControlKeys}}</p>
                     </div>
                 </div>
             </div>
@@ -53,20 +47,18 @@
     </div>
 </template>
 <script>
-import TooltipHeading from "../../components/misc/TooltipHeading";
-import TooltipMeta from "../../components/misc/TooltipMeta";
 import Big from "big.js";
+import TooltipMeta from "../../components/misc/TooltipMeta";
 
 export default {
     components: {
-        TooltipHeading,
         TooltipMeta
     },
     props: {
-        totalSubnets: Number,
         totalBlockchains: Number,
         totalValidators: Number,
-        totalStake: Big
+        totalPendingValidators: Number,
+        totalControlKeys: Number
     }
 };
 </script>
@@ -74,8 +66,8 @@ export default {
 @use"../../main";
 
 .metadata {
-    margin-bottom: 30px;
-
+    /* margin-bottom: 30px; */
+    background-color: main.$primary-color-light;
     .header {
         display: flex;
         justify-content: space-between;
@@ -85,11 +77,11 @@ export default {
 .meta_data {
     display: grid;
     width: 100%;
-    grid-template-columns: 20% 20% 20% 40%;
+    grid-template-columns: 25% 25% 25% 25%;
 
     img {
         object-fit: contain;
-        width: 40px;
+        width: 20px;
         margin-right: 15px;
     }
 

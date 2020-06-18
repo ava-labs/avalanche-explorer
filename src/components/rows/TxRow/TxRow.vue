@@ -100,7 +100,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@use '../../../main';
+@use "../../../main";
 
 .tx_row {
     padding: 12px 0px;
@@ -181,6 +181,16 @@ export default {
         a {
             flex-grow: 1;
         }
+    }
+}
+
+@include main.device_xs {
+    .tx_row {
+        padding: 8px 0;
+    }
+
+    .info_col {
+        padding: 0 10px 0 0;
     }
 }
 </style>

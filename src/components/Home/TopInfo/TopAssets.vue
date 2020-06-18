@@ -3,46 +3,16 @@
         <div class="header">
             <h2>
                 Top Assets
-                <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                    <template v-slot:activator="{ on }">
-                        <fa
-                            v-on="on"
-                            icon="info-circle"
-                            transform="shrink-6"
-                            :style="{ color: '#e8e7ea' }"
-                        ></fa>
-                    </template>
-                    <span>the most transferred digital assets on the AVA platform in the past 24 hours</span>
-                </v-tooltip>
+                <TooltipHeading content="the most transferred digital assets on the AVA platform in the past 24 hours"></TooltipHeading>
             </h2>
         </div>
         <div class="asset column_headers">
             <p class="name">
                 Name
-                <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                    <template v-slot:activator="{ on }">
-                        <fa
-                            v-on="on"
-                            icon="info-circle"
-                            transform="shrink-6"
-                            :style="{ color: '#e8e7ea' }"
-                        ></fa>
-                    </template>
-                    <span>human-readable name for the asset (not necessarily unique)</span>
-                </v-tooltip>
+                <Tooltip content="human-readable name for the asset (not necessarily unique)"></Tooltip>
             </p>
             <p class="metric">
-                <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                    <template v-slot:activator="{ on }">
-                        <fa
-                            v-on="on"
-                            icon="info-circle"
-                            transform="shrink-6"
-                            :style="{ color: '#e8e7ea' }"
-                        ></fa>
-                    </template>
-                    <span>number of transactions of this asset</span>
-                </v-tooltip>
+                <Tooltip content="number of transactions of this asset"></Tooltip>
                 Txs (24h)
             </p>
         </div>
@@ -51,16 +21,22 @@
                 <router-link :to="`/asset/${asset.id}`" class="asset_name">{{asset.name}}</router-link>
                 <span class="symbol">{{asset.symbol}}</span>
             </div>
-            <p class="metric ava-monospace">{{asset.txCount_day}}</p>
+            <p class="metric ava-monospace">{{asset.txCount_day.toLocaleString()}}</p>
             <!--TODO: normalize asset.volume_day -->
         </div>
     </div>
 </template>
 
 <script>
+import Tooltip from "../../../components/rows/Tooltip";
+import TooltipHeading from "../../../components/misc/TooltipHeading";
 import axios from "@/axios";
 
 export default {
+    components: {
+        Tooltip,
+        TooltipHeading
+    },
     created() {
         let parent = this;
     },
@@ -75,7 +51,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use '../../../main';
+@use"../../../main";
 
 .header {
     padding-bottom: 20px;

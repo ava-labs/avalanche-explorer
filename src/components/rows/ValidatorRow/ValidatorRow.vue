@@ -82,7 +82,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@use '../../../main';
+@use"../../../main";
 
 .validator {
     display: grid;
@@ -213,6 +213,35 @@ export default {
     .validator {
         grid-template-columns: 70px 1fr 1fr 1fr 1fr;
         grid-template-rows: max-content max-content;
+    }
+
+    .time {
+        grid-column: 1/3;
+        grid-row: 2;
+    }
+}
+
+@include main.device_xs {
+    .validator {
+        grid-template-columns: 42px 1fr 1fr .5fr;
+        grid-template-rows: max-content max-content;
+
+        > div {
+            padding: 10px 15px 10px 0;
+        }
+    }
+
+    .rank > div {
+        color: #000;
+        border: 2px solid #976cfa;
+        width: 24px;
+        height: 24px;
+        border-radius: 24px;
+        line-height: 24px;
+
+        > p {
+            font-size: 10px;
+        }
     }
 
     .time {

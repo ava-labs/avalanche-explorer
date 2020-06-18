@@ -34,7 +34,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@use '../../../main';
+@use"../../../main";
 
 $color_bright: main.$primary-color-light;
 $color_dark: main.$primary-color;

@@ -9,7 +9,7 @@
                     - {{quote.author}}
                 </div>
             </div>
-            <v-progress-circular :size="16" :width="2" color="#71c5ff" indeterminate key="1"></v-progress-circular>
+            <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
             <div class="message ava-monospace" key="2">{{message}}</div>
             <div class="content_id ava-monospace" key="3" v-if="contentId">{{contentId}}</div>
         </transition-group>
@@ -34,7 +34,7 @@ export default {
         this.debounceShow = this.debounce(this.show, 500);
         this.debounceShow();
     },
-    computed: {
+computed: {
         quote() {
             return getRandomQuote();
         }
@@ -63,7 +63,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use '../../main';
+@use"../../main";
 .page_loader {
     display: flex;
     flex-direction: column;
@@ -101,12 +101,12 @@ img {
 .message {
     margin: 12px 0 0.5em;
     font-size: 16px;
-    color: main.$blue;
+    color: main.$primary-color;
 }
 
 .content_id {
     font-size: 16px;
-    color: main.$blue;
+    color: main.$primary-color;
 }
 
 .fade-enter-active,

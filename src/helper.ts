@@ -8,7 +8,7 @@ function stringToBig(raw: string, denomination = 0): Big {
     return Big(raw).div(Math.pow(10, denomination));
 }
 
-function toAVA(nAVA: string | number) {
+function toAVA(nAVA: string | number): number {
     return (typeof nAVA === "string") ?
         parseInt(nAVA) / Math.pow(10, 9) :
         nAVA / Math.pow(10, 9);

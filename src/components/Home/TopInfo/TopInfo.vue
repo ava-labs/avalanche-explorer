@@ -20,7 +20,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use '../../../main';
+@use"../../../main";
 
 .top_info {
     display: grid;
@@ -30,7 +30,7 @@ export default {
     width: 100%;
 
     > div {
-        padding: 0px 35px;
+        padding: 0px 30px;
         overflow: auto;
         border-right: 1px solid #c4c4c455;
     }
@@ -50,6 +50,14 @@ export default {
             padding: 30px;
             border: none;
             border-bottom: 1px solid #c4c4c455;
+        }
+    }
+}
+
+@include main.device_xs {
+    .top_info {
+        > div {
+            padding: 15px;
         }
     }
 }

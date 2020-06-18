@@ -44,7 +44,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@use '../../../main';
+@use"../../../main";
 
 .symbol_container {
     width: 50px;

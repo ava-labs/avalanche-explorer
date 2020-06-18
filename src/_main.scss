@@ -6,8 +6,8 @@ $width_m: 1264px;
 $width_l: 1904px;
 
 $container_padding_xs: 10px 10px;
+$container_padding_s: 12px 12px;
 $container_padding_m: 30px 6vw;
-$container_padding_s: 30px 6vw;
 $container_padding_l: 30px 18vw;
 
 @mixin device_xs {
@@ -36,6 +36,7 @@ $black: #212121;
 $gray: #7a838e;
 $gray-input: #d6dae1;
 $gray-light: #e8e7ea;
+$gray-xlight: #f2f2f2;
 $red: #e84142;
 $red-light: #c15656;
 $red-xlight: #ffe6e6;

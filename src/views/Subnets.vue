@@ -92,7 +92,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use '../main';
+@use "../main";
 
 .headers {
     display: grid;

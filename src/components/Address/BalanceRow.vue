@@ -1,14 +1,13 @@
 <template>
-    <div class="asset_row">
+    <div class="balance_row">
         <p v-if="asset.symbol" class="symbol">{{asset.symbol}}</p>
         <p v-else class="no_symbol"></p>
         <router-link class="name_id" :to="`/asset/${asset.id}`">{{asset | nameOrID}}</router-link>
-        <p class="volume_day">{{asset.volume_day}}</p>
-        <p class="txCount_day">{{asset.txCount_day}}</p>
-        <p class="avgTx_day">{{avgTxValue}}</p>
-        <!-- <p class="denomination">{{asset.denomination}}</p> -->
-        <p class="supply">{{supply}} <span>{{asset.symbol}}</span></p>
-        <p class="chain">{{asset.chainID | blockchain}}</p>
+        <p class="balance">{{asset.balance.toLocaleString()}}</p>
+        <p class="received">{{asset.totalReceived.toLocaleString()}}</p>
+        <p class="sent">{{asset.totalSent.toLocaleString()}}</p>
+        <p class="txs">{{asset.transactionCount.toLocaleString()}}</p>
+        <p class="utxos">{{asset.utxoCount.toLocaleString()}}</p>
     </div>
 </template>
 <script>
@@ -27,7 +26,7 @@ export default {
             return blockchainMap(val);
         },
         nameOrID(val) {
-            return val.name? val.name :val.id;
+            return val.name ? val.name : val.id;
         }
     },
     computed: {
@@ -38,7 +37,9 @@ export default {
             ).toFixed(this.asset.denomination);
         },
         avgTxValue() {
-            return (this.asset.txCount_day > 0) ? (this.asset.volume_day / this.asset.txCount_day).toFixed(0) : "";
+            return this.asset.txCount_day > 0
+                ? (this.asset.volume_day / this.asset.txCount_day).toFixed(0)
+                : "";
         }
     }
 };
@@ -46,8 +47,8 @@ export default {
 <style scoped lang="scss">
 @use"../../main";
 
-.asset_row {
-    font-weight: 700;
+.balance_row {
+    font-weight: 400;
     > * {
         align-self: center;
     }
@@ -61,7 +62,7 @@ export default {
         font-size: 12px;
         text-overflow: ellipsis;
     }
-    
+
     a {
         color: main.$black !important;
     }
@@ -89,25 +90,16 @@ export default {
 .name_id {
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 700;
     text-decoration: none;
 }
 
-.data_col {
-    display: flex;
-    flex-direction: column;
-}
-
-.chain {
-    padding-left: 20px;
-}
-
-.volume_day,
-.txCount_day,
-.avgTx_day,
-.denomination,
-.supply {
+.balance,
+.sent,
+.received,
+.txs,
+.utxos {
     text-align: right;
 }
 

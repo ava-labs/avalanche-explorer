@@ -23,45 +23,15 @@
                 <p></p>
                 <p>
                     ID
-                    <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                        <template v-slot:activator="{ on }">
-                            <fa
-                                v-on="on"
-                                icon="info-circle"
-                                transform="shrink-6"
-                                :style="{ color: '#e8e7ea' }"
-                            ></fa>
-                        </template>
-                        <span>a transaction queries or modifies the state of a blockchain</span>
-                    </v-tooltip>
+                    <Tooltip content="a transaction queries or modifies the state of a blockchain"></Tooltip>
                 </p>
                 <p>
                     From
-                    <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                        <template v-slot:activator="{ on }">
-                            <fa
-                                v-on="on"
-                                icon="info-circle"
-                                transform="shrink-6"
-                                :style="{ color: '#e8e7ea' }"
-                            ></fa>
-                        </template>
-                        <span>address that sends transfer value</span>
-                    </v-tooltip>
+                    <Tooltip content="address that sends transfer value"></Tooltip>
                 </p>
                 <p>
                     To
-                    <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
-                        <template v-slot:activator="{ on }">
-                            <fa
-                                v-on="on"
-                                icon="info-circle"
-                                transform="shrink-6"
-                                :style="{ color: '#e8e7ea' }"
-                            ></fa>
-                        </template>
-                        <span>address that receives transfer value</span>
-                    </v-tooltip>
+                    <Tooltip content="address that receives transfer value"></Tooltip>
                 </p>
             </div>
             <transition-group name="fade">
@@ -79,19 +49,19 @@
     </div>
 </template>
 <script>
-import api from "@/axios";
 import Vue from "vue";
-
+import Tooltip from "@/components/rows/Tooltip";
 import TxRow from "@/components/rows/TxRow/TxRow";
+import api from "@/axios";
 
 export default Vue.extend({
     components: {
+        Tooltip,
         TxRow
     },
     data() {
         return {
             isAjax: false,
-            // all_tx: [],
             transactions: []
         };
     },
@@ -115,7 +85,7 @@ export default Vue.extend({
 });
 </script>
 <style scoped lang="scss">
-@use '../../main';
+@use"../../main";
 
 .refresh {
     margin-left: 16px;

@@ -5,19 +5,18 @@
                 <div class="subnet_header">
                     <div class="subheading">Subnetwork</div>
                     <h2>{{subnetID | subnet}}</h2>
-                    <div class="stats">
-                        <div class="bar">
-                            <p
-                                class="subnet_count"
-                            >{{subnet.blockchains.length | pluralize}} validated by this subnet</p>
-                        </div>
-                    </div>
                 </div>
-                <v-tabs right show-arrows>
-                    <v-tab>Blockchains ({{subnet.blockchains.length}})</v-tab>
-                    <v-tab>Validators ({{subnet.validators.length}})</v-tab>
-                    <v-tab>Pending Validators ({{subnet.pendingValidators.length}})</v-tab>
-                    <v-tab>Control Keys ({{subnet.controlKeys.length}})</v-tab>
+                <ContentMetadata
+                    :totalBlockchains="subnet.blockchains.length"
+                    :totalValidators="subnet.validators.length"
+                    :totalPendingValidators="subnet.pendingValidators.length"
+                    :totalControlKeys="subnet.controlKeys.length"
+                ></ContentMetadata>
+                <v-tabs show-arrows>
+                    <v-tab>Blockchains</v-tab>
+                    <v-tab>Validators</v-tab>
+                    <v-tab>Pending Validators</v-tab>
+                    <v-tab>Control Keys</v-tab>
                     <v-tab-item class="tab_content">
                         <template v-if="subnet.blockchains.length === 0">
                             <p class="null">There are no blockchains for this subnet.</p>
@@ -60,7 +59,12 @@
                                             <th class="text-left">Validator</th>
                                             <th class="text-left">Start Time</th>
                                             <th class="text-left">End Time</th>
-                                            <th class="text-right">Stake</th>
+                                            <template v-if="subnet.id === defaultSubnetID">
+                                                <th class="text-right">Stake</th>
+                                            </template>
+                                            <template v-else>
+                                                <th class="text-right">Weight</th>
+                                            </template>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -68,7 +72,12 @@
                                             <td class="id_overflow">{{v.id}}</td>
                                             <td>{{ new Date(parseInt(v.startTime * 1000)).toLocaleString()}}</td>
                                             <td>{{ new Date(parseInt(v.endTime * 1000)).toLocaleString()}}</td>
-                                            <td>{{ v.stakeAmount }}</td>
+                                            <template v-if="subnet.id === defaultSubnetID">
+                                                <td>{{ v.stakeAmount }}</td>
+                                            </template>
+                                            <template v-else>
+                                                <td>{{ v.weight }}</td>
+                                            </template>
                                         </tr>
                                     </tbody>
                                 </template>
@@ -87,7 +96,12 @@
                                             <th class="text-left">Validator</th>
                                             <th class="text-left">Start Time</th>
                                             <th class="text-left">End Time</th>
-                                            <th class="text-right">Stake</th>
+                                            <template v-if="subnet.id === defaultSubnetID">
+                                                <th class="text-right">Stake</th>
+                                            </template>
+                                            <template v-else>
+                                                <th class="text-right">Weight</th>
+                                            </template>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -98,7 +112,12 @@
                                             <td class="id_overflow">{{ v.id }}</td>
                                             <td>{{ new Date(parseInt(v.startTime * 1000)).toLocaleString()}}</td>
                                             <td>{{ new Date(parseInt(v.endTime * 1000)).toLocaleString()}}</td>
-                                            <td>{{ v.stakeAmount }}</td>
+                                            <template v-if="subnet.id === defaultSubnetID">
+                                                <td>{{ v.stakeAmount }}</td>
+                                            </template>
+                                            <template v-else>
+                                                <td>{{ v.weight }}</td>
+                                            </template>
                                         </tr>
                                     </tbody>
                                 </template>
@@ -131,9 +150,7 @@
                                     </tbody>
                                 </template>
                             </v-simple-table>
-                            <p
-                                class="threshold"
-                            >{{subnet.threshold | pluralizeThreshold}} needed to add a validator to the subnet.</p>
+                            <p class="threshold">{{subnet.threshold | pluralizeThreshold}} needed to add a validator to the subnet.</p>
                         </template>
                     </v-tab-item>
                 </v-tabs>
@@ -145,8 +162,12 @@
 <script>
 import { subnetMap } from "@/helper";
 import Vue from "vue";
+import ContentMetadata from "../../components/Subnets/ContentMetadata";
 
 export default {
+    components:{
+        ContentMetadata
+    },
     filters: {
         subnet(val) {
             return subnetMap(val);
@@ -169,18 +190,19 @@ export default {
     data() {
         return {
             dense: true,
-            fixedHeader: true
+            fixedHeader: true,
+            defaultSubnetID: "11111111111111111111111111111111LpoYY"
         };
     },
     props: {
         subnetID: String,
         subnet: {}
-    }
+    },
 };
 </script>
 
 <style scoped lang="scss">
-@use '../../main';
+@use"../../main";
 
 .subnet_count {
     margin-top: 5px;
@@ -212,6 +234,7 @@ export default {
     font-weight: bold;
     text-transform: none;
     letter-spacing: 0;
+    background-color: main.$primary-color-light;
 }
 
 .v-tab:before {
@@ -219,20 +242,23 @@ export default {
 }
 
 .subnet_header {
-    padding: 13px 0 0 16px;
     color: main.$black;
+    background-color: main.$primary-color-light;
+    padding: 8px;
 
     .subheading {
         text-transform: capitalize;
         font-size: 12px;
         font-weight: bold;
-        margin-bottom: 6px;
+        margin: 8px 0 0 8px;
+        background-color: main.$primary-color-light;
         /* opacity: 0.7; */
     }
 
     h2 {
         color: main.$primary-color;
-        margin: 0 0 8px;
+        margin: 8px 8px 0;
+        padding-top: 0;
     }
 }
 
@@ -262,9 +288,13 @@ export default {
 </style>
 
 <style lang="scss">
-@use '../../main';
+@use"../../main";
 .v-application .primary--text {
     color: main.$primary-color !important;
     caret-color: main.$primary-color !important;
+}
+
+.theme--light.v-tabs > .v-tabs-bar--show-arrows {
+    background-color: main.$primary-color-light !important;
 }
 </style>
