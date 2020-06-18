@@ -2959,6 +2959,11 @@ currently-unhandled@^0.4.1:
   dependencies:
     array-find-index "^1.0.1"
 
+cuss@^1.19.0:
+  version "1.19.0"
+  resolved "https://registry.yarnpkg.com/cuss/-/cuss-1.19.0.tgz#4353d3994f755cef61469afd8c7d464fea4c3256"
+  integrity sha512-RGVhyJ5/9wfTOsVApjBtAvI8zV8+DZvJ5K72TLfMt+KqtmwlqsYkOVVdtuZkvvIMpx+Ctv4KsIKlhkXWoT1fiQ==
+
 cyclist@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"

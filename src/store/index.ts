@@ -24,7 +24,7 @@ export default new Vuex.Store({
                 assets.forEach((assetData: any) => {
                     store.commit("addAsset", new Asset(assetData));
                 });
-            })
+            });
         }
     },
     mutations: {

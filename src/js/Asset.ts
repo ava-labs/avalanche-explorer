@@ -1,5 +1,8 @@
 import api from "@/axios";
 import { IAssetData } from "./IAsset";
+import {Profanities} from "@/js/Profanities";
+
+const profanities = new Profanities();
 
 class Asset {
     id: string;
@@ -11,6 +14,7 @@ class Asset {
     symbol: string;
     volume_day: number;
     txCount_day: number;
+    profane: boolean;
 
     constructor(assetData: IAssetData) {
         this.id = assetData.id;
@@ -22,11 +26,14 @@ class Asset {
         this.symbol = assetData.symbol;
         this.volume_day = 0;
         this.txCount_day = 0;
+        this.profane = false;        
         this.updateVolumeHistory();
+        this.checkForProfanities(this.name);
+        this.checkForProfanities(this.symbol);
     }
 
     // Daily Volume
-    updateVolumeHistory() {
+    private updateVolumeHistory(): void {
         let parent = this;
         let endDate = new Date();
         let startTime = Date.now() - (1000 * 60 * 60 * 24);
@@ -38,6 +45,13 @@ class Asset {
             parent.volume_day = parseInt(txVolume);
             parent.txCount_day = txCount;
         });
+    }
+
+    private checkForProfanities(value: string): void {
+        if (this.profane) {
+            return;
+        }
+        this.profane = profanities.screen(value);
     }
 }
 
