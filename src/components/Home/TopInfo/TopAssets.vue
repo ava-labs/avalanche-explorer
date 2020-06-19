@@ -42,7 +42,7 @@ export default {
     },
     computed: {
         assets() {
-            let res = this.$store.getters.assetsArray.filter(asset => !asset.profane);
+            let res = this.$store.getters.assetsArrayNonProfane;
             res.sort((a, b) => b.txCount_day - a.txCount_day);
             return res.slice(0, 5);
         }

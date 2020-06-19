@@ -33,7 +33,7 @@
             <article class="meta_row">
                 <p class="label">Value</p>
                 <p class="values">
-                    <span v-for="(val, id) in outValues" :key="id">{{val.amount}} {{val.symbol}}</span>
+                    <span v-for="(val, id) in outValues" :key="id">{{val.amount.toLocaleString(val.denomination)}} {{val.symbol}}</span>
                 </p>
             </article>
             <article class="meta_row">
@@ -88,62 +88,67 @@
     </div>
 </template>
 
-<script>
-import Loader from "../components/misc/Loader";
-import UtxoRow from "../components/Transaction/UtxoRow";
+<script lang="ts">
+import 'reflect-metadata';
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
+import Loader from "../components/misc/Loader.vue";
+import UtxoRow from "../components/Transaction/UtxoRow.vue";
 import { Transaction } from "../js/Transaction";
+import { ITransactionOutput, OutputValuesDict } from '../js/ITransaction';
+import { bigToDenomString, stringToBig } from "../helper";
 import api from "../axios";
 import Big from "big.js";
 import moment from "moment";
-import { bigToDenomString, stringToBig } from "../helper";
 
-export default {
+@Component({
     components: {
         Loader,
         UtxoRow
     },
-    data() {
-        return {
-            tx_data: null,
-            tx: null,
-            breadcrumbs: [
-                {
-                    text: "Home",
-                    disabled: false,
-                    href: "/"
-                },
-                {
-                    text: "Transaction",
-                    disabled: true,
-                    href: ""
-                }
-            ]
-        };
-    },
-    created() {
-        this.getData();
-    },
-    watch: {
-        txId(val) {
+})
+    
+    export default class TransactionPage extends Vue {
+        tx: Transaction | null = null;
+        breadcrumbs: any = [
+            {
+                text: "Home",
+                disabled: false,
+                href: "/"
+            },
+            {
+                text: "Transaction",
+                disabled: true,
+                href: ""
+            }
+        ];
+
+        @Watch('txId')
+        ontxIdChanged(val: string, oldVal: string) {
             this.getData();
         }
-    },
-    computed: {
-        txId() {
-            return this.$route.params.id;
-        },
-        networkId() {
-            return "";
-            // return this.tx_data.unsignedTx.networkID
-        },
-        chainId() {
-            // return this.tx_data.unsignedTx.blockchainID
-            return "";
-        },
-        inputs() {
-            let res = [];
+      
+        created() {
+            this.getData();
+        }
 
-            let ins = this.tx.data.inputs;
+        get txId() {
+            return this.$route.params.id;
+        }
+
+        get networkId() {
+            return "";
+        }
+
+        get chainId() {
+            return "";
+        }
+
+        get inputs(): ITransactionOutput[] {
+            let res: ITransactionOutput[] = [];
+
+            if (!this.tx) return res;
+            
+            let ins = this.tx.inputs;
 
             if (!ins) return res;
 
@@ -151,57 +156,64 @@ export default {
                 res.push(ins[i].output);
             }
             return res;
-        },
-        isAssetGenesis() {
+        }
+
+        get isAssetGenesis() {
             return this.type === "create_asset";
-        },
-        outputs() {
-            return this.tx.data.outputs || [];
-        },
-        type() {
-            return this.tx.data.type || "base";
-        },
-        date() {
-            return new Date(this.tx.data.timestamp);
-        },
-        dateAgo() {
+        }
+
+        get outputs() {
+            return !this.tx ? [] : this.tx.outputs;
+        }
+
+        get type() {
+            return !this.tx ? "base" : this.tx.type;
+        }
+
+        get date(): Date {
+            return !this.tx ? new Date() : new Date(this.tx.timestamp);
+        }
+
+        get dateAgo() {
             return moment(this.date).fromNow();
-        },
-        assets() {
+        }
+
+        get assets() {
             return this.$store.state.assets;
-        },
-        outValues() {
-            let dict = {};
+        }
+        
+        get outValues() {
+            let dict: OutputValuesDict = {};
             let outs = this.outputs;
+            
             outs.forEach(out => {
                 let assetId = out.assetID;
                 let amount = out.amount;
                 let asset = this.assets[assetId];
+                let denomination = asset.denomination;
 
                 if (dict[assetId]) {
                     let valNow = dict[assetId].amount;
-                    dict[assetId].amount = valNow.plus(
-                        stringToBig(amount, asset.denomination)
-                    );
+                    dict[assetId].amount = valNow.plus(amount);
                 } else {
                     dict[assetId] = {
                         symbol: asset.symbol,
-                        amount: stringToBig(amount, asset.denomination)
+                        amount: amount,
+                        denomination
                     };
                 }
             });
 
             return dict;
         }
-    },
-    methods: {
+
         getData() {
             let parent = this;
             let url = `/x/transactions/${this.txId}`;
             api.get(url)
                 .then(res => {
-                    const data = res.data;
-                    parent.tx_data = data;
+                    const data = res.data
+                    console.log(data);
                     let tx = new Transaction(data);
                     parent.tx = tx;
                     console.log(tx);
@@ -210,8 +222,126 @@ export default {
                     console.log(err);
                 });
         }
+
     }
-};
+// export default {
+//     components: {
+//         Loader,
+//         UtxoRow
+//     },
+//     data() {
+//         return {
+//             tx_data: null,
+//             tx: null,
+//             breadcrumbs: [
+//                 {
+//                     text: "Home",
+//                     disabled: false,
+//                     href: "/"
+//                 },
+//                 {
+//                     text: "Transaction",
+//                     disabled: true,
+//                     href: ""
+//                 }
+//             ]
+//         };
+//     },
+//     created() {
+//         this.getData();
+//     },
+//     watch: {
+//         txId(val) {
+//             this.getData();
+//         }
+//     },
+//     computed: {
+//         txId() {
+//             return this.$route.params.id;
+//         },
+//         networkId() {
+//             return "";
+//             // return this.tx_data.unsignedTx.networkID
+//         },
+//         chainId() {
+//             // return this.tx_data.unsignedTx.blockchainID
+//             return "";
+//         },
+//         inputs() {
+//             let res = [];
+
+//             let ins = this.tx.data.inputs;
+
+//             if (!ins) return res;
+
+//             for (let i = 0; i < ins.length; i++) {
+//                 res.push(ins[i].output);
+//             }
+//             return res;
+//         },
+//         isAssetGenesis() {
+//             return this.type === "create_asset";
+//         },
+//         outputs() {
+//             return this.tx.data.outputs || [];
+//         },
+//         type() {
+//             return this.tx.data.type || "base";
+//         },
+//         date() {
+//             return new Date(this.tx.data.timestamp);
+//         },
+//         dateAgo() {
+//             return moment(this.date).fromNow();
+//         },
+//         assets() {
+//             return this.$store.state.assets;
+//         },
+//         outValues() {
+//             let dict = {};
+//             let outs = this.outputs;
+//             outs.forEach(out => {
+//                 let assetId = out.assetID;
+//                 let amount = out.amount;
+//                 let asset = this.assets[assetId];
+//                 let denomination = asset.denomination;
+
+//                 if (dict[assetId]) {
+//                     let valNow = dict[assetId].amount;
+//                     dict[assetId].amount = valNow.plus(
+//                         stringToBig(amount, asset.denomination)
+//                     );
+//                 } else {
+//                     dict[assetId] = {
+//                         symbol: asset.symbol,
+//                         amount: stringToBig(amount, asset.denomination),
+//                         denomination
+//                     };
+//                 }
+//             });
+
+//             return dict;
+//         }
+//     },
+//     methods: {
+//         getData() {
+//             let parent = this;
+//             let url = `/x/transactions/${this.txId}`;
+//             api.get(url)
+//                 .then(res => {
+//                     const data = res.data;
+//                     parent.tx_data = data;
+//                     console.log(data);
+//                     let tx = new Transaction(data);
+//                     parent.tx = tx;
+//                     console.log(tx);
+//                 })
+//                 .catch(err => {
+//                     console.log(err);
+//                 });
+//         }
+//     }
+// };
 </script>
 
 <style scoped lang="scss">

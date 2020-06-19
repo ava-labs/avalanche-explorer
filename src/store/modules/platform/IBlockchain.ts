@@ -4,12 +4,13 @@ export interface IBlockchainData {
     id: string,
     name: string,
     subnetID: string,
-    vmID: string
+    vmID: string,
 }
 
 export interface IBlockchain {
     id: string,
     name: string,
     subnetID: string,
-    vmID: string
+    vmID: string,
+    isProfane?: boolean
 }

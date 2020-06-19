@@ -2,7 +2,7 @@
 import * as cuss from 'cuss';
 import { expletives } from "@/expletives";
 
-export class Profanities {
+class Profanities {
     expletives: string[];
     cusses: string[];
 
@@ -59,3 +59,6 @@ export class Profanities {
         return cusses;
     }
 }
+
+let profanities = new Profanities();
+export { profanities };

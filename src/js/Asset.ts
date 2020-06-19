@@ -1,8 +1,6 @@
 import api from "@/axios";
 import { IAssetData } from "./IAsset";
-import {Profanities} from "@/js/Profanities";
-
-const profanities = new Profanities();
+import { profanities } from "@/js/Profanities";
 
 class Asset {
     id: string;
@@ -26,7 +24,7 @@ class Asset {
         this.symbol = assetData.symbol;
         this.volume_day = 0;
         this.txCount_day = 0;
-        this.profane = false;        
+        this.profane = false;
         this.updateVolumeHistory();
         this.checkForProfanities(this.name);
         this.checkForProfanities(this.symbol);

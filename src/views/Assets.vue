@@ -60,7 +60,7 @@ export default {
     },
     computed: {
         assets() {
-            return this.$store.getters["assetsArray"].filter(asset => !asset.profane);
+            return this.$store.getters.assetsArrayNonProfane;
         }
     }
 };
