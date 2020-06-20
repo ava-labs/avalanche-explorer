@@ -1,7 +1,7 @@
 <template>
     <div class="tx_table" v-if="transactions">
         <transition-group name="fade">
-            <tx-row v-for="(tx, i) in tx_page" class="tx_item" :key="i" :transaction="tx"></tx-row>
+            <tx-row v-for="tx in tx_page" class="tx_item" :key="tx.id" :transaction="tx"></tx-row>
         </transition-group>
     </div>
 </template>

@@ -60,8 +60,7 @@ export default {
     },
     computed: {
         assets() {
-            // console.log("assets", this.$store.state.assets);
-            return this.$store.getters["assetsArray"];
+            return this.$store.getters.assetsArrayNonProfane;
         }
     }
 };
@@ -70,8 +69,7 @@ export default {
 @use "../main";
 
 .header {
-    padding-bottom: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
 
     .count {
         padding-top: 5px;

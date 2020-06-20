@@ -24,7 +24,7 @@ export default new Vuex.Store({
                 assets.forEach((assetData: any) => {
                     store.commit("addAsset", new Asset(assetData));
                 });
-            })
+            });
         }
     },
     mutations: {
@@ -38,8 +38,18 @@ export default new Vuex.Store({
             for (let i in state.assets) {
                 res.push(state.assets[i]);
             }
-            res.sort((a,b) => b.volume_day - a.volume_day);
+            res.sort((a, b) => b.volume_day - a.volume_day);
             return res;
+        },
+        assetsArrayNonProfane(state: IRootState, getters) {
+            return getters.assetsArray.filter((val: Asset) => {
+                return !val.profane;
+            });
+        },
+        assetsArrayProfane(state: IRootState, getters) {
+            return getters.assetsArray.filter((val: Asset) => {
+                return val.profane;
+            });
         }
     }
 })

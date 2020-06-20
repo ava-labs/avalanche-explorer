@@ -16,40 +16,39 @@
     </div>
 </template>
 
-<script>
-import Big from "big.js";
+<script lang="ts">
+import "reflect-metadata";
+import { Vue, Component, Prop } from "vue-property-decorator";
 import { addressMap } from "@/helper";
+import { ITransactionOutput } from '@/js/ITransaction';
+import { Asset } from '@/js/Asset';
+import Big from "big.js";
 
-export default {
+@Component({
     filters: {
-        address(val) {
+        address(val: string) {
             return addressMap(val);
         }
-    },
-    props: {
-        output: {
-            type: Object,
-            required: true
-        }
-    },
-    computed: {
-        asset() {
-            let id = this.output.assetID;
-            return this.$store.state.assets[id];
-        },
-        addresses() {
-            return this.output.addresses;
-        },
-        amount() {
-            let amt = Big(this.output.amount);
-
-            let denom = Math.min(this.asset.denomination, 2);
-            return amt
-                .div(Math.pow(10, this.asset.denomination))
-                .toFixed(denom);
-        }
     }
-};
+})
+
+export default class OutputUtxo extends Vue {
+    @Prop() output!: ITransactionOutput;
+    
+    get asset(): Asset {
+        return this.$store.state.assets[this.output.assetID];
+    }
+
+    get addresses(): string[] {
+        return this.output.addresses;
+    }
+    
+    get amount() {
+        let amt = Big(this.output.amount);
+        let denom = Math.min(this.asset.denomination, 2);
+        return amt.div(Math.pow(10, this.asset.denomination)).toFixed(denom);
+    }
+}
 </script>
 
 <style scoped lang="scss">

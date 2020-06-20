@@ -56,7 +56,7 @@
 </template>
 <script>
 import Big from "big.js";
-import IAsset from "../../js/IAsset";
+import { Asset } from "@/js/Asset";
 import { blockchainMap } from "../../helper";
 import TooltipMeta from "../../components/misc/TooltipMeta";
 
@@ -65,7 +65,7 @@ export default {
         TooltipMeta
     },
     props: {
-        asset: IAsset
+        asset: Asset
     },
     filters: {
         name(val) {

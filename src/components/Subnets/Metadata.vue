@@ -45,7 +45,7 @@
                             Total Stake Amount
                             <TooltipMeta content="total value of $AVA tokens used as a scarce resource to secure the AVA network using the Proof-of-Stake method"></TooltipMeta>
                         </p>
-                        <p class="meta_val">{{totalStake.toFixed(2)}} AVA</p>
+                        <p class="meta_val">{{totalStake.toLocaleString()}} AVA</p>
                     </div>
                 </div>
             </div>

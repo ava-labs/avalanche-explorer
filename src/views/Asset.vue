@@ -1,5 +1,5 @@
 <template>
-    <div class="detail"> 
+    <div class="detail">
         <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
         <Metadata :asset="asset"></Metadata>
         <template v-if="!tx">
@@ -36,7 +36,7 @@
             <article class="meta_row">
                 <p class="label">Value</p>
                 <p class="values" v-if="tx">
-                    <span v-for="(val, id) in outValues" :key="id">{{val.amount}} {{val.symbol}}</span>
+                    <span v-for="(val, id) in outValues" :key="id">{{val.amount.toLocaleString(val.denomination)}} {{val.symbol}}</span>
                 </p>
             </article>
             <article class="meta_row">
@@ -92,151 +92,159 @@
         </section>
     </div>
 </template>
-<script>
-import Loader from "../components/misc/Loader";
-import Metadata from "../components/Asset/Metadata";
-import UtxoRow from "../components/Transaction/UtxoRow";
+
+<script lang="ts">
+import "reflect-metadata";
+import { Vue, Component } from "vue-property-decorator";
+
+import Loader from "../components/misc/Loader.vue";
+import Metadata from "../components/Asset/Metadata.vue";
+import UtxoRow from "../components/Transaction/UtxoRow.vue";
+
 import { Transaction } from "../js/Transaction";
 import api from "../axios";
 import Big from "big.js";
 import moment from "moment";
 import { bigToDenomString, stringToBig, blockchainMap } from "../helper";
+import { Asset } from "@/js/Asset";
+import { OutputValuesDict, ITransactionOutput } from "@/js/ITransaction";
 
-export default {
+@Component({
     components: {
         Loader,
         Metadata,
         UtxoRow
-    },
-    data() {
-        return {
-            tx_data: null,
-            tx: null
-        };
-    },
+    }
+})
+export default class AssetPage extends Vue {
+    tx: Transaction | null = null;
+
     created() {
         this.getData();
-    },
-    filters: {
-        name(val) {
-            return val.name ? val.name : val.id;
-        }
-    },
-    computed: {
-        breadcrumbs() {
-            return [
-                {
-                    text: "Home",
-                    disabled: false,
-                    href: "/"
-                },
-                {
-                    text: "Assets",
-                    disabled: false,
-                    href: "/assets"
-                },
-                {
-                    text: `${
-                        this.asset
-                            ? this.asset.symbol
-                                ? this.asset.symbol
-                                : this.asset.id
-                            : "Asset"
-                    }`,
-                    disabled: true,
-                    href: ""
-                }
-            ];
-        },
-        assetID() {
-            return this.$route.params.id;
-        },
-        asset() {
-            return this.$store.state.assets[this.$route.params.id];
-        },
-        txId() {
-            return this.$route.params.id;
-        },
-        networkId() {
-            return "";
-            // return this.tx_data.unsignedTx.networkID
-        },
-        chainId() {
-            // return this.tx_data.unsignedTx.blockchainID
-            return "";
-        },
-        inputs() {
-            let res = [];
-
-            let ins = this.tx.data.inputs;
-
-            if (!ins) return res;
-
-            for (let i = 0; i < ins.length; i++) {
-                res.push(ins[i].output);
-            }
-            return res;
-        },
-        isAssetGenesis() {
-            return this.type === "create_asset";
-        },
-        outputs() {
-            return this.tx.data.outputs || [];
-        },
-        type() {
-            return this.tx.data.type || "base";
-        },
-        date() {
-            return new Date(this.tx.data.timestamp);
-        },
-        dateAgo() {
-            return moment(this.date).fromNow();
-        },
-        assets() {
-            return this.$store.state.assets;
-        },
-        outValues() {
-            let dict = {};
-            let outs = this.outputs;
-            outs.forEach(out => {
-                let assetId = out.assetID;
-                let amount = out.amount;
-                let asset = this.assets[assetId];
-
-                if (dict[assetId]) {
-                    let valNow = dict[assetId].amount;
-                    dict[assetId].amount = valNow.plus(
-                        stringToBig(amount, asset.denomination)
-                    );
-                } else {
-                    dict[assetId] = {
-                        symbol: asset.symbol,
-                        amount: stringToBig(amount, asset.denomination)
-                    };
-                }
-            });
-
-            return dict;
-        }
-    },
-    methods: {
-        getData() {
-            let parent = this;
-            let url = `/x/transactions/${this.txId}`;
-            api.get(url)
-                .then(res => {
-                    const data = res.data;
-                    parent.tx_data = data;
-                    let tx = new Transaction(data);
-                    parent.tx = tx;
-                    console.log(tx);
-                })
-                .catch(err => {
-                    console.log(err);
-                });
-        }
     }
-};
+
+    get breadcrumbs(): any[] {
+        return [
+            {
+                text: "Home",
+                disabled: false,
+                href: "/"
+            },
+            {
+                text: "Assets",
+                disabled: false,
+                href: "/assets"
+            },
+            {
+                text: `${
+                    this.asset
+                        ? this.asset.symbol
+                            ? this.asset.symbol
+                            : this.asset.id
+                        : "Asset"
+                }`,
+                disabled: true,
+                href: ""
+            }
+        ];
+    }
+
+    get assetID(): string {
+        return this.$route.params.id;
+    }
+
+    get asset(): Asset {
+        return this.$store.state.assets[this.$route.params.id];
+    }
+
+    get txId(): string {
+        return this.$route.params.id;
+    }
+
+    get chainId(): string {
+        return !this.tx ? "" : this.tx.chainID;
+    }
+
+    get inputs(): ITransactionOutput[] {
+        let res: ITransactionOutput[] = [];
+
+        if (!this.tx) return res;
+
+        let ins = this.tx.inputs;
+
+        if (!ins) return res;
+
+        for (let i = 0; i < ins.length; i++) {
+            res.push(ins[i].output);
+        }
+        return res;
+    }
+
+    get isAssetGenesis(): boolean {
+        return this.type === "create_asset";
+    }
+
+    get outputs(): ITransactionOutput[] {
+        return !this.tx ? [] : this.tx.outputs;
+    }
+
+    get type(): string {
+        return !this.tx ? "base" : this.tx.type;
+    }
+
+    get date(): Date {
+        return !this.tx ? new Date() : new Date(this.tx.timestamp);
+    }
+
+    get dateAgo(): string {
+        return moment(this.date).fromNow();
+    }
+
+    get assets(): any {
+        return this.$store.state.assets;
+    }
+
+    get outValues(): OutputValuesDict {
+        let dict: OutputValuesDict = {};
+        let outs = this.outputs;
+
+        outs.forEach(out => {
+            let assetId = out.assetID;
+            let amount = out.amount;
+            let asset = this.assets[assetId];
+            let denomination = asset.denomination;
+
+            if (dict[assetId]) {
+                let valNow = dict[assetId].amount;
+                dict[assetId].amount = valNow.plus(amount);
+            } else {
+                dict[assetId] = {
+                    symbol: asset.symbol,
+                    amount,
+                    denomination
+                };
+            }
+        });
+
+        return dict;
+    }
+
+    getData():void  {
+        let parent = this;
+        let url = `/x/transactions/${this.txId}`;
+        api.get(url)
+            .then(res => {
+                const data = res.data;
+                console.log(data);
+                let tx = new Transaction(data);
+                parent.tx = tx;
+                console.log(tx);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
+}
 </script>
 
 <style scoped lang="scss">
