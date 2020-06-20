@@ -24,7 +24,8 @@
 <script lang="ts">
 import "reflect-metadata";
 import { Vue, Component, Prop } from "vue-property-decorator";
-import { addressMap, stringToBig } from "../../helper";
+
+import { addressMap } from "../../helper";
 import { ITransactionOutput } from "../../js/ITransaction";
 import { Asset } from '@/js/Asset';
 
@@ -45,8 +46,7 @@ export default class UtxoRow extends Vue {
     }
 
     get amount() {
-        let amount = this.utxo.amount;
-        return amount.toLocaleString(this.asset.denomination);
+        return this.utxo.amount.toLocaleString(this.asset.denomination);
     }
 
     get txId() {

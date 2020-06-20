@@ -31,13 +31,13 @@ export class Transaction implements ITransaction {
 
     constructor(data: ITransactionData) {
         this.unsignedTx = data.unsignedTx;
-        this.inputs = data.inputs.map((input: ITransactionInputData) => {
+        this.inputs = (data.inputs === null || data.inputs.length === 0) ? [] : data.inputs.map((input: ITransactionInputData) => {
             return {
                 credentials: input.credentials,
                 output: getOutput(input.output)
             }
         });
-        this.outputs = data.outputs.map((output: ITransactionOutputData) => {
+        this.outputs = (data.outputs === null || data.outputs.length === 0) ? [] : data.outputs.map((output: ITransactionOutputData) => {
             return getOutput(output);
         });
         this.id = data.id;
