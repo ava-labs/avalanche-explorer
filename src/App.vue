@@ -96,6 +96,14 @@ export default Vue.extend({
     padding: main.$container_padding_l;
 }
 
+@include main.device_l {
+    .navbar,
+    .router_view,
+    .footer {
+        padding: main.$container_padding_m;
+    }
+}
+
 @include main.device_m {
     .navbar,
     .router_view,
