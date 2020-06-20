@@ -6,7 +6,7 @@
             id="network-error"
             >
             <v-row align="center">
-                <v-col class="grow">Sorry the Explorer is experiencing issues.<br><br>The Denali Network remains operational. You can still <a id="link" href="https://docs.ava.network/v1.0/en/api/avm/#avmgettxstatus">check your transaction activity</a> while we work on resolving these issues.</v-col>
+                <v-col class="grow">THIS EXPLORER IS DOWN FOR MAINTENANCE.<br><br>THE STATE OF THIS EXPLORER DOES NOT REFLECT THE STATE OF THE AVA NETWORK.</v-col>
             </v-row>
             </v-alert>
         <top-info class="card"></top-info>
