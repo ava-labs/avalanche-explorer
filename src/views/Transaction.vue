@@ -135,16 +135,12 @@ export default class TransactionPage extends Vue {
         this.getData();
     }
 
-    get txId() {
+    get txId(): string {
         return this.$route.params.id;
     }
 
-    get networkId() {
-        return "";
-    }
-
-    get chainId() {
-        return "";
+    get chainId(): string {
+        return !this.tx ? "" : this.tx.chainID;
     }
 
     get inputs(): ITransactionOutput[] {
@@ -162,15 +158,15 @@ export default class TransactionPage extends Vue {
         return res;
     }
 
-    get isAssetGenesis() {
+    get isAssetGenesis(): boolean {
         return this.type === "create_asset";
     }
 
-    get outputs() {
+    get outputs(): ITransactionOutput[] {
         return !this.tx ? [] : this.tx.outputs;
     }
 
-    get type() {
+    get type(): string {
         return !this.tx ? "base" : this.tx.type;
     }
 
@@ -178,15 +174,15 @@ export default class TransactionPage extends Vue {
         return !this.tx ? new Date() : new Date(this.tx.timestamp);
     }
 
-    get dateAgo() {
+    get dateAgo(): string {
         return moment(this.date).fromNow();
     }
 
-    get assets() {
+    get assets(): any {
         return this.$store.state.assets;
     }
 
-    get outValues() {
+    get outValues(): OutputValuesDict {
         let dict: OutputValuesDict = {};
         let outs = this.outputs;
 
@@ -202,7 +198,7 @@ export default class TransactionPage extends Vue {
             } else {
                 dict[assetId] = {
                     symbol: asset.symbol,
-                    amount: amount,
+                    amount,
                     denomination
                 };
             }
@@ -211,7 +207,7 @@ export default class TransactionPage extends Vue {
         return dict;
     }
 
-    getData() {
+    getData(): void {
         let parent = this;
         let url = `/x/transactions/${this.txId}`;
         api.get(url)

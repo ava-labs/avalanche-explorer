@@ -50,7 +50,6 @@ export interface ITransaction {
     chainID: string
 }
 
-
 export interface ITransactionInput {
     credentials: ICredentialData,
     output: ITransactionOutput
