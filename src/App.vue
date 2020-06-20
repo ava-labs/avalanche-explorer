@@ -4,7 +4,7 @@
         <v-content class="content">
             <router-view class="router_view"></router-view>
         </v-content>
-        <!-- <responsive-guidelines></responsive-guidelines> -->
+        <responsive-guidelines></responsive-guidelines>
         <Footer class="footer"></Footer>
     </v-app>
 </template>
@@ -13,14 +13,14 @@
 import Vue from "vue";
 import NavBar from "./components/NavBar.vue";
 import Footer from "./components/Footer.vue";
-// import ResponsiveGuidelines from "./components/misc/ResponsiveGuidelines.vue";
+import ResponsiveGuidelines from "./components/misc/ResponsiveGuidelines.vue";
 import { IMetaTag } from "@/router/IMetaTag";
 
 export default Vue.extend({
     name: "App",
     components: {
         NavBar,
-        // ResponsiveGuidelines,
+        ResponsiveGuidelines,
         Footer
     },
     data: () => ({}),
@@ -94,6 +94,14 @@ export default Vue.extend({
 .router_view,
 .footer {
     padding: main.$container_padding_l;
+}
+
+@include main.device_l {
+    .navbar,
+    .router_view,
+    .footer {
+        padding: main.$container_padding_m;
+    }
 }
 
 @include main.device_m {
