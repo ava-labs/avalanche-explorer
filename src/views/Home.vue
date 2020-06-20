@@ -1,14 +1,5 @@
 <template>
     <div class="home">
-         <v-alert
-            prominent
-            type="warning"
-            id="network-error"
-            >
-            <v-row align="center">
-                <v-col class="grow">THIS EXPLORER IS DOWN FOR MAINTENANCE.<br><br>THE STATE OF THIS EXPLORER DOES NOT REFLECT THE STATE OF THE AVA NETWORK.</v-col>
-            </v-row>
-            </v-alert>
         <top-info class="card"></top-info>
         <recent-transactions class="card recent_tx"></recent-transactions>
     </div>
@@ -29,15 +20,6 @@ export default {
 
 <style scoped lang="scss">
 @use "../main";
-
-#network-error {
-    font-weight: bold;
-}
-#link {
-    color: main.$white !important;
-    text-decoration: underline;
-    font-weight: bold;
-}
 
 .home {
     margin: 0px auto;
