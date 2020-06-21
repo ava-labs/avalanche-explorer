@@ -8,20 +8,20 @@
                     <p v-if="asset.alias">Alias: {{asset.alias}}</p>
                 </h2>
             </div>
-            <section class="meta_data">
+            <section class="stats">
                 <article>
-                    <img src="@/assets/ava_price.png" />
-                    <div class="stat_container">
+                    <img src="@/assets/ava_price-purple.png" />
+                    <div class="stat">
                         <p class="label">
                             24h Volume
                             <TooltipMeta v-bind:content="'number of ' + asset.symbol + ' tokens transferred on the AVA network in the past 24 hours'"></TooltipMeta>
                         </p>
-                        <p class="meta_val">{{asset.volume_day.toLocaleString()}} {{asset.symbol}}</p>
+                        <p class="meta_val">{{asset.volume_day.toLocaleString()}} <span class="unit">{{asset.symbol}}</span></p>
                     </div>
                 </article>
                 <article>
-                    <img src="@/assets/ava_transactions.png" />
-                    <div class="stat_container">
+                    <img src="@/assets/ava_transactions-purple.png" />
+                    <div class="stat">
                         <p class="label">
                             24h Transactions
                             <TooltipMeta v-bind:content="'number of transactions involving ' + asset.symbol + ' tokens in the past 24 hours'"></TooltipMeta>
@@ -30,8 +30,8 @@
                     </div>
                 </article>
                 <article>
-                    <img src="@/assets/blockchain.png" />
-                    <div class="stat_container">
+                    <img src="@/assets/blockchain-purple.png" />
+                    <div class="stat">
                         <p class="label">
                             Minted On
                             <TooltipMeta v-bind:content="'blockchain on which ' + asset.symbol + ' was created'"></TooltipMeta>
@@ -40,43 +40,50 @@
                     </div>
                 </article>
                 <article>
-                    <img src="@/assets/stake_amount.png" />
-                    <div class="stat_container">
+                    <img src="@/assets/stake_amount-purple.png" />
+                    <div class="stat">
                         <p class="label">
                             Initial Supply
                             <TooltipMeta v-bind:content="'initial value of ' + asset.symbol + ' tokens minted'"></TooltipMeta>
                         </p>
-                        <p class="meta_val">{{asset.currentSupply}} {{asset.symbol}}</p>
-                        <p class="meta_annotation">Denomination: {{asset.denomination}}</p>
+                        <p class="meta_val">{{asset.currentSupply.toLocaleString(asset.denomination)}} <span class="unit">{{asset.symbol}}</span></p>
+                        <p class="meta_annotation ava-monospace">Denomination: {{asset.denomination}}</p>
                     </div>
                 </article>
             </section>
         </div>
     </div>
 </template>
-<script>
+
+<script lang="ts">
+import "reflect-metadata";
+import { Vue, Component, Prop } from "vue-property-decorator";
 import Big from "big.js";
 import { Asset } from "@/js/Asset";
 import { blockchainMap } from "../../helper";
-import TooltipMeta from "../../components/misc/TooltipMeta";
+import TooltipMeta from "../../components/misc/TooltipMeta.vue";
 
-export default {
+@Component ({
     components: {
         TooltipMeta
     },
-    props: {
-        asset: Asset
-    },
+
     filters: {
-        name(val) {
+        name(val: Asset): string {
             return val.name ? val.name : val.id;
         },
-        blockchain(val) {
+        blockchain(val: string): string {
             return blockchainMap(val);
         }
     }
-};
+})
+
+export default class Metadata extends Vue {
+    @Prop() asset!: Asset;
+}
+
 </script>
+
 <style scoped lang="scss">
 @use"../../main";
 
@@ -105,55 +112,86 @@ export default {
     }
 }
 
-.meta_data {
+.stats {
     display: grid;
     width: 100%;
     grid-template-columns: 25% 25% 25% 25%;
 
     > article {
-        padding: 30px 15px;
+        padding: 30px 15px 0;
         text-align: left;
         line-height: 1.4em;
         display: flex;
         flex-direction: row;
         align-items: flex-start;
+        flex-wrap: wrap;
     }
 
     img {
         object-fit: contain;
-        width: 24px;
-        margin: 24px 15px 0 0;
+        width: 40px;
+        margin: 24px 20px 0 0;
     }
 
-    .stat_container {
+    .stat {
         display: flex;
         flex-direction: column;
 
+        p {
+            font-weight: bold;
+        }
+
         .label {
             text-transform: capitalize;
-            font-size: 12px;
-            font-weight: bold;
+            color: main.$primary-color;
             margin-bottom: 6px;
-            opacity: 0.7;
+            font-size: 14px;
         }
 
         .meta_val {
             font-size: 32px;
-            font-weight: bold;
             line-height: 1em;
+
+            .unit {
+                font-size: 14px;
+                opacity: 0.7;
+            }
         }
 
         .meta_annotation {
-            font-size: 12px;
+            font-size: 14px;
             margin-top: .5em;
+            opacity: 0.7;
+        }
+    }
+}
+
+@include main.device_m {
+    .stats {
+        img {
+            width: 24px;
+        }
+
+        .stat {
+            .label {
+                font-size: 13px;
+            }
+
+            .meta_val {
+                font-size: 20px;
+
+                .unit {
+                    font-size: 14px;
+                }
+            }
         }
     }
 }
 
 @include main.device_s {
-    .meta_data {
-        grid-template-columns: none;
-        grid-template-rows: max-content max-content max-content;
+    .stats {
+        grid-template-columns: 50% 50%;
+        grid-template-rows: max-content;
 
         > div {
             padding: 30px 0 0;
@@ -163,13 +201,13 @@ export default {
 
 
 @include main.device_xs {
-    .meta_data {
+    .stats {
         > div {
             padding: 30px 0 0;
         }
     }
 
-    .meta_data > article {
+    .stats > article {
         padding: 15px 0;
     }
 }

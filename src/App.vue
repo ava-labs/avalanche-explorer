@@ -4,7 +4,7 @@
         <v-content class="content">
             <router-view class="router_view"></router-view>
         </v-content>
-        <!-- <responsive-guidelines></responsive-guidelines> -->
+        <responsive-guidelines></responsive-guidelines>
         <Footer class="footer"></Footer>
     </v-app>
 </template>
@@ -13,14 +13,14 @@
 import Vue from "vue";
 import NavBar from "./components/NavBar.vue";
 import Footer from "./components/Footer.vue";
-// import ResponsiveGuidelines from "./components/misc/ResponsiveGuidelines.vue";
+import ResponsiveGuidelines from "./components/misc/ResponsiveGuidelines.vue";
 import { IMetaTag } from "@/router/IMetaTag";
 
 export default Vue.extend({
     name: "App",
     components: {
         NavBar,
-        // ResponsiveGuidelines,
+        ResponsiveGuidelines,
         Footer
     },
     data: () => ({}),
@@ -90,6 +90,7 @@ export default Vue.extend({
 .footer {
     margin-top: 15vh;
 }
+
 .navbar,
 .router_view,
 .footer {
@@ -152,6 +153,12 @@ p {
     font-size: 1.2em;
 }
 
+.ava-monospace-bold {
+    font-family: "Inconsolata", monospace;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
 .v-application a {
     color: main.$primary-color !important;
     text-decoration: none;
@@ -200,12 +207,12 @@ p {
 
 @include main.device_xs {
     .card {
-        padding: 30px 15px;
+        padding: 30px 15px 30px;
     }
 
     .header {
         h2 {
-            font-size: 16px;
+            font-size: 30px;
             margin: 0;
         }
     }

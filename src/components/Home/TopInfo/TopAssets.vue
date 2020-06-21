@@ -84,7 +84,7 @@ export default {
     }
 
     .name {
-        padding-left: 0px;
+        padding-left: 0;
         flex-grow: 1;
         overflow: hidden;
         white-space: nowrap;
@@ -115,6 +115,7 @@ export default {
         flex-shrink: 0;
         text-align: right;
         width: 70px;
+        padding-right: 0;
     }
 
     .metric-value {

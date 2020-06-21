@@ -26,7 +26,7 @@
                     <img src="@/assets/validators-purple.png" />
                     <div>
                         <p class="label">
-                            Pending Val
+                            Pending Validators
                             <TooltipMeta content="total number of nodes waiting to participate in the consensus protocol of this subnetwork"></TooltipMeta>
                         </p>
                         <p class="meta_val">{{totalPendingValidators}}</p>
@@ -92,6 +92,7 @@ export default {
         display: flex;
         flex-direction: row;
         align-items: center;
+        flex-wrap: wrap;
     }
 
     p {
@@ -101,7 +102,7 @@ export default {
 
     .label {
         text-transform: capitalize;
-        font-size: 14px;
+        font-size: 13px;
         font-weight: bold;
         margin-bottom: 6px;
         opacity: 0.7;

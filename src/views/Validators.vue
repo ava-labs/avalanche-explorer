@@ -1,6 +1,6 @@
 <template>
     <div class="blockchain">
-        <div class="card meta_data_container">
+        <div class="card meta_data">
             <div class="header">
                 <h2>
                     Validators
@@ -19,22 +19,22 @@
                     <v-tab>Pending</v-tab>
                 </v-tabs>
             </div>
-            <div class="meta_data">
-                <div>
-                    <img src="@/assets/ava_price.png" />
-                    <div>
+            <div class="stats">
+                <article>
+                    <img src="@/assets/ava_price-purple.png" />
+                    <div class="stat">
                         <p class="label">
                             Total {{toggle}} Stake
                             <TooltipMeta
                                 content="total value of scarce resource ($AVA) used to secure the AVA network using the Proof-of-Stake method"
                             ></TooltipMeta>
                         </p>
-                        <p class="meta_val">{{totalStake}} AVA</p>
+                        <p class="meta_val">{{totalStake}} <span class="unit">AVA</span></p>
                     </div>
-                </div>
-                <div>
-                    <img src="@/assets/validators.png" />
-                    <div>
+                </article>
+                <article>
+                    <img src="@/assets/validators-purple.png" />
+                    <div class="stat">
                         <p class="label">
                             {{toggle}} Validators
                             <TooltipMeta
@@ -43,7 +43,7 @@
                         </p>
                         <p class="meta_val">{{totalValidatorsCount.toLocaleString()}}</p>
                     </div>
-                </div>
+                </article>
             </div>
         </div>
         <div class="validators card">
@@ -219,50 +219,12 @@ export default {
 <style scoped lang="scss">
 @use "../main";
 
-.meta_data_container {
+.meta_data {
     margin-bottom: 30px;
 
     .header {
         display: flex;
         justify-content: space-between;
-    }
-}
-
-.meta_data {
-    display: grid;
-    width: 100%;
-    grid-template-columns: 1fr 1fr max-content;
-
-    img {
-        object-fit: contain;
-        width: 40px;
-        margin-right: 15px;
-    }
-
-    > div {
-        padding: 30px 15px;
-        text-align: left;
-        line-height: 1.4em;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
-
-    p {
-        font-size: 32px;
-        font-weight: bold;
-    }
-
-    .label {
-        text-transform: capitalize;
-        font-size: 16px;
-        font-weight: bold;
-        margin-bottom: 6px;
-    }
-
-    .meta_val {
-        line-height: 1em;
-        color: main.$primary-color;
     }
 }
 
@@ -273,6 +235,7 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: baseline;
+        flex-wrap: wrap;
 
         .search_count {
             text-transform: capitalize;
@@ -295,6 +258,98 @@ export default {
             padding: 8px 12px;
             outline: none;
             font-size: 14px;
+        }
+    }
+}
+
+.stats {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 1fr max-content;
+
+    > article {
+        padding: 30px 15px 0;
+        text-align: left;
+        line-height: 1.4em;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    img {
+        object-fit: contain;
+        width: 40px;
+        margin-right: 20px;
+    }
+
+    .stat {
+        display: flex;
+        flex-direction: column;
+
+        p {
+            font-weight: bold;
+        }
+
+        .label {
+            text-transform: capitalize;
+            color: main.$primary-color;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        .meta_val {
+            font-size: 32px;
+            line-height: 1em;
+
+            .unit {
+                font-size: 14px;
+                opacity: 0.7;
+            }
+        }
+    }
+}
+
+@include main.device_m {
+    .stats {
+        
+    }
+}
+
+@include main.device_s {
+    .stats {
+        grid-template-columns: 50% 50%;
+        grid-template-rows: max-content;
+
+        > div {
+            padding: 30px 0 0;
+        }
+
+        img {
+            width: 24px;
+        }
+
+        .stat {
+            .label {
+                font-size: 13px;
+            }
+
+            .meta_val {
+                font-size: 20px;
+
+                .unit {
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}
+
+@include main.device_xs {
+    .stats {
+        grid-template-columns: none;
+
+        img {
+            display: none;
         }
     }
 }
