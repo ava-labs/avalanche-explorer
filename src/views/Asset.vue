@@ -36,7 +36,7 @@
             <article class="meta_row">
                 <p class="label">Value</p>
                 <p class="values" v-if="tx">
-                    <span v-for="(val, id) in outValues" :key="id">{{val.amount.toLocaleString(val.denomination)}} {{val.symbol}}</span>
+                    <span v-for="(val, id) in outValues" :key="id">{{val.amount.div(Math.pow(10, val.denomination)).toLocaleString(val.denomination)}} {{val.symbol}}</span>
                 </p>
             </article>
             <article class="meta_row">
@@ -216,6 +216,7 @@ export default class AssetPage extends Vue {
 
             if (dict[assetId]) {
                 let valNow = dict[assetId].amount;
+                console.log("valNow", valNow);
                 dict[assetId].amount = valNow.plus(amount);
             } else {
                 dict[assetId] = {
@@ -238,7 +239,7 @@ export default class AssetPage extends Vue {
                 console.log(data);
                 let tx = new Transaction(data);
                 parent.tx = tx;
-                console.log(tx);
+                // console.log(tx);
             })
             .catch(err => {
                 console.log(err);

@@ -19,7 +19,7 @@ class Asset {
         this.id = assetData.id;
         this.alias = assetData.alias;
         this.chainID = assetData.chainID;
-        this.currentSupply = Big(assetData.currentSupply);
+        this.currentSupply = Big(assetData.currentSupply).div(Math.pow(10, assetData.denomination));
         this.denomination = assetData.denomination;
         this.name = assetData.name;
         this.symbol = assetData.symbol;
@@ -41,7 +41,7 @@ class Asset {
         api.get(`/x/transactions/aggregates?startTime=${startDate.toISOString()}&endTime=${endDate.toISOString()}&assetID=${this.id}`).then(res => {
             let txCount = res.data.aggregates.transactionCount;
             let txVolume = res.data.aggregates.transactionVolume;
-            parent.volume_day = parseInt(txVolume);
+            parent.volume_day = parseInt(txVolume) / Math.pow(10, parent.denomination);
             parent.txCount_day = txCount;
         });
     }

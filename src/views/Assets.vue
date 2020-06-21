@@ -52,7 +52,7 @@
 <script lang="ts">
 import "reflect-metadata";
 import { Vue, Component } from "vue-property-decorator";
-import AssetRow from "@/components/Assets/Asset.vue";
+import AssetRow from "@/components/Assets/AssetRow.vue";
 import Tooltip from "../components/rows/Tooltip.vue";
 import TooltipHeading from "../components/misc/TooltipHeading.vue";
 import { Asset } from "@/js/Asset";

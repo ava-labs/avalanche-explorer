@@ -144,7 +144,7 @@ export default {
                 return 0;
             }
 
-            let res = stringToBig(ava.volume_day, ava.denomination);
+            let res = ava.volume_day;
             return parseInt(res.toFixed(0)).toLocaleString();
         }
     }
