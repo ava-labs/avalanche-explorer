@@ -71,6 +71,12 @@ export interface ITransactionOutput {
 /*
 
 export interface ITransaction {
+    
+    id: string,
+    timestamp: string,
+    type: string,
+    chainID: string
+
     unsignedTx: {
         networkID: number,
         blockchainID: string
@@ -110,11 +116,6 @@ export interface ITransaction {
             transactionID: string
         }
     ],
-    
-    id: string,
-    timestamp: string,
-    type: string,
-    chainID: string
 }
 
 

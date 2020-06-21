@@ -8,9 +8,9 @@
                     <span class="ava-btn-label">Refresh</span>
                 </v-btn>
             </div>
-            <p class="chain right">
+            <p class="chain right" bottom v-if="$vuetify.breakpoint.smAndUp">
                 <span class="label">You are viewing transactions for</span>
-                <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
+                <v-tooltip>
                     <template v-slot:activator="{ on }">
                         <span v-on="on" class="tag">AVA X-Chain</span>
                     </template>

@@ -6,66 +6,75 @@
                 <TooltipHeading content="key figures of the AVA network"></TooltipHeading>
             </h2>
         </div>
-        <div class="meta_data">
-            <div class="meta">
+        <section class="stats">
+            <article class="meta">
                 <img src="@/assets/ava_transactions-purple.png" />
-                <div class="data">
-                    <p class="meta_title">
+                <div class="stat">
+                    <p class="label">
                         24h Transactions
                         <TooltipMeta
                             content="total number of queries or modifications of the states of all blockchains on the AVA network in the past 24 hours"
                         ></TooltipMeta>
                     </p>
                     <div>
-                        <p class="meta_value">{{avaTxCount.toLocaleString()}} ({{tpsText}} TPS)</p>
+                        <p class="meta_val">
+                            {{avaTxCount.toLocaleString()}}
+                            <span class="unit">({{tpsText}} TPS)</span>
+                        </p>
                     </div>
                 </div>
-            </div>
-            <div class="meta">
+            </article>
+            <article class="meta">
                 <img src="@/assets/ava_price-purple.png" />
-                <div class="data">
-                    <p class="meta_title">
+                <div class="stat">
+                    <p class="label">
                         24h Volume
                         <TooltipMeta
                             content="total value of $AVA tokens transferred on the AVA network in the past 24 hours"
                         ></TooltipMeta>
                     </p>
                     <div>
-                        <p class="meta_value">{{avaVolume}} AVA</p>
+                        <p class="meta_val">
+                            {{avaVolume}}
+                            <span class="unit">AVA</span>
+                        </p>
                         <!--<p class="change">+ 24%</p>-->
                     </div>
                 </div>
-            </div>
-            <div class="meta">
+            </article>
+            <article class="meta">
                 <img src="@/assets/validators-purple.png" />
-                <div class="data">
-                    <p class="meta_title">
+                <div class="stat">
+                    <p class="label">
                         Validators
                         <TooltipMeta
                             content="total value of $AVA tokens transferred on the AVA network in the past 24 hours"
                         ></TooltipMeta>
                     </p>
                     <div>
-                        <p class="meta_value">{{validatorCount.toLocaleString()}}</p>
+                        <p class="meta_val">{{validatorCount.toLocaleString()}}</p>
                         <!--<p class="change">+ 24%</p>-->
                     </div>
                 </div>
-            </div>
-            <div class="meta">
+            </article>
+            <article class="meta">
                 <img src="@/assets/stake_amount-purple.png" />
-                <div class="data">
-                    <p class="meta_title">
+                <div class="stat">
+                    <p class="label">
                         Total Staked
                         <TooltipMeta
                             content="total value of $AVA tokens used as a scarce resource to secure the AVA network using the Proof-of-Stake method"
                         ></TooltipMeta>
                     </p>
                     <div>
-                        <p class="meta_value">{{totalStake}} AVA</p>
+                        <p class="meta_val">
+                            {{totalStake}}
+                            <span class="unit">AVA</span>
+                        </p>
                     </div>
                 </div>
-            </div>
-        </div>
+            </article>
+        </section>
     </div>
 </template>
 <script>
@@ -142,13 +151,13 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@use"../../../main";
+@use "../../../main";
 
 .header {
     padding-bottom: 20px;
 }
 
-.meta_data {
+.stats {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     row-gap: 30px;
@@ -165,33 +174,37 @@ export default {
         flex-wrap: wrap;
 
         img {
+            object-fit: contain;
             width: 16px;
             height: 16px;
             max-height: 23px;
-            object-fit: contain;
             margin-right: 4px;
         }
 
-        .data > div {
+        .stat > div {
             display: flex;
         }
 
-        .data p {
-            flex-grow: 1;
+        p {
             padding: 2px 4px;
-            font-size: 18px;
+            font-weight: bold;
         }
 
-        .data .meta_title {
+        .label {
+            text-transform: capitalize;
             color: main.$purple;
-
-            font-size: 12px;
-            font-weight: bold;
+            font-size: 10px;
             margin-bottom: 4px;
         }
 
-        .data .meta_value {
-            font-weight: bold;
+        .meta_val {
+            font-size: 16px;
+            line-height: 1em;
+
+            .unit {
+                font-size: 14px;
+                opacity: 0.7;
+            }
         }
 
         .change {
@@ -204,19 +217,46 @@ export default {
     }
 }
 
-@include main.device_s {
-    .meta_data {
-        flex-direction: column;
-        /*grid-template-columns: none;*/
-        /*grid-template-rows: min-content min-content min-content min-content;*/
+@include main.device_m {
+    .stats {
+        img {
+            width: 24px;
+        }
     }
 }
 
-@include main.device_m {
-    .meta_data {
-        /*grid-template-columns: none;*/
-        /*grid-template-columns: none;*/
-        /*grid-template-rows: min-content min-content min-content min-content;*/
+@include main.device_s {
+    .stats {
+        grid-template-columns: 50% 50%;
+        grid-template-rows: max-content;
+
+        > div {
+            padding: 30px 0 0;
+        }
+    }
+}
+
+@include main.device_xs {
+    .stats {
+        grid-template-columns: none;
+
+        img {
+            display: none;
+        }
+
+        .stat {
+            .label {
+                font-size: 13px;
+            }
+
+            .meta_val {
+                font-size: 20px;
+
+                .unit {
+                    font-size: 14px;
+                }
+            }
+        }
     }
 }
 </style>

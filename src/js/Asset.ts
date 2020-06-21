@@ -1,12 +1,13 @@
 import api from "@/axios";
 import { IAssetData } from "./IAsset";
 import { profanities } from "@/js/Profanities";
+import Big from "big.js";
 
 class Asset {
     id: string;
     alias: string;
     chainID: string;
-    currentSupply: number;
+    currentSupply: Big;
     denomination: number;
     name: string;
     symbol: string;
@@ -18,7 +19,7 @@ class Asset {
         this.id = assetData.id;
         this.alias = assetData.alias;
         this.chainID = assetData.chainID;
-        this.currentSupply = assetData.currentSupply;
+        this.currentSupply = Big(assetData.currentSupply);
         this.denomination = assetData.denomination;
         this.name = assetData.name;
         this.symbol = assetData.symbol;

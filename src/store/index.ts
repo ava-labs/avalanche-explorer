@@ -33,7 +33,7 @@ export default new Vuex.Store({
         }
     },
     getters: {
-        assetsArray(state: IRootState) {
+        assetsArray(state: IRootState): Asset[] {
             let res: Asset[] = [];
             for (let i in state.assets) {
                 res.push(state.assets[i]);
@@ -41,12 +41,12 @@ export default new Vuex.Store({
             res.sort((a, b) => b.volume_day - a.volume_day);
             return res;
         },
-        assetsArrayNonProfane(state: IRootState, getters) {
+        assetsArrayNonProfane(state: IRootState, getters): Asset[] {
             return getters.assetsArray.filter((val: Asset) => {
                 return !val.profane;
             });
         },
-        assetsArrayProfane(state: IRootState, getters) {
+        assetsArrayProfane(state: IRootState, getters): Asset[] {
             return getters.assetsArray.filter((val: Asset) => {
                 return val.profane;
             });

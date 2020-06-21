@@ -60,7 +60,12 @@ export default {
     },
     computed: {
         assets() {
-            return this.$store.getters.assetsArrayNonProfane;
+            let res = this.$store.getters.assetsArrayNonProfane;
+            let ava = res.find(asset => asset.id === "21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA");
+            res = res.filter(asset => asset.id !== "21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA");
+            res.sort((a, b) => b.txCount_day - a.txCount_day);
+            res.unshift(ava);
+            return res.slice(0, 5);
         }
     }
 };

@@ -4,74 +4,91 @@
             <div class="header">
                 <h2>
                     Subnets
-                    <TooltipHeading content="A Subnet is a set of validators. A Subnet validates a set of blockchains. Each blockchain is validated by exactly one Subnet, which is specified on blockchain creation."></TooltipHeading>
+                    <TooltipHeading
+                        content="A Subnet is a set of validators. A Subnet validates a set of blockchains. Each blockchain is validated by exactly one Subnet, which is specified on blockchain creation."
+                    ></TooltipHeading>
                 </h2>
             </div>
-            <div class="meta_data">
-                <div>
+            <section class="stats">
+                <article>
                     <img src="@/assets/subnet-purple.png" />
-                    <div>
+                    <div class="stat">
                         <p class="label">
                             Subnetworks
-                            <TooltipMeta content="total number of subnets created on the AVA network"></TooltipMeta>
+                            <TooltipMeta
+                                content="total number of subnets created on the AVA network"
+                            ></TooltipMeta>
                         </p>
                         <p class="meta_val">{{totalSubnets.toLocaleString()}}</p>
                     </div>
-                </div>
-                <div>
+                </article>
+                <article>
                     <img src="@/assets/blockchain-purple.png" />
-                    <div>
+                    <div class="stat">
                         <p class="label">
                             Blockchains
-                            <TooltipMeta content="total number of blockchains created on the AVA network"></TooltipMeta>
+                            <TooltipMeta
+                                content="total number of blockchains created on the AVA network"
+                            ></TooltipMeta>
                         </p>
                         <p class="meta_val">{{totalBlockchains.toLocaleString()}}</p>
                     </div>
-                </div>
-                <div>
+                </article>
+                <article>
                     <img src="@/assets/validators-purple.png" />
-                    <div>
+                    <div class="stat">
                         <p class="label">
                             Validators
-                            <TooltipMeta content="total number of nodes participating in the consensus protocol of the AVA network"></TooltipMeta>
+                            <TooltipMeta
+                                content="total number of nodes participating in the consensus protocol of the AVA network"
+                            ></TooltipMeta>
                         </p>
                         <p class="meta_val">{{totalValidators.toLocaleString()}}</p>
                     </div>
-                </div>
-                <div>
+                </article>
+                <article>
                     <img src="@/assets/ava_price-purple.png" />
-                    <div>
+                    <div class="stat">
                         <p class="label">
                             Total Stake Amount
-                            <TooltipMeta content="total value of $AVA tokens used as a scarce resource to secure the AVA network using the Proof-of-Stake method"></TooltipMeta>
+                            <TooltipMeta
+                                content="total value of $AVA tokens used as a scarce resource to secure the AVA network using the Proof-of-Stake method"
+                            ></TooltipMeta>
                         </p>
-                        <p class="meta_val">{{totalStake.toLocaleString()}} AVA</p>
+                        <p class="meta_val">
+                            {{totalStake.toLocaleString()}}
+                            <span class="unit">AVA</span>
+                        </p>
                     </div>
-                </div>
-            </div>
+                </article>
+            </section>
         </div>
     </div>
 </template>
-<script>
-import TooltipHeading from "../../components/misc/TooltipHeading";
-import TooltipMeta from "../../components/misc/TooltipMeta";
+
+<script lang="ts">
+import "reflect-metadata";
+import { Vue, Component, Prop } from "vue-property-decorator";
+import TooltipHeading from "../../components/misc/TooltipHeading.vue";
+import TooltipMeta from "../../components/misc/TooltipMeta.vue";
 import Big from "big.js";
 
-export default {
+@Component({
     components: {
         TooltipHeading,
         TooltipMeta
-    },
-    props: {
-        totalSubnets: Number,
-        totalBlockchains: Number,
-        totalValidators: Number,
-        totalStake: Big
     }
-};
+})
+export default class Metadata extends Vue {
+    @Prop() totalSubnets!: number;
+    @Prop() totalBlockchains!: number;
+    @Prop() totalValidators!: number;
+    @Prop() totalStake!: Big;
+}
 </script>
+
 <style scoped lang="scss">
-@use"../../main";
+@use "../../main";
 
 .metadata {
     margin-bottom: 30px;
@@ -82,51 +99,93 @@ export default {
     }
 }
 
-.meta_data {
+.stats {
     display: grid;
     width: 100%;
     grid-template-columns: 20% 20% 20% 40%;
 
-    img {
-        object-fit: contain;
-        width: 40px;
-        margin-right: 15px;
-    }
-
-    > div {
-        padding: 30px 15px;
+    > article {
+        padding: 30px 15px 0;
         text-align: left;
         line-height: 1.4em;
         display: flex;
         flex-direction: row;
         align-items: center;
+        flex-wrap: wrap;
     }
 
-    p {
-        font-size: 32px;
-        font-weight: bold;
+    img {
+        object-fit: contain;
+        width: 40px;
+        margin-right: 20px;
     }
 
-    .label {
-        text-transform: capitalize;
-        font-size: 14px;
-        font-weight: bold;
-        margin-bottom: 6px;
-        opacity: 0.7;
-    }
+    .stat {
+        display: flex;
+        flex-direction: column;
 
-    .meta_val {
-        line-height: 1em;
+        p {
+            font-weight: bold;
+        }
+
+        .label {
+            text-transform: capitalize;
+            color: main.$primary-color;
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+
+        .meta_val {
+            font-size: 32px;
+            line-height: 1em;
+
+            .unit {
+                font-size: 14px;
+                opacity: 0.7;
+            }
+        }
+    }
+}
+
+@include main.device_m {
+    .stats {
+        img {
+            width: 24px;
+        }
+
+        .stat {
+            .label {
+                font-size: 13px;
+            }
+
+            .meta_val {
+                font-size: 20px;
+
+                .unit {
+                    font-size: 14px;
+                }
+            }
+        }
     }
 }
 
 @include main.device_s {
-    .meta_data {
-        grid-template-columns: none;
-        grid-template-rows: max-content max-content max-content;
+    .stats {
+        grid-template-columns: 50% 50%;
+        grid-template-rows: max-content;
 
         > div {
             padding: 30px 0 0;
+        }
+    }
+}
+
+@include main.device_xs {
+    .stats {
+        grid-template-columns: none;
+
+        img {
+            display: none;
         }
     }
 }
