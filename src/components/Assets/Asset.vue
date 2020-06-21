@@ -4,45 +4,42 @@
         <p v-else class="no_symbol"></p>
         <router-link class="name_id" :to="`/asset/${asset.id}`">{{asset | nameOrID}}</router-link>
         <p class="volume_day">{{asset.volume_day}}</p>
-        <p class="txCount_day">{{asset.txCount_day}}</p>
+        <p class="txCount_day">{{asset.txCount_day.toLocaleString()}}</p>
         <p class="avgTx_day">{{avgTxValue}}</p>
         <!-- <p class="denomination">{{asset.denomination}}</p> -->
-        <p class="supply">{{supply}} <span>{{asset.symbol}}</span></p>
+        <p class="supply">{{asset.currentSupply.toLocaleString(asset.denomination)}} <span>{{asset.symbol}}</span></p>
         <p class="chain">{{asset.chainID | blockchain}}</p>
     </div>
 </template>
-<script>
-import { stringToBig } from "../../helper";
-import { blockchainMap } from "@/helper";
 
-export default {
-    props: {
-        asset: {
-            type: Object,
-            required: true
-        }
-    },
+<script lang="ts">
+import "reflect-metadata";
+import { Vue, Component, Prop } from "vue-property-decorator";
+import { stringToBig, blockchainMap } from "@/helper";
+import { Asset } from "@/js/Asset";
+import Big from "big.js";
+
+@Component({
     filters: {
-        blockchain(val) {
+        blockchain(val: string): string {
             return blockchainMap(val);
         },
-        nameOrID(val) {
+        nameOrID(val: Asset): string {
             return val.name? val.name :val.id;
         }
     },
-    computed: {
-        supply() {
-            return stringToBig(
-                this.asset.currentSupply,
-                this.asset.denomination
-            ).toFixed(this.asset.denomination);
-        },
-        avgTxValue() {
-            return (this.asset.txCount_day > 0) ? (this.asset.volume_day / this.asset.txCount_day).toFixed(0) : "";
-        }
+})
+
+export default class AssetRow extends Vue {
+    @Prop() asset!: Asset;
+        
+    get avgTxValue(): string {
+        return (this.asset.txCount_day > 0) ? (this.asset.volume_day / this.asset.txCount_day).toFixed(0) : "";
     }
-};
+
+}
 </script>
+
 <style scoped lang="scss">
 @use"../../main";
 

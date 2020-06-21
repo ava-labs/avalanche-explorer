@@ -46,7 +46,7 @@ export default new Vuex.Store({
                 return !val.profane;
             });
         },
-        assetsArrayProfane(state: IRootState, getters): Asset[] {
+        assetsArrayProfane(state: IRootState, getters) {
             return getters.assetsArray.filter((val: Asset) => {
                 return val.profane;
             });
