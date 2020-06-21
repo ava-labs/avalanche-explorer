@@ -3,7 +3,9 @@
         <div class="header">
             <h2>
                 Top Assets
-                <TooltipHeading content="the most transferred digital assets on the AVA platform in the past 24 hours"></TooltipHeading>
+                <TooltipHeading
+                    content="the most transferred digital assets on the AVA platform in the past 24 hours"
+                ></TooltipHeading>
             </h2>
         </div>
         <div class="asset column_headers">
@@ -12,8 +14,7 @@
                 <Tooltip content="human-readable name for the asset (not necessarily unique)"></Tooltip>
             </p>
             <p class="metric">
-                <Tooltip content="number of transactions of this asset"></Tooltip>
-                Txs (24h)
+                <Tooltip content="number of transactions of this asset"></Tooltip>Txs (24h)
             </p>
         </div>
         <div class="asset" v-for="(asset) in assets" :key="asset.id">
@@ -43,7 +44,10 @@ export default {
     computed: {
         assets() {
             let res = this.$store.getters.assetsArrayNonProfane;
+            let ava = res.find(asset => asset.id === "21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA");
+            res = res.filter(asset => asset.id !== "21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA");
             res.sort((a, b) => b.txCount_day - a.txCount_day);
+            res.unshift(ava);
             return res.slice(0, 5);
         }
     }
@@ -51,7 +55,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use"../../../main";
+@use "../../../main";
 
 .header {
     padding-bottom: 20px;
