@@ -5,7 +5,7 @@
                 <h2>
                     {{asset | name}}
                     <span class="symbol">{{asset.symbol}}</span>
-                    <p v-if="asset.alias">Alias: {{asset.alias}}</p>
+                    <p class="alias" v-if="asset.alias">Alias: {{asset.alias}}</p>
                 </h2>
             </div>
             <section class="stats">
@@ -16,7 +16,7 @@
                             24h Volume
                             <TooltipMeta v-bind:content="'number of ' + asset.symbol + ' tokens transferred on the AVA network in the past 24 hours'"></TooltipMeta>
                         </p>
-                        <p class="meta_val">{{asset.volume_day.toLocaleString()}} <span class="unit">{{asset.symbol}}</span></p>
+                        <p class="meta_val">{{parseInt(asset.volume_day.toFixed(0)).toLocaleString()}} <span class="unit">{{asset.symbol}}</span></p>
                     </div>
                 </article>
                 <article>
@@ -94,6 +94,11 @@ export default class Metadata extends Vue {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+
+        .alias {
+            margin-top: .5em;
+            font-size: 14px;
+        }
     }
 
     .symbol {
@@ -129,8 +134,8 @@ export default class Metadata extends Vue {
 
     img {
         object-fit: contain;
-        width: 40px;
-        margin: 24px 20px 0 0;
+        width: 24px;
+        margin: 0 14px 0 0;
     }
 
     .stat {
@@ -149,7 +154,7 @@ export default class Metadata extends Vue {
         }
 
         .meta_val {
-            font-size: 32px;
+            font-size: 26px;
             line-height: 1em;
 
             .unit {
@@ -160,7 +165,6 @@ export default class Metadata extends Vue {
 
         .meta_annotation {
             font-size: 14px;
-            margin-top: .5em;
             opacity: 0.7;
         }
     }

@@ -3,7 +3,7 @@
         <p v-if="asset.symbol" class="symbol">{{asset.symbol}}</p>
         <p v-else class="no_symbol"></p>
         <router-link class="name_id" :to="`/asset/${asset.id}`">{{asset | nameOrID}}</router-link>
-        <p class="volume_day">{{asset.volume_day}}</p>
+        <p class="volume_day">{{asset.volume_day.toLocaleString()}}</p>
         <p class="txCount_day">{{asset.txCount_day.toLocaleString()}}</p>
         <p class="avgTx_day">{{avgTxValue}}</p>
         <!-- <p class="denomination">{{asset.denomination}}</p> -->
@@ -34,7 +34,7 @@ export default class AssetRow extends Vue {
     @Prop() asset!: Asset;
         
     get avgTxValue(): string {
-        return (this.asset.txCount_day > 0) ? (this.asset.volume_day / this.asset.txCount_day).toFixed(0) : "";
+        return (this.asset.txCount_day > 0) ? parseInt((this.asset.volume_day / this.asset.txCount_day).toFixed(0)).toLocaleString() : "";
     }
 
 }

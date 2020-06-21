@@ -45,7 +45,7 @@ export default class UtxoRow extends Vue {
     }
 
     get amount(): string {
-        return this.utxo.amount.toLocaleString(this.asset.denomination);
+        return this.utxo.amount.div(Math.pow(10, this.asset.denomination)).toLocaleString(this.asset.denomination);
     }
 
     get txId(): string {
