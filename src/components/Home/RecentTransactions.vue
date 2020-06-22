@@ -3,7 +3,7 @@
         <div class="header">
             <div class="left">
                 <h2>Latest Transactions</h2>
-                <v-btn :loading="isAjax" :text="true" @click="updateTx" class="refresh">
+                <v-btn :loading="loading" :text="true" @click="updateTx" class="refresh">
                     <fa icon="sync"></fa>
                     <span class="ava-btn-label">Refresh</span>
                 </v-btn>
@@ -18,7 +18,7 @@
                 </v-tooltip>
             </p>
         </div>
-        <div class="list">
+        <div class="list" v-if="assetsLoaded">
             <div class="table_headers recent_tx_rows">
                 <p></p>
                 <p>
@@ -48,6 +48,7 @@
         </div>
     </div>
 </template>
+
 <script>
 import Vue from "vue";
 import Tooltip from "@/components/rows/Tooltip";
@@ -61,7 +62,7 @@ export default Vue.extend({
     },
     data() {
         return {
-            isAjax: false,
+            loading: false,
             transactions: []
         };
     },
@@ -72,20 +73,32 @@ export default Vue.extend({
         updateTx() {
             const parent = this;
             let txNum = 8;
-            this.isAjax = true;
-            api.get(`/x/transactions?sort=timestamp-desc&limit=${txNum}`).then(
-                res => {
+            this.loading = true;
+
+            if (this.assetsLoaded) {
+                api.get(`/x/transactions?sort=timestamp-desc&limit=${txNum}`).then(res => {
                     const list = res.data.transactions;
                     parent.transactions = list;
-                    parent.isAjax = false;
-                }
-            );
+                    parent.loading = false;
+                });
+            }
+        }
+    },
+    computed: {
+        assetsLoaded() {
+            return this.$store.state.assetsLoaded;
+        }
+    },
+    watch: {
+        assetsLoaded() {
+            this.updateTx();
         }
     }
 });
 </script>
+
 <style scoped lang="scss">
-@use"../../main";
+@use "../../main";
 
 .refresh {
     margin-left: 16px;

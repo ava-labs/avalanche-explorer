@@ -17,13 +17,18 @@
                 <Tooltip content="number of transactions of this asset"></Tooltip>Txs (24h)
             </p>
         </div>
-        <div class="asset" v-for="(asset) in assets" :key="asset.id">
-            <div class="name">
-                <router-link :to="`/asset/${asset.id}`" class="asset_name">{{asset.name}}</router-link>
-                <span class="symbol">{{asset.symbol}}</span>
+        <div v-if="!assetsLoaded">
+            <v-progress-circular :size="16" :width="2" color="#7a838e" indeterminate key="1"></v-progress-circular>
+        </div>
+        <div v-else>
+            <div class="asset" v-for="(asset) in assets" :key="asset.id">
+                <div class="name">
+                    <router-link :to="`/asset/${asset.id}`" class="asset_name">{{asset.name}}</router-link>
+                    <span class="symbol">{{asset.symbol}}</span>
+                </div>
+                <p class="metric ava-monospace">{{asset.txCount_day.toLocaleString()}}</p>
+                <!--TODO: normalize asset.volume_day -->
             </div>
-            <p class="metric ava-monospace">{{asset.txCount_day.toLocaleString()}}</p>
-            <!--TODO: normalize asset.volume_day -->
         </div>
     </div>
 </template>
@@ -49,6 +54,9 @@ export default {
             res.sort((a, b) => b.txCount_day - a.txCount_day);
             res.unshift(ava);
             return res.slice(0, 5);
+        },
+        assetsLoaded() {
+            return this.$store.state.assetsLoaded;
         }
     }
 };

@@ -12,7 +12,10 @@
                     <p class="count">{{Object.keys(assets).length}} assets found</p>
                 </div>
             </div>
-            <div class="asset_list">
+            <div v-if="!assetsLoaded">
+                <v-progress-circular :size="16" :width="2" color="#7a838e" indeterminate key="1"></v-progress-circular>
+            </div>
+            <div class="asset_list" v-else>
                 <div class="grid_headers asset_row">
                     <p>
                         Symbol
@@ -69,17 +72,15 @@ import { IAssetData } from "../js/IAsset";
 export default class AssetsPage extends Vue {
     get assets(): Asset[] {
         let res: Asset[] = this.$store.getters.assetsArrayNonProfane;
-        // console.log(res.forEach(asset => console.log(asset)));
-        // console.log(res.forEach(asset => console.log(asset.id)));
         let ava: Asset = res.find((asset: Asset) => asset.id === "21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA") as Asset;
         res = res.filter((asset: Asset) => asset.id !== "21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA");
         res.sort((a: Asset, b: Asset) => b.txCount_day - a.txCount_day);
         res.unshift(ava);
-        console.log("AFTER==============================================")
-        // console.log(res.forEach(asset => console.log(asset)));
-        // console.log(res.forEach(asset => console.log(asset.id)));
-        // console.log("what", res[res.length - 1]);
         return res;
+    }
+
+    get assetsLoaded(): boolean {
+        return this.$store.state.assetsLoaded;
     }
 }
 </script>
