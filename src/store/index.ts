@@ -14,22 +14,27 @@ export default new Vuex.Store({
     },
     state: {
         assets: {},
+        assetsLoaded: false,
         known_addresses: AddressDict,
         chainId: "X",
     },
     actions: {
-        init(store) {
-            api.get("/x/assets").then(res => {
+        async init(store) {
+            await api.get("/x/assets").then(res => {
                 let assets = res.data.assets;
                 assets.forEach((assetData: any) => {
                     store.commit("addAsset", new Asset(assetData));
                 });
             });
+            store.commit("finishLoading");
         }
     },
     mutations: {
         addAsset(state, asset) {
             Vue.set(state.assets, asset.id, asset);
+        },
+        finishLoading(state) {
+            state.assetsLoaded = true;
         }
     },
     getters: {

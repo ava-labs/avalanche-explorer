@@ -61,7 +61,7 @@ export default {
                 )
                 .then(res => {
                     let data = res.data;
-                    console.log(data);
+                    // console.log(data);
                     parent.history = data;
                     parent.draw();
                 });
