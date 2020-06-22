@@ -197,7 +197,7 @@ export default class Metadata extends Vue {
         grid-template-columns: 50% 50%;
         grid-template-rows: max-content;
 
-        > div {
+        > article {
             padding: 30px 0 0;
         }
     }
@@ -205,14 +205,25 @@ export default class Metadata extends Vue {
 
 
 @include main.device_xs {
-    .stats {
-        > div {
-            padding: 30px 0 0;
+    .metadata {
+        margin-bottom: 10px;
+
+        .header {
+            display: flex;
+            justify-content: space-between;
         }
     }
 
-    .stats > article {
-        padding: 15px 0;
+    .stats {
+        grid-template-columns: none;
+
+        > article {
+            padding: 30px 0 0;
+        }
+
+        img {
+            display: none;
+        }
     }
 }
 

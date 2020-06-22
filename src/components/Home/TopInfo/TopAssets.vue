@@ -33,33 +33,38 @@
     </div>
 </template>
 
-<script>
-import Tooltip from "../../../components/rows/Tooltip";
-import TooltipHeading from "../../../components/misc/TooltipHeading";
+<script lang="ts">
+import "reflect-metadata";
+import { Vue, Component } from "vue-property-decorator";
+import Tooltip from "../../../components/rows/Tooltip.vue";
+import TooltipHeading from "../../../components/misc/TooltipHeading.vue";
 import axios from "@/axios";
+import { Asset } from "@/js/Asset";
 
-export default {
+@Component({
     components: {
         Tooltip,
         TooltipHeading
-    },
+    }
+})
+export default class TopAssets extends Vue {
     created() {
         let parent = this;
-    },
-    computed: {
-        assets() {
-            let res = this.$store.getters.assetsArrayNonProfane;
-            let ava = res.find(asset => asset.id === "21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA");
-            res = res.filter(asset => asset.id !== "21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA");
-            res.sort((a, b) => b.txCount_day - a.txCount_day);
-            res.unshift(ava);
-            return res.slice(0, 5);
-        },
-        assetsLoaded() {
-            return this.$store.state.assetsLoaded;
-        }
     }
-};
+
+    get assets(): Asset[] {
+        let res = this.$store.getters.assetsArrayNonProfane;
+        let ava = res.find((asset: Asset) => asset.id === "21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA");
+        res = res.filter((asset: Asset) => asset.id !== "21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA");
+        res.sort((a: Asset, b: Asset) => b.txCount_day - a.txCount_day);
+        res.unshift(ava);
+        return res.slice(0, 5);
+    }
+
+    get assetsLoaded(): boolean {
+        return this.$store.state.assetsLoaded;
+    }
+}
 </script>
 
 <style scoped lang="scss">

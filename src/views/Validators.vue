@@ -345,8 +345,16 @@ export default {
 }
 
 @include main.device_xs {
+    .meta_data {
+        margin-bottom: 10px;
+    }
+
     .stats {
         grid-template-columns: none;
+
+        > article {
+            padding: 15px 0 0;
+        }
 
         img {
             display: none;
@@ -466,14 +474,14 @@ export default {
 
         > div {
             text-align: left;
-            padding: 30px 0 0;
+            padding: 0;
         }
     }
 }
 
 @include main.device_xs {
     .validators {
-        padding: 15px;
+        padding: 30px 15px;
     }
 
     .controls {

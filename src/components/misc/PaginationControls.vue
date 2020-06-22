@@ -22,52 +22,44 @@
         >Last</button>
     </div>
 </template>
-<script>
-export default {
-    data() {
-        return {
-            page: 1
-        };
-    },
-    watch: {
-        page(val) {
-            console.log("Page: ", val);
-            let offset = (val - 1) * this.limit;
-            this.$emit("change", offset);
-        }
-    },
-    props: {
-        total: {
-            type: Number,
-            default: 0
-        },
-        limit: {
-            type: Number
-        }
-    },
-    computed: {
-        totalPages() {
-            return Math.ceil(this.total / this.limit);
-        }
-    },
-    methods: {
-        pageUp() {
-            let page = this.page + 1;
 
-            if (page > this.totalPages) return;
-            this.page = page;
-        },
-        pageDown() {
-            let page = this.page - 1;
+<script lang="ts">
+import "reflect-metadata";
+import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 
-            if (page < 1) return;
-            this.page = page;
-        }
+@Component({})
+export default class PaginationControls extends Vue {
+    @Prop() total!: number;
+    @Prop() limit!: number;
+
+    page: number = 1;
+
+    @Watch("page")
+    onPageChanged(val: number) {
+        let offset = (val - 1) * this.limit;
+        this.$emit("change", offset);
     }
-};
+
+    get totalPages(): number {
+        return Math.ceil(this.total / this.limit);
+    }
+
+    pageUp(): void {
+        let page = this.page + 1;
+        if (page > this.totalPages) return;
+        this.page = page;
+    }
+
+    pageDown(): void {
+        let page = this.page - 1;
+        if (page < 1) return;
+        this.page = page;
+    }
+}
 </script>
+
 <style scoped lang="scss">
-@use"../../main";
+@use "../../main";
 
 .pagination_control {
     display: flex;
@@ -91,6 +83,7 @@ export default {
 
 button {
     outline: none;
+    font-size: 12px;
 }
 
 .pages {
@@ -106,7 +99,7 @@ button {
 .disabled {
     color: main.$gray;
     cursor: default;
-    
+
     &:hover {
         opacity: 1;
         text-decoration: none;

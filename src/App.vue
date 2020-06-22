@@ -123,9 +123,12 @@ export default Vue.extend({
 
 @include main.device_xs {
     .navbar,
-    .router_view,
     .footer {
         padding: main.$container_padding_xs;
+    }
+
+    .router_view {
+        padding: 10px 0;
     }
 }
 </style>
@@ -208,6 +211,7 @@ p {
 @include main.device_xs {
     .card {
         padding: 30px 15px 30px;
+        border-radius: 0;
     }
 
     .header {
@@ -249,10 +253,10 @@ p {
 }
 
 .meta_row {
-    font-size: 13px;
+    font-size: 14px;
     display: grid;
     grid-template-columns: 140px 1fr;
-    
+    overflow-x: scroll;
     padding: 15px 0;
     border-bottom: 1px solid main.$gray-xlight;
     
@@ -277,7 +281,7 @@ p {
     color: main.$green;
     width: max-content;
     padding: 4px 8px;
-    margin: 0px 30px;
+    margin: 0 0 0 30px;
     word-break: keep-all;
 }
 
@@ -304,6 +308,12 @@ p {
     text-overflow: ellipsis;
 }
 
+.utxo_table {
+    /* margin-top: 5px; */
+    /* width: 100%; */
+    /* overflow: scroll; */
+}
+
 .utxo_headers,
 .io_item {
     grid-template-columns: 80px 80px 80px 100px 1fr;
@@ -312,6 +322,7 @@ p {
 .utxo_headers {
     display: grid;
     grid-gap: 10px;
+    font-size: 12px;
 
     p {
         font-weight: bold;
@@ -340,7 +351,6 @@ p {
 
 @include main.device_s {
     .meta_row {
-        font-size: 12px;
         padding: 16px 0;
         grid-template-columns: none;
         grid-template-rows: max-content 1fr;
@@ -360,6 +370,10 @@ p {
 }
 
 @include main.device_xs {
+    .utxo_table {
+        margin-top: 5px;
+    }
+
     .detail {
         padding: main.$container_padding_xs;
     }

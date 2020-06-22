@@ -48,6 +48,7 @@ export default {
 
         > div {
             padding: 30px;
+            margin-bottom: 10px;
             border: none;
             border-bottom: 1px solid #c4c4c455;
         }
@@ -56,9 +57,12 @@ export default {
 
 @include main.device_xs {
     .top_info {
+        background-color: #f8f8f8;
+        
         > div {
-            padding: 45px 15px 15px;
-            border-bottom: 1px solid #c4c4c455;
+            padding: 30px 15px;
+            box-shadow: main.$box-shadow;
+            background-color: main.$white;
         }
     }
 }
