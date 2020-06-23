@@ -64,14 +64,14 @@ export default class TransactionPage extends Vue {
     getData(): void {
         let parent = this;
         let url = `/x/transactions/${this.txId}`;
-        if(this.assetsLoaded) {
+        if (this.assetsLoaded) {
             api.get(url)
             .then(res => {
                 const data = res.data;
-                // console.log(data);
+                console.log(data);
                 let tx = new Transaction(data);
                 parent.tx = tx;
-                // console.log(tx);
+                console.log(tx);
             })
             .catch(err => {
                 console.log(err);

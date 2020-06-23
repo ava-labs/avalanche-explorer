@@ -138,7 +138,7 @@ export default class AssetRow extends Vue {
 @include main.device_xs {
     .asset_row {
         a {
-            color: main.$primary-color !important;
+            /* color: main.$primary-color !important; */
         }
 
         .unit {

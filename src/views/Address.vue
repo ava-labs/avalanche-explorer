@@ -4,7 +4,6 @@
         <template v-if="loading">
             <Loader :contentId="address" :message="'Fetching Address Details'"></Loader>
         </template>
-
         <section class="card meta" v-if="this.metaData">
             <header class="header">
                 <h2>X-{{address}}</h2>
@@ -79,6 +78,7 @@
                             :total="totalTransactionCount"
                             :limit="limit"
                             @change="page_change"
+                            ref="paginationTop"
                         ></pagination-controls>
                     </div>
                 </template>
@@ -98,10 +98,10 @@
                     <Tooltip content="address that receives transfer value"></Tooltip>
                 </p>
             </div>
-            <template v-if="txloading">
+            <div v-show="txloading">
                 <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
-            </template>
-            <template v-else>
+            </div>
+            <div v-show="!txloading">
                 <div class="rows">
                     <transition-group name="fade">
                     <tx-row
@@ -113,9 +113,14 @@
                     </transition-group>
                 </div>
                 <div class="bar-table">
-                    <pagination-controls :total="totalTransactionCount" :limit="limit" @change="page_change" ></pagination-controls>
+                    <pagination-controls 
+                        :total="totalTransactionCount" 
+                        :limit="limit" 
+                        @change="page_change" 
+                        ref="paginationBottom">
+                    </pagination-controls>
                 </div>
-            </template>
+            </div>
         </section>
     </div>
 </template>
@@ -274,6 +279,11 @@ export default {
         page_change(val) {
             this.offset = val;
             this.getTx();
+            let pgNum = Math.floor(this.offset / this.limit) + 1;
+            // @ts-ignore
+            this.$refs.paginationTop.setPage(pgNum); 
+            // @ts-ignore
+            this.$refs.paginationBottom.setPage(pgNum);
         }
     }
 };

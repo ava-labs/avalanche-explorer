@@ -69,7 +69,7 @@ import { Transaction } from '@/js/Transaction';
 export default class Transactions extends Vue {
     loading: boolean = true;
     totalTx: number = 0;
-    limit: number = 5; // how many to display
+    limit: number = 25; // how many to display
     offset: number = 0;
     txs: Transaction[] = [];
 
@@ -98,8 +98,6 @@ export default class Transactions extends Vue {
         this.$refs.paginationTop.setPage(pgNum); 
         // @ts-ignore
         this.$refs.paginationBottom.setPage(pgNum); 
-        console.log("REFTX PAGE", this.$refs);
-        console.log("REF", this.$refs.paginationTop);
     }
 
     getTx(): void {
