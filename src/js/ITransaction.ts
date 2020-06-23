@@ -128,3 +128,10 @@ export interface OutputValuesDict {
         denomination: number
     }
 }
+
+export interface outValuesDenominated {
+    [assetId: string]: {
+        amount: string,
+        symbol: string        
+    }
+}

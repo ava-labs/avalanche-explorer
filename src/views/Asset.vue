@@ -2,125 +2,116 @@
     <div class="detail">
         <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
         <Metadata :asset="asset"></Metadata>
-        <template v-if="!tx">
+        <section v-if="!txloading" class="card transactions">
+            <header class="header">
+                <h2>Recent Transactions</h2>
+                <template v-if="txloading && !assetsLoaded">
+                    <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1" ref="paginationTop"></v-progress-circular>
+                </template>
+                <!-- <template v-else>
+                    <div class="bar">
+                        <p
+                            class="count"
+                        >{{totalTransactionCount.toLocaleString()}} transactions found</p>
+                        <pagination-controls
+                            :total="totalTransactionCount"
+                            :limit="limit"
+                            @change="page_change"
+                        ></pagination-controls>
+                    </div>
+                </template> -->
+            </header>
+            <div class="table_headers tx_rows">
+                <p></p>
+                <p>
+                    ID
+                    <Tooltip content="a transaction queries or modifies the state of a blockchain"></Tooltip>
+                </p>
+                <p>
+                    From
+                    <Tooltip content="address that sends transfer value"></Tooltip>
+                </p>
+                <p>
+                    To
+                    <Tooltip content="address that receives transfer value"></Tooltip>
+                </p>
+            </div>
+            <template v-if="txloading">
+                <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
+            </template>
+            <template v-else>
+                <div class="rows">
+                    <transition-group name="fade">
+                    <tx-row
+                        class="tx_item"
+                        v-for="tx in transactions"
+                        :transaction="tx"
+                        :key="tx.id"
+                    ></tx-row>
+                    </transition-group>
+                </div>
+                <!-- <div class="bar-table">
+                    <pagination-controls :total="totalTransactionCount" :limit="limit" @change="page_change" ref="paginationBottom"></pagination-controls>
+                </div> -->
+            </template>
+        </section>
+        <template v-if="!genesisTx">
             <Loader :contentId="assetID" :message="'Fetching Asset Details'"></Loader>
         </template>
-
-        <section class="card meta asset_genesis">
-            <header class="header">
-                <h2>Asset Genesis Details</h2>
-            </header>
-            <article class="meta_row">
-                <p class="label">Tx ID</p>
-                <div class="genesis_tx" v-if="tx">
-                    <p>
-                        <b>{{txId}}</b>
-                    </p>
-                    <p v-if="isAssetGenesis" class="genesis">Asset Genesis</p>
-                </div>
-            </article>
-            <article class="meta_row">
-                <p class="label">Status</p>
-                <div v-if="tx">
-                    <p class="status">Success</p>
-                    <p class="status" v-if="type==='assetCreation'">Success</p>
-                </div>
-            </article>
-            <article class="meta_row">
-                <p class="label">Timestamp</p>
-                <p class="date" v-if="tx">
-                    <fa :icon="['far','clock']"></fa>
-                    {{dateAgo}} ({{date.toLocaleString()}})
-                </p>
-            </article>
-            <article class="meta_row">
-                <p class="label">Value</p>
-                <p class="values" v-if="tx">
-                    <span v-for="(val, id) in outValues" :key="id">{{val.amount.div(Math.pow(10, val.denomination)).toLocaleString(val.denomination)}} {{val.symbol}}</span>
-                </p>
-            </article>
-            <article class="meta_row">
-                <p class="label">Transaction Fee</p>
-                <p v-if="tx">0.00 AVA</p>
-            </article>
-            <article class="meta_row" v-if="!isAssetGenesis">
-                <p class="label">Input UTXOs</p>
-                <div v-if="tx && inputs.length > 0">
-                    <div class="utxo_headers">
-                        <p>Tx</p>
-                        <p>Lock Time</p>
-                        <p>Threshold</p>
-                        <p>From</p>
-                        <p class="amount">Amount</p>
-                    </div>
-                    <div v-if="tx">
-                        <utxo-row
-                            class="io_item"
-                            v-for="(input, i) in inputs"
-                            :key="i"
-                            :utxo="input"
-                            type="input"
-                        ></utxo-row>
-                    </div>
-                </div>
-                <div v-else>
-                    <p>No input UTXOs found for this transaction on the explorer.</p>
-                </div>
-            </article>
-            <article class="meta_row">
-                <p class="label">Output UTXOs</p>
-                <div v-if="tx && outputs.length > 0" class="utxo_table">
-                    <div class="utxo_headers">
-                        <p>Tx</p>
-                        <p>Lock Time</p>
-                        <p>Threshold</p>
-                        <p>To</p>
-                        <p class="amount">Amount</p>
-                    </div>
-                    <utxo-row
-                        class="io_item"
-                        v-for="(output, i) in outputs"
-                        :key="i"
-                        :utxo="output"
-                        type="output"
-                    ></utxo-row>
-                </div>
-                <div v-else>
-                    <p>No output utxos found for this transaction.</p>
-                </div>
-            </article>
-        </section>
+        <template v-else>
+            <TransactionDetailCard :tx="genesisTx">Asset Genesis Details</TransactionDetailCard>
+        </template>
     </div>
 </template>
 
 <script lang="ts">
 import "reflect-metadata";
-import { Vue, Component } from "vue-property-decorator";
-
+import { Vue, Component, Watch } from "vue-property-decorator";
 import Loader from "../components/misc/Loader.vue";
 import Metadata from "../components/Asset/Metadata.vue";
-import UtxoRow from "../components/Transaction/UtxoRow.vue";
-
+import TransactionDetailCard from "../components/TransactionDetailCard.vue";
+import PaginationControls from "../components/misc/PaginationControls.vue";
+import Tooltip from "../components/rows/Tooltip.vue";
+import TxRow from "../components/rows/TxRow/TxRow.vue";
 import { Transaction } from "../js/Transaction";
-import api from "../axios";
-import Big from "big.js";
-import moment from "moment";
-import { bigToDenomString, stringToBig, blockchainMap } from "../helper";
 import { Asset } from "@/js/Asset";
-import { OutputValuesDict, ITransactionOutput } from "@/js/ITransaction";
+import api from "../axios";
 
 @Component({
     components: {
         Loader,
         Metadata,
-        UtxoRow
+        PaginationControls,
+        TransactionDetailCard, 
+        Tooltip,
+        TxRow
     }
 })
 export default class AssetPage extends Vue {
-    tx: Transaction | null = null;
+    genesisTx: Transaction | null = null;
+    txloading: boolean = false;
+    totalTx: number = 0;
+    limit: number = 10; // how many to display
+    offset: number = 0;
+    sort: string = "timestamp-desc";
+    transactions: Transaction[] = [];
 
     created() {
         this.getData();
+    }
+
+    @Watch("txId")
+    ontxIdChanged(val: string, oldVal: string) {
+        this.getData();
+    }
+
+    @Watch("assetsLoaded")
+    onAssetsLoaded() {
+        this.getData();
+    }
+
+    get assetsLoaded() {
+        return this.$store.state.assetsLoaded;
     }
 
     get breadcrumbs(): any[] {
@@ -161,89 +152,57 @@ export default class AssetPage extends Vue {
         return this.$route.params.id;
     }
 
-    get chainId(): string {
-        return !this.tx ? "" : this.tx.chainID;
-    }
-
-    get inputs(): ITransactionOutput[] {
-        let res: ITransactionOutput[] = [];
-
-        if (!this.tx) return res;
-
-        let ins = this.tx.inputs;
-
-        if (!ins) return res;
-
-        for (let i = 0; i < ins.length; i++) {
-            res.push(ins[i].output);
-        }
-        return res;
-    }
-
-    get isAssetGenesis(): boolean {
-        return this.type === "create_asset";
-    }
-
-    get outputs(): ITransactionOutput[] {
-        return !this.tx ? [] : this.tx.outputs;
-    }
-
-    get type(): string {
-        return !this.tx ? "base" : this.tx.type;
-    }
-
-    get date(): Date {
-        return !this.tx ? new Date() : new Date(this.tx.timestamp);
-    }
-
-    get dateAgo(): string {
-        return moment(this.date).fromNow();
-    }
-
-    get assets(): any {
-        return this.$store.state.assets;
-    }
-
-    get outValues(): OutputValuesDict {
-        let dict: OutputValuesDict = {};
-        let outs = this.outputs;
-
-        outs.forEach(out => {
-            let assetId = out.assetID;
-            let amount = out.amount;
-            let asset = this.assets[assetId];
-            let denomination = asset.denomination;
-
-            if (dict[assetId]) {
-                let valNow = dict[assetId].amount;
-                console.log("valNow", valNow);
-                dict[assetId].amount = valNow.plus(amount);
-            } else {
-                dict[assetId] = {
-                    symbol: asset.symbol,
-                    amount,
-                    denomination
-                };
-            }
-        });
-
-        return dict;
-    }
-
     getData():void  {
         let parent = this;
-        let url = `/x/transactions/${this.txId}`;
-        api.get(url)
-            .then(res => {
-                const data = res.data;
-                console.log(data);
-                let tx = new Transaction(data);
-                parent.tx = tx;
-                // console.log(tx);
-            })
-            .catch(err => {
-                console.log(err);
-            });
+        this.txloading = true;
+        
+        if (this.assetsLoaded) { 
+            // Get genesis tx
+            let url = `/x/transactions/${this.txId}`;
+            api.get(url)
+                .then(res => {
+                    const data = res.data;
+                    // console.log(data);
+                    let tx = new Transaction(data);
+                    parent.genesisTx = tx;
+                    // console.log(tx);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+
+                // Get txs
+                url = `/x/transactions?assetID=${this.assetID}&sort=${this.sort}&offset=${this.offset}&limit=${this.limit}`;
+                api.get(url).then(res => {
+                    parent.txloading = false;
+                    parent.transactions = res.data.transactions;
+                });
+        }
+
+
+    }
+
+    getTx() {
+        let parent = this;
+        parent.txloading = true;
+
+        // Get txs by address
+        let url = `/x/transactions?assetID=${this.assetID}&sort=${this.sort}&offset=${this.offset}&limit=${this.limit}`;
+
+        api.get(url).then(res => {
+            parent.txloading = false;
+            parent.transactions = res.data.transactions;
+        });
+    }
+
+    page_change(val: number) {
+        this.offset = val;
+        this.getTx();
+        let pgNum = Math.floor(this.offset / this.limit) + 1;
+        // @ts-ignore
+        this.$refs.paginationTop.setPage(pgNum); 
+        // @ts-ignore
+        this.$refs.paginationBottom.setPage(pgNum); 
     }
 }
 </script>
@@ -275,5 +234,56 @@ $symbol_w: 35px;
     .asset_genesis {
         margin-top: 10px;
     }   
+}
+
+/* ==========================================
+   transactions
+   ========================================== */
+
+.transactions {
+    overflow: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+
+    .table_headers {
+        display: grid;
+        grid-template-columns: 35px 120px 1fr 1fr;
+        padding-bottom: 7px;
+        border-bottom: 1px solid #e7e7e7;
+
+        p {
+            padding: 0px 10px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+    }
+
+    .tx_rows {
+        width: 100%;
+        border-radius: 2px;
+        margin: 2px 0;
+        box-sizing: border-box;
+        border-bottom: 1px solid #e7e7e7;
+    }
+
+    .tx_table {
+        font-size: 12px;
+    }
+}
+
+.bar-table {
+    padding-top: 30px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+@include main.device_s {
+    .transactions {
+        margin-bottom: 10px;
+        
+        .table_headers {
+            display: none;
+        }
+    }
 }
 </style>

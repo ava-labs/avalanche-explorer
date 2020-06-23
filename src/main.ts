@@ -25,6 +25,8 @@ Big.prototype.toLocaleString = function(toFixed: number = 2) {
   let remainder = value.mod(1);
   let wholeNums = value.minus(remainder);
   let wnInt = parseInt(wholeNums.toFixed(0));
+
+  if (toFixed === 0) return wnInt.toLocaleString();
   
   return (parseFloat(remainder) === 0) ?
     wnInt.toLocaleString() :

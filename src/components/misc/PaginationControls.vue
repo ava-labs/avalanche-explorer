@@ -55,6 +55,10 @@ export default class PaginationControls extends Vue {
         if (page < 1) return;
         this.page = page;
     }
+
+    setPage(page: number): void {
+        this.page = page;
+    }
 }
 </script>
 

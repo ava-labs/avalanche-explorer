@@ -37,7 +37,7 @@ export default class AssetRow extends Vue {
     @Prop() asset!: Asset;
         
     get avgTxValue(): string {
-        return (this.asset.txCount_day > 0) ? parseInt((this.asset.volume_day / this.asset.txCount_day).toFixed(0)).toLocaleString() : "";
+        return (this.asset.txCount_day > 0) ? (this.asset.volume_day.div(this.asset.txCount_day)).toLocaleString(0) : "";
     }
 
 }
@@ -138,7 +138,7 @@ export default class AssetRow extends Vue {
 @include main.device_xs {
     .asset_row {
         a {
-            color: main.$primary-color !important;
+            /* color: main.$primary-color !important; */
         }
 
         .unit {
