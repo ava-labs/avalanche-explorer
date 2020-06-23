@@ -414,9 +414,16 @@ export default {
     font-size: 13px;
     font-weight: 700;
     letter-spacing: 0;
-    margin: 0px 5px;
-    border-radius: 4px;
+    margin: 0;
     text-transform: none;
+
+    &:first-child {
+        border-radius: 4px 0 0 4px;
+    }
+
+    &:last-child {
+        border-radius: 0 4px 4px 0;
+    }
 }
 
 .tab_active {

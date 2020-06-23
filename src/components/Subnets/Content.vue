@@ -165,7 +165,7 @@ import Vue from "vue";
 import ContentMetadata from "../../components/Subnets/ContentMetadata";
 
 export default {
-    components:{
+    components: {
         ContentMetadata
     },
     filters: {
@@ -197,12 +197,12 @@ export default {
     props: {
         subnetID: String,
         subnet: {}
-    },
+    }
 };
 </script>
 
 <style scoped lang="scss">
-@use"../../main";
+@use "../../main";
 
 .subnet_count {
     margin-top: 5px;
@@ -234,7 +234,6 @@ export default {
     font-weight: bold;
     text-transform: none;
     letter-spacing: 0;
-    background-color: main.$primary-color-light;
 }
 
 .v-tab:before {
@@ -243,21 +242,17 @@ export default {
 
 .subnet_header {
     color: main.$black;
-    background-color: main.$primary-color-light;
-    padding: 8px;
 
     .subheading {
         text-transform: capitalize;
         font-size: 12px;
         font-weight: bold;
-        margin: 8px 0 0 8px;
-        background-color: main.$primary-color-light;
         /* opacity: 0.7; */
     }
 
     h2 {
         color: main.$primary-color;
-        margin: 8px 8px 0;
+        margin: 0;
         padding-top: 0;
     }
 }
@@ -279,6 +274,12 @@ export default {
     margin-right: 8px;
     vertical-align: middle;
 }
+@include main.device_s {
+    .v-card__text {
+        padding-left: 16px;
+        padding-right: 0;
+    }
+}
 
 @include main.device_xs {
     .subnet_header {
@@ -288,13 +289,13 @@ export default {
 </style>
 
 <style lang="scss">
-@use"../../main";
+@use "../../main";
 .v-application .primary--text {
     color: main.$primary-color !important;
     caret-color: main.$primary-color !important;
 }
 
 .theme--light.v-tabs > .v-tabs-bar--show-arrows {
-    background-color: main.$primary-color-light !important;
+    background-color: main.$white !important;
 }
 </style>

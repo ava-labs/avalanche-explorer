@@ -8,6 +8,7 @@
             <p class="time">{{ago}}</p>
         </div>
         <div class="info_col">
+            <span class="label" v-if="$vuetify.breakpoint.smAndDown"></span>
             <utxo-input v-for="(input,i) in inputs" :key="i" :input="input"></utxo-input>
         </div>
         <div class="to_amount">
@@ -27,9 +28,6 @@ export default {
     },
     data() {
         return {};
-    },
-    created() {
-        // console.log(this.transaction)
     },
     props: {
         transaction: {
@@ -185,12 +183,20 @@ export default {
 }
 
 @include main.device_xs {
+    .id {
+        margin-bottom: 4px;
+    }
+
     .tx_row {
         padding: 8px 0;
     }
 
     .info_col {
         padding: 0 10px 0 0;
+    }
+
+    .utxo_out {
+        margin-bottom: 0;
     }
 }
 </style>

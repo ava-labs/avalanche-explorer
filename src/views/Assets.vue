@@ -17,7 +17,7 @@
             </div>
             <div class="asset_list" v-else>
                 <div class="grid_headers asset_row">
-                    <p>
+                    <p v-if="$vuetify.breakpoint.smAndUp">
                         Symbol
                         <Tooltip content="shorthand ticker symbol of the asset"></Tooltip>
                     </p>
@@ -28,20 +28,20 @@
                     <p class="volume_day">
                         <Tooltip content="volume for the past 24h"></Tooltip>24h Volume
                     </p>
-                    <p class="txCount_day">
+                    <p class="txCount_day" v-if="$vuetify.breakpoint.smAndUp">
                         <Tooltip content="number of transactions for the past 24h"></Tooltip>24h Tx
                     </p>
-                    <p class="avgTx_day">
+                    <p class="avgTx_day" v-if="$vuetify.breakpoint.smAndUp">
                         <Tooltip content="average tx value over the past 24h"></Tooltip>Avg Tx
                     </p>
-                    <!-- <p class="denomination">
+                    <!-- <p class="denomination" v-if="$vuetify.breakpoint.smAndUp">
                         <Tooltip content="determines how balances of this asset are displayed by user interfaces"></Tooltip>
                         Denom.
                     </p>-->
-                    <p class="supply">
+                    <p class="supply" v-if="$vuetify.breakpoint.smAndUp">
                         <Tooltip content="units of the asset that have been created"></Tooltip>Supply
                     </p>
-                    <p class="chain">
+                    <p class="chain" v-if="$vuetify.breakpoint.smAndUp">
                         Issuance
                         <Tooltip content="blockchain where this asset was minted"></Tooltip>
                     </p>
@@ -99,7 +99,7 @@ export default class AssetsPage extends Vue {
 }
 
 .grid_headers {
-    font-weight: 500;
+    font-weight: 700;
     font-size: 12px;
 }
 
@@ -128,10 +128,6 @@ export default class AssetsPage extends Vue {
 }
 
 @include main.device_s {
-    .grid_headers {
-        display: none;
-    }
-
     .asset_list {
         padding: 5px 0;
     }
@@ -139,6 +135,32 @@ export default class AssetsPage extends Vue {
     .asset_row {
         grid-template-columns: 50px 1fr 1fr;
         padding: 10px 0 5px;
+    }
+}
+
+@include main.device_s {
+    .asset_list {
+        padding: 5px 0;
+    }
+
+    .asset_row {
+        grid-template-columns: 50px 1fr 1fr;
+        padding: 10px 0 5px;
+    }
+}
+
+@include main.device_xs {
+    .asset_list {
+        padding: 5px 0;
+    }
+
+    .volume_day {
+        padding-right: 37px;
+    }
+
+    .asset_row {
+        grid-template-columns: 50% 50%;
+        column-gap: 0;
     }
 }
 </style>

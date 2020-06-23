@@ -140,6 +140,7 @@ export default class Transactions extends Vue {
     p {
         padding: 0px 10px;
         font-weight: bold;
+        font-size: 16px;
     }
 }
 

@@ -24,11 +24,10 @@
 <script>
 import { ava } from "@/ava";
 import { subnetMap } from "@/helper";
-import Vue from "vue";
-import Metadata from "../components/Subnets/Metadata";
-import Tabs from "../components/Subnets/Tabs";
-import Loader from "../components/misc/Loader";
-import Content from "@/components/Subnets/Content";
+import Metadata from "../components/Subnets/Metadata.vue";
+import Tabs from "../components/Subnets/Tabs.vue";
+import Loader from "../components/misc/Loader.vue";
+import Content from "@/components/Subnets/Content.vue";
 import { AVA_SUBNET_ID } from "@/store/modules/platform/platform";
 
 export default {

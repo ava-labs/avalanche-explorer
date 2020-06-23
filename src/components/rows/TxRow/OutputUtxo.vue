@@ -2,6 +2,7 @@
     <div class="to_amount">
         <div class="info_col">
             <div class="to" v-for="(addr,i) in addresses" :key="i">
+                <span class="label" v-if="$vuetify.breakpoint.smAndDown">To</span>
                 <router-link class="addr ava-monospace" :to="`/address/`+addr">{{addr | address}}</router-link>
             </div>
         </div>
@@ -69,12 +70,23 @@ export default class OutputUtxo extends Vue {
     white-space: nowrap;
     overflow: hidden;
 
+    .label {
+        font-weight: 700;
+        width: 25px;
+        padding: 6px 6px 4px 10px;
+        opacity: 0.5;
+        font-size: 10px;
+        text-align: right;
+    }
+
     .addr {
         text-overflow: ellipsis;
         overflow: hidden;
         padding-left: 0;
         color: main.$black !important;
         text-decoration: none;
+        max-width: 195px;
+        opacity: 0.7;
 
         &:hover {
             text-decoration: underline;
