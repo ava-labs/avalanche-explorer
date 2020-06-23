@@ -345,8 +345,16 @@ export default {
 }
 
 @include main.device_xs {
+    .meta_data {
+        margin-bottom: 10px;
+    }
+
     .stats {
         grid-template-columns: none;
+
+        > article {
+            padding: 15px 0 0;
+        }
 
         img {
             display: none;
@@ -406,9 +414,16 @@ export default {
     font-size: 13px;
     font-weight: 700;
     letter-spacing: 0;
-    margin: 0px 5px;
-    border-radius: 4px;
+    margin: 0;
     text-transform: none;
+
+    &:first-child {
+        border-radius: 4px 0 0 4px;
+    }
+
+    &:last-child {
+        border-radius: 0 4px 4px 0;
+    }
 }
 
 .tab_active {
@@ -466,14 +481,14 @@ export default {
 
         > div {
             text-align: left;
-            padding: 30px 0 0;
+            padding: 0;
         }
     }
 }
 
 @include main.device_xs {
     .validators {
-        padding: 15px;
+        padding: 30px 15px;
     }
 
     .controls {

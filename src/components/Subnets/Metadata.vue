@@ -181,8 +181,21 @@ export default class Metadata extends Vue {
 }
 
 @include main.device_xs {
+    .metadata {
+        margin-bottom: 10px;
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+
     .stats {
         grid-template-columns: none;
+
+        > article {
+            padding: 30px 0 0;
+        }
 
         img {
             display: none;

@@ -66,8 +66,7 @@ export default {
 @use"../../main";
 
 .metadata {
-    /* margin-bottom: 30px; */
-    background-color: main.$primary-color-light;
+    margin-bottom: 15px;
     .header {
         display: flex;
         justify-content: space-between;
@@ -96,30 +95,38 @@ export default {
     }
 
     p {
-        font-size: 32px;
         font-weight: bold;
     }
 
     .label {
         text-transform: capitalize;
-        font-size: 13px;
+        font-size: 14px;
         font-weight: bold;
         margin-bottom: 6px;
+        color: main.$primary-color;
         opacity: 0.7;
     }
 
     .meta_val {
+        font-size: 32px;
         line-height: 1em;
     }
 }
 
 @include main.device_s {
     .meta_data {
-        grid-template-columns: none;
-        grid-template-rows: max-content max-content max-content;
+        grid-template-columns: 50% 50%;
+
+        img {
+            display: none;
+        }
 
         > div {
             padding: 30px 0 0;
+        }
+
+        .meta_val {
+            font-size: 20px;
         }
     }
 }

@@ -1,64 +1,55 @@
 <template>
     <div class="validator_pagination_control">
-        <button 
-            @click="page=1" 
-            :class="{'disabled': page === 1}">First</button>
-        <button 
-            @click="pageDown" 
-            :class="{'disabled': page === 1}">&#60;</button>
-        <p class="pages">Page <b>{{page}}</b> of <b>{{totalPages}}</b></p>
-        <button 
-            @click="pageUp" 
-            :class="{'disabled': page === totalPages}">&#62;</button>
-        <button
-            @click="page=totalPages"
-            :class="{'disabled': page === totalPages}">Last</button>
+        <button @click="page=1" :class="{'disabled': page === 1}">First</button>
+        <button @click="pageDown" :class="{'disabled': page === 1}">&#60;</button>
+        <p class="pages">
+            Page
+            <b>{{page}}</b> of
+            <b>{{totalPages}}</b>
+        </p>
+        <button @click="pageUp" :class="{'disabled': page === totalPages}">&#62;</button>
+        <button @click="page=totalPages" :class="{'disabled': page === totalPages}">Last</button>
     </div>
 </template>
-<script>
-export default {
-    data() {
-        return {
-            page: 1
-        };
-    },
-    watch: {
-        page(val) {
-            let start = (val - 1) * this.limit;
-            this.$emit("change", start);
-        }
-    },
-    props: {
-        total: {
-            type: Number,
-            default: 0
-        },
-        limit: {
-            type: Number
-        }
-    },
-    computed: {
-        totalPages() {
-            return Math.ceil(this.total / this.limit);
-        }
-    },
-    methods: {
-        pageUp() {
-            let page = this.page + 1;
-            if (page > this.totalPages) return;
-            this.page = page;
-        },
-        pageDown() {
-            let page = this.page - 1;
 
-            if (page < 1) return;
-            this.page = page;
-        }
+<script lang="ts">
+import "reflect-metadata";
+import { Vue, Component, Prop, Watch } from "vue-property-decorator";
+
+@Component({})
+export default class ValidatorPaginationControls extends Vue {
+    @Prop() total!: number;
+    @Prop() limit!: number;
+
+    page: number = 1;
+
+    @Watch("page")
+    onPageChanged(val: number) {
+        let start = (val - 1) * this.limit;
+        this.$emit("change", start);
     }
-};
+
+    get totalPages(): number {
+        return Math.ceil(this.total / this.limit);
+    }
+
+    pageUp(): void {
+        let page = this.page + 1;
+        if (page > this.totalPages) return;
+        this.page = page;
+    }
+
+    pageDown(): void {
+        let page = this.page - 1;
+
+        if (page < 1) return;
+        this.page = page;
+    }
+}
 </script>
+
 <style scoped lang="scss">
-@use"../../main";
+@use "../../main";
 .validator_pagination_control {
     display: flex;
 
@@ -81,11 +72,13 @@ export default {
 
 button {
     outline: none;
+    font-size: 12px;
 }
 
 .pages {
     color: main.$black;
     cursor: default;
+    font-size: 12px;
 
     &:hover {
         opacity: 1;
@@ -96,7 +89,7 @@ button {
 .disabled {
     color: main.$gray;
     cursor: default;
-    
+
     &:hover {
         opacity: 1;
         text-decoration: none;

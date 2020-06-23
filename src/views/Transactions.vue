@@ -4,7 +4,7 @@
             <div class="header">
                 <h2>Transactions</h2>
                 <div class="bar">
-                    <p class="count">{{totalTx}} transactions found</p>
+                    <p class="count">{{totalTx.toLocaleString()}} transactions found</p>
                     <pagination-controls :total="totalTx" :limit="limit" @change="page_change"></pagination-controls>
                 </div>
             </div>
@@ -23,8 +23,8 @@
                     <Tooltip content="address that receives transfer value"></Tooltip>
                 </p>
             </div>
-            <template v-if="loading">
-                <Loader></Loader>
+            <template v-if="loading && !assetsLoaded">
+                <v-progress-circular :size="16" :width="2" color="#7a838e" indeterminate key="1"></v-progress-circular>
             </template>
             <template v-else>
                 <div class="rows">
@@ -37,60 +37,76 @@
                     ></tx-row>
                     </transition-group>
                 </div>
+                <div class="bar-table">
+                    <pagination-controls :total="totalTx" :limit="limit" @change="page_change"></pagination-controls>
+                </div>
             </template>
         </div>
     </div>
 </template>
-<script>
-import api from "@/axios";
-import Tooltip from "../components/rows/Tooltip";
-import Loader from "../components/rows/Loader";
-import TxRow from "../components/rows/TxRow/TxRow";
-import PaginationControls from "../components/misc/PaginationControls";
 
-export default {
+<script lang="ts">
+import { Vue, Component, Watch } from "vue-property-decorator";
+import api from "@/axios";
+import Tooltip from "../components/rows/Tooltip.vue";
+import TxRow from "../components/rows/TxRow/TxRow.vue";
+import PaginationControls from "../components/misc/PaginationControls.vue";
+import { Transaction } from '@/js/Transaction';
+
+@Component({
     components: {
         Tooltip,
-        Loader,
         TxRow,
         PaginationControls
     },
-    data() {
-        return {
-            loading: true,
-            totalTx: 0,
-            limit: 25, // how many to display
-            offset: 0,
-            txs: []
-        };
-    },
+})
+
+export default class Transactions extends Vue {
+    loading: boolean = true;
+    totalTx: number = 0;
+    limit: number = 25; // how many to display
+    offset: number = 0;
+    txs: Transaction[] = [];
+
     created() {
         this.getTx();
-    },
-    methods: {
-        page_change(val) {
-            this.offset = val;
-            this.getTx();
-        },
-        getTx() {
-            let parent = this;
-            parent.loading = true;
-            let sort = "timestamp-desc";
-            let url = `/x/transactions?sort=${sort}&offset=${this.offset}&limit=${this.limit}`;
+    }
+
+    get transactions() {
+        return this.txs;
+    }
+
+    get assetsLoaded() {
+        return this.$store.state.assetsLoaded;
+    }
+
+    @Watch("assetsLoaded")
+    onAssetsLoadedChanged(val: string, oldVal: string) {
+        this.getTx();
+    }
+
+    page_change(val: number) {
+        this.offset = val;
+        this.getTx();
+    }
+
+    getTx(): void {
+        let parent = this;
+        parent.loading = true;
+        let sort = "timestamp-desc";
+        let url = `/x/transactions?sort=${sort}&offset=${this.offset}&limit=${this.limit}`;
+        
+        if (this.assetsLoaded) {
             api.get(url).then(res => {
                 parent.txs = res.data.transactions;
                 parent.totalTx = res.data.count;
                 parent.loading = false;
             });
         }
-    },
-    computed: {
-        transactions() {
-            return this.txs;
-        }
     }
-};
+}
 </script>
+
 <style scoped lang="scss">
 @use "../main";
 
@@ -124,6 +140,7 @@ export default {
     p {
         padding: 0px 10px;
         font-weight: bold;
+        font-size: 16px;
     }
 }
 
@@ -142,6 +159,12 @@ export default {
     &:last-of-type {
         border: none !important;
     }
+}
+
+.bar-table {
+    padding-top: 30px;
+    display: flex;
+    justify-content: flex-end;
 }
 
 @include main.device_s {

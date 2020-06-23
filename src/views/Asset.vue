@@ -69,7 +69,7 @@
             </article>
             <article class="meta_row">
                 <p class="label">Output UTXOs</p>
-                <div v-if="tx && outputs.length > 0">
+                <div v-if="tx && outputs.length > 0" class="utxo_table">
                     <div class="utxo_headers">
                         <p>Tx</p>
                         <p>Lock Time</p>
@@ -269,5 +269,11 @@ $symbol_w: 35px;
 
 .asset_genesis {
     margin-top: 30px;
+}
+
+@include main.device_xs {
+    .asset_genesis {
+        margin-top: 10px;
+    }   
 }
 </style>

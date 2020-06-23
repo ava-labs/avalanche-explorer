@@ -5,17 +5,18 @@
     </div>
 </template>
 
-<script>
-import TopInfo from "@/components/Home/TopInfo/TopInfo";
-import RecentTransactions from "@/components/Home/RecentTransactions";
+<script lang="ts">
+import { Vue, Component } from "vue-property-decorator";
+import TopInfo from "@/components/Home/TopInfo/TopInfo.vue";
+import RecentTransactions from "@/components/Home/RecentTransactions.vue";
 
-export default {
-    name: "Home",
+@Component({
     components: {
         TopInfo,
         RecentTransactions
     }
-};
+})
+export default class Home extends Vue {}
 </script>
 
 <style scoped lang="scss">
@@ -40,5 +41,11 @@ export default {
     display: grid;
     grid-template-columns: 1fr 280px;
     grid-gap: 30px;
+}
+
+@include main.device-xs {
+    .recent_tx {
+        margin-top: 0;
+    }
 }
 </style>
