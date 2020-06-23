@@ -3,10 +3,15 @@
         <div class="card">
             <div class="header">
                 <h2>Transactions</h2>
-                <div class="bar">
-                    <p class="count">{{totalTx.toLocaleString()}} transactions found</p>
-                    <pagination-controls :total="totalTx" :limit="limit" @change="page_change"></pagination-controls>
-                </div>
+                <template v-if="loading && !assetsLoaded">
+                    <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1" v-if="loading"></v-progress-circular>
+                </template>
+                <template v-else>
+                    <div class="bar">
+                        <p class="count">{{totalTx.toLocaleString()}} transactions found</p>
+                        <pagination-controls :total="totalTx" :limit="limit" @change="page_change" ref="paginationTop"></pagination-controls>
+                    </div>    
+                </template>
             </div>
             <div class="table_headers all_tx_rows">
                 <p></p>
@@ -28,7 +33,7 @@
             </template>
             <template v-else>
                 <div class="rows">
-                    <transition-group name="fade">
+                    <transition-group name="fade" mode="out-in">
                     <tx-row
                         class="tx_item"
                         v-for="tx in transactions"
@@ -38,7 +43,7 @@
                     </transition-group>
                 </div>
                 <div class="bar-table">
-                    <pagination-controls :total="totalTx" :limit="limit" @change="page_change"></pagination-controls>
+                    <pagination-controls :total="totalTx" :limit="limit" @change="page_change" ref="paginationBottom"></pagination-controls>
                 </div>
             </template>
         </div>
@@ -64,7 +69,7 @@ import { Transaction } from '@/js/Transaction';
 export default class Transactions extends Vue {
     loading: boolean = true;
     totalTx: number = 0;
-    limit: number = 25; // how many to display
+    limit: number = 5; // how many to display
     offset: number = 0;
     txs: Transaction[] = [];
 
@@ -88,6 +93,13 @@ export default class Transactions extends Vue {
     page_change(val: number) {
         this.offset = val;
         this.getTx();
+        let pgNum = Math.floor(this.offset / this.limit) + 1;
+        // @ts-ignore
+        this.$refs.paginationTop.setPage(pgNum); 
+        // @ts-ignore
+        this.$refs.paginationBottom.setPage(pgNum); 
+        console.log("REFTX PAGE", this.$refs);
+        console.log("REF", this.$refs.paginationTop);
     }
 
     getTx(): void {

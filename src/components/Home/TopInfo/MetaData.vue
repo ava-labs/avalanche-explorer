@@ -137,7 +137,8 @@ export default {
         },
         avaVolume() {
             let assets = this.$store.state.assets;
-            let ava = assets["21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA"];
+            let ava =
+                assets["21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA"];
 
             if (!ava) {
                 return 0;

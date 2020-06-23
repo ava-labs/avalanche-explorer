@@ -67,6 +67,21 @@
         <section v-if="!loading" class="card transactions">
             <header class="header">
                 <h2>Transactions</h2>
+                <template v-if="txloading && !assetsLoaded">
+                    <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
+                </template>
+                <template v-else>
+                    <div class="bar">
+                        <p
+                            class="count"
+                        >{{totalTransactionCount.toLocaleString()}} transactions found</p>
+                        <pagination-controls
+                            :total="totalTransactionCount"
+                            :limit="limit"
+                            @change="page_change"
+                        ></pagination-controls>
+                    </div>
+                </template>
             </header>
             <div class="table_headers tx_rows">
                 <p></p>
@@ -83,7 +98,24 @@
                     <Tooltip content="address that receives transfer value"></Tooltip>
                 </p>
             </div>
-            <tx-table class="tx_table" :transactions="orderedTx"></tx-table>
+            <template v-if="txloading">
+                <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
+            </template>
+            <template v-else>
+                <div class="rows">
+                    <transition-group name="fade">
+                    <tx-row
+                        class="tx_item"
+                        v-for="tx in transactions"
+                        :transaction="tx"
+                        :key="tx.id"
+                    ></tx-row>
+                    </transition-group>
+                </div>
+                <div class="bar-table">
+                    <pagination-controls :total="totalTransactionCount" :limit="limit" @change="page_change" ></pagination-controls>
+                </div>
+            </template>
         </section>
     </div>
 </template>
@@ -92,7 +124,8 @@
 import Loader from "../components/misc/Loader";
 import Tooltip from "../components/rows/Tooltip";
 import BalanceRow from "../components/Address/BalanceRow";
-import TxTable from "../components/Address/TxTable";
+import TxRow from "../components/rows/TxRow/TxRow.vue";
+import PaginationControls from "../components/misc/PaginationControls";
 import api from "../axios";
 import Big from "big.js";
 import { stringToBig, blockchainMap } from "@/helper";
@@ -103,13 +136,19 @@ export default {
         Loader,
         Tooltip,
         BalanceRow,
-        TxTable
+        TxRow,
+        PaginationControls
     },
     data() {
         return {
             loading: false,
+            txloading: false,
             metaData: null,
             transactions: [],
+            totalTx: 0,
+            limit: 25, // how many to display
+            offset: 0,
+            sort: "timestamp-desc",
             breadcrumbs: [
                 {
                     text: "Home",
@@ -127,20 +166,18 @@ export default {
     watch: {
         address(val) {
             this.updateData();
+        },
+        assetsLoaded() {
+            this.updateData();
         }
     },
     created() {
         this.updateData();
     },
-    filters: {
-        blockchain(val) {
-            return blockchainMap(val);
-        },
-        nameOrID(val) {
-            return val.name ? val.name : val.id;
-        }
-    },
     computed: {
+        assetsLoaded() {
+            return this.$store.state.assetsLoaded;
+        },
         alias() {
             return AddressDict[this.address] ? AddressDict[this.address] : "";
         },
@@ -149,20 +186,6 @@ export default {
         },
         assetsMap() {
             return this.$store.state.assets;
-        },
-        orderedTx() {
-            let txs = this.transactions;
-            txs.sort((a, b) => {
-                let timeA = new Date(a.timestamp);
-                let timeB = new Date(b.timestamp);
-
-                if (timeA.getTime() > timeB.getTime()) {
-                    return -1;
-                } else {
-                    return 1;
-                }
-            });
-            return txs;
         },
         address() {
             return this.$route.params.address;
@@ -187,48 +210,70 @@ export default {
             ].balance;
         },
         totalTransactionCount() {
-            return this.metaData.totalTransactionCount;
+            return !this.metaData ? 0 : this.metaData.totalTransactionCount;
         },
         totalUtxoCount() {
-            return this.metaData.totalUtxoCount;
+            return !this.metaData ? 0 : this.metaData.totalUtxoCount;
         }
     },
     methods: {
         updateData() {
             let parent = this;
             this.loading = true;
+            this.txloading = true;
+
+            if (this.assetsLoaded) {
+                // Get txs by address
+                let url = `/x/transactions?address=${this.address}&sort=${this.sort}&offset=${this.offset}&limit=${this.limit}`;
+
+                api.get(url).then(res => {
+                    parent.txloading = false;
+                    parent.transactions = res.data.transactions;
+                });
+
+                // Get address details
+                url = `/x/addresses/${this.address}`;
+                api.get(url).then(res => {
+                    parent.loading = false;
+                    parent.metaData = res.data;
+                    // Enrich assets data
+                    let assets = parent.metaData.assets;
+                    let totalTransactionCount = 0;
+                    let totalUtxoCount = 0;
+                    for (const asset in assets) {
+                        assets[asset].name = this.assetsMap[asset].name;
+                        assets[asset].denomination = this.assetsMap[asset].denomination;
+                        assets[asset].symbol = this.assetsMap[asset].symbol;
+                        assets[asset].currentSupply = this.assetsMap[asset].currentSupply;
+                        assets[asset].balance = parseInt(assets[asset].balance);
+                        assets[asset].totalReceived = parseInt(assets[asset].totalReceived);
+                        assets[asset].totalSent = parseInt(assets[asset].totalSent);
+                        assets[asset].proportionOfCurrentSupply = ((parseInt(assets[asset].balance) / parseInt(assets[asset].currentSupply)) * 100).toFixed(2);
+                        totalTransactionCount += assets[asset].transactionCount;
+                        totalUtxoCount += assets[asset].utxoCount;
+                    }
+                    parent.metaData.totalTransactionCount = totalTransactionCount;
+                    parent.metaData.totalUtxoCount = totalUtxoCount;
+                });
+            }
+        },
+
+        getTx() {
+            let parent = this;
+            parent.txloading = true;
 
             // Get txs by address
-            let url = `/x/transactions?address=${this.address}`;
+            let url = `/x/transactions?address=${this.address}&sort=${this.sort}&offset=${this.offset}&limit=${this.limit}`;
+
             api.get(url).then(res => {
-                parent.loading = false;
+                parent.txloading = false;
                 parent.transactions = res.data.transactions;
             });
+        },
 
-            // Get address details
-            url = `/x/addresses/${this.address}`;
-            api.get(url).then(res => {
-                parent.loading = false;
-                parent.metaData = res.data;
-                // Enrich assets data
-                let assets = parent.metaData.assets;
-                let totalTransactionCount = 0;
-                let totalUtxoCount = 0;
-                for (const asset in assets) {
-                    assets[asset].name = this.assetsMap[asset].name;
-                    assets[asset].denomination = this.assetsMap[asset].denomination;
-                    assets[asset].symbol = this.assetsMap[asset].symbol;
-                    assets[asset].currentSupply = this.assetsMap[asset].currentSupply;
-                    assets[asset].balance = parseInt(assets[asset].balance);
-                    assets[asset].totalReceived = parseInt(assets[asset].totalReceived);
-                    assets[asset].totalSent = parseInt(assets[asset].totalSent);
-                    assets[asset].proportionOfCurrentSupply = ((parseInt(assets[asset].balance) / parseInt(assets[asset].currentSupply)) *100).toFixed(2);
-                    totalTransactionCount += assets[asset].transactionCount;
-                    totalUtxoCount += assets[asset].utxoCount;
-                }
-                parent.metaData.totalTransactionCount = totalTransactionCount;
-                parent.metaData.totalUtxoCount = totalUtxoCount;
-            });
+        page_change(val) {
+            this.offset = val;
+            this.getTx();
         }
     }
 };
@@ -236,6 +281,14 @@ export default {
 
 <style scoped lang="scss">
 @use "../main";
+
+.bar {
+    display: flex;
+    align-items: center;
+    > p {
+        flex-grow: 1;
+    }
+}
 
 /* ==========================================
    details
@@ -321,6 +374,12 @@ export default {
     .tx_table {
         font-size: 12px;
     }
+}
+
+.bar-table {
+    padding-top: 30px;
+    display: flex;
+    justify-content: flex-end;
 }
 
 @include main.device_s {
