@@ -43,7 +43,12 @@ export default new Vuex.Store({
             for (let i in state.assets) {
                 res.push(state.assets[i]);
             }
-            res.sort((a, b) => b.volume_day - a.volume_day);
+            res.sort((a, b) => {
+                let diff = b.volume_day.minus(a.volume_day);
+                if (diff.gt(0)) return -1;
+                else if (diff.lt(0)) return 1;
+                else return 0;
+            });
             return res;
         },
         assetsArrayNonProfane(state: IRootState, getters): Asset[] {

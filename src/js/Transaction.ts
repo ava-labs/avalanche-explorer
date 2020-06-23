@@ -4,7 +4,7 @@ import { stringToBig } from '@/helper';
 function getOutput(output: ITransactionOutputData): ITransactionOutput {
     return {
         addresses: output.addresses,
-        amount: stringToBig(output.amount),
+        amount: stringToBig(output.amount), // TODO: this Big conversion is not denominated bc of dependency on asset lookup
         assetID: output.assetID,
         id: output.id,
         locktime: output.locktime,
