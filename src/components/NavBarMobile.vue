@@ -12,9 +12,9 @@
                 </router-link>
             </div>
             <div>
-                <!-- <v-btn @click="isDrawer = !isDrawer" icon>
-                    <fa icon="bars"></fa>
-                </v-btn> -->
+                <v-btn @click="isSearch = !isSearch" icon>
+                    <fa icon="search"></fa>
+                </v-btn>
                 <v-btn @click="isDrawer = !isDrawer" icon>
                     <fa icon="bars"></fa>
                 </v-btn>
@@ -24,18 +24,9 @@
         <v-navigation-drawer v-model="isDrawer" fixed style="z-index: 999;">
             <v-list dense nav>
                 <v-list-item>
-                    <img src="@/assets/yeti_logo.png"  class="drawer_img"/>
-                    <div class="title">AVA Explorer</div> 
+                    <img src="@/assets/yeti_logo.png" class="drawer_img" />
+                    <div class="title">AVA Explorer</div>
                 </v-list-item>
-                <!-- <v-list-item>
-                    <div class="row">
-                        <search-bar
-                            class="search_bar"
-                            placeholder="Search by Address / TxId / Asset"
-                            @search="onsearch"
-                        ></search-bar>
-                    </div>
-                </v-list-item> -->
                 <template>
                     <v-list-item to="/">Home</v-list-item>
                     <v-list-item to="/subnets">Subnets</v-list-item>
@@ -45,6 +36,22 @@
                 </template>
             </v-list>
         </v-navigation-drawer>
+
+        <!--   SEARCH     -->
+        <v-dialog v-model="isSearch" fullscreen hide-overlay transition="dialog-bottom-transition">
+            <v-card>
+                <div class="search_container">
+                    <v-btn icon @click="isSearch = false">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                    <search-bar
+                        class="search_bar"
+                        placeholder="Search by Address / TxId / Asset"
+                        @search="onsearch"
+                    ></search-bar>
+                </div>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
@@ -59,6 +66,7 @@ import SearchBar from "@/components/misc/SearchBar/SearchBar.vue";
 })
 export default class NavbarMobile extends Vue {
     isDrawer: boolean = false;
+    isSearch: boolean = false;
 
     onsearch(val: string) {
         this.$router.push({ path: "/search", query: { query: val } });
@@ -81,7 +89,7 @@ export default class NavbarMobile extends Vue {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
     background-color: main.$white;
-    
+
     > .v-toolbar__content {
         padding: 0;
     }
@@ -152,9 +160,6 @@ a {
     font-size: 20px;
     padding-left: 16px;
 }
-.search_bar {
-    width: 100%;
-}
 
 .drawer_img {
     max-height: 50px;
@@ -163,5 +168,23 @@ a {
 
 button {
     font-weight: normal;
+}
+
+/* ==========================================
+   search
+   ========================================== */
+
+.search_container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    .v-btn {
+        border: none !important;
+    }
+    
+    .search_bar {
+        width: 100%;
+    }
 }
 </style>
