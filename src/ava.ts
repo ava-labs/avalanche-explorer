@@ -1,5 +1,5 @@
 import * as avalanche from "avalanche";
-let AVA_IP = 'explorerapi.ava.network';
+let AVA_IP = 'explorerapi.avax.network';
 let AVA_PORT = 21000;
 let AVA_PROTOCOL = 'https';
 let AVA_NETWORK_ID = '3';

@@ -16,8 +16,8 @@
                     <h3>Wallet & Faucet</h3>
                     <p>Used to receive and spend cryptoassets</p>
                     <div class="buts">
-                        <a href="https://wallet.ava.network" target="_blank">Wallet</a>
-                        <a href="https://faucet.ava.network" target="_blank">Faucet</a>
+                        <a href="https://wallet.avax.network" target="_blank">Wallet</a>
+                        <a href="https://faucet.avax.network" target="_blank">Faucet</a>
                     </div>
                 </div>
                 <div class="resource">
@@ -25,7 +25,7 @@
                     <h3>Learning Resources</h3>
                     <p>Learn more about blockchain basics</p>
                     <div class="buts">
-                        <a href="https://docs.ava.network/" target="_blank">Documentation</a>
+                        <a href="https://docs.avax.network/" target="_blank">Documentation</a>
                         <a href="https://github.com/ava-labs" target="_blank">Github</a>
                     </div>
                 </div>

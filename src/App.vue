@@ -146,7 +146,7 @@ export default Vue.extend({
    typography
    ========================================== */
 body {
-    font-family: "Rubik", monospace; /* font-family: "Helvetica"; */
+    font-family: "Rubik", sans-serif; /* font-family: "Helvetica"; */
     margin: 0;
     background-color: main.$white !important;
     color: main.$black;

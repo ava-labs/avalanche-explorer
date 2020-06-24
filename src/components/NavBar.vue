@@ -111,8 +111,9 @@ export default Vue.extend({
         max-height: calc(100% - 15px);
     }
 }
+
 .search_bar {
-    width: 25vw;
+    width: 375px;
 }
 
 .rightside {
@@ -168,9 +169,6 @@ export default Vue.extend({
     }
     .spacer_mid {
         display: none;
-    }
-    .search_bar {
-        width: 100%;
     }
 }
 </style>
