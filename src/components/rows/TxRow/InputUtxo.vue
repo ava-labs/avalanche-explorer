@@ -40,7 +40,7 @@ export default class InputUTXO extends Vue {
     margin-bottom: 5px;
 
     .label {
-        font-weight: 700;
+        font-weight: 400; /* 700 */
         width: 25px;
         padding: 6px 6px 4px 10px;
         opacity: 0.5;

@@ -10,7 +10,7 @@
     >
         <div class="logo">
             <router-link to="/">
-                <img style="width: 60px" src="@/assets/AVA-black.png" />
+                <img style="width: 60px" src="@/assets/yeti_logo.png" />
                 <h1>Explorer <span>Denali</span></h1>
             </router-link>
         </div>
@@ -76,6 +76,7 @@ export default Vue.extend({
         padding: 0;
     }
 }
+
 .logo {
     height: 100%;
     padding: 15px 0px;
@@ -94,6 +95,7 @@ export default Vue.extend({
     h1 {
         font-size: 32px;
         padding-left: 10px;
+        margin: 0;
 
         &:hover {
             opacity: 0.7;
@@ -109,8 +111,9 @@ export default Vue.extend({
         max-height: calc(100% - 15px);
     }
 }
+
 .search_bar {
-    width: 25vw;
+    width: 375px;
 }
 
 .rightside {
@@ -166,9 +169,6 @@ export default Vue.extend({
     }
     .spacer_mid {
         display: none;
-    }
-    .search_bar {
-        width: 100%;
     }
 }
 </style>

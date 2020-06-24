@@ -71,7 +71,7 @@ export default class OutputUtxo extends Vue {
     overflow: hidden;
 
     .label {
-        font-weight: 700;
+        font-weight: 400; /* 700 */
         width: 25px;
         padding: 6px 6px 4px 10px;
         opacity: 0.5;
@@ -103,14 +103,14 @@ export default class OutputUtxo extends Vue {
     display: flex;
     flex-direction: column-reverse;
     height: 100%;
-    background-color: main.$purple-light;
+    background-color: main.$primary-color-light;
     border-radius: 4px;
     justify-content: center;
     align-items: center;
 }
 .amount {
     color: main.$primary-color;
-    font-weight: bold;
+    font-weight: 400; /* 700 */
     letter-spacing: 0.1em;
     font-size: 11px;
 }

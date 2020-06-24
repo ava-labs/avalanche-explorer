@@ -190,7 +190,7 @@ export default {
         padding: 2px 0;
 
         &:last-of-type {
-            font-weight: bold;
+            font-weight: 400; /* 700 */
         }
     }
 

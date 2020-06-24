@@ -24,13 +24,13 @@ export default {
 
 .top_info {
     display: grid;
-    grid-template-columns: 360px 1fr minmax(0, 30%);
+    grid-template-columns: 33% 33% 33%;
     padding: 30px 0;
     overflow: auto;
     width: 100%;
 
     > div {
-        padding: 0px 30px;
+        padding: 0px 45px;
         overflow: auto;
         border-right: 1px solid #c4c4c455;
     }
@@ -39,6 +39,13 @@ export default {
         border: none;
     }
 }
+
+@include main.device_l {
+    .top_info {
+        grid-template-columns: 360px 1fr minmax(0, 30%);
+    }
+}
+
 
 @include main.device_s {
     .top_info {
@@ -50,7 +57,7 @@ export default {
             padding: 30px;
             margin-bottom: 10px;
             border: none;
-            border-bottom: 1px solid #c4c4c455;
+            /* border-bottom: 1px solid #c4c4c455; */
         }
     }
 }
@@ -61,7 +68,7 @@ export default {
         
         > div {
             padding: 30px 15px;
-            box-shadow: main.$box-shadow;
+            /* box-shadow: main.$box-shadow; */
             background-color: main.$white;
         }
     }

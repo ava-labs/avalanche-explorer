@@ -1,6 +1,7 @@
 <template>
     <v-app>
-        <nav-bar class="navbar"></nav-bar>
+        <nav-bar class="navbar" v-if="$vuetify.breakpoint.smAndUp"></nav-bar>
+        <nav-bar-mobile v-if="$vuetify.breakpoint.xs"></nav-bar-mobile>
         <v-content class="content">
             <router-view class="router_view"></router-view>
         </v-content>
@@ -12,6 +13,7 @@
 <script lang="ts">
 import Vue from "vue";
 import NavBar from "./components/NavBar.vue";
+import NavBarMobile from "./components/NavBarMobile.vue";
 import Footer from "./components/Footer.vue";
 // import ResponsiveGuidelines from "./components/misc/ResponsiveGuidelines.vue";
 import { IMetaTag } from "@/router/IMetaTag";
@@ -20,6 +22,7 @@ export default Vue.extend({
     name: "App",
     components: {
         NavBar,
+        NavBarMobile,
         // ResponsiveGuidelines,
         Footer
     },
@@ -62,7 +65,8 @@ export default Vue.extend({
 <style scoped lang="scss">
 @use"main";
 .v-application {
-    background-color: #f8f8f8 !important;
+    background-color: #f5f6fa !important;
+    /* background-color: main.$white !important; */
 }
 
 .bg {
@@ -136,12 +140,13 @@ export default Vue.extend({
 <style lang="scss">
 @use "main";
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap');
 
 /* ==========================================
    typography
    ========================================== */
 body {
-    font-family: "Helvetica";
+    font-family: "Rubik", sans-serif; /* font-family: "Helvetica"; */
     margin: 0;
     background-color: main.$white !important;
     color: main.$black;
@@ -159,7 +164,7 @@ p {
 .ava-monospace-bold {
     font-family: "Inconsolata", monospace;
     font-size: 1.2em;
-    font-weight: bold;
+    font-weight: 400; /* 700 */
 }
 
 .v-application a {
@@ -196,6 +201,7 @@ p {
     h2 {
         font-size: 26px;
         margin: 0;
+        font-weight: 400;
     }
 }
 
@@ -325,7 +331,7 @@ p {
     font-size: 12px;
 
     p {
-        font-weight: bold;
+        font-weight: 400; /* 700 */
         opacity: 0.7;
     }
 }
@@ -356,7 +362,7 @@ p {
         grid-template-rows: max-content 1fr;
 
         .label {
-            font-weight: bold;
+            font-weight: 400; /* 700 */
             margin-bottom: 8px;
             margin-right: 0;
             opacity: 0.7;
@@ -393,7 +399,7 @@ p {
     border: 2px solid rgba(0, 0, 0, 0.87);
     color: rgba(0, 0, 0, 0.87) !important;
     border-radius: 4px;
-    font-weight: 700;
+    font-weight: 400; /* 700 */
     font-size: 12px !important;
     line-height: 1.57em !important;
     padding: 5px 16px;

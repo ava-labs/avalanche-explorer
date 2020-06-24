@@ -107,13 +107,8 @@ export default {
 
         // get 24h transaction counts
         axios
-            .get(
-                `/x/transactions/aggregates?startTime=${startTime}&endTime=${endTime}`
-            )
+            .get(`/x/transactions/aggregates?startTime=${startTime}&endTime=${endTime}`)
             .then(res => {
-                // const list = res.data;
-                // parent.transactions = list;
-                // console.log(res);
                 parent.avaTxCount = res.data.aggregates.transactionCount;
             });
     },
@@ -121,11 +116,7 @@ export default {
         tpsText() {
             let day = 60 * 60 * 24;
             let avg = this.avaTxCount / day;
-            if (avg > 1) {
-                return avg.toFixed(0);
-            } else {
-                return avg.toFixed(2);
-            }
+            return (avg > 1) ? avg.toFixed(0) : avg.toFixed(2);
         },
         totalStake() {
             let res = this.$store.getters["Platform/totalStake"];
@@ -137,15 +128,8 @@ export default {
         },
         avaVolume() {
             let assets = this.$store.state.assets;
-            let ava =
-                assets["21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA"];
-
-            if (!ava) {
-                return 0;
-            }
-
-            let res = ava.volume_day;
-            return parseInt(res.toFixed(0)).toLocaleString();
+            let ava = assets["21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA"];
+            return (!ava) ? 0 : parseInt(ava.volume_day.toFixed(0)).toLocaleString();
         }
     }
 };
@@ -187,12 +171,12 @@ export default {
 
         p {
             padding: 2px 4px;
-            font-weight: bold;
+            font-weight: 400; /* 700 */
         }
 
         .label {
             text-transform: capitalize;
-            color: main.$purple;
+            color: main.$primary-color;
             font-size: 10px;
             margin-bottom: 4px;
         }

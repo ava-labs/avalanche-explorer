@@ -3,35 +3,32 @@
         <div class="card">
             <div class="header">
                 <h2>Transactions</h2>
-                <template v-if="loading && !assetsLoaded">
-                    <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1" v-if="loading"></v-progress-circular>
-                </template>
-                <template v-else>
+                <template v-if="!loading && assetsLoaded">
                     <div class="bar">
                         <p class="count">{{totalTx.toLocaleString()}} transactions found</p>
                         <pagination-controls :total="totalTx" :limit="limit" @change="page_change" ref="paginationTop"></pagination-controls>
                     </div>    
                 </template>
             </div>
-            <div class="table_headers all_tx_rows">
-                <p></p>
-                <p>
-                    ID
-                    <Tooltip content="a transaction queries or modifies the state of a blockchain"></Tooltip>
-                </p>
-                <p>
-                    From
-                    <Tooltip content="address that sends transfer value"></Tooltip>
-                </p>
-                <p>
-                    To
-                    <Tooltip content="address that receives transfer value"></Tooltip>
-                </p>
-            </div>
             <template v-if="loading && !assetsLoaded">
-                <v-progress-circular :size="16" :width="2" color="#7a838e" indeterminate key="1"></v-progress-circular>
+                <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
             </template>
             <template v-else>
+                <div class="table_headers all_tx_rows">
+                    <p></p>
+                    <p>
+                        ID
+                        <Tooltip content="a transaction queries or modifies the state of a blockchain"></Tooltip>
+                    </p>
+                    <p>
+                        From
+                        <Tooltip content="address that sends transfer value"></Tooltip>
+                    </p>
+                    <p>
+                        To
+                        <Tooltip content="address that receives transfer value"></Tooltip>
+                    </p>
+                </div>
                 <div class="rows">
                     <transition-group name="fade" mode="out-in">
                     <tx-row
@@ -149,7 +146,7 @@ export default class Transactions extends Vue {
 
     p {
         padding: 0px 10px;
-        font-weight: bold;
+        font-weight: 400; /* 700 */
         font-size: 16px;
     }
 }

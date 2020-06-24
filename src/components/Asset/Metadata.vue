@@ -103,8 +103,8 @@ export default class Metadata extends Vue {
 
     .symbol {
         flex-shrink: 0;
-        color: main.$purple;
-        background-color: main.$purple-light;
+        color: main.$primary-color;
+        background-color: main.$primary-color-light;
         min-height: 1em;
         min-width: 20px;
         text-align: center;
@@ -143,7 +143,7 @@ export default class Metadata extends Vue {
         flex-direction: column;
 
         p {
-            font-weight: bold;
+            font-weight: 400; /* 700 */
         }
 
         .label {

@@ -8,7 +8,8 @@
                     <span class="ava-btn-label">Refresh</span>
                 </v-btn>
             </div>
-            <p class="chain right" bottom v-if="$vuetify.breakpoint.smAndUp">
+            <template v-if="assetsLoaded">
+                <p class="chain right" bottom v-if="$vuetify.breakpoint.smAndUp">
                 <span class="label">You are viewing transactions for</span>
                 <v-tooltip>
                     <template v-slot:activator="{ on }">
@@ -16,9 +17,11 @@
                     </template>
                     <span>The X-Chain acts as a decentralized platform for creating and trading smart digital assets. (Think X for eXchanging assets.)</span>
                 </v-tooltip>
-            </p>
+                </p>
+            </template>
         </div>
-        <div class="list" v-if="assetsLoaded">
+        <template v-if="assetsLoaded">
+            <div class="list">
             <div class="table_headers recent_tx_rows">
                 <p></p>
                 <p>
@@ -46,6 +49,7 @@
         <div class="bottom">
             <router-link to="/tx" class="view_all">View All Transactions</router-link>
         </div>
+        </template>
     </div>
 </template>
 
@@ -116,7 +120,7 @@ export default Vue.extend({
 
     p {
         padding: 0px 10px;
-        font-weight: bold;
+        font-weight: 400; /* 700 */
         font-size: 16px;
     }
 }
@@ -157,8 +161,8 @@ export default Vue.extend({
         .tag {
             padding: 4px 12px;
             border-radius: 4px;
-            color: main.$purple;
-            background-color: main.$purple-light;
+            color: main.$primary-color;
+            background-color: main.$primary-color-light;
             min-height: 1em;
             line-height: 2em;
             word-break: keep-all;
@@ -196,7 +200,7 @@ export default Vue.extend({
     color: main.$white !important;
     padding: 12px 24px;
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 400; /* 700 */
     border-radius: 4px;
     transition: opacity 0.3s;
 

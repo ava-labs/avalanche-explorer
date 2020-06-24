@@ -64,10 +64,10 @@ export default {
 
 .symbol {
     padding: 0;
-    background-color: main.$purple-light !important;
-    color: main.$purple;
+    background-color: main.$primary-color-light !important;
+    color: main.$primary-color;
     border-radius: 6px;
-    font-weight: bold;
+    font-weight: 400; /* 700 */
     font-size: 11px;
     height: 40px;
     width: 40px;

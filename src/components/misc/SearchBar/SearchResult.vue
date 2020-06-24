@@ -69,7 +69,7 @@ export default {
     }
 
     &:hover {
-        background-color: main.$purple-light;
+        background-color: main.$primary-color-light;
     }
 }
 </style>

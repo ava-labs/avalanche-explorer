@@ -121,13 +121,13 @@ export default {
 
     p {
         width: 100%;
-        font-weight: bold;
+        font-weight: 400; /* 700 */
         color: #272727;
     }
 }
 
 .time {
-    font-weight: bold;
+    font-weight: 400; /* 700 */
     font-size: 10px;
     margin-top: 5px;
     color: #7a838e;
@@ -136,7 +136,7 @@ export default {
 }
 .label {
     font-size: 12px;
-    font-weight: bold;
+    font-weight: 400; /* 700 */
     overflow: hidden;
 }
 .data {

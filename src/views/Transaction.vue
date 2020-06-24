@@ -68,10 +68,10 @@ export default class TransactionPage extends Vue {
             api.get(url)
             .then(res => {
                 const data = res.data;
-                console.log(data);
+                // console.log(data);
                 let tx = new Transaction(data);
                 parent.tx = tx;
-                console.log(tx);
+                // console.log(tx);
             })
             .catch(err => {
                 console.log(err);

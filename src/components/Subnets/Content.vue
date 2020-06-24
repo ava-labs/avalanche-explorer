@@ -231,7 +231,7 @@ export default {
 }
 
 .v-tab {
-    font-weight: bold;
+    font-weight: 400; /* 700 */
     text-transform: none;
     letter-spacing: 0;
 }
@@ -246,7 +246,7 @@ export default {
     .subheading {
         text-transform: capitalize;
         font-size: 12px;
-        font-weight: bold;
+        font-weight: 400; /* 700 */
         /* opacity: 0.7; */
     }
 
@@ -260,7 +260,7 @@ export default {
 .null {
     padding: 10px 0 0 16px;
     font-size: 0.75rem;
-    font-weight: bold;
+    font-weight: 400; /* 700 */
 }
 
 .threshold {

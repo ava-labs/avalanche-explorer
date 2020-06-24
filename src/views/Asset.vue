@@ -219,7 +219,7 @@ $symbol_w: 35px;
     background-color: #f1f2f3;
     color: #000;
     font-size: 14px;
-    font-weight: bold;
+    font-weight: 400; /* 700 */
     box-sizing: border-box;
     height: $symbol_w;
     width: $symbol_w;
@@ -253,7 +253,7 @@ $symbol_w: 35px;
 
         p {
             padding: 0px 10px;
-            font-weight: bold;
+            font-weight: 400; /* 700 */
             font-size: 12px;
         }
     }

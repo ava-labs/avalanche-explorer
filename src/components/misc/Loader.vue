@@ -92,7 +92,7 @@ img {
 }
 
 .quote {
-    font-weight: 700;
+    font-weight: 400; /* 700 */
     font-size: 36px;
     line-height: 1.25em;
     max-width: 800px;

@@ -8,19 +8,18 @@
                 ></TooltipHeading>
             </h2>
         </div>
-        <div class="asset column_headers">
-            <p class="name">
-                Name
-                <Tooltip content="human-readable name for the asset (not necessarily unique)"></Tooltip>
-            </p>
-            <p class="metric">
-                <Tooltip content="number of transactions of this asset"></Tooltip>Txs (24h)
-            </p>
-        </div>
         <div v-if="!assetsLoaded">
-            <v-progress-circular :size="16" :width="2" color="#7a838e" indeterminate key="1"></v-progress-circular>
+            <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
         </div>
         <div v-else>
+            <div class="asset column_headers">
+                <p class="name">
+                    Name <Tooltip content="human-readable name for the asset (not necessarily unique)"></Tooltip>
+                </p>
+                <p class="metric">
+                    <Tooltip content="number of transactions of this asset"></Tooltip>Txs (24h)
+                </p>
+            </div>
             <div class="asset" v-for="(asset) in assets" :key="asset.id">
                 <div class="name">
                     <router-link :to="`/asset/${asset.id}`" class="asset_name">{{asset.name}}</router-link>
@@ -75,7 +74,7 @@ export default class TopAssets extends Vue {
 }
 
 .column_headers {
-    font-weight: bold;
+    font-weight: 400; /* 700 */
 
     p {
         border-bottom: 1px solid main.$gray-light;
@@ -115,8 +114,8 @@ export default class TopAssets extends Vue {
 
     .symbol {
         flex-shrink: 0;
-        color: main.$purple;
-        background-color: main.$purple-light;
+        color: main.$primary-color;
+        background-color: main.$primary-color-light;
         min-height: 1em;
         min-width: 20px;
         text-align: center;

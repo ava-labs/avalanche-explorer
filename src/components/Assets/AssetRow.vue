@@ -67,13 +67,13 @@ export default class AssetRow extends Vue {
 }
 
 .symbol {
-    color: main.$purple;
-    background-color: main.$purple-light;
+    color: main.$primary-color;
+    background-color: main.$primary-color-light;
     padding: 6px 12px;
     text-align: center;
     border-radius: 4px;
     min-height: 1em;
-    font-weight: 700;
+    font-weight: 400; /* 700 */
 }
 
 .no_symbol {
@@ -89,7 +89,7 @@ export default class AssetRow extends Vue {
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 400; /* 700 */
     text-decoration: none;
 }
 

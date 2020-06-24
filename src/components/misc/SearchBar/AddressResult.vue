@@ -60,7 +60,7 @@ $symbol_W: 40px;
     padding: 0;
     background-color: #f1f2f3;
     border-radius: 6px;
-    font-weight: bold;
+    font-weight: 400; /* 700 */
     font-size: 11px;
     height: $symbol_W;
     width: $symbol_W;
