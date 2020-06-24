@@ -287,7 +287,7 @@ export default {
         flex-direction: column;
 
         p {
-            font-weight: bold;
+            font-weight: 400; /* 700 */
         }
 
         .label {
@@ -386,7 +386,7 @@ export default {
     display: grid;
     grid-template-columns: 70px 1fr 1fr 1fr;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 400; /* 700 */
 
     p {
         padding: 12px 15px;
@@ -412,7 +412,7 @@ export default {
     border: 2px solid #000;
     background-color: transparent;
     font-size: 13px;
-    font-weight: 700;
+    font-weight: 400; /* 700 */
     letter-spacing: 0;
     margin: 0;
     text-transform: none;
@@ -508,7 +508,7 @@ export default {
     .headers {
         grid-template-columns: 42px 1fr 1fr .5fr;
         font-size: 11px;
-        font-weight: bold;
+        font-weight: 400; /* 700 */
 
         p {
             padding: 12px 15px 12px 0;

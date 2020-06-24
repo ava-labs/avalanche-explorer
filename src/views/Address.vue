@@ -327,7 +327,7 @@ export default {
     }
 
     .grid_headers {
-        font-weight: 700;
+        font-weight: 400; /* 700 */
         font-size: 12px;
     }
 
@@ -368,7 +368,7 @@ export default {
 
         p {
             padding: 0px 10px;
-            font-weight: bold;
+            font-weight: 400; /* 700 */
             font-size: 12px;
         }
     }

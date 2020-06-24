@@ -8,12 +8,14 @@
                         content="A smart digital asset is a digital representation of a real-world thing such as an equity, bond, money etc. They can have a complex ruleset that defines their behavior and how they are handled."
                     ></TooltipHeading>
                 </h2>
-                <div class="bar">
-                    <p class="count">{{Object.keys(assets).length}} assets found</p>
-                </div>
+                <template v-if="assetsLoaded">
+                    <div class="bar">
+                        <p class="count">{{Object.keys(assets).length}} assets found</p>
+                    </div>
+                </template>
             </div>
             <div v-if="!assetsLoaded">
-                <v-progress-circular :size="16" :width="2" color="#7a838e" indeterminate key="1"></v-progress-circular>
+                <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
             </div>
             <div class="asset_list" v-else>
                 <div class="grid_headers asset_row">
@@ -99,7 +101,7 @@ export default class AssetsPage extends Vue {
 }
 
 .grid_headers {
-    font-weight: 700;
+    font-weight: 400; /* 700 */
     font-size: 12px;
 }
 

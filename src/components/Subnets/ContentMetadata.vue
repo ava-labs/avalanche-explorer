@@ -95,13 +95,13 @@ export default {
     }
 
     p {
-        font-weight: bold;
+        font-weight: 400; /* 700 */
     }
 
     .label {
         text-transform: capitalize;
         font-size: 14px;
-        font-weight: bold;
+        font-weight: 400; /* 700 */
         margin-bottom: 6px;
         color: main.$primary-color;
         opacity: 0.7;

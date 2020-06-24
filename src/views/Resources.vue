@@ -129,7 +129,7 @@ hr {
         a {
             border: 2px solid #17171d;
             color: #17171d !important;
-            font-weight: bold;
+            font-weight: 400; /* 700 */
             padding: 14px;
         }
     }

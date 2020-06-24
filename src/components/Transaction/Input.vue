@@ -67,7 +67,7 @@
 </script>
 <style scoped lang="scss">
     .label{
-        font-weight: bold;
+        font-weight: 400; /* 700 */
         white-space: nowrap;
     }
 

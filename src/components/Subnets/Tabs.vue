@@ -51,7 +51,7 @@ export default {
 }
 
 .v-tab {
-    font-weight: bold;
+    font-weight: 400; /* 700 */
     text-transform: none;
     letter-spacing: 0;
 }

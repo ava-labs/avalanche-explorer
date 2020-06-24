@@ -3,17 +3,19 @@
         <div class="header">
             <h2>Transaction History</h2>
         </div>
-        <div class="history_settings">
-                <button :active="scope===options[0]" @click="setScope(options[0])">Yr</button>
-                <button :active="scope===options[1]" @click="setScope(options[1])">Mo</button>
-                <button :active="scope===options[2]" @click="setScope(options[2])">Wk</button>
-                <button :active="scope===options[3]" @click="setScope(options[3])">D</button>
-                <button :active="scope===options[4]" @click="setScope(options[4])">Hr</button>
-                <button :active="scope===options[5]" @click="setScope(options[5])">Min</button>
-        </div>
-        <div class="canv_cont">
-            <canvas ref="canv"></canvas>
-        </div>
+        <div v-show="!loading">
+            <div class="history_settings">
+                    <button :active="scope===options[0]" @click="setScope(options[0])">Yr</button>
+                    <button :active="scope===options[1]" @click="setScope(options[1])">Mo</button>
+                    <button :active="scope===options[2]" @click="setScope(options[2])">Wk</button>
+                    <button :active="scope===options[3]" @click="setScope(options[3])">D</button>
+                    <button :active="scope===options[4]" @click="setScope(options[4])">Hr</button>
+                    <button :active="scope===options[5]" @click="setScope(options[5])">Min</button>
+            </div>
+            <div class="canv_cont">
+                <canvas ref="canv"></canvas>
+            </div>
+        </div>  
     </div>
 </template>
 <script>
@@ -28,7 +30,8 @@ export default {
             options: ["year", "month", "week", "day", "hour", "minute"],
             scope: "day",
             history: null,
-            chart: null
+            chart: null,
+            loading: false
         };
     },
     methods: {
@@ -39,34 +42,24 @@ export default {
 
         updateHistory() {
             let parent = this;
-            // let scope = this.scope;
 
             // our selected interval in ms
             let interval = this.intervalMs;
             let intervalSize = this.intervalSize;
             let endMs = Date.now();
-            // let startMs = endMs - interval;
 
             let startTime = this.startDate.toISOString();
             let endTime = this.endDate.toISOString();
 
-            // let startSec = Math.round(startMs/1000);
-            // let endSec = Math.round(endMs/1000);
-            // console.log(startTime);
-            // console.log(endTime);
-            // console.log( new Date().toISOString());
-            axios
-                .get(
-                    `/x/transactions/aggregates?startTime=${startTime}&endTime=${endTime}&intervalSize=${intervalSize}`
-                )
+            axios.get(`/x/transactions/aggregates?startTime=${startTime}&endTime=${endTime}&intervalSize=${intervalSize}`)
                 .then(res => {
                     let data = res.data;
+                    this.loading = false;
                     // console.log(data);
                     parent.history = data;
                     parent.draw();
                 });
         },
-
         clearChart() {
             let chart = this.chart;
             chart.data.labels = [];
@@ -83,10 +76,7 @@ export default {
             let chart = this.chart;
 
             dataX.forEach((data, index) => {
-                // let date =  Date.parse(data.startTime);
-                // console.log(date);
                 let label = parent.labelsX[index];
-
                 chart.data.labels.push(label);
                 chart.data.datasets.forEach(dataset => {
                     dataset.data.push(data);
@@ -226,25 +216,13 @@ export default {
         },
         labelsX() {
             let res = [];
-
-            // let date = this.startDate;
-            // let len = this.dataX.length;
-            // let intervalSizeMs = this.intervalSizeMs;
-
             let datas = this.dataX;
             let len = datas.length;
 
             for (let i = 0; i < len; i++) {
                 let data = datas[i];
-
                 let date = new Date(data.startTime);
                 let mom = moment(date);
-
-                // if(i%2===0){
-                //     res.push('')
-                //     continue;
-                // }
-
                 let label = mom.format(this.intervalFormat);
                 res.push(label);
             }
@@ -263,7 +241,6 @@ export default {
 
         let myLineChart = new Chart(cont, {
             type: "line",
-            // maintainAspectRatio: false,
             data: {
                 labels: [
                     "January",
@@ -362,7 +339,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@use"../../../main";
+@use "../../../main";
 
 .tx_history {
     display: flex;
@@ -396,8 +373,8 @@ export default {
 
         &[active] {
             color: main.$white;
-            font-weight: bold;
-            background-color: main.$black;
+            font-weight: 400; /* 700 */
+            background-color: main.$primary-color;
         }
     }
 }

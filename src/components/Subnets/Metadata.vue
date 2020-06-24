@@ -125,7 +125,7 @@ export default class Metadata extends Vue {
         flex-direction: column;
 
         p {
-            font-weight: bold;
+            font-weight: 400; /* 700 */
         }
 
         .label {
