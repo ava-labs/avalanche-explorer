@@ -49,6 +49,7 @@ export default {
     background-color: main.$white;
     display: flex;
     position: relative;
+    z-index: 1000;
 
     .data {
         display: flex;

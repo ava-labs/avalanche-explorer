@@ -12,7 +12,7 @@
                 </router-link>
             </div>
             <div>
-                <v-btn @click="isSearch = !isSearch" icon>
+                <v-btn @click="isSearch = !isSearch" icon class="search_btn">
                     <fa icon="search"></fa>
                 </v-btn>
                 <v-btn @click="isDrawer = !isDrawer" icon>
@@ -36,19 +36,16 @@
                 </template>
             </v-list>
         </v-navigation-drawer>
-
         <!--   SEARCH     -->
         <v-dialog v-model="isSearch" fullscreen hide-overlay transition="dialog-bottom-transition">
             <v-card>
                 <div class="search_container">
-                    <v-btn icon @click="isSearch = false">
-                        <v-icon>mdi-close</v-icon>
-                    </v-btn>
-                    <search-bar
+                    <search-bar-mobile
                         class="search_bar"
                         placeholder="Search by Address / TxId / Asset"
                         @search="onsearch"
-                    ></search-bar>
+                        @change="closeSearch"
+                    ></search-bar-mobile>
                 </div>
             </v-card>
         </v-dialog>
@@ -57,11 +54,11 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import SearchBar from "@/components/misc/SearchBar/SearchBar.vue";
+import SearchBarMobile from "@/components/misc/SearchBar/SearchBarMobile.vue";
 
 @Component({
     components: {
-        SearchBar
+        SearchBarMobile
     }
 })
 export default class NavbarMobile extends Vue {
@@ -78,6 +75,10 @@ export default class NavbarMobile extends Vue {
 
     get navColor() {
         return "#fff";
+    }
+
+    closeSearch(val: boolean) {
+        this.isSearch = val;
     }
 }
 </script>
@@ -105,10 +106,14 @@ export default class NavbarMobile extends Vue {
 
 .inner {
     display: flex;
-    padding: 10px 5px 10px 15px;
+    padding: 10px 9px 10px 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.search_btn {
+    padding-right: 15px;
 }
 
 .logo {
@@ -178,6 +183,10 @@ button {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    padding: 10px 9px 8px;
+    border-bottom: 2px solid main.$gray-input;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
 
     .v-btn {
         border: none !important;
