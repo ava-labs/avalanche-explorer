@@ -39,7 +39,7 @@
         <!--   SEARCH     -->
         <v-dialog v-model="isSearch" fullscreen hide-overlay transition="dialog-bottom-transition">
             <v-card>
-                <div class="search_container">
+                <div class="search_container" v-if="isSearch">
                     <search-bar-mobile
                         class="search_bar"
                         placeholder="Search by Address / TxId / Asset"

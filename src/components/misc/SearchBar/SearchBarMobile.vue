@@ -11,6 +11,7 @@
             @focus="onfocus"
             @blur="onblur"
             :placeholder="placeholder"
+            ref="input"
         />
         <v-btn icon @click="closeSearch">
             <fa icon="times"></fa>
@@ -61,6 +62,11 @@ export default Vue.extend({
         // assign debounce here (not in methods)
         this.debounceSearch = this.debounce(this.autoSearch, 500);
     },
+    mounted() {
+        this.$nextTick(() => {
+            this.focus();
+        });
+    },
     props: {
         placeholder: {
             type: String,
@@ -68,6 +74,9 @@ export default Vue.extend({
         }
     },
     methods: {
+        focus() {
+            this.$refs.input.focus();
+        },
         onfocus() {
             // display previous results, if any
             if (this.searchValue.length > 0) {
