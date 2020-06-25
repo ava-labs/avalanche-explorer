@@ -47,7 +47,7 @@
                             <TooltipMeta v-bind:content="'initial value of ' + asset.symbol + ' tokens minted'"></TooltipMeta>
                         </p>
                         <p class="meta_val">{{asset.currentSupply.toLocaleString(asset.denomination)}} <span class="unit">{{asset.symbol}}</span></p>
-                        <p class="meta_annotation ava-monospace">Denomination: {{asset.denomination}}</p>
+                        <p class="meta_annotation">Denomination: {{asset.denomination}}</p>
                     </div>
                 </article>
             </section>
@@ -149,8 +149,9 @@ export default class Metadata extends Vue {
         .label {
             text-transform: capitalize;
             color: main.$primary-color;
-            margin-bottom: 6px;
             font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 6px;
         }
 
         .meta_val {

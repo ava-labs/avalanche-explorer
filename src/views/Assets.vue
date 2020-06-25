@@ -10,7 +10,7 @@
                 </h2>
                 <template v-if="assetsLoaded">
                     <div class="bar">
-                        <p class="count">{{Object.keys(assets).length}} assets found</p>
+                        <p class="count">{{Object.keys(assets).length | pluralize}} found</p>
                     </div>
                 </template>
             </div>
@@ -69,6 +69,15 @@ import { IAssetData } from "../js/IAsset";
         Tooltip,
         TooltipHeading,
         AssetRow
+    },
+    filters: {
+        pluralize(val:number) {
+            return val === 0
+                ? `${val} assets`
+                : val > 1
+                ? `${val} assets`
+                : `${val} asset`;
+        },
     }
 })
 export default class AssetsPage extends Vue {
@@ -101,13 +110,13 @@ export default class AssetsPage extends Vue {
 }
 
 .grid_headers {
-    font-weight: 400; /* 700 */
+    font-weight: 500;
     font-size: 12px;
 }
 
 .asset_row {
     display: grid;
-    grid-template-columns: 60px 200px 150px 110px 150px 1fr 100px;
+    grid-template-columns: 60px 1fr 150px 100px 100px 250px 100px;
     padding: 10px 0;
     border-bottom: 1px solid #e7e7e7;
     column-gap: 10px;

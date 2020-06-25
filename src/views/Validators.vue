@@ -293,8 +293,9 @@ export default {
         .label {
             text-transform: capitalize;
             color: main.$primary-color;
-            margin-bottom: 6px;
             font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 6px;
         }
 
         .meta_val {
@@ -386,7 +387,7 @@ export default {
     display: grid;
     grid-template-columns: 70px 1fr 1fr 1fr;
     font-size: 16px;
-    font-weight: 400; /* 700 */
+    font-weight: 500;
 
     p {
         padding: 12px 15px;
@@ -508,7 +509,6 @@ export default {
     .headers {
         grid-template-columns: 42px 1fr 1fr .5fr;
         font-size: 11px;
-        font-weight: 400; /* 700 */
 
         p {
             padding: 12px 15px 12px 0;

@@ -10,8 +10,8 @@
                 </div>
             </div>
             <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
-            <div class="message ava-monospace" key="2">{{message}}</div>
-            <div class="content_id ava-monospace" key="3" v-if="contentId">{{contentId}}</div>
+            <div class="message" key="2">{{message}}</div>
+            <div class="content_id" key="3" v-if="contentId">{{contentId}}</div>
         </transition-group>
     </div>
 </template>

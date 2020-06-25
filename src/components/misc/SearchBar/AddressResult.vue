@@ -61,7 +61,7 @@ $symbol_W: 40px;
 .symbol {
     padding: 0;
     border-radius: 6px;
-    font-weight: 400; /* 700 */
+    font-weight: 500; /* 700 */
     font-size: 9px;
     height: $symbol_W;
     width: $symbol_W;

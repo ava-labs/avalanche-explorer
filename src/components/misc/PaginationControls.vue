@@ -8,8 +8,8 @@
         }">&#60;</button>
         <p class="pages">
             Page
-            <b>{{page}}</b> of
-            <b>{{totalPages}}</b>
+            <span>{{page}}</span> of
+            <span>{{totalPages}}</span>
         </p>
         <button @click="pageUp" :class="{
             'disabled': page==totalPages
@@ -67,6 +67,7 @@ export default class PaginationControls extends Vue {
 
 .pagination_control {
     display: flex;
+    font-size: 12px;
 
     > * {
         background-color: transparent;
@@ -97,6 +98,10 @@ button {
     &:hover {
         opacity: 1;
         text-decoration: none;
+    }
+
+    span {
+        font-weight: 500;
     }
 }
 

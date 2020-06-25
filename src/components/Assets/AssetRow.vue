@@ -57,7 +57,7 @@ export default class AssetRow extends Vue {
 
     p {
         overflow: hidden;
-        font-size: 12px;
+        font-size: 14px;
         text-overflow: ellipsis;
     }
     
@@ -137,8 +137,8 @@ export default class AssetRow extends Vue {
 
 @include main.device_xs {
     .asset_row {
-        a {
-            /* color: main.$primary-color !important; */
+        p {
+            font-size: 12px;
         }
 
         .unit {

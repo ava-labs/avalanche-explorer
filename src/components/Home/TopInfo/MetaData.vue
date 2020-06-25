@@ -177,16 +177,17 @@ export default {
         .label {
             text-transform: capitalize;
             color: main.$primary-color;
-            font-size: 10px;
+            font-size: 11px;
+            font-weight: 500;
             margin-bottom: 4px;
         }
 
         .meta_val {
-            font-size: 16px;
+            font-size: 18px;
             line-height: 1em;
 
             .unit {
-                font-size: 14px;
+                font-size: 12px;
                 opacity: 0.7;
             }
         }

@@ -27,7 +27,7 @@
                 <p class="label">Portfolio</p>
                 <div class="balances_container">
                     <div class="bar">
-                        <p class="count">{{Object.keys(assets).length}} assets found</p>
+                        <p class="count">{{Object.keys(assets).length | pluralize}} found</p>
                     </div>
                     <div class="grid_headers balance_row">
                         <p>
@@ -71,15 +71,15 @@
                 </template>
                 <template v-else>
                     <div class="bar">
-                        <p
-                            class="count"
-                        >{{totalTransactionCount.toLocaleString()}} transactions found</p>
-                        <pagination-controls
-                            :total="totalTransactionCount"
-                            :limit="limit"
-                            @change="page_change"
-                            ref="paginationTop"
-                        ></pagination-controls>
+                        <p class="count">{{totalTransactionCount.toLocaleString()}} transactions found</p>
+                        <div class="pagination-container">
+                            <pagination-controls
+                                :total="totalTransactionCount"
+                                :limit="limit"
+                                @change="page_change"
+                                ref="paginationTop"
+                            ></pagination-controls>
+                        </div>
                     </div>
                 </template>
             </header>
@@ -167,6 +167,15 @@ export default {
                 }
             ]
         };
+    },
+    filters: {
+        pluralize(val) {
+            return val === 0
+                ? `${val} assets`
+                : val > 1
+                ? `${val} assets`
+                : `${val} asset`;
+        },
     },
     watch: {
         address(val) {
@@ -292,14 +301,6 @@ export default {
 <style scoped lang="scss">
 @use "../main";
 
-.bar {
-    display: flex;
-    align-items: center;
-    > p {
-        flex-grow: 1;
-    }
-}
-
 /* ==========================================
    details
    ========================================== */
@@ -356,6 +357,14 @@ export default {
    transactions
    ========================================== */
 
+.bar {
+    display: flex;
+    align-items: center;
+    > p {
+        flex-grow: 1;
+    }
+}
+
 .transactions {
     overflow: auto;
     margin-top: 30px;
@@ -393,6 +402,23 @@ export default {
 }
 
 @include main.device_s {
+    .bar {
+        flex-direction: column;
+        align-items: stretch;
+
+        .pagination-container {
+            padding-top: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+    }
+
+    .bar-table {
+        justify-content: center;
+    }
+
     .transactions {
         .table_headers {
             display: none;

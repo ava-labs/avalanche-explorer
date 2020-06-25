@@ -25,9 +25,12 @@
                     <router-link :to="`/asset/${asset.id}`" class="asset_name">{{asset.name}}</router-link>
                     <span class="symbol">{{asset.symbol}}</span>
                 </div>
-                <p class="metric ava-monospace">{{asset.txCount_day.toLocaleString()}}</p>
+                <p class="metric">{{asset.txCount_day.toLocaleString()}}</p>
                 <!--TODO: normalize asset.volume_day -->
             </div>
+        </div>
+        <div class="bottom">
+            <router-link to="/assets" class="view_all">View All Assets</router-link>
         </div>
     </div>
 </template>
@@ -74,7 +77,7 @@ export default class TopAssets extends Vue {
 }
 
 .column_headers {
-    font-weight: 400; /* 700 */
+    font-weight: 500;
 
     p {
         border-bottom: 1px solid main.$gray-light;
@@ -139,9 +142,37 @@ export default class TopAssets extends Vue {
     }
 }
 
+.bottom {
+    display: flex;
+    flex-flow: row-reverse;
+}
+
+.view_all {
+    display: block;
+    width: max-content;
+    text-decoration: none !important;
+    margin-top: 30px;
+    background-color: main.$black;
+    color: main.$white !important;
+    padding: 12px 24px;
+    font-size: 12px;
+    font-weight: 400; /* 700 */
+    border-radius: 4px;
+    transition: opacity 0.3s;
+
+    &:hover {
+        opacity: 0.9;
+    }
+}
+
 @include main.device_s {
     .asset {
         column-gap: 3px;
+    }
+
+    .view_all {
+        width: 100%;
+        text-align: center;
     }
 }
 </style>
