@@ -5,7 +5,7 @@
         </div>
         <div class="data">
             <p class="id">{{tx.id}}</p>
-            <p class="ago">{{tx.data.timestamp | date}}</p>
+            <p class="ago">{{tx.timestamp | date}}</p>
         </div>
     </div>
 </template>

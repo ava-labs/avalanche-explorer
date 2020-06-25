@@ -6,7 +6,7 @@
 
 <script>
 import TransactionResult from "@/components/misc/SearchBar/TransactionResult";
-import AddressResult from "./AddressResult";
+import AddressResult from "@/components/misc/SearchBar/AddressResult";
 import AssetResult from "@/components/misc/SearchBar/AssetResult";
 import { Transaction } from "@/js/Transaction";
 

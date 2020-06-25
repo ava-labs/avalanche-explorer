@@ -134,7 +134,6 @@ export default class TransactionDetailCard extends Vue {
     }
 
     get outputs(): ITransactionOutput[] {
-        console.log("tx.outputs", this.tx.outputs);
         return this.tx.outputs;
     }
 

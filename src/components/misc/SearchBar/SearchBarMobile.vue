@@ -141,8 +141,7 @@ export default Vue.extend({
             return res;
         },
         onSelectResult(item) {
-            this.showResults = false;
-            this.searchValue = "";
+            this.closeSearch();
         },
         closeSearch() {
             this.isAjax = false;
@@ -198,17 +197,19 @@ input {
 .search_results {
     position: absolute;
     width: 100%;
+    height: calc(100vh - 56px);
+    overflow: auto;
     box-sizing: border-box;
     border-radius: 0 0 2px 2px;
     background-color: main.$white;
-    top: calc(100% - 3px);
+    top: 56px;
     left: 0px;
     font-size: 12px;
-    color: #333;
+    color: main.$black;
 }
 
 .no_result {
-    padding: 10px 30px;
+    padding: 10px 8px;
     display: flex;
     align-items: center;
 
@@ -234,11 +235,5 @@ input {
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
-}
-
-@include main.device_s {
-    .search_results {
-        position: fixed;
-    }
 }
 </style>
