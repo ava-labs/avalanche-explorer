@@ -7,7 +7,7 @@
             <p class="id">{{chainNow}}-{{item.address}}</p>
             <p class="balance">
                 Balance
-                <span>{{avaBalance}} {{avaSymbol}}</span>
+                <span>{{avaxBalance}} {{avaxSymbol}}</span>
             </p>
         </div>
     </div>
@@ -30,10 +30,10 @@ export default {
         }
     },
     computed: {
-        avaBalance() {
+        avaxBalance() {
             return this.item.assets["21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA"].balance;
         },
-        avaSymbol() {
+        avaxSymbol() {
             return this.$store.state.assets["21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA"].symbol;
         },
         numTx() {

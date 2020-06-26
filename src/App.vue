@@ -44,7 +44,7 @@ export default Vue.extend({
                     }
                 );
                 // Update tags
-                document.title = to.meta.title || "AVA Explorer";
+                document.title = to.meta.title || "Avalanche Explorer";
                 if (to.meta.metaTags) {
                     to.meta.metaTags
                         .map((tagDef: IMetaTag) => {

@@ -26,7 +26,7 @@
                         <p class="label">
                             Total {{toggle}} Stake
                             <TooltipMeta
-                                content="total value of scarce resource ($AVA) used to secure the AVA network using the Proof-of-Stake method"
+                                content="total value of scarce resource ($AVA) used to secure the Avalanche network using the Proof-of-Stake method"
                             ></TooltipMeta>
                         </p>
                         <p class="meta_val">{{totalStake}} <span class="unit">AVA</span></p>
@@ -121,7 +121,7 @@
 <script>
 import ValidatorRow from "../components/rows/ValidatorRow/ValidatorRow";
 import ValidatorPaginationControls from "../components/misc/ValidatorPaginationControls";
-import { AVA_SUBNET_ID } from "@/store/modules/platform/platform";
+import { AVALANCHE_SUBNET_ID } from "@/store/modules/platform/platform";
 import Tooltip from "../components/rows/Tooltip";
 import TooltipHeading from "../components/misc/TooltipHeading";
 import TooltipMeta from "../components/misc/TooltipMeta";
@@ -175,7 +175,7 @@ export default {
         },
         validators() {
             let defaultSubnet = this.$store.state.Platform.subnets[
-                AVA_SUBNET_ID
+                AVALANCHE_SUBNET_ID
             ];
             if (defaultSubnet) {
                 return this.toggle === "active"
@@ -194,7 +194,7 @@ export default {
         },
         pendingValidators() {
             let defaultSubnet = this.$store.state.Platform.subnets[
-                AVA_SUBNET_ID
+                AVALANCHE_SUBNET_ID
             ];
             if (defaultSubnet) {
                 let vals = defaultSubnet.pendingValidators;
@@ -204,7 +204,7 @@ export default {
         },
         cumulativeStake() {
             let defaultSubnet = this.$store.state.Platform.subnets[
-                AVA_SUBNET_ID
+                AVALANCHE_SUBNET_ID
             ];
             if (defaultSubnet) {
                 return this.toggle === "active"

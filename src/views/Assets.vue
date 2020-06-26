@@ -83,10 +83,10 @@ import { IAssetData } from "../js/IAsset";
 export default class AssetsPage extends Vue {
     get assets(): Asset[] {
         let res: Asset[] = this.$store.getters.assetsArrayNonProfane;
-        let ava: Asset = res.find((asset: Asset) => asset.id === "21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA") as Asset;
+        let avax: Asset = res.find((asset: Asset) => asset.id === "21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA") as Asset;
         res = res.filter((asset: Asset) => asset.id !== "21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA");
         res.sort((a: Asset, b: Asset) => b.txCount_day - a.txCount_day);
-        res.unshift(ava);
+        res.unshift(avax);
         return res;
     }
 

@@ -25,7 +25,7 @@
 <script>
 import moment from "moment";
 import Big from "big.js";
-import { toAVA } from "../../../helper";
+import { toAVAX } from "../../../helper";
 import CumulativeBar from "./CumulativeBar";
 
 export default {
@@ -52,26 +52,26 @@ export default {
     computed: {
         totalStake() {
             let val = this.$store.getters["Platform/totalStake"];
-            return toAVA(parseInt(val.toString()));
+            return toAVAX(parseInt(val.toString()));
         },
         stakeAmount() {
-            return toAVA(this.validator.stakeAmount);
+            return toAVAX(this.validator.stakeAmount);
         },
         stakeAmountText() {
-            return toAVA(this.validator.stakeAmount).toFixed(9);
+            return toAVAX(this.validator.stakeAmount).toFixed(9);
         },
         stakePerc() {
             return this.stakeAmount / this.totalStake * 100;
         },
         stakePercText() {            
             // redundant assignments bc referencing computed values affect performance
-            let stakeAmount = toAVA(this.validator.stakeAmount);
-            let totalStake = toAVA(parseInt(this.$store.getters["Platform/totalStake"].toString()));
+            let stakeAmount = toAVAX(this.validator.stakeAmount);
+            let totalStake = toAVAX(parseInt(this.$store.getters["Platform/totalStake"].toString()));
             return (stakeAmount / totalStake * 100).toFixed(8);
         },
         cumulativePercText() {
-            let cumulativeStake = toAVA(this.cumulativeStake);
-            let totalStake = toAVA(parseInt(this.$store.getters["Platform/totalStake"].toString()));
+            let cumulativeStake = toAVAX(this.cumulativeStake);
+            let totalStake = toAVAX(parseInt(this.$store.getters["Platform/totalStake"].toString()));
             return (cumulativeStake / totalStake * 100).toFixed(0);
         },
         duration() {

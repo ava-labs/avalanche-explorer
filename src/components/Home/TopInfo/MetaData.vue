@@ -3,7 +3,7 @@
         <div class="header">
             <h2 class="meta_title">
                 Network Activity
-                <TooltipHeading content="key figures of the AVA network"></TooltipHeading>
+                <TooltipHeading content="key figures of the Avalanche network"></TooltipHeading>
             </h2>
         </div>
         <section class="stats">
@@ -13,12 +13,12 @@
                     <p class="label">
                         24h Transactions
                         <TooltipMeta
-                            content="total number of queries or modifications of the states of all blockchains on the AVA network in the past 24 hours"
+                            content="total number of queries or modifications of the states of all blockchains on the Avalanche network in the past 24 hours"
                         ></TooltipMeta>
                     </p>
                     <div>
                         <p class="meta_val">
-                            {{avaTxCount.toLocaleString()}}
+                            {{avaxTxCount.toLocaleString()}}
                             <span class="unit">({{tpsText}} TPS)</span>
                         </p>
                     </div>
@@ -30,12 +30,12 @@
                     <p class="label">
                         24h Volume
                         <TooltipMeta
-                            content="total value of $AVA tokens transferred on the AVA network in the past 24 hours"
+                            content="total value of $AVA tokens transferred on the Avalanche network in the past 24 hours"
                         ></TooltipMeta>
                     </p>
                     <div>
                         <p class="meta_val">
-                            {{avaVolume}}
+                            {{avaxVolume}}
                             <span class="unit">AVA</span>
                         </p>
                         <!--<p class="change">+ 24%</p>-->
@@ -48,7 +48,7 @@
                     <p class="label">
                         Validators
                         <TooltipMeta
-                            content="total value of $AVA tokens transferred on the AVA network in the past 24 hours"
+                            content="total value of $AVA tokens transferred on the Avalanche network in the past 24 hours"
                         ></TooltipMeta>
                     </p>
                     <div>
@@ -63,7 +63,7 @@
                     <p class="label">
                         Total Staked
                         <TooltipMeta
-                            content="total value of $AVA tokens used as a scarce resource to secure the AVA network using the Proof-of-Stake method"
+                            content="total value of $AVA tokens used as a scarce resource to secure the Avalanche network using the Proof-of-Stake method"
                         ></TooltipMeta>
                     </p>
                     <div>
@@ -90,9 +90,9 @@ export default {
     },
     data() {
         return {
-            avaMarketCap: 0,
-            avaTxCount: 0,
-            avaPrice: 34.0
+            avaxMarketCap: 0,
+            avaxTxCount: 0,
+            avaxPrice: 34.0
         };
     },
     created() {
@@ -109,13 +109,13 @@ export default {
         axios
             .get(`/x/transactions/aggregates?startTime=${startTime}&endTime=${endTime}`)
             .then(res => {
-                parent.avaTxCount = res.data.aggregates.transactionCount;
+                parent.avaxTxCount = res.data.aggregates.transactionCount;
             });
     },
     computed: {
         tpsText() {
             let day = 60 * 60 * 24;
-            let avg = this.avaTxCount / day;
+            let avg = this.avaxTxCount / day;
             return (avg > 1) ? avg.toFixed(0) : avg.toFixed(2);
         },
         totalStake() {
@@ -126,10 +126,10 @@ export default {
         validatorCount() {
             return this.$store.getters["Platform/totalValidators"];
         },
-        avaVolume() {
+        avaxVolume() {
             let assets = this.$store.state.assets;
-            let ava = assets["21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA"];
-            return (!ava) ? 0 : parseInt(ava.volume_day.toFixed(0)).toLocaleString();
+            let avax = assets["21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA"];
+            return (!avax) ? 0 : parseInt(avax.volume_day.toFixed(0)).toLocaleString();
         }
     }
 };

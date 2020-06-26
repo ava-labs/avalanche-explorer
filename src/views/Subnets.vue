@@ -22,13 +22,13 @@
 </template>
 
 <script>
-import { ava } from "@/ava";
+import { avalanche } from "@/avalanche";
 import { subnetMap } from "@/helper";
 import Metadata from "../components/Subnets/Metadata.vue";
 import Tabs from "../components/Subnets/Tabs.vue";
 import Loader from "../components/misc/Loader.vue";
 import Content from "@/components/Subnets/Content.vue";
-import { AVA_SUBNET_ID } from "@/store/modules/platform/platform";
+import { AVALANCHE_SUBNET_ID } from "@/store/modules/platform/platform";
 
 export default {
     components: {
@@ -39,7 +39,7 @@ export default {
     },
     data() {
         return {
-            selection: AVA_SUBNET_ID,
+            selection: AVALANCHE_SUBNET_ID,
             loading: true,
             blockchains: []
         };
@@ -89,7 +89,7 @@ export default {
     },
     methods: {
         async getBlockchains() {
-            return await ava.apis.platform
+            return await avalanche.apis.platform
                 .getBlockchains()
                 .then(res => {
                     this.loading = false;

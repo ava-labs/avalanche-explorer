@@ -1,14 +1,14 @@
 import { Module } from "vuex";
 import { IRootState } from "@/store/types";
 import { IPlatformState } from './IPlatformState';
-import { platform } from "@/ava";
+import { platform } from "@/avalanche";
 import Big from "big.js";
 import Subnet from '@/js/Subnet';
 import { ISubnetData } from './ISubnet';
 import { IBlockchainData } from './IBlockchain';
 import Vue from 'vue';
 
-export const AVA_SUBNET_ID = "11111111111111111111111111111111LpoYY";
+export const AVALANCHE_SUBNET_ID = "11111111111111111111111111111111LpoYY";
 
 const platform_module: Module<IPlatformState, IRootState> = {
     namespaced: true,
@@ -57,33 +57,33 @@ const platform_module: Module<IPlatformState, IRootState> = {
     getters: {
         totalValidators(state): number {
             // Count of active validators in default subnet
-            let defaultSubnet = state.subnets[AVA_SUBNET_ID];
+            let defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID];
             return (!defaultSubnet) ?
                 0 : defaultSubnet.validators.length;
         },
         totalPendingValidators(state): number {
             // Count of pending validators in default subnet
-            let defaultSubnet = state.subnets[AVA_SUBNET_ID];
+            let defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID];
             return (!defaultSubnet) ?
                 0 : defaultSubnet.pendingValidators.length;
         },
         totalStake(state): Big {
-            // Total $AVA active stake on default subnet
-            let defaultSubnet = state.subnets[AVA_SUBNET_ID];
+            // Total $AVAX active stake on default subnet
+            let defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID];
             let total = Big(0);
             return (!defaultSubnet) ? total :
                 total = defaultSubnet.validators.reduce((a, v) => a.add(Big(v.stakeAmount as number)), total);
         },
         totalPendingStake(state): Big {
-            // Total $AVA pending stake on default subnet
-            let defaultSubnet = state.subnets[AVA_SUBNET_ID];
+            // Total $AVAX pending stake on default subnet
+            let defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID];
             let total = Big(0);
             return (!defaultSubnet) ? total :
                 total = defaultSubnet.pendingValidators.reduce((a, v) => a.add(Big(v.stakeAmount as number)), total);
         },
         cumulativeStake(state): number[] {
             // Accumulative distribution of active stakes
-            let defaultSubnet = state.subnets[AVA_SUBNET_ID];
+            let defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID];
             let res: number[] = [];
             let total = 0;
             if (defaultSubnet) {
@@ -96,7 +96,7 @@ const platform_module: Module<IPlatformState, IRootState> = {
         },
         cumulativePendingStake(state): number[] {
             // Accumulative distribution of pending stakes
-            let defaultSubnet = state.subnets[AVA_SUBNET_ID];
+            let defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID];
             let res: number[] = [];
             let total = 0;
             if (defaultSubnet) {

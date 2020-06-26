@@ -2,13 +2,13 @@
     <div class="resources">
         <div class="card">
             <div class="header">
-                <h2>AVA Directory</h2>
+                <h2>Avalanche Directory</h2>
             </div>
             <hr />
             <div class="denali">
                 <img src="https://assets-global.website-files.com/5d80307810123f5ffbb34d6e/5eced3b22c4c3f38823c7fd3_Denali%20Big.svg" width="2280" alt="">
                 <h3>Welcome to the Denali Incentivized Testnet</h3>
-                <p class="description">Denali is the last phase of the public testnet and a global community effort to test the network in the most realistic conditions. Denali is designed to build, educate, and reward the first community of AVA validators, preparing them for a healthy, decentralized, and widely distributed mainnet launch!</p>
+                <p class="description">Denali is the last phase of the public testnet and a global community effort to test the network in the most realistic conditions. Denali is designed to build, educate, and reward the first community of Avalanche validators, preparing them for a healthy, decentralized, and widely distributed mainnet launch!</p>
             </div>
             <div class="resource_container">
                 <div class="resource">
@@ -32,7 +32,7 @@
                 <div class="resource">
                     <img src="@/assets/resources_view/Blog.png" />
                     <h3>Social</h3>
-                    <p>Get close to the AVA community</p>
+                    <p>Get close to the Avalanche community</p>
                     <div class="buts">
                         <a href="https://discord.com/invite/Ja3CSs7" target="_blank">Discord</a>
                         <a href="https://twitter.com/avalabsofficial" target="_blank">Twitter</a>
@@ -40,8 +40,8 @@
                 </div>
                 <div class="resource ava_x">
                     <img src="@/assets/resources_view/ice_cream.png" />
-                    <h3>AVA-X</h3>
-                    <p>Apply for grants to build on AVA.</p>
+                    <h3>Avalanche-X</h3>
+                    <p>Apply for grants to build on Avalanche.</p>
                     <div class="buts">
                         <a href="https://www.avalabs.org/ava-x" target="_blank">Apply for Grants</a>
                     </div>

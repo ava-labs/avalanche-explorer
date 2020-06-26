@@ -17,7 +17,7 @@
             </article>
             <article class="meta_row">
                 <p class="label">AVA Balance</p>
-                <p>{{avaBalance}} nAVA</p>
+                <p>{{avaxBalance}} nAVA</p>
             </article>
             <article class="meta_row">
                 <p class="label">Transactions</p>
@@ -218,7 +218,7 @@ export default {
         totalSent() {
             return stringToBig(this.metaData.totalSent, 9).toFixed(9);
         },
-        avaBalance() {
+        avaxBalance() {
             return this.metaData.assets[
                 "21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA"
             ].balance;

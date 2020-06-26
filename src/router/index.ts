@@ -5,8 +5,8 @@ import { IMetaTag } from "@/router/IMetaTag";
 
 Vue.use(VueRouter);
 
-const prefix = "AVA ";
-const description = "AVA is an open-source platform for decentralized applications and the Internet of Finance."
+const prefix = "Avalanche ";
+const description = "Avalanche is an open-source platform for decentralized applications and the Internet of Finance."
 const metaTags: IMetaTag[] = [
   {
     name: "description",

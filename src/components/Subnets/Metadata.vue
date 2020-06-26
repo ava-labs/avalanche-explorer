@@ -16,7 +16,7 @@
                         <p class="label">
                             Subnetworks
                             <TooltipMeta
-                                content="total number of subnets created on the AVA network"
+                                content="total number of subnets created on the Avalanche network"
                             ></TooltipMeta>
                         </p>
                         <p class="meta_val">{{totalSubnets.toLocaleString()}}</p>
@@ -28,7 +28,7 @@
                         <p class="label">
                             Blockchains
                             <TooltipMeta
-                                content="total number of blockchains created on the AVA network"
+                                content="total number of blockchains created on the Avalanche network"
                             ></TooltipMeta>
                         </p>
                         <p class="meta_val">{{totalBlockchains.toLocaleString()}}</p>
@@ -40,7 +40,7 @@
                         <p class="label">
                             Validators
                             <TooltipMeta
-                                content="total number of nodes participating in the consensus protocol of the AVA network"
+                                content="total number of nodes participating in the consensus protocol of the Avalanche network"
                             ></TooltipMeta>
                         </p>
                         <p class="meta_val">{{totalValidators.toLocaleString()}}</p>
@@ -52,7 +52,7 @@
                         <p class="label">
                             Total Stake Amount
                             <TooltipMeta
-                                content="total value of $AVA tokens used as a scarce resource to secure the AVA network using the Proof-of-Stake method"
+                                content="total value of $AVA tokens used as a scarce resource to secure the Avalanche network using the Proof-of-Stake method"
                             ></TooltipMeta>
                         </p>
                         <p class="meta_val">
