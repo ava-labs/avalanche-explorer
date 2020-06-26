@@ -3,7 +3,7 @@
         <div class="info_col">
             <div class="to" v-for="(addr,i) in addresses" :key="i">
                 <span class="label" v-if="$vuetify.breakpoint.smAndDown">To</span>
-                <router-link class="addr ava-monospace" :to="`/address/`+addr">{{addr | address}}</router-link>
+                <router-link class="addr" :to="`/address/`+addr">{{addr | address}}</router-link>
             </div>
         </div>
         <div class="info_col" style="padding-right: 0;">

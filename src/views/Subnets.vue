@@ -14,7 +14,7 @@
                 <Tabs :subnets="subnets"></Tabs>
             </div>
             <div class="card selection" v-if="this.$vuetify.breakpoint.smAndDown">
-                <v-select v-model="selection" :items="Object.keys(subnets)" label="Select Subnet" outlined></v-select>
+                <v-select v-model="selection" :items="subnetsByName" label="Select Subnet" outlined></v-select>
                 <Content :subnetID="selection" :subnet="subnets[selection]"></Content>
             </div>
         </template>
@@ -74,6 +74,17 @@ export default {
         },
         totalSubnets() {
             return Object.keys(this.$store.state.Platform.subnets).length;
+        },
+        subnetsByName() {
+            let list = [];
+            Object.keys(this.subnets).forEach(key => {
+                let object = {
+                    text: subnetMap(key) ? subnetMap(key) : key,
+                    value: key
+                };
+                list.push(object);
+            });
+            return list;
         }
     },
     methods: {
@@ -102,5 +113,15 @@ export default {
     p {
         padding: 12px 15px;
     }
+}
+</style>
+
+<style>
+.v-input__slot {
+    width: calc(100% - 24px) !important;
+}
+
+.v-select.v-text-field input {
+    border-color: transparent;
 }
 </style>

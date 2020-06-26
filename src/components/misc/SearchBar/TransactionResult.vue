@@ -5,7 +5,7 @@
         </div>
         <div class="data">
             <p class="id">{{tx.id}}</p>
-            <p class="ago">{{tx.data.timestamp | date}}</p>
+            <p class="ago">{{tx.timestamp | date}}</p>
         </div>
     </div>
 </template>
@@ -63,7 +63,7 @@ export default {
     background-color: main.$white;
     border-radius: 20px;
     border: 2px solid main.$black;
-    font-weight: 400; /* 700 */
+    font-weight: 500; /* 700 */
     font-size: 11px;
     height: 38px;
     width: 38px;

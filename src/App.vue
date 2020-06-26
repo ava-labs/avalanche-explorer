@@ -156,21 +156,10 @@ p {
     margin: 0;
 }
 
-.ava-monospace {
-    font-family: "Inconsolata", monospace;
-    font-size: 1.2em;
-}
-
-.ava-monospace-bold {
-    font-family: "Inconsolata", monospace;
-    font-size: 1.2em;
-    font-weight: 400; /* 700 */
-}
-
 .v-application a {
     color: main.$primary-color !important;
     text-decoration: none;
-    font-weight: normal;
+    font-weight: 400; /* 700 */
 
     &:hover {
         text-decoration: underline;
@@ -267,7 +256,7 @@ p {
     border-bottom: 1px solid main.$gray-xlight;
     
     .label {
-        font-weight: normal;
+        font-weight: 400; /* 700 */
         margin-right: 8px;
     }
 
@@ -383,6 +372,13 @@ p {
     .detail {
         padding: main.$container_padding_xs;
     }
+}
+
+/* ==========================================
+   UI
+   ========================================== */
+input {
+    font-family: 'Rubik', sans-serif;
 }
 
 /* ==========================================

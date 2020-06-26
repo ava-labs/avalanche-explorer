@@ -175,7 +175,7 @@
     .id{
         color: main.$primary-color;
         text-decoration: none;
-        font-weight: normal;
+        font-weight: 400; /* 700 */
         max-width: 80px;
         overflow: hidden;
         text-overflow: ellipsis;

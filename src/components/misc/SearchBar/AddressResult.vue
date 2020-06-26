@@ -1,13 +1,13 @@
 <template>
     <div class="search_result" @click="select">
         <div class="symbol_container">
-            <p class="symbol">#</p>
+            <p class="symbol">Address</p>
         </div>
         <div class="data">
             <p class="id">{{chainNow}}-{{item.address}}</p>
             <p class="balance">
                 Balance
-                <span>{{balance.toFixed(2)}} AVA</span>
+                <span>{{avaBalance}} {{avaSymbol}}</span>
             </p>
         </div>
     </div>
@@ -30,9 +30,11 @@ export default {
         }
     },
     computed: {
-        balance() {
-            let res = stringToBig(this.item.balance, 9);
-            return res;
+        avaBalance() {
+            return this.item.assets["21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA"].balance;
+        },
+        avaSymbol() {
+            return this.$store.state.assets["21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA"].symbol;
         },
         numTx() {
             return this.item.transactionCount;
@@ -58,10 +60,9 @@ $symbol_W: 40px;
 
 .symbol {
     padding: 0;
-    background-color: #f1f2f3;
     border-radius: 6px;
-    font-weight: 400; /* 700 */
-    font-size: 11px;
+    font-weight: 500; /* 700 */
+    font-size: 9px;
     height: $symbol_W;
     width: $symbol_W;
     text-align: center;
@@ -73,11 +74,7 @@ $symbol_W: 40px;
 }
 
 .balance {
-    span {
-        background-color: main.$primary-color-light;
-        padding: 3px 6px;
-        color: main.$primary-color;
-        border-radius: 3px;
-    }
+    padding-top: 4px;
+    opacity: 0.7;
 }
 </style>

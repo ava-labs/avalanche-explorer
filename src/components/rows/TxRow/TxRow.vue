@@ -121,7 +121,7 @@ export default {
 
     p {
         width: 100%;
-        font-weight: 400; /* 700 */
+        font-weight: 500; /* 700 */
         color: #272727;
     }
 }
@@ -152,7 +152,7 @@ export default {
 .id {
     color: main.$primary-color;
     text-decoration: none;
-    font-weight: normal;
+    font-weight: 400; /* 700 */
     display: block;
     overflow: hidden;
     text-overflow: ellipsis;

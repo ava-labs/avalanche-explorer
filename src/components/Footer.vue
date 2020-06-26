@@ -7,7 +7,7 @@
             </div>
             <p
                 class="ava_desc"
-            >The AVA Explorer is an analytics tool for AVA, an open-source platform for decentralized applications and the Internet of Finance.</p>
+            >The AVA Explorer is an analytics tool for Avalanche, an open-source platform for decentralized applications and the Internet of Finance.</p>
             <img class="yeti" src="@/assets/yeti_footer.png" />
         </div>
         <div class="list">
