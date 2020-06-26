@@ -29,7 +29,7 @@
                 <!--TODO: normalize asset.volume_day -->
             </div>
         </div>
-        <div class="bottom">
+        <div class="bottom" v-if="$vuetify.breakpoint.xs">
             <router-link to="/assets" class="view_all">View All Assets</router-link>
         </div>
     </div>
