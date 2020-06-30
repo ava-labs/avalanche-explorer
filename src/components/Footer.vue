@@ -3,11 +3,11 @@
         <div class="powered_by">
             <div class="header">
                 <img src="@/assets/ava_logo_white.png" />
-                <h4>Powered by AVA</h4>
+                <h4>Powered by Avalanche</h4>
             </div>
             <p
                 class="ava_desc"
-            >The AVA Explorer is an analytics tool for Avalanche, an open-source platform for decentralized applications and the Internet of Finance.</p>
+            >The AVAX Explorer is an analytics tool for Avalanche, an open-source platform for decentralized applications and the Internet of Finance.</p>
             <img class="yeti" src="@/assets/yeti_footer.png" />
         </div>
         <div class="list">
