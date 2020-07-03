@@ -3,19 +3,22 @@
         <div class="header">
             <h2>Transaction History</h2>
         </div>
-        <div v-show="!loading">
+        <div class="history_cont">
             <div class="history_settings">
-                    <button :active="scope===options[0]" @click="setScope(options[0])">Yr</button>
-                    <button :active="scope===options[1]" @click="setScope(options[1])">Mo</button>
-                    <button :active="scope===options[2]" @click="setScope(options[2])">Wk</button>
-                    <button :active="scope===options[3]" @click="setScope(options[3])">D</button>
-                    <button :active="scope===options[4]" @click="setScope(options[4])">Hr</button>
-                    <button :active="scope===options[5]" @click="setScope(options[5])">Min</button>
+                <button :active="scope===options[0]" @click="setScope(options[0])">Yr</button>
+                <button :active="scope===options[1]" @click="setScope(options[1])">Mo</button>
+                <button :active="scope===options[2]" @click="setScope(options[2])">Wk</button>
+                <button :active="scope===options[3]" @click="setScope(options[3])">D</button>
+                <button :active="scope===options[4]" @click="setScope(options[4])">Hr</button>
+                <button :active="scope===options[5]" @click="setScope(options[5])">Min</button>
+            </div>
+            <div v-show="loading" class="loading_cont">
+                <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate></v-progress-circular>
             </div>
             <div class="canv_cont">
                 <canvas ref="canv"></canvas>
             </div>
-        </div>  
+        </div>
     </div>
 </template>
 <script>
@@ -42,7 +45,7 @@ export default {
 
         updateHistory() {
             let parent = this;
-
+            this.loading = true;
             // our selected interval in ms
             let interval = this.intervalMs;
             let intervalSize = this.intervalSize;
@@ -54,8 +57,7 @@ export default {
             axios.get(`/x/transactions/aggregates?startTime=${startTime}&endTime=${endTime}&intervalSize=${intervalSize}`)
                 .then(res => {
                     let data = res.data;
-                    this.loading = false;
-                    // console.log(data);
+                    parent.loading = false;
                     parent.history = data;
                     parent.draw();
                 });
@@ -350,6 +352,10 @@ export default {
     padding-bottom: 20px;
 }
 
+.history_cont {
+    position: relative;
+}
+
 .history_settings {
     display: flex;
     flex-direction: row;
@@ -377,6 +383,20 @@ export default {
             background-color: main.$primary-color;
         }
     }
+}
+
+.loading_cont {
+    position: absolute;
+    background-color: main.$white;
+    margin-top: 40px;
+    top: -5px;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 40px);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;;
 }
 
 .canv_cont {
