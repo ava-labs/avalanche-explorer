@@ -5,9 +5,7 @@
                 <img src="@/assets/ava_logo_white.png" />
                 <h4>Powered by Avalanche</h4>
             </div>
-            <p
-                class="avalanche_desc"
-            >The Avalanche Explorer is an analytics tool for Avalanche, an open-source platform for decentralized applications and the Internet of Finance.</p>
+            <p class="avalanche_desc">The AVAX Explorer is an analytics tool for Avalanche, an open-source platform for decentralized applications and the Internet of Finance.</p>
             <img class="yeti" src="@/assets/yeti_footer.png" />
         </div>
         <div class="list">

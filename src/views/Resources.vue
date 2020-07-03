@@ -43,7 +43,7 @@
                     <h3>Avalanche-X</h3>
                     <p>Apply for grants to build on Avalanche.</p>
                     <div class="buts">
-                        <a href="https://www.avalabs.org/ava-x" target="_blank">Apply for Grants</a>
+                        <a href="https://www.avalabs.org/avalanche-x" target="_blank">Apply for Grants</a>
                     </div>
                 </div>
             </div>
