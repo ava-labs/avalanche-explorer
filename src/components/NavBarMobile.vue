@@ -25,7 +25,7 @@
             <v-list dense nav>
                 <v-list-item>
                     <img src="@/assets/yeti_logo.png" class="drawer_img" />
-                    <div class="title">AVA Explorer</div>
+                    <div class="title">Denali Explorer</div>
                 </v-list-item>
                 <template>
                     <v-list-item to="/">Home</v-list-item>
@@ -164,6 +164,7 @@ a {
 .title {
     font-size: 20px;
     padding-left: 16px;
+    padding-bottom: 7px;
 }
 
 .drawer_img {

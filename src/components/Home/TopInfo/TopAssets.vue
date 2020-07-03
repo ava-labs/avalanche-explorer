@@ -4,7 +4,7 @@
             <h2>
                 Top Assets
                 <TooltipHeading
-                    content="the most transferred digital assets on the AVA platform in the past 24 hours"
+                    content="the most transferred digital assets on the Avalanche platform in the past 24 hours"
                 ></TooltipHeading>
             </h2>
         </div>
@@ -56,10 +56,10 @@ export default class TopAssets extends Vue {
 
     get assets(): Asset[] {
         let res = this.$store.getters.assetsArrayNonProfane;
-        let ava = res.find((asset: Asset) => asset.id === "21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA");
+        let avax = res.find((asset: Asset) => asset.id === "21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA");
         res = res.filter((asset: Asset) => asset.id !== "21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA");
         res.sort((a: Asset, b: Asset) => b.txCount_day - a.txCount_day);
-        res.unshift(ava);
+        res.unshift(avax);
         return res.slice(0, 5);
     }
 

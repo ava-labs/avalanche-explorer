@@ -8,10 +8,10 @@ function stringToBig(raw: string, denomination = 0): Big {
     return Big(raw).div(Math.pow(10, denomination));
 }
 
-function toAVA(nAVA: string | number): number {
-    return (typeof nAVA === "string") ?
-        parseInt(nAVA) / Math.pow(10, 9) :
-        nAVA / Math.pow(10, 9);
+function toAVAX(nAVAX: string | number): number {
+    return (typeof nAVAX === "string") ?
+        parseInt(nAVAX) / Math.pow(10, 9) :
+        nAVAX / Math.pow(10, 9);
 }
 
 function bigToDenomString(val: Big, denomination = 0) {
@@ -47,7 +47,7 @@ function getRandomQuote(): Quote {
 }
 
 export {
-    toAVA,
+    toAVAX,
     stringToBig,
     bigToDenomString,
     addressMap,

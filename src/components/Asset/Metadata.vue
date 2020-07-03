@@ -14,7 +14,7 @@
                     <div class="stat">
                         <p class="label">
                             24h Volume
-                            <TooltipMeta v-bind:content="'number of ' + asset.symbol + ' tokens transferred on the AVA network in the past 24 hours'"></TooltipMeta>
+                            <TooltipMeta v-bind:content="'number of ' + asset.symbol + ' tokens transferred on the Avalanche network in the past 24 hours'"></TooltipMeta>
                         </p>
                         <p class="meta_val">{{parseInt(asset.volume_day.toFixed(0)).toLocaleString()}} <span class="unit">{{asset.symbol}}</span></p>
                     </div>

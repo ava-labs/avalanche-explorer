@@ -2,7 +2,7 @@ import gecko_api from "@/gecko_api";
 import { ISubnetData } from "@/store/modules/platform/ISubnet"
 import { IBlockchain, IBlockchainData } from '@/store/modules/platform/IBlockchain';
 import { IValidator, IValidatorData } from "@/store/modules/platform/IValidator";
-import { AVA_SUBNET_ID } from '@/store/modules/platform/platform';
+import { AVALANCHE_SUBNET_ID } from '@/store/modules/platform/platform';
 
 export default class Subnet {
     id: string;
@@ -25,7 +25,7 @@ export default class Subnet {
         this.blockchains.push(data);
     }
 
-    // TODO: get address details for Platform Keys (https://docs.ava.network/v1.0/en/api/platform/#platformgetaccount)
+    // TODO: get address details for Platform Keys (https://docs.avax.network/v1.0/en/api/platform/#platformgetaccount)
     
     async updateValidators() {
         let req = {
@@ -61,7 +61,7 @@ export default class Subnet {
         });
 
         // sort list and set rank prop
-        (this.id === AVA_SUBNET_ID) ?
+        (this.id === AVALANCHE_SUBNET_ID) ?
             validators.sort((a, b) => (b.stakeAmount as number) - (a.stakeAmount as number)) :
             validators.sort((a, b) => (b.weight as number) - (a.weight as number));        
         validators.forEach((v, i) => v.rank = i + 1);
@@ -100,7 +100,7 @@ export default class Subnet {
             return validator;
         });
 
-        (this.id === AVA_SUBNET_ID) ? 
+        (this.id === AVALANCHE_SUBNET_ID) ? 
             pendingValidators.sort((a, b) => (b.stakeAmount as number) - (a.stakeAmount as number)) :
             pendingValidators.sort((a, b) => (b.weight as number) - (a.weight as number));
         pendingValidators.forEach((v, i) => v.rank = i + 1);
