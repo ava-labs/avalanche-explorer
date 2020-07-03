@@ -48,7 +48,7 @@
                     <p class="label">
                         Validators
                         <TooltipMeta
-                            content="total value of $AVA tokens transferred on the Avalanche network in the past 24 hours"
+                            content="Total number of nodes participating in the consensus protocol of the Avalanche network"
                         ></TooltipMeta>
                     </p>
                     <div>
