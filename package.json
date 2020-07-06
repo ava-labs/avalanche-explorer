@@ -33,6 +33,7 @@
     "path": "^0.12.7",
     "reflect-metadata": "^0.1.13",
     "vue": "^2.6.11",
+    "vue-analytics": "^5.22.1",
     "vue-class-component": "^7.2.3",
     "vue-property-decorator": "^9.0.0",
     "vue-router": "^3.1.5",
