@@ -1739,20 +1739,20 @@ autoprefixer@^9.7.4:
     postcss "^7.0.26"
     postcss-value-parser "^4.0.2"
 
-avalanche@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/avalanche/-/avalanche-2.0.1.tgz#09b743b50439b8a64fd7e9dbdd8ab5baf3a42ff7"
-  integrity sha512-veO1DZqXDccSjAXjwZsuD1QbDYSx/g0tG7bR80o78cKoMaAUiiFVrnKt0Xv6NEqzQbAOmoj34m9tbkhxHdjhIQ==
+avalanche@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/avalanche/-/avalanche-2.2.1.tgz#3f97321f1b4fe1ece6f51fa020e010e47f4d6814"
+  integrity sha512-zaWwUKTPvRaTvdMAjVEGdrTCx7vXdaKLWNcaOAoO7kgCUz6CrBeuafbacrktjHa3iidEfX8O1G92EvaXBueCMg==
   dependencies:
     axios "^0.19.2"
     bn.js "^4.11.8"
     buffer "^5.5.0"
     create-hash "^1.2.0"
     elliptic "^6.5.2"
-    libsodium-wrappers "^0.7.6"
     secp256k1 "^4.0.0"
     store2 "^2.11.0"
     typedoc "^0.17.7"
+    webcrypto "^0.1.1"
 
 aws-sign2@~0.7.0:
   version "0.7.0"
@@ -2791,7 +2791,7 @@ cross-spawn@^7.0.0:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
-crypto-browserify@^3.11.0:
+crypto-browserify@^3.10.0, crypto-browserify@^3.11.0:
   version "3.12.0"
   resolved "https://registry.yarnpkg.com/crypto-browserify/-/crypto-browserify-3.12.0.tgz#396cf9f3137f03e4b8e532c58f698254e00f80ec"
   integrity sha512-fz4spIh+znjO2VjL+IdhEpRJ3YN6sMzITSBijk6FK2UvTqruSQW+/cCZTSNsMiZNvUeq0CqurF+dAbyiGOY6Wg==
@@ -3148,7 +3148,7 @@ destroy@~1.0.4:
   resolved "https://registry.yarnpkg.com/destroy/-/destroy-1.0.4.tgz#978857442c44749e4206613e37946205826abd80"
   integrity sha1-l4hXRCxEdJ5CBmE+N5RiBYJqvYA=
 
-detect-node@^2.0.4:
+detect-node@^2.0.3, detect-node@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/detect-node/-/detect-node-2.0.4.tgz#014ee8f8f669c5c58023da64b8179c083a28c46c"
   integrity sha512-ZIzRpLJrOj7jjP2miAtgqIfmzbxa4ZOr5jJc601zklsfEx9oTzmmj2nVpIPRpNlRTIh8lc1kyViIY7BWSGNmKw==
@@ -5307,18 +5307,6 @@ levn@^0.3.0, levn@~0.3.0:
   dependencies:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
-
-libsodium-wrappers@^0.7.6:
-  version "0.7.6"
-  resolved "https://registry.yarnpkg.com/libsodium-wrappers/-/libsodium-wrappers-0.7.6.tgz#baed4c16d4bf9610104875ad8a8e164d259d48fb"
-  integrity sha512-OUO2CWW5bHdLr6hkKLHIKI4raEkZrf3QHkhXsJ1yCh6MZ3JDA7jFD3kCATNquuGSG6MjjPHQIQms0y0gBDzjQg==
-  dependencies:
-    libsodium "0.7.6"
-
-libsodium@0.7.6:
-  version "0.7.6"
-  resolved "https://registry.yarnpkg.com/libsodium/-/libsodium-0.7.6.tgz#018b80c5728054817845fbffa554274441bda277"
-  integrity sha512-hPb/04sEuLcTRdWDtd+xH3RXBihpmbPCsKW/Jtf4PsvdyKh+D6z2D2gvp/5BfoxseP+0FCOg66kE+0oGUE/loQ==
 
 lines-and-columns@^1.1.6:
   version "1.1.6"
@@ -8845,6 +8833,11 @@ vm-browserify@^1.0.1:
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-1.1.2.tgz#78641c488b8e6ca91a75f511e7a3b32a86e5dda0"
   integrity sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==
 
+vue-analytics@^5.22.1:
+  version "5.22.1"
+  resolved "https://registry.yarnpkg.com/vue-analytics/-/vue-analytics-5.22.1.tgz#9d6b32da56daee1b9dfb23a267b50349a03f710f"
+  integrity sha512-HPKQMN7gfcUqS5SxoO0VxqLRRSPkG1H1FqglsHccz6BatBatNtm/Vyy8brApktZxNCfnAkrSVDpxg3/FNDeOgQ==
+
 vue-class-component@^7.2.3:
   version "7.2.3"
   resolved "https://registry.yarnpkg.com/vue-class-component/-/vue-class-component-7.2.3.tgz#a5b1abd53513a72ad51098752e2dedd499807cca"
@@ -8961,6 +8954,14 @@ wcwidth@^1.0.1:
   integrity sha1-8LDc+RW8X/FSivrbLA4XtTLaL+g=
   dependencies:
     defaults "^1.0.3"
+
+webcrypto@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/webcrypto/-/webcrypto-0.1.1.tgz#63316e5ecbce6ce965ab5f259c2faa62c3e782b4"
+  integrity sha512-BAvoatS38TbHdyt42ECLroi27NmDh5iea5l5rHC6nZTZjlbJlndrT0FoIiEq7fmPHpmNtP0lMFKVMEKZQFIrGA==
+  dependencies:
+    crypto-browserify "^3.10.0"
+    detect-node "^2.0.3"
 
 webpack-bundle-analyzer@^3.6.0:
   version "3.6.1"

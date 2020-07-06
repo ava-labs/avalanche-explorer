@@ -4,8 +4,14 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify';
 import Big from 'big.js';
+import VueAnalytics from 'vue-analytics';
 
 Vue.config.productionTip = false;
+
+Vue.use(VueAnalytics, {
+  id: 'UA-126268251-7',
+  router
+});
 
 new Vue({
   router,

@@ -17,7 +17,7 @@
             </article>
             <article class="meta_row">
                 <p class="label">AVA Balance</p>
-                <p>{{avaxBalance}} nAVA</p>
+                <p>{{avaxBalance}} AVA</p>
             </article>
             <article class="meta_row">
                 <p class="label">Transactions</p>
@@ -25,41 +25,7 @@
             </article>
             <article class="meta_row">
                 <p class="label">Portfolio</p>
-                <div class="balances_container">
-                    <div class="bar">
-                        <p class="count">{{Object.keys(assets).length | pluralize}} found</p>
-                    </div>
-                    <div class="grid_headers balance_row">
-                        <p>
-                            Symbol
-                            <Tooltip content="shorthand ticker symbol of the asset"></Tooltip>
-                        </p>
-                        <p>
-                            Name
-                            <Tooltip content="human-readable name for the asset"></Tooltip>
-                        </p>
-                        <p class="balance">
-                            <Tooltip content="balance held by this address"></Tooltip>Balance
-                        </p>
-                        <p class="received">
-                            <Tooltip content="total received by this address"></Tooltip>Received
-                        </p>
-                        <p class="sent">
-                            <Tooltip content="total sent by this address"></Tooltip>Sent
-                        </p>
-                        <p class="txs">
-                            <Tooltip content="total transactions involving this address"></Tooltip>Txs
-                        </p>
-                        <p class="utxos">
-                            <Tooltip content="total UTXOs involving this address"></Tooltip>UTXOs
-                        </p>
-                    </div>
-                    <BalanceRow
-                        v-for="(asset, index) in metaData.assets"
-                        v-bind:key="index"
-                        :asset="asset"
-                    ></BalanceRow>
-                </div>
+                <BalanceTable :assets="assets"></BalanceTable>
             </article>
         </section>
 
@@ -128,6 +94,7 @@
 <script>
 import Loader from "../components/misc/Loader";
 import Tooltip from "../components/rows/Tooltip";
+import BalanceTable from "../components/Address/BalanceTable";
 import BalanceRow from "../components/Address/BalanceRow";
 import TxRow from "../components/rows/TxRow/TxRow.vue";
 import PaginationControls from "../components/misc/PaginationControls";
@@ -140,7 +107,7 @@ export default {
     components: {
         Loader,
         Tooltip,
-        BalanceRow,
+        BalanceTable,
         TxRow,
         PaginationControls
     },
@@ -204,19 +171,8 @@ export default {
         address() {
             return this.$route.params.address;
         },
-        balance() {
-            return !this.metaData
-                ? Big(0)
-                : stringToBig(this.metaData.balance, 9).toFixed(9);
-        },
         txCount() {
             return this.metaData.transactionCount;
-        },
-        totalReceived() {
-            return stringToBig(this.metaData.totalReceived, 9).toFixed(9);
-        },
-        totalSent() {
-            return stringToBig(this.metaData.totalSent, 9).toFixed(9);
         },
         avaxBalance() {
             return this.metaData.assets[
@@ -259,9 +215,9 @@ export default {
                         assets[asset].denomination = this.assetsMap[asset].denomination;
                         assets[asset].symbol = this.assetsMap[asset].symbol;
                         assets[asset].currentSupply = this.assetsMap[asset].currentSupply;
-                        assets[asset].balance = parseInt(assets[asset].balance);
-                        assets[asset].totalReceived = parseInt(assets[asset].totalReceived);
-                        assets[asset].totalSent = parseInt(assets[asset].totalSent);
+                        assets[asset].balance = stringToBig(assets[asset].balance, assets[asset].denomination);
+                        assets[asset].totalReceived = stringToBig(assets[asset].totalReceived, assets[asset].denomination);
+                        assets[asset].totalSent = stringToBig(assets[asset].totalSent, assets[asset].denomination);
                         assets[asset].proportionOfCurrentSupply = ((parseInt(assets[asset].balance) / parseInt(assets[asset].currentSupply)) * 100).toFixed(2);
                         totalTransactionCount += assets[asset].transactionCount;
                         totalUtxoCount += assets[asset].utxoCount;
@@ -317,39 +273,6 @@ export default {
         width: max-content;
         padding: 4px 8px;
         margin: 0px 30px;
-    }
-}
-
-.balances_container {
-    overflow-x: scroll;
-
-    .count {
-        margin-bottom: 12px;
-    }
-
-    .grid_headers {
-        font-weight: 400; /* 700 */
-        font-size: 12px;
-    }
-
-    .balance,
-    .sent,
-    .received,
-    .txs,
-    .utxos {
-        text-align: right;
-    }
-
-    .balance_row {
-        display: grid;
-        grid-template-columns: 60px 1fr 100px 100px 100px 100px 100px;
-        padding: 10px 0;
-        border-bottom: 1px solid #e7e7e7;
-        column-gap: 10px;
-
-        &:last-of-type {
-            border: none;
-        }
     }
 }
 
