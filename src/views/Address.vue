@@ -17,7 +17,7 @@
             </article>
             <article class="meta_row">
                 <p class="label">AVA Balance</p>
-                <p>{{avaxBalance}} nAVA</p>
+                <p>{{avaxBalance}} AVA</p>
             </article>
             <article class="meta_row">
                 <p class="label">Transactions</p>
