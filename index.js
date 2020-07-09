@@ -1,13 +1,11 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-// const morgan = require('morgan');
 const path = require('path');
 let history = require('connect-history-api-fallback');
 
 let app = express();
-
-// app.use(morgan('tiny'));
+app.disable('x-powered-by');
 app.use(cors());
 app.use(bodyParser.json());
 app.enable('trust proxy');
