@@ -46,7 +46,6 @@ import { IBalance } from "@/js/IAddress";
     },
     filters: {
         pluralize(val: number): string {
-            ``;
             return val === 0
                 ? `${val} assets`
                 : val > 1
