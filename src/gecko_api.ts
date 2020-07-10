@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const api_url = `https://explorerapi.avax.network:21000/ext/P`;
+const api_url = `https://testapi.avax.network:443/ext/P`;
 
 export default axios.create({
     baseURL: api_url,
