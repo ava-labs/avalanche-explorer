@@ -1,6 +1,6 @@
 import * as avalancheJS from "avalanche";
-const IP = "explorerapi.avax.network";
-const PORT = 21000;
+const IP = "testapi.avax.network";
+const PORT = 443;
 const PROTOCOL = "https";
 const NETWORK_ID = "3";
 const CHAIN_ID = "X";
