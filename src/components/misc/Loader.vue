@@ -2,7 +2,7 @@
     <div v-if="display" class="page_loader">
         <transition-group name="fade">
             <div class="quote_container" key="0">
-                <img src="@/assets/yeti_logo.png" />
+                <img src="@/assets/yeti_grover_logo.png" />
                 <div class="quote">
                     "{{quote.quote}}"
                     <br />

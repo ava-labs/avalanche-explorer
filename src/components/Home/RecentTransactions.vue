@@ -13,7 +13,7 @@
                 <span class="label">You are viewing transactions for</span>
                 <v-tooltip>
                     <template v-slot:activator="{ on }">
-                        <span v-on="on" class="tag">AVA X-Chain</span>
+                        <span v-on="on" class="tag">X-Chain</span>
                     </template>
                     <span>The X-Chain acts as a decentralized platform for creating and trading smart digital assets. (Think X for eXchanging assets.)</span>
                 </v-tooltip>

@@ -26,10 +26,10 @@
                         <p class="label">
                             Total {{toggle}} Stake
                             <TooltipMeta
-                                content="total value of scarce resource ($AVA) used to secure the Avalanche network using the Proof-of-Stake method"
+                                content="total value of scarce resource ($AVAX) used to secure the Avalanche network using the Proof-of-Stake method"
                             ></TooltipMeta>
                         </p>
-                        <p class="meta_val">{{totalStake}} <span class="unit">AVA</span></p>
+                        <p class="meta_val">{{totalStake}} <span class="unit">AVAX</span></p>
                     </div>
                 </article>
                 <article>
@@ -77,11 +77,11 @@
                     <Tooltip content="address of the node participating in the consensus protocol"></Tooltip>
                 </p>
                 <p style="text-align: right;">
-                    <Tooltip content="amount of $AVA staked by this node"></Tooltip>Stake
+                    <Tooltip content="amount of $AVAX staked by this node"></Tooltip>Stake
                 </p>
                 <p style="text-align: right;" v-if="$vuetify.breakpoint.smAndUp">
                     <Tooltip
-                        content="percentage of scarce resource ($AVA) concentrated up to this validator ranking"
+                        content="percentage of scarce resource ($AVAX) concentrated up to this validator ranking"
                     ></Tooltip>Cumulative Stake
                 </p>
             </div>
