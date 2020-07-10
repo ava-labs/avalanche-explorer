@@ -30,13 +30,13 @@
                     <p class="label">
                         24h Volume
                         <TooltipMeta
-                            content="total value of $AVA tokens transferred on the Avalanche network in the past 24 hours"
+                            content="total value of $AVAX tokens transferred on the Avalanche network in the past 24 hours"
                         ></TooltipMeta>
                     </p>
                     <div>
                         <p class="meta_val">
                             {{avaxVolume}}
-                            <span class="unit">AVA</span>
+                            <span class="unit">AVAX</span>
                         </p>
                         <!--<p class="change">+ 24%</p>-->
                     </div>
@@ -63,13 +63,13 @@
                     <p class="label">
                         Total Staked
                         <TooltipMeta
-                            content="total value of $AVA tokens used as a scarce resource to secure the Avalanche network using the Proof-of-Stake method"
+                            content="total value of $AVAX tokens used as a scarce resource to secure the Avalanche network using the Proof-of-Stake method"
                         ></TooltipMeta>
                     </p>
                     <div>
                         <p class="meta_val">
                             {{totalStake}}
-                            <span class="unit">AVA</span>
+                            <span class="unit">AVAX</span>
                         </p>
                     </div>
                 </div>

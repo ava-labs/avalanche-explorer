@@ -25,7 +25,7 @@
                 <p class="bold"><b>To</b> </p>
                 <router-link class="addr" :to="`/address/`+output.output.addresses[0]">{{output.output.addresses[0]}}</router-link>
 <!--                <p class="amount">{{output.output.amount.toFixed(1)}} <span>{{output.assetID}}</span></p>-->
-                <p class="amount">{{output.output.amount.toFixed(1)}} <span>AVA</span></p>
+                <p class="amount">{{output.output.amount.toFixed(1)}} <span>AVAX</span></p>
             </div>
         </div>
     </div>

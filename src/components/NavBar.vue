@@ -10,7 +10,7 @@
     >
         <div class="logo">
             <router-link to="/">
-                <img style="width: 60px" src="@/assets/yeti_logo.png" />
+                <img style="width: 60px" src="@/assets/yeti_grover_logo.png" />
                 <h1>Explorer <span>Denali</span></h1>
             </router-link>
         </div>

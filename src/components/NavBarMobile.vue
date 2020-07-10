@@ -4,7 +4,7 @@
         <div class="inner">
             <div class="logo">
                 <router-link to="/">
-                    <img style="height: 24px" src="@/assets/yeti_logo.png" />
+                    <img style="height: 24px" src="@/assets/yeti_grover_logo.png" />
                     <h1>
                         <span>Denali</span>
                         Explorer
@@ -24,7 +24,7 @@
         <v-navigation-drawer v-model="isDrawer" fixed style="z-index: 999;">
             <v-list dense nav>
                 <v-list-item>
-                    <img src="@/assets/yeti_logo.png" class="drawer_img" />
+                    <img src="@/assets/yeti_grover_logo.png" class="drawer_img" />
                     <div class="title">Denali Explorer</div>
                 </v-list-item>
                 <template>

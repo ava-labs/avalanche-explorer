@@ -37,7 +37,7 @@
         </article>
         <article class="meta_row">
             <p class="label">Transaction Fee</p>
-            <p>0.00 AVA</p>
+            <p>0.00 AVAX</p>
         </article>
         <article class="meta_row" v-if="!isAssetGenesis">
             <p class="label">Input UTXOs</p>

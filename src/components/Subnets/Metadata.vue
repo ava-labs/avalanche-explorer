@@ -52,12 +52,12 @@
                         <p class="label">
                             Total Stake Amount
                             <TooltipMeta
-                                content="total value of $AVA tokens used as a scarce resource to secure the Avalanche network using the Proof-of-Stake method"
+                                content="total value of $AVAX tokens used as a scarce resource to secure the Avalanche network using the Proof-of-Stake method"
                             ></TooltipMeta>
                         </p>
                         <p class="meta_val">
                             {{totalStake.toLocaleString()}}
-                            <span class="unit">AVA</span>
+                            <span class="unit">AVAX</span>
                         </p>
                     </div>
                 </article>
