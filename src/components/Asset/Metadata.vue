@@ -47,7 +47,8 @@
                             <TooltipMeta v-bind:content="'initial value of ' + asset.symbol + ' tokens minted'"></TooltipMeta>
                         </p>
                         <p class="meta_val">{{asset.currentSupply.toLocaleString(asset.denomination)}} <span class="unit">{{asset.symbol}}</span></p>
-                        <p class="meta_annotation">Denomination: {{asset.denomination}}</p>
+                        <p class="meta_annotation">Minimal Transferrable Unit:</p>
+                        <p class="meta_annotation">{{minimalTransferrableUnit}} ({{asset.denomination | pluralize}})</p>
                     </div>
                 </article>
             </section>
@@ -74,12 +75,25 @@ import TooltipMeta from "../../components/misc/TooltipMeta.vue";
         },
         blockchain(val: string): string {
             return blockchainMap(val);
+        },
+        pluralize(val: number): string {
+            return val === 0
+                ? `no fractional units`
+                : val > 1
+                ? `${val} decimal digits`
+                : `${val} decimal digit`;
         }
     }
+
 })
 
 export default class Metadata extends Vue {
     @Prop() asset!: Asset;
+
+    get minimalTransferrableUnit() {
+        let power = -1 * this.asset.denomination;
+        return Math.pow(10, power).toFixed(this.asset.denomination);
+    }
 }
 
 </script>
@@ -165,7 +179,7 @@ export default class Metadata extends Vue {
         }
 
         .meta_annotation {
-            font-size: 14px;
+            font-size: 12px;
             opacity: 0.7;
         }
     }
