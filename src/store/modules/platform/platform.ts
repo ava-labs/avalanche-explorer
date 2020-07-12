@@ -13,11 +13,15 @@ export const AVALANCHE_SUBNET_ID = "11111111111111111111111111111111LpoYY";
 const platform_module: Module<IPlatformState, IRootState> = {
     namespaced: true,
     state: {
-        subnets: {}
+        subnets: {},
+        subnetsLoaded: false
     },
     mutations: {
         setSubnet(state, s) {
             Vue.set(state.subnets, s.id, s);
+        },
+        finishLoading(state) {
+            state.subnetsLoaded = true;
         }
     },
     actions: {
@@ -52,6 +56,8 @@ const platform_module: Module<IPlatformState, IRootState> = {
                 let subnetID = b.subnetID;
                 state.subnets[subnetID].addBlockchain(b);
             });
+
+            state.subnetsLoaded = true;
         }
     },
     getters: {
