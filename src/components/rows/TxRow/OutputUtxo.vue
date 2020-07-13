@@ -55,7 +55,7 @@ export default class OutputUtxo extends Vue {
         return amt.div(Math.pow(10, this.asset.denomination)).toLocaleString(trimmedDenomination);
     }
 
-    countDecimals(value): number {
+    countDecimals(value: number): number {
         if (Math.floor(value) !== value)
             return value.toString().split(".")[1].length || 0;
         return 0;
