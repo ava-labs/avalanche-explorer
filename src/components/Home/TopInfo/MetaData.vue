@@ -16,11 +16,14 @@
                             content="total number of queries or modifications of the states of all blockchains on the Avalanche network in the past 24 hours"
                         ></TooltipMeta>
                     </p>
-                    <div>
+                    <div v-if="assetsLoaded">
                         <p class="meta_val">
-                            {{avaxTxCount.toLocaleString()}}
+                            {{totalTransactions.toLocaleString()}}
                             <span class="unit">({{tpsText}} TPS)</span>
                         </p>
+                    </div>
+                    <div v-else>
+                        <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
                     </div>
                 </div>
             </article>
@@ -33,12 +36,15 @@
                             content="total value of $AVAX tokens transferred on the Avalanche network in the past 24 hours"
                         ></TooltipMeta>
                     </p>
-                    <div>
+                    <div v-if="assetsLoaded">
                         <p class="meta_val">
                             {{avaxVolume}}
                             <span class="unit">AVAX</span>
                         </p>
                         <!--<p class="change">+ 24%</p>-->
+                    </div>
+                    <div v-else>
+                        <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
                     </div>
                 </div>
             </article>
@@ -51,9 +57,12 @@
                             content="Total number of nodes participating in the consensus protocol of the Avalanche network"
                         ></TooltipMeta>
                     </p>
-                    <div>
+                    <div v-if="subnetsLoaded">
                         <p class="meta_val">{{validatorCount.toLocaleString()}}</p>
                         <!--<p class="change">+ 24%</p>-->
+                    </div>
+                    <div v-else>
+                        <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
                     </div>
                 </div>
             </article>
@@ -66,73 +75,73 @@
                             content="total value of $AVAX tokens used as a scarce resource to secure the Avalanche network using the Proof-of-Stake method"
                         ></TooltipMeta>
                     </p>
-                    <div>
+                    <div v-if="subnetsLoaded">
                         <p class="meta_val">
                             {{totalStake}}
                             <span class="unit">AVAX</span>
                         </p>
+                    </div>
+                    <div v-else>
+                        <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
                     </div>
                 </div>
             </article>
         </section>
     </div>
 </template>
-<script>
+<script lang="ts">
+import "reflect-metadata";
+import { Vue, Component } from "vue-property-decorator";
+
 import axios from "@/axios";
 import { stringToBig } from "@/helper";
-import TooltipHeading from "../../misc/TooltipHeading";
-import TooltipMeta from "../TopInfo/TooltipMeta";
+import TooltipHeading from "../../misc/TooltipHeading.vue";
+import TooltipMeta from "../TopInfo/TooltipMeta.vue";
 
-export default {
+@Component({
     components: {
         TooltipHeading,
         TooltipMeta
-    },
-    data() {
-        return {
-            avaxMarketCap: 0,
-            avaxTxCount: 0,
-            avaxPrice: 34.0
-        };
-    },
-    created() {
-        let parent = this;
-
-        let dayMs = 1000 * 60 * 60 * 24;
-        let endMs = Date.now();
-        let startMs = endMs - dayMs;
-
-        let startTime = new Date(startMs).toISOString();
-        let endTime = new Date(endMs).toISOString();
-
-        // get 24h transaction counts
-        axios
-            .get(`/x/transactions/aggregates?startTime=${startTime}&endTime=${endTime}`)
-            .then(res => {
-                parent.avaxTxCount = res.data.aggregates.transactionCount;
-            });
-    },
-    computed: {
-        tpsText() {
-            let day = 60 * 60 * 24;
-            let avg = this.avaxTxCount / day;
-            return (avg > 1) ? avg.toFixed(0) : avg.toFixed(2);
-        },
-        totalStake() {
-            let res = this.$store.getters["Platform/totalStake"];
-            res = stringToBig(res.toString(), 9).toFixed(0);
-            return parseInt(res).toLocaleString();
-        },
-        validatorCount() {
-            return this.$store.getters["Platform/totalValidators"];
-        },
-        avaxVolume() {
-            let assets = this.$store.state.assets;
-            let avax = assets["21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA"];
-            return (!avax) ? 0 : parseInt(avax.volume_day.toFixed(0)).toLocaleString();
-        }
     }
-};
+})
+export default class MetaData extends Vue {
+    get assetsLoaded(): boolean {
+        return this.$store.state.assetsLoaded;
+    }
+
+    get subnetsLoaded(): boolean {
+        return this.$store.state.Platform.subnetsLoaded;
+    }
+
+    get tpsText(): string {
+        let day = 60 * 60 * 24;
+        let avg = this.totalTransactions / day;
+        return avg > 1 ? avg.toFixed(0) : avg.toFixed(2);
+    }
+
+    get totalStake(): string {
+        let res = this.$store.getters["Platform/totalStake"];
+        res = stringToBig(res.toString(), 9).toFixed(0);
+        return parseInt(res).toLocaleString();
+    }
+
+    get validatorCount(): number {
+        return this.$store.getters["Platform/totalValidators"];
+    }
+
+    get avaxVolume(): string {
+        let assets = this.$store.state.assets;
+        let avax = assets["21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA"];
+        return !avax
+            ? (0).toLocaleString()
+            : parseInt(avax.volume_day.toFixed(0)).toLocaleString();
+    }
+
+    get totalTransactions(): number {
+        return this.$store.getters.totalTransactions;
+    }
+}
+
 </script>
 <style scoped lang="scss">
 @use "../../../main";

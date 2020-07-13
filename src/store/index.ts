@@ -60,6 +60,13 @@ export default new Vuex.Store({
             return getters.assetsArray.filter((val: Asset) => {
                 return val.profane;
             });
+        },
+        totalTransactions(state: IRootState): number {
+            let totalTransactions = 0;
+            for (let asset in state.assets) {
+                totalTransactions += state.assets[asset].txCount_day;
+            }
+            return totalTransactions;
         }
     }
 })

@@ -44,10 +44,21 @@ export default class OutputUtxo extends Vue {
         return this.output.addresses;
     }
     
-    get amount() {
+    get amount(): string {
+        // localeString with trimmed trailing 0s
+        // e.g. 44999999.999120000 to 44,999,999.99912
         let amt = Big(this.output.amount);
-        let denom = Math.min(this.asset.denomination, 2);
-        return amt.div(Math.pow(10, this.asset.denomination)).toFixed(denom);
+        let denominatedAmt = amt.div(Math.pow(10, this.asset.denomination)).toFixed(this.asset.denomination);
+        let number = parseFloat(denominatedAmt);
+        let trimmedDenomination = this.countDecimals(number);
+        
+        return amt.div(Math.pow(10, this.asset.denomination)).toLocaleString(trimmedDenomination);
+    }
+
+    countDecimals(value: number): number {
+        if (Math.floor(value) !== value)
+            return value.toString().split(".")[1].length || 0;
+        return 0;
     }
 }
 </script>
