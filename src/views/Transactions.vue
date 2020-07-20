@@ -3,10 +3,10 @@
         <div class="card">
             <div class="header">
                 <h2>Transactions</h2>
-                <template v-if="!loading && assetsLoaded">
+                <template v-show="!loading && assetsLoaded">
                     <div class="bar">
                         <p class="count">{{totalTx.toLocaleString()}} transactions found</p>
-                        <pagination-controls :total="totalTx" :limit="limit" @change="page_change" ref="paginationTop"></pagination-controls>
+                        <pagination-controls :total="totalTx" :limit="limit" @change="page_change" ref="paginationTop" v-show="assetsLoaded"></pagination-controls>
                     </div>    
                 </template>
             </div>

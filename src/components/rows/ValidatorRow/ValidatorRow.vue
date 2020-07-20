@@ -7,6 +7,7 @@
         </div>
         <div class="id_col">
             <p>{{validator.id}}</p>
+            <p>{{duration}}</p>
         </div>
         <div class="stake_col">
             <p class="stakeAmount">{{stakeAmountText}} AVAX</p>
@@ -22,15 +23,19 @@
         </div>
     </div>
 </template>
-<script>
+
+<script lang="ts">
+import "reflect-metadata";
+import { Vue, Component, Prop } from "vue-property-decorator";
 import moment from "moment";
 import Big from "big.js";
 import { toAVAX } from "../../../helper";
-import CumulativeBar from "./CumulativeBar";
+import CumulativeBar from "./CumulativeBar.vue";
+import { IValidator } from '@/store/modules/platform/IValidator';
 
-export default {
+@Component({
     filters: {
-        date(date) {
+        date(date: Date) {
             let today = new Date();
             let mom = moment(date).fromNow();
             return mom;
@@ -39,47 +44,49 @@ export default {
     components: {
         CumulativeBar
     },
-    props: {
-        validator: {
-            type: Object,
-            required: true
-        },
-        cumulativeStake: {
-            type: Number,
-            required: true
-        }
-    },
-    computed: {
-        totalStake() {
-            let val = this.$store.getters["Platform/totalStake"];
-            return toAVAX(parseInt(val.toString()));
-        },
-        stakeAmount() {
-            return toAVAX(this.validator.stakeAmount);
-        },
-        stakeAmountText() {
-            return toAVAX(this.validator.stakeAmount).toFixed(9);
-        },
-        stakePerc() {
-            return this.stakeAmount / this.totalStake * 100;
-        },
-        stakePercText() {            
-            // redundant assignments bc referencing computed values affect performance
-            let stakeAmount = toAVAX(this.validator.stakeAmount);
-            let totalStake = toAVAX(parseInt(this.$store.getters["Platform/totalStake"].toString()));
-            return (stakeAmount / totalStake * 100).toFixed(8);
-        },
-        cumulativePercText() {
-            let cumulativeStake = toAVAX(this.cumulativeStake);
-            let totalStake = toAVAX(parseInt(this.$store.getters["Platform/totalStake"].toString()));
-            return (cumulativeStake / totalStake * 100).toFixed(0);
-        },
-        duration() {
-            let dur = this.validator.endTime - this.validator.startTime;
-            return moment.duration(dur).humanize();
-        },
+})
+export default class ValidatorRow extends Vue {
+    @Prop() validator!: IValidator;
+    @Prop() cumulativeStake!: number;
+        
+    get totalStake() {
+        let val = this.$store.getters["Platform/totalStake"];
+        return toAVAX(parseInt(val.toString()));
     }
-};
+    
+    get stakeAmount() {
+        return this.validator.stakeAmount ? toAVAX(this.validator.stakeAmount) : 0;
+    }
+    
+    get stakeAmountText() {
+        return this.validator.stakeAmount ? toAVAX(this.validator.stakeAmount).toFixed(9) : "";
+    }
+    
+    get stakePerc() {
+        return this.stakeAmount / this.totalStake * 100;
+    }
+    
+    get stakePercText() {            
+        // redundant assignments bc referencing computed values affect performance
+        let stakeAmount = toAVAX(this.validator.stakeAmount as number);
+        let totalStake = toAVAX(parseInt(this.$store.getters["Platform/totalStake"].toString()));
+        return (stakeAmount / totalStake * 100).toFixed(8);
+    }
+    
+    get cumulativePercText() {
+        let cumulativeStake = toAVAX(this.cumulativeStake);
+        let totalStake = toAVAX(parseInt(this.$store.getters["Platform/totalStake"].toString()));
+        return (cumulativeStake / totalStake * 100).toFixed(0);
+    }
+
+    get duration() {
+        let endTime = this.validator.endTime.getTime() * 1000;
+        let startTime = this.validator.startTime.getTime() * 1000;
+        let dur = endTime - startTime;
+        console.log(startTime, "     ", endTime, "     ", dur);
+        return moment.duration(dur).humanize();
+    } 
+}
 </script>
 <style scoped lang="scss">
 @use"../../../main";
