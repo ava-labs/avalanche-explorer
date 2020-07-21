@@ -52,28 +52,63 @@
                             <p class="null">There are no validators for this subnet.</p>
                         </template>
                         <template v-else>
+                            <div>
+                                <p>Current: {{currentTime}}</p>
+                                <p>Min: {{minTime}}</p>
+                                <p>Max: {{maxTime}}</p>
+                            </div>
                             <v-simple-table :dense="dense">
                                 <template v-slot:default>
                                     <thead>
                                         <tr>
-                                            <th class="text-left">Validator</th>
-                                            <th class="text-left">Start Time</th>
-                                            <th class="text-left">End Time</th>
+                                            <th>Validator</th>
+                                            <th>Start Time</th>
+                                            <th>Duration</th>
+                                            <th>End Time</th>
                                             <template v-if="subnet.id === defaultSubnetID">
-                                                <th class="text-right">Stake</th>
+                                                <th>Stake</th>
                                             </template>
                                             <template v-else>
-                                                <th class="text-right">Weight</th>
+                                                <th>Weight</th>
                                             </template>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr v-for="v in subnet.validators" :key="v.id + v.stakeAmount">
                                             <td class="id_overflow">{{v.id}}</td>
-                                            <td>{{ new Date(parseInt(v.startTime * 1000)).toLocaleString()}}</td>
-                                            <td>{{ new Date(parseInt(v.endTime * 1000)).toLocaleString()}}</td>
+                                            <td>
+                                                <div>
+                                                    {{new Date(parseInt(v.startTime * 1000)).toLocaleString()}}
+                                                </div>
+                                                <div>
+                                                    {{scale(v.startTime.getTime() * 1000)}}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="diagram">
+                                                    <div v-bind:style="{
+                                                        left: `${scale(v.startTime.getTime() * 1000)}px`, 
+                                                        width: `${scale(v.endTime.getTime() * 1000) - scale(v.startTime.getTime() * 1000)}px`
+                                                    }" class="bar"></div>
+                                                </div>
+                                                <div>
+                                                    {{(v.endTime - v.startTime) * 1000}} | {{(v.endTime - v.startTime) * 1000 | duration}}
+                                                </div>
+                                                <div>
+                                                    {{scale((v.endTime.getTime() - v.startTime) * 1000)}}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    {{new Date(parseInt(v.endTime * 1000)).toLocaleString()}}
+                                                </div>
+                                                <div>
+                                                    {{scale(v.endTime.getTime() * 1000)}}
+                                                </div>
+                                                
+                                            </td>
                                             <template v-if="subnet.id === defaultSubnetID">
-                                                <td>{{ v.stakeAmount }}</td>
+                                                <td>{{ v.stakeAmount | AVAX }}</td>
                                             </template>
                                             <template v-else>
                                                 <td>{{ v.weight }}</td>
@@ -113,7 +148,7 @@
                                             <td>{{ new Date(parseInt(v.startTime * 1000)).toLocaleString()}}</td>
                                             <td>{{ new Date(parseInt(v.endTime * 1000)).toLocaleString()}}</td>
                                             <template v-if="subnet.id === defaultSubnetID">
-                                                <td>{{ v.stakeAmount }}</td>
+                                                <td>{{ v.stakeAmount | AVAX }}</td>
                                             </template>
                                             <template v-else>
                                                 <td>{{ v.weight }}</td>
@@ -159,46 +194,92 @@
     </div>
 </template>
 
-<script>
-import { subnetMap } from "@/helper";
-import Vue from "vue";
-import ContentMetadata from "../../components/Subnets/ContentMetadata";
+<script lang="ts">
+import "reflect-metadata";
+import { Vue, Component, Prop } from "vue-property-decorator";
+import { subnetMap, toAVAX } from "@/helper";
+import moment from "moment";
+import Subnet from '@/js/Subnet';
+import { AVALANCHE_SUBNET_ID } from '@/store/modules/platform/platform';
+import { IValidator } from '@/store/modules/platform/IValidator';
+import ContentMetadata from "@/components/Subnets/ContentMetadata.vue";
+import { scaleLinear } from "d3-scale";
 
-export default {
+@Component({
     components: {
         ContentMetadata
     },
     filters: {
-        subnet(val) {
+        subnet(val: string) {
             return subnetMap(val);
         },
-        pluralize(val) {
+        pluralize(val: number) {
             return val === 0
                 ? `${val} blockchains`
                 : val > 1
                 ? `${val} blockchains`
                 : `${val} blockchain`;
         },
-        pluralizeThreshold(val) {
+        pluralizeThreshold(val: number) {
             return val === 0
                 ? `${val} threshold signatures from addresses are`
                 : val > 1
                 ? `${val} threshold signatures from addresses are`
                 : `${val} threshold signature from address is`;
-        }
-    },
-    data() {
-        return {
-            dense: true,
-            fixedHeader: true,
-            defaultSubnetID: "11111111111111111111111111111111LpoYY"
-        };
-    },
-    props: {
-        subnetID: String,
-        subnet: {}
+        },
+        AVAX(val: number) {
+            return toAVAX(val);
+        },
+        duration(val: number) {
+            return moment.duration(val).humanize();
+        } 
     }
-};
+})
+export default class Content extends Vue {
+    dense: boolean = true;
+    fixedHeader: boolean = true;
+    defaultSubnetID: string = AVALANCHE_SUBNET_ID;
+    currentTime: number | null = null;
+    startTimes: number[] = [];
+    endTimes: number[] = [];
+    minTime: number = 0;
+    maxTime: number = 1;
+    
+    @Prop() subnetID!: string;
+    @Prop() subnet!: Subnet;
+
+    created() {
+        let now = new Date();
+        this.currentTime = now.getTime();
+        this.minTime = this.minStartTime();
+        this.maxTime = this.maxEndTime();
+    }
+
+    minStartTime() {
+        let startTimes: number[] = [];
+        this.subnet.validators.forEach((v: IValidator) => {
+            startTimes.push(v.startTime.getTime());
+        });
+        console.log("startTimes", startTimes);
+        return Math.min(... startTimes) * 1000;
+    }
+
+    maxEndTime() {
+        let endTimes: number[] = [];
+        this.subnet.validators.forEach((v: IValidator) => {
+            endTimes.push(v.endTime.getTime());
+        });
+        console.log("endTimes", endTimes);
+        return Math.max(... endTimes) * 1000;
+    }
+
+    scale(val: number) {
+        const scale = scaleLinear()
+            .domain([this.minTime, this.maxTime])
+            .range([0, 200]);
+        return scale(val);    
+    }
+}
 </script>
 
 <style scoped lang="scss">
@@ -247,7 +328,6 @@ export default {
         text-transform: capitalize;
         font-size: 12px;
         font-weight: 400; /* 700 */
-        /* opacity: 0.7; */
     }
 
     h2 {
@@ -274,6 +354,26 @@ export default {
     margin-right: 8px;
     vertical-align: middle;
 }
+
+.diagram {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    height: 20px;
+    position: relative;
+}
+
+.bar {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    background-color: main.$primary-color-light;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
 @include main.device_s {
     .v-card__text {
         padding-left: 16px;
