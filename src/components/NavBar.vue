@@ -71,6 +71,7 @@ export default Vue.extend({
 @use "../main";
 
 .navbar {
+    z-index: 10 !important;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
     > .v-toolbar__content {

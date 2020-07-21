@@ -52,67 +52,50 @@
                             <p class="null">There are no validators for this subnet.</p>
                         </template>
                         <template v-else>
-                            <div>
-                                <p>Current: {{currentTime}}</p>
-                                <p>Min: {{minTime}}</p>
-                                <p>Max: {{maxTime}}</p>
-                            </div>
                             <v-simple-table :dense="dense">
                                 <template v-slot:default>
                                     <thead>
                                         <tr>
                                             <th>Validator</th>
-                                            <th>Start Time</th>
-                                            <th>Duration</th>
-                                            <th>End Time</th>
                                             <template v-if="subnet.id === defaultSubnetID">
                                                 <th>Stake</th>
                                             </template>
                                             <template v-else>
                                                 <th>Weight</th>
                                             </template>
+                                            <th class="text-right">Start Time</th>
+                                            <th></th>
+                                            <th>End Time</th>
+                                            <th>Duration</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr v-for="v in subnet.validators" :key="v.id + v.stakeAmount">
                                             <td class="id_overflow">{{v.id}}</td>
-                                            <td>
-                                                <div>
-                                                    {{new Date(parseInt(v.startTime * 1000)).toLocaleString()}}
-                                                </div>
-                                                <div>
-                                                    {{scale(v.startTime.getTime() * 1000)}}
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="diagram">
-                                                    <div v-bind:style="{
-                                                        left: `${scale(v.startTime.getTime() * 1000)}px`, 
-                                                        width: `${scale(v.endTime.getTime() * 1000) - scale(v.startTime.getTime() * 1000)}px`
-                                                    }" class="bar"></div>
-                                                </div>
-                                                <div>
-                                                    {{(v.endTime - v.startTime) * 1000}} | {{(v.endTime - v.startTime) * 1000 | duration}}
-                                                </div>
-                                                <div>
-                                                    {{scale((v.endTime.getTime() - v.startTime) * 1000)}}
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div>
-                                                    {{new Date(parseInt(v.endTime * 1000)).toLocaleString()}}
-                                                </div>
-                                                <div>
-                                                    {{scale(v.endTime.getTime() * 1000)}}
-                                                </div>
-                                                
-                                            </td>
                                             <template v-if="subnet.id === defaultSubnetID">
                                                 <td>{{ v.stakeAmount | AVAX }}</td>
                                             </template>
                                             <template v-else>
                                                 <td>{{ v.weight }}</td>
                                             </template>
+                                            <td class="text-right">{{new Date(parseInt(v.startTime * 1000)).toLocaleString()}}</td>
+                                            <td class="diagram-container">
+                                                <div class="diagram">
+                                                    <div class="chartbar" 
+                                                    v-bind:style="{
+                                                        left: `${scale(v.startTime.getTime() * 1000)}px`, 
+                                                        width: `${scale(v.endTime.getTime() * 1000) - scale(v.startTime.getTime() * 1000)}px`
+                                                    }"></div>
+                                                    <div class="chartbar_complete" 
+                                                    v-bind:style="{
+                                                        left: `${scale(v.startTime.getTime() * 1000)}px`, 
+                                                        width: `${scale(currentTime) - scale(v.startTime.getTime() * 1000)}px`
+                                                    }"></div>
+                                                    <div class="now" v-bind:style="{left: `${scale(currentTime)}px`}"></div>
+                                                </div>
+                                            </td>
+                                            <td>{{new Date(parseInt(v.endTime * 1000)).toLocaleString()}}</td>
+                                            <td>{{(v.endTime - v.startTime) * 1000 | duration}}</td>
                                         </tr>
                                     </tbody>
                                 </template>
@@ -361,17 +344,49 @@ export default class Content extends Vue {
     width: 100%;
     height: 20px;
     position: relative;
+    border-left: 1px solid main.$primary-color-light;
+    border-right: 1px solid main.$primary-color-light;
 }
 
-.bar {
+.chartbar {
     position: absolute;
     top: 0;
     height: 100%;
     background-color: main.$primary-color-light;
 }
 
+.chartbar_complete {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    background-color: main.$primary-color;
+    opacity: 0.5;
+}
+
 .text-right {
     text-align: right !important;
+}
+
+.diagram-container {
+    width: 200px;
+}
+
+.duration_text_container {
+    margin-top: -20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    position: relative;
+    width: 100%
+}
+
+.now {
+    position: absolute;
+    top: -11px;
+    font-size: 12px;
+    background-color: main.$primary-color;
+    height: calc(100% + 22px);
+    width: 1px;
+    z-index: 5;
 }
 
 @include main.device_s {
