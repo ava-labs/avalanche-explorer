@@ -8,7 +8,7 @@ export interface IValidator {
     rank?: number           // based on stake or weight
 }
 
-export interface IValidatorData{
+export interface IValidatorData {
     id: string
     startTime: string
     endTime: string

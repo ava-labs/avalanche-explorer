@@ -21,7 +21,9 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import "reflect-metadata";
+import { Vue, Component } from "vue-property-decorator";
 import { avalanche } from "@/avalanche";
 import { subnetMap } from "@/helper";
 import Metadata from "../components/Subnets/Metadata.vue";
@@ -29,76 +31,86 @@ import Tabs from "../components/Subnets/Tabs.vue";
 import Loader from "../components/misc/Loader.vue";
 import Content from "@/components/Subnets/Content.vue";
 import { AVALANCHE_SUBNET_ID } from "@/store/modules/platform/platform";
+import { IBlockchain } from '@/store/modules/platform/IBlockchain';
+import { IPlatformState } from '../store/modules/platform/IPlatformState';
 
-export default {
+@Component({
     components: {
         Loader,
         Metadata,
         Content,
         Tabs
     },
-    data() {
-        return {
-            selection: AVALANCHE_SUBNET_ID,
-            loading: true,
-            blockchains: []
-        };
-    },
-    async created() {
-        this.blockchains = await this.getBlockchains();
-    },
     filters: {
-        subnet(val) {
+        subnet(val: string) {
             return subnetMap(val);
         }
-    },
-    computed: {
-        subnets() {
-            const subnets = this.$store.state.Platform.subnets;
-            const ordered = {};
-            Object.keys(subnets)
-                .sort()
-                .forEach(key => (ordered[key] = subnets[key]));
-            return ordered;
-        },
-        totalValidators() {
-            return this.$store.getters["Platform/totalValidators"];
-        },
-        totalBlockchains() {
-            return this.$store.getters["Platform/totalBlockchains"];
-        },
-        totalStake() {
-            let valBig = this.$store.getters["Platform/totalStake"];
-            let res = valBig.div(Math.pow(10, 9));
-            return res;
-        },
-        totalSubnets() {
-            return Object.keys(this.$store.state.Platform.subnets).length;
-        },
-        subnetsByName() {
-            let list = [];
-            Object.keys(this.subnets).forEach(key => {
-                let object = {
-                    text: subnetMap(key) ? subnetMap(key) : key,
-                    value: key
-                };
-                list.push(object);
-            });
-            return list;
-        }
-    },
-    methods: {
-        async getBlockchains() {
-            return await avalanche.apis.platform
-                .getBlockchains()
-                .then(res => {
-                    this.loading = false;
-                    return res;
-                })
-                .catch(error => console.log(error));
-        }
     }
-};
+})
+export default class Subnets extends Vue {
+    selection: string = AVALANCHE_SUBNET_ID;
+    loading: boolean = true;
+    blockchains: IBlockchain[] = [];
+
+    async created() {
+        this.blockchains = await this.getBlockchains();
+    }
+
+    async getBlockchains() {
+        //@ts-ignore
+        return await avalanche.apis.platform
+            //@ts-ignore
+            .getBlockchains()
+            .then((res: any) => {
+                this.loading = false;
+                return res;
+            })
+            .catch((error: any) => console.log(error));
+    }
+
+    get subnets() {
+        const subnets = this.$store.state.Platform.subnets;
+        const ordered: IPlatformState["subnets"] = {};
+        Object.keys(subnets)
+            .sort()
+            .forEach(key => (ordered[key] = subnets[key]));
+        return ordered;
+    }
+    
+    get totalValidators() {
+        return this.$store.getters["Platform/totalValidators"];
+    }
+    
+    get totalBlockchains() {
+        return this.$store.getters["Platform/totalBlockchains"];
+    }
+    
+    get totalStake() {
+        let valBig = this.$store.getters["Platform/totalStake"];
+        let res = valBig.div(Math.pow(10, 9));
+        return res;
+    }
+    
+    get totalSubnets() {
+        return Object.keys(this.$store.state.Platform.subnets).length;
+    }
+    
+    get subnetsByName() {
+        interface IMap {
+            text: string,
+            value: string
+        }
+        let list: IMap[] = [];
+        Object.keys(this.subnets).forEach(key => {
+            let object: IMap = {
+                text: subnetMap(key) ? subnetMap(key) : key,
+                value: key
+            };
+            list.push(object);
+        });
+        return list;
+    }
+}
 </script>
 
 <style scoped lang="scss">

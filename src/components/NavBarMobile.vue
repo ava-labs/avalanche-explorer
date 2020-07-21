@@ -32,6 +32,7 @@
                     <v-list-item to="/subnets">Subnets</v-list-item>
                     <v-list-item to="/validators">Validators</v-list-item>
                     <v-list-item to="/assets">Assets</v-list-item>
+                    <v-list-item to="http://cchain.avaexplorer.com/">C-Chain</v-list-item>
                     <v-list-item to="/resources">Resources</v-list-item>
                 </template>
             </v-list>

@@ -22,6 +22,7 @@
                     <router-link to="/subnets">Subnets</router-link>
                     <router-link to="/validators">Validators</router-link>
                     <router-link to="/assets">Assets</router-link>
+                    <router-link to="http://cchain.avaexplorer.com/">C-Chain</router-link>
                     <router-link to="/resources">Resources</router-link>
                 </div>
             </div>
@@ -70,6 +71,7 @@ export default Vue.extend({
 @use "../main";
 
 .navbar {
+    z-index: 10 !important;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
     > .v-toolbar__content {
