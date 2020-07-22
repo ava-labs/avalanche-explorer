@@ -22,7 +22,7 @@
                     <router-link to="/subnets">Subnets</router-link>
                     <router-link to="/validators">Validators</router-link>
                     <router-link to="/assets">Assets</router-link>
-                    <router-link to="http://cchain.avaexplorer.com/">C-Chain</router-link>
+                    <!-- <router-link to="http://cchain.avaexplorer.com/">C-Chain</router-link> -->
                     <router-link to="/resources">Resources</router-link>
                 </div>
             </div>
