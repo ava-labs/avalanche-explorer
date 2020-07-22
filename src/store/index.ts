@@ -5,6 +5,7 @@ import { Asset } from "@/js/Asset";
 import { IRootState } from "@/store/types";
 import AddressDict from "@/known_addresses";
 import Platform from "./modules/platform/platform";
+import { avm } from '@/avalanche';
 
 Vue.use(Vuex);
 
@@ -27,7 +28,23 @@ export default new Vuex.Store({
                 });
             });
             store.commit("finishLoading");
-        }
+        },
+
+        // Adds an unknown asset id to the assets dictionary
+        async addUnknownAsset({commit}, assetId:string) {
+            let desc = await avm.getAssetDescription(assetId);
+            let newAsset = {
+                alias: "",
+                chainID: "rrEWX7gc7D9mwcdrdBxBTdqh1a7WDVsMuadhTZgyXfFcRz45L",
+                currentSupply: "0",
+                denomination: desc.denomination,
+                id: assetId,
+                name: desc.name,
+                symbol: desc.symbol,
+                timestamp: "2020-01-01T00:00:00Z"
+            };
+            commit("addAsset", newAsset);
+        },
     },
     mutations: {
         addAsset(state, asset) {

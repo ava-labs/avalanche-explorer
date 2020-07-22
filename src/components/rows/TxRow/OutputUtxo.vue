@@ -24,6 +24,7 @@ import { addressMap } from "@/helper";
 import { ITransactionOutput } from '@/js/ITransaction';
 import { Asset } from '@/js/Asset';
 import Big from "big.js";
+import { avm } from "@/avalanche";
 
 @Component({
     filters: {
@@ -37,7 +38,21 @@ export default class OutputUtxo extends Vue {
     @Prop() output!: ITransactionOutput;
     
     get asset(): Asset {
-        return this.$store.state.assets[this.output.assetID];
+        if (this.$store.state.assets[this.output.assetID]) {
+            return this.$store.state.assets[this.output.assetID]
+        }
+        this.$store.dispatch("addUnknownAsset", this.output.assetID);        
+        //@ts-ignore
+        return {
+            id: "",
+            alias: "",
+            chainID: "",
+            currentSupply: Big(0),
+            denomination: 1,
+            name: "",
+            symbol: "",
+            profane: false,
+        }
     }
 
     get addresses(): string[] {

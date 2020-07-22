@@ -6,5 +6,5 @@ export interface IAssetData {
     denomination: number;
     name: string;
     symbol: string;
-    profrane: boolean;
+    profane: boolean;
 }
