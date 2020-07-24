@@ -78,19 +78,19 @@
                                             <template v-else>
                                                 <td>{{ v.weight }}</td>
                                             </template>
-                                            <td class="text-right date">{{new Date(parseInt(v.startTime * 1000)).toLocaleString()}}</td>
+                                            <td class="text-right date">{{new Date(v.startTime).toLocaleString()}}</td>
                                             <template v-if="mode === 'absolute'">
                                                 <td class="diagram-container">
                                                     <div class="diagram">
                                                         <div class="chartbar" 
                                                         v-bind:style="{
-                                                            left: `${scale(v.startTime.getTime() * 1000)}px`, 
-                                                            width: `${scale(v.endTime.getTime() * 1000) - scale(v.startTime.getTime() * 1000)}px`
+                                                            left: `${scale(v.startTime.getTime())}px`, 
+                                                            width: `${scale(v.endTime.getTime()) - scale(v.startTime.getTime())}px`
                                                         }"></div>
                                                         <div class="chartbar_complete" 
                                                         v-bind:style="{
-                                                            left: `${scale(v.startTime.getTime() * 1000)}px`, 
-                                                            width: `${scale(currentTime) - scale(v.startTime.getTime() * 1000)}px`
+                                                            left: `${scale(v.startTime.getTime())}px`, 
+                                                            width: `${scale(currentTime) - scale(v.startTime.getTime())}px`
                                                         }"></div>
                                                         <div class="now" v-bind:style="{left: `${scale(currentTime)}px`}"></div>
                                                     </div>
@@ -110,21 +110,21 @@
                                                             width: `${
                                                                 scaleRelative(
                                                                     ((
-                                                                    (currentTime - (v.startTime.getTime() * 1000)) / 
-                                                                    ((v.endTime.getTime() * 1000) - (v.startTime.getTime() * 1000))
+                                                                    (currentTime - (v.startTime.getTime())) / 
+                                                                    ((v.endTime.getTime()) - (v.startTime.getTime()))
                                                                 ))
                                                                 )
                                                             }px`
                                                         }"></div>
                                                         <div class="percentage_text text-right" v-bind:style="{left: `146px`}"> 
-                                                        {{  (((currentTime - (v.startTime.getTime() * 1000)) / 
-                                                        ((v.endTime.getTime() * 1000) - (v.startTime.getTime() * 1000))) 
+                                                        {{  (((currentTime - (v.startTime.getTime())) / 
+                                                        ((v.endTime.getTime()) - (v.startTime.getTime()))) 
                                                         * 100).toFixed(0) }} %</div>
                                                     </div>
                                                 </td>
                                             </template>
-                                            <td class="date">{{new Date(parseInt(v.endTime * 1000)).toLocaleString()}}</td>
-                                            <td>{{(v.endTime - v.startTime) * 1000 | duration}}</td>
+                                            <td class="date">{{new Date(v.endTime).toLocaleString()}}</td>
+                                            <td>{{(v.endTime - v.startTime) | duration}}</td>
                                         </tr>
                                     </tbody>
                                 </template>
@@ -162,19 +162,19 @@
                                             <template v-else>
                                                 <td>{{ v.weight }}</td>
                                             </template>
-                                            <td class="text-right date">{{new Date(parseInt(v.startTime * 1000)).toLocaleString()}}</td>
+                                            <td class="text-right date">{{new Date(v.startTime).toLocaleString()}}</td>
                                             <template v-if="mode === 'absolute'">
                                                 <td class="diagram-container">
                                                     <div class="diagram">
                                                         <div class="chartbar" 
                                                         v-bind:style="{
-                                                            left: `${scale(v.startTime.getTime() * 1000)}px`, 
-                                                            width: `${scale(v.endTime.getTime() * 1000) - scale(v.startTime.getTime() * 1000)}px`
+                                                            left: `${scale(v.startTime.getTime())}px`, 
+                                                            width: `${scale(v.endTime.getTime()) - scale(v.startTime.getTime())}px`
                                                         }"></div>
                                                         <div class="chartbar_complete" 
                                                         v-bind:style="{
-                                                            left: `${scale(v.startTime.getTime() * 1000)}px`, 
-                                                            width: `${scale(currentTime) - scale(v.startTime.getTime() * 1000)}px`
+                                                            left: `${scale(v.startTime.getTime())}px`, 
+                                                            width: `${scale(currentTime) - scale(v.startTime.getTime())}px`
                                                         }"></div>
                                                         <div class="now" v-bind:style="{left: `${scale(currentTime)}px`}"></div>
                                                     </div>
@@ -194,21 +194,21 @@
                                                             width: `${
                                                                 scaleRelative(
                                                                     ((
-                                                                    (currentTime - (v.startTime.getTime() * 1000)) / 
-                                                                    ((v.endTime.getTime() * 1000) - (v.startTime.getTime() * 1000))
+                                                                    (currentTime - (v.startTime.getTime())) / 
+                                                                    ((v.endTime.getTime()) - (v.startTime.getTime()))
                                                                 ))
                                                                 )
                                                             }px`
                                                         }"></div>
                                                         <div class="percentage_text text-right" v-bind:style="{left: `146px`}"> 
-                                                        {{  (((currentTime - (v.startTime.getTime() * 1000)) / 
-                                                        ((v.endTime.getTime() * 1000) - (v.startTime.getTime() * 1000))) 
+                                                        {{  (((currentTime - (v.startTime.getTime())) / 
+                                                        ((v.endTime.getTime()) - (v.startTime.getTime()))) 
                                                         * 100).toFixed(0) }} %</div>
                                                     </div>
                                                 </td>
                                             </template>
-                                            <td class="date">{{new Date(parseInt(v.endTime * 1000)).toLocaleString()}}</td>
-                                            <td>{{(v.endTime - v.startTime) * 1000 | duration}}</td>
+                                            <td class="date">{{new Date(v.endTime).toLocaleString()}}</td>
+                                            <td>{{(v.endTime - v.startTime) | duration}}</td>
                                         </tr>
                                     </tbody>
                                 </template>
@@ -325,8 +325,7 @@ export default class Content extends Vue {
         this.subnet.validators.forEach((v: IValidator) => {
             startTimes.push(v.startTime.getTime());
         });
-        console.log("startTimes", startTimes);
-        return Math.min(... startTimes) * 1000;
+        return Math.min(... startTimes);
     }
 
     maxEndTime() {
@@ -334,8 +333,7 @@ export default class Content extends Vue {
         this.subnet.validators.forEach((v: IValidator) => {
             endTimes.push(v.endTime.getTime());
         });
-        console.log("endTimes", endTimes);
-        return Math.max(... endTimes) * 1000;
+        return Math.max(... endTimes);
     }
 
     scale(val: number) {
