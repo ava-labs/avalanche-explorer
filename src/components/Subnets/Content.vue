@@ -13,10 +13,14 @@
                     :totalControlKeys="subnet.controlKeys.length"
                 ></ContentMetadata>
                 <v-tabs show-arrows>
+                    <v-tab>Validators</v-tab>
                     <v-tab>Blockchains</v-tab>
                     <v-tab>Validators</v-tab>
                     <v-tab>Pending Validators</v-tab>
                     <v-tab>Control Keys</v-tab>
+                    <v-tab-item>
+                        <ValidatorDataTable :validators="subnet.validators" :subnetID="subnetID" :subnet="subnet"></ValidatorDataTable>
+                    </v-tab-item>
                     <v-tab-item class="tab_content">
                         <template v-if="subnet.blockchains.length === 0">
                             <p class="null">There are no blockchains for this subnet.</p>
@@ -251,6 +255,7 @@
 </template>
 
 <script lang="ts">
+/* eslint-disable */
 import "reflect-metadata";
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { subnetMap, toAVAX } from "@/helper";
@@ -260,10 +265,12 @@ import { AVALANCHE_SUBNET_ID } from '@/store/modules/platform/platform';
 import { IValidator } from '@/store/modules/platform/IValidator';
 import ContentMetadata from "@/components/Subnets/ContentMetadata.vue";
 import { scaleLinear } from "d3-scale";
+import ValidatorDataTable from "@/components/Validators/ValidatorDataTable.vue";
 
 @Component({
     components: {
-        ContentMetadata
+        ContentMetadata,
+        ValidatorDataTable
     },
     filters: {
         subnet(val: string) {
@@ -288,7 +295,13 @@ import { scaleLinear } from "d3-scale";
         },
         duration(val: number) {
             return moment.duration(val).humanize();
-        } 
+        },
+        date(val: number) {
+            return moment(val).format("D/M/YYYY"); 
+        },
+        time(val: number) {            
+            return moment(val).format("h:mm:ss A");
+        }
     }
 })
 export default class Content extends Vue {
@@ -486,13 +499,10 @@ export default class Content extends Vue {
     z-index: 3;
 }
 
-.date {
-    color: main.$gray;
-}
-
 .pad {
     padding-top: 9px;
 }
+
 @include main.device_s {
     .v-card__text {
         padding-left: 16px;

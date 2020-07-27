@@ -73,7 +73,9 @@ export default class Subnet {
                 {}.hasOwnProperty.call(s, "stakeAmount")) {
                 validator.address = s.address;
                 validator.stakeAmount = parseInt(s.stakeAmount as string);
+                validator.totalStakeAmount = validator.stakeAmount;
                 validator.delegators = [];
+                validator.elapsed = this.getElapsedStakingPeriod(validator);
             }
 
             // set optional props for validators of non-default subnet
@@ -128,23 +130,36 @@ export default class Subnet {
         }
         let nestedValidators: IValidator[] = Object.values(validatorsMap);
         
-        nestedValidators.forEach(v => {
+        // calculate totalStakeAmount
+        nestedValidators.forEach((v => {
             if (v.delegators!.length > 0) {
-                console.log(v.id.substring(0,6), "   |   ", v.address!.substring(0,4), "    |   ", v.startTime);
-                v.delegators!.forEach(v => console.log(v.id.substring(0,6), "   |   ", v.address!.substring(0,4), "    |   ", v.startTime));
+                let delegatedStake = 0;
+                v.delegators!.forEach(v => delegatedStake += v.stakeAmount!);
+                v.totalStakeAmount! += delegatedStake;
             }
-        });
+            return [];
+        }));
         return nestedValidators;
     }
-
+    
     /** 
      *  Sort by stake or weight and add rank
      */
     sortByStake(validators: IValidator[], id: string): IValidator[] {
         (id === AVALANCHE_SUBNET_ID) ?
-            validators.sort((a, b) => (b.stakeAmount as number) - (a.stakeAmount as number)) :
+            validators.sort((a, b) => (b.totalStakeAmount as number) - (a.totalStakeAmount as number)) :
             validators.sort((a, b) => (b.weight as number) - (a.weight as number));
         validators.forEach((v, i) => v.rank = i + 1);
         return validators;
+    }
+
+    /** 
+     *  Elapsed staking period (%)
+     */
+    getElapsedStakingPeriod(validator:IValidator): number {
+        let currentTime = new Date().getTime();
+        let numerator = currentTime - validator.startTime.getTime();
+        let denominator = validator.endTime.getTime() - validator.startTime.getTime();
+        return Math.round((numerator / denominator) * 100);
     }
 }
