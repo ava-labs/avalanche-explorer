@@ -16,7 +16,7 @@ class Asset {
     txCount_day: number;
     profane: boolean;
 
-    constructor(assetData: IAssetData) {
+    constructor(assetData: IAssetData, isUnknown: boolean) {
         this.id = assetData.id;
         this.alias = assetData.alias;
         this.chainID = assetData.chainID;
@@ -27,7 +27,9 @@ class Asset {
         this.volume_day = Big(0);
         this.txCount_day = 0;
         this.profane = false;
-        this.updateVolumeHistory();
+        if (!isUnknown) {
+            this.updateVolumeHistory();   
+        }
         this.checkForProfanities(this.name);
         this.checkForProfanities(this.symbol);
     }
@@ -40,8 +42,8 @@ class Asset {
         let startDate = new Date(startTime);
 
         api.get(`/x/transactions/aggregates?startTime=${startDate.toISOString()}&endTime=${endDate.toISOString()}&assetID=${this.id}`).then(res => {
-            let txCount = res.data.aggregates.transactionCount;
-            let txVolume = res.data.aggregates.transactionVolume;
+            let txCount = res.data.aggregates.transactionCount || 0;
+            let txVolume = res.data.aggregates.transactionVolume || "0";
             parent.volume_day = stringToBig(txVolume, parent.denomination);
             parent.txCount_day = txCount;
         });
