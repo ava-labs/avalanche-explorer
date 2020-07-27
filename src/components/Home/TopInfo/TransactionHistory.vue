@@ -52,7 +52,7 @@ export default {
             let endMs = Date.now();
 
             let startTime = this.startDate.toISOString();
-            let endTime = this.endDate.toISOString();
+            let endTime = new Date().toISOString();
 
             axios.get(`/x/transactions/aggregates?startTime=${startTime}&endTime=${endTime}&intervalSize=${intervalSize}`)
                 .then(res => {
@@ -193,9 +193,6 @@ export default {
         startDate() {
             let startMs = Date.now() - this.intervalMs;
             return new Date(startMs);
-        },
-        endDate() {
-            return new Date();
         },
         dataX() {
             if (!this.history) return [];

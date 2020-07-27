@@ -80,10 +80,9 @@ export default class ValidatorRow extends Vue {
     }
 
     get duration() {
-        let endTime = this.validator.endTime.getTime() * 1000;
-        let startTime = this.validator.startTime.getTime() * 1000;
+        let endTime = this.validator.endTime.getTime();
+        let startTime = this.validator.startTime.getTime();
         let dur = endTime - startTime;
-        console.log(startTime, "     ", endTime, "     ", dur);
         return moment.duration(dur).humanize();
     } 
 }

@@ -35,8 +35,8 @@ const platform_module: Module<IPlatformState, IRootState> = {
 
             // Get and set validators for each subnet
             subnets.forEach(s => {
-                s.updateValidators();
-                s.updatePendingValidators();
+                s.updateValidators("platform.getCurrentValidators");
+                s.updateValidators("platform.getPendingValidators");
                 commit("setSubnet", s);
             });
 

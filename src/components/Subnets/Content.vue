@@ -13,122 +13,16 @@
                     :totalControlKeys="subnet.controlKeys.length"
                 ></ContentMetadata>
                 <v-tabs show-arrows>
-                    <v-tab>Blockchains</v-tab>
                     <v-tab>Validators</v-tab>
                     <v-tab>Pending Validators</v-tab>
+                    <v-tab>Blockchains</v-tab>
                     <v-tab>Control Keys</v-tab>
-                    <v-tab-item class="tab_content">
-                        <template v-if="subnet.blockchains.length === 0">
-                            <p class="null">There are no blockchains for this subnet.</p>
-                        </template>
-                        <template v-else>
-                            <v-simple-table>
-                                <template v-slot:default>
-                                    <thead>
-                                        <tr>
-                                            <th class="text-left">Name</th>
-                                            <th class="text-left">Virtual Machine ID</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="b in subnet.blockchains" :key="b.id">
-                                            <td>
-                                                <img
-                                                    class="table_image"
-                                                    src="@/assets/blockchain-purple.png"
-                                                    alt
-                                                />
-                                                {{ b.name }}
-                                            </td>
-                                            <td class="id_overflow">{{ b.vmID }}</td>
-                                        </tr>
-                                    </tbody>
-                                </template>
-                            </v-simple-table>
-                        </template>
-                    </v-tab-item>
                     <v-tab-item class="tab_content">
                         <template v-if="subnet.validators.length === 0">
                             <p class="null">There are no validators for this subnet.</p>
                         </template>
                         <template v-else>
-                            <v-simple-table :dense="dense">
-                                <template v-slot:default>
-                                    <thead>
-                                        <tr>
-                                            <th class="pad">Validator</th>
-                                            <template v-if="subnet.id === defaultSubnetID">
-                                                <th class="pad">Stake</th>
-                                            </template>
-                                            <template v-else>
-                                                <th class="pad">Weight</th>
-                                            </template>
-                                            <th class="text-right pad">Start Time</th>
-                                            <th><v-switch v-model="absolute" :label="modeText"></v-switch></th>
-                                            <th class="pad">End Time</th>
-                                            <th class="pad">Duration</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="v in subnet.validators" :key="v.id + v.stakeAmount">
-                                            <td class="id_overflow">{{v.id}}</td>
-                                            <template v-if="subnet.id === defaultSubnetID">
-                                                <td>{{ v.stakeAmount | AVAX }}</td>
-                                            </template>
-                                            <template v-else>
-                                                <td>{{ v.weight }}</td>
-                                            </template>
-                                            <td class="text-right date">{{new Date(parseInt(v.startTime * 1000)).toLocaleString()}}</td>
-                                            <template v-if="mode === 'absolute'">
-                                                <td class="diagram-container">
-                                                    <div class="diagram">
-                                                        <div class="chartbar" 
-                                                        v-bind:style="{
-                                                            left: `${scale(v.startTime.getTime() * 1000)}px`, 
-                                                            width: `${scale(v.endTime.getTime() * 1000) - scale(v.startTime.getTime() * 1000)}px`
-                                                        }"></div>
-                                                        <div class="chartbar_complete" 
-                                                        v-bind:style="{
-                                                            left: `${scale(v.startTime.getTime() * 1000)}px`, 
-                                                            width: `${scale(currentTime) - scale(v.startTime.getTime() * 1000)}px`
-                                                        }"></div>
-                                                        <div class="now" v-bind:style="{left: `${scale(currentTime)}px`}"></div>
-                                                    </div>
-                                                </td>
-                                            </template>
-                                            <template v-if="mode === 'relative'">
-                                                <td class="diagram-container">
-                                                    <div class="diagram">
-                                                        <div class="chartbar" 
-                                                        v-bind:style="{
-                                                            left: `0px`, 
-                                                            width: `200px`
-                                                        }"></div>
-                                                        <div class="chartbar_complete" 
-                                                        v-bind:style="{
-                                                            left: `0px`, 
-                                                            width: `${
-                                                                scaleRelative(
-                                                                    ((
-                                                                    (currentTime - (v.startTime.getTime() * 1000)) / 
-                                                                    ((v.endTime.getTime() * 1000) - (v.startTime.getTime() * 1000))
-                                                                ))
-                                                                )
-                                                            }px`
-                                                        }"></div>
-                                                        <div class="percentage_text text-right" v-bind:style="{left: `146px`}"> 
-                                                        {{  (((currentTime - (v.startTime.getTime() * 1000)) / 
-                                                        ((v.endTime.getTime() * 1000) - (v.startTime.getTime() * 1000))) 
-                                                        * 100).toFixed(0) }} %</div>
-                                                    </div>
-                                                </td>
-                                            </template>
-                                            <td class="date">{{new Date(parseInt(v.endTime * 1000)).toLocaleString()}}</td>
-                                            <td>{{(v.endTime - v.startTime) * 1000 | duration}}</td>
-                                        </tr>
-                                    </tbody>
-                                </template>
-                            </v-simple-table>
+                            <ValidatorDataTable :validators="subnet.validators" :subnetID="subnetID" :subnet="subnet"></ValidatorDataTable>
                         </template>
                     </v-tab-item>
                     <v-tab-item class="tab_content">
@@ -162,19 +56,19 @@
                                             <template v-else>
                                                 <td>{{ v.weight }}</td>
                                             </template>
-                                            <td class="text-right date">{{new Date(parseInt(v.startTime * 1000)).toLocaleString()}}</td>
+                                            <td class="text-right date">{{new Date(v.startTime).toLocaleString()}}</td>
                                             <template v-if="mode === 'absolute'">
                                                 <td class="diagram-container">
                                                     <div class="diagram">
                                                         <div class="chartbar" 
                                                         v-bind:style="{
-                                                            left: `${scale(v.startTime.getTime() * 1000)}px`, 
-                                                            width: `${scale(v.endTime.getTime() * 1000) - scale(v.startTime.getTime() * 1000)}px`
+                                                            left: `${scale(v.startTime.getTime())}px`, 
+                                                            width: `${scale(v.endTime.getTime()) - scale(v.startTime.getTime())}px`
                                                         }"></div>
                                                         <div class="chartbar_complete" 
                                                         v-bind:style="{
-                                                            left: `${scale(v.startTime.getTime() * 1000)}px`, 
-                                                            width: `${scale(currentTime) - scale(v.startTime.getTime() * 1000)}px`
+                                                            left: `${scale(v.startTime.getTime())}px`, 
+                                                            width: `${scale(currentTime) - scale(v.startTime.getTime())}px`
                                                         }"></div>
                                                         <div class="now" v-bind:style="{left: `${scale(currentTime)}px`}"></div>
                                                     </div>
@@ -194,21 +88,51 @@
                                                             width: `${
                                                                 scaleRelative(
                                                                     ((
-                                                                    (currentTime - (v.startTime.getTime() * 1000)) / 
-                                                                    ((v.endTime.getTime() * 1000) - (v.startTime.getTime() * 1000))
+                                                                    (currentTime - (v.startTime.getTime())) / 
+                                                                    ((v.endTime.getTime()) - (v.startTime.getTime()))
                                                                 ))
                                                                 )
                                                             }px`
                                                         }"></div>
                                                         <div class="percentage_text text-right" v-bind:style="{left: `146px`}"> 
-                                                        {{  (((currentTime - (v.startTime.getTime() * 1000)) / 
-                                                        ((v.endTime.getTime() * 1000) - (v.startTime.getTime() * 1000))) 
+                                                        {{  (((currentTime - (v.startTime.getTime())) / 
+                                                        ((v.endTime.getTime()) - (v.startTime.getTime()))) 
                                                         * 100).toFixed(0) }} %</div>
                                                     </div>
                                                 </td>
                                             </template>
-                                            <td class="date">{{new Date(parseInt(v.endTime * 1000)).toLocaleString()}}</td>
-                                            <td>{{(v.endTime - v.startTime) * 1000 | duration}}</td>
+                                            <td class="date">{{new Date(v.endTime).toLocaleString()}}</td>
+                                            <td>{{(v.endTime - v.startTime) | duration}}</td>
+                                        </tr>
+                                    </tbody>
+                                </template>
+                            </v-simple-table>
+                        </template>
+                    </v-tab-item>
+                    <v-tab-item class="tab_content">
+                        <template v-if="subnet.blockchains.length === 0">
+                            <p class="null">There are no blockchains for this subnet.</p>
+                        </template>
+                        <template v-else>
+                            <v-simple-table>
+                                <template v-slot:default>
+                                    <thead>
+                                        <tr>
+                                            <th class="text-left">Name</th>
+                                            <th class="text-left">Virtual Machine ID</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="b in subnet.blockchains" :key="b.id">
+                                            <td>
+                                                <img
+                                                    class="table_image"
+                                                    src="@/assets/blockchain-purple.png"
+                                                    alt
+                                                />
+                                                {{ b.name }}
+                                            </td>
+                                            <td class="id_overflow">{{ b.vmID }}</td>
                                         </tr>
                                     </tbody>
                                 </template>
@@ -251,6 +175,7 @@
 </template>
 
 <script lang="ts">
+/* eslint-disable */
 import "reflect-metadata";
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { subnetMap, toAVAX } from "@/helper";
@@ -260,10 +185,12 @@ import { AVALANCHE_SUBNET_ID } from '@/store/modules/platform/platform';
 import { IValidator } from '@/store/modules/platform/IValidator';
 import ContentMetadata from "@/components/Subnets/ContentMetadata.vue";
 import { scaleLinear } from "d3-scale";
+import ValidatorDataTable from "@/components/Validators/ValidatorDataTable.vue";
 
 @Component({
     components: {
-        ContentMetadata
+        ContentMetadata,
+        ValidatorDataTable
     },
     filters: {
         subnet(val: string) {
@@ -288,7 +215,13 @@ import { scaleLinear } from "d3-scale";
         },
         duration(val: number) {
             return moment.duration(val).humanize();
-        } 
+        },
+        date(val: number) {
+            return moment(val).format("D/M/YYYY"); 
+        },
+        time(val: number) {            
+            return moment(val).format("h:mm:ss A");
+        }
     }
 })
 export default class Content extends Vue {
@@ -325,8 +258,7 @@ export default class Content extends Vue {
         this.subnet.validators.forEach((v: IValidator) => {
             startTimes.push(v.startTime.getTime());
         });
-        console.log("startTimes", startTimes);
-        return Math.min(... startTimes) * 1000;
+        return Math.min(... startTimes);
     }
 
     maxEndTime() {
@@ -334,8 +266,7 @@ export default class Content extends Vue {
         this.subnet.validators.forEach((v: IValidator) => {
             endTimes.push(v.endTime.getTime());
         });
-        console.log("endTimes", endTimes);
-        return Math.max(... endTimes) * 1000;
+        return Math.max(... endTimes);
     }
 
     scale(val: number) {
@@ -488,13 +419,10 @@ export default class Content extends Vue {
     z-index: 3;
 }
 
-.date {
-    color: main.$gray;
-}
-
 .pad {
     padding-top: 9px;
 }
+
 @include main.device_s {
     .v-card__text {
         padding-left: 16px;
