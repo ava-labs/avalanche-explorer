@@ -31,7 +31,7 @@ import Tabs from "../components/Subnets/Tabs.vue";
 import Loader from "../components/misc/Loader.vue";
 import Content from "@/components/Subnets/Content.vue";
 import { AVALANCHE_SUBNET_ID } from "@/store/modules/platform/platform";
-import { IBlockchain } from '@/store/modules/platform/IBlockchain';
+import Blockchain from '@/js/Blockchain';
 import { IPlatformState } from '../store/modules/platform/IPlatformState';
 
 @Component({
@@ -50,7 +50,7 @@ import { IPlatformState } from '../store/modules/platform/IPlatformState';
 export default class Subnets extends Vue {
     selection: string = AVALANCHE_SUBNET_ID;
     loading: boolean = true;
-    blockchains: IBlockchain[] = [];
+    blockchains: Blockchain[] = [];
 
     async created() {
         this.blockchains = await this.getBlockchains();
