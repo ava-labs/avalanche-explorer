@@ -12,5 +12,6 @@ export interface IBlockchain {
     name: string,
     subnetID: string,
     vmID: string,
+    indexed?: boolean,
     isProfane?: boolean
 }

@@ -2,6 +2,7 @@ import Big from 'big.js';
 import AddressDict from './known_addresses';
 import SubnetDict from './known_subnets';
 import BlockchainDict from './known_blockchains';
+import VMDict from './known_vms';
 import {Quote, quotes} from './quotes';
 
 function stringToBig(raw: string, denomination = 0): Big {
@@ -42,6 +43,22 @@ function blockchainMap(id: string): string {
     }
 }
 
+function VMMap(id: string): string {
+    if (VMDict[id]) {
+        return VMDict[id].name
+    } else {
+        return id;
+    }
+}
+
+function VMDocumentationMap(id: string): string {
+    if (VMDict[id]) {
+        return VMDict[id].documentation
+    } else {
+        return "";
+    }
+}
+
 function getRandomQuote(): Quote {
     return quotes[Math.floor(Math.random() * quotes.length)];
 }
@@ -53,5 +70,7 @@ export {
     addressMap,
     subnetMap,
     blockchainMap,
+    VMMap,
+    VMDocumentationMap,
     getRandomQuote
 }

@@ -1,7 +1,7 @@
 <template>
     <v-card id="validator-data-table">
         <v-card-title>
-            Validators
+            {{title}}
             <v-spacer></v-spacer>
             <v-switch v-model="absolute" :label="modeText"></v-switch>
             <!-- <v-text-field
@@ -10,18 +10,12 @@
                 label="Search"
                 single-line
                 hide-details
-            ></v-text-field> -->
+            ></v-text-field>-->
         </v-card-title>
-        <v-data-table :items="validators" :headers="headers" multi-sort>
+
+        <v-data-table :items="validators" :headers="headers" multi-sort show-expand>
             <template #item.id="{item}">
-                <div class="text-truncate" style="max-width: 100px;">
-                    {{item.id}}
-                </div>
-            </template>
-            <template #item.address="{item}">
-                <div class="text-truncate" style="max-width: 100px;">
-                    {{item.address}}
-                </div>
+                <div class="text-truncate" style="max-width: 100px;">{{item.id}}</div>
             </template>
             <template #item.stakeAmount="{item}">{{item.totalStakeAmount | AVAX}}</template>
             <template #item.startTime="{item}">
@@ -64,9 +58,10 @@
                                 width: `${scaleRelative((((currentTime - (item.startTime.getTime())) / ((item.endTime.getTime()) - (item.startTime.getTime())))))}px`
                             }"
                         ></div>
-                        <div class="percentage_text text-right" v-bind:style="{left: `71px`}">
-                            {{ item.elapsed }} %
-                        </div>
+                        <div
+                            class="percentage_text text-right"
+                            v-bind:style="{left: `71px`}"
+                        >{{ item.elapsed }} %</div>
                     </div>
                 </div>
             </template>
@@ -74,9 +69,88 @@
                 <div class="date">{{item.endTime.getTime() | date}}</div>
                 <div class="time">{{item.endTime.getTime() | time}}</div>
             </template>
-            <template #item.duration="{item}">{{(item.endTime - item.startTime) | duration}}</template>
+            <template #item.duration="{item}">
+                {{(item.endTime - item.startTime) | duration}}
+            </template>
             <template #item.delegators="{item}">
-                <div v-show="item.delegators && item.delegators.length > 0">{{(item.delegators.length)}}</div>
+                <div
+                    v-show="item.delegators && item.delegators.length>0"
+                >{{(item.delegators.length)}}</div>
+            </template>
+            
+            <!-- DELEGATOR EXPANDED ITEM -->
+            <template #expanded-item="{headers, item}">
+                <td :colspan="headers.length">
+                    <tr v-for="delegator in item.delegators" :key="delegator.id">
+                        <td style="width: 24px;"></td>
+                        <td>
+                            <div class="text-truncate delegator-label" style="width: 100px;">Delegator</div>
+                        </td>
+                        <td>
+                            <div style="width: 130px">{{delegator.totalStakeAmount | AVAX}}</div>                            
+                        </td>
+                        <td style="width: 80px">
+                            <div class="text-right date no-pad-right">{{delegator.startTime.getTime() | date}}</div>
+                            <div class="text-right time no-pad-right">{{delegator.startTime.getTime() | time}}</div>
+                        </td>
+                        <td style="width: 125px">
+                            <div class="diagram-container" v-show="mode === 'absolute'">
+                                <div class="diagram">
+                                    <div
+                                        class="chartbar"
+                                        v-bind:style="{
+                                            left: `${scale(delegator.startTime.getTime())}px`, 
+                                            width: `${scale(delegator.endTime.getTime()) - scale(delegator.startTime.getTime())}px`
+                                        }"
+                                    ></div>
+                                    <div
+                                        class="chartbar_complete"
+                                        v-bind:style="{
+                                            left: `${scale(delegator.startTime.getTime())}px`, 
+                                            width: `${scale(currentTime) - scale(delegator.startTime.getTime())}px`
+                                        }"
+                                    ></div>
+                                    <div
+                                        class="now"
+                                        v-bind:style="{left: `${scale(currentTime)}px`}"
+                                    ></div>
+                                </div>
+                            </div>
+                            <div class="diagram-container" v-if="mode === 'relative'">
+                                <div class="diagram">
+                                    <div
+                                        class="chartbar"
+                                        v-bind:style="{
+                                            left: `0px`, 
+                                            width: `${diagramWidth}px`
+                                        }"
+                                    ></div>
+                                    <div
+                                        class="chartbar_complete"
+                                        v-bind:style="{
+                                            left: `0px`, 
+                                            width: `${scaleRelative((((currentTime - (delegator.startTime.getTime())) / ((delegator.endTime.getTime()) - (delegator.startTime.getTime())))))}px`
+                                        }"
+                                    ></div>
+                                    <div
+                                        class="percentage_text text-right"
+                                        v-bind:style="{left: `71px`}"
+                                    >{{ delegator.elapsed }} %</div>
+                                </div>
+                            </div>                            
+                        </td>
+                        <td style="width: 80px">
+                            <div class="date">{{delegator.endTime.getTime() | date}}</div>
+                            <div class="time">{{delegator.endTime.getTime() | time}}</div>
+                        </td>
+                        <td style="width: 85px">
+                            {{(delegator.endTime - delegator.startTime) | duration}}
+                        </td>
+                        <td :colspan="headers.length">
+                            <div>{{delegator.address}}</div>
+                        </td>
+                    </tr>
+                </td>
             </template>
         </v-data-table>
     </v-card>
@@ -105,7 +179,7 @@ import { scaleLinear } from "d3-scale";
             return moment.duration(val).humanize();
         },
         date(val: number) {
-            return moment(val).format("D/M/YYYY");
+            return moment(val).format("M/D/YYYY");
         },
         time(val: number) {
             return moment(val).format("h:mm:ss A");
@@ -121,22 +195,24 @@ export default class ValidatorDataTable extends Vue {
     maxTime: number = 1;
     absolute: boolean = false;
     diagramWidth: number = 125;
+    expanded: any[] = [];
 
     @Prop() subnetID!: string;
     @Prop() subnet!: Subnet;
     @Prop() validators!: IValidator[];
+    @Prop() title!: string;
 
     get headers(): any[] {
         return [
-            // { text: "Rank", value: "rank", width: 70 },
             { text: "Validator", value: "id", width: 100 },
             { text: "Stake", value: this.stakeOrWeight, width: 130 },
             { text: "Start", value: "startTime", align: "end", width: 80 },
-            { text: "Completion", value: "elapsed", width: 125 },
+            { text: "Completion", value: "elapsed", align: "center", width: 125 },
             { text: "End", value: "endTime", width: 80 },
             { text: "Duration", value: "duration", width: 85 },
             { text: "Payout Address", value: "address", width: 125 },
             { text: "Delgators", value: "delegators", width: 100 },
+            { text: "", value: "expand", align: "end" },
         ];
     }
 
@@ -185,7 +261,9 @@ export default class ValidatorDataTable extends Vue {
     }
 
     scaleRelative(val: number) {
-        const scale = scaleLinear().domain([0, 1]).range([0, this.diagramWidth]);
+        const scale = scaleLinear()
+            .domain([0, 1])
+            .range([0, this.diagramWidth]);
         return scale(val);
     }
 }
@@ -193,21 +271,6 @@ export default class ValidatorDataTable extends Vue {
 
 <style scoped lang="scss">
 @use "../../main";
-
-.bar {
-    margin-bottom: 15px;
-}
-
-.tab_content {
-    padding-top: 15px;
-}
-
-.id_overflow {
-    max-width: 100px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
 
 .v-card__text {
     padding-top: 0;
@@ -224,24 +287,6 @@ export default class ValidatorDataTable extends Vue {
 
 .v-tab:before {
     background-color: main.$primary-color !important;
-}
-
-.null {
-    padding: 10px 0 0 16px;
-    font-size: 0.75rem;
-    font-weight: 400; /* 700 */
-}
-
-.threshold {
-    padding: 32px 16px;
-}
-
-.table_image {
-    height: 20px;
-    display: inline-block;
-    margin-top: -4px;
-    margin-right: 8px;
-    vertical-align: middle;
 }
 
 .diagram {
@@ -329,11 +374,18 @@ export default class ValidatorDataTable extends Vue {
 }
 
 .text-truncate {
-    display: inline-block; 
-    overflow: hidden; 
+    display: inline-block;
+    overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis; 
+    text-overflow: ellipsis;
     padding-top: 7px;
+}
+
+.delegator-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: rgba(0, 0, 0, 0.6);
+    letter-spacing: 0.0071428571em;
 }
 
 @include main.device_s {
@@ -344,8 +396,11 @@ export default class ValidatorDataTable extends Vue {
 }
 
 @include main.device_xs {
-    .subnet_header {
-        padding: 0;
+    #validator-data-table {
+        .v-data-table td,
+        .v-data-table th {
+            padding: 0 16px;
+        }
     }
 }
 </style>
@@ -365,12 +420,14 @@ export default class ValidatorDataTable extends Vue {
     margin-left: 1px;
 }
 
-.v-input--selection-controls .v-input__slot > .v-label, .v-input--selection-controls .v-radio > .v-label {
+.v-input--selection-controls .v-input__slot > .v-label,
+.v-input--selection-controls .v-radio > .v-label {
     width: 113px;
 }
 
 #validator-data-table {
-    .v-data-table td, .v-data-table th {
+    .v-data-table td,
+    .v-data-table th {
         padding: 0 4px;
 
         &:first-of-type {
@@ -383,14 +440,20 @@ export default class ValidatorDataTable extends Vue {
     }
 }
 
-th {
-    .v-input__slot {
-        /* margin-bottom: 0; */
+@include main.device_xs {
+    #validator-data-table {
+        .v-data-table td,
+        .v-data-table th {
+            padding: 0 16px;
+        }
     }
+}
+
+th {
     .v-input--selection-controls {
-        /* margin-top: 0; */
         padding-top: 0;
     }
+
     .v-label {
         font-size: 0.75rem;
     }
@@ -399,6 +462,4 @@ th {
         display: none;
     }
 }
-
-
 </style>

@@ -19,7 +19,7 @@
                     <div v-if="assetsLoaded">
                         <p class="meta_val">
                             {{totalTransactions.toLocaleString()}}
-                            <span class="unit">({{tpsText}} TPS)</span>
+                            <span class="unit">({{tpmText}} TPM)</span>
                         </p>
                     </div>
                     <div v-else>
@@ -111,6 +111,12 @@ export default class MetaData extends Vue {
 
     get subnetsLoaded(): boolean {
         return this.$store.state.Platform.subnetsLoaded;
+    }
+
+    get tpmText(): string {
+        let day = 60 * 24;
+        let avg = this.totalTransactions / day;
+        return avg > 1 ? avg.toFixed(0) : avg.toFixed(2);
     }
 
     get tpsText(): string {

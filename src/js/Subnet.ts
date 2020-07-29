@@ -22,7 +22,13 @@ export default class Subnet {
     }
 
     addBlockchain(data: IBlockchainData) {
-        this.blockchains.push(data);
+        let blockchain: IBlockchain = data;
+        if (blockchain.id === "rrEWX7gc7D9mwcdrdBxBTdqh1a7WDVsMuadhTZgyXfFcRz45L") {
+            blockchain.indexed = true;
+        } else {
+            blockchain.indexed = false;
+        }
+        this.blockchains.push(blockchain);
     }
 
     // TODO: get address details for Platform Keys (https://docs.avax.network/v1.0/en/api/platform/#platformgetaccount)

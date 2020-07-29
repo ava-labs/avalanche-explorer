@@ -22,7 +22,7 @@
                             <p class="null">There are no validators for this subnet.</p>
                         </template>
                         <template v-else>
-                            <ValidatorDataTable :validators="subnet.validators" :subnetID="subnetID" :subnet="subnet"></ValidatorDataTable>
+                            <ValidatorDataTable :validators="subnet.validators" :subnetID="subnetID" :subnet="subnet" :title="'Validators'"></ValidatorDataTable>
                         </template>
                     </v-tab-item>
                     <v-tab-item class="tab_content">
@@ -30,83 +30,7 @@
                             <p class="null">There are no pending validators for this subnet.</p>
                         </template>
                         <template v-else>
-                            <v-simple-table :dense="dense">
-                                <template v-slot:default>
-                                    <thead>
-                                        <tr>
-                                            <th class="pad">Validator</th>
-                                            <template v-if="subnet.id === defaultSubnetID">
-                                                <th class="pad">Stake</th>
-                                            </template>
-                                            <template v-else>
-                                                <th class="pad">Weight</th>
-                                            </template>
-                                            <th class="text-right pad">Start Time</th>
-                                            <th><v-switch v-model="absolute" :label="modeText"></v-switch></th>
-                                            <th class="pad">End Time</th>
-                                            <th class="pad">Duration</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="v in subnet.pendingValidators" :key="v.id + v.stakeAmount">
-                                            <td class="id_overflow">{{v.id}}</td>
-                                            <template v-if="subnet.id === defaultSubnetID">
-                                                <td>{{ v.stakeAmount | AVAX }}</td>
-                                            </template>
-                                            <template v-else>
-                                                <td>{{ v.weight }}</td>
-                                            </template>
-                                            <td class="text-right date">{{new Date(v.startTime).toLocaleString()}}</td>
-                                            <template v-if="mode === 'absolute'">
-                                                <td class="diagram-container">
-                                                    <div class="diagram">
-                                                        <div class="chartbar" 
-                                                        v-bind:style="{
-                                                            left: `${scale(v.startTime.getTime())}px`, 
-                                                            width: `${scale(v.endTime.getTime()) - scale(v.startTime.getTime())}px`
-                                                        }"></div>
-                                                        <div class="chartbar_complete" 
-                                                        v-bind:style="{
-                                                            left: `${scale(v.startTime.getTime())}px`, 
-                                                            width: `${scale(currentTime) - scale(v.startTime.getTime())}px`
-                                                        }"></div>
-                                                        <div class="now" v-bind:style="{left: `${scale(currentTime)}px`}"></div>
-                                                    </div>
-                                                </td>
-                                            </template>
-                                            <template v-if="mode === 'relative'">
-                                                <td class="diagram-container">
-                                                    <div class="diagram">
-                                                        <div class="chartbar" 
-                                                        v-bind:style="{
-                                                            left: `0px`, 
-                                                            width: `200px`
-                                                        }"></div>
-                                                        <div class="chartbar_complete" 
-                                                        v-bind:style="{
-                                                            left: `0px`, 
-                                                            width: `${
-                                                                scaleRelative(
-                                                                    ((
-                                                                    (currentTime - (v.startTime.getTime())) / 
-                                                                    ((v.endTime.getTime()) - (v.startTime.getTime()))
-                                                                ))
-                                                                )
-                                                            }px`
-                                                        }"></div>
-                                                        <div class="percentage_text text-right" v-bind:style="{left: `146px`}"> 
-                                                        {{  (((currentTime - (v.startTime.getTime())) / 
-                                                        ((v.endTime.getTime()) - (v.startTime.getTime()))) 
-                                                        * 100).toFixed(0) }} %</div>
-                                                    </div>
-                                                </td>
-                                            </template>
-                                            <td class="date">{{new Date(v.endTime).toLocaleString()}}</td>
-                                            <td>{{(v.endTime - v.startTime) | duration}}</td>
-                                        </tr>
-                                    </tbody>
-                                </template>
-                            </v-simple-table>
+                            <ValidatorDataTable :validators="subnet.pendingValidators" :subnetID="subnetID" :subnet="subnet" :title="'Pending Validators'"></ValidatorDataTable>
                         </template>
                     </v-tab-item>
                     <v-tab-item class="tab_content">
@@ -114,29 +38,7 @@
                             <p class="null">There are no blockchains for this subnet.</p>
                         </template>
                         <template v-else>
-                            <v-simple-table>
-                                <template v-slot:default>
-                                    <thead>
-                                        <tr>
-                                            <th class="text-left">Name</th>
-                                            <th class="text-left">Virtual Machine ID</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="b in subnet.blockchains" :key="b.id">
-                                            <td>
-                                                <img
-                                                    class="table_image"
-                                                    src="@/assets/blockchain-purple.png"
-                                                    alt
-                                                />
-                                                {{ b.name }}
-                                            </td>
-                                            <td class="id_overflow">{{ b.vmID }}</td>
-                                        </tr>
-                                    </tbody>
-                                </template>
-                            </v-simple-table>
+                            <BlockchainDataTable :blockchains="subnet.blockchains" :subnetID="subnetID" :subnet="subnet" :title="'Blockchains'"></BlockchainDataTable>
                         </template>
                     </v-tab-item>
                     <v-tab-item class="tab_content">
@@ -186,22 +88,17 @@ import { IValidator } from '@/store/modules/platform/IValidator';
 import ContentMetadata from "@/components/Subnets/ContentMetadata.vue";
 import { scaleLinear } from "d3-scale";
 import ValidatorDataTable from "@/components/Validators/ValidatorDataTable.vue";
+import BlockchainDataTable from "@/components/Subnets/BlockchainDataTable.vue";
 
 @Component({
     components: {
         ContentMetadata,
-        ValidatorDataTable
+        ValidatorDataTable,
+        BlockchainDataTable
     },
     filters: {
         subnet(val: string) {
             return subnetMap(val);
-        },
-        pluralize(val: number) {
-            return val === 0
-                ? `${val} blockchains`
-                : val > 1
-                ? `${val} blockchains`
-                : `${val} blockchain`;
         },
         pluralizeThreshold(val: number) {
             return val === 0
@@ -245,43 +142,6 @@ export default class Content extends Vue {
     get modeText() {
         return this.absolute ? "Timeline" : "Completion";
     }
-
-    created() {
-        let now = new Date();
-        this.currentTime = now.getTime();
-        this.minTime = this.minStartTime();
-        this.maxTime = this.maxEndTime();
-    }
-
-    minStartTime() {
-        let startTimes: number[] = [];
-        this.subnet.validators.forEach((v: IValidator) => {
-            startTimes.push(v.startTime.getTime());
-        });
-        return Math.min(... startTimes);
-    }
-
-    maxEndTime() {
-        let endTimes: number[] = [];
-        this.subnet.validators.forEach((v: IValidator) => {
-            endTimes.push(v.endTime.getTime());
-        });
-        return Math.max(... endTimes);
-    }
-
-    scale(val: number) {
-        const scale = scaleLinear()
-            .domain([this.minTime, this.maxTime])
-            .range([0, 200]);
-        return scale(val);    
-    }
-
-    scaleRelative(val: number) {
-        const scale = scaleLinear()
-            .domain([0, 1])
-            .range([0, 200]);
-        return scale(val);    
-    }
 }
 </script>
 
@@ -298,13 +158,6 @@ export default class Content extends Vue {
 
 .tab_content {
     padding-top: 15px;
-}
-
-.id_overflow {
-    max-width: 100px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 .v-card__text {
@@ -358,37 +211,8 @@ export default class Content extends Vue {
     vertical-align: middle;
 }
 
-.diagram {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    width: 100%;
-    height: 20px;
-    position: relative;
-    border-left: 1px solid main.$primary-color-light;
-    border-right: 1px solid main.$primary-color-light;
-}
-
-.chartbar {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    background-color: main.$primary-color-light;
-}
-
-.chartbar_complete {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    background-color: main.$primary-color;
-    opacity: 0.5;
-}
-
 .text-right {
     text-align: right !important;
-}
-
-.diagram-container {
-    width: 200px;
 }
 
 .duration_text_container {
