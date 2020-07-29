@@ -38,29 +38,7 @@
                             <p class="null">There are no blockchains for this subnet.</p>
                         </template>
                         <template v-else>
-                            <v-simple-table>
-                                <template v-slot:default>
-                                    <thead>
-                                        <tr>
-                                            <th class="text-left">Name</th>
-                                            <th class="text-left">Virtual Machine ID</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="b in subnet.blockchains" :key="b.id">
-                                            <td>
-                                                <img
-                                                    class="table_image"
-                                                    src="@/assets/blockchain-purple.png"
-                                                    alt
-                                                />
-                                                {{ b.name }}
-                                            </td>
-                                            <td class="id_overflow">{{ b.vmID }}</td>
-                                        </tr>
-                                    </tbody>
-                                </template>
-                            </v-simple-table>
+                            <BlockchainDataTable :blockchains="subnet.blockchains" :subnetID="subnetID" :subnet="subnet" :title="'Blockchains'"></BlockchainDataTable>
                         </template>
                     </v-tab-item>
                     <v-tab-item class="tab_content">
@@ -110,22 +88,17 @@ import { IValidator } from '@/store/modules/platform/IValidator';
 import ContentMetadata from "@/components/Subnets/ContentMetadata.vue";
 import { scaleLinear } from "d3-scale";
 import ValidatorDataTable from "@/components/Validators/ValidatorDataTable.vue";
+import BlockchainDataTable from "@/components/Subnets/BlockchainDataTable.vue";
 
 @Component({
     components: {
         ContentMetadata,
-        ValidatorDataTable
+        ValidatorDataTable,
+        BlockchainDataTable
     },
     filters: {
         subnet(val: string) {
             return subnetMap(val);
-        },
-        pluralize(val: number) {
-            return val === 0
-                ? `${val} blockchains`
-                : val > 1
-                ? `${val} blockchains`
-                : `${val} blockchain`;
         },
         pluralizeThreshold(val: number) {
             return val === 0
@@ -169,43 +142,6 @@ export default class Content extends Vue {
     get modeText() {
         return this.absolute ? "Timeline" : "Completion";
     }
-
-    created() {
-        let now = new Date();
-        this.currentTime = now.getTime();
-        this.minTime = this.minStartTime();
-        this.maxTime = this.maxEndTime();
-    }
-
-    minStartTime() {
-        let startTimes: number[] = [];
-        this.subnet.validators.forEach((v: IValidator) => {
-            startTimes.push(v.startTime.getTime());
-        });
-        return Math.min(... startTimes);
-    }
-
-    maxEndTime() {
-        let endTimes: number[] = [];
-        this.subnet.validators.forEach((v: IValidator) => {
-            endTimes.push(v.endTime.getTime());
-        });
-        return Math.max(... endTimes);
-    }
-
-    scale(val: number) {
-        const scale = scaleLinear()
-            .domain([this.minTime, this.maxTime])
-            .range([0, 200]);
-        return scale(val);    
-    }
-
-    scaleRelative(val: number) {
-        const scale = scaleLinear()
-            .domain([0, 1])
-            .range([0, 200]);
-        return scale(val);    
-    }
 }
 </script>
 
@@ -222,13 +158,6 @@ export default class Content extends Vue {
 
 .tab_content {
     padding-top: 15px;
-}
-
-.id_overflow {
-    max-width: 100px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 .v-card__text {

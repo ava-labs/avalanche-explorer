@@ -179,7 +179,7 @@ import { scaleLinear } from "d3-scale";
             return moment.duration(val).humanize();
         },
         date(val: number) {
-            return moment(val).format("D/M/YYYY");
+            return moment(val).format("M/D/YYYY");
         },
         time(val: number) {
             return moment(val).format("h:mm:ss A");
@@ -204,7 +204,6 @@ export default class ValidatorDataTable extends Vue {
 
     get headers(): any[] {
         return [
-            // { text: "Rank", value: "rank", width: 70 },
             { text: "Validator", value: "id", width: 100 },
             { text: "Stake", value: this.stakeOrWeight, width: 130 },
             { text: "Start", value: "startTime", align: "end", width: 80 },

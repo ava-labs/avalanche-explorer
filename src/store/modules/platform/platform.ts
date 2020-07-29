@@ -78,14 +78,14 @@ const platform_module: Module<IPlatformState, IRootState> = {
             let defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID];
             let total = Big(0);
             return (!defaultSubnet) ? total :
-                total = defaultSubnet.validators.reduce((a, v) => a.add(Big(v.stakeAmount as number)), total);
+                total = defaultSubnet.validators.reduce((a, v) => a.add(Big(v.totalStakeAmount as number)), total);
         },
         totalPendingStake(state): Big {
             // Total $AVAX pending stake on default subnet
             let defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID];
             let total = Big(0);
             return (!defaultSubnet) ? total :
-                total = defaultSubnet.pendingValidators.reduce((a, v) => a.add(Big(v.stakeAmount as number)), total);
+                total = defaultSubnet.pendingValidators.reduce((a, v) => a.add(Big(v.totalStakeAmount as number)), total);
         },
         cumulativeStake(state): number[] {
             // Accumulative distribution of active stakes
@@ -94,7 +94,7 @@ const platform_module: Module<IPlatformState, IRootState> = {
             let total = 0;
             if (defaultSubnet) {
                 defaultSubnet.validators.forEach(v => {
-                    total += v.stakeAmount as number;
+                    total += v.totalStakeAmount as number;
                     res.push(total)
                 });
             }
@@ -107,7 +107,7 @@ const platform_module: Module<IPlatformState, IRootState> = {
             let total = 0;
             if (defaultSubnet) {
                 defaultSubnet.pendingValidators.forEach(v => {
-                    total += v.stakeAmount as number;
+                    total += v.totalStakeAmount as number;
                     res.push(total)
                 });
             }

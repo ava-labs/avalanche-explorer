@@ -30,7 +30,7 @@ export default {
     width: 100%;
 
     > div {
-        padding: 0px 45px;
+        padding: 0px 30px;
         overflow: auto;
         border-right: 1px solid #c4c4c455;
     }
