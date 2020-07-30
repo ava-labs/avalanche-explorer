@@ -10,8 +10,8 @@
     >
         <div class="logo">
             <router-link to="/">
-                <img style="width: 60px" src="@/assets/yeti_grover_logo.png" />
-                <h1>Explorer <span>Denali</span></h1>
+                <img style="width: 200px" src="@/assets/explorer_logo.png" />
+                <h1><span class="hide">Avalanche Explorer</span><span class="subnet">Denali</span></h1>
             </router-link>
         </div>
         <v-spacer class="spacer_mid"></v-spacer>
@@ -95,7 +95,6 @@ export default Vue.extend({
     }
 
     h1 {
-        font-size: 32px;
         padding-left: 10px;
         margin: 0;
 
@@ -104,9 +103,24 @@ export default Vue.extend({
             text-decoration: none !important;
         }
 
-        span {
+        .hide {
+            font-size: 0;
+            width: 1px;
+            height: 1px;
+            display: inline-block;
+            overflow: hidden;
+            position: absolute!important;
+            border: 0!important;
+            padding: 0!important;
+            margin: 0!important;
+            clip: rect(1px,1px,1px,1px);
+        }
+
+        .subnet {
             font-size: 12px;
             color: main.$primary-color;
+            padding-bottom: 7px;
+            display: inline-block;
         }
     }
     img {
@@ -155,20 +169,43 @@ export default Vue.extend({
     }
 }
 
-@include main.device_s {
-    h1 {
-        display: none;
+@include main.device_s {    
+    .logo {
+        height: 100%;
+        padding: 15px 0px 15px 6px;
+        display: flex;
+        flex-direction: column;
+
+
+    a {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        height: 100%;
     }
 
-    .logo {
-        display: none;
-        height: 40px;
-        padding: 0;
+    h1 {
+        padding-left: 161px;
+        height: 12px;
+        .subnet {
+            font-size: 12px;
+            color: main.$primary-color;
+            padding-top: 9px;
+            padding-bottom: 0;
+            display: block;
+        }
     }
+
+    img {
+        max-height: calc(100% - 15px);
+    }
+}
+
     .rightside {
         width: 100%;
         overflow: auto;
     }
+
     .spacer_mid {
         display: none;
     }

@@ -6,7 +6,7 @@ import { IMetaTag } from "@/router/IMetaTag";
 Vue.use(VueRouter);
 
 const prefix = "Avalanche ";
-const description = "Avalanche is an open-source platform for decentralized applications and the Internet of Finance."
+const description = "Avalanche Explorer is an analytics tool that enables people to search the Avalanche blockchain for transactions, addresses, and other platform activities."
 const metaTags: IMetaTag[] = [
   {
     name: "description",
@@ -25,7 +25,7 @@ const routes = [
     component: Home,
     meta: {
       auth: false,
-      title: prefix + "Explorer",
+      title: "Avalanche Explorer: View All Activity on Avalanche",
       metaTags: metaTags
     }
   },

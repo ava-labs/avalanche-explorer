@@ -1,19 +1,24 @@
+import Vue from 'vue';
 import { Module } from "vuex";
+import Big from "big.js";
 import { IRootState } from "@/store/types";
 import { IPlatformState } from './IPlatformState';
 import { platform } from "@/avalanche";
-import Big from "big.js";
 import Subnet from '@/js/Subnet';
 import { ISubnetData } from './ISubnet';
+import SubnetDict from '@/known_subnets';
 import { IBlockchainData } from './IBlockchain';
-import Vue from 'vue';
+import BlockchainDict from '@/known_blockchains';
+import Blockchain from '@/js/Blockchain';
 
-export const AVALANCHE_SUBNET_ID = "11111111111111111111111111111111LpoYY";
+export const AVALANCHE_SUBNET_ID = Object.keys(SubnetDict).find(key => SubnetDict[key] === "Default Subnet") as string;
+export const X_CHAIN_ID = Object.keys(BlockchainDict).find(key => BlockchainDict[key] === "X-Chain") as string;
 
 const platform_module: Module<IPlatformState, IRootState> = {
     namespaced: true,
     state: {
         subnets: {},
+        blockchains: {},
         subnetsLoaded: false
     },
     mutations: {
@@ -40,16 +45,18 @@ const platform_module: Module<IPlatformState, IRootState> = {
                 commit("setSubnet", s);
             });
 
-            // Get blockchains
-            let blockchains = await platform.getBlockchains() as IBlockchainData[];
+            // Get blockchains and init classes
+            let blockchains = (await platform.getBlockchains() as IBlockchainData[])
+                .map((b: IBlockchainData) => new Blockchain(b));
 
             // Add P-Chain manually
-            blockchains.unshift({
-                name: "P-Chain",
-                id: "11111111111111111111111111111111LpoYY",
-                subnetID: "11111111111111111111111111111111LpoYY",
+            let pChain = new Blockchain({
+                name: BlockchainDict[AVALANCHE_SUBNET_ID],
+                id: AVALANCHE_SUBNET_ID,
+                subnetID: AVALANCHE_SUBNET_ID,
                 vmID: ""
             });
+            blockchains.unshift(pChain);
 
             // Map blockchains to their subnet
             blockchains.forEach(b => {
@@ -58,7 +65,7 @@ const platform_module: Module<IPlatformState, IRootState> = {
             });
 
             state.subnetsLoaded = true;
-        }
+        },
     },
     getters: {
         totalValidators(state): number {

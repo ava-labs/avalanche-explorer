@@ -38,7 +38,7 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 import { VMMap, VMDocumentationMap } from "@/helper";
 import Subnet from "@/js/Subnet";
 import { AVALANCHE_SUBNET_ID } from "@/store/modules/platform/platform";
-import { IBlockchain } from "@/store/modules/platform/IBlockchain";
+import Blockchain from "@/js/Blockchain";
 
 @Component({})
 export default class BlockchainDataTable extends Vue {
@@ -46,7 +46,7 @@ export default class BlockchainDataTable extends Vue {
 
     @Prop() subnetID!: string;
     @Prop() subnet!: Subnet;
-    @Prop() blockchains!: IBlockchain[];
+    @Prop() blockchains!: Blockchain[];
     @Prop() title!: string;
 
     get headers(): any[] {

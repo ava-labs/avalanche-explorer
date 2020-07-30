@@ -1,6 +1,6 @@
 import gecko_api from "@/gecko_api";
 import { ISubnetData } from "@/store/modules/platform/ISubnet"
-import { IBlockchain, IBlockchainData } from '@/store/modules/platform/IBlockchain';
+import Blockchain from '@/js/Blockchain';
 import { IValidator, IStakingData } from "@/store/modules/platform/IValidator";
 import { AVALANCHE_SUBNET_ID } from '@/store/modules/platform/platform';
 
@@ -8,7 +8,7 @@ export default class Subnet {
     id: string;
     controlKeys: string[];
     threshold: number;
-    blockchains: IBlockchain[];
+    blockchains: Blockchain[];
     validators: IValidator[];
     pendingValidators: IValidator[];
 
@@ -19,16 +19,6 @@ export default class Subnet {
         this.blockchains = [];
         this.validators = [];
         this.pendingValidators = [];
-    }
-
-    addBlockchain(data: IBlockchainData) {
-        let blockchain: IBlockchain = data;
-        if (blockchain.id === "rrEWX7gc7D9mwcdrdBxBTdqh1a7WDVsMuadhTZgyXfFcRz45L") {
-            blockchain.indexed = true;
-        } else {
-            blockchain.indexed = false;
-        }
-        this.blockchains.push(blockchain);
     }
 
     // TODO: get address details for Platform Keys (https://docs.avax.network/v1.0/en/api/platform/#platformgetaccount)
@@ -63,10 +53,14 @@ export default class Subnet {
         }
     }
 
+    addBlockchain(data: Blockchain) {
+        this.blockchains.push(data);
+    }
+
     /*
      * Convert staking data from API into validator objects
      */
-    cast(stakingData: IStakingData[]): IValidator[] {
+    private cast(stakingData: IStakingData[]): IValidator[] {
         let validators = stakingData.map((s: IStakingData) => {
             let validator: IValidator = {
                 id: s.id,
@@ -100,7 +94,7 @@ export default class Subnet {
      *  Delegation by Validator     = 'address A' stakes via 'id X' with 'later startTime'
      *  Delegation by Other         = 'address B' stakes via 'id X' with 'later startTime'
      */
-    sortForDelegators(validators: IValidator[]): IValidator[] {
+    private sortForDelegators(validators: IValidator[]): IValidator[] {
         return validators.sort((a, b) => {
             // primary sort by id
             if (a.id < b.id) {
@@ -122,12 +116,13 @@ export default class Subnet {
      *  Create set of unique validators
      *  Delegation stakes are nested inside validators
      */
-    nestValidatorsAndDelegators(sorted: IValidator[]): IValidator[] {
+    private nestValidatorsAndDelegators(sorted: IValidator[]): IValidator[] {
         let validatorsMap: {[key:string]: IValidator} = {};
         for (let i = 0; i < sorted.length; i++) {
             let nodeID = sorted[i].id;
             if (validatorsMap[nodeID]) {
                 // add delegator
+                // eslint-disable-next-line
                 validatorsMap[nodeID].delegators!.push(sorted[i]);
             } else {
                 // add validator
@@ -138,12 +133,16 @@ export default class Subnet {
         
         // calculate totalStakeAmount
         nestedValidators.forEach((v => {
-            if (v.delegators!.length > 0) {
-                let delegatedStake = 0;
-                v.delegators!.forEach(v => delegatedStake += v.stakeAmount!);
-                v.totalStakeAmount! += delegatedStake;
+            if (v.delegators) {
+                if (v.delegators.length > 0) {
+                    let delegatedStake = 0;
+                    // eslint-disable-next-line
+                    v.delegators.forEach(v => delegatedStake += v.stakeAmount!);
+                    // eslint-disable-next-line
+                    v.totalStakeAmount! += delegatedStake;
+                }
+                return [];
             }
-            return [];
         }));
         return nestedValidators;
     }
@@ -151,7 +150,7 @@ export default class Subnet {
     /** 
      *  Sort by stake or weight and add rank
      */
-    sortByStake(validators: IValidator[], id: string): IValidator[] {
+    private sortByStake(validators: IValidator[], id: string): IValidator[] {
         (id === AVALANCHE_SUBNET_ID) ?
             validators.sort((a, b) => (b.totalStakeAmount as number) - (a.totalStakeAmount as number)) :
             validators.sort((a, b) => (b.weight as number) - (a.weight as number));
@@ -162,7 +161,7 @@ export default class Subnet {
     /** 
      *  Elapsed staking period (%)
      */
-    getElapsedStakingPeriod(validator:IValidator): number {
+    private getElapsedStakingPeriod(validator:IValidator): number {
         let currentTime = new Date().getTime();
         let numerator = currentTime - validator.startTime.getTime();
         let denominator = validator.endTime.getTime() - validator.startTime.getTime();
