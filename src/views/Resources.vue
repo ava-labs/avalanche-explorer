@@ -8,7 +8,7 @@
             <div class="denali">
                 <img src="https://assets-global.website-files.com/5d80307810123f5ffbb34d6e/5eced3b22c4c3f38823c7fd3_Denali%20Big.svg" width="2280" alt="">
                 <h3>Welcome to the Denali Incentivized Testnet</h3>
-                <p class="description">Denali is the last phase of the public testnet and a global community effort to test the network in the most realistic conditions. Denali is designed to build, educate, and reward the first community of Avalanche validators, preparing them for a healthy, decentralized, and widely distributed mainnet launch!</p>
+                <p class="description">The Avalanche Explorer is an analytics tool that enables people to search the Avalanche blockchain for transactions, addresses, and other platform activities. Denali is the last phase of the public testnet and a global community effort to test the network in the most realistic conditions. Denali is designed to build, educate, and reward the first community of Avalanche validators, preparing them for a healthy, decentralized, and widely distributed mainnet launch!</p>
             </div>
             <div class="resource_container">
                 <div class="resource">
@@ -34,8 +34,8 @@
                     <h3>Social</h3>
                     <p>Get close to the Avalanche community</p>
                     <div class="buts">
-                        <a href="https://discord.com/invite/Ja3CSs7" target="_blank">Discord</a>
-                        <a href="https://twitter.com/avalabsofficial" target="_blank">Twitter</a>
+                        <a href="https://chat.avax.network" target="_blank">Discord</a>
+                        <a href="https://twitter.com/avalancheavax" target="_blank">Twitter</a>
                     </div>
                 </div>
                 <div class="resource ava_x">

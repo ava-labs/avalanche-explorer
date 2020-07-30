@@ -4,11 +4,8 @@
         <div class="inner">
             <div class="logo">
                 <router-link to="/">
-                    <img style="height: 24px" src="@/assets/yeti_grover_logo.png" />
-                    <h1>
-                        <span>Denali</span>
-                        Explorer
-                    </h1>
+                    <img style="height: 24px" src="@/assets/explorer_logo.png" />
+                    <h1><span class="hide">Avalanche Explorer</span><span class="subnet">Denali</span></h1>
                 </router-link>
             </div>
             <div>
@@ -24,8 +21,9 @@
         <v-navigation-drawer v-model="isDrawer" fixed style="z-index: 999;">
             <v-list dense nav>
                 <v-list-item>
-                    <img src="@/assets/yeti_grover_logo.png" class="drawer_img" />
-                    <div class="title">Denali Explorer</div>
+                    <div class="drawer_img_container">
+                        <img src="@/assets/explorer_logo.png" class="drawer_img" />
+                    </div>
                 </v-list-item>
                 <template>
                     <v-list-item to="/">Home</v-list-item>
@@ -142,8 +140,24 @@ export default class NavbarMobile extends Vue {
             text-decoration: none !important;
         }
 
-        span {
+        .hide {
+            font-size: 0;
+            width: 1px;
+            height: 1px;
+            display: inline-block;
+            overflow: hidden;
+            position: absolute!important;
+            border: 0!important;
+            padding: 0!important;
+            margin: 0!important;
+            clip: rect(1px,1px,1px,1px);
+        }
+
+        .subnet {
+            font-size: 12px;
             color: main.$primary-color;
+            padding-bottom: 2px;
+            display: inline-block;
         }
     }
     img {
@@ -168,10 +182,17 @@ a {
     padding-bottom: 7px;
 }
 
-.drawer_img {
-    max-height: 50px;
-    padding-bottom: 10px;
+.drawer_img_container {
+    height: 54px;
+    display: flex;
+    align-items: center;
+    
+    .drawer_img {
+        padding-bottom: 10px;
+        height: 24px;
+    }    
 }
+
 
 button {
     font-weight: 400; /* 700 */

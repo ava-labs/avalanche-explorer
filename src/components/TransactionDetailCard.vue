@@ -58,7 +58,7 @@
                 ></utxo-row>
             </div>
             <div v-else>
-                <p>No input UTXOs found for this transaction on the explorer.</p>
+                <p>No input UTXOs found for this transaction on the Avalanche Explorer.</p>
             </div>
         </article>
         <article class="meta_row">

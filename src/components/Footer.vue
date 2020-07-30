@@ -5,7 +5,7 @@
                 <img src="@/assets/ava_logo_white.png" />
                 <h4>Powered by Avalanche</h4>
             </div>
-            <p class="avalanche_desc">The AVAX Explorer is an analytics tool for Avalanche, an open-source platform for decentralized applications and the Internet of Finance.</p>
+            <p class="avalanche_desc">Avalanche Explorer is an analytics tool that enables people to search the Avalanche blockchain for transactions, addresses, and other platform activities.</p>
             <img class="yeti" src="@/assets/yeti_footer.png" />
         </div>
         <div class="list">
@@ -19,13 +19,13 @@
         </div>
         <div class="list">
             <h4>Social</h4>
-            <a href="https://twitter.com/avalabsofficial" target="_blank">
+            <a href="https://twitter.com/avalancheavax" target="_blank">
                 <fa :icon="['fab','twitter']"></fa>Twitter
             </a>
-            <a href="https://discord.gg/Ja3CSs7" target="_blank">
+            <a href="https://chat.avax.network" target="_blank">
                 <fa :icon="['fab','discord']"></fa>Discord
             </a>
-            <a href="https://www.reddit.com/r/ava/" target="_blank">
+            <a href="https://reddit.com/r/avax" target="_blank">
                 <fa :icon="['fab','reddit']"></fa>Reddit
             </a>
         </div>
