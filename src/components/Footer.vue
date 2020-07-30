@@ -14,7 +14,7 @@
             <router-link to="/subnets">Subnets</router-link>
             <router-link to="/validators">Validators</router-link>
             <router-link to="/assets">Assets</router-link>
-            <a href="http://cchain.avaexplorer.com/">C-Chain</a>
+            <a href="https://cchain.explorer.avax.network/">C-Chain</a>
             <router-link to="/resources">Resources</router-link>
         </div>
         <div class="list">
