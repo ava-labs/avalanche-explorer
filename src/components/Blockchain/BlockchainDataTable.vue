@@ -1,6 +1,6 @@
 <template>
     <v-card id="blockchains-table">
-        <v-card-title>
+        <v-card-title v-if="title">
             {{title}}
             <v-spacer></v-spacer>
         </v-card-title>
@@ -8,7 +8,10 @@
             <template #item.name="{item}">
                 <div>
                     <img class="table_image" src="@/assets/blockchain-purple.png" alt />
-                    {{ item.name }}
+                    <template v-if="links">
+                        <router-link :to="`/blockchain/${item.id}`" class="id">{{ item.name }}</router-link>
+                    </template>
+                    <template v-else>{{ item.name }}</template>
                 </div>
             </template>
             <template #item.vmID="{item}">
@@ -37,17 +40,13 @@ import "reflect-metadata";
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { VMMap, VMDocumentationMap } from "@/helper";
 import Subnet from "@/js/Subnet";
-import { AVALANCHE_SUBNET_ID } from "@/store/modules/platform/platform";
-import Blockchain from "@/js/Blockchain";
+import Blockchain from "@/js/Blockchain/BlockchainDataTable.vue";
 
 @Component({})
 export default class BlockchainDataTable extends Vue {
-    defaultSubnetID: string = AVALANCHE_SUBNET_ID;
-
-    @Prop() subnetID!: string;
-    @Prop() subnet!: Subnet;
     @Prop() blockchains!: Blockchain[];
-    @Prop() title!: string;
+    @Prop() links?: boolean;
+    @Prop() title?: string;
 
     get headers(): any[] {
         return [
@@ -79,7 +78,6 @@ export default class BlockchainDataTable extends Vue {
 }
 
 .id_overflow {
-    /* max-width: 100px; */
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

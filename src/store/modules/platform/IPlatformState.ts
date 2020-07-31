@@ -5,8 +5,6 @@ export interface IPlatformState {
     subnets: {
         [key: string]: Subnet
     },
-    blockchains: {
-        [key: string]: Blockchain
-    },
+    blockchains: Blockchain[],
     subnetsLoaded: boolean
 }

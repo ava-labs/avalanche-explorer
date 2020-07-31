@@ -38,7 +38,7 @@
                             <p class="null">There are no blockchains for this subnet.</p>
                         </template>
                         <template v-else>
-                            <BlockchainDataTable :blockchains="subnet.blockchains" :subnetID="subnetID" :subnet="subnet" :title="'Blockchains'"></BlockchainDataTable>
+                            <BlockchainDataTable :blockchains="subnet.blockchains" :title="'Blockchains'"></BlockchainDataTable>
                         </template>
                     </v-tab-item>
                     <v-tab-item class="tab_content">
@@ -88,7 +88,7 @@ import { IValidator } from '@/store/modules/platform/IValidator';
 import ContentMetadata from "@/components/Subnets/ContentMetadata.vue";
 import { scaleLinear } from "d3-scale";
 import ValidatorDataTable from "@/components/Validators/ValidatorDataTable.vue";
-import BlockchainDataTable from "@/components/Subnets/BlockchainDataTable.vue";
+import BlockchainDataTable from "@/components/Blockchain/BlockchainDataTable.vue";
 
 @Component({
     components: {

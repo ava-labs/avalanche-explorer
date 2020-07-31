@@ -18,7 +18,7 @@ const platform_module: Module<IPlatformState, IRootState> = {
     namespaced: true,
     state: {
         subnets: {},
-        blockchains: {},
+        blockchains: [],
         subnetsLoaded: false
     },
     mutations: {
@@ -46,7 +46,7 @@ const platform_module: Module<IPlatformState, IRootState> = {
             });
 
             // Get blockchains and init classes
-            let blockchains = (await platform.getBlockchains() as IBlockchainData[])
+            state.blockchains = (await platform.getBlockchains() as IBlockchainData[])
                 .map((b: IBlockchainData) => new Blockchain(b));
 
             // Add P-Chain manually
@@ -56,10 +56,10 @@ const platform_module: Module<IPlatformState, IRootState> = {
                 subnetID: AVALANCHE_SUBNET_ID,
                 vmID: ""
             });
-            blockchains.unshift(pChain);
+            state.blockchains.unshift(pChain);
 
             // Map blockchains to their subnet
-            blockchains.forEach(b => {
+           state.blockchains.forEach(b => {
                 let subnetID = b.subnetID;
                 state.subnets[subnetID].addBlockchain(b);
             });
