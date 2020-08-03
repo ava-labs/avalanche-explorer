@@ -1,7 +1,7 @@
 <template>
     <section class="card meta" v-if="this.blockchain">
         <header class="header">
-            <h2>Blockchain Details</h2>
+            <h2>{{blockchain.name}} Details</h2>
         </header>
         <article class="meta_row">
             <p class="label">Name</p>
@@ -28,7 +28,7 @@
             </p>
         </article>
         <article class="meta_row">
-            <p class="label">Vm ID</p>
+            <p class="label">VM ID</p>
             <p class="blockchain">
                 <span>{{blockchain.vmID}}</span>
             </p>
@@ -36,7 +36,7 @@
         <article class="meta_row">
             <p class="label">Indexed</p>
             <p class="blockchain">
-                <span>{{blockchain.indexed}}</span>
+                <Indexed :indexed="blockchain.indexed" v-bind:notIndexedLabel="true"></Indexed>
             </p>
         </article>
     </section>
@@ -45,10 +45,12 @@
 <script lang="ts">
 import "reflect-metadata";
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
-import Blockchain from '../../js/Blockchain';
+import Blockchain from "@/js/Blockchain";
+import Indexed from "@/components/Blockchain/Indexed.vue";
 
 @Component({
     components: {
+        Indexed
     }
 })
 export default class TransactionDetailCard extends Vue {

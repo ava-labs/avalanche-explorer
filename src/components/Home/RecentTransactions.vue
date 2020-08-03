@@ -53,52 +53,49 @@
     </div>
 </template>
 
-<script>
-import Vue from "vue";
-import Tooltip from "@/components/rows/Tooltip";
-import TxRow from "@/components/rows/TxRow/TxRow";
+<script lang="ts">
+import { Vue, Component, Watch } from "vue-property-decorator";
+import Tooltip from "@/components/rows/Tooltip.vue";
+import TxRow from "@/components/rows/TxRow/TxRow.vue";
 import api from "@/axios";
+import { ITransaction } from '@/js/ITransaction';
 
-export default Vue.extend({
+@Component({
     components: {
         Tooltip,
         TxRow
     },
-    data() {
-        return {
-            loading: false,
-            transactions: []
-        };
-    },
+})
+export default class RecentTransactions extends Vue {
+    loading: boolean = false;
+    transactions: ITransaction[] = [];
+    
     created() {
         this.updateTx();
-    },
-    methods: {
-        updateTx() {
-            const parent = this;
-            let txNum = 8;
-            this.loading = true;
+    }
 
-            if (this.assetsLoaded) {
-                api.get(`/x/transactions?sort=timestamp-desc&limit=${txNum}`).then(res => {
-                    const list = res.data.transactions;
-                    parent.transactions = list;
-                    parent.loading = false;
-                });
-            }
-        }
-    },
-    computed: {
-        assetsLoaded() {
-            return this.$store.state.assetsLoaded;
-        }
-    },
-    watch: {
-        assetsLoaded() {
-            this.updateTx();
+    @Watch("assetsLoaded")
+    onAssetsLoadedChanged(val: string, oldVal: string) {
+        this.updateTx();
+    }
+   
+    updateTx() {
+        let txNum = 8;
+        this.loading = true;
+
+        if (this.assetsLoaded) {
+            api.get(`/x/transactions?sort=timestamp-desc&limit=${txNum}`).then(res => {
+                const list = res.data.transactions;
+                this.transactions = list;
+                this.loading = false;
+            });
         }
     }
-});
+
+    get assetsLoaded() {
+        return this.$store.state.assetsLoaded;
+    }
+}
 </script>
 
 <style scoped lang="scss">

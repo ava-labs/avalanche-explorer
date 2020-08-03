@@ -6,6 +6,9 @@
         </template>
         <template v-else>
             <BlockchainDetailCard :blockchain="blockchain"/>
+            <template v-if="blockchain.indexed">                
+                <recent-transactions class="card recent_tx"></recent-transactions>
+            </template>
         </template>
     </div>
 </template>
@@ -15,13 +18,15 @@ import "reflect-metadata";
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import Loader from "../components/misc/Loader.vue";
 import api from "../axios";
-import Blockchain from '@/js/Blockchain';
-import BlockchainDetailCard from '@/components/Blockchain/BlockchainDetailCard.vue';
+import Blockchain from "@/js/Blockchain";
+import BlockchainDetailCard from "@/components/Blockchain/BlockchainDetailCard.vue";
+import RecentTransactions from "@/components/Home/RecentTransactions.vue";
 
 @Component({
     components: {
         Loader,
-        BlockchainDetailCard
+        BlockchainDetailCard,
+        RecentTransactions
     }
 })
 export default class BlockchainPage extends Vue {
@@ -45,11 +50,6 @@ export default class BlockchainPage extends Vue {
     onSubnetsLoadedChanged() {
         this.getData();
     }
-
-    @Watch("assetsLoaded")
-    onAssetsLoadedChanged(val: string, oldVal: string) {
-        // this.getTransactions();
-    }
     
     created() {
         this.getData();
@@ -72,13 +72,15 @@ export default class BlockchainPage extends Vue {
         let blockchains = this.$store.state.Platform.blockchains;
         this.blockchain = blockchains.find((b: Blockchain) => b.id === this.blockchainId);
     }
-
-    getTransactions(): void {
-        // get recent transactions for this blockchain
-    }
 }
 </script>
 
 <style scoped lang="scss">
 @use "../main";
+
+.recent_tx {
+    width: 100%;
+    margin-top: 30px;
+    box-sizing: border-box;
+}
 </style>
