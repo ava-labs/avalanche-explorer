@@ -4,7 +4,7 @@ export interface IAddress {
     address: string,
     publicKey: string,
     assets: IBalance[],
-    avaxBalance: number,
+    avaxBalance: Big,
     totalTransactionCount: number,
     totalUtxoCount: number
 }

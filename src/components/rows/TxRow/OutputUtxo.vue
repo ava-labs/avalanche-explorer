@@ -20,7 +20,7 @@
 <script lang="ts">
 import "reflect-metadata";
 import { Vue, Component, Prop } from "vue-property-decorator";
-import { addressMap } from "@/helper";
+import { addressMap, trimmedLocaleString } from "@/helper";
 import { ITransactionOutput } from '@/js/ITransaction';
 import { Asset } from '@/js/Asset';
 import Big from "big.js";
@@ -60,32 +60,8 @@ export default class OutputUtxo extends Vue {
     }
     
     get amount(): string {
-        // produce a localeString with trimmed trailing 0s
-        // e.g. 44999999.999120000 to 44,999,999.99912
-        
-        // convert data to Big and denominate
-        let amt = Big(this.output.amount);
-        let denominatedAmt = amt.div(Math.pow(10, this.asset.denomination)).toFixed(this.asset.denomination);
-        
-        // determine cutoff point for trailing 0s 
-        // handle scientific notation and decimal formats
-        let scientific: boolean; 
-        let decimalPlaces: number;
-        let number = parseFloat(denominatedAmt);
-        [scientific, decimalPlaces] = this.countDecimals(number);
-                
-        return scientific ? 
-            amt.div(Math.pow(10, this.asset.denomination)).toFixed(this.asset.denomination) :
-            amt.div(Math.pow(10, this.asset.denomination)).toLocaleString(decimalPlaces);
-    }
-
-    countDecimals(value: number): [boolean, number] {
-        if (value <= 1e-7) {
-            return [true, parseInt(value.toString().split("-")[1])];
-        } else if (Math.floor(value) !== value) {
-            return [false, value.toString().split(".")[1].length || 0];
-        }
-        return [false, 0];
+        let amt = Big(this.output.amount); 
+        return trimmedLocaleString(amt, this.asset.denomination);
     }
 }
 </script>

@@ -13,6 +13,9 @@
                     <template v-else>{{ item.address }}</template>
                 </div>
             </template>
+            <template #item.avaxBalance="{item}">
+                {{ item.avaxBalance }}
+            </template>
         </v-data-table>
     </v-card>
 </template>
@@ -20,15 +23,17 @@
 <script lang="ts">
 import "reflect-metadata";
 import { Vue, Component, Prop } from "vue-property-decorator";
-import { VMMap, VMDocumentationMap } from "@/helper";
-import { IAddress } from '@/js/IAddress';
+import { VMMap, VMDocumentationMap, trimmedLocaleString } from "@/helper";
+import { IAddress, IBalance } from '@/js/IAddress';
+import Address from '@/js/Address';
+import { Asset } from '@/js/Asset';
 
 @Component({
     components: {
     }
 })
 export default class AddressDataTable extends Vue {
-    @Prop() addresses!: IAddress[];
+    @Prop() addresses!: Address[];
     @Prop() links?: boolean;
     @Prop() title?: string;
 
@@ -36,9 +41,8 @@ export default class AddressDataTable extends Vue {
         return [
             { text: "Address", value: "address" },
             { text: "AVAX Balance", value: "avaxBalance" },
-            // { text: "Database Index", value: "indexed", width: 125 },
         ];
-    }
+    }    
 }
 </script>
 

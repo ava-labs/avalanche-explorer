@@ -5,7 +5,7 @@
                 <h2>Addresses</h2>
                 <template v-show="!loading && assetsLoaded">
                     <div class="bar">
-                        <p class="count">{{totalAddresses.toLocaleString()}} addresses found</p>
+                        <p class="count">{{ totalAddresses.toLocaleString() }} {{totalAddresses | pluralize }} found</p>
                     </div>    
                 </template>
             </div>
@@ -20,31 +20,38 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch } from "vue-property-decorator";
+import { Vue, Component } from "vue-property-decorator";
 import api from "@/axios";
-import { IAddressState } from "@/store/modules/address/IAddressState";
-import { IAddress, IAddressData, IBalance } from '@/js/IAddress';
-import { AVALANCHE_SUBNET_ID } from '../store/modules/platform/platform';
-import AddressDataTable from '@/components/Address/AddressDataTable.vue';
-import { stringToBig } from '../helper';
-import Big from "big.js";
 import Address from "@/js/Address";
+import { IAddress, IAddressData, IBalance } from '@/js/IAddress';
+import Big from "big.js";
+import AddressDataTable from '@/components/Address/AddressDataTable.vue';
 
 @Component({
     components: {
         AddressDataTable
     },
+    filters: {
+        pluralize(val: number): string {
+            return val === 0
+                ? `addresses`
+                : val > 1
+                ? `addresses`
+                : `address`;
+        }
+    }
 })
 
 export default class Addresses extends Vue {
     loading: boolean = true;
     addressesList: IAddress[] = [];
+    totalAddresses: number = 0;
 
     async created() {
         this.loading = false;
         api.get("/x/addresses").then(res => {
+            this.totalAddresses = res.data.count            
             let addresses: IAddressData = res.data.addresses;
-            console.log("addresses", addresses);
 
             // TODO: unique addresses or sort in API
             // let addressesMap: {[key:string]: IAddressData} = {};
@@ -56,7 +63,6 @@ export default class Addresses extends Vue {
             //         addressesMap[addressID] = addresses[i];
             //     }
             // }
-            // console.log("addressesMap", addressesMap);
             // let sorted = Object.values(addressesMap).map((addressData: IAddressData) => {
             
             let sorted = Object.values(addresses).map((addressData: IAddressData) => {
@@ -64,7 +70,7 @@ export default class Addresses extends Vue {
                     address: addressData.address,
                     publicKey: addressData.publicKey,
                     assets: [],
-                    avaxBalance: 0,
+                    avaxBalance: Big(0),
                     totalTransactionCount: 0,
                     totalUtxoCount: 0
                 }
@@ -75,26 +81,18 @@ export default class Addresses extends Vue {
                 
                 return address;
             });
-            console.log("sorted", sorted);
-            sorted.sort((a: IAddress, b: IAddress) => (b.avaxBalance - a.avaxBalance));
+            sorted.sort((a: IAddress, b: IAddress) => {
+                let diff = a.avaxBalance.minus(b.avaxBalance);
+                if (diff.gt(0)) return -1;
+                else if (diff.lt(0)) return 1;
+                else return 0;
+            });
             this.addressesList = sorted;
         });
     }
 
     get assetsMap() {
         return this.$store.state.assets;
-    }
-
-    get assetsLoaded() {
-        return true;
-    }
-
-    get addresses() {
-        return {};
-    }
-
-    get totalAddresses() {
-        return this.addressesList.length;
     }
 }
 </script>
@@ -109,10 +107,6 @@ export default class Addresses extends Vue {
 .header {
     padding-bottom: 20px;
     margin-bottom: 10px;
-
-    .count {
-        color: #808080;
-    }
 }
 
 .bar {

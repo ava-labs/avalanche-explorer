@@ -11,27 +11,25 @@ export default class Address {
     address: string;
     publicKey: string;
     assets: IBalance[];
-    avaxBalance: number;
+    avaxBalance: Big;
     totalTransactionCount: number;
     totalUtxoCount: number
 
     constructor(data: IAddressData, assetsMap: IAssetsMap) {
         this.address = data.address;
         this.publicKey = data.publicKey;
-        this.assets = this.setBalances(data.assets, assetsMap);
-        this.avaxBalance = 0;
+        this.avaxBalance = Big(0);
         this.totalTransactionCount = 0;
         this.totalUtxoCount = 0;
-        
+
+        this.assets = this.setBalances(data.assets, assetsMap);
         this.setAVAXBalance();
     }
 
     private setBalances(balanceData: IBalanceData, assetsMap: any): IBalance[] {
- 
         let balances: IBalance[] = [];
         
         for (const assetID in balanceData) {
-            console.log("assetsMap ID:", assetsMap[assetID]);
             let balance: IBalance = {
                 id: "",
                 name: "",
@@ -61,6 +59,7 @@ export default class Address {
                 balance.proportionOfCurrentSupply = Math.round(((parseInt(balanceData[assetID].balance) / parseInt(assetsMap[assetID].currentSupply)) * 100));
                 balance.transactionCount = balanceData[assetID].transactionCount;
                 balance.utxoCount = balanceData[assetID].utxoCount;
+                console.log("tx COunt", balance.transactionCount);
                 // balances metadata
                 this.totalTransactionCount += balance.transactionCount;
                 this.totalUtxoCount += balance.utxoCount;
@@ -75,7 +74,7 @@ export default class Address {
     private setAVAXBalance(): void {
         let result = this.assets.find(asset => asset.id === "21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA");
         if (result) {
-            this.avaxBalance = +result.balance;
+            this.avaxBalance = result.balance;
         }
     }
 }
