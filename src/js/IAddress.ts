@@ -5,23 +5,30 @@ export interface IAddress {
     publicKey: string,
     assets: IBalance[],
     avaxBalance: number,
-  }
+    totalTransactionCount: number,
+    totalUtxoCount: number
+}
 
 export interface IBalance {
-    [key: string]: {
-        id: string,
-        transactionCount: number,
-        utxoCount: number,
-        balance: Big,
-        totalReceived: Big,
-        totalSent: Big
-      },
+    // asset metadata for convenience 
+    id: string,
+    name: string,
+    symbol: string,
+    denomination: number,
+    currentSupply?: Big,
+    // balance data
+    balance: Big,
+    proportionOfCurrentSupply?: number,
+    totalReceived: Big,
+    totalSent: Big
+    transactionCount: number,
+    utxoCount: number,
 }
 
 export interface IAddressData {
     address: string,
     publicKey: string,
-    assets: IBalanceData[]
+    assets: IBalanceData
 }
 
 export interface IBalanceData {
@@ -32,5 +39,5 @@ export interface IBalanceData {
         balance: string,
         totalReceived: string,
         totalSent: string
-      },
+    }
 }

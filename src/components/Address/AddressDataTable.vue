@@ -7,7 +7,6 @@
         <v-data-table :items="addresses" :headers="headers" multi-sort>
             <template #item.address="{item}">
                 <div>
-                    <img class="table_image" src="@/assets/blockchain-purple.png" alt />
                     <template v-if="links">
                         <router-link :to="`/address/${item.address}`" class="id">{{ item.address }}</router-link>
                     </template>

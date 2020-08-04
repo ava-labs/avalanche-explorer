@@ -3,13 +3,13 @@
         <div class="card">
             <div class="header">
                 <h2>Addresses</h2>
-                <template v-show="!loading && addressesLoaded">
+                <template v-show="!loading && assetsLoaded">
                     <div class="bar">
                         <p class="count">{{totalAddresses.toLocaleString()}} addresses found</p>
                     </div>    
                 </template>
             </div>
-            <template v-if="loading && !addressesLoaded">
+            <template v-if="loading && !assetsLoaded">
                 <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
             </template>
             <template v-else>
@@ -28,6 +28,7 @@ import { AVALANCHE_SUBNET_ID } from '../store/modules/platform/platform';
 import AddressDataTable from '@/components/Address/AddressDataTable.vue';
 import { stringToBig } from '../helper';
 import Big from "big.js";
+import Address from "@/js/Address";
 
 @Component({
     components: {
@@ -42,19 +43,11 @@ export default class Addresses extends Vue {
     async created() {
         this.loading = false;
         api.get("/x/addresses").then(res => {
-            let addresses: IAddressData[] = res.data.addresses;
+            let addresses: IAddressData = res.data.addresses;
             console.log("addresses", addresses);
-            let addressesMap: {[key:string]: IAddressData} = {};
-            addresses.forEach((addressData: IAddressData) => {
-                // if have AVAX
-                for (const asset in addressData.assets) {
-                    if (asset === "21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA") {
-                        console.log("I hold AVAX:", addressData.assets[asset].balance);
-                    }
-                }
-            })
 
-            // get create unique addresses
+            // TODO: unique addresses or sort in API
+            // let addressesMap: {[key:string]: IAddressData} = {};
             // for (let i = 0; i < addresses.length; i++) {
             //     let addressID = addresses[i].address;
             //     if (addressesMap[addressID]) {
@@ -64,49 +57,22 @@ export default class Addresses extends Vue {
             //     }
             // }
             // console.log("addressesMap", addressesMap);
-
             // let sorted = Object.values(addressesMap).map((addressData: IAddressData) => {
+            
             let sorted = Object.values(addresses).map((addressData: IAddressData) => {
-
                 let address: IAddress = {
                     address: addressData.address,
                     publicKey: addressData.publicKey,
                     assets: [],
-                    avaxBalance: 0
+                    avaxBalance: 0,
+                    totalTransactionCount: 0,
+                    totalUtxoCount: 0
+                }
+
+                if (this.assetsMap) {
+                    address = new Address(addressData, this.assetsMap);
                 }
                 
-                // let totalTransactionCount = 0;
-                // let totalUtxoCount = 0;
-                
-                for (const asset in addressData.assets) {
-                    if (asset === "21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA") {
-                        console.log("I hold AVAX:", addressData.assets[asset].balance);
-                        address.avaxBalance = parseInt(addressData.assets[asset].balance);
-                    }
-                }
-                // assets[asset].name = this.assetsMap[asset].name;
-                // assets[asset].denomination = this.assetsMap[asset].denomination;
-                // assets[asset].symbol = this.assetsMap[asset].symbol;
-                // assets[asset].currentSupply = this.assetsMap[asset].currentSupply;
-                // assets[asset].balance = stringToBig(assets[asset].balance, assets[asset].denomination);
-                // assets[asset].totalReceived = stringToBig(assets[asset].totalReceived, assets[asset].denomination);
-                // assets[asset].totalSent = stringToBig(assets[asset].totalSent, assets[asset].denomination);
-                // assets[asset].proportionOfCurrentSupply = ((parseInt(assets[asset].balance) / parseInt(assets[asset].currentSupply)) * 100).toFixed(2);
-                // totalTransactionCount += assets[asset].transactionCount;
-                // totalUtxoCount += assets[asset].utxoCount;
-                // }
-                
-                // count number of transactions across all
-                // count number of UTXOs across all
-                // count number of asset types
-                // let count = 0;
-                // for (const k in address.assets) {
-                //     // eslint-disable-next-line
-                //     if (address.assets.hasOwnProperty(k)) {
-                //         count++;
-                //     }
-                // }
-                // console.log("# of assets", count);
                 return address;
             });
             console.log("sorted", sorted);
@@ -115,7 +81,11 @@ export default class Addresses extends Vue {
         });
     }
 
-    get addressesLoaded() {
+    get assetsMap() {
+        return this.$store.state.assets;
+    }
+
+    get assetsLoaded() {
         return true;
     }
 
