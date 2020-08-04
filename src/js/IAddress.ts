@@ -3,7 +3,8 @@ import Big from 'big.js';
 export interface IAddress {
     address: string,
     publicKey: string,
-    assets: IBalance[]
+    assets: IBalance[],
+    avaxBalance: number,
   }
 
 export interface IBalance {

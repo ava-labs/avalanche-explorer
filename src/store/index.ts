@@ -5,15 +5,16 @@ import { Asset } from "@/js/Asset";
 import { IRootState } from "@/store/types";
 import AddressDict from "@/known_addresses";
 import Platform from "./modules/platform/platform";
+import Address from "./modules/address/address";
 import { avm } from '@/avalanche';
-import Big from "big.js";
 import { IAssetData } from '@/js/IAsset';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
     modules: {
-        Platform
+        Platform,
+        Address
     },
     state: {
         assets: {},

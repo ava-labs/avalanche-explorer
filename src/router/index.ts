@@ -120,6 +120,16 @@ const routes = [
     }
   },
   {
+    path: "/addresses",
+    name: "Addresses",
+    component: () => import(/* webpackChunkName: "addresses" */ "../views/Addresses.vue"),
+    meta: {
+      auth: false,
+      title: prefix + "Addresses",
+      metaTags: metaTags
+    }
+  },
+  {
     path: "/address/:address",
     name: "Address",
     component: () => import(/* webpackChunkName: "address" */ "../views/Address.vue"),
