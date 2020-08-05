@@ -1,5 +1,5 @@
 <template>
-    <div id="subnet-tabs">
+    <div id="subnet_tabs">
         <v-tabs vertical right>
             <v-tab v-for="(s, subnetID) in subnets" :key="s.id">{{subnetID | subnet}}</v-tab>
             <v-tab-item v-for="(s, subnetID) in subnets" :key="s.id" :vertical="true">
@@ -9,28 +9,34 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import "reflect-metadata";
+import { Vue, Component, Prop } from "vue-property-decorator";
 import { subnetMap } from "@/helper";
-import Vue from "vue";
-import Content from "@/components/Subnets/Content";
+import Content from "@/components/Subnets/Content.vue";
+import Subnet from '@/js/Subnet';
 
-export default {
+interface Subnets {
+    [key: string]: Subnet
+}
+
+@Component({
     components: {
         Content
     },
     filters: {
-        subnet(val) {
+        subnet(val: string): string {
             return subnetMap(val);
         }
-    },
-    props: {
-        subnets: Object
     }
-};
+})
+export default class SubnetTabs extends Vue {
+    @Prop() subnets!: Subnets;
+}
 </script>
 
 <style scoped lang="scss">
-@use"../../main";
+@use "../../main";
 
 .v-tabs--vertical {
     margin-right: 30px;
@@ -59,13 +65,12 @@ export default {
 .v-tab:before {
     background-color: main.$primary-color !important;
 }
-
 </style>
 
 <style lang="scss">
-@use"../../main";
+@use "../../main";
 
-#subnet-tabs {
+#subnet_tabs {
 
     .v-tabs--vertical > .v-tabs-bar {
         max-width: 200px !important;

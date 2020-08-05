@@ -74,6 +74,7 @@ export default class Subnets extends Vue {
         Object.keys(subnets)
             .sort()
             .forEach(key => (ordered[key] = subnets[key]));
+        console.log("ordered", ordered);
         return ordered;
     }
     
@@ -129,25 +130,10 @@ export default class Subnets extends Vue {
 </style>
 
 <style lang="scss">
-
-#subnets {
-    /* .v-input__slot {
+@use "../main";
+/* #subnets {
+    .v-input__slot {
         width: calc(100% - 24px) !important;
-    } */
-
-    .v-data-table__expand-icon {
-        border: none;
-        background-color: rgba(255,255,255,0);
-        border-radius: 0;
     }
-
-    .v-data-footer__icons-before > button,
-    .v-data-footer__icons-after > button {
-        border-width: inherit;
-    }    
-
-    .v-select.v-text-field input {
-        border-color: transparent;
-    }
-}
+} */
 </style>

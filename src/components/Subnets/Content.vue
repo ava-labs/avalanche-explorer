@@ -1,5 +1,5 @@
 <template>
-    <div class="content">
+    <div id="content">
         <v-card flat>
             <v-card-text>
                 <div class="subnet_header">
@@ -22,7 +22,7 @@
                             <p class="null">There are no validators for this subnet.</p>
                         </template>
                         <template v-else>
-                            <ValidatorDataTable :validators="subnet.validators" :subnetID="subnetID" :subnet="subnet" :title="'Validators'"></ValidatorDataTable>
+                            <ValidatorDataTable :validators="subnet.validators" :subnetID="subnetID" :subnet="subnet" :title="'Validators'" class="table_margin"></ValidatorDataTable>
                         </template>
                     </v-tab-item>
                     <v-tab-item class="tab_content">
@@ -30,7 +30,7 @@
                             <p class="null">There are no pending validators for this subnet.</p>
                         </template>
                         <template v-else>
-                            <ValidatorDataTable :validators="subnet.pendingValidators" :subnetID="subnetID" :subnet="subnet" :title="'Pending Validators'"></ValidatorDataTable>
+                            <ValidatorDataTable :validators="subnet.pendingValidators" :subnetID="subnetID" :subnet="subnet" :title="'Pending Validators'" class="table_margin"></ValidatorDataTable>
                         </template>
                     </v-tab-item>
                     <v-tab-item class="tab_content">
@@ -38,7 +38,7 @@
                             <p class="null">There are no blockchains for this subnet.</p>
                         </template>
                         <template v-else>
-                            <BlockchainDataTable :blockchains="subnet.blockchains" :title="'Blockchains'"></BlockchainDataTable>
+                            <BlockchainDataTable :blockchains="subnet.blockchains" :title="'Blockchains'" class="table_margin"></BlockchainDataTable>
                         </template>
                     </v-tab-item>
                     <v-tab-item class="tab_content">
@@ -46,28 +46,7 @@
                             <p class="null">There are no control keys for this subnet.</p>
                         </template>
                         <template v-else>
-                            <v-simple-table>
-                                <template v-slot:default>
-                                    <thead>
-                                        <tr>
-                                            <th class="text-left">Address of Control Key</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="ck in subnet.controlKeys" :key="ck">
-                                            <td>
-                                                <img
-                                                    class="table_image"
-                                                    src="@/assets/key-purple.png"
-                                                    alt
-                                                />
-                                                {{ ck }}
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </template>
-                            </v-simple-table>
-                            <p class="threshold">{{subnet.threshold | pluralizeThreshold}} needed to add a validator to the subnet.</p>
+                            <ControlKeyTable :subnet="subnet" :title="'Control Keys'" class="table_margin"></ControlKeyTable>
                         </template>
                     </v-tab-item>
                 </v-tabs>
@@ -89,23 +68,18 @@ import ContentMetadata from "@/components/Subnets/ContentMetadata.vue";
 import { scaleLinear } from "d3-scale";
 import ValidatorDataTable from "@/components/Validators/ValidatorDataTable.vue";
 import BlockchainDataTable from "@/components/Blockchain/BlockchainDataTable.vue";
+import ControlKeyTable from "@/components/Validators/ControlKeyTable.vue";
 
 @Component({
     components: {
         ContentMetadata,
         ValidatorDataTable,
-        BlockchainDataTable
+        BlockchainDataTable,
+        ControlKeyTable
     },
     filters: {
         subnet(val: string) {
             return subnetMap(val);
-        },
-        pluralizeThreshold(val: number) {
-            return val === 0
-                ? `${val} threshold signatures from addresses are`
-                : val > 1
-                ? `${val} threshold signatures from addresses are`
-                : `${val} threshold signature from address is`;
         },
         AVAX(val: number) {
             return toAVAX(val);
@@ -199,10 +173,6 @@ export default class Content extends Vue {
     font-weight: 400; /* 700 */
 }
 
-.threshold {
-    padding: 32px 16px;
-}
-
 .table_image {
     height: 20px;
     display: inline-block;
@@ -275,7 +245,6 @@ export default class Content extends Vue {
 
 th {
     .v-input--selection-controls {
-        /* margin-top: 0; */
         padding-top: 0;
     }
     .v-label {
@@ -283,6 +252,12 @@ th {
     }
     .v-messages {
         display: none;
+    }
+}
+
+#content {
+    .table_margin {
+        margin-left: 1px;
     }
 }
 </style>

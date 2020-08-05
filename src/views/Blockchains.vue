@@ -13,7 +13,7 @@
                 <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
             </template>
             <template v-else>
-                <BlockchainDataTable :blockchains="blockchains" :links="true"></BlockchainDataTable>
+                <BlockchainDataTable :blockchains="blockchains" :links="true" :subnets="true"></BlockchainDataTable>
             </template>
         </div>
     </div>
