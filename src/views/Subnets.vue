@@ -129,9 +129,13 @@ export default class Subnets extends Vue {
 </style>
 
 <style>
-.v-input__slot {
+/* .v-input__slot {
     width: calc(100% - 24px) !important;
-}
+} */
+.v-data-footer__icons-before > button,
+.v-data-footer__icons-after > button   {
+    border-width: inherit;
+}    
 
 .v-select.v-text-field input {
     border-color: transparent;
