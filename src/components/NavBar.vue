@@ -1,6 +1,6 @@
 <template>
     <v-app-bar
-        class="navbar"
+        div="navbar"
         app
         dark
         flat
@@ -215,7 +215,9 @@ export default Vue.extend({
 </style>
 
 <style lang="scss">
-.v-toolbar__content {
-    padding: 0 !important;
+#navbar {
+    .v-toolbar__content {
+        padding: 0 !important;
+    }
 }
 </style>

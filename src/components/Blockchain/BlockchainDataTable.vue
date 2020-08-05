@@ -89,7 +89,3 @@ export default class BlockchainDataTable extends Vue {
 @include main.device_xs {
 }
 </style>
-
-<style lang="scss">
-@use "../../main";
-</style>

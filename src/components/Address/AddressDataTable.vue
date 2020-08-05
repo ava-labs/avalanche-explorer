@@ -73,7 +73,3 @@ export default class AddressDataTable extends Vue {
 @include main.device_xs {
 }
 </style>
-
-<style lang="scss">
-@use "../../main";
-</style>

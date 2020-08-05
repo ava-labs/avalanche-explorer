@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="indexed">
         <p class="icon-container indexed" v-show="indexed">
             <fa icon="check-circle"></fa>
             <span>Indexed</span>
@@ -22,7 +22,7 @@ export default class Indexed extends Vue {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 @use "../../main";
 
 .icon-container {

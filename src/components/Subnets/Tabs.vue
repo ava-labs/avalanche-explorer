@@ -1,5 +1,5 @@
 <template>
-    <div class="tabs">
+    <div id="subnet-tabs">
         <v-tabs vertical right>
             <v-tab v-for="(s, subnetID) in subnets" :key="s.id">{{subnetID | subnet}}</v-tab>
             <v-tab-item v-for="(s, subnetID) in subnets" :key="s.id" :vertical="true">
@@ -64,22 +64,26 @@ export default {
 
 <style lang="scss">
 @use"../../main";
-.v-tabs--vertical > .v-tabs-bar {
-    max-width: 200px !important;
-    border-left: 1px solid #cecece;
-    /* padding-left: 30px; */
+
+#subnet-tabs {
+
+    .v-tabs--vertical > .v-tabs-bar {
+        max-width: 200px !important;
+        border-left: 1px solid #cecece;     
+    }
+
+    .v-tabs--vertical > .v-window {
+        overflow: scroll !important;
+    }
+
+    .v-card__text {
+        padding-left: 0 !important;
+    }
+
+    .v-application .primary--text {
+        color: main.$primary-color !important;
+        caret-color: main.$primary-color !important;
+    }
 }
 
-.v-tabs--vertical > .v-window {
-    overflow: scroll !important;
-}
-
-.v-card__text {
-    padding-left: 0 !important;
-}
-
-.v-application .primary--text {
-    color: main.$primary-color !important;
-    caret-color: main.$primary-color !important;
-}
 </style>

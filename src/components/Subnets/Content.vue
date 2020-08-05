@@ -263,6 +263,7 @@ export default class Content extends Vue {
 
 <style lang="scss">
 @use "../../main";
+
 .v-application .primary--text {
     color: main.$primary-color !important;
     caret-color: main.$primary-color !important;
@@ -273,9 +274,6 @@ export default class Content extends Vue {
 }
 
 th {
-    .v-input__slot {
-        /* margin-bottom: 0; */
-    }
     .v-input--selection-controls {
         /* margin-top: 0; */
         padding-top: 0;
@@ -283,7 +281,6 @@ th {
     .v-label {
         font-size: 0.75rem;
     }
-
     .v-messages {
         display: none;
     }
