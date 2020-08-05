@@ -269,7 +269,7 @@ export default {
                 responsive: true,
                 title: {
                     display: false,
-                    text: "Chart.js Line Chart"
+                    text: "Avalanche Transaction History"
                 },
                 tooltips: {
                     mode: "index",

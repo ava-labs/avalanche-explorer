@@ -2,22 +2,22 @@
     <div class="detail">
         <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
         <template v-if="loading">
-            <Loader :contentId="address" :message="'Fetching Address Details'"></Loader>
+            <Loader :contentId="addressID" :message="'Fetching Address Details'"></Loader>
         </template>
         <section class="card meta" v-if="this.metaData">
             <header class="header">
-                <h2>X-{{address}}</h2>
+                <h2>X-{{addressID}}</h2>
             </header>
             <article class="meta_row">
                 <p class="label">Address</p>
                 <p class="addr">
-                    <span>X-{{address}}</span>
+                    <span>X-{{addressID}}</span>
                     <span class="alias" v-if="alias">{{alias}}</span>
                 </p>
             </article>
             <article class="meta_row">
                 <p class="label">AVAX Balance</p>
-                <p>{{avaxBalance}} AVAX</p>
+                <p>{{avaxBalance.toLocaleString(this.assetsMap["21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA"].denomination)}} AVAX</p>
             </article>
             <article class="meta_row">
                 <p class="label">Transactions</p>
@@ -100,8 +100,9 @@ import TxRow from "../components/rows/TxRow/TxRow.vue";
 import PaginationControls from "../components/misc/PaginationControls";
 import api from "../axios";
 import Big from "big.js";
-import { stringToBig, blockchainMap } from "@/helper";
+import { stringToBig, blockchainMap, trimmedLocaleString } from "@/helper";
 import AddressDict from "@/known_addresses";
+import Address from "@/js/Address";
 
 export default {
     components: {
@@ -168,16 +169,14 @@ export default {
         assetsMap() {
             return this.$store.state.assets;
         },
-        address() {
+        addressID() {
             return this.$route.params.address;
         },
         txCount() {
             return this.metaData.transactionCount;
         },
         avaxBalance() {
-            return this.metaData.assets[
-                "21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA"
-            ].balance;
+            return this.metaData.avaxBalance;
         },
         totalTransactionCount() {
             return !this.metaData ? 0 : this.metaData.totalTransactionCount;
@@ -188,56 +187,32 @@ export default {
     },
     methods: {
         updateData() {
-            let parent = this;
             this.loading = true;
             this.txloading = true;
 
             if (this.assetsLoaded) {
-                // Get txs by address
-                let url = `/x/transactions?address=${this.address}&sort=${this.sort}&offset=${this.offset}&limit=${this.limit}`;
-
-                api.get(url).then(res => {
-                    parent.txloading = false;
-                    parent.transactions = res.data.transactions;
-                });
-
-                // Get address details
-                url = `/x/addresses/${this.address}`;
-                api.get(url).then(res => {
-                    parent.loading = false;
-                    parent.metaData = res.data;
-                    // Enrich assets data
-                    let assets = parent.metaData.assets;
-                    let totalTransactionCount = 0;
-                    let totalUtxoCount = 0;
-                    for (const asset in assets) {
-                        assets[asset].name = this.assetsMap[asset].name;
-                        assets[asset].denomination = this.assetsMap[asset].denomination;
-                        assets[asset].symbol = this.assetsMap[asset].symbol;
-                        assets[asset].currentSupply = this.assetsMap[asset].currentSupply;
-                        assets[asset].balance = stringToBig(assets[asset].balance, assets[asset].denomination);
-                        assets[asset].totalReceived = stringToBig(assets[asset].totalReceived, assets[asset].denomination);
-                        assets[asset].totalSent = stringToBig(assets[asset].totalSent, assets[asset].denomination);
-                        assets[asset].proportionOfCurrentSupply = ((parseInt(assets[asset].balance) / parseInt(assets[asset].currentSupply)) * 100).toFixed(2);
-                        totalTransactionCount += assets[asset].transactionCount;
-                        totalUtxoCount += assets[asset].utxoCount;
-                    }
-                    parent.metaData.totalTransactionCount = totalTransactionCount;
-                    parent.metaData.totalUtxoCount = totalUtxoCount;
-                });
+                this.getTx();
+                this.getAddressDetails();
             }
         },
 
         getTx() {
-            let parent = this;
-            parent.txloading = true;
+            this.txloading = true;
 
             // Get txs by address
-            let url = `/x/transactions?address=${this.address}&sort=${this.sort}&offset=${this.offset}&limit=${this.limit}`;
+            let url = `/x/transactions?address=${this.addressID}&sort=${this.sort}&offset=${this.offset}&limit=${this.limit}`;
 
             api.get(url).then(res => {
-                parent.txloading = false;
-                parent.transactions = res.data.transactions;
+                this.txloading = false;
+                this.transactions = res.data.transactions;
+            });
+        },
+
+        getAddressDetails() {
+            let url = `/x/addresses/${this.addressID}`;
+            api.get(url).then(res => {
+                this.loading = false;
+                this.metaData = new Address(res.data, this.assetsMap);
             });
         },
 

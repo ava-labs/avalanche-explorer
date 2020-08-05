@@ -40,16 +40,6 @@ const routes = [
     }
   },
   {
-    path: "/assets",
-    name: "Assets",
-    component: () => import(/* webpackChunkName: "assets" */ "../views/Assets.vue"),
-    meta: {
-      auth: false,
-      title: prefix + "Assets",
-      metaTags: metaTags
-    }
-  },
-  {
     path: "/validators",
     name: "Validators",
     component: () => import(/* webpackChunkName: "validators" */ "../views/Validators.vue"),
@@ -90,12 +80,52 @@ const routes = [
     }
   },
   {
+    path: "/blockchains",
+    name: "Blockchains",
+    component: () => import(/* webpackChunkName: "blockchains" */ "../views/Blockchains.vue"),
+    meta: {
+      auth: false,
+      title: prefix + "Blockchains",
+      metaTags: metaTags
+    }
+  },
+  {
+    path: "/blockchain/:id",
+    name: "Blockchain",
+    component: () => import(/* webpackChunkName: "blockchains" */ "../views/Blockchain.vue"),
+    meta: {
+      auth: false,
+      title: prefix + "Blockchain",
+      metaTags: metaTags
+    }
+  },
+  {
+    path: "/assets",
+    name: "Assets",
+    component: () => import(/* webpackChunkName: "assets" */ "../views/Assets.vue"),
+    meta: {
+      auth: false,
+      title: prefix + "Assets",
+      metaTags: metaTags
+    }
+  },
+  {
     path: "/asset/:id",
     name: "Asset",
     component: () => import(/* webpackChunkName: "asset" */ "../views/Asset.vue"),
     meta: {
       auth: false,
       title: prefix + "Asset",
+      metaTags: metaTags
+    }
+  },
+  {
+    path: "/addresses",
+    name: "Addresses",
+    component: () => import(/* webpackChunkName: "addresses" */ "../views/Addresses.vue"),
+    meta: {
+      auth: false,
+      title: prefix + "Addresses",
       metaTags: metaTags
     }
   },

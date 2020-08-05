@@ -1,6 +1,6 @@
 <template>
     <v-card id="blockchains-table">
-        <v-card-title>
+        <v-card-title v-if="title">
             {{title}}
             <v-spacer></v-spacer>
         </v-card-title>
@@ -8,25 +8,19 @@
             <template #item.name="{item}">
                 <div>
                     <img class="table_image" src="@/assets/blockchain-purple.png" alt />
-                    {{ item.name }}
+                    <template v-if="links">
+                        <router-link :to="`/blockchain/${item.id}`" class="id">{{ item.name }}</router-link>
+                    </template>
+                    <template v-else>{{ item.name }}</template>
                 </div>
             </template>
             <template #item.vmID="{item}">
                 <div>
                     <a :href="vmDocumentation(item.vmID)">{{ vm(item.vmID) }}</a>
-                    <div class="id_overflow">{{ item.vmID }}</div>
                 </div>
             </template>
             <template #item.indexed="{item}">
-                <div class="id_overflow">
-                    <p class="icon" v-show="item.indexed" style="color: #56c18d">
-                        <fa icon="check-circle"></fa> 
-                        <span>Indexed</span>
-                    </p>
-                    <p class="icon" v-show="!item.indexed">
-                        <fa icon="check" class="not-indexed"></fa>
-                    </p>
-                </div>
+                <Indexed :indexed="item.indexed" v-bind:notIndexedLabel="false"></Indexed>
             </template>
         </v-data-table>
     </v-card>
@@ -37,17 +31,18 @@ import "reflect-metadata";
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { VMMap, VMDocumentationMap } from "@/helper";
 import Subnet from "@/js/Subnet";
-import { AVALANCHE_SUBNET_ID } from "@/store/modules/platform/platform";
 import Blockchain from "@/js/Blockchain";
+import Indexed from "@/components/Blockchain/Indexed.vue";
 
-@Component({})
+@Component({
+    components: {
+        Indexed
+    }
+})
 export default class BlockchainDataTable extends Vue {
-    defaultSubnetID: string = AVALANCHE_SUBNET_ID;
-
-    @Prop() subnetID!: string;
-    @Prop() subnet!: Subnet;
     @Prop() blockchains!: Blockchain[];
-    @Prop() title!: string;
+    @Prop() links?: boolean;
+    @Prop() title?: string;
 
     get headers(): any[] {
         return [
@@ -79,7 +74,6 @@ export default class BlockchainDataTable extends Vue {
 }
 
 .id_overflow {
-    /* max-width: 100px; */
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -89,32 +83,9 @@ export default class BlockchainDataTable extends Vue {
     line-height: 1em;
 }
 
-.icon {
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-
-    span {
-        font-size: 0.875rem;
-        margin-left: 6px;
-        font-weight: 700;
-    }
-}
-
-.not-indexed {
-    opacity: 0.4;
-    font-size: 0.8rem;
-    margin-left: 4px;
-}
-
 @include main.device_s {
 }
 
 @include main.device_xs {
 }
-</style>
-
-<style lang="scss">
-@use "../../main";
 </style>

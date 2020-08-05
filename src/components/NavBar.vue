@@ -1,6 +1,6 @@
 <template>
     <v-app-bar
-        class="navbar"
+        div="navbar"
         app
         dark
         flat
@@ -22,7 +22,9 @@
                     <router-link to="/subnets">Subnets</router-link>
                     <router-link to="/validators">Validators</router-link>
                     <router-link to="/assets">Assets</router-link>
-                    <a href="http://cchain.avaexplorer.com/">C-Chain</a>
+                    <!-- <router-link to="/addresses">Addresses</router-link> -->
+                    <router-link to="/blockchains">Blockchains</router-link>
+                    <a href="https://cchain.explorer.avax.network/">C-Chain</a>
                     <router-link to="/resources">Resources</router-link>
                 </div>
             </div>
@@ -213,7 +215,9 @@ export default Vue.extend({
 </style>
 
 <style lang="scss">
-.v-toolbar__content {
-    padding: 0 !important;
+#navbar {
+    .v-toolbar__content {
+        padding: 0 !important;
+    }
 }
 </style>

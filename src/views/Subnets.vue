@@ -1,5 +1,5 @@
 <template>
-    <div class="subnets">
+    <div id="subnets">
         <template v-if="loading">
             <Loader :message="'Fetching Subnets'"></Loader>
         </template>
@@ -128,12 +128,26 @@ export default class Subnets extends Vue {
 }
 </style>
 
-<style>
-.v-input__slot {
-    width: calc(100% - 24px) !important;
-}
+<style lang="scss">
 
-.v-select.v-text-field input {
-    border-color: transparent;
+#subnets {
+    /* .v-input__slot {
+        width: calc(100% - 24px) !important;
+    } */
+
+    .v-data-table__expand-icon {
+        border: none;
+        background-color: rgba(255,255,255,0);
+        border-radius: 0;
+    }
+
+    .v-data-footer__icons-before > button,
+    .v-data-footer__icons-after > button {
+        border-width: inherit;
+    }    
+
+    .v-select.v-text-field input {
+        border-color: transparent;
+    }
 }
 </style>

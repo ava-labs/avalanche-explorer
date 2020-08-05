@@ -30,7 +30,9 @@
                     <v-list-item to="/subnets">Subnets</v-list-item>
                     <v-list-item to="/validators">Validators</v-list-item>
                     <v-list-item to="/assets">Assets</v-list-item>
-                    <v-list-item href="http://cchain.avaexplorer.com/">C-Chain</v-list-item>
+                    <!-- <v-list-item to="/addresses">Addresses</v-list-item> -->
+                    <v-list-item to="/blockchains">Blockchains</v-list-item>
+                    <v-list-item href="https://cchain.explorer.avax.network/">C-Chain</v-list-item>
                     <v-list-item to="/resources">Resources</v-list-item>
                 </template>
             </v-list>

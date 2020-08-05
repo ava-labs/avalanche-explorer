@@ -1,0 +1,54 @@
+<template>
+    <div class="indexed">
+        <p class="icon-container indexed" v-show="indexed">
+            <fa icon="check-circle"></fa>
+            <span>Indexed</span>
+        </p>
+        <p class="icon-container not-indexed" v-show="!indexed">
+            <fa icon="exclamation" class="not-indexed-icon"></fa>
+            <span v-show="notIndexedLabel" class="not-indexed">Not Indexed</span>
+        </p>
+    </div>
+</template>
+
+<script lang="ts">
+import "reflect-metadata";
+import { Vue, Component, Prop } from "vue-property-decorator";
+
+@Component({})
+export default class Indexed extends Vue {
+    @Prop() indexed!: boolean;
+    @Prop() notIndexedLabel?: boolean;
+}
+</script>
+
+<style scoped lang="scss">
+@use "../../main";
+
+.icon-container {
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    span {
+        margin-left: 6px;
+        font-size: .8rem;
+        font-weight: 500;
+    }
+}
+
+.indexed {
+    color: main.$green;
+}
+
+.not-indexed {
+    color: main.$gray;
+    opacity: 0.6;
+
+    .not-indexed-icon {
+        margin-left: 7px;
+        font-size: 12px;
+    }
+}
+</style>

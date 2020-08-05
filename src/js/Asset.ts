@@ -20,6 +20,7 @@ class Asset {
         this.id = assetData.id;
         this.alias = assetData.alias;
         this.chainID = assetData.chainID;
+        // TODO: supply is genesis TX only
         this.currentSupply = Big(assetData.currentSupply).div(Math.pow(10, assetData.denomination));
         this.denomination = assetData.denomination;
         this.name = assetData.name;

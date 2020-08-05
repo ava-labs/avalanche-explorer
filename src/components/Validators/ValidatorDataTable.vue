@@ -272,6 +272,10 @@ export default class ValidatorDataTable extends Vue {
 <style scoped lang="scss">
 @use "../../main";
 
+#validator-data-table {
+    margin-left: 1px;
+}
+
 .v-card__text {
     padding-top: 0;
     box-sizing: border-box;
@@ -407,25 +411,27 @@ export default class ValidatorDataTable extends Vue {
 
 <style lang="scss">
 @use "../../main";
-.v-application .primary--text {
-    color: main.$primary-color !important;
-    caret-color: main.$primary-color !important;
-}
-
-.theme--light.v-tabs > .v-tabs-bar--show-arrows {
-    background-color: main.$white !important;
-}
-
-.theme--light.v-tabs-items {
-    margin-left: 1px;
-}
-
-.v-input--selection-controls .v-input__slot > .v-label,
-.v-input--selection-controls .v-radio > .v-label {
-    width: 113px;
-}
 
 #validator-data-table {
+
+    .v-application .primary--text {
+        color: main.$primary-color !important;
+        caret-color: main.$primary-color !important;
+    }
+
+    .theme--light.v-tabs > .v-tabs-bar--show-arrows {
+        background-color: main.$white !important;
+    }
+
+    .theme--light.v-tabs-items {
+        margin-left: 1px;
+    }
+
+    .v-input--selection-controls .v-input__slot > .v-label,
+    .v-input--selection-controls .v-radio > .v-label {
+        width: 113px;
+    }
+
     .v-data-table td,
     .v-data-table th {
         padding: 0 4px;
@@ -438,6 +444,20 @@ export default class ValidatorDataTable extends Vue {
             padding-right: 16px;
         }
     }
+
+    th {
+        .v-input--selection-controls {
+            padding-top: 0;
+        }
+
+        .v-label {
+            font-size: 0.75rem;
+        }
+
+        .v-messages {
+            display: none;
+        }
+    }
 }
 
 @include main.device_xs {
@@ -446,20 +466,6 @@ export default class ValidatorDataTable extends Vue {
         .v-data-table th {
             padding: 0 16px;
         }
-    }
-}
-
-th {
-    .v-input--selection-controls {
-        padding-top: 0;
-    }
-
-    .v-label {
-        font-size: 0.75rem;
-    }
-
-    .v-messages {
-        display: none;
     }
 }
 </style>
