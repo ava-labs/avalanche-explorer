@@ -12,12 +12,12 @@
                     :totalPendingValidators="subnet.pendingValidators.length"
                     :totalControlKeys="subnet.controlKeys.length"
                 ></ContentMetadata>
-                <v-tabs show-arrows>
-                    <v-tab>Validators</v-tab>
-                    <v-tab>Pending Validators</v-tab>
-                    <v-tab>Blockchains</v-tab>
-                    <v-tab>Control Keys</v-tab>
-                    <v-tab-item class="tab_content">
+                <v-tabs v-model="tab" show-arrows>
+                    <v-tab href="#validators">Validators</v-tab>
+                    <v-tab href="#pending-validators">Pending Validators</v-tab>
+                    <v-tab href="#blockchains">Blockchains</v-tab>
+                    <v-tab href="#control-keys">Control Keys</v-tab>
+                    <v-tab-item class="tab_content" value="validators">
                         <template v-if="subnet.validators.length === 0">
                             <p class="null">There are no validators for this subnet.</p>
                         </template>
@@ -25,7 +25,7 @@
                             <ValidatorDataTable :validators="subnet.validators" :subnetID="subnetID" :subnet="subnet" :title="'Validators'" class="table_margin"></ValidatorDataTable>
                         </template>
                     </v-tab-item>
-                    <v-tab-item class="tab_content">
+                    <v-tab-item class="tab_content" value="pending-validators">
                         <template v-if="subnet.pendingValidators.length === 0">
                             <p class="null">There are no pending validators for this subnet.</p>
                         </template>
@@ -33,7 +33,7 @@
                             <ValidatorDataTable :validators="subnet.pendingValidators" :subnetID="subnetID" :subnet="subnet" :title="'Pending Validators'" class="table_margin"></ValidatorDataTable>
                         </template>
                     </v-tab-item>
-                    <v-tab-item class="tab_content">
+                    <v-tab-item class="tab_content" value="blockchains">
                         <template v-if="subnet.blockchains.length === 0">
                             <p class="null">There are no blockchains for this subnet.</p>
                         </template>
@@ -41,7 +41,7 @@
                             <BlockchainDataTable :blockchains="subnet.blockchains" :title="'Blockchains'" class="table_margin"></BlockchainDataTable>
                         </template>
                     </v-tab-item>
-                    <v-tab-item class="tab_content">
+                    <v-tab-item class="tab_content" value="control-keys">
                         <template v-if="subnet.controlKeys.length === 0">
                             <p class="null">There are no control keys for this subnet.</p>
                         </template>
@@ -115,6 +115,14 @@ export default class Content extends Vue {
 
     get modeText() {
         return this.absolute ? "Timeline" : "Completion";
+    }
+
+    get tab() {
+        return this.$route.query.tab;
+    }
+
+    set tab(tab: string | (string | null)[]) {    
+        this.$router.replace({ query: { ...this.$route.query, tab } })
     }
 }
 </script>
@@ -258,6 +266,14 @@ th {
 #content {
     .table_margin {
         margin-left: 1px;
+    }
+
+    a.v-tab {
+        display: flex;
+
+        &:hover {
+            text-decoration: none;
+        }
     }
 }
 </style>

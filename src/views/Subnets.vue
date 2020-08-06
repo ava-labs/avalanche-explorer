@@ -74,7 +74,6 @@ export default class Subnets extends Vue {
         Object.keys(subnets)
             .sort()
             .forEach(key => (ordered[key] = subnets[key]));
-        console.log("ordered", ordered);
         return ordered;
     }
     

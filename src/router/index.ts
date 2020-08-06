@@ -40,6 +40,16 @@ const routes = [
     }
   },
   {
+    path: "/subnet/:id",
+    name: "Subnet",
+    component: () => import(/* webpackChunkName: "subnet" */ "../views/Subnet.vue"),
+    meta: {
+      auth: false,
+      title: prefix + "Subnet",
+      metaTags: metaTags
+    }
+  },
+  {
     path: "/validators",
     name: "Validators",
     component: () => import(/* webpackChunkName: "validators" */ "../views/Validators.vue"),
