@@ -2,7 +2,7 @@
     <div id="subnet_details" class="detail">
         <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
         <template v-if="!subnetsLoaded">
-            <Loader :contentId="subnetID" :message="'Fetching Subnet Details'"/>
+            <Loader :contentId="subnetID" :message="'Fetching Subnet Details'"></Loader>
         </template>
         <template v-else>
             <div class="card">
@@ -16,7 +16,7 @@
 import "reflect-metadata";
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import Loader from "../components/misc/Loader.vue";
-import { Subnets } from "@/store/modules/platform/IPlatformState";
+import { ISubnets } from "@/store/modules/platform/IPlatformState";
 import Subnet from '@/js/Subnet';
 import Content from "@/components/Subnets/Content.vue";
 
@@ -51,7 +51,7 @@ export default class SubnetPage extends Vue {
         this.getData();
     }
 
-    get subnets(): Subnets {
+    get subnets(): ISubnets {
         return this.$store.state.Platform.subnets;
     }
 
@@ -59,7 +59,7 @@ export default class SubnetPage extends Vue {
         return this.$route.params.id;
     }
 
-    get subnetsLoaded() {
+    get subnetsLoaded(): boolean {
         return this.$store.state.Platform.subnetsLoaded;
     }
 

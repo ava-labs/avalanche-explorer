@@ -8,4 +8,26 @@ let dict: BlockchainDict = {
   "zJytnh96Pc8rM337bBrtMvJDbEdDNjcXG3WkTNCiLp18ergm9": "C-Chain"
 };
 
+interface URLMap {
+  [key: string]: ClientMap
+}
+
+interface ClientMap {
+  [key: string]: string
+}
+
+let prefixDict: URLMap = {
+  "x-chain": {
+    "go": "/ext/bc/X/",
+    "js": "/ext/bc/X/",
+    "ortelius": "/x/",
+    "prefix": "X-",
+  },
+  "p-chain": {
+    "go": "/ext/P/",
+    "js": "/ext/P/",
+    "ortelius": "/p/",
+    "prefix": "P-"
+  }
+}
 export default dict;

@@ -2,11 +2,11 @@ import Subnet from '@/js/Subnet';
 import Blockchain from '@/js/Blockchain';
 
 export interface IPlatformState {
-    subnets: Subnets
+    subnets: ISubnets
     blockchains: Blockchain[],
     subnetsLoaded: boolean
 }
 
-export interface Subnets {
+export interface ISubnets {
     [key: string]: Subnet
 }

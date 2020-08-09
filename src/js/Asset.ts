@@ -41,7 +41,8 @@ class Asset {
         let endDate = new Date();
         let startTime = Date.now() - (1000 * 60 * 60 * 24);
         let startDate = new Date(startTime);
-
+        
+        // TODO: support service for multiple chains
         api.get(`/x/transactions/aggregates?startTime=${startDate.toISOString()}&endTime=${endDate.toISOString()}&assetID=${this.id}`).then(res => {
             let txCount = res.data.aggregates.transactionCount || 0;
             let txVolume = res.data.aggregates.transactionVolume || "0";

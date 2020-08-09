@@ -17,51 +17,50 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import "reflect-metadata";
+import { Vue, Component, Watch } from "vue-property-decorator";
 import api from "@/axios";
-import ResultRow from "../components/Search/ResultRow";
-import AddressRow from "../components/rows/AddressRow";
+import ResultRow from "../components/Search/ResultRow.vue";
+import AddressRow from "../components/rows/AddressRow.vue";
 
-export default {
+@Component({
     components: {
         ResultRow
-    },
-    data() {
-        return {
-            query: "",
-            results: []
-        };
-    },
+    }
+})
+export default class Search extends Vue {
+    query: string | (string | null)[] = "";
+    results: any[] = [];
+
     created() {
         let query = this.$router.currentRoute.query;
         this.query = query.query;
         if (this.query) {
             this.search();
         }
-    },
-    watch: {
-        $route(val) {
-            console.log("WATCH ROUTE");
-            let query = val.currentRoute.query;
-            this.query = query;
-            this.search();
-        }
-    },
-    methods: {
-        search() {
-            let parent = this;
-            api.get("/x/search?query=" + this.query).then(res => {
-                let data = res.data;
-                console.log(res);
-                if (data === null) {
-                    parent.results = [];
-                } else {
-                    parent.results = data.results;
-                }
-            });
-        }
     }
-};
+    
+    @Watch("$route")
+    onRouteChanged(val: any) {
+        let query = val.currentRoute.query;
+        this.query = query;
+        this.search();
+    }
+    
+    search() {
+        let parent = this;
+        // TODO: support service for multiple chains
+        api.get("/x/search?query=" + this.query).then(res => {
+            let data = res.data;
+            if (data === null) {
+                parent.results = [];
+            } else {
+                parent.results = data.results;
+            }
+        });
+    }
+}
 </script>
 
 <style scoped lang="scss">

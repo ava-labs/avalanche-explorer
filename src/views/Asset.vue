@@ -162,16 +162,15 @@ export default class AssetPage extends Vue {
             api.get(url)
                 .then(res => {
                     const data = res.data;
-                    // console.log(data);
                     let tx = new Transaction(data);
                     parent.genesisTx = tx;
-                    // console.log(tx);
                 })
                 .catch(err => {
                     console.log(err);
                 });
 
                 // Get txs
+                // TODO: support service for multiple chains
                 url = `/x/transactions?assetID=${this.assetID}&sort=${this.sort}&offset=${this.offset}&limit=${this.limit}`;
                 api.get(url).then(res => {
                     parent.txloading = false;
@@ -187,6 +186,7 @@ export default class AssetPage extends Vue {
         parent.txloading = true;
 
         // Get txs by address
+        // TODO: support service for multiple chains
         let url = `/x/transactions?assetID=${this.assetID}&sort=${this.sort}&offset=${this.offset}&limit=${this.limit}`;
 
         api.get(url).then(res => {

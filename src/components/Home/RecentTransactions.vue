@@ -84,6 +84,7 @@ export default class RecentTransactions extends Vue {
         this.loading = true;
 
         if (this.assetsLoaded) {
+            // TODO: support service for multiple chains
             api.get(`/x/transactions?sort=timestamp-desc&limit=${txNum}`).then(res => {
                 const list = res.data.transactions;
                 this.transactions = list;

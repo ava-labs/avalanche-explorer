@@ -97,6 +97,7 @@ export default Vue.extend({
 
             this.isAjax = true;
             this.showResults = true;
+            // TODO: support service for multiple chains
             axios.get(`/x/search?query=${query}&limit=${SEARCH_LIM}`)
                 .then(res => {
                     let data = res.data;

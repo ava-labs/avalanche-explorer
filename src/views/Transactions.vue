@@ -97,10 +97,12 @@ export default class Transactions extends Vue {
         this.$refs.paginationBottom.setPage(pgNum); 
     }
 
+
     getTx(): void {
         let parent = this;
         parent.loading = true;
         let sort = "timestamp-desc";
+        // TODO: support service for multiple chains
         let url = `/x/transactions?sort=${sort}&offset=${this.offset}&limit=${this.limit}`;
         
         if (this.assetsLoaded) {

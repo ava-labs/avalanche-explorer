@@ -54,6 +54,8 @@ export default {
             let startTime = this.startDate.toISOString();
             let endTime = new Date().toISOString();
 
+            // TODO: support service for multiple chains
+            // TODO: asset param when supported by API
             axios.get(`/x/transactions/aggregates?startTime=${startTime}&endTime=${endTime}&intervalSize=${intervalSize}`)
                 .then(res => {
                     let data = res.data;
