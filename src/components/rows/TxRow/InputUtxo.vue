@@ -2,7 +2,7 @@
     <div>
         <div class="from" v-for="addr in addresses" :key="addr">
             <span class="label" v-if="$vuetify.breakpoint.smAndDown">From</span>
-            <router-link class="addr" :to="`/address/${addr}`">{{addr | address}}</router-link>
+            <router-link class="addr" :to="`/address/X-${addr}`">{{addr | address}}</router-link>
         </div>
     </div>
 </template>

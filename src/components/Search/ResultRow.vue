@@ -5,70 +5,75 @@
     <!--    <utxo-row v-else :utxo="result.data"></utxo-row>-->
 </template>
 
-<script>
-import TxRow from "../rows/TxRow/TxRow";
-import AssetRow from "../rows/AssetRow";
-import AddressRow from "../rows/AddressRow";
-import UtxoRow from "../rows/UtxoRow";
+<script lang="ts">
+import "reflect-metadata";
+import { Vue, Component, Prop } from "vue-property-decorator";
+import TxRow from "../rows/TxRow/TxRow.vue";
+import AssetRow from "../rows/AssetRow.vue";
+import AddressRow from "../rows/AddressRow.vue";
+// import UtxoRow from "../rows/UtxoRow.vue";
 
-export default {
+@Component({
     components: {
         AddressRow,
         TxRow,
         AssetRow
         // UtxoRow
-    },
-    props: {
-        query: {
-            type: String,
-            required: true
-        },
-        result: {
-            type: Object,
-            required: true
-        }
-    },
-    computed: {
-        rowType() {
-            switch (this.type) {
-                case "address":
-                    return AddressRow;
-            }
-            return null;
-        },
-        type() {
-            return this.result.type;
-        },
-        typeSymbol() {
-            if (this.type === "address") {
-                return "#";
-            }
-            return "Tx";
-        },
-        txCount() {
-            return this.result.Data.transactionCount;
-        },
-        balance() {
-            return this.result.Data.balance;
-        },
-        lifetimeValue() {
-            return this.result.Data.lifetimeValue;
-        },
-        url() {
-            if (this.type === "address") {
-                return `/address/${this.query}`;
-            }
-            return "/";
-        },
-        tx_id() {
-            return this.result.Data.id;
-        },
-        tx_timestamp() {
-            let stamp = this.result.Data.timestamp;
-            return stamp;
-        }
     }
-};
+}) 
+
+export default class ResultRow extends Vue {
+    @Prop() query!: string;
+    @Prop() result!: any;
+    
+    get rowType() {
+        switch (this.type) {
+            case "address":
+                return AddressRow;
+        }
+        return null;
+    }
+
+    get type() {
+        return this.result.type;
+    }
+
+    get typeSymbol() {
+        if (this.type === "address") {
+            return "#";
+        }
+        return "Tx";
+    }
+
+    get txCount() {
+        return this.result.Data.transactionCount;
+    }
+
+    get balance() {
+        return this.result.Data.balance;
+    }
+
+    get lifetimeValue() {
+        return this.result.Data.lifetimeValue;
+    }
+
+    get url() {
+        if (this.type === "address") {
+            return `/address/${this.query}`;
+        }
+        return "/";
+    }
+
+    get tx_id() {
+        return this.result.Data.id;
+    }
+    
+    get tx_timestamp() {
+        let stamp = this.result.Data.timestamp;
+        return stamp;
+    }
+    
+}
 </script>
 
 <style scoped lang="scss">

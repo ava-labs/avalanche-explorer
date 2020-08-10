@@ -10,45 +10,38 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import "reflect-metadata";
+import { Vue, Component, Prop } from "vue-property-decorator";
 import { stringToBig } from "@/helper";
 
-export default {
-    props: {
-        item: {
-            type: Object,
-            required: true
-        }
-    },
-    computed: {
-        id() {
-            return this.item.id;
-        },
-        name() {
-            return this.item.name;
-        },
-        symbol() {
-            return this.item.symbol;
-        },
-        supply() {
-            let res = stringToBig(
-                this.item.currentSupply,
-                this.item.denomination
-            );
-            return res;
-        },
-        createdAt() {
-            return new Date(this.item.timestamp);
-        }
-    },
-    methods: {
-        select() {
-            let url = `/tx/${this.id}`;
-            this.$router.push(url);
-            this.$emit("select");
-        }
+@Component({})
+export default class AssetResult extends Vue {
+    @Prop() item!: any;
+    
+    get id() {
+        return this.item.id;
     }
-};
+
+    get name() {
+        return this.item.name;
+    }
+
+    get symbol() {
+        return this.item.symbol;
+    }
+
+    get supply() {
+        return stringToBig(this.item.currentSupply, this.item.denomination);
+    }
+    
+    select() {
+        let url = `/asset/${this.id}`;
+        this.$router.push(url);
+        this.$emit("select");
+    }
+    
+}
 </script>
 
 <style scoped lang="scss">

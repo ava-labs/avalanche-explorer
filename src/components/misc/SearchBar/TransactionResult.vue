@@ -10,41 +10,39 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import "reflect-metadata";
+import { Vue, Component, Prop } from "vue-property-decorator";
 import { Transaction } from "@/js/Transaction";
 import moment from "moment";
 
-export default {
-    data() {
-        return {
-            tx: null,
-            addresses: []
-        };
-    },
-    props: {
-        item: {
-            type: Object,
-            required: true
-        }
-    },
+@Component({
     filters: {
-        date(val) {
+        date(val: string) {
             let date = new Date(val);
             return moment(date).fromNow();
         }
     },
-    methods: {
-        select() {
-            let url = `/tx/${this.tx.id}`;
-            this.$router.push(url);
-            this.$emit("select");
-        }
-    },
+})
+export default class TransactionResult extends Vue {
+    tx: Transaction | null = null;
+    addresses: string[] = [];
+
+    @Prop() item!: any;
+    
     created() {
         this.tx = new Transaction(this.item);
         this.addresses = this.tx.getInputAddresses();
     }
-};
+
+    select() {
+        if (this.tx) {
+            let url = `/tx/${this.tx.id}`;
+            this.$router.push(url);
+            this.$emit("select");
+        }
+    }
+}
 </script>
 
 <style scoped lang="scss">

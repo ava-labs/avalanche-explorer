@@ -8,7 +8,7 @@
         <div>
             <router-link
                 v-for="(addr, i) in utxo.addresses"
-                :to="`/address/${addr}`"
+                :to="`/address/X-${addr}`"
                 :key="i"
             >{{addr | address}}</router-link>
         </div>
