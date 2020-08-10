@@ -21,7 +21,6 @@ import AddressRow from "../rows/AddressRow.vue";
         // UtxoRow
     }
 }) 
-
 export default class ResultRow extends Vue {
     @Prop() query!: string;
     @Prop() result!: any;

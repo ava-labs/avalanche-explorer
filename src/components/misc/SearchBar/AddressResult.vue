@@ -14,9 +14,10 @@
 </template>
 <script lang="ts">
 import "reflect-metadata";
-import { Vue, Prop } from "vue-property-decorator";
+import { Vue, Component, Prop } from "vue-property-decorator";
 import { stringToBig } from "@/helper";
 
+@Component({})
 export default class AddressResult extends Vue {
     @Prop() item!: any | null;
     
