@@ -24,7 +24,6 @@ import { addressMap, trimmedLocaleString } from "@/helper";
 import { ITransactionOutput } from '@/js/ITransaction';
 import { Asset } from '@/js/Asset';
 import Big from "big.js";
-import { avm } from "@/avalanche";
 
 @Component({
     filters: {

@@ -49,6 +49,7 @@ export default class Addresses extends Vue {
 
     async created() {
         this.loading = false;
+        // TODO: support service for multiple chains
         api.get("/x/addresses").then(res => {
             this.totalAddresses = res.data.count            
             let addresses: IAddressData = res.data.addresses;

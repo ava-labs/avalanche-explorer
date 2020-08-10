@@ -24,6 +24,7 @@ export default new Vuex.Store({
     },
     actions: {
         async init(store) {
+            // TODO: support service for multiple chains
             await api.get("/x/assets").then(res => {
                 let assets = res.data.assets;
                 assets.forEach((assetData: any) => {

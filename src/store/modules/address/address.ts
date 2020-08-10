@@ -3,7 +3,7 @@ import { Module } from "vuex";
 import api from "@/axios";
 import { IRootState } from "@/store/types";
 import { IAddressState } from './IAddressState';
-import { IAddress } from '@/js/IAddress';
+// import { IAddress } from '@/js/IAddress';
 
 const address_module: Module<IAddressState, IRootState> = {
     namespaced: true,
@@ -25,16 +25,13 @@ const address_module: Module<IAddressState, IRootState> = {
             dispatch("getAddresses");
         },
         async getAddresses({ state, commit }) {
-            console.log("hello!");
+            // TODO: support service for multiple chains
             await api.get("/x/addresses").then(res => {
-                console.log("res", res);
                 let addresses = res.data.addresses;
-                console.log("ADDRESSES", addresses);
                 addresses.forEach((addressData: any) => {
                     commit("addAddress", addressData);
                 });
             });
-            console.log("state addresses", state.addresses);
             state.addressesLoaded = true;
         },
     },

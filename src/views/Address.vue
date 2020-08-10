@@ -200,6 +200,7 @@ export default {
             this.txloading = true;
 
             // Get txs by address
+            // TODO: support service for multiple chains
             let url = `/x/transactions?address=${this.addressID}&sort=${this.sort}&offset=${this.offset}&limit=${this.limit}`;
 
             api.get(url).then(res => {
@@ -209,6 +210,7 @@ export default {
         },
 
         getAddressDetails() {
+            // TODO: support service for multiple chains
             let url = `/x/addresses/${this.addressID}`;
             api.get(url).then(res => {
                 this.loading = false;

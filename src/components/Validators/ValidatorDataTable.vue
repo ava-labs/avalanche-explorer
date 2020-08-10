@@ -1,5 +1,5 @@
 <template>
-    <v-card id="validator-data-table">
+    <v-card id="validator_data_table">
         <v-card-title>
             {{title}}
             <v-spacer></v-spacer>
@@ -412,7 +412,7 @@ export default class ValidatorDataTable extends Vue {
 <style lang="scss">
 @use "../../main";
 
-#validator-data-table {
+#validator_data_table {
 
     .v-application .primary--text {
         color: main.$primary-color !important;
@@ -466,6 +466,29 @@ export default class ValidatorDataTable extends Vue {
         .v-data-table th {
             padding: 0 16px;
         }
+    }
+}
+</style>
+
+<style lang="scss">
+@use "../../main";
+
+#validator_data_table {
+    
+    .v-data-table__expand-icon {
+        border: none;
+        background-color: rgba(255,255,255,0);
+        border-radius: 0;
+    }
+
+    .v-data-footer__icons-before > button,
+    .v-data-footer__icons-after > button {
+        border-width: inherit;
+        cursor: pointer;
+    }    
+
+    .v-select.v-text-field input {
+        border-color: transparent;
     }
 }
 </style>

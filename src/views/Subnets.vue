@@ -1,6 +1,6 @@
 <template>
     <div id="subnets">
-        <template v-if="loading">
+        <template v-if="!subnetsLoaded">
             <Loader :message="'Fetching Subnets'"></Loader>
         </template>
         <template v-else>
@@ -24,15 +24,19 @@
 <script lang="ts">
 import "reflect-metadata";
 import { Vue, Component } from "vue-property-decorator";
-import { avalanche } from "@/avalanche";
 import { subnetMap } from "@/helper";
 import Metadata from "../components/Subnets/Metadata.vue";
 import Tabs from "../components/Subnets/Tabs.vue";
 import Loader from "../components/misc/Loader.vue";
 import Content from "@/components/Subnets/Content.vue";
 import { AVALANCHE_SUBNET_ID } from "@/store/modules/platform/platform";
-import Blockchain from '@/js/Blockchain';
-import { IPlatformState } from '../store/modules/platform/IPlatformState';
+import { ISubnets } from '../store/modules/platform/IPlatformState';
+import Big from "Big.js";
+
+interface IMap {
+    text: string,
+    value: string
+}
 
 @Component({
     components: {
@@ -42,64 +46,46 @@ import { IPlatformState } from '../store/modules/platform/IPlatformState';
         Tabs
     },
     filters: {
-        subnet(val: string) {
+        subnet(val: string): string {
             return subnetMap(val);
         }
     }
 })
 export default class Subnets extends Vue {
     selection: string = AVALANCHE_SUBNET_ID;
-    loading: boolean = true;
-    blockchains: Blockchain[] = [];
 
-    async created() {
-        this.blockchains = await this.getBlockchains();
+    get subnetsLoaded(): boolean {
+        return this.$store.state.Platform.subnetsLoaded;
     }
 
-    async getBlockchains() {
-        //@ts-ignore
-        return await avalanche.apis.platform
-            //@ts-ignore
-            .getBlockchains()
-            .then((res: any) => {
-                this.loading = false;
-                return res;
-            })
-            .catch((error: any) => console.log(error));
-    }
-
-    get subnets() {
+    get subnets(): ISubnets {
         const subnets = this.$store.state.Platform.subnets;
-        const ordered: IPlatformState["subnets"] = {};
+        const ordered: ISubnets = {};
         Object.keys(subnets)
             .sort()
             .forEach(key => (ordered[key] = subnets[key]));
         return ordered;
     }
     
-    get totalValidators() {
+    get totalValidators(): number {
         return this.$store.getters["Platform/totalValidators"];
     }
     
-    get totalBlockchains() {
+    get totalBlockchains(): number {
         return this.$store.getters["Platform/totalBlockchains"];
     }
     
-    get totalStake() {
+    get totalStake(): Big {
         let valBig = this.$store.getters["Platform/totalStake"];
         let res = valBig.div(Math.pow(10, 9));
         return res;
     }
     
-    get totalSubnets() {
+    get totalSubnets(): number {
         return Object.keys(this.$store.state.Platform.subnets).length;
     }
     
-    get subnetsByName() {
-        interface IMap {
-            text: string,
-            value: string
-        }
+    get subnetsByName(): IMap[] {
         let list: IMap[] = [];
         Object.keys(this.subnets).forEach(key => {
             let object: IMap = {
@@ -129,25 +115,10 @@ export default class Subnets extends Vue {
 </style>
 
 <style lang="scss">
-
-#subnets {
-    /* .v-input__slot {
+@use "../main";
+/* #subnets {
+    .v-input__slot {
         width: calc(100% - 24px) !important;
-    } */
-
-    .v-data-table__expand-icon {
-        border: none;
-        background-color: rgba(255,255,255,0);
-        border-radius: 0;
     }
-
-    .v-data-footer__icons-before > button,
-    .v-data-footer__icons-after > button {
-        border-width: inherit;
-    }    
-
-    .v-select.v-text-field input {
-        border-color: transparent;
-    }
-}
+} */
 </style>

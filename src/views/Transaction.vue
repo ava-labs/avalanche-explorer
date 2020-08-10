@@ -63,6 +63,7 @@ export default class TransactionPage extends Vue {
 
     getData(): void {
         let parent = this;
+        // TODO: support service for multiple chains
         let url = `/x/transactions/${this.txId}`;
         if (this.assetsLoaded) {
             api.get(url)

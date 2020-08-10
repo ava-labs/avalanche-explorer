@@ -1,5 +1,5 @@
 <template>
-    <v-card id="addresses-table">
+    <v-card id="address_data_table">
         <v-card-title v-if="title">
             {{title}}
             <v-spacer></v-spacer>
@@ -71,5 +71,21 @@ export default class AddressDataTable extends Vue {
 }
 
 @include main.device_xs {
+}
+</style>
+
+<style lang="scss">
+@use "../../main";
+
+#address_data_table {
+    .v-data-footer__icons-before > button,
+    .v-data-footer__icons-after > button {
+        border-width: inherit;
+        cursor: pointer;
+    }    
+
+    .v-select.v-text-field input {
+        border-color: transparent;
+    }
 }
 </style>
