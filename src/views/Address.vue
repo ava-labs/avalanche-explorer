@@ -91,20 +91,23 @@
     </div>
 </template>
 
-<script>
-import Loader from "../components/misc/Loader";
-import Tooltip from "../components/rows/Tooltip";
-import BalanceTable from "../components/Address/BalanceTable";
-import BalanceRow from "../components/Address/BalanceRow";
+<script lang="ts">
+import "reflect-metadata";
+import { Vue, Component, Prop, Watch } from "vue-property-decorator";
+import Loader from "../components/misc/Loader.vue";
+import Tooltip from "../components/rows/Tooltip.vue";
+import BalanceTable from "../components/Address/BalanceTable.vue";
+import BalanceRow from "../components/Address/BalanceRow.vue";
 import TxRow from "../components/rows/TxRow/TxRow.vue";
-import PaginationControls from "../components/misc/PaginationControls";
+import PaginationControls from "../components/misc/PaginationControls.vue";
 import api from "../axios";
 import Big from "big.js";
 import { stringToBig, blockchainMap, trimmedLocaleString } from "@/helper";
 import AddressDict from "@/known_addresses";
 import Address from "@/js/Address";
+import { Transaction } from '@/js/Transaction';
 
-export default {
+@Component({
     components: {
         Loader,
         Tooltip,
@@ -112,32 +115,8 @@ export default {
         TxRow,
         PaginationControls
     },
-    data() {
-        return {
-            loading: false,
-            txloading: false,
-            metaData: null,
-            transactions: [],
-            totalTx: 0,
-            limit: 25, // how many to display
-            offset: 0,
-            sort: "timestamp-desc",
-            breadcrumbs: [
-                {
-                    text: "Home",
-                    disabled: false,
-                    href: "/"
-                },
-                {
-                    text: "Address",
-                    disabled: true,
-                    href: ""
-                }
-            ]
-        };
-    },
     filters: {
-        pluralize(val) {
+        pluralize(val: number) {
             return val === 0
                 ? `${val} assets`
                 : val > 1
@@ -145,90 +124,129 @@ export default {
                 : `${val} asset`;
         },
     },
-    watch: {
-        address(val) {
-            this.updateData();
+})
+export default class AddressPage extends Vue {
+    loading: boolean = false;
+    txloading: boolean = false;
+    metaData: Address | null = null;
+    transactions: Transaction[] = [];
+    totalTx: number = 0;
+    limit: number = 25; // how many to display
+    offset: number = 0;
+    sort: string = "timestamp-desc";
+    breadcrumbs: any[] = [
+        {
+            text: "Home",
+            disabled: false,
+            href: "/"
         },
-        assetsLoaded() {
-            this.updateData();
+        {
+            text: "Address",
+            disabled: true,
+            href: ""
         }
-    },
+    ];
+
     created() {
         this.updateData();
-    },
-    computed: {
-        assetsLoaded() {
-            return this.$store.state.assetsLoaded;
-        },
-        alias() {
-            return AddressDict[this.address] ? AddressDict[this.address] : "";
-        },
-        assets() {
-            return this.metaData.assets;
-        },
-        assetsMap() {
-            return this.$store.state.assets;
-        },
-        addressID() {
-            return this.$route.params.address;
-        },
-        txCount() {
-            return this.metaData.transactionCount;
-        },
-        avaxBalance() {
-            return this.metaData.avaxBalance;
-        },
-        totalTransactionCount() {
-            return !this.metaData ? 0 : this.metaData.totalTransactionCount;
-        },
-        totalUtxoCount() {
-            return !this.metaData ? 0 : this.metaData.totalUtxoCount;
+    }
+    
+    @Watch("address")
+    onAddressChanged(val: string) {
+        this.updateData();
+    }
+
+    @Watch("assetsLoaded")
+    onAssetsLoaded() {
+        this.updateData();
+    }
+    @Watch("$route")
+    onRouteChanged(val: string) {
+        this.updateData();
+    }
+    
+    get assetsLoaded() {
+        return this.$store.state.assetsLoaded;
+    }
+
+    get alias() {
+        return AddressDict[this.addressID] ? AddressDict[this.addressID] : "";
+    }
+
+    get assets() {
+        return (this.metaData) ? this.metaData.assets : [];
+    }
+    
+    get assetsMap() {
+        return this.$store.state.assets;
+    }
+    
+    get addressID() {
+        let address = this.$route.params.address;
+        if (address.indexOf("-") === 1) {
+            address = address.substring(2, address.length);
         }
-    },
-    methods: {
-        updateData() {
-            this.loading = true;
-            this.txloading = true;
+        return address;
+    }
+    
+    get txCount() {
+        return (this.metaData) ? this.metaData.totalTransactionCount : 0;
+    }
 
-            if (this.assetsLoaded) {
-                this.getTx();
-                this.getAddressDetails();
-            }
-        },
+    get avaxBalance() {
+        return (this.metaData) ? this.metaData.avaxBalance : Big(0);
+    }
 
-        getTx() {
-            this.txloading = true;
+    get totalTransactionCount() {
+        return (this.metaData) ? this.metaData.totalTransactionCount : 0;
+    }
+    
+    get totalUtxoCount() {
+        return (this.metaData) ? this.metaData.totalUtxoCount : 0;
+    }
+    
+    updateData() {
+        this.loading = true;
+        this.txloading = true;
 
-            // Get txs by address
-            // TODO: support service for multiple chains
-            let url = `/x/transactions?address=${this.addressID}&sort=${this.sort}&offset=${this.offset}&limit=${this.limit}`;
-
-            api.get(url).then(res => {
-                this.txloading = false;
-                this.transactions = res.data.transactions;
-            });
-        },
-
-        getAddressDetails() {
-            // TODO: support service for multiple chains
-            let url = `/x/addresses/${this.addressID}`;
-            api.get(url).then(res => {
-                this.loading = false;
-                this.metaData = new Address(res.data, this.assetsMap);
-            });
-        },
-
-        page_change(val) {
-            this.offset = val;
+        if (this.assetsLoaded) {
             this.getTx();
-            let pgNum = Math.floor(this.offset / this.limit) + 1;
-            // @ts-ignore
-            this.$refs.paginationTop.setPage(pgNum); 
-            // @ts-ignore
-            this.$refs.paginationBottom.setPage(pgNum);
+            this.getAddressDetails();
         }
     }
-};
+
+    getTx() {
+        this.txloading = true;
+
+        // Get txs by address
+        // TODO: support service for multiple chains
+        let url = `/x/transactions?address=${this.addressID}&sort=${this.sort}&offset=${this.offset}&limit=${this.limit}`;
+
+        api.get(url).then(res => {
+            this.txloading = false;
+            this.transactions = res.data.transactions;
+        });
+    }
+
+    getAddressDetails() {
+        // TODO: support service for multiple chains
+        let url = `/x/addresses/${this.addressID}`;
+        api.get(url).then(res => {
+            this.loading = false;
+            this.metaData = new Address(res.data, this.assetsMap);
+        });
+    }
+
+    page_change(val: number) {
+        this.offset = val;
+        this.getTx();
+        let pgNum = Math.floor(this.offset / this.limit) + 1;
+        // @ts-ignore
+        this.$refs.paginationTop.setPage(pgNum); 
+        // @ts-ignore
+        this.$refs.paginationBottom.setPage(pgNum);
+    }
+}
 </script>
 
 <style scoped lang="scss">

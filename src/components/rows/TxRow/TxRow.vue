@@ -16,86 +16,88 @@
         </div>
     </div>
 </template>
-<script >
-import UtxoInput from "./InputUtxo";
-import OutputUtxo from "@/components/rows/TxRow/OutputUtxo";
+<script lang="ts">
+import "reflect-metadata";
+import { Vue, Component, Prop } from "vue-property-decorator";
+import UtxoInput from "./InputUtxo.vue";
+import OutputUtxo from "@/components/rows/TxRow/OutputUtxo.vue";
 import moment from "moment";
+import { Asset } from '@/js/Asset';
+import { Transaction } from '@/js/Transaction';
 
-export default {
+@Component({
     components: {
         UtxoInput,
         OutputUtxo
-    },
-    data() {
-        return {};
-    },
-    props: {
-        transaction: {
-            type: Object,
-            required: true
+    }
+})
+export default class TxRow extends Vue {
+    @Prop() transaction!: Transaction;
+    
+    get assets() {
+        return this.$store.state.assets;
+    }
+
+    get tx_id() {
+        return this.transaction.id;
+    }
+
+    get ago() {
+        let stamp = this.transaction.timestamp;
+        let date = new Date(stamp);
+        return moment(date).fromNow();
+    }
+
+    get outputs() {
+        let ins = this.inputs;
+
+        let senders: string[] = [];
+
+        for (let i = 0; i < ins.length; i++) {
+            let input = ins[i];
+            let addrs = input.output.addresses;
+            senders.push(...addrs);
         }
-    },
-    computed: {
-        assets() {
-            return this.$store.state.assets;
-        },
-        tx_id() {
-            return this.transaction.id;
-        },
-        ago() {
-            let stamp = this.transaction.timestamp;
-            let date = new Date(stamp);
-            return moment(date).fromNow();
-        },
-        outputs() {
-            let ins = this.inputs;
 
-            let senders = [];
+        let outs = this.transaction.outputs;
+        let res = outs;
+        if (outs.length > 1) {
+            res = outs.filter((val, index) => {
+                let addrs = val.addresses;
 
-            for (let i = 0; i < ins.length; i++) {
-                let input = ins[i];
-                let addrs = input.output.addresses;
-                senders.push(...addrs);
-            }
-
-            let outs = this.transaction.outputs;
-            let res = outs;
-            if (outs.length > 1) {
-                res = outs.filter((val, index) => {
-                    let addrs = val.addresses;
-
-                    // If change UTXO then don't show
-                    let flag = false;
-                    addrs.forEach(addr => {
-                        if (senders.includes(addr)) flag = true;
-                    });
-                    if (flag) return false;
-                    return true;
-                });
-            }
-
-            return res;
-        },
-        inputs() {
-            let addedAddr = [];
-            let ins = this.transaction.inputs || [];
-            let res = ins.filter((val, index) => {
-                let addrs = val.output.addresses;
+                // If change UTXO then don't show
                 let flag = false;
                 addrs.forEach(addr => {
-                    if (addedAddr.includes(addr)) {
-                        flag = true;
-                    } else {
-                        addedAddr.push(addr);
-                    }
+                    if (senders.includes(addr)) flag = true;
                 });
                 if (flag) return false;
                 return true;
             });
-            return res;
         }
+
+        return res;
     }
-};
+
+    get inputs() {
+        let addedAddr: string[] = [];
+        let ins = this.transaction.inputs || [];
+        let res = ins.filter((val, index) => {
+            let addrs = val.output.addresses;
+            let flag = false;
+            addrs.forEach(addr => {
+                if (addedAddr.includes(addr)) {
+                    flag = true;
+                } else {
+                    addedAddr.push(addr);
+                }
+            });
+            if (flag) return false;
+            return true;
+        });
+        return res;
+    }
+    
+}
 </script>
 <style scoped lang="scss">
 @use "../../../main";

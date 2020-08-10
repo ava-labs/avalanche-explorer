@@ -1,14 +1,5 @@
 <template>
     <div class="io_item">
-<!--        <div class="data_row">-->
-<!--            <p class="label" style="flex-grow: 1;">Tx Id</p>-->
-<!--            <router-link :to="`/tx/${input.output.id}`">{{input.output.id}}</router-link>-->
-<!--        </div>-->
-<!--        <div class="data_row">-->
-<!--            <p class="label" style="flex-grow: 1;">Asset</p>-->
-<!--            <router-link :to="`/tx/${asset}`">{{asset.name}}</router-link>-->
-<!--        </div>-->
-
         <div class="data_row top_data">
             <div class="from">
                 <b>From</b><router-link class="address"
@@ -32,38 +23,41 @@
         </div>
     </div>
 </template>
-<script>
-    import Big from 'big.js';
-    export default {
-        props: {
-            input: {
-                type: Object,
-                required: true,
-            }
-        },
-        computed:{
-            addresses(){
-                return this.input.output.addresses;
-            },
-            amount(){
-                let asset = this.asset;
-                let res = Big(this.input.output.amount).div(Math.pow(10,asset.denomination));
-                return res.toFixed(asset.denomination);
-            },
-            asset(){
-                let assets = this.$store.state.assets;
-                let assetId = this.input.output.assetID;
-                let res = assets[assetId];
-                return res;
-            },
-            txLink(){
-                return `/tx/${this.input.output.transactionID}`
-            },
-            timestamp(){
-                return this.input.output.timestamp;
-            }
-        }
+
+<script lang="ts">
+import "reflect-metadata";
+import { Vue, Prop } from "vue-property-decorator";
+import Big from 'big.js';
+
+export default class Input extends Vue {
+    @Prop() input!: any;
+    
+    get addresses() {
+        return this.input.output.addresses;
     }
+    
+    get amount() {
+        let asset = this.asset;
+        let res = Big(this.input.output.amount).div(Math.pow(10,asset.denomination));
+        return res.toFixed(asset.denomination);
+    }
+    
+    get asset() {
+        let assets = this.$store.state.assets;
+        let assetId = this.input.output.assetID;
+        let res = assets[assetId];
+        return res;
+    }
+
+    get txLink() {
+        return `/tx/${this.input.output.transactionID}`
+    }
+    
+    get timestamp() {
+        return this.input.output.timestamp;
+    }
+    
+}
 </script>
 <style scoped lang="scss">
     .label{

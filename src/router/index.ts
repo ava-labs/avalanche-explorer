@@ -58,17 +58,7 @@ const routes = [
       title: prefix + "Validators",
       metaTags: metaTags
     }
-  },
-  {
-    path: "/search",
-    name: "Search",
-    component: () => import(/* webpackChunkName: "search" */ "../views/Search.vue"),
-    meta: {
-      auth: false,
-      title: prefix + "Search",
-      metaTags: metaTags 
-    }
-  },
+  }, 
   {
     path: "/tx",
     name: "Transactions",
@@ -147,6 +137,16 @@ const routes = [
       auth: false,
       title: prefix + "Address",
       metaTags: metaTags
+    }
+  },
+  {
+    path: "/search",
+    name: "Search",
+    component: () => import(/* webpackChunkName: "search" */ "../views/Search.vue"),
+    meta: {
+      auth: false,
+      title: prefix + "Search",
+      metaTags: metaTags 
     }
   },
   {

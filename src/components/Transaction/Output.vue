@@ -34,32 +34,31 @@
         </div>
     </div>
 </template>
-<script>
-    import Big from "big.js";
 
-    export default {
-        props: {
-            output: {
-                type: Object,
-                required: true,
-            }
-        },
-        computed:{
-            amount(){
-                let asset = this.asset;
-                let res = Big(this.output.amount).div(Math.pow(10,asset.denomination));
-                return res.toFixed(asset.denomination);
-            },
-            asset(){
-                let assets = this.$store.state.assets;
-                let id = this.output.assetID;
+<script lang="ts">
+import "reflect-metadata";
+import { Vue, Prop } from "vue-property-decorator";
+import Big from "big.js";
 
-                let res = assets[id];
-                return res;
-            }
-        }
+export default class Output extends Vue {
+    @Prop() output!: any;
+    
+    get asset(){
+        let assets = this.$store.state.assets;
+        let id = this.output.assetID;
+        let res = assets[id];
+        // TODO: exception when asset not found
+        return res;
     }
+
+    get amount(){
+        let asset = this.asset;
+        let res = Big(this.output.amount).div(Math.pow(10,asset.denomination));
+        return res.toFixed(asset.denomination);
+    }
+}
 </script>
+
 <style scoped lang="scss">
     .amount_symbol{
         background-color: main.$primary-color-light;

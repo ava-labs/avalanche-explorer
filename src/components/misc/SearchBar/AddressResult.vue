@@ -12,38 +12,38 @@
         </div>
     </div>
 </template>
-<script>
+<script lang="ts">
+import "reflect-metadata";
+import { Vue, Prop } from "vue-property-decorator";
 import { stringToBig } from "@/helper";
 
-export default {
-    props: {
-        item: {
-            type: Object,
-            required: true
-        }
-    },
-    methods: {
-        select() {
-            let url = `/address/${this.item.address}`;
-            this.$router.push(url);
-            this.$emit("select");
-        }
-    },
-    computed: {
-        avaxBalance() {
-            return this.item.assets["21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA"].balance;
-        },
-        avaxSymbol() {
-            return this.$store.state.assets["21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA"].symbol;
-        },
-        numTx() {
-            return this.item.transactionCount;
-        },
-        chainNow() {
-            return this.$store.state.chainId;
-        }
+export default class AddressResult extends Vue {
+    @Prop() item!: any | null;
+    
+    select() {
+        // TODO: support for multiple chains. add a chain param
+        let url = `/address/X-${this.item.address}`;
+        this.$router.push(url);
+        this.$emit("select");
     }
-};
+
+    get avaxBalance() {
+        return this.item.assets["21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA"].balance;
+    }
+    
+    get avaxSymbol() {
+        return this.$store.state.assets["21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA"].symbol;
+    }
+    
+    get numTx() {
+        return this.item.transactionCount;
+    }
+    
+    // TODO: support for multiple chains. add a chain param
+    get chainNow() {
+        return this.$store.state.chainId;
+    }
+}
 </script>
 <style scoped lang="scss">
 @use"../../../main";

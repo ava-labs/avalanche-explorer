@@ -19,6 +19,7 @@ function bigToDenomString(val: Big, denomination = 0) {
     return val.div(Math.pow(10, denomination));
 }
 
+// TODO: support for multiple chains. add a chain param
 function addressMap(addr: string): string {
     if (AddressDict[addr]) {
         return AddressDict[addr]
