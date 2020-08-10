@@ -17,6 +17,7 @@
                     <v-tab href="#pending-validators">Pending Validators</v-tab>
                     <v-tab href="#blockchains">Blockchains</v-tab>
                     <v-tab href="#control-keys">Control Keys</v-tab>
+                    <v-tab href="#delegations">Delegations</v-tab>
                     <v-tab-item class="tab_content" value="validators">
                         <template v-if="subnet.validators.length === 0">
                             <p class="null">There are no validators for this subnet.</p>
@@ -49,6 +50,14 @@
                             <ControlKeyTable :subnet="subnet" :title="'Control Keys'" class="table_margin"></ControlKeyTable>
                         </template>
                     </v-tab-item>
+                    <v-tab-item class="tab_content" value="delegations">
+                        <template v-if="subnet.delegations.length === 0">
+                            <p class="null">There are no delegated stakes for this subnet.</p>
+                        </template>
+                        <template v-else>
+                            <DelegationDataTable :validators="subnet.delegations" :subnetID="subnetID" :subnet="subnet" :title="'Delegations'" class="table_margin"></DelegationDataTable>
+                        </template>
+                    </v-tab-item>
                 </v-tabs>
             </v-card-text>
         </v-card>
@@ -56,7 +65,6 @@
 </template>
 
 <script lang="ts">
-/* eslint-disable */
 import "reflect-metadata";
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { subnetMap, toAVAX } from "@/helper";
@@ -68,6 +76,7 @@ import ContentMetadata from "@/components/Subnets/ContentMetadata.vue";
 import { scaleLinear } from "d3-scale";
 import ValidatorDataTable from "@/components/Validators/ValidatorDataTable.vue";
 import BlockchainDataTable from "@/components/Blockchain/BlockchainDataTable.vue";
+import DelegationDataTable from "@/components/Validators/DelegationDataTable.vue";
 import ControlKeyTable from "@/components/Validators/ControlKeyTable.vue";
 
 @Component({
@@ -75,7 +84,8 @@ import ControlKeyTable from "@/components/Validators/ControlKeyTable.vue";
         ContentMetadata,
         ValidatorDataTable,
         BlockchainDataTable,
-        ControlKeyTable
+        ControlKeyTable,
+        DelegationDataTable
     },
     filters: {
         subnet(val: string) {

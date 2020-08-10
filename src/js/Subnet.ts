@@ -11,6 +11,8 @@ export default class Subnet {
     blockchains: Blockchain[];
     validators: IValidator[];
     pendingValidators: IValidator[];
+    delegations: IValidator[];
+    pendingDelegations: IValidator[];
 
     constructor(data: ISubnetData) {
         this.id = data.id;
@@ -19,6 +21,8 @@ export default class Subnet {
         this.blockchains = [];
         this.validators = [];
         this.pendingValidators = [];
+        this.delegations = [];
+        this.pendingDelegations = [];
     }
 
     // TODO: get address details for Platform Keys (https://docs.avax.network/v1.0/en/api/platform/#platformgetaccount)
@@ -36,21 +40,25 @@ export default class Subnet {
         let response = await gecko_api.post("", req);
         let validatorsData = response.data.result.validators as IStakingData[];
         let validators: IValidator[] = []; 
+        let delegations: IValidator[] = []; 
         
         if (validatorsData.length > 0) {
             validators = this.cast(validatorsData);
             if (this.id === AVALANCHE_SUBNET_ID) {
                 validators = this.sortForDelegators(validators);
-                validators = this.nestValidatorsAndDelegators(validators);
+                [validators, delegations] = this.nestValidatorsAndDelegators(validators, endpoint);
             }
             validators = this.sortByStake(validators, this.id);
         }
-
+        console.log("delegations", delegations);
         if (endpoint === "platform.getCurrentValidators") {
             this.validators = validators;
+            this.delegations = delegations;
         } else if (endpoint === "platform.getPendingValidators") {
             this.pendingValidators = validators;
+            this.pendingDelegations = delegations;
         }
+        console.log("this.delegations", this.delegations);
     }
 
     addBlockchain(data: Blockchain) {
@@ -115,36 +123,41 @@ export default class Subnet {
     /** 
      *  Create set of unique validators
      *  Delegation stakes are nested inside validators
+     *  Create set of delegations
      */
-    private nestValidatorsAndDelegators(sorted: IValidator[]): IValidator[] {
+    private nestValidatorsAndDelegators(sorted: IValidator[], endpoint: string): IValidator[][] {
         let validatorsMap: {[key:string]: IValidator} = {};
+        let delegations: IValidator[] = [];
         for (let i = 0; i < sorted.length; i++) {
             let nodeID = sorted[i].id;
             if (validatorsMap[nodeID]) {
-                // add delegator
+                // nest delegator within validator
                 // eslint-disable-next-line
                 validatorsMap[nodeID].delegators!.push(sorted[i]);
+                delegations.push(sorted[i]);
             } else {
                 // add validator
                 validatorsMap[nodeID] = sorted[i];
             }
         }
         let nestedValidators: IValidator[] = Object.values(validatorsMap);
+        console.log("delegations", delegations);
         
-        // calculate totalStakeAmount
+        // calculate totalStakeAmount and delegations
         nestedValidators.forEach((v => {
             if (v.delegators) {
                 if (v.delegators.length > 0) {
                     let delegatedStake = 0;
                     // eslint-disable-next-line
-                    v.delegators.forEach(v => delegatedStake += v.stakeAmount!);
+                    v.delegators.forEach(d => delegatedStake += d.stakeAmount!);
                     // eslint-disable-next-line
                     v.totalStakeAmount! += delegatedStake;
                 }
                 return [];
             }
         }));
-        return nestedValidators;
+
+        return [nestedValidators, delegations];
     }
     
     /** 
