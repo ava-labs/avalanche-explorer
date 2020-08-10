@@ -30,8 +30,8 @@ import Tabs from "../components/Subnets/Tabs.vue";
 import Loader from "../components/misc/Loader.vue";
 import Content from "@/components/Subnets/Content.vue";
 import { AVALANCHE_SUBNET_ID } from "@/store/modules/platform/platform";
-import { ISubnets } from '../store/modules/platform/IPlatformState';
-import Big from "Big.js";
+import { ISubnets } from "../store/modules/platform/IPlatformState";
+import Big from "big.js";
 
 interface IMap {
     text: string,
