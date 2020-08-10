@@ -24,7 +24,7 @@
             </template>
             <template #item.subnetID="{item}">
                 <div>
-                    <router-link :to="`/subnets`">{{ item.subnetID | subnet }}</router-link>
+                    <router-link :to="`/subnet/${item.subnetID}`">{{ item.subnetID | subnet }}</router-link>
                 </div>
             </template>
         </v-data-table>

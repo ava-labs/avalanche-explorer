@@ -50,7 +50,7 @@ export default class Subnet {
             }
             validators = this.sortByStake(validators, this.id);
         }
-        console.log("delegations", delegations);
+
         if (endpoint === "platform.getCurrentValidators") {
             this.validators = validators;
             this.delegations = delegations;
@@ -58,7 +58,6 @@ export default class Subnet {
             this.pendingValidators = validators;
             this.pendingDelegations = delegations;
         }
-        console.log("this.delegations", this.delegations);
     }
 
     addBlockchain(data: Blockchain) {
@@ -141,7 +140,6 @@ export default class Subnet {
             }
         }
         let nestedValidators: IValidator[] = Object.values(validatorsMap);
-        console.log("delegations", delegations);
         
         // calculate totalStakeAmount and delegations
         nestedValidators.forEach((v => {
