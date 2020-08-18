@@ -48,7 +48,7 @@
                     <validator-row
                         class="validator"
                         v-for="v in paginatedValidators"
-                        :key="v.id + v.stakeAmount"
+                        :key="v.nodeID + v.stakeAmount"
                         :validator="v"
                         :cumulative-stake="cumulativeStake[v.rank - 1]"
                     ></validator-row>
@@ -58,7 +58,7 @@
                 <validator-row
                     class="validator"
                     v-for="v in matchedValidators"
-                    :key="v.id + v.stakeAmount"
+                    :key="v.nodeID + v.stakeAmount"
                     :validator="v"
                     :cumulative-stake="cumulativeStake[v.rank - 1]"
                 ></validator-row>
@@ -144,7 +144,7 @@ export default class Validators extends Vue {
 
     get matchedValidators() {
         return this.validators
-            .filter((v: IValidator) => v.id.includes(this.search))
+            .filter((v: IValidator) => v.nodeID.includes(this.search))
             .slice(0, 10);
     }
 

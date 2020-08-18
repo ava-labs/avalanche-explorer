@@ -70,19 +70,21 @@ export default class Subnet {
     private cast(stakingData: IStakingData[]): IValidator[] {
         let validators = stakingData.map((s: IStakingData) => {
             let validator: IValidator = {
-                id: s.id,
+                nodeID: s.nodeID,
                 startTime: new Date(parseInt(s.startTime) * 1000),
                 endTime: new Date(parseInt(s.endTime) * 1000)
             }
 
             // set optional props for validators of default subnet
-            if ({}.hasOwnProperty.call(s, "address") &&
-                {}.hasOwnProperty.call(s, "stakeAmount")) {
-                validator.address = s.address;
+            if ({}.hasOwnProperty.call(s, "stakeAmount")) {
                 validator.stakeAmount = parseInt(s.stakeAmount as string);
                 validator.totalStakeAmount = validator.stakeAmount;
-                validator.delegators = [];
                 validator.elapsed = this.getElapsedStakingPeriod(validator);
+            }
+
+            if ({}.hasOwnProperty.call(s, "address")) {
+                validator.address = s.address;
+                validator.delegators = [];
             }
 
             // set optional props for validators of non-default subnet
@@ -104,9 +106,9 @@ export default class Subnet {
     private sortForDelegators(validators: IValidator[]): IValidator[] {
         return validators.sort((a, b) => {
             // primary sort by id
-            if (a.id < b.id) {
+            if (a.nodeID < b.nodeID) {
                 return -1;
-            } else if (a.id > b.id) {
+            } else if (a.nodeID > b.nodeID) {
                 return 1;
             }
             // secondary sort by startTime
@@ -128,7 +130,7 @@ export default class Subnet {
         let validatorsMap: {[key:string]: IValidator} = {};
         let delegations: IValidator[] = [];
         for (let i = 0; i < sorted.length; i++) {
-            let nodeID = sorted[i].id;
+            let nodeID = sorted[i].nodeID;
             if (validatorsMap[nodeID]) {
                 // nest delegator within validator
                 // eslint-disable-next-line
