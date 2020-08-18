@@ -1,4 +1,4 @@
-import gecko_api from "@/gecko_api";
+import avalanche_go_api from "@/avalanche_go_api";
 import { ISubnetData } from "@/store/modules/platform/ISubnet"
 import Blockchain from '@/js/Blockchain';
 import { IValidator, IStakingData } from "@/store/modules/platform/IValidator";
@@ -37,7 +37,7 @@ export default class Subnet {
             },
             "id": 1
         };
-        let response = await gecko_api.post("", req);
+        let response = await avalanche_go_api.post("", req);
         let validatorsData = response.data.result.validators as IStakingData[];
         let validators: IValidator[] = []; 
         let delegations: IValidator[] = []; 

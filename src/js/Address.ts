@@ -44,7 +44,7 @@ export default class Address {
                 utxoCount: 0
             };
 
-            // TODO: exception when asset is not found (try indexer and gecko)
+            // TODO: exception when asset is not found (try Ortelius and Avalanche-Go)
             if (assetsMap[assetID]) {
                 // asset metadata for convenience 
                 balance.id = assetsMap[assetID].id;

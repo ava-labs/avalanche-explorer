@@ -204,7 +204,7 @@ export default class ValidatorDataTable extends Vue {
 
     get headers(): any[] {
         return [
-            { text: "Validator", value: "nodeID", width: 100 },
+            { text: "Validator", value: "nodeID", width: 130 },
             { text: "Stake", value: this.stakeOrWeight, width: 130 },
             { text: "Start", value: "startTime", align: "end", width: 80 },
             { text: "Completion", value: "elapsed", align: "center", width: 125 },

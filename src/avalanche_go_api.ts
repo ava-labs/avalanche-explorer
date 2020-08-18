@@ -1,9 +1,8 @@
 import axios from 'axios'
-
-const api_url = `https://testapi.avax.network:443/ext/P`;
+const AVALANCHE_GO_URL = process.env.VUE_APP_AVALANCHE_GO_URL!;
 
 export default axios.create({
-    baseURL: api_url,
+    baseURL: AVALANCHE_GO_URL,
     withCredentials: false,
     headers:{
         'Content-Type' : 'application/json',
