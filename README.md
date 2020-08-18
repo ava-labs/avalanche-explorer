@@ -18,7 +18,7 @@ When you go to the app on your browser, you might get a warning saying "Site is 
 
 ## Configuration
 
-See `.env.example`. By default, the Avalanche Explorer interfaces with the Denali test network. 
+See `.env.example`. By default, the Avalanche Explorer interfaces with the Everest test network. 
 
 To connect to a local network, install and run instances of:
 - Data indexing backend [Ortelius](https://github.com/ava-labs/ortelius).
