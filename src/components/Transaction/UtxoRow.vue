@@ -82,8 +82,8 @@ a {
 .amount_symbol {
     white-space: nowrap;
     width: max-content;
-    background-color: main.$primary-color-light;
-    color: main.$primary-color;
+    background-color: main.$secondary-color-xlight;
+    color: main.$secondary-color;
     padding: 4px 8px;
     border-radius: 3px;
 }

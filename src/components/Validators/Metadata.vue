@@ -1,5 +1,5 @@
 <template>
-    <div class="card meta_data">
+    <div id="validators_meta" class="card meta_data">
         <div class="header">
             <h2>
                 Validators
@@ -129,8 +129,8 @@ export default class Metadata extends Vue {
         .label {
             text-transform: capitalize;
             color: main.$primary-color;
-            font-size: 14px;
-            font-weight: 500;
+            font-size: 16px;
+            font-weight: 700;
             margin-bottom: 6px;
         }
 
@@ -200,28 +200,18 @@ export default class Metadata extends Vue {
     flex-grow: 0;
 }
 
-.v-tab {
-    color: #000 !important;
-    border: 2px solid #000;
+.v-tab {    
+    color: main.$primary-color !important;
     background-color: transparent;
     font-size: 13px;
-    font-weight: 400; /* 700 */
+    font-weight: 400;
     letter-spacing: 0;
     margin: 0;
     text-transform: none;
-
-    &:first-child {
-        border-radius: 4px 0 0 4px;
-    }
-
-    &:last-child {
-        border-radius: 0 4px 4px 0;
-    }
 }
 
 .tab_active {
-    background-color: #000;
-    color: main.$white !important;
+    border-bottom: 4px solid main.$secondary-color;
 }
 
 @include main.device_s {
@@ -248,4 +238,27 @@ export default class Metadata extends Vue {
         }
     }
 }
+</style>
+<style lang="scss">
+@use "../../main";
+
+#validators_meta {
+    
+    .v-tab.v-tab {
+        font-family: "Rubik", sans-serif;
+        text-transform: uppercase;
+        font-weight: 500;
+    }
+
+    .v-application .primary--text {
+        color: main.$primary-color !important;
+        caret-color: main.$primary-color !important;
+    }
+
+    .v-tabs-slider-wrapper {
+        color: main.$secondary-color;
+        caret-color: main.$secondary-color;
+    }
+}
+
 </style>

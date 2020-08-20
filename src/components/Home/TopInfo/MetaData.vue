@@ -23,7 +23,7 @@
                         </p>
                     </div>
                     <div v-else>
-                        <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
+                        <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
                     </div>
                 </div>
             </article>
@@ -44,7 +44,7 @@
                         <!--<p class="change">+ 24%</p>-->
                     </div>
                     <div v-else>
-                        <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
+                        <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
                     </div>
                 </div>
             </article>
@@ -62,7 +62,7 @@
                         <!--<p class="change">+ 24%</p>-->
                     </div>
                     <div v-else>
-                        <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
+                        <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
                     </div>
                 </div>
             </article>
@@ -82,7 +82,7 @@
                         </p>
                     </div>
                     <div v-else>
-                        <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
+                        <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
                     </div>
                 </div>
             </article>
@@ -137,7 +137,7 @@ export default class MetaData extends Vue {
 
     get avaxVolume(): string {
         let assets = this.$store.state.assets;
-        let avax = assets["21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA"];
+        let avax = assets["nznftJBicce1PfWQeNEVBmDyweZZ6zcM3p78z9Hy9Hhdhfaxm"];
         return !avax
             ? (0).toLocaleString()
             : parseInt(avax.volume_day.toFixed(0)).toLocaleString();

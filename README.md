@@ -1,6 +1,6 @@
 # Avalanche Explorer
 
-Frontend Vue.js application for displaying Avalanche network activity and blockchains data from the [Ortelius indexer](https://github.com/ava-labs/ortelius) and [Gecko client](https://github.com/ava-labs/gecko).
+Frontend Vue.js application for displaying Avalanche network activity and blockchains data from the [Ortelius indexer](https://github.com/ava-labs/ortelius) and [Avalanche-Go client](https://github.com/ava-labs/gecko).
 
 ## Prerequisites
 
@@ -18,11 +18,11 @@ When you go to the app on your browser, you might get a warning saying "Site is 
 
 ## Configuration
 
-See `.env.example`. By default, the Avalanche Explorer interfaces with the Denali test network. 
+See `.env.example`. By default, the Avalanche Explorer interfaces with the Everest test network. 
 
 To connect to a local network, install and run instances of:
 - Data indexing backend [Ortelius](https://github.com/ava-labs/ortelius).
-- Avalanche clients via [Gecko](https://github.com/ava-labs/gecko) or [Avash](https://github.com/ava-labs/avash).
+- Avalanche clients via [Avalanche-Go](https://github.com/ava-labs/gecko) or [Avash](https://github.com/ava-labs/avash).
 
 ## Known Addresses
 

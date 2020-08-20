@@ -17,7 +17,7 @@
             </article>
             <article class="meta_row">
                 <p class="label">AVAX Balance</p>
-                <p>{{avaxBalance.toLocaleString(this.assetsMap["21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA"].denomination)}} AVAX</p>
+                <p>{{avaxBalance.toLocaleString(this.assetsMap["nznftJBicce1PfWQeNEVBmDyweZZ6zcM3p78z9Hy9Hhdhfaxm"].denomination)}} AVAX</p>
             </article>
             <article class="meta_row">
                 <p class="label">Transactions</p>
@@ -33,7 +33,7 @@
             <header class="header">
                 <h2>Transactions</h2>
                 <template v-if="txloading && !assetsLoaded">
-                    <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
+                    <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
                 </template>
                 <template v-else>
                     <div class="bar">
@@ -65,7 +65,7 @@
                 </p>
             </div>
             <div v-show="txloading">
-                <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
+                <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
             </div>
             <div v-show="!txloading">
                 <div class="rows">

@@ -15,7 +15,7 @@
                 </template>
             </div>
             <div v-if="!assetsLoaded">
-                <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
+                <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
             </div>
             <div class="asset_list" v-else>
                 <div class="grid_headers asset_row">
@@ -83,8 +83,8 @@ import { IAssetData } from "../js/IAsset";
 export default class AssetsPage extends Vue {
     get assets(): Asset[] {
         let res: Asset[] = this.$store.getters.assetsArrayNonProfane;
-        let avax: Asset = res.find((asset: Asset) => asset.id === "21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA") as Asset;
-        res = res.filter((asset: Asset) => asset.id !== "21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA");
+        let avax: Asset = res.find((asset: Asset) => asset.id === "nznftJBicce1PfWQeNEVBmDyweZZ6zcM3p78z9Hy9Hhdhfaxm") as Asset;
+        res = res.filter((asset: Asset) => asset.id !== "nznftJBicce1PfWQeNEVBmDyweZZ6zcM3p78z9Hy9Hhdhfaxm");
         res.sort((a: Asset, b: Asset) => b.txCount_day - a.txCount_day);
         res.unshift(avax);
         return res;

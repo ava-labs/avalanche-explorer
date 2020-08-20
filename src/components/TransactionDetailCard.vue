@@ -37,7 +37,8 @@
         </article>
         <article class="meta_row">
             <p class="label">Transaction Fee</p>
-            <p>0.00 AVAX</p>
+            <!-- TODO: Tx Fee from API when supported -->
+            <p>0.001 AVAX</p>
         </article>
         <article class="meta_row" v-if="!isAssetGenesis">
             <p class="label">Input UTXOs</p>

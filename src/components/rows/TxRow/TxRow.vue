@@ -119,20 +119,20 @@ export default class TxRow extends Vue {
     line-height: 35px;
     text-align: center;
     background-color: main.$white;
-    border: 2px solid main.$black;
+    border: 2px solid main.$primary-color;
 
     p {
         width: 100%;
-        font-weight: 500; /* 700 */
-        color: #272727;
+        font-weight: 500;
+        color: main.$primary-color;
     }
 }
 
 .time {
-    font-weight: 400; /* 700 */
+    font-weight: 400;
     font-size: 10px;
     margin-top: 5px;
-    color: #7a838e;
+    color: main.$primary-color-light;
     word-break: keep-all;
     white-space: nowrap;
 }

@@ -5,15 +5,16 @@
                 <h2>Avalanche Directory</h2>
             </div>
             <hr />
-            <div class="denali">
-                <img src="https://assets-global.website-files.com/5d80307810123f5ffbb34d6e/5eced3b22c4c3f38823c7fd3_Denali%20Big.svg" width="2280" alt="">
-                <h3>Welcome to the Denali Incentivized Testnet</h3>
-                <p class="description">The Avalanche Explorer is an analytics tool that enables people to search the Avalanche blockchain for transactions, addresses, and other platform activities. Denali is the last phase of the public testnet and a global community effort to test the network in the most realistic conditions. Denali is designed to build, educate, and reward the first community of Avalanche validators, preparing them for a healthy, decentralized, and widely distributed mainnet launch!</p>
+            <div class="everest">
+                <img src="@/assets/everest.png" alt="Image of Mt. Everest">
+                <h3>Welcome to the Everest Testnet</h3>
+                <p class="description">The Avalanche Explorer is an analytics tool that enables people to search the Avalanche blockchain for transactions, addresses, and other platform activities.</p>
+                <p class="description">Everest is our last release before mainnet. Avalanche features high-throughput (~5000tps), fast finality (less than 2 seconds), and high resilience. In our recent incentivized Everest testnet we had over 1,000 worldwide validators.</p>
             </div>
             <div class="resource_container">
                 <div class="resource">
                     <img src="@/assets/resources_view/Wallet.png" />
-                    <h3>Wallet & Faucet</h3>
+                    <h3>Wallet &amp; Faucet</h3>
                     <p>Used to receive and spend cryptoassets</p>
                     <div class="buts">
                         <a href="https://wallet.avax.network" target="_blank">Wallet</a>
@@ -58,14 +59,16 @@ hr {
     opacity: 0.2;
 }
 
-.denali {
+.everest {
     border: 0;
     width: 100%;
     
     img {
+        width: 100%;
         max-width: 100%;
         max-height: 100%;
         display: block;
+        padding-top: 22px;
     }
 
     h3 {

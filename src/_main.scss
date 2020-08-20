@@ -33,25 +33,36 @@ $container_padding_l: 30px 18vw;
 
 $white: #fff;
 $black: #212121;
-$gray: #7a838e; 
+$gray: #6e7479;
 $gray-input: #d6dae1;
 $gray-light: #e8e7ea;
-$gray-xlight: #f2f2f2;
+$gray-xlight:#f5f6fa;
+
 $red: #e84142;
 $red-light: #c15656;
 $red-xlight: #ffe6e6;
-$pink: #F71064;
-$blue: #71c5ff; 
-$blue-light: #e6f5ff;
-$purple: #976cfa;
-$purple-light: #ebe4fb;
+$orange: #ef8f4a;
+
+$purple: #4c2e56;
+$purple-light: #867e89;
 $purple-xlight: #fcfbfe;
-$green: #56c18d;
+$pink: #E84970;
+$pink-light: #FF8080;
+$pink-extra-light: #ffe6e6;
+$blue: #2196f3; 
+$blue-light: #e6f5ff;
+
+$green: #42b983;
 $green-light: #e4fbef;
 
 $primary-color: $purple;
 $primary-color-light: $purple-light;
-$primary-color-xlight: $purple-xlight;
+
+$secondary-color: $pink;
+$secondary-color-light: $pink-light;
+$secondary-color-xlight: $pink-extra-light;
+
+$bg-light: $gray-xlight;
 
 $h2_xs: 18px;
 $h2_s: 20px;

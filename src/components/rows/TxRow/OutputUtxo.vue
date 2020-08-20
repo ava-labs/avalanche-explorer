@@ -120,14 +120,14 @@ export default class OutputUtxo extends Vue {
     display: flex;
     flex-direction: column-reverse;
     height: 100%;
-    background-color: main.$primary-color-light;
+    background-color: main.$secondary-color-xlight;
     border-radius: 4px;
     justify-content: center;
     align-items: center;
 }
 .amount {
-    color: main.$primary-color;
-    font-weight: 400; /* 700 */
+    color: main.$secondary-color;
+    font-weight: 400;
     letter-spacing: 0.1em;
     font-size: 11px;
 }

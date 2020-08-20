@@ -39,7 +39,7 @@
                             <p class="null">There are no blockchains for this subnet.</p>
                         </template>
                         <template v-else>
-                            <BlockchainDataTable :blockchains="subnet.blockchains" :title="'Blockchains'" class="table_margin"></BlockchainDataTable>
+                            <BlockchainDataTable :blockchains="subnet.blockchains" :title="'Blockchains'" :links="true" class="table_margin"></BlockchainDataTable>
                         </template>
                     </v-tab-item>
                     <v-tab-item class="tab_content" value="control-keys">

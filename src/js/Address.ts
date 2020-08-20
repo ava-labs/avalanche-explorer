@@ -44,7 +44,7 @@ export default class Address {
                 utxoCount: 0
             };
 
-            // TODO: exception when asset is not found (try indexer and gecko)
+            // TODO: exception when asset is not found (try Ortelius and Avalanche-Go)
             if (assetsMap[assetID]) {
                 // asset metadata for convenience 
                 balance.id = assetsMap[assetID].id;
@@ -59,7 +59,6 @@ export default class Address {
                 balance.proportionOfCurrentSupply = Math.round(((parseInt(balanceData[assetID].balance) / parseInt(assetsMap[assetID].currentSupply)) * 100));
                 balance.transactionCount = balanceData[assetID].transactionCount;
                 balance.utxoCount = balanceData[assetID].utxoCount;
-                console.log("tx COunt", balance.transactionCount);
                 // balances metadata
                 this.totalTransactionCount += balance.transactionCount;
                 this.totalUtxoCount += balance.utxoCount;
@@ -72,7 +71,7 @@ export default class Address {
     }
 
     private setAVAXBalance(): void {
-        let result = this.assets.find(asset => asset.id === "21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA");
+        let result = this.assets.find(asset => asset.id === "nznftJBicce1PfWQeNEVBmDyweZZ6zcM3p78z9Hy9Hhdhfaxm");
         if (result) {
             this.avaxBalance = result.balance;
         }

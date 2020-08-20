@@ -11,7 +11,7 @@
                 </template>
             </div>
             <template v-if="loading && !assetsLoaded">
-                <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
+                <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
             </template>
             <template v-else>
                 <div class="table_headers all_tx_rows">

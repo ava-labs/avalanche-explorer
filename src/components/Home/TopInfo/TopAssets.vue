@@ -9,7 +9,7 @@
             </h2>
         </div>
         <div v-if="!assetsLoaded">
-            <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
+            <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
         </div>
         <div v-else>
             <div class="asset column_headers">
@@ -56,8 +56,8 @@ export default class TopAssets extends Vue {
 
     get assets(): Asset[] {
         let res = this.$store.getters.assetsArrayNonProfane;
-        let avax = res.find((asset: Asset) => asset.id === "21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA");
-        res = res.filter((asset: Asset) => asset.id !== "21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA");
+        let avax = res.find((asset: Asset) => asset.id === "nznftJBicce1PfWQeNEVBmDyweZZ6zcM3p78z9Hy9Hhdhfaxm");
+        res = res.filter((asset: Asset) => asset.id !== "nznftJBicce1PfWQeNEVBmDyweZZ6zcM3p78z9Hy9Hhdhfaxm");
         res.sort((a: Asset, b: Asset) => b.txCount_day - a.txCount_day);
         res.unshift(avax);
         return res.slice(0, 5);
@@ -117,8 +117,8 @@ export default class TopAssets extends Vue {
 
     .symbol {
         flex-shrink: 0;
-        color: main.$primary-color;
-        background-color: main.$primary-color-light;
+        color: main.$secondary-color;
+        background-color: main.$secondary-color-xlight;
         min-height: 1em;
         min-width: 20px;
         text-align: center;

@@ -13,7 +13,7 @@
                 <button :active="scope===options[5]" @click="setScope(options[5])">Min</button>
             </div>
             <div v-show="loading" class="loading_cont">
-                <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate></v-progress-circular>
+                <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate></v-progress-circular>
             </div>
             <div class="canv_cont">
                 <canvas ref="canv"></canvas>
@@ -255,12 +255,12 @@ export default {
                 datasets: [
                     {
                         label: "Tx Volume",
-                        backgroundColor: "#976cfa",
-                        borderColor: "#976cfa",
+                        backgroundColor: "#e84970",
+                        borderColor: "#e84970",
                         pointBackgroundColor: "transparent",
                         pointBorderColor: "transparent",
-                        pointHoverBackgroundColor: "#976cfa",
-                        pointHoverBorderColor: "#976cfa",
+                        pointHoverBackgroundColor: "#e84970",
+                        pointHoverBorderColor: "#e84970",
                         data: valuesX,
                         fill: false
                     }
@@ -392,7 +392,7 @@ export default {
     left: 0;
     width: 100%;
     height: calc(100% - 40px);
-    z-index: 10;
+    z-index: 2;
     display: flex;
     align-items: center;
     justify-content: center;;

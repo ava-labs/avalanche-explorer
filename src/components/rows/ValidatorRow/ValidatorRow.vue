@@ -6,7 +6,7 @@
             </div>
         </div>
         <div class="id_col">
-            <p>{{validator.id}}</p>
+            <p>{{validator.nodeID}}</p>
             <p>{{duration}}</p>
         </div>
         <div class="stake_col">
@@ -113,7 +113,7 @@ export default class ValidatorRow extends Vue {
 .rank {
     > div {
         background-color: main.$white;
-        color: #000;
+        color: main.$primary-color;
         border: 2px solid main.$primary-color;
         width: 40px;
         height: 40px;
@@ -199,10 +199,6 @@ export default class ValidatorRow extends Vue {
             font-weight: 400; /* 700 */
         }
     }
-
-    .stakeAmount {
-        /* color: main.$pink; */
-    }
 }
 
 .comm_col {
@@ -239,7 +235,7 @@ export default class ValidatorRow extends Vue {
 
     .rank > div {
         color: #000;
-        border: 2px solid #976cfa;
+        border: 2px solid main.$secondary-color;
         width: 24px;
         height: 24px;
         border-radius: 24px;
