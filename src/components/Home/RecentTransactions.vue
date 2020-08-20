@@ -145,8 +145,7 @@ export default class RecentTransactions extends Vue {
 
     .chain {
         font-size: 12px;
-        color: #929ba6;
-        font-weight: lighter;
+        color: main.$primary-color-light;
         text-align: right;
         flex-grow: 1;
 
@@ -159,8 +158,8 @@ export default class RecentTransactions extends Vue {
         .tag {
             padding: 4px 12px;
             border-radius: 4px;
-            color: main.$primary-color;
-            background-color: main.$primary-color-light;
+            color: main.$secondary-color;
+            background-color: main.$secondary-color-xlight;
             min-height: 1em;
             line-height: 2em;
             word-break: keep-all;
@@ -194,14 +193,13 @@ export default class RecentTransactions extends Vue {
     width: max-content;
     text-decoration: none !important;
     margin-top: 30px;
-    /* color: main.$white !important; */
     transition: opacity 0.3s;
     
     background-color: transparent!important;
     padding: 10px 24px;
     min-width: 140px;
     border-radius: 6px;
-    font-family: DM Sans,sans-serif;
+    font-family: "DM Sans", sans-serif;
     font-weight: 700;
     letter-spacing: .5px;
     text-transform: uppercase!important;

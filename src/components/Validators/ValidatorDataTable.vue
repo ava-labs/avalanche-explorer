@@ -18,7 +18,7 @@
             <template #item.id="{item}">
                 <div class="text-truncate" style="max-width: 100px;">{{item.id}}</div>
             </template>
-            <template #item.stakeAmount="{item}">{{item.totalStakeAmount | AVAX}}</template>
+            <template #item.stakeAmount="{item}">{{item.totalStakeAmount | AVAX}} AVAX</template>
             <template #item.startTime="{item}">
                 <div class="text-right date no-pad-right">{{item.startTime.getTime() | date}}</div>
                 <div class="text-right time no-pad-right">{{item.startTime.getTime() | time}}</div>

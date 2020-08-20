@@ -9,7 +9,7 @@
                     - {{quote.author}}
                 </div>
             </div>
-            <v-progress-circular :size="16" :width="2" color="#2196f3" indeterminate key="1"></v-progress-circular>
+            <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
             <div class="message" key="2">{{message}}</div>
             <div class="content_id" key="3" v-if="contentId">{{contentId}}</div>
         </transition-group>

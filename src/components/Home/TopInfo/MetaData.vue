@@ -23,7 +23,7 @@
                         </p>
                     </div>
                     <div v-else>
-                        <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
+                        <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
                     </div>
                 </div>
             </article>
@@ -44,7 +44,7 @@
                         <!--<p class="change">+ 24%</p>-->
                     </div>
                     <div v-else>
-                        <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
+                        <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
                     </div>
                 </div>
             </article>
@@ -62,7 +62,7 @@
                         <!--<p class="change">+ 24%</p>-->
                     </div>
                     <div v-else>
-                        <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
+                        <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
                     </div>
                 </div>
             </article>
@@ -82,7 +82,7 @@
                         </p>
                     </div>
                     <div v-else>
-                        <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
+                        <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
                     </div>
                 </div>
             </article>

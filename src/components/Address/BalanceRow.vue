@@ -52,8 +52,8 @@ export default {
 }
 
 .symbol {
-    color: main.$primary-color;
-    background-color: main.$primary-color-light;
+    color: main.$secondary-color;
+    background-color: main.$secondary-color-xlight;
     padding: 6px 12px;
     text-align: center;
     border-radius: 4px;

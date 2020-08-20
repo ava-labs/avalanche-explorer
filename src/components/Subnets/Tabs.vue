@@ -84,10 +84,20 @@ export default class SubnetTabs extends Vue {
     .v-card__text {
         padding-left: 0 !important;
     }
-
+    
+    .v-tab.v-tab {
+        font-family: "Rubik", sans-serif;
+        text-transform: uppercase;
+        font-weight: 500;
+    }
     .v-application .primary--text {
         color: main.$primary-color !important;
         caret-color: main.$primary-color !important;
+    }
+
+    .v-tabs-slider-wrapper {
+        color: main.$secondary-color;
+        caret-color: main.$secondary-color;
     }
 }
 

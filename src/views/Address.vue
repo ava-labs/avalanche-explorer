@@ -33,7 +33,7 @@
             <header class="header">
                 <h2>Transactions</h2>
                 <template v-if="txloading && !assetsLoaded">
-                    <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
+                    <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
                 </template>
                 <template v-else>
                     <div class="bar">
@@ -65,7 +65,7 @@
                 </p>
             </div>
             <div v-show="txloading">
-                <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
+                <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
             </div>
             <div v-show="!txloading">
                 <div class="rows">

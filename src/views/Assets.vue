@@ -15,7 +15,7 @@
                 </template>
             </div>
             <div v-if="!assetsLoaded">
-                <v-progress-circular :size="16" :width="2" color="#976cfa" indeterminate key="1"></v-progress-circular>
+                <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
             </div>
             <div class="asset_list" v-else>
                 <div class="grid_headers asset_row">

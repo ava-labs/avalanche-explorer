@@ -146,7 +146,7 @@ export default Vue.extend({
    typography
    ========================================== */
 body {
-    font-family: "Rubik", sans-serif; /* font-family: "Helvetica"; */
+    font-family: "Rubik", sans-serif;
     margin: 0;
     background-color: main.$white !important;
     color: main.$primary-color;
@@ -290,8 +290,8 @@ p {
 
 .values {
     span {
-        background-color: main.$primary-color-light;
-        color: main.$primary-color;
+        background-color: main.$secondary-color-xlight;
+        color: main.$secondary-color;
         margin-right: 4px;
         padding: 4px 8px;
         border-radius: 3px;

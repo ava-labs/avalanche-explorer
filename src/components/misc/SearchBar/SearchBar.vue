@@ -1,17 +1,19 @@
 <template>
     <div class="search_bar">
-        <input
-            type="text"
-            v-model="searchValue"
-            @keyup.enter="search"
-            @input="oninput"
-            @focus="onfocus"
-            @blur="onblur"
-            :placeholder="placeholder"
-        />
-        <v-btn @click="search" color="#212121" :loading="isAjax" depressed>
-            <fa icon="search"></fa>
-        </v-btn>
+        <div class="search_input_wrapper">
+            <v-btn @click="search" color="#fff" :loading="isAjax" depressed>
+                <fa icon="search"></fa>
+            </v-btn>
+            <input
+                type="text"
+                v-model="searchValue"
+                @keyup.enter="search"
+                @input="oninput"
+                @focus="onfocus"
+                @blur="onblur"
+                :placeholder="placeholder"
+            />
+        </div>
         <transition name="fade">
             <div class="search_results" v-if="showResults">
                 <div class="no_result" v-if="isAjax">
@@ -145,6 +147,14 @@ export default Vue.extend({
 <style scoped lang="scss">
 @use"../../../main";
 
+.search_input_wrapper {
+    width: 100%;
+    padding: 5px;
+    background-color: main.$bg-light;
+    border-radius: 4px;
+    display: flex;
+}
+
 .search_bar {
     display: flex;
     background-color: transparent;
@@ -157,10 +167,7 @@ input {
     padding: 8px 13px;
     flex-grow: 1;
     outline: none;
-    border: 2px solid main.$gray-input;
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-    border-right: none;
+    border: 2px solid transparent;
     font-size: 12px;
 }
 
@@ -169,9 +176,10 @@ input {
     border-radius: 0;
     cursor: pointer;
     font-size: 12px;
-    color: main.$white !important;
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
+    color: main.$primary-color !important;
+    padding: 0 !important;
+    min-width: 38px;
+    border-radius: 4px;
 }
 
 .search_results {

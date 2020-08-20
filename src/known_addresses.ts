@@ -3,7 +3,7 @@ interface AddressDict {
 }
 
 let dict: AddressDict = {
-  "6cesTteH62Y5mLoDBUASaBvCXuL2AthL": "The AVAX Faucet"
+  "everest182njwsuws28ualy459kevrqsea60q2fuu5a0eg": "The AVAX Faucet"
 };
 
 export default dict;

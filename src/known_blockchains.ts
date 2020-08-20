@@ -1,5 +1,3 @@
-import { ChainAddressPayload } from 'avalanche';
-
 interface BlockchainDict {
   [key: string]: string
 }
