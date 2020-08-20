@@ -194,13 +194,19 @@ export default class RecentTransactions extends Vue {
     width: max-content;
     text-decoration: none !important;
     margin-top: 30px;
-    background-color: main.$black;
-    color: main.$white !important;
-    padding: 12px 24px;
-    font-size: 12px;
-    font-weight: 400; /* 700 */
-    border-radius: 4px;
+    /* color: main.$white !important; */
     transition: opacity 0.3s;
+    
+    background-color: transparent!important;
+    padding: 10px 24px;
+    min-width: 140px;
+    border-radius: 6px;
+    font-family: DM Sans,sans-serif;
+    font-weight: 700;
+    letter-spacing: .5px;
+    text-transform: uppercase!important;
+    font-size: 14px;
+
 
     &:hover {
         opacity: 0.9;

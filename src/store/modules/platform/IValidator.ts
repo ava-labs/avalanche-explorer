@@ -1,5 +1,5 @@
 export interface IValidator {
-    nodeID: string                  // validator node id
+    nodeID: string              // validator node id
     startTime: Date
     endTime: Date
     address?: string            // default subnet only. payout address (not the address who staked) 

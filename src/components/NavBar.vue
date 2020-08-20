@@ -152,8 +152,7 @@ export default Vue.extend({
 }
 
 .routes a {
-    color: main.$black !important;
-    font-weight: 600;
+    color: main.$primary-color-light !important;
     font-size: 14px;
     padding-right: 20px;
 

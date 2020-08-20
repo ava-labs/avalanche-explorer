@@ -59,7 +59,6 @@ export default class Address {
                 balance.proportionOfCurrentSupply = Math.round(((parseInt(balanceData[assetID].balance) / parseInt(assetsMap[assetID].currentSupply)) * 100));
                 balance.transactionCount = balanceData[assetID].transactionCount;
                 balance.utxoCount = balanceData[assetID].utxoCount;
-                console.log("tx COunt", balance.transactionCount);
                 // balances metadata
                 this.totalTransactionCount += balance.transactionCount;
                 this.totalUtxoCount += balance.utxoCount;

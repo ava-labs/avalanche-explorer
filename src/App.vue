@@ -65,8 +65,7 @@ export default Vue.extend({
 <style scoped lang="scss">
 @use"main";
 .v-application {
-    background-color: #f5f6fa !important;
-    /* background-color: main.$white !important; */
+    background-color: main.$gray-xlight !important;
 }
 
 .bg {
@@ -141,6 +140,7 @@ export default Vue.extend({
 @use "main";
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap');
 
 /* ==========================================
    typography
@@ -149,7 +149,7 @@ body {
     font-family: "Rubik", sans-serif; /* font-family: "Helvetica"; */
     margin: 0;
     background-color: main.$white !important;
-    color: main.$black;
+    color: main.$primary-color;
 }
 
 p {

@@ -198,14 +198,16 @@ export default class Validators extends Vue {
         }
 
         .search {
-            border: 2px solid main.$gray-light;
+            border: 2px solid main.$bg-light;
+            background-color: main.$bg-light;
             height: 36px;
             width: 320px;
             box-sizing: border-box;
-            border-radius: 4px;
+            border-radius: 2px;
             padding: 8px 12px;
             outline: none;
-            font-size: 14px;
+            font-size: 12px;
+            color: main.$primary-color;
         }
     }
 }
@@ -226,7 +228,7 @@ export default class Validators extends Vue {
     border-top: 1px solid #e7e7e7;
 
     &:nth-of-type(2n) {
-        background-color: main.$primary-color-xlight;
+        background-color: main.$secondary-color-xlight;
     }
 }
 
