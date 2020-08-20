@@ -137,7 +137,7 @@ export default class MetaData extends Vue {
 
     get avaxVolume(): string {
         let assets = this.$store.state.assets;
-        let avax = assets["21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA"];
+        let avax = assets["nznftJBicce1PfWQeNEVBmDyweZZ6zcM3p78z9Hy9Hhdhfaxm"];
         return !avax
             ? (0).toLocaleString()
             : parseInt(avax.volume_day.toFixed(0)).toLocaleString();

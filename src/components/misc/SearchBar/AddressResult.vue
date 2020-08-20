@@ -29,11 +29,11 @@ export default class AddressResult extends Vue {
     }
 
     get avaxBalance() {
-        return this.item.assets["21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA"].balance;
+        return this.item.assets["nznftJBicce1PfWQeNEVBmDyweZZ6zcM3p78z9Hy9Hhdhfaxm"].balance;
     }
     
     get avaxSymbol() {
-        return this.$store.state.assets["21d7KVtPrubc5fHr6CGNcgbUb4seUjmZKr35ZX7BZb5iP8pXWA"].symbol;
+        return this.$store.state.assets["nznftJBicce1PfWQeNEVBmDyweZZ6zcM3p78z9Hy9Hhdhfaxm"].symbol;
     }
     
     get numTx() {
