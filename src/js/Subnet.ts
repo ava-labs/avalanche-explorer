@@ -80,11 +80,11 @@ export default class Subnet {
                 validator.stakeAmount = parseInt(s.stakeAmount as string);
                 validator.totalStakeAmount = validator.stakeAmount;
                 validator.elapsed = this.getElapsedStakingPeriod(validator);
+                validator.delegators = [];
             }
 
             if ({}.hasOwnProperty.call(s, "address")) {
                 validator.address = s.address;
-                validator.delegators = [];
             }
 
             // set optional props for validators of non-default subnet
