@@ -43,7 +43,9 @@
                 </template>
                 <template v-else>
                     <div class="bar">
-                        <p class="count">{{totalTransactionCount.toLocaleString()}} transactions found</p>
+                        <p class="count">
+                            <template v-if="!requestError">{{totalTransactionCount.toLocaleString()}} transactions found</template>
+                        </p>
                         <div class="pagination-container">
                             <pagination-controls
                                 :total="totalTransactionCount"
