@@ -1,10 +1,17 @@
 <template>
     <div class="detail">
         <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
-        <template v-if="loading">
+        <template v-if="loading && !requestError">
             <Loader :contentId="addressID" :message="'Fetching Address Details'"></Loader>
         </template>
-        <section class="card meta" v-if="this.metaData">
+        <template v-if="!loading && requestError">
+            <div class="card address_details_error">
+                <h2>There was an error fetching address details.</h2>
+                <p>Status {{requestErrorStatus}} - {{requestErrorMessage}}</p>
+                <p><a href="https://github.com/ava-labs/avalanche-explorer/issues" target="_blank">Submit Issue</a></p>
+            </div>
+        </template>
+        <section class="card meta" v-if="this.metaData && !requestError">
             <header class="header">
                 <h2>X-{{addressID}}</h2>
             </header>
@@ -28,8 +35,7 @@
                 <BalanceTable :assets="assets"></BalanceTable>
             </article>
         </section>
-
-        <section v-if="!loading" class="card transactions">
+        <section v-if="!loading && !txRequestError" class="card transactions">
             <header class="header">
                 <h2>Transactions</h2>
                 <template v-if="txloading && !assetsLoaded">
@@ -127,7 +133,11 @@ import { Transaction } from '@/js/Transaction';
 })
 export default class AddressPage extends Vue {
     loading: boolean = false;
+    requestError: boolean = false;
+    requestErrorStatus: number | null = null;
+    requestErrorMessage: string | null = null;
     txloading: boolean = false;
+    txRequestError: boolean = false;
     metaData: Address | null = null;
     transactions: Transaction[] = [];
     totalTx: number = 0;
@@ -225,6 +235,13 @@ export default class AddressPage extends Vue {
         api.get(url).then(res => {
             this.txloading = false;
             this.transactions = res.data.transactions;
+        })
+        .catch(err => {
+            this.txloading = false;
+            if (err.response) {
+                console.log(err.response);
+                this.txRequestError = true;
+            }
         });
     }
 
@@ -234,6 +251,17 @@ export default class AddressPage extends Vue {
         api.get(url).then(res => {
             this.loading = false;
             this.metaData = new Address(res.data, this.assetsMap);
+        })
+        .catch(err => {
+            this.loading = false;
+            if (err.response) {
+                console.log(err.response);
+                this.requestError = true;
+                this.requestErrorStatus = err.response.status;
+                this.requestErrorMessage = err.response.data.message;
+            } else if (err.request) {
+                console.log(err.request);
+            }
         });
     }
 
@@ -268,6 +296,42 @@ export default class AddressPage extends Vue {
         width: max-content;
         padding: 4px 8px;
         margin: 0px 30px;
+    }
+}
+
+.address_details_error  {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    text-align: center;
+
+    a {
+
+    
+    display: block;
+    width: max-content;
+    text-decoration: none !important;
+    margin-top: 30px;
+    transition: opacity 0.3s;
+    
+    background-color: transparent !important;
+    color: main.$secondary-color !important;
+    padding: 10px 24px;
+
+    border-radius: 6px;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 700;
+    letter-spacing: .5px;
+    text-transform: uppercase!important;
+    font-size: 14px;
+
+
+    &:hover {
+        opacity: 0.9;
+    }
+
     }
 }
 
