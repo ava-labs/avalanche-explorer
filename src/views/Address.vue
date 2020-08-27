@@ -301,7 +301,7 @@ export default class AddressPage extends Vue {
     }
 }
 
-.address_details_error  {
+.address_details_error {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -310,29 +310,27 @@ export default class AddressPage extends Vue {
     text-align: center;
 
     a {
+        display: block;
+        width: max-content;
+        text-decoration: none !important;
+        margin-top: 30px;
+        transition: opacity 0.3s;
+        
+        background-color: transparent !important;
+        color: main.$secondary-color !important;
+        padding: 10px 24px;
 
-    
-    display: block;
-    width: max-content;
-    text-decoration: none !important;
-    margin-top: 30px;
-    transition: opacity 0.3s;
-    
-    background-color: transparent !important;
-    color: main.$secondary-color !important;
-    padding: 10px 24px;
-
-    border-radius: 6px;
-    font-family: "DM Sans", sans-serif;
-    font-weight: 700;
-    letter-spacing: .5px;
-    text-transform: uppercase!important;
-    font-size: 14px;
+        border-radius: 6px;
+        font-family: "DM Sans", sans-serif;
+        font-weight: 700;
+        letter-spacing: .5px;
+        text-transform: uppercase!important;
+        font-size: 14px;
 
 
-    &:hover {
-        opacity: 0.9;
-    }
+        &:hover {
+            opacity: 0.9;
+        }
 
     }
 }
