@@ -117,8 +117,8 @@ export default class Metadata extends Vue {
 
     .symbol {
         flex-shrink: 0;
-        color: main.$primary-color;
-        background-color: main.$primary-color-light;
+        color: main.$secondary-color;
+        background-color: main.$secondary-color-xlight;
         min-height: 1em;
         min-width: 20px;
         text-align: center;
