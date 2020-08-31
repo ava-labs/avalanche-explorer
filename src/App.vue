@@ -7,6 +7,7 @@
         </v-content>
         <!-- <responsive-guidelines></responsive-guidelines> -->
         <Footer class="footer"></Footer>
+        <notifications></notifications>
     </v-app>
 </template>
 
@@ -17,6 +18,7 @@ import NavBarMobile from "./components/NavBarMobile.vue";
 import Footer from "./components/Footer.vue";
 // import ResponsiveGuidelines from "./components/misc/ResponsiveGuidelines.vue";
 import { IMetaTag } from "@/router/IMetaTag";
+import Notifications from "@/components/Notifications.vue";
 
 export default Vue.extend({
     name: "App",
@@ -24,7 +26,8 @@ export default Vue.extend({
         NavBar,
         NavBarMobile,
         // ResponsiveGuidelines,
-        Footer
+        Footer,
+        Notifications
     },
     data: () => ({}),
     created(): void {

@@ -6,6 +6,7 @@ import { IRootState } from "@/store/types";
 import AddressDict from "@/known_addresses";
 import Platform from "./modules/platform/platform";
 import Address from "./modules/address/address";
+import Notifications from "./modules/notifications/notifications";
 import { avm } from '@/avalanche';
 import { IAssetData } from '@/js/IAsset';
 
@@ -14,7 +15,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     modules: {
         Platform,
-        Address
+        Address,
+        Notifications
     },
     state: {
         assets: {},

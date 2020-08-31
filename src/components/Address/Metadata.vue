@@ -1,12 +1,14 @@
 <template>
     <section class="card meta">
         <header class="header">
-            <h2>X-{{addressID}}</h2>
+            <h2 v-if="alias">{{alias}}</h2>
+            <h2 v-else>X-{{addressID}}</h2>
         </header>
         <article class="meta_row">
             <p class="label">Address</p>
             <p class="addr">
                 <span>X-{{addressID}}</span>
+                <CopyText :value="`X-${addressID}`" class="copy_but"></CopyText>
                 <span class="alias" v-if="alias">{{alias}}</span>
             </p>
         </article>
@@ -28,13 +30,14 @@
 <script lang="ts">
 import "reflect-metadata";
 import { Vue, Component, Prop } from "vue-property-decorator";
+import CopyText from "@/components/misc/CopyText.vue";
 import BalanceTable from "@/components/Address/BalanceTable.vue";
-import { IAddress, IBalance } from '@/js/IAddress';
+import { IAddress, IBalance } from '@/js/IAddress'; 
 import Big from "big.js";
-
 
 @Component({
     components: {
+        CopyText,
         BalanceTable
     }
 })
