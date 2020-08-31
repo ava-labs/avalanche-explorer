@@ -3,7 +3,7 @@
         <div class="bar">
             <p class="count">{{Object.keys(assets).length | pluralize}} found</p>
         </div>
-        <div class="grid_headers balance_row">
+        <div v-if="assets.length > 0" class="grid_headers balance_row">
             <p>
                 Symbol
                 <Tooltip content="shorthand ticker symbol of the asset"></Tooltip>
