@@ -157,7 +157,7 @@ export default class TransactionDetailCard extends Vue {
     get outValues(): OutputValuesDict {
         let dict: OutputValuesDict = {};
         let outs = this.outputs;
-
+        
         outs.forEach(out => {
             let assetId = out.assetID;
             let amount = out.amount;

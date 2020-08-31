@@ -24,13 +24,29 @@ export default new Vuex.Store({
     },
     actions: {
         async init(store) {
-            // TODO: support service for multiple chains
-            await api.get("/x/assets").then(res => {
-                let assets = res.data.assets;
-                assets.forEach((assetData: any) => {
-                    store.commit("addAsset", new Asset(assetData, false));
-                });
+            // TODO: support service for multiple chain
+            let start = -1;
+            let offset = 0;
+            const limit = 500;
+            let res = await api.get(`/x/assets?&offset=${offset}&limit=${limit}`);
+            let assets = res.data.assets;
+            assets.forEach((assetData: any) => {
+                store.commit("addAsset", new Asset(assetData, false));
             });
+
+            async function checkForMoreAssets() {
+                if (assets.length === limit) {
+                    start = start + limit // -1 + 499
+                    offset = start
+                    let res = await api.get(`/x/assets?&offset=${offset}&limit=${limit}`);
+                    let assets = res.data.assets;
+                    assets.forEach((assetData: any) => {
+                        store.commit("addAsset", new Asset(assetData, false));
+                    });
+                }
+            }
+
+            await checkForMoreAssets();
             store.commit("finishLoading");
         },
 
