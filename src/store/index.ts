@@ -9,6 +9,7 @@ import Address from "./modules/address/address";
 import Notifications from "./modules/notifications/notifications";
 import { avm } from '@/avalanche';
 import { IAssetData } from '@/js/IAsset';
+import { X_CHAIN_ID } from '@/store/modules/platform/platform';
 
 Vue.use(Vuex);
 
@@ -57,7 +58,7 @@ export default new Vuex.Store({
             let desc = await avm.getAssetDescription(assetId);
             let newAssetData: IAssetData = {
                 alias: "",
-                chainID: "rrEWX7gc7D9mwcdrdBxBTdqh1a7WDVsMuadhTZgyXfFcRz45L",
+                chainID: X_CHAIN_ID,
                 currentSupply: 0,
                 denomination: desc.denomination,
                 id: assetId,
