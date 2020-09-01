@@ -32,7 +32,7 @@
                 <span
                     v-for="(val, id) in outValuesDenominated"
                     :key="id"
-                >{{val.amount}} {{val.symbol}}</span>
+                >{{val.amount}} <b>{{val.symbol}}</b></span>
             </p>
         </article>
         <article class="meta_row">

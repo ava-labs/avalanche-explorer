@@ -1,10 +1,12 @@
 <template>
     <div class="utxo_row">
+        <!-- Tx -->
         <router-link :to="`/tx/${txId}`" v-if="type==='input'">{{txId}}</router-link>
         <p v-else>-</p>
-
+        <!-- Metrics -->
         <p>{{utxo.locktime}}</p>
         <p>{{utxo.threshold}}</p>
+        <!-- From/To -->
         <div>
             <router-link
                 v-for="(addr, i) in utxo.addresses"
@@ -12,6 +14,7 @@
                 :key="i"
             >{{addr | address}}</router-link>
         </div>
+        <!-- Amount -->
         <div class="col_amount">
             <p class="amount_symbol">
                 {{amount}}

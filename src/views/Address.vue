@@ -342,7 +342,7 @@ export default class AddressPage extends Vue {
 
     .table_headers {
         display: grid;
-        grid-template-columns: 35px 120px 1fr 1fr;
+        grid-template-columns: 40px .62fr 1.2fr 1.2fr;
         padding-bottom: 7px;
         border-bottom: 1px solid #e7e7e7;
 

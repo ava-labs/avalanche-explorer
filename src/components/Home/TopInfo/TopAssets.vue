@@ -13,6 +13,7 @@
         </div>
         <div v-else>
             <div class="asset column_headers">
+                <p v-if="$vuetify.breakpoint.smAndUp"></p>
                 <p class="name">
                     Name <Tooltip content="human-readable name for the asset (not necessarily unique)"></Tooltip>
                 </p>
@@ -21,9 +22,9 @@
                 </p>
             </div>
             <div class="asset" v-for="(asset) in assets" :key="asset.id">
+                <div v-if="$vuetify.breakpoint.smAndUp"><span class="symbol">{{asset.symbol}}</span></div>
                 <div class="name">
                     <router-link :to="`/asset/${asset.id}`" class="asset_name">{{asset.name}}</router-link>
-                    <span class="symbol">{{asset.symbol}}</span>
                 </div>
                 <p class="metric">{{asset.txCount_day.toLocaleString()}}</p>
                 <!--TODO: normalize asset.volume_day -->
@@ -79,18 +80,15 @@ export default class TopAssets extends Vue {
 
 .column_headers {
     font-weight: 500;
-
-    p {
-        border-bottom: 1px solid main.$gray-light;
-    }
+    border-bottom: 1px solid main.$gray-light;
 }
 
 .asset {
+    display: grid;
+    grid-template-columns: 35px 1fr 100px;
     column-gap: 10px;
     margin-bottom: 8px;
     font-size: 12px;
-    display: flex;
-    flex-direction: row;
     overflow: auto;
 
     > * {
@@ -99,7 +97,7 @@ export default class TopAssets extends Vue {
 
     p {
         white-space: nowrap;
-        padding: 6px 12px;
+        padding: 6px 0;
         border-radius: 2px;
     }
 
@@ -123,7 +121,7 @@ export default class TopAssets extends Vue {
         min-height: 1em;
         min-width: 20px;
         text-align: center;
-        margin: 0px 10px 5px;
+        margin: 0;
         padding: 3px 4px;
         font-size: 9px;
         border-radius: 3px;
@@ -134,7 +132,7 @@ export default class TopAssets extends Vue {
     .metric {
         flex-shrink: 0;
         text-align: right;
-        width: 70px;
+        width: 100%;
         padding-right: 0;
     }
 
@@ -146,34 +144,18 @@ export default class TopAssets extends Vue {
 .bottom {
     display: flex;
     flex-flow: row-reverse;
-}
-
-.view_all {
-    display: block;
-    width: max-content;
-    text-decoration: none !important;
     margin-top: 30px;
-    background-color: main.$black;
-    color: main.$white !important;
-    padding: 12px 24px;
-    font-size: 12px;
-    font-weight: 400; /* 700 */
-    border-radius: 4px;
-    transition: opacity 0.3s;
-
-    &:hover {
-        opacity: 0.9;
-    }
 }
 
 @include main.device_s {
     .asset {
         column-gap: 3px;
     }
+}
 
-    .view_all {
-        width: 100%;
-        text-align: center;
+@include main.device_xs {
+    .asset {
+        grid-template-columns: 1fr 100px;
     }
 }
 </style>

@@ -52,10 +52,8 @@ export default class InputUTXO extends Vue {
         text-overflow: ellipsis;
         overflow: hidden;
         padding-left: 0;
-        color: main.$black !important;
         text-decoration: none;
-        max-width: 195px;
-        opacity: 0.7;
+        max-width: 250px;
 
         &:hover {
             text-decoration: underline;

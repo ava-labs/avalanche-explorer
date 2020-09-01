@@ -92,7 +92,7 @@ export default class BalanceTable extends Vue {
 
     .balance_row {
         display: grid;
-        grid-template-columns: 60px 1fr 175px 175px 175px 100px 100px;
+        grid-template-columns: 60px 1fr 225px 225px 225px 75px 75px;
         padding: 10px 0;
         border-bottom: 1px solid #e7e7e7;
         column-gap: 10px;
@@ -112,7 +112,7 @@ export default class BalanceTable extends Vue {
 @include main.device_m {
     .balances_container {
         .balance_row {
-            grid-template-columns: 60px 100px 175px 175px 175px 75px 75px;
+            grid-template-columns: 60px 100px 225px 225px 225px 75px 75px;
         }
     }
 }
@@ -120,7 +120,7 @@ export default class BalanceTable extends Vue {
 @include main.device_s {
     .balances_container {
         .balance_row {
-            grid-template-columns: 50px 100px 175px 175px 175px 75px 75px;
+            grid-template-columns: 50px 100px 225px 225px 225px 75px 75px;
         }
     }
 }

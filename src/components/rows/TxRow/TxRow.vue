@@ -19,7 +19,7 @@
 <script lang="ts">
 import "reflect-metadata";
 import { Vue, Component, Prop } from "vue-property-decorator";
-import UtxoInput from "./InputUtxo.vue";
+import UtxoInput from "@/components/rows/TxRow/InputUtxo.vue";
 import OutputUtxo from "@/components/rows/TxRow/OutputUtxo.vue";
 import moment from "moment";
 import { Asset } from '@/js/Asset';
@@ -106,7 +106,7 @@ export default class TxRow extends Vue {
     padding: 12px 0px;
     position: relative;
     display: grid;
-    grid-template-columns: min-content 120px 1fr 1fr;
+    grid-template-columns: 40px .62fr 1.2fr 1.2fr;
     flex-direction: row;
     align-items: center;
     font-size: 12px;
@@ -128,6 +128,15 @@ export default class TxRow extends Vue {
     }
 }
 
+.id {
+    color: main.$primary-color-light !important;
+    text-decoration: none;
+    font-weight: 400; /* 700 */
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .time {
     font-weight: 400;
     font-size: 10px;
@@ -142,22 +151,12 @@ export default class TxRow extends Vue {
     overflow: hidden;
 }
 .data {
-    /*width: 100%;*/
     display: flex;
 }
 
 .info_col {
     padding: 0px 10px;
     overflow: auto;
-}
-
-.id {
-    color: main.$primary-color;
-    text-decoration: none;
-    font-weight: 400; /* 700 */
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .utxo_out {
@@ -178,6 +177,7 @@ export default class TxRow extends Vue {
     .id_col {
         display: flex;
         align-items: baseline;
+        height: 27px;
         a {
             flex-grow: 1;
         }
@@ -192,13 +192,13 @@ export default class TxRow extends Vue {
     .tx_row {
         padding: 8px 0;
     }
-
+    
     .info_col {
         padding: 0 10px 0 0;
     }
 
     .utxo_out {
-        margin-bottom: 0;
+        margin-bottom: 2px;
     }
 }
 </style>
