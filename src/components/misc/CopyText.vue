@@ -1,16 +1,11 @@
 <template>
-    <v-tooltip top open-on-hover>
-        <template v-slot:activator="{ on }">
-            <div v-on="on" class="copyBut" @click="copy">
-                <fa icon="copy"></fa>
-                <p class="text">
-                    <slot></slot>
-                </p>
-                <input ref="copytext" :value="value">
-            </div>
-        </template>
-        <span>Double-click to copy</span>
-    </v-tooltip>
+    <div class="copyBut" @click="copy">
+        <fa icon="copy"></fa>
+        <p class="text">
+            <slot></slot>
+        </p>
+        <input ref="copytext" :value="value">
+    </div>
 </template>
 <script lang="ts">
 import "reflect-metadata";
