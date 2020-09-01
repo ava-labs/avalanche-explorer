@@ -1,5 +1,5 @@
 import api from "@/axios";
-import { IAssetData } from "./IAsset";
+import { IAssetData_Ortelius } from "./IAsset";
 import { profanities } from "@/js/Profanities";
 import Big from "big.js";
 import { stringToBig } from '@/helper';
@@ -16,7 +16,7 @@ class Asset {
     txCount_day: number;
     profane: boolean;
 
-    constructor(assetData: IAssetData, isUnknown: boolean) {
+    constructor(assetData: IAssetData_Ortelius, isUnknown: boolean) {
         this.id = assetData.id;
         this.alias = assetData.alias;
         this.chainID = assetData.chainID;
@@ -43,6 +43,7 @@ class Asset {
         let startDate = new Date(startTime);
         
         // TODO: support service for multiple chains
+        // TODO: declare interface
         api.get(`/x/transactions/aggregates?startTime=${startDate.toISOString()}&endTime=${endDate.toISOString()}&assetID=${this.id}`).then(res => {
             let txCount = res.data.aggregates.transactionCount || 0;
             let txVolume = res.data.aggregates.transactionVolume || "0";

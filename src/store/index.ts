@@ -4,17 +4,23 @@ import api from "../axios";
 import { Asset } from "@/js/Asset";
 import { IRootState } from "@/store/types";
 import AddressDict from "@/known_addresses";
+import AssetDict from '@/known_assets';
 import Platform from "./modules/platform/platform";
 import Address from "./modules/address/address";
+import Notifications from "./modules/notifications/notifications";
 import { avm } from '@/avalanche';
-import { IAssetData } from '@/js/IAsset';
+import { IAssetData_Ortelius, IAssetData_Avalanche_Go } from '@/js/IAsset';
+import { X_CHAIN_ID } from  '@/store/modules/platform/platform';
 
 Vue.use(Vuex);
+
+export const AVAX_ID = AssetDict["AVAX"] as string;
 
 export default new Vuex.Store({
     modules: {
         Platform,
-        Address
+        Address,
+        Notifications
     },
     state: {
         assets: {},
@@ -24,23 +30,39 @@ export default new Vuex.Store({
     },
     actions: {
         async init(store) {
-            // TODO: support service for multiple chains
-            await api.get("/x/assets").then(res => {
-                let assets = res.data.assets;
-                assets.forEach((assetData: any) => {
-                    store.commit("addAsset", new Asset(assetData, false));
-                });
+            // TODO: support service for multiple chain
+            let start = -1;
+            let offset = 0;
+            const limit = 500;
+            let res = await api.get(`/x/assets?&offset=${offset}&limit=${limit}`);
+            let assets = res.data.assets;
+            assets.forEach((assetData: any) => {
+                store.commit("addAsset", new Asset(assetData, false));
             });
+
+            async function checkForMoreAssets() {
+                if (assets.length === limit) {
+                    start = start + limit // -1 + 499
+                    offset = start
+                    let res = await api.get(`/x/assets?&offset=${offset}&limit=${limit}`);
+                    let assets = res.data.assets;
+                    assets.forEach((assetData: any) => {
+                        store.commit("addAsset", new Asset(assetData, false)); 
+                    });
+                }
+            }
+
+            await checkForMoreAssets();
             store.commit("finishLoading");
         },
 
         // Adds an unknown asset id to the assets dictionary
         async addUnknownAsset({commit}, assetId:string) {
-            let desc = await avm.getAssetDescription(assetId);
-            let newAssetData: IAssetData = {
+            let desc: IAssetData_Avalanche_Go = await avm.getAssetDescription(assetId);
+            let newAssetData: IAssetData_Ortelius = {
                 alias: "",
-                chainID: "rrEWX7gc7D9mwcdrdBxBTdqh1a7WDVsMuadhTZgyXfFcRz45L",
-                currentSupply: 0,
+                chainID: X_CHAIN_ID,
+                currentSupply: "0",
                 denomination: desc.denomination,
                 id: assetId,
                 name: desc.name,

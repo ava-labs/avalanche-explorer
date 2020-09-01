@@ -42,7 +42,7 @@ interface IMap {
     components: {
         Loader,
         Metadata,
-        Content,
+        Content,    
         Tabs
     },
     filters: {

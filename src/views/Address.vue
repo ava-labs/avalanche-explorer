@@ -1,40 +1,22 @@
 <template>
     <div class="detail">
         <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
-        <template v-if="loading && !requestError">
-            <Loader :contentId="addressID" :message="'Fetching Address Details'"></Loader>
-        </template>
-        <template v-if="!loading && requestError">
-            <div class="card address_details_error">
-                <h2>There was an error fetching address details.</h2>
-                <p>Status {{requestErrorStatus}} - {{requestErrorMessage}}</p>
-                <p><a href="https://github.com/ava-labs/avalanche-explorer/issues" target="_blank">Submit Issue</a></p>
-            </div>
-        </template>
-        <section class="card meta" v-if="this.metaData && !requestError">
-            <header class="header">
-                <h2>X-{{addressID}}</h2>
-            </header>
-            <article class="meta_row">
-                <p class="label">Address</p>
-                <p class="addr">
-                    <span>X-{{addressID}}</span>
-                    <span class="alias" v-if="alias">{{alias}}</span>
-                </p>
-            </article>
-            <article class="meta_row">
-                <p class="label">AVAX Balance</p>
-                <p>{{avaxBalance.toLocaleString(this.assetsMap["nznftJBicce1PfWQeNEVBmDyweZZ6zcM3p78z9Hy9Hhdhfaxm"].denomination)}} AVAX</p>
-            </article>
-            <article class="meta_row">
-                <p class="label">Transactions</p>
-                <p>{{totalTransactionCount.toLocaleString()}}</p>
-            </article>
-            <article class="meta_row">
-                <p class="label">Portfolio</p>
-                <BalanceTable :assets="assets"></BalanceTable>
-            </article>
-        </section>
+        <Loader v-if="loading && !requestError" :contentId="addressID" :message="'Fetching Address Details'"></Loader>
+        <!-- Address Details -->
+        <div v-if="!loading && requestError" class="card address_details_error">
+            <h2>There was an error fetching address details.</h2>
+            <p>Status {{requestErrorStatus}} - {{requestErrorMessage}}</p>
+            <p><a href="https://github.com/ava-labs/avalanche-explorer/issues" target="_blank">Submit Issue</a></p>
+        </div>
+        <Metadata v-if="metaData && !requestError && assetsLoaded === true" 
+            :metaData="metaData"
+            :addressID="addressID"
+            :alias="alias"
+            :totalTransactionCount="totalTransactionCount"
+            :totalUtxoCount="totalUtxoCount"
+            :assets="assets"
+        ></Metadata>
+        <!-- Address Txs -->
         <section v-if="!loading && !txRequestError" class="card transactions">
             <header class="header">
                 <h2>Transactions</h2>
@@ -86,6 +68,13 @@
                     ></tx-row>
                     </transition-group>
                 </div>
+                <v-alert
+                    v-if="transactions.length === 0"
+                    color="#e6f5ff"
+                    dense
+                >
+                    There are no matching entries
+                </v-alert>
                 <div class="bar-table">
                     <pagination-controls 
                         :total="totalTransactionCount" 
@@ -104,8 +93,7 @@ import "reflect-metadata";
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import Loader from "../components/misc/Loader.vue";
 import Tooltip from "../components/rows/Tooltip.vue";
-import BalanceTable from "../components/Address/BalanceTable.vue";
-import BalanceRow from "../components/Address/BalanceRow.vue";
+import Metadata from "../components/Address/Metadata.vue";
 import TxRow from "../components/rows/TxRow/TxRow.vue";
 import PaginationControls from "../components/misc/PaginationControls.vue";
 import api from "../axios";
@@ -114,12 +102,13 @@ import { stringToBig, blockchainMap, trimmedLocaleString } from "@/helper";
 import AddressDict from "@/known_addresses";
 import Address from "@/js/Address";
 import { Transaction } from '@/js/Transaction';
+import { IBalance, IAddress, IAddressData } from '@/js/IAddress';
 
 @Component({
     components: {
         Loader,
         Tooltip,
-        BalanceTable,
+        Metadata,
         TxRow,
         PaginationControls
     },
@@ -134,18 +123,7 @@ import { Transaction } from '@/js/Transaction';
     },
 })
 export default class AddressPage extends Vue {
-    loading: boolean = false;
-    requestError: boolean = false;
-    requestErrorStatus: number | null = null;
-    requestErrorMessage: string | null = null;
-    txloading: boolean = false;
-    txRequestError: boolean = false;
-    metaData: Address | null = null;
-    transactions: Transaction[] = [];
-    totalTx: number = 0;
-    limit: number = 25; // how many to display
-    offset: number = 0;
-    sort: string = "timestamp-desc";
+    // navigation
     breadcrumbs: any[] = [
         {
             text: "Home",
@@ -158,6 +136,21 @@ export default class AddressPage extends Vue {
             href: ""
         }
     ];
+    // details
+    loading: boolean = false;
+    requestError: boolean = false;
+    requestErrorStatus: number | null = null;
+    requestErrorMessage: string | null = null;
+    metaData: Address | null = null;
+    // txs
+    txloading: boolean = false;
+    txRequestError: boolean = false;
+    transactions: Transaction[] = [];
+    // tx pagination
+    totalTx: number = 0;
+    limit: number = 25; // how many to display
+    offset: number = 0;
+    sort: string = "timestamp-desc";
 
     created() {
         this.updateData();
@@ -169,31 +162,32 @@ export default class AddressPage extends Vue {
     }
 
     @Watch("assetsLoaded")
-    onAssetsLoaded() {
+    onAssetsLoaded(val: boolean) {
         this.updateData();
     }
+    
     @Watch("$route")
     onRouteChanged(val: string) {
         this.updateData();
     }
     
-    get assetsLoaded() {
+    get assetsLoaded(): boolean {
         return this.$store.state.assetsLoaded;
     }
 
-    get alias() {
+    get alias(): string {
         return AddressDict[this.addressID] ? AddressDict[this.addressID] : "";
     }
 
-    get assets() {
+    get assets(): IBalance[] {
         return (this.metaData) ? this.metaData.assets : [];
     }
     
-    get assetsMap() {
+    get assetsMap(): any {
         return this.$store.state.assets;
     }
     
-    get addressID() {
+    get addressID(): string {
         let address = this.$route.params.address;
         if (address.indexOf("-") === 1) {
             address = address.substring(2, address.length);
@@ -201,22 +195,19 @@ export default class AddressPage extends Vue {
         return address;
     }
     
-    get txCount() {
+    get txCount(): number {
         return (this.metaData) ? this.metaData.totalTransactionCount : 0;
     }
 
-    get avaxBalance() {
-        return (this.metaData) ? this.metaData.avaxBalance : Big(0);
-    }
-
-    get totalTransactionCount() {
+    get totalTransactionCount():  number {
         return (this.metaData) ? this.metaData.totalTransactionCount : 0;
     }
     
-    get totalUtxoCount() {
+    get totalUtxoCount(): number {
         return (this.metaData) ? this.metaData.totalUtxoCount : 0;
     }
-    
+     
+    // get address details and txs
     updateData() {
         this.loading = true;
         this.txloading = true;
@@ -224,6 +215,40 @@ export default class AddressPage extends Vue {
         if (this.assetsLoaded) {
             this.getTx();
             this.getAddressDetails();
+        }
+    }
+
+    getAddressDetails() {
+        // TODO: support service for multiple chains
+        if (this.assetsLoaded === true) {
+            let url = `/x/addresses/${this.addressID}`;
+            api.get(url).then(res => {
+                this.loading = false;
+                
+                if (res.data) {
+                    // address in Ortelius
+                    this.metaData = new Address(res.data, this.assetsMap);
+                } else {
+                    // not in Ortelius
+                    let nullData: IAddressData = {
+                        address: this.addressID,
+                        publicKey: "",
+                        assets: {},
+                    };
+                    this.metaData = new Address(nullData, this.assetsMap);
+                }
+            })
+            .catch(err => {
+                this.loading = false;
+                if (err.response) {
+                    console.log(err.response);
+                    this.requestError = true;
+                    this.requestErrorStatus = err.response.status;
+                    this.requestErrorMessage = err.response.data.message;
+                } else if (err.request) {
+                    console.log(err.request);
+                }
+            });
         }
     }
 
@@ -247,26 +272,6 @@ export default class AddressPage extends Vue {
         });
     }
 
-    getAddressDetails() {
-        // TODO: support service for multiple chains
-        let url = `/x/addresses/${this.addressID}`;
-        api.get(url).then(res => {
-            this.loading = false;
-            this.metaData = new Address(res.data, this.assetsMap);
-        })
-        .catch(err => {
-            this.loading = false;
-            if (err.response) {
-                console.log(err.response);
-                this.requestError = true;
-                this.requestErrorStatus = err.response.status;
-                this.requestErrorMessage = err.response.data.message;
-            } else if (err.request) {
-                console.log(err.request);
-            }
-        });
-    }
-
     page_change(val: number) {
         this.offset = val;
         this.getTx();
@@ -285,21 +290,6 @@ export default class AddressPage extends Vue {
 /* ==========================================
    details
    ========================================== */
-
-.addr {
-    text-overflow: ellipsis;
-    word-break: keep-all;
-    white-space: nowrap;
-
-    .alias {
-        background-color: #e6ffe6;
-        border: 1px solid main.$green;
-        color: main.$green;
-        width: max-content;
-        padding: 4px 8px;
-        margin: 0px 30px;
-    }
-}
 
 .address_details_error {
     display: flex;
@@ -327,7 +317,6 @@ export default class AddressPage extends Vue {
         text-transform: uppercase!important;
         font-size: 14px;
 
-
         &:hover {
             opacity: 0.9;
         }
@@ -353,7 +342,7 @@ export default class AddressPage extends Vue {
 
     .table_headers {
         display: grid;
-        grid-template-columns: 35px 120px 1fr 1fr;
+        grid-template-columns: 40px .62fr 1.2fr 1.2fr;
         padding-bottom: 7px;
         border-bottom: 1px solid #e7e7e7;
 
@@ -375,13 +364,22 @@ export default class AddressPage extends Vue {
     .tx_table {
         font-size: 12px;
     }
+
+    .v-alert {
+        margin: 16px;
+        padding: 16px;
+        color: main.$blue;
+        font-size: 14px;
+    }
 }
 
 .bar-table {
+    border-top: 1px solid #e7e7e7;
     padding-top: 30px;
     display: flex;
     justify-content: flex-end;
 }
+
 
 @include main.device_s {
     .bar {

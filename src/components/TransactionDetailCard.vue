@@ -32,7 +32,7 @@
                 <span
                     v-for="(val, id) in outValuesDenominated"
                     :key="id"
-                >{{val.amount}} {{val.symbol}}</span>
+                >{{val.amount}} <b>{{val.symbol}}</b></span>
             </p>
         </article>
         <article class="meta_row">
@@ -157,7 +157,7 @@ export default class TransactionDetailCard extends Vue {
     get outValues(): OutputValuesDict {
         let dict: OutputValuesDict = {};
         let outs = this.outputs;
-
+        
         outs.forEach(out => {
             let assetId = out.assetID;
             let amount = out.amount;

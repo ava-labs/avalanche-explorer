@@ -112,7 +112,7 @@ export default class RecentTransactions extends Vue {
 
 .table_headers {
     display: grid;
-    grid-template-columns: 35px 120px 1fr 1fr;
+    grid-template-columns: 40px .62fr 1.2fr 1.2fr;
     padding-bottom: 7px;
     border-bottom: 1px solid #e7e7e7;
 
@@ -186,29 +186,7 @@ export default class RecentTransactions extends Vue {
 .bottom {
     display: flex;
     flex-flow: row-reverse;
-}
-
-.view_all {
-    display: block;
-    width: max-content;
-    text-decoration: none !important;
     margin-top: 30px;
-    transition: opacity 0.3s;
-    
-    background-color: transparent!important;
-    padding: 10px 24px;
-    min-width: 140px;
-    border-radius: 6px;
-    font-family: "DM Sans", sans-serif;
-    font-weight: 700;
-    letter-spacing: .5px;
-    text-transform: uppercase!important;
-    font-size: 14px;
-
-
-    &:hover {
-        opacity: 0.9;
-    }
 }
 
 .fade-enter-active,
@@ -217,11 +195,6 @@ export default class RecentTransactions extends Vue {
 }
 
 @include main.device_s {
-    .view_all {
-        width: 100%;
-        text-align: center;
-    }
-
     .table_headers {
         display: none;
     }

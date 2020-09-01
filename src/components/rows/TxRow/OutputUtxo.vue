@@ -100,18 +100,15 @@ export default class OutputUtxo extends Vue {
         text-overflow: ellipsis;
         overflow: hidden;
         padding-left: 0;
-        color: main.$black !important;
         text-decoration: none;
-        max-width: 195px;
-        opacity: 0.7;
+        max-width: 250px;
 
         &:hover {
             text-decoration: underline;
         }
     }
 
-    p,
-    a {
+    p, a {
         padding: 4px 12px;
     }
 }
@@ -130,6 +127,10 @@ export default class OutputUtxo extends Vue {
     font-weight: 400;
     letter-spacing: 0.1em;
     font-size: 11px;
+
+    span {
+        font-weight: 700;
+    }
 }
 
 @include main.device_xs {

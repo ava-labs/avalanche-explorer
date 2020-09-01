@@ -7,6 +7,7 @@
         </v-content>
         <!-- <responsive-guidelines></responsive-guidelines> -->
         <Footer class="footer"></Footer>
+        <notifications></notifications>
     </v-app>
 </template>
 
@@ -17,6 +18,7 @@ import NavBarMobile from "./components/NavBarMobile.vue";
 import Footer from "./components/Footer.vue";
 // import ResponsiveGuidelines from "./components/misc/ResponsiveGuidelines.vue";
 import { IMetaTag } from "@/router/IMetaTag";
+import Notifications from "@/components/Notifications.vue";
 
 export default Vue.extend({
     name: "App",
@@ -24,7 +26,8 @@ export default Vue.extend({
         NavBar,
         NavBarMobile,
         // ResponsiveGuidelines,
-        Footer
+        Footer,
+        Notifications
     },
     data: () => ({}),
     created(): void {
@@ -303,15 +306,9 @@ p {
     text-overflow: ellipsis;
 }
 
-.utxo_table {
-    /* margin-top: 5px; */
-    /* width: 100%; */
-    /* overflow: scroll; */
-}
-
 .utxo_headers,
 .io_item {
-    grid-template-columns: 80px 80px 80px 100px 1fr;
+    grid-template-columns: 120px 80px 80px 1fr 1fr;
 }
 
 .utxo_headers {
@@ -362,6 +359,11 @@ p {
         grid-template-columns: none;
         grid-template-rows: max-content max-content;
     }
+
+    .utxo_headers,
+    .io_item {
+        grid-template-columns: 70px 70px 70px 100px 1fr;
+    }
 }
 
 @include main.device_xs {
@@ -381,6 +383,32 @@ input {
     font-family: 'Rubik', sans-serif;
 }
 
+.view_all {
+    display: block;
+    width: max-content;
+    text-decoration: none !important;
+    transition: opacity 0.3s;
+    
+    background-color: transparent!important;
+    border-radius: 6px;
+    padding: 10px 24px;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 700 !important;
+    letter-spacing: .5px;
+    text-transform: uppercase!important;
+    font-size: 14px;
+    
+    &:hover {
+        opacity: 0.9;
+    }
+}
+
+@include main.device_s {
+    .view_all {
+        width: 100%;
+        text-align: center;
+    }
+}
 /* ==========================================
    vuetify overrides
    ========================================== */

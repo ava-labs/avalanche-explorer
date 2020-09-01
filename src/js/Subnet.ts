@@ -42,6 +42,10 @@ export default class Subnet {
         let validators: IValidator[] = []; 
         let delegations: IValidator[] = []; 
         
+        if (!validatorsData) {
+            return;
+        }
+        
         if (validatorsData.length > 0) {
             validators = this.cast(validatorsData);
             if (this.id === AVALANCHE_SUBNET_ID) {
