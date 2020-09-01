@@ -220,17 +220,16 @@ export default class AddressPage extends Vue {
 
     getAddressDetails() {
         // TODO: support service for multiple chains
-
         if (this.assetsLoaded === true) {
             let url = `/x/addresses/${this.addressID}`;
             api.get(url).then(res => {
                 this.loading = false;
-
-                console.log("res.data assets", res.data.assets);
                 
                 if (res.data) {
+                    // address in Ortelius
                     this.metaData = new Address(res.data, this.assetsMap);
                 } else {
+                    // not in Ortelius
                     let nullData: IAddressData = {
                         address: this.addressID,
                         publicKey: "",

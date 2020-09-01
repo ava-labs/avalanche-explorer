@@ -4,7 +4,6 @@ import { Asset } from './Asset';
 import Big from "big.js";
 import api from "@/axios";
 import { avm } from '@/avalanche';
-import { IAssetData } from './IAsset';
 
 interface IAssetsMap {
     [key: string] : Asset;
