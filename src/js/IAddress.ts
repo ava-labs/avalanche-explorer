@@ -32,12 +32,14 @@ export interface IAddressData {
 }
 
 export interface IBalanceData {
-    [key: string]: {
-        id: string,
-        transactionCount: number,
-        utxoCount: number,
-        balance: string,
-        totalReceived: string,
-        totalSent: string
-    }
+    [key: string]: IBalanceDatum
+}
+
+export interface IBalanceDatum {
+    id: string,
+    transactionCount: number,
+    utxoCount: number,
+    balance: string,
+    totalReceived: string,
+    totalSent: string
 }

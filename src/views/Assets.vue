@@ -62,7 +62,7 @@ import Tooltip from "../components/rows/Tooltip.vue";
 import TooltipHeading from "../components/misc/TooltipHeading.vue";
 import { Asset } from "@/js/Asset";
 import axios from "@/axios";
-import { IAssetData } from "../js/IAsset";
+import { IAssetData_Ortelius } from "../js/IAsset";
 
 @Component({
     components: {

@@ -14,7 +14,7 @@
         </article>
         <article class="meta_row">
             <p class="label">AVAX Balance</p>
-            <p>{{avaxBalance.toLocaleString(this.assetsMap["nznftJBicce1PfWQeNEVBmDyweZZ6zcM3p78z9Hy9Hhdhfaxm"].denomination)}} AVAX</p>
+            <p>{{avaxBalance.toLocaleString(this.assetsMap[AVAX].denomination)}} AVAX</p>
         </article>
         <article class="meta_row">
             <p class="label">Transactions</p>
@@ -34,6 +34,7 @@ import CopyText from "@/components/misc/CopyText.vue";
 import BalanceTable from "@/components/Address/BalanceTable.vue";
 import { IAddress, IBalance } from '@/js/IAddress'; 
 import Big from "big.js";
+import { AVAX_ID } from "@/store/index";
 
 @Component({
     components: {
@@ -48,6 +49,10 @@ export default class Metadata extends Vue {
     @Prop() totalTransactionCount!: number;
     @Prop() totalUtxoCount!: number;
     @Prop() assets!: IBalance[];    
+
+    get AVAX(): string {
+        return AVAX_ID;
+    } 
 
     get assetsMap(): any {
         return this.$store.state.assets;

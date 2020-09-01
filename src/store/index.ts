@@ -4,14 +4,17 @@ import api from "../axios";
 import { Asset } from "@/js/Asset";
 import { IRootState } from "@/store/types";
 import AddressDict from "@/known_addresses";
+import AssetDict from '@/known_assets';
 import Platform from "./modules/platform/platform";
 import Address from "./modules/address/address";
 import Notifications from "./modules/notifications/notifications";
 import { avm } from '@/avalanche';
-import { IAssetData } from '@/js/IAsset';
-import { X_CHAIN_ID } from '@/store/modules/platform/platform';
+import { IAssetData_Ortelius, IAssetData_Avalanche_Go } from '@/js/IAsset';
+import { X_CHAIN_ID } from  '@/store/modules/platform/platform';
 
 Vue.use(Vuex);
+
+export const AVAX_ID = AssetDict["AVAX"] as string;
 
 export default new Vuex.Store({
     modules: {
@@ -44,7 +47,7 @@ export default new Vuex.Store({
                     let res = await api.get(`/x/assets?&offset=${offset}&limit=${limit}`);
                     let assets = res.data.assets;
                     assets.forEach((assetData: any) => {
-                        store.commit("addAsset", new Asset(assetData, false));
+                        store.commit("addAsset", new Asset(assetData, false)); 
                     });
                 }
             }
@@ -55,11 +58,11 @@ export default new Vuex.Store({
 
         // Adds an unknown asset id to the assets dictionary
         async addUnknownAsset({commit}, assetId:string) {
-            let desc = await avm.getAssetDescription(assetId);
-            let newAssetData: IAssetData = {
+            let desc: IAssetData_Avalanche_Go = await avm.getAssetDescription(assetId);
+            let newAssetData: IAssetData_Ortelius = {
                 alias: "",
                 chainID: X_CHAIN_ID,
-                currentSupply: 0,
+                currentSupply: "0",
                 denomination: desc.denomination,
                 id: assetId,
                 name: desc.name,

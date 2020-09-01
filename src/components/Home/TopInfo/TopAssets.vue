@@ -42,6 +42,7 @@ import Tooltip from "../../../components/rows/Tooltip.vue";
 import TooltipHeading from "../../../components/misc/TooltipHeading.vue";
 import axios from "@/axios";
 import { Asset } from "@/js/Asset";
+import { AVAX_ID } from "@/store/index";
 
 @Component({
     components: {
@@ -56,8 +57,8 @@ export default class TopAssets extends Vue {
 
     get assets(): Asset[] {
         let res = this.$store.getters.assetsArrayNonProfane;
-        let avax = res.find((asset: Asset) => asset.id === "nznftJBicce1PfWQeNEVBmDyweZZ6zcM3p78z9Hy9Hhdhfaxm");
-        res = res.filter((asset: Asset) => asset.id !== "nznftJBicce1PfWQeNEVBmDyweZZ6zcM3p78z9Hy9Hhdhfaxm");
+        let avax = res.find((asset: Asset) => asset.id === AVAX_ID);
+        res = res.filter((asset: Asset) => asset.id !== AVAX_ID);
         res.sort((a: Asset, b: Asset) => b.txCount_day - a.txCount_day);
         res.unshift(avax);
         return res.slice(0, 5);

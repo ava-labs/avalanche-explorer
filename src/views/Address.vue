@@ -206,7 +206,7 @@ export default class AddressPage extends Vue {
     get totalUtxoCount(): number {
         return (this.metaData) ? this.metaData.totalUtxoCount : 0;
     }
-    
+     
     // get address details and txs
     updateData() {
         this.loading = true;

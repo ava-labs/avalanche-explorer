@@ -16,6 +16,7 @@
 import "reflect-metadata";
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { stringToBig } from "@/helper";
+import { AVAX_ID } from "@/store/index";
 
 @Component({})
 export default class AddressResult extends Vue {
@@ -29,11 +30,11 @@ export default class AddressResult extends Vue {
     }
 
     get avaxBalance() {
-        return this.item.assets["nznftJBicce1PfWQeNEVBmDyweZZ6zcM3p78z9Hy9Hhdhfaxm"].balance;
+        return this.item.assets[AVAX_ID].balance;
     }
     
     get avaxSymbol() {
-        return this.$store.state.assets["nznftJBicce1PfWQeNEVBmDyweZZ6zcM3p78z9Hy9Hhdhfaxm"].symbol;
+        return this.$store.state.assets[AVAX_ID].symbol;
     }
     
     get numTx() {

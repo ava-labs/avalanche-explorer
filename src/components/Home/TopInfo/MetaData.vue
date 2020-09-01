@@ -97,6 +97,7 @@ import axios from "@/axios";
 import { stringToBig } from "@/helper";
 import TooltipHeading from "../../misc/TooltipHeading.vue";
 import TooltipMeta from "../TopInfo/TooltipMeta.vue";
+import { AVAX_ID } from "@/store/index";
 
 @Component({
     components: {
@@ -137,7 +138,7 @@ export default class MetaData extends Vue {
 
     get avaxVolume(): string {
         let assets = this.$store.state.assets;
-        let avax = assets["nznftJBicce1PfWQeNEVBmDyweZZ6zcM3p78z9Hy9Hhdhfaxm"];
+        let avax = assets[AVAX_ID];
         return !avax
             ? (0).toLocaleString()
             : parseInt(avax.volume_day.toFixed(0)).toLocaleString();

@@ -70,7 +70,7 @@ export default {
     }
 
     &:hover {
-        background-color: main.$primary-color-light;
+        background-color: main.$primary-color-xlight;
     }
 }
 </style>
