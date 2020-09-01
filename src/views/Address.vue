@@ -8,7 +8,7 @@
             <p>Status {{requestErrorStatus}} - {{requestErrorMessage}}</p>
             <p><a href="https://github.com/ava-labs/avalanche-explorer/issues" target="_blank">Submit Issue</a></p>
         </div>
-        <Metadata v-if="metaData && !requestError" 
+        <Metadata v-if="metaData && !requestError && assetsLoaded === true" 
             :metaData="metaData"
             :addressID="addressID"
             :alias="alias"
@@ -162,9 +162,10 @@ export default class AddressPage extends Vue {
     }
 
     @Watch("assetsLoaded")
-    onAssetsLoaded() {
+    onAssetsLoaded(val: boolean) {
         this.updateData();
     }
+    
     @Watch("$route")
     onRouteChanged(val: string) {
         this.updateData();
@@ -219,32 +220,37 @@ export default class AddressPage extends Vue {
 
     getAddressDetails() {
         // TODO: support service for multiple chains
-        let url = `/x/addresses/${this.addressID}`;
-        api.get(url).then(res => {
-            this.loading = false;
-            
-            if (res.data) {
-                this.metaData = new Address(res.data, this.assetsMap);
-            } else {
-                let nullData: IAddressData = {
-                    address: this.addressID,
-                    publicKey: "",
-                    assets: {},
-                 };
-                 this.metaData = new Address(nullData, this.assetsMap);
-            }
-        })
-        .catch(err => {
-            this.loading = false;
-            if (err.response) {
-                console.log(err.response);
-                this.requestError = true;
-                this.requestErrorStatus = err.response.status;
-                this.requestErrorMessage = err.response.data.message;
-            } else if (err.request) {
-                console.log(err.request);
-            }
-        });
+
+        if (this.assetsLoaded === true) {
+            let url = `/x/addresses/${this.addressID}`;
+            api.get(url).then(res => {
+                this.loading = false;
+
+                console.log("res.data assets", res.data.assets);
+                
+                if (res.data) {
+                    this.metaData = new Address(res.data, this.assetsMap);
+                } else {
+                    let nullData: IAddressData = {
+                        address: this.addressID,
+                        publicKey: "",
+                        assets: {},
+                    };
+                    this.metaData = new Address(nullData, this.assetsMap);
+                }
+            })
+            .catch(err => {
+                this.loading = false;
+                if (err.response) {
+                    console.log(err.response);
+                    this.requestError = true;
+                    this.requestErrorStatus = err.response.status;
+                    this.requestErrorMessage = err.response.data.message;
+                } else if (err.request) {
+                    console.log(err.request);
+                }
+            });
+        }
     }
 
     getTx() {
