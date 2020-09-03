@@ -25,34 +25,43 @@ export default new Vuex.Store({
     state: {
         assets: {},
         assetsLoaded: false,
+        assetAggregatesLoaded: false,
         known_addresses: AddressDict,
         chainId: "X",
     },
     actions: {
         async init(store) {
             // TODO: support service for multiple chain
-            let start = -1;
-            let offset = 0;
+            
+            // Get list of all indexed assets
+            let count = 0;
+            let offset = 0;     
             const limit = 500;
-            let res = await api.get(`/x/assets?&offset=${offset}&limit=${limit}`);
+
+            // initial request
+            let res = await api.get(`/x/assets?offset=${offset}&limit=${limit}`);
             let assets = res.data.assets;
+            // count of indexed assets
+            count = res.data.count; 
+            
+            // keep getting asset data as necessary
+            async function checkForMoreAssets() {
+                offset += limit;
+                let res = await api.get(`/x/assets?offset=${offset}&limit=${limit}`);
+                let moreAssets = res.data.assets;
+                assets.push(...moreAssets);
+            }
+
+            while (offset < count) {
+                await checkForMoreAssets();
+            }
+            
+            // once we get all the assets, instantiate assets and save them to the store
+            // asset aggregate data is resolved asynchronously
             assets.forEach((assetData: any) => {
                 store.commit("addAsset", new Asset(assetData, false));
             });
-
-            async function checkForMoreAssets() {
-                if (assets.length === limit) {
-                    start = start + limit // -1 + 499
-                    offset = start
-                    let res = await api.get(`/x/assets?&offset=${offset}&limit=${limit}`);
-                    let assets = res.data.assets;
-                    assets.forEach((assetData: any) => {
-                        store.commit("addAsset", new Asset(assetData, false)); 
-                    });
-                }
-            }
-
-            await checkForMoreAssets();
+            
             store.commit("finishLoading");
         },
 
@@ -70,6 +79,18 @@ export default new Vuex.Store({
             };
             commit("addAsset", new Asset(newAssetData, true));
         },
+        
+        // dispatched from Asset instance upon /aggregates response
+        checkAssetAggregatesLoaded(store) {
+            let assetsArray = store.getters["assetsArray"];
+            let notLoaded = assetsArray.find((element: Asset) => element.isHistoryUpdated === false);
+            if (!notLoaded) {
+                store.commit("finishAggregatesLoading");
+                console.log("ALL ASSET AGGREGATES LOADED")
+            }
+        }
+
+        // TODO - move cache here
     },
     mutations: {
         addAsset(state, asset) {
@@ -77,6 +98,9 @@ export default new Vuex.Store({
         },
         finishLoading(state) {
             state.assetsLoaded = true;
+        },
+        finishAggregatesLoading(state) {
+            state.assetAggregatesLoaded = true;
         }
     },
     getters: {

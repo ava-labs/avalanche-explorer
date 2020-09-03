@@ -3,6 +3,7 @@ import { IAssetData_Ortelius } from "./IAsset";
 import { profanities } from "@/js/Profanities";
 import Big from "big.js";
 import { stringToBig } from '@/helper';
+import store from '../store';
 
 class Asset {
     id: string;
@@ -12,8 +13,11 @@ class Asset {
     denomination: number;
     name: string;
     symbol: string;
+    // aggregate data
     volume_day: Big;
     txCount_day: number;
+    isHistoryUpdated: boolean;
+    // FE metadata
     profane: boolean;
 
     constructor(assetData: IAssetData_Ortelius, isUnknown: boolean) {
@@ -27,10 +31,13 @@ class Asset {
         this.symbol = assetData.symbol;
         this.volume_day = Big(0);
         this.txCount_day = 0;
-        this.profane = false;
+        // aggregate data
+        this.isHistoryUpdated = false;
         if (!isUnknown) {
             this.updateVolumeHistory();   
         }
+        // FE metadata
+        this.profane = false;
         this.checkForProfanities(this.name);
         this.checkForProfanities(this.symbol);
     }
@@ -49,6 +56,8 @@ class Asset {
             let txVolume = res.data.aggregates.transactionVolume || "0";
             parent.volume_day = stringToBig(txVolume, parent.denomination);
             parent.txCount_day = txCount;
+            this.isHistoryUpdated = true;
+            store.dispatch("checkAssetAggregatesLoaded");
         });
     }
 

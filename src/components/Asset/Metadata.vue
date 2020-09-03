@@ -80,8 +80,8 @@ import TooltipMeta from "../../components/misc/TooltipMeta.vue";
             return val === 0
                 ? `no fractional units`
                 : val > 1
-                ? `${val} decimal digits`
-                : `${val} decimal digit`;
+                    ? `${val} decimal digits`
+                    : `${val} decimal digit`;
         }
     }
 

@@ -8,7 +8,7 @@
                 ></TooltipHeading>
             </h2>
         </div>
-        <div v-if="!assetsLoaded">
+        <div v-if="!assetAggregatesLoaded">
             <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
         </div>
         <div v-else>
@@ -63,6 +63,10 @@ export default class TopAssets extends Vue {
         res.sort((a: Asset, b: Asset) => b.txCount_day - a.txCount_day);
         res.unshift(avax);
         return res.slice(0, 5);
+    }
+
+    get assetAggregatesLoaded(): boolean {
+        return this.$store.state.assetAggregatesLoaded;
     }
 
     get assetsLoaded(): boolean {
