@@ -91,13 +91,15 @@
 </template>
 <script lang="ts">
 import "reflect-metadata";
-import { Vue, Component } from "vue-property-decorator";
+import { Vue, Component, Watch } from "vue-property-decorator";
 
 import axios from "@/axios";
 import { stringToBig } from "@/helper";
 import TooltipHeading from "../../misc/TooltipHeading.vue";
 import TooltipMeta from "../TopInfo/TooltipMeta.vue";
 import { AVAX_ID } from "@/store/index";
+import { Asset } from '@/js/Asset';
+import Big from "big.js";
 
 @Component({
     components: {
@@ -106,14 +108,77 @@ import { AVAX_ID } from "@/store/index";
     }
 })
 export default class MetaData extends Vue {
+    volumeCache: Big = Big(0);
+    totalTransactionsCache: number = 0;
+
     get assetsLoaded(): boolean {
         return this.$store.state.assetsLoaded;
+    }
+
+    get assetAggregatesLoaded(): boolean {
+        return this.$store.state.assetAggregatesLoaded;
     }
 
     get subnetsLoaded(): boolean {
         return this.$store.state.Platform.subnetsLoaded;
     }
 
+    @Watch("avaxVolume")
+    onAvaxVolumeChanged(val: string) {
+        // console.log("CALLED FROM: @Watch(avaxVolume)")
+        this.saveCacheAvax();
+    }
+
+    @Watch("totalTransactions")
+    ontotalTransactionsChanged(val: number) {
+        // console.log("CALLED FROM: @Watch(totalTransactions)")
+        this.saveCacheTotalTransactions();
+    }
+
+    created() {
+        // Get 24h volume cache
+        // TODO: remove when API is enhanced
+        let volumeCacheJSON = localStorage.getItem('avaxCache');
+        let volumeCache = Big(0);
+        if (volumeCacheJSON) {
+            let cache =  JSON.parse(volumeCacheJSON);
+            volumeCache = Big(cache.volume_day);
+        }
+        this.volumeCache = volumeCache;
+
+        // Get totalTransactions cache 
+        // TODO: remove when API is enhanced
+        let totalTransactionsCacheJSON = localStorage.getItem('totalTransactions');
+        let totalTransactionsCache = 0;
+        if (totalTransactionsCacheJSON) {
+            let cache = JSON.parse(totalTransactionsCacheJSON);
+            totalTransactionsCache = cache;
+        }
+        this.totalTransactionsCache = totalTransactionsCache;
+    }
+
+    saveCacheAvax() {
+        let asset = this.avax;
+        if (asset) {
+            let volume_day = asset.volume_day.toString();
+            let txCount_day = asset.txCount_day;
+            let cache = {
+                volume_day,     // AVAX volume
+                txCount_day,    // AVAX count
+            };
+            localStorage.setItem('avaxCache', JSON.stringify(cache)); 
+        }
+    }
+
+    saveCacheTotalTransactions() {
+        let totalTransactions = this.totalTransactions;
+        let cache = {
+            totalTransactions   // count across all assets
+        }
+        localStorage.setItem('totalTransactions', JSON.stringify(totalTransactions));
+    }
+
+    // Data from Ortelius
     get tpmText(): string {
         let day = 60 * 24;
         let avg = this.totalTransactions / day;
@@ -126,6 +191,30 @@ export default class MetaData extends Vue {
         return avg > 1 ? avg.toFixed(0) : avg.toFixed(2);
     }
 
+    get assets() {
+        return this.$store.state.assets;
+    }
+
+    get avax(): Asset | undefined { 
+        return this.assets[AVAX_ID];
+    }
+    
+    get avaxVolume(): string {
+        if (!this.avax) {
+            return parseInt(this.volumeCache.toFixed(0)).toLocaleString();
+        }
+        return this.avax.isHistoryUpdated 
+            ? parseInt(this.avax.volume_day.toFixed(0)).toLocaleString()
+            : parseInt(this.volumeCache.toFixed(0)).toLocaleString();
+    }
+
+    get totalTransactions(): number {
+        return this.$store.state.assetAggregatesLoaded
+            ? this.$store.getters.totalTransactions
+            : this.totalTransactionsCache;
+    }
+        
+    // Data from Avalanche-Go
     get totalStake(): string {
         let res = this.$store.getters["Platform/totalStake"];
         res = stringToBig(res.toString(), 9).toFixed(0);
@@ -134,18 +223,6 @@ export default class MetaData extends Vue {
 
     get validatorCount(): number {
         return this.$store.getters["Platform/totalValidators"];
-    }
-
-    get avaxVolume(): string {
-        let assets = this.$store.state.assets;
-        let avax = assets[AVAX_ID];
-        return !avax
-            ? (0).toLocaleString()
-            : parseInt(avax.volume_day.toFixed(0)).toLocaleString();
-    }
-
-    get totalTransactions(): number {
-        return this.$store.getters.totalTransactions;
     }
 }
 

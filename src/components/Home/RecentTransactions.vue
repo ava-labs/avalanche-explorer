@@ -8,53 +8,52 @@
                     <span class="ava-btn-label">Refresh</span>
                 </v-btn>
             </div>
-            <template v-if="assetsLoaded">
-                <p class="chain right" bottom v-if="$vuetify.breakpoint.smAndUp">
-                <span class="label">You are viewing transactions for</span>
-                <v-tooltip>
-                    <template v-slot:activator="{ on }">
-                        <span v-on="on" class="tag">X-Chain</span>
-                    </template>
-                    <span>The X-Chain acts as a decentralized platform for creating and trading smart digital assets. (Think X for eXchanging assets.)</span>
-                </v-tooltip>
-                </p>
-            </template>
+            <p class="chain right" bottom v-if="$vuetify.breakpoint.smAndUp">
+            <span class="label">You are viewing transactions for</span>
+            <v-tooltip>
+                <template v-slot:activator="{ on }">
+                    <span v-on="on" class="tag">X-Chain</span>
+                </template>
+                <span>The X-Chain acts as a decentralized platform for creating and trading smart digital assets. (Think X for eXchanging assets.)</span>
+            </v-tooltip>
+            </p>
         </div>
-        <template v-if="assetsLoaded">
             <div class="list">
-            <div class="table_headers recent_tx_rows">
-                <p></p>
-                <p>
-                    ID
-                    <Tooltip content="a transaction queries or modifies the state of a blockchain"></Tooltip>
-                </p>
-                <p>
-                    From
-                    <Tooltip content="address that sends transfer value"></Tooltip>
-                </p>
-                <p>
-                    To
-                    <Tooltip content="address that receives transfer value"></Tooltip>
-                </p>
+                <div class="table_headers recent_tx_rows">
+                    <p></p>
+                    <p>
+                        ID
+                        <Tooltip content="a transaction queries or modifies the state of a blockchain"></Tooltip>
+                    </p>
+                    <p>
+                        From
+                        <Tooltip content="address that sends transfer value"></Tooltip>
+                    </p>
+                    <p>
+                        To
+                        <Tooltip content="address that receives transfer value"></Tooltip>
+                    </p>
+                </div>
+                <transition-group name="fade" v-if="transactions.length > 0">
+                    <tx-row
+                        v-for="tx in transactions"
+                        :key="tx.id"
+                        class="recent_tx_rows"
+                        :transaction="tx"
+                    ></tx-row>
+                </transition-group>
+                <div v-if="transactions.length === 0">
+                    <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
+                </div>
             </div>
-            <transition-group name="fade">
-                <tx-row
-                    v-for="tx in transactions"
-                    :key="tx.id"
-                    class="recent_tx_rows"
-                    :transaction="tx"
-                ></tx-row>
-            </transition-group>
-        </div>
-        <div class="bottom">
-            <router-link to="/tx" class="view_all">View All Transactions</router-link>
-        </div>
-        </template>
+            <div class="bottom">
+                <router-link to="/tx" class="view_all">View All Transactions</router-link>
+            </div>
     </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch } from "vue-property-decorator";
+import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import Tooltip from "@/components/rows/Tooltip.vue";
 import TxRow from "@/components/rows/TxRow/TxRow.vue";
 import api from "@/axios";
@@ -68,33 +67,24 @@ import { ITransaction } from '@/js/ITransaction';
 })
 export default class RecentTransactions extends Vue {
     loading: boolean = false;
-    transactions: ITransaction[] = [];
-    
-    created() {
-        this.updateTx();
-    }
-
-    @Watch("assetsLoaded")
-    onAssetsLoadedChanged(val: string, oldVal: string) {
-        this.updateTx();
-    }
-   
-    updateTx() {
+       
+    async updateTx() {
         let txNum = 8;
         this.loading = true;
 
         if (this.assetsLoaded) {
             // TODO: support service for multiple chains
-            api.get(`/x/transactions?sort=timestamp-desc&limit=${txNum}`).then(res => {
-                const list = res.data.transactions;
-                this.transactions = list;
-                this.loading = false;
-            });
+            await this.$store.dispatch("getRecentTransactions");
+            this.loading = false;
         }
     }
 
     get assetsLoaded() {
         return this.$store.state.assetsLoaded;
+    }
+
+    get transactions(): ITransaction[] {
+        return this.$store.state.recentTransactions;
     }
 }
 </script>
