@@ -67,24 +67,36 @@ import { ITransaction } from '@/js/ITransaction';
 })
 export default class RecentTransactions extends Vue {
     loading: boolean = false;
+    txNum: number = 10;
+    poller: number = 0;
        
-    async updateTx() {
-        let txNum = 8;
-        this.loading = true;
-
-        if (this.assetsLoaded) {
-            // TODO: support service for multiple chains
-            await this.$store.dispatch("getRecentTransactions");
-            this.loading = false;
-        }
+    created() {
+        this.poller = window.setInterval(() => this.pollForTxUpdates(), 1000);
+    }   
+    
+    destroyed() {
+        window.clearInterval(this.poller);
     }
-
-    get assetsLoaded() {
+    
+    get assetsLoaded(): boolean {
         return this.$store.state.assetsLoaded;
     }
 
     get transactions(): ITransaction[] {
         return this.$store.state.recentTransactions;
+    }
+
+    async updateTx(): Promise<void> {
+        this.loading = true;
+        if (this.assetsLoaded) {
+            // TODO: support service for multiple chains
+            await this.$store.dispatch("getRecentTransactions", this.txNum);
+            this.loading = false;
+        }
+    }
+
+    pollForTxUpdates(): void {
+        this.$store.dispatch("getRecentTransactions", this.txNum);
     }
 }
 </script>

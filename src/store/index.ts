@@ -61,15 +61,14 @@ export default new Vuex.Store({
             store.commit("finishLoading");
 
             // once we have assets, next get recent transactions
-            store.dispatch("getRecentTransactions");
+            store.dispatch("getRecentTransactions", 10);
             
             // get asset aggregate data
             store.commit("updateAssetsWithAggregateData");
         },
 
-        async getRecentTransactions(store) {
+        async getRecentTransactions(store, txNum: number) {
             // Get recent transactions
-            let txNum = 10;
             let txRes = await api.get(`/x/transactions?sort=timestamp-desc&limit=${txNum}`);
             store.commit("addRecentTransactions", txRes.data.transactions);
         },
