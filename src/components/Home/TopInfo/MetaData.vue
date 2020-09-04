@@ -125,13 +125,13 @@ export default class MetaData extends Vue {
 
     @Watch("avaxVolume")
     onAvaxVolumeChanged(val: string) {
-        console.log("CALLED FROM: @Watch(avaxVolume)")
+        // console.log("CALLED FROM: @Watch(avaxVolume)")
         this.saveCacheAvax();
     }
 
     @Watch("totalTransactions")
     ontotalTransactionsChanged(val: number) {
-        console.log("CALLED FROM: @Watch(totalTransactions)")
+        // console.log("CALLED FROM: @Watch(totalTransactions)")
         this.saveCacheTotalTransactions();
     }
 

@@ -11,6 +11,7 @@ import Notifications from "./modules/notifications/notifications";
 import { avm } from '@/avalanche';
 import { IAssetData_Ortelius, IAssetData_Avalanche_Go } from '@/js/IAsset';
 import { X_CHAIN_ID } from  '@/store/modules/platform/platform';
+import { ITransaction } from '@/js/ITransaction';
 
 Vue.use(Vuex);
 
@@ -28,28 +29,25 @@ export default new Vuex.Store({
         assetAggregatesLoaded: false,
         known_addresses: AddressDict,
         chainId: "X",
+        recentTransactions: [] as ITransaction[]
     },
     actions: {
         async init(store) {
             // TODO: support service for multiple chain
-            
             // Get list of all indexed assets
             let count = 0;
             let offset = 0;     
             const limit = 500;
-
-            // initial request
             let res = await api.get(`/x/assets?offset=${offset}&limit=${limit}`);
-            let assets = res.data.assets;
-            // count of indexed assets
-            count = res.data.count; 
+            let assetsData = res.data.assets;
+            count = res.data.count;             // count of indexed assets
             
             // keep getting asset data as necessary
             async function checkForMoreAssets() {
                 offset += limit;
                 let res = await api.get(`/x/assets?offset=${offset}&limit=${limit}`);
                 let moreAssets = res.data.assets;
-                assets.push(...moreAssets);
+                assetsData.push(...moreAssets);
             }
 
             while (offset < count) {
@@ -57,12 +55,23 @@ export default new Vuex.Store({
             }
             
             // once we get all the assets, instantiate assets and save them to the store
-            // asset aggregate data is resolved asynchronously
-            assets.forEach((assetData: any) => {
+            assetsData.forEach((assetData: any) => {
                 store.commit("addAsset", new Asset(assetData, false));
             });
-            
             store.commit("finishLoading");
+
+            // once we have assets, next get recent transactions
+            store.dispatch("getRecentTransactions");
+            
+            // get asset aggregate data
+            store.commit("updateAssetsWithAggregateData");
+        },
+
+        async getRecentTransactions(store) {
+            // Get recent transactions
+            let txNum = 10;
+            let txRes = await api.get(`/x/transactions?sort=timestamp-desc&limit=${txNum}`);
+            store.commit("addRecentTransactions", txRes.data.transactions);
         },
 
         // Adds an unknown asset id to the assets dictionary
@@ -101,6 +110,15 @@ export default new Vuex.Store({
         },
         finishAggregatesLoading(state) {
             state.assetAggregatesLoaded = true;
+        },
+        addRecentTransactions(state, transactions: ITransaction[]) {
+            state.recentTransactions = transactions;
+        },
+        updateAssetsWithAggregateData(state) {
+            for (const assetID in state.assets) {
+                //@ts-ignore
+                state.assets[assetID].updateVolumeHistory();
+            }
         }
     },
     getters: {

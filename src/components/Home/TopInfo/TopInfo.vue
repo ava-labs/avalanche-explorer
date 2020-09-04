@@ -36,6 +36,7 @@ export default {
     }
 
     > div:last-of-type {
+        min-height: 256px;
         border: none;
     }
 }

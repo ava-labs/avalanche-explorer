@@ -19,6 +19,8 @@ class Asset {
     isHistoryUpdated: boolean;
     // FE metadata
     profane: boolean;
+    // not in indexer
+    isUnknown: boolean;
 
     constructor(assetData: IAssetData_Ortelius, isUnknown: boolean) {
         this.id = assetData.id;
@@ -33,9 +35,8 @@ class Asset {
         this.txCount_day = 0;
         // aggregate data
         this.isHistoryUpdated = false;
-        if (!isUnknown) {
-            this.updateVolumeHistory();   
-        }
+        // not in indexer
+        this.isUnknown = isUnknown;
         // FE metadata
         this.profane = false;
         this.checkForProfanities(this.name);
@@ -43,22 +44,23 @@ class Asset {
     }
 
     // Daily Volume
-    private updateVolumeHistory(): void {
-        let parent = this;
-        let endDate = new Date();
-        let startTime = Date.now() - (1000 * 60 * 60 * 24);
-        let startDate = new Date(startTime);
+    public updateVolumeHistory(): void {
+        if (this.isUnknown === false) {
+            let endDate = new Date();
+            let startTime = Date.now() - (1000 * 60 * 60 * 24);
+            let startDate = new Date(startTime);
         
-        // TODO: support service for multiple chains
-        // TODO: declare interface
-        api.get(`/x/transactions/aggregates?startTime=${startDate.toISOString()}&endTime=${endDate.toISOString()}&assetID=${this.id}`).then(res => {
-            let txCount = res.data.aggregates.transactionCount || 0;
-            let txVolume = res.data.aggregates.transactionVolume || "0";
-            parent.volume_day = stringToBig(txVolume, parent.denomination);
-            parent.txCount_day = txCount;
-            this.isHistoryUpdated = true;
-            store.dispatch("checkAssetAggregatesLoaded");
-        });
+            // TODO: support service for multiple chains
+            // TODO: declare interface
+            api.get(`/x/transactions/aggregates?startTime=${startDate.toISOString()}&endTime=${endDate.toISOString()}&assetID=${this.id}`).then(res => {
+                let txCount = res.data.aggregates.transactionCount || 0;
+                let txVolume = res.data.aggregates.transactionVolume || "0";
+                this.volume_day = stringToBig(txVolume, this.denomination);
+                this.txCount_day = txCount;
+                this.isHistoryUpdated = true;
+                store.dispatch("checkAssetAggregatesLoaded");
+            });
+        }
     }
 
     private checkForProfanities(value: string): void {
