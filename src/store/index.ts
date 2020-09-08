@@ -114,10 +114,12 @@ export default new Vuex.Store({
             state.recentTransactions = transactions;
         },
         updateAssetsWithAggregateData(state) {
-            for (const assetID in state.assets) {
+            //@ts-ignore
+            state.assets[AVAX_ID].updateVolumeHistory();
+            // for (const assetID in state.assets) {
                 //@ts-ignore
-                state.assets[assetID].updateVolumeHistory();
-            }
+                // state.assets[assetID].updateVolumeHistory();
+            // }
         }
     },
     getters: {

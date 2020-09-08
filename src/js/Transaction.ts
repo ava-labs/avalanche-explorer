@@ -19,10 +19,6 @@ function getOutput(output: ITransactionOutputData): ITransactionOutput {
 
 export class Transaction implements ITransaction {
     id: string;
-    unsignedTx: {
-        networkID: number,
-        blockchainID: string
-    };
     inputs: ITransactionInput[];
     outputs: ITransactionOutput[];
     timestamp: string;
@@ -30,7 +26,6 @@ export class Transaction implements ITransaction {
     chainID: string;
 
     constructor(data: ITransactionData) {
-        this.unsignedTx = data.unsignedTx;
         this.inputs = (data.inputs === null || data.inputs.length === 0) ? [] : data.inputs.map((input: ITransactionInputData) => {
             return {
                 credentials: input.credentials,
