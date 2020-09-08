@@ -11,7 +11,7 @@ import Notifications from "./modules/notifications/notifications";
 import { avm } from '@/avalanche';
 import { IAssetData_Ortelius, IAssetData_Avalanche_Go } from '@/js/IAsset';
 import { X_CHAIN_ID } from  '@/store/modules/platform/platform';
-import { ITransaction } from '@/js/ITransaction';
+import { ITransaction, ITransactionData, ITransactionOutputData, ITransactionInputData } from '@/js/ITransaction';
 
 Vue.use(Vuex);
 
@@ -63,8 +63,11 @@ export default new Vuex.Store({
             // once we have assets, next get recent transactions
             store.dispatch("getRecentTransactions", 10);
             
-            // get asset aggregate data
+            // get asset aggregate data (just AVAX for now)
             store.commit("updateAssetsWithAggregateData");
+
+            // get asset aggregation data for assets appearing in recent Txs
+            store.dispatch("setAggregatesForAssetsInRecentTransactions");
         },
 
         async getRecentTransactions(store, txNum: number) {
@@ -96,6 +99,25 @@ export default new Vuex.Store({
                 store.commit("finishAggregatesLoading");
                 console.log("ALL ASSET AGGREGATES LOADED")
             }
+        },
+
+        async setAggregatesForAssetsInRecentTransactions(store)  {
+            let txNum = 500;
+            let txRes = await api.get(`/x/transactions?sort=timestamp-desc&limit=${txNum}`);
+            let duplicates: string[] = [];            
+            // totals
+            txRes.data.transactions.forEach((tx: ITransactionData) => {
+                for (let inputAddress in tx.inputTotals) {
+                    duplicates.push(inputAddress);
+                }
+                for (let outputAddress in tx.outputTotals) {
+                    duplicates.push(outputAddress);
+                }
+            })
+            let uniques = duplicates.filter((item, i, ar) => ar.indexOf(item) === i);
+            uniques.forEach((assetID: string) => {
+                store.commit("updateAssetWithAggregationData", assetID);
+            });
         }
 
         // TODO - move cache here
@@ -112,6 +134,10 @@ export default new Vuex.Store({
         },
         addRecentTransactions(state, transactions: ITransaction[]) {
             state.recentTransactions = transactions;
+        },
+        updateAssetWithAggregationData(state, assetID: string) {
+            //@ts-ignore
+            state.assets[assetID].updateVolumeHistory();
         },
         updateAssetsWithAggregateData(state) {
             //@ts-ignore
