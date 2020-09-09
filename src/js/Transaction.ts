@@ -24,6 +24,7 @@ export class Transaction implements ITransaction {
     timestamp: string;
     type: string;
     chainID: string;
+    memo: string;
 
     constructor(data: ITransactionData) {
         this.inputs = (data.inputs === null || data.inputs.length === 0) ? [] : data.inputs.map((input: ITransactionInputData) => {
@@ -40,6 +41,15 @@ export class Transaction implements ITransaction {
         this.type = data.type;
         this.chainID = data.chainID;
         this.id = data.id;
+        this.memo = data.memo;
+        // MDAwMDAwMDA=
+
+        /*
+        const encoder = new TextEncoder();
+        const view = encoder.encode("MDAwMDAwMDA=");
+
+
+        */
     }
 
     getInputAddresses(): string[] {

@@ -40,6 +40,13 @@
             <!-- TODO: Tx Fee from API when supported -->
             <p>0.001 AVAX</p>
         </article>
+        <article class="meta_row">
+            <p class="label">Memo</p>
+            <div>
+                <p><span class="decode">hex</span> {{memo_hex}}</p>
+                <p><span class="decode">UTF-8</span> {{memo_utf8}}</p>
+            </div>
+        </article>
         <article class="meta_row" v-if="!isAssetGenesis">
             <p class="label">Input UTXOs</p>
             <div v-if="inputs.length > 0">
@@ -109,6 +116,41 @@ import moment from "moment";
 })
 export default class TransactionDetailCard extends Vue {
     @Prop() tx!: Transaction;
+
+     b64DecodeHex(str: string): string {
+        const raw = atob(str);
+        let result = "";
+        for (let i = 0; i < raw.length; i++) {
+            const hex = raw.charCodeAt(i).toString(16);
+            result += (hex.length === 2 ? hex : "0" + hex);
+        }
+        return result.toUpperCase();
+    }
+
+    b64EncodeUnicode(str: string): string {
+        // first we use encodeURIComponent to get percent-encoded UTF-8,
+        // then we convert the percent encodings into raw bytes which
+        // can be fed into btoa.
+        return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+            function toSolidBytes(match, p1) {
+                return String.fromCharCode(parseInt(("0x" + p1)));
+        }));
+    }
+
+    b64DecodeUnicode(str: string): string {
+        // Going backwards: from bytestream, to percent-encoding, to original string.
+        return decodeURIComponent(atob(str).split('').map(function(c) {
+            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(""));
+    }
+
+    get memo_hex(): string {
+        return this.b64DecodeHex(this.tx.memo);
+    }
+
+    get memo_utf8(): string {
+        return this.b64DecodeUnicode(this.tx.memo);
+    }
 
     get txId(): string {
         return this.tx.id;
@@ -196,4 +238,11 @@ export default class TransactionDetailCard extends Vue {
 
 <style scoped lang="scss">
 @use "../main";
+
+.decode {
+    display: inline-block;
+    color: main.$primary-color-light;
+    width: 60px;
+    font-size: 12px;
+}
 </style>

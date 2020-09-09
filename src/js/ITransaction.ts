@@ -11,7 +11,7 @@ export interface ITransactionData {
     inputTotals?:           IInputTotal,    // TODO new stuff
     outputTotals?:          IOutputTotal,   // TODO new stuff
     reusedAddressTotals?:   string,         // TODO new stuff
-    memo?:                  string,         // TODO base64 new stuff
+    memo:                   string,         // base64
     timestamp:              string,
 }
 
@@ -50,7 +50,8 @@ export interface ITransaction {
     id:                     string,
     timestamp:              string,
     type:                   string,
-    chainID:                string
+    chainID:                string,
+    memo:                   string,     // base64
 }
 
 export interface ITransactionInput {
