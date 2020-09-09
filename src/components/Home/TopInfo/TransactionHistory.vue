@@ -177,11 +177,11 @@ export default {
                 case "hour":
                     res = 1000 * 60 * 60;
                     break;
-                case "10m":
+                case "5m":
                     res = 1000 * 60 * 5;
                     break;
-                case "5s":
-                    res = 1000 * 5;
+                case "1s":
+                    res = 1000;
                     break;
             }
             return res;
@@ -264,7 +264,6 @@ export default {
                     res = 3;
                     break;
             }
-            console.log("maxTicksLimit", res);
             return res;
         },
         // raw data
