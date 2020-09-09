@@ -5,12 +5,12 @@
         </div>
         <div class="history_cont">
             <div class="history_settings">
-                <button :active="scope===options[0]" @click="setScope(options[0])">Yr</button>
-                <button :active="scope===options[1]" @click="setScope(options[1])">Mo</button>
-                <button :active="scope===options[2]" @click="setScope(options[2])">Wk</button>
-                <button :active="scope===options[3]" @click="setScope(options[3])">D</button>
-                <button :active="scope===options[4]" @click="setScope(options[4])">Hr</button>
-                <button :active="scope===options[5]" @click="setScope(options[5])">Min</button>
+                <button :active="scope===options[0]" @click="setScope(options[0])">1 year</button>
+                <button :active="scope===options[1]" @click="setScope(options[1])">1 month</button>
+                <button :active="scope===options[2]" @click="setScope(options[2])">1 week</button>
+                <button :active="scope===options[3]" @click="setScope(options[3])">1 day</button>
+                <button :active="scope===options[4]" @click="setScope(options[4])">1 hr</button>
+                <button :active="scope===options[5]" @click="setScope(options[5])">1 min</button>
             </div>
             <div v-show="loading" class="loading_cont">
                 <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate></v-progress-circular>
@@ -42,7 +42,6 @@ export default {
             this.scope = val;
             this.updateHistory();
         },
-
         updateHistory() {
             this.loading = true;
             
@@ -50,21 +49,17 @@ export default {
             let intervalSize = this.intervalSize;               // integral (granularity)
             
             let now = Date.now();
-            let roundedNow = this.roundToNearestInterval(now);  // clean time intervals
+            let roundedNow = this.roundToNearestInterval(now);  // round to nearest whole integral for cleaner time presentation
             
             let endTime = new Date(roundedNow).toISOString();  
             let startTime = new Date(roundedNow - interval).toISOString();
                         
-            // depending on option, round down to nearest whole interral
-            let rounded = this.roundToNearestInterval(1599611677254);
-            
             // TODO: support service for multiple chains
             // TODO: asset param when supported by API
             axios.get(`/x/transactions/aggregates?startTime=${startTime}&endTime=${endTime}&intervalSize=${intervalSize}`)
                 .then(res => {
-                    let data = res.data;
                     this.loading = false;
-                    this.history = data;
+                    this.history = res.data;
                     this.draw();
                 });
         }, 
@@ -73,54 +68,53 @@ export default {
             switch (this.scope) {
                 case "year":
                     // round to nearest month
-                    res = new moment(now).startOf('month').valueOf();
+                    res = new moment(now).startOf('month').valueOf() + (1000 * 60 * 60 * 24 * 30);
                     break;
                 case "month":
                     // round to nearest day
-                    res = new moment(now).startOf('day').valueOf();
+                    res = new moment(now).startOf('day').valueOf() + (1000 * 60 * 60 * 24);
                     break;
                 case "week":
                     // round to nearest day
-                    res = new moment(now).startOf('day').valueOf();s
+                    res = new moment(now).startOf('day').valueOf() + (1000 * 60 * 60 * 24);
                     break;
                 case "day":
                     // round to nearest hour
-                    res = new moment(now).startOf('hour').valueOf();
+                    res = new moment(now).startOf('hour').valueOf() + (1000 * 60 * 60);
                     break;
                 case "hour":
                     // round to nearest minute
-                    res = new moment(now).startOf('minute').valueOf();
+                    res = new moment(now).startOf('minute').valueOf() + (1000 * 60);
                     break;
                 case "minute":
                     // round to nearest second
-                    res = new moment(now).startOf('second').valueOf();
+                    res = new moment(now).startOf('second').valueOf() + (1000);
                     break;
             }
             return res;
         },
-        clearChart() {
-            let chart = this.chart;
-            chart.data.labels = [];
-            chart.data.datasets.forEach(dataset => {
-                dataset.data = [];
-            });
-            chart.update();
-        },
         draw() {
             this.clearChart();
-
-            let dataX = this.valuesX;
-            let chart = this.chart;
-
-            dataX.forEach((data, index) => {
-                let label = this.labelsX[index];
-                chart.data.labels.push(label);
-                chart.data.datasets.forEach(dataset => {
-                    dataset.data.push(data);
+            // bind data to chart
+            this.chart.options.scales.xAxes[0].ticks.maxTicksLimit = this.maxTicksLimit;
+            this.valuesX.forEach((d, i) => {
+                let label = this.labelsX[i];
+                this.chart.data.labels.push(label);
+                this.chart.data.datasets.forEach(dataset => {
+                    dataset.data.push(d);
                 });
             });
-            chart.update();
-        }
+            this.chart.update();
+        },
+        clearChart() {
+            // clear labels
+            this.chart.data.labels = [];
+            // clear data
+            this.chart.data.datasets.forEach(dataset => {
+                dataset.data = [];
+            });
+            this.chart.update();
+        },
     },
     computed: {
         intervalMs() {
@@ -195,79 +189,103 @@ export default {
         intervalFormat() {
             let res = "";
             let scope = this.scope;
+            
             switch (this.intervalSize) {
+
                 case "month":
-                    res = "MMM";
+                    res = "MMM YYYY";
                     break;
-                case `${24 * 7}h`:
-                    res = "d";
-                    break;
+
                 case "day":
                     if (scope === "month") {
                         res = "MMM DD";
                     } else {
-                        res = "D dd";
+                        res = "MMM D";
                     }
                     break;
-                case "2h":
-                    res = "HH:mm";
+                
+                case "hour":
+                    res = "h:mm a";
+                    break;
+                
+                case "5m":
+                    res = "h:mm a";
+                    break;
+                
+                case "1s":
+                    res = "h:m:ss a";
+                    break;
+            }
+            return res;
+        },
+        xAxislabel() {
+            let res = "";           
+            switch (this.scope) {
+                case "year":
+                    res = "month";
+                    break;
+                case "month":
+                    res = "date";
+                    break;
+                case "week":
+                    res = "date";
+                    break;
+                case "day":
+                    res = "time";
                     break;
                 case "hour":
-                    res = "HH:mm";
+                    res = "time";
                     break;
-                case "5m":
-                    res = "HH:mm";
-                    break;
-                case "1s":
-                    res = "mm:ss";
+                case "minute":
+                    res = "time";
                     break;
             }
             return res;
         },
+        maxTicksLimit() {
+            let res = 1;           
+            switch (this.scope) {
+                case "year":
+                    res = 4;
+                    break;
+                case "month":
+                    res = 4;
+                    break;
+                case "week":
+                    res = 7;
+                    break;
+                case "day":
+                    res = 6;
+                    break;
+                case "hour":
+                    res = 5;
+                    break;
+                case "minute":
+                    res = 3;
+                    break;
+            }
+            console.log("maxTicksLimit", res);
+            return res;
+        },
+        // raw data
         dataX() {
-            if (!this.history) return [];
-            let res = [];
-            let intervals = this.history.intervals;
-            intervals.forEach((val, i) => {
-                res.push(val);
-            });
-            return res;
+            return (!this.history) ? [] : this.history.intervals;
         },
+        // charted data
         valuesX() {
-            let res = [];
-
-            for (let i = 0; i < this.dataX.length; i++) {
-                let data = this.dataX[i];
-                let txCount = data.transactionCount;
-                res.push(txCount);
-            }
-            return res;
+            return this.dataX.map(d => d.transactionCount);
         },
+        // x-axis labels
         labelsX() {
-            let res = [];
-            let datas = this.dataX;
-            let len = datas.length;
-
-            for (let i = 0; i < len; i++) {
-                let data = datas[i];
-                let date = new Date(data.startTime);
-                let mom = moment(date);
-                let label = mom.format(this.intervalFormat);
-                res.push(label);
-            }
-            return res;
+            return this.dataX.map(d => moment(new Date(d.startTime)).format(this.intervalFormat));
         }
     },
     created() {
         this.updateHistory();
     },
     mounted() {
-        let cont = this.$refs.canv.getContext("2d");
-        this.context = cont;
-
-        let valuesX = this.valuesX;
-
-        let myLineChart = new Chart(cont, {
+        this.context = this.$refs.canv.getContext("2d");
+        let myLineChart = new Chart(this.context, {
             type: "line",
             data: {
                 labels: [
@@ -288,11 +306,12 @@ export default {
                         pointBorderColor: "transparent",
                         pointHoverBackgroundColor: "#e84970",
                         pointHoverBorderColor: "#e84970",
-                        data: valuesX,
+                        data: this.valuesX,
                         fill: false
                     }
                 ]
             },
+
             options: {
                 maintainAspectRatio: false,
                 responsive: true,
@@ -317,7 +336,7 @@ export default {
                         display: true,
                         scaleLabel: {
                             display: true,
-                            labelString: "Month"
+                            labelString: this.xAxislabel
                         }
                     },
 
@@ -340,8 +359,8 @@ export default {
                             },
                             ticks: {
                                 autoSkip: true,
-                                maxTicksLimit: 3,
-                                maxRotation: 0
+                                maxTicksLimit: this.maxTicksLimit,
+                                maxRotation:  30
                             }
                         }
                     ],
@@ -352,7 +371,7 @@ export default {
                             },
                             ticks: {
                                 autoSkip: true,
-                                maxTicksLimit: 3,
+                                maxTicksLimit: 5,
                                 precision: 0,
                                 min: 0
                             }
