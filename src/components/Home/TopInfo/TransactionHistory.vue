@@ -213,7 +213,7 @@ export default {
                     break;
                 
                 case "1s":
-                    res = "h:m:ss a";
+                    res = "h:mm:ss a";
                     break;
             }
             return res;
