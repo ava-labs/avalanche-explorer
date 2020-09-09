@@ -2,7 +2,7 @@
     <div class="top_info">
         <transaction-history></transaction-history>
         <meta-data></meta-data>
-        <!-- <top-assets></top-assets> -->
+        <top-assets></top-assets>
     </div>
 </template>
 <script>
@@ -12,7 +12,7 @@ import TransactionHistory from "./TransactionHistory";
 
 export default {
     components: {
-        // TopAssets,
+        TopAssets,
         MetaData,
         TransactionHistory
     }

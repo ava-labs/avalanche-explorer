@@ -58,7 +58,11 @@ class Asset {
                 this.volume_day = stringToBig(txVolume, this.denomination);
                 this.txCount_day = txCount;
                 this.isHistoryUpdated = true;
-                store.dispatch("checkAssetAggregatesLoaded");
+                // TODO: remove when API implements precomputed aggregates
+                store.commit("updateAssetInSubsetForAggregation", this.id);
+                store.dispatch("checkAssetsSubsetAggregatesLoaded");
+                // DISABLE
+                // store.dispatch("checkAssetAggregatesLoaded");
             });
         }
     }
