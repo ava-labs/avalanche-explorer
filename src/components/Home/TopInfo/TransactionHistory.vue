@@ -44,25 +44,59 @@ export default {
         },
 
         updateHistory() {
-            let parent = this;
             this.loading = true;
-            // our selected interval in ms
-            let interval = this.intervalMs;
-            let intervalSize = this.intervalSize;
-            let endMs = Date.now();
-
-            let startTime = this.startDate.toISOString();
-            let endTime = new Date().toISOString();
-
+            
+            let interval = this.intervalMs;                     // our selected interval (startTime to endTime) in ms 
+            let intervalSize = this.intervalSize;               // integral (granularity)
+            
+            let now = Date.now();
+            let roundedNow = this.roundToNearestInterval(now);  // clean time intervals
+            
+            let endTime = new Date(roundedNow).toISOString();  
+            let startTime = new Date(roundedNow - interval).toISOString();
+                        
+            // depending on option, round down to nearest whole interral
+            let rounded = this.roundToNearestInterval(1599611677254);
+            
             // TODO: support service for multiple chains
             // TODO: asset param when supported by API
             axios.get(`/x/transactions/aggregates?startTime=${startTime}&endTime=${endTime}&intervalSize=${intervalSize}`)
                 .then(res => {
                     let data = res.data;
-                    parent.loading = false;
-                    parent.history = data;
-                    parent.draw();
+                    this.loading = false;
+                    this.history = data;
+                    this.draw();
                 });
+        }, 
+        roundToNearestInterval(now) {
+            let res = 0
+            switch (this.scope) {
+                case "year":
+                    // round to nearest month
+                    res = new moment(now).startOf('month').valueOf();
+                    break;
+                case "month":
+                    // round to nearest day
+                    res = new moment(now).startOf('day').valueOf();
+                    break;
+                case "week":
+                    // round to nearest day
+                    res = new moment(now).startOf('day').valueOf();s
+                    break;
+                case "day":
+                    // round to nearest hour
+                    res = new moment(now).startOf('hour').valueOf();
+                    break;
+                case "hour":
+                    // round to nearest minute
+                    res = new moment(now).startOf('minute').valueOf();
+                    break;
+                case "minute":
+                    // round to nearest second
+                    res = new moment(now).startOf('second').valueOf();
+                    break;
+            }
+            return res;
         },
         clearChart() {
             let chart = this.chart;
@@ -74,13 +108,12 @@ export default {
         },
         draw() {
             this.clearChart();
-            let parent = this;
 
             let dataX = this.valuesX;
             let chart = this.chart;
 
             dataX.forEach((data, index) => {
-                let label = parent.labelsX[index];
+                let label = this.labelsX[index];
                 chart.data.labels.push(label);
                 chart.data.datasets.forEach(dataset => {
                     dataset.data.push(data);
@@ -121,8 +154,7 @@ export default {
                     res = "month";
                     break;
                 case "month":
-                    // res = `${24*7}h`;
-                    res = `day`;
+                    res = "day";
                     break;
                 case "week":
                     res = "day";
@@ -151,7 +183,7 @@ export default {
                 case "hour":
                     res = 1000 * 60 * 60;
                     break;
-                case "5m":
+                case "10m":
                     res = 1000 * 60 * 5;
                     break;
                 case "5s":
@@ -192,10 +224,6 @@ export default {
             }
             return res;
         },
-        startDate() {
-            let startMs = Date.now() - this.intervalMs;
-            return new Date(startMs);
-        },
         dataX() {
             if (!this.history) return [];
             let res = [];
@@ -227,7 +255,6 @@ export default {
                 let label = mom.format(this.intervalFormat);
                 res.push(label);
             }
-
             return res;
         }
     },
