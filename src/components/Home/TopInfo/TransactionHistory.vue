@@ -299,14 +299,14 @@ export default {
                 datasets: [
                     {
                         label: "Tx Volume",
-                        backgroundColor: "#e84970",
+                        backgroundColor: "transparent",
                         borderColor: "#e84970",
                         pointBackgroundColor: "transparent",
                         pointBorderColor: "transparent",
                         pointHoverBackgroundColor: "#e84970",
                         pointHoverBorderColor: "#e84970",
                         data: this.valuesX,
-                        fill: false
+                        lineTension: 0
                     }
                 ]
             },
