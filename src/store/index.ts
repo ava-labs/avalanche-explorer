@@ -9,7 +9,7 @@ import Platform from "./modules/platform/platform";
 import Address from "./modules/address/address";
 import Notifications from "./modules/notifications/notifications";
 import { avm } from '@/avalanche';
-import { IAssetData_Ortelius, IAssetData_Avalanche_Go } from '@/js/IAsset';
+import { IAssetData_Ortelius, IAssetData_Avalanche_Go, ICollisionMap } from '@/js/IAsset';
 import { X_CHAIN_ID } from  '@/store/modules/platform/platform';
 import { ITransaction, ITransactionData } from '@/js/ITransaction';
 
@@ -30,11 +30,12 @@ export default new Vuex.Store({
         known_addresses: AddressDict,
         chainId: "X",
         recentTransactions: [] as ITransaction[],
-        assetsSubsetForAggregations: {} // TODO: remove eventually
-                                        // this is a bandaid until the API precomputes aggregate data for assets
-                                        // it holds a subset of the assets and checks if they have aggregation data
-                                        // temporarily responsible for triggering assetAggregatesLoaded
-    },
+        assetsSubsetForAggregations: {}, // TODO: remove eventually
+                                         // this is a bandaid until the API precomputes aggregate data for assets
+                                         // it holds a subset of the assets and checks if they have aggregation data
+                                         // temporarily responsible for triggering assetAggregatesLoaded
+        collisionMap: {}
+    } as IRootState,
     actions: {
         async init(store) {
             /* ==========================================
@@ -79,6 +80,13 @@ export default new Vuex.Store({
             
             // DISABLED: get aggregate data for all assets
             // store.commit("updateAssetsWithAggregateData");
+
+            /* ==========================================
+                Uniqueify Symbols
+               ========================================== */
+            let collisionMap = await store.dispatch("getCollisionMap");
+            store.commit("addCollisionMap", collisionMap)
+            console.log("collisionMap", store.state.collisionMap);
         },
 
         async getRecentTransactions(store, txNum: number) {
@@ -143,6 +151,21 @@ export default new Vuex.Store({
             }
         },
 
+        getCollisionMap({state}): ICollisionMap {
+            let map: ICollisionMap = {};
+            let assets = state.assets;
+            for (let asset in assets) {
+                let symbol = assets[asset].symbol;
+                let id = assets[asset].id;
+                if (map[symbol]) {
+                    map[symbol].push(id);
+                } else {
+                    map[symbol] = [id]
+                }
+            }
+            return map;
+        },
+
         // TODO: move cache here
     },
     mutations: {
@@ -168,6 +191,9 @@ export default new Vuex.Store({
             //@ts-ignore
             state.assets[assetID].updateVolumeHistory();
         },
+        addCollisionMap(state, collisionMap: ICollisionMap) {
+            state.collisionMap = collisionMap;
+        }
         // DISABLED
         // updateAssetsWithAggregateData(state) {            
         //     for (const assetID in state.assets) {

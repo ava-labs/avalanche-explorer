@@ -1,5 +1,6 @@
 import { ITransaction } from '@/js/ITransaction';
 import { Asset } from '@/js/Asset';
+import { ICollisionMap } from '@/js/IAsset';
 
 export interface IRootState {
     assets: {
@@ -15,4 +16,5 @@ export interface IRootState {
     assetsSubsetForAggregations: {
         [key:string]: boolean
     },
+    collisionMap: ICollisionMap
 }
