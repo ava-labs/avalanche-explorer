@@ -6,29 +6,25 @@
                 <h2>Staking Distribution</h2>
             </div>
             <div class="controls">
-                <div class="search_container">
-                    <div class="search_count">
-                        <p
-                            v-show="search.length === 0"
-                        >{{totalValidatorsCount.toLocaleString()}} {{toggle}} validators</p>
-                        <p
-                            v-show="search.length > 0 && matchedValidators"
-                        >{{matchedValidators.length.toLocaleString()}} results found</p>
-                    </div>
-                    <div class="search_tabs">
-                        <input
-                            class="search"
-                            type="text"
-                            v-model="search"
-                            placeholder="Filter by Validator ID"
-                        />
-                    </div>
+                <div class="filter_count">
+                    <p v-show="search.length === 0">
+                        {{totalValidatorsCount.toLocaleString()}} {{toggle}} validators</p>
+                    <p v-show="search.length > 0 && matchedValidators">
+                        {{matchedValidators.length.toLocaleString() | pluralize}} found</p>
+                </div>
+                <div class="filter_input_container">    
+                    <input
+                        class="filter"
+                        type="text"
+                        v-model="search"
+                        placeholder="Filter by Node ID"
+                    />
                 </div>
             </div>
             <div class="headers">
                 <p>Rank</p>
                 <p>
-                    Validator ID
+                    Node ID
                     <Tooltip content="address of the node participating in the consensus protocol"></Tooltip>
                 </p>
                 <p style="text-align: right;">
@@ -91,6 +87,15 @@ import { IValidator } from "@/store/modules/platform/IValidator";
         ValidatorRow,
         ValidatorPaginationControls,
         Metadata
+    },
+    filters: {
+        pluralize(val: number): string {
+            return val === 0
+                ? `${val} results`
+                : val > 1
+                ? `${val} results`
+                : `${val} result`;
+        }
     }
 })
 export default class Validators extends Vue {
@@ -175,42 +180,6 @@ export default class Validators extends Vue {
 </script>
 <style scoped lang="scss">
 @use "../main";
-
-.controls {
-    margin-bottom: 12px;
-
-    .search_container {
-        display: flex;
-        justify-content: space-between;
-        align-items: baseline;
-        flex-wrap: wrap;
-
-        .search_count {
-            text-transform: capitalize;
-            font-weight: 400;
-        }
-
-        .search_tabs {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            margin-bottom: 18px;
-        }
-
-        .search {
-            border: 2px solid main.$bg-light;
-            background-color: main.$bg-light;
-            height: 36px;
-            width: 320px;
-            box-sizing: border-box;
-            border-radius: 2px;
-            padding: 8px 12px;
-            outline: none;
-            font-size: 12px;
-            color: main.$primary-color;
-        }
-    }
-}
 
 .pagination_container {
     display: flex;

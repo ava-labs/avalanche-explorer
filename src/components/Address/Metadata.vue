@@ -14,7 +14,7 @@
         </article>
         <article class="meta_row">
             <p class="label">AVAX Balance</p>
-            <p>{{avaxBalance.toLocaleString(this.assetsMap[AVAX].denomination)}} AVAX</p>
+            <p class="symbol">{{avaxBalance.toLocaleString(this.assetsMap[AVAX].denomination)}} AVAX</p>
         </article>
         <article class="meta_row">
             <p class="label">Transactions</p>

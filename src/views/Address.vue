@@ -361,6 +361,10 @@ export default class AddressPage extends Vue {
         border-bottom: 1px solid #e7e7e7;
     }
 
+    .tx_item {
+        border-bottom: 1px solid #e7e7e7;
+    }
+
     .tx_table {
         font-size: 12px;
     }

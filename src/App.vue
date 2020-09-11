@@ -456,6 +456,40 @@ tbody {
     }
 }
 
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+
+    .filter_text {
+        text-transform: capitalize;
+        font-weight: 400;
+    }
+    
+    .filter_input_container {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        align-items: baseline;
+        flex-wrap: wrap;
+        max-width: 320px;
+
+        .filter {
+            border: 2px solid main.$bg-light;
+            background-color: main.$bg-light;
+            height: 36px;
+            width: 320px;
+            box-sizing: content-box;
+            border-radius: 2px;
+            padding: 8px 12px;
+            outline: none;
+            font-size: 12px;
+            color: main.$primary-color;
+        }
+    }
+}
+
 /* ==========================================
    transitions + animations
    ========================================== */

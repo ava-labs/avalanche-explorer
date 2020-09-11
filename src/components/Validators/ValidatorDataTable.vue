@@ -1,19 +1,40 @@
 <template>
-    <v-card id="validator_data_table">
+    <v-card id="validator_data_table">        
         <v-card-title>
-            {{title}}
-            <v-spacer></v-spacer>
-            <v-switch v-model="absolute" :label="modeText"></v-switch>
-            <!-- <v-text-field
-                v-model="search"
-                append-icon="mdi-magnify"
-                label="Search"
-                single-line
-                hide-details
-            ></v-text-field>-->
+            <div class="data_table_header">
+                <!-- 1 -->
+                <div class="header">
+                    <h3>{{title}}</h3>
+                </div>
+                <!-- 2 -->
+                <div class="controls">
+                    <div class="filter_count">
+                        <p v-show="search.length === 0">
+                            {{validators.length.toLocaleString() | pluralize}} found
+                        </p>
+                    </div>
+                    <div class="filter_input_container">
+                        <input
+                            class="filter"
+                            type="text"
+                            v-model="search"
+                            placeholder="Filter by NodeID"
+                        />
+                    </div>
+                </div>
+                <!-- 3 -->
+                <div class="duration_toggle_container">
+                    <v-switch v-model="absolute" :label="modeText"></v-switch>
+                </div>
+            </div>
         </v-card-title>
-
-        <v-data-table :items="validators" :headers="headers" multi-sort>
+        <v-data-table 
+            :items="validators" 
+            :headers="headers" 
+            :search="search" 
+            multi-sort
+            @input="getFilteredCount"
+        >
             <!-- TODO: reinstate show-expand when client is patched -->
             <template #item.id="{item}">
                 <div class="text-truncate" style="max-width: 100px;">{{item.id}}</div>
@@ -185,6 +206,13 @@ import { scaleLinear } from "d3-scale";
         time(val: number) {
             return moment(val).format("h:mm:ss A");
         },
+        pluralize(val: number): string {
+            return val === 0
+                ? `${val} results`
+                : val > 1
+                ? `${val} results`
+                : `${val} result`;
+        }
     },
 })
 export default class ValidatorDataTable extends Vue {
@@ -197,6 +225,8 @@ export default class ValidatorDataTable extends Vue {
     absolute: boolean = false;
     diagramWidth: number = 125;
     expanded: any[] = [];
+    search: string = "";
+    filteredCount: number = 0;
 
     @Prop() subnetID!: string;
     @Prop() subnet!: Subnet;
@@ -277,11 +307,34 @@ export default class ValidatorDataTable extends Vue {
     margin-left: 1px;
 }
 
+.filter_count {
+    font-size: 12px;
+}
+
+h3 {
+    font-weight: 400;
+}
 .v-card__text {
     padding-top: 0;
     box-sizing: border-box;
     border-radius: 0 !important;
     padding-left: 16px;
+}
+
+.data_table_header {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    h3 {
+        margin-bottom: 0;
+    }
+
+}
+
+.duration_toggle_container {
+    display: flex;
+    flex-direction: row-reverse;
 }
 
 .v-tab {
