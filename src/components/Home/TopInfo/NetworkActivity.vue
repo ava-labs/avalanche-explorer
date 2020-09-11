@@ -8,8 +8,7 @@
         </div>
         <section class="stats">
             <article class="meta">
-                <img src="@/assets/ava_transactions-purple.png" />
-                <div class="stat">
+                <router-link class="stat" to="/transactions">
                     <p class="label">
                         24h Transactions
                         <TooltipMeta
@@ -25,11 +24,10 @@
                     <div v-else>
                         <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
                     </div>
-                </div>
+                </router-link>
             </article>
             <article class="meta">
-                <img src="@/assets/ava_price-purple.png" />
-                <div class="stat">
+                <router-link class="stat" to="/assets">
                     <p class="label">
                         24h Volume
                         <TooltipMeta
@@ -46,11 +44,10 @@
                     <div v-else>
                         <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
                     </div>
-                </div>
+                </router-link>
             </article>
             <article class="meta">
-                <img src="@/assets/validators-purple.png" />
-                <div class="stat">
+                <router-link class="stat" to="/validators">
                     <p class="label">
                         Validators
                         <TooltipMeta
@@ -64,11 +61,10 @@
                     <div v-else>
                         <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
                     </div>
-                </div>
+                </router-link>
             </article>
             <article class="meta">
-                <img src="@/assets/stake_amount-purple.png" />
-                <div class="stat">
+                <router-link class="stat" to="/validators">
                     <p class="label">
                         Total Staked
                         <TooltipMeta
@@ -84,7 +80,43 @@
                     <div v-else>
                         <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
                     </div>
-                </div>
+                </router-link>
+            </article>
+            <article class="meta">
+                <router-link class="stat" to="/blockchains">
+                    <p class="label">
+                        Blockchains
+                        <TooltipMeta
+                            content=""
+                        ></TooltipMeta>
+                    </p>
+                    <div v-if="subnetsLoaded">
+                        <p class="meta_val">
+                            {{totalBlockchains}}
+                        </p>
+                    </div>
+                    <div v-else>
+                        <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
+                    </div>
+                </router-link>
+            </article>
+            <article class="meta">
+                <router-link class="stat" to="/subnets">
+                    <p class="label">
+                        Subnets
+                        <TooltipMeta
+                            content="total number of blockchains created on this subnetwork"
+                        ></TooltipMeta>
+                    </p>
+                    <div v-if="subnetsLoaded">
+                        <p class="meta_val">
+                            {{totalSubnets}}
+                        </p>
+                    </div>
+                    <div v-else>
+                        <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
+                    </div>
+                </router-link>
             </article>
         </section>
     </div>
@@ -107,7 +139,7 @@ import Big from "big.js";
         TooltipMeta
     }
 })
-export default class MetaData extends Vue {
+export default class NetworkActivity extends Vue {
     volumeCache: Big = Big(0);
     totalTransactionsCache: number = 0;
 
@@ -125,13 +157,11 @@ export default class MetaData extends Vue {
 
     @Watch("avaxVolume")
     onAvaxVolumeChanged(val: string) {
-        // console.log("CALLED FROM: @Watch(avaxVolume)")
         this.saveCacheAvax();
     }
 
     @Watch("totalTransactions")
     ontotalTransactionsChanged(val: number) {
-        // console.log("CALLED FROM: @Watch(totalTransactions)")
         this.saveCacheTotalTransactions();
     }
 
@@ -224,6 +254,14 @@ export default class MetaData extends Vue {
     get validatorCount(): number {
         return this.$store.getters["Platform/totalValidators"];
     }
+
+    get totalBlockchains(): number {
+        return this.$store.getters["Platform/totalBlockchains"];
+    }
+    
+    get totalSubnets(): number {
+        return Object.keys(this.$store.state.Platform.subnets).length;
+    }
 }
 
 </script>
@@ -243,21 +281,22 @@ export default class MetaData extends Vue {
     flex-wrap: wrap;
     overflow: auto;
 
+    /* hyperlink */
     .meta {
         font-size: 12px;
         display: flex;
         flex-grow: 1;
         justify-content: flex-start;
         flex-wrap: wrap;
-
-        img {
-            object-fit: contain;
-            width: 16px;
-            height: 16px;
-            max-height: 23px;
-            margin-right: 4px;
+        font-weight: 700;
+        
+        .stat {
+            &:hover {
+                text-decoration: none !important;
+                opacity: 0.7;
+            }
         }
-
+        
         .stat > div {
             display: flex;
         }
@@ -270,8 +309,8 @@ export default class MetaData extends Vue {
         .label {
             text-transform: capitalize;
             color: main.$primary-color;
-            font-size: 11px;
-            font-weight: 500;
+            font-size: 12px;
+            font-weight: 700;
             margin-bottom: 4px;
         }
 

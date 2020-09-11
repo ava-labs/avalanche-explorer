@@ -3,7 +3,6 @@
         <div>
             <div class="meta_data">
                 <div>
-                    <img src="@/assets/blockchain-purple.png" />
                     <div>
                         <p class="label">
                             Blockchains
@@ -13,7 +12,6 @@
                     </div>
                 </div>
                 <div>
-                    <img src="@/assets/validators-purple.png" />
                     <div>
                         <p class="label">
                             Validators
@@ -23,7 +21,6 @@
                     </div>
                 </div>
                 <div>
-                    <img src="@/assets/validators-purple.png" />
                     <div>
                         <p class="label">
                             Pending Validators
@@ -33,7 +30,6 @@
                     </div>
                 </div>
                 <div>
-                    <img src="@/assets/key-purple.png" />
                     <div>
                         <p class="label">
                             Control Keys
@@ -78,12 +74,6 @@ export default {
     width: 100%;
     grid-template-columns: 25% 25% 25% 25%;
 
-    img {
-        object-fit: contain;
-        width: 20px;
-        margin-right: 15px;
-    }
-
     > div {
         padding: 30px 15px;
         text-align: left;
@@ -104,7 +94,6 @@ export default {
         font-weight: 400; /* 700 */
         margin-bottom: 6px;
         color: main.$primary-color;
-        opacity: 0.7;
     }
 
     .meta_val {

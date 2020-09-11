@@ -1,19 +1,19 @@
 <template>
     <div class="top_info">
         <transaction-history></transaction-history>
-        <meta-data></meta-data>
+        <NetworkActivity></NetworkActivity>
         <top-assets></top-assets>
     </div>
 </template>
 <script>
 import TopAssets from "@/components/Home/TopInfo/TopAssets";
-import MetaData from "@/components/Home/TopInfo/MetaData";
+import NetworkActivity from "@/components/Home/TopInfo/NetworkActivity";
 import TransactionHistory from "./TransactionHistory";
 
 export default {
     components: {
         TopAssets,
-        MetaData,
+        NetworkActivity,
         TransactionHistory
     }
 };

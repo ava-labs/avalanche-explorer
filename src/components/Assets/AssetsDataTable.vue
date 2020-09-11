@@ -96,6 +96,7 @@ export default class AssetsDataTable extends Vue {
     get collisionMap(): ICollisionMap {
         return this.$store.state.collisionMap;
     }
+
 }
 </script>
 
