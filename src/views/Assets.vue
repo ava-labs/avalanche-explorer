@@ -101,7 +101,7 @@ export default class AssetsPage extends Vue {
 @use "../main";
 
 .header {
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 
     .count {
         padding-top: 5px;

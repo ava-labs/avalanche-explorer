@@ -245,19 +245,6 @@ $symbol_w: 35px;
     margin-top: 30px;
     margin-bottom: 30px;
 
-    .table_headers {
-        display: grid;
-        grid-template-columns: 35px 120px 1fr 1fr;
-        padding-bottom: 7px;
-        border-bottom: 1px solid #e7e7e7;
-
-        p {
-            padding: 0px 10px;
-            font-weight: 400; /* 700 */
-            font-size: 12px;
-        }
-    }
-
     .tx_rows {
         width: 100%;
         border-radius: 2px;

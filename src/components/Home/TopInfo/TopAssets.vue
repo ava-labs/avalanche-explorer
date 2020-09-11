@@ -23,16 +23,18 @@
             </div>
             <div class="asset" v-for="(asset) in assets" :key="asset.id">
                 <div v-if="$vuetify.breakpoint.smAndUp"><span class="symbol">{{asset.symbol}}</span></div>
-                <div class="name">
+                <div class="name name_value">
                     <router-link :to="`/asset/${asset.id}`" class="asset_name">{{asset.name}}</router-link>
+                    <span class="collision">{{collisionHash(asset)}}</span>
                 </div>
                 <p class="metric">{{asset.txCount_day.toLocaleString()}}</p>
                 <!--TODO: normalize asset.volume_day -->
             </div>
+            <div class="bottom" >
+                <router-link to="/assets" class="view_all">View All Assets</router-link>
+            </div>
         </div>
-        <div class="bottom" v-if="$vuetify.breakpoint.xs">
-            <router-link to="/assets" class="view_all">View All Assets</router-link>
-        </div>
+        <!-- Balance Table - vuetify data table -->
     </div>
 </template>
 
@@ -44,6 +46,7 @@ import TooltipHeading from "../../../components/misc/TooltipHeading.vue";
 import axios from "@/axios";
 import { Asset } from "@/js/Asset";
 import { AVAX_ID } from "@/store/index";
+import { ICollisionMap } from '@/js/IAsset';
 
 @Component({
     components: {
@@ -71,6 +74,16 @@ export default class TopAssets extends Vue {
 
     get assetsLoaded(): boolean {
         return this.$store.state.assetsLoaded;
+    }
+
+    collisionHash(asset: Asset): string | null {
+        return (this.collisionMap[asset.symbol]) 
+            ? `${asset.id.substring(0, 8)}`
+            : null;
+    }
+
+    get collisionMap(): ICollisionMap {
+        return this.$store.state.collisionMap;
     }
 }
 </script>
@@ -114,8 +127,19 @@ export default class TopAssets extends Vue {
     }
 
     .asset_name {
-        font-size: 14px;
-        color: main.$black !important;
+        font-size: 12px;
+        color: main.$primary-color !important;
+        font-weight: bold;
+    }
+
+    .collision {
+        padding-left: 8px;
+        font-size: .75em;
+        color: main.$primary-color-light;
+
+        :hover {
+            text-decoration: none !important;
+        }
     }
 
     .symbol {
@@ -148,6 +172,7 @@ export default class TopAssets extends Vue {
 .bottom {
     display: flex;
     flex-flow: row-reverse;
+    justify-content: center;
     margin-top: 30px;
 }
 

@@ -7,7 +7,7 @@
                     <div>
                         <p class="label">
                             Blockchains
-                            <TooltipMeta content="total number of blockchains created on thiis subnetwork"></TooltipMeta>
+                            <TooltipMeta content="total number of blockchains created on this subnetwork"></TooltipMeta>
                         </p>
                         <p class="meta_val">{{totalBlockchains}}</p>
                     </div>
@@ -37,7 +37,7 @@
                     <div>
                         <p class="label">
                             Control Keys
-                            <TooltipMeta content="total number of nodes waiting to participate in the consensus protocol of this subnetwork"></TooltipMeta>
+                            <TooltipMeta content="in order to add a validator to a subnet, threshold signatures from keys are needed"></TooltipMeta>
                         </p>
                         <p class="meta_val">{{totalControlKeys}}</p>
                     </div>

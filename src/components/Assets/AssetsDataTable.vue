@@ -26,10 +26,9 @@
             <template #item.name="{item}">
                 <router-link class="name_id" :to="`/asset/${item.id}`">
                 <div>
-                    <span>{{item | nameOrID}} </span>
+                    <span class="name">{{item | nameOrID}} </span>
                     <span class="collision">{{collisionHash(item)}}</span>
-                </div>
-                    
+                </div>                    
                 </router-link>
             </template>
             
@@ -246,6 +245,10 @@ export default class AssetsDataTable extends Vue {
             display: none;
         }
     }
+}
+
+.name {
+    font-weight: bold;
 }
 
 @include main.device_xs {

@@ -153,6 +153,8 @@ body {
     margin: 0;
     background-color: main.$white !important;
     color: main.$primary-color;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 p {
@@ -194,6 +196,7 @@ p {
         font-size: 26px;
         margin: 0;
         font-weight: 400;
+        color: main.$primary-color;
     }
 }
 
@@ -219,6 +222,24 @@ p {
         }
     }
 }
+
+/* ==========================================
+   Simple Tables
+   ========================================== */
+.table_headers {
+    display: grid;
+    grid-template-columns: 40px .62fr 1.2fr 1.2fr;
+    padding-bottom: 7px;
+    border-bottom: 1px solid #e7e7e7;
+
+    p {
+        padding: 0px 10px;
+        font-weight: 700; /* 700 */
+        font-size: 12px;
+    }
+}
+
+
 /* ==========================================
    detail pages
    ========================================== */
@@ -419,14 +440,14 @@ input {
 }
 
 .v-tooltip__content {
-    background: #fff !important;
-    border: 2px solid rgba(0, 0, 0, 0.87);
-    color: rgba(0, 0, 0, 0.87) !important;
+    background: rgba(0, 0, 0, 1) !important;
+    border: 2px solid rgba(0, 0, 0, 1);
+    color: #fff !important;
     border-radius: 4px;
-    font-weight: 400; /* 700 */
+    font-weight: 700;
     font-size: 12px !important;
     line-height: 1.57em !important;
-    padding: 5px 16px;
+    padding: 8px 16px;
 }
 
 tbody {

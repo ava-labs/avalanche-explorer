@@ -140,22 +140,6 @@ export default class Transactions extends Vue {
     }
 }
 
-.table_headers {
-    display: grid;
-    grid-template-columns: 40px .62fr 1.2fr 1.2fr;
-    font-size: 12px;    
-    margin-bottom: 2px;
-    padding-bottom: 7px;
-    border-bottom: 1px solid #e7e7e7;
-    box-sizing: border-box;
-
-    p {
-        padding: 0px 10px;
-        font-weight: 400; /* 700 */
-        font-size: 16px;
-    }
-}
-
 .tx_item {
     border-bottom: 1px solid #e7e7e7;
 
