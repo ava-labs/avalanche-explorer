@@ -86,7 +86,6 @@ export default new Vuex.Store({
                ========================================== */
             let collisionMap = await store.dispatch("getCollisionMap");
             store.commit("addCollisionMap", collisionMap)
-            console.log("collisionMap", store.state.collisionMap);
         },
 
         async getRecentTransactions(store, txNum: number) {
