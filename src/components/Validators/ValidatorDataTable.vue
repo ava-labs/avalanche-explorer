@@ -300,8 +300,8 @@ export default class ValidatorDataTable extends Vue {
     width: 100%;
     height: 20px;
     position: relative;
-    border-left: 1px solid main.$secondary-color-xlight;
-    border-right: 1px solid main.$secondary-color-xlight;
+    border-left: 1px solid main.$gray-light;
+    border-right: 1px solid main.$gray-light;
 }
 
 .chartbar {

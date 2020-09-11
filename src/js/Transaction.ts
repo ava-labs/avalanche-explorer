@@ -19,32 +19,31 @@ function getOutput(output: ITransactionOutputData): ITransactionOutput {
 
 export class Transaction implements ITransaction {
     id: string;
-    unsignedTx: {
-        networkID: number,
-        blockchainID: string
-    };
     inputs: ITransactionInput[];
     outputs: ITransactionOutput[];
     timestamp: string;
     type: string;
     chainID: string;
+    memo: string;
 
     constructor(data: ITransactionData) {
-        this.unsignedTx = data.unsignedTx;
-        this.inputs = (data.inputs === null || data.inputs.length === 0) ? [] : data.inputs.map((input: ITransactionInputData) => {
-            return {
-                credentials: input.credentials,
-                output: getOutput(input.output)
-            }
-        });
-        this.outputs = (data.outputs === null || data.outputs.length === 0) ? [] : data.outputs.map((output: ITransactionOutputData) => {
-            return getOutput(output);
-        });
+        this.inputs = (data.inputs === null || data.inputs.length === 0)
+            ? [] 
+            : data.inputs.map((input: ITransactionInputData) => {
+                return {
+                    credentials: input.credentials,
+                    output: getOutput(input.output)
+                };
+            });
+        this.outputs = (data.outputs === null || data.outputs.length === 0) 
+            ? [] 
+            : data.outputs.map((output: ITransactionOutputData) => getOutput(output));
         this.id = data.id;
         this.timestamp = data.timestamp;
         this.type = data.type;
         this.chainID = data.chainID;
         this.id = data.id;
+        this.memo = data.memo;
     }
 
     getInputAddresses(): string[] {

@@ -201,7 +201,7 @@ export default class ValidatorDataTable extends Vue {
 }
 
 .v-tab:before {
-    background-color: main.$primary-color !important;
+    background-color: main.$secondary-color !important;
 }
 
 .diagram {
@@ -210,22 +210,22 @@ export default class ValidatorDataTable extends Vue {
     width: 100%;
     height: 20px;
     position: relative;
-    border-left: 1px solid main.$primary-color-light;
-    border-right: 1px solid main.$primary-color-light;
+    border-left: 1px solid main.$gray-light;
+    border-right: 1px solid main.$gray-light;
 }
 
 .chartbar {
     position: absolute;
     top: 0;
     height: 100%;
-    background-color: main.$primary-color-light;
+    background-color: main.$secondary-color-xlight;
 }
 
 .chartbar_complete {
     position: absolute;
     top: 0;
     height: 100%;
-    background-color: main.$primary-color;
+    background-color: main.$secondary-color;
     opacity: 0.5;
 }
 
@@ -260,7 +260,7 @@ export default class ValidatorDataTable extends Vue {
     text-align: right;
     top: 0;
     width: 50px;
-    color: main.$black;
+    color: main.$primary-color;
     font-size: 12px;
     z-index: 3;
 }

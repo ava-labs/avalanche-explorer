@@ -17,7 +17,7 @@
             <div v-if="!assetsLoaded">
                 <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
             </div>
-            <div class="asset_list" v-else>
+            <div class="asset_list" v-if="assetsLoaded && $vuetify.breakpoint.smAndDown">
                 <div class="grid_headers asset_row">
                     <p v-if="$vuetify.breakpoint.smAndUp">
                         Symbol
@@ -36,10 +36,6 @@
                     <p class="avgTx_day" v-if="$vuetify.breakpoint.smAndUp">
                         <Tooltip content="average tx value over the past 24h"></Tooltip>Avg Tx
                     </p>
-                    <!-- <p class="denomination" v-if="$vuetify.breakpoint.smAndUp">
-                        <Tooltip content="determines how balances of this asset are displayed by user interfaces"></Tooltip>
-                        Denom.
-                    </p>-->
                     <p class="supply" v-if="$vuetify.breakpoint.smAndUp">
                         <Tooltip content="units of the asset that have been created"></Tooltip>Supply
                     </p>
@@ -50,6 +46,9 @@
                 </div>
                 <asset-row v-for="asset in assets" :key="asset.id" class="asset_row" :asset="asset"></asset-row>
             </div>
+            <div v-if="$vuetify.breakpoint.smAndUp">
+                <AssetsDataTable :assets="assets"></AssetsDataTable>
+            </div>
         </div>
     </div>
 </template>
@@ -58,6 +57,7 @@
 import "reflect-metadata";
 import { Vue, Component } from "vue-property-decorator";
 import AssetRow from "@/components/Assets/AssetRow.vue";
+import AssetsDataTable from "@/components/Assets/AssetsDataTable.vue";
 import Tooltip from "../components/rows/Tooltip.vue";
 import TooltipHeading from "../components/misc/TooltipHeading.vue";
 import { Asset } from "@/js/Asset";
@@ -68,14 +68,15 @@ import { IAssetData_Ortelius } from "../js/IAsset";
     components: {
         Tooltip,
         TooltipHeading,
-        AssetRow
+        AssetRow,
+        AssetsDataTable
     },
     filters: {
         pluralize(val:number) {
             return val === 0
                 ? `${val} assets`
                 : val > 1
-                ? `${val} assets`
+                ? `${val.toLocaleString()} assets`
                 : `${val} asset`;
         },
     }

@@ -14,3 +14,7 @@ export interface IAssetData_Avalanche_Go {
     name: string
     symbol: string
 } 
+
+export interface ICollisionMap {
+    [key: string] : string[]
+}

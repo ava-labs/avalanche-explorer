@@ -4,8 +4,8 @@
             <p class="symbol">{{symbol}}</p>
         </div>
         <div class="data">
-            <p class="id">{{name}}</p>
-            <p class="supply">Supply {{supply.toFixed(2)}} {{symbol}}</p>
+            <p class="name">{{name}} <span>{{id}}</span></p>
+            <p class="supply">Supply {{supply.toLocaleString()}} {{symbol}}</p>
         </div>
     </div>
 </template>
@@ -20,7 +20,7 @@ export default class AssetResult extends Vue {
     @Prop() item!: any;
     
     get id() {
-        return this.item.id;
+        return `${this.item.id.substring(0, 8)}...`;
     }
 
     get name() {
@@ -57,8 +57,8 @@ export default class AssetResult extends Vue {
 
 .symbol {
     padding: 0;
-    background-color: main.$primary-color-light !important;
-    color: main.$primary-color;
+    background-color: main.$secondary-color-xlight !important;
+    color: main.$secondary-color;
     border-radius: 6px;
     font-weight: 500; /* 700 */
     font-size: 11px;
@@ -68,10 +68,20 @@ export default class AssetResult extends Vue {
     text-align: center;
 }
 
-.id {
+.name {
     color: main.$primary-color;
+    font-weight: 700;
+
+    span {
+        display: inline-block;
+        font-size: .875em;
+        opacity: 0.7;
+        padding-left: 5px;
+        font-weight: 400;
+    }
 }
 
+.id,
 .supply {
     margin-top: 4px;
     opacity: 0.7;

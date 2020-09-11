@@ -20,12 +20,14 @@
                     <p>Searching...</p>
                 </div>
                 <div v-else>
-                    <div class="no_result" v-if="results.length===0">
+                    <!-- NO RESULTS -->
+                    <div class="no_result" v-if="results === null">
                         <p class="icon">
                             <fa icon="snowman"></fa>
                         </p>
                         <p>No Results Found</p>
                     </div>
+                    <!-- RESULTS -->
                     <search-result
                         class="search_result"
                         v-for="(res) in results"
@@ -85,9 +87,8 @@ export default Vue.extend({
             this.debounceSearch();
         },
         autoSearch() {
-            let parent = this;
             let query = this.searchValue;
-            const SEARCH_LIM = 5;
+            const SEARCH_LIM = 10;
 
             if (query === "") {
                 this.showResults = false;
@@ -103,8 +104,8 @@ export default Vue.extend({
             axios.get(`/x/search?query=${query}&limit=${SEARCH_LIM}`)
                 .then(res => {
                     let data = res.data;
-                    parent.results = data.results;
-                    parent.isAjax = false;
+                    this.results = data.results;
+                    this.isAjax = false;
                 });
         },
         debounce(func, wait, immediate) {
@@ -192,12 +193,12 @@ input {
     left: 0px;
     font-size: 12px;
     color: #333;
-    border: 2px solid main.$gray-input;
+    border: 2px solid main.$bg-light;
     box-shadow: main.$box-shadow;
 }
 
 .no_result {
-    padding: 10px 30px;
+    padding: 15px 30px;
     display: flex;
     align-items: center;
 
@@ -209,7 +210,7 @@ input {
 }
 
 .search_result {
-    border-bottom: 1px solid main.$gray-input;
+    border-bottom: 1px solid main.$bg-light;
     cursor: pointer;
 
     &:last-child {

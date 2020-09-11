@@ -429,6 +429,12 @@ input {
     padding: 5px 16px;
 }
 
+tbody {
+    tr:hover {
+        background-color: transparent !important;
+    }
+}
+
 /* ==========================================
    transitions + animations
    ========================================== */

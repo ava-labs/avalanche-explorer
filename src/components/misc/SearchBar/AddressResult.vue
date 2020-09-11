@@ -7,7 +7,7 @@
             <p class="id">{{chainNow}}-{{item.address}}</p>
             <p class="balance">
                 Balance
-                <span>{{avaxBalance}} {{avaxSymbol}}</span>
+                <span>{{avaxBalance.toLocaleString(avaxDenomination)}} {{avaxSymbol}}</span>
             </p>
         </div>
     </div>
@@ -29,8 +29,16 @@ export default class AddressResult extends Vue {
         this.$emit("select");
     }
 
+    created() {
+        console.log("item", this.item);
+    }
+
     get avaxBalance() {
-        return this.item.assets[AVAX_ID].balance;
+        return stringToBig(this.item.assets[AVAX_ID].balance, this.avaxDenomination);
+    }
+
+    get avaxDenomination() {
+        return this.$store.state.assets[AVAX_ID].denomination;
     }
     
     get avaxSymbol() {

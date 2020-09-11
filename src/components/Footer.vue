@@ -3,7 +3,7 @@
         <div class="powered_by">
             <div class="header">
                 <img src="@/assets/ava_logo_white.png" />
-                <h4>Powered by Avalanche</h4>
+                <h4>Avalanche Explorer</h4>
             </div>
             <p class="avalanche_desc">Avalanche Explorer is an analytics tool that enables people to search the Avalanche blockchain for transactions, addresses, and other platform activities.</p>
             <img class="yeti" src="@/assets/yeti_footer.png" />
