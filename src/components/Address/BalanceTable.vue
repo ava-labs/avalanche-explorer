@@ -6,26 +6,26 @@
         <div v-if="assets.length > 0" class="grid_headers balance_row">
             <p>
                 Symbol
-                <Tooltip content="shorthand ticker symbol of the asset"></Tooltip>
+                <Tooltip content="An arrangement of letters representing an asset"></Tooltip>
             </p>
             <p class="name">
                 Name
-                <Tooltip content="human-readable name for the asset"></Tooltip>
+                <Tooltip content="Name for the asset"></Tooltip>
             </p>
             <p class="balance">
-                <Tooltip content="balance held by this address"></Tooltip>Balance
+                <Tooltip content="Balance held by this address"></Tooltip>Balance
             </p>
             <p class="sent">
-                <Tooltip content="total sent by this address"></Tooltip>Sent
+                <Tooltip content="Total sent by this address"></Tooltip>Sent
             </p>
             <p class="received">
-                <Tooltip content="total received by this address"></Tooltip>Received
+                <Tooltip content="Total received by this address"></Tooltip>Received
             </p>
             <p class="txs">
-                <Tooltip content="total transactions involving this address"></Tooltip>Txs
+                <Tooltip content="Total transactions involving this address"></Tooltip>Txs
             </p>
             <p class="utxos">
-                <Tooltip content="total UTXOs involving this address"></Tooltip>UTXOs
+                <Tooltip content="Total UTXOs involving this address"></Tooltip>UTXOs
             </p>
         </div>
         <BalanceRow v-for="(asset, index) in assets" v-bind:key="index" :asset="asset"></BalanceRow>

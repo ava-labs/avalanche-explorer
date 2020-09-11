@@ -21,21 +21,7 @@
                     </div>
                 </template> -->
             </header>
-            <div class="table_headers tx_rows">
-                <p></p>
-                <p>
-                    ID
-                    <Tooltip content="a transaction queries or modifies the state of a blockchain"></Tooltip>
-                </p>
-                <p>
-                    From
-                    <Tooltip content="address that sends transfer value"></Tooltip>
-                </p>
-                <p>
-                    To
-                    <Tooltip content="address that receives transfer value"></Tooltip>
-                </p>
-            </div>
+            <TxHeader></TxHeader>
             <template v-if="txloading">
                 <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
             </template>
@@ -72,6 +58,7 @@ import Metadata from "../components/Asset/Metadata.vue";
 import TransactionDetailCard from "../components/TransactionDetailCard.vue";
 import PaginationControls from "../components/misc/PaginationControls.vue";
 import Tooltip from "../components/rows/Tooltip.vue";
+import TxHeader from "@/components/rows/TxRow/TxHeader.vue";
 import TxRow from "../components/rows/TxRow/TxRow.vue";
 import { Transaction } from "../js/Transaction";
 import { Asset } from "@/js/Asset";
@@ -84,6 +71,7 @@ import api from "../axios";
         PaginationControls,
         TransactionDetailCard, 
         Tooltip,
+        TxHeader,
         TxRow
     }
 })

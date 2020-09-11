@@ -14,21 +14,7 @@
                 <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
             </template>
             <template v-else>
-                <div class="table_headers all_tx_rows">
-                    <p></p>
-                    <p>
-                        ID
-                        <Tooltip content="a transaction queries or modifies the state of a blockchain"></Tooltip>
-                    </p>
-                    <p>
-                        From
-                        <Tooltip content="address that sends transfer value"></Tooltip>
-                    </p>
-                    <p>
-                        To
-                        <Tooltip content="address that receives transfer value"></Tooltip>
-                    </p>
-                </div>
+                <TxHeader></TxHeader>
                 <div class="rows">
                     <transition-group name="fade" mode="out-in">
                     <tx-row
@@ -51,6 +37,7 @@
 import { Vue, Component, Watch } from "vue-property-decorator";
 import api from "@/axios";
 import Tooltip from "../components/rows/Tooltip.vue";
+import TxHeader from "@/components/rows/TxRow/TxHeader.vue";
 import TxRow from "../components/rows/TxRow/TxRow.vue";
 import PaginationControls from "../components/misc/PaginationControls.vue";
 import { Transaction } from '@/js/Transaction';
@@ -58,6 +45,7 @@ import { Transaction } from '@/js/Transaction';
 @Component({
     components: {
         Tooltip,
+        TxHeader,
         TxRow,
         PaginationControls
     },

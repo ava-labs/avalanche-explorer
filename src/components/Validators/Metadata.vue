@@ -2,9 +2,9 @@
     <div id="validators_meta" class="card meta_data">
         <div class="header">
             <h2>
-                Validators
+                Validator Stats
                 <TooltipHeading
-                    content="A validator is a node participating in the consensus protocol. Validators work together to achieve consensus as to which transactions have taken place on a blockchain."
+                    content="A validator is a node that is responsible for verifying transactions on a blockchain"
                 ></TooltipHeading>
             </h2>
             <v-tabs
@@ -23,9 +23,9 @@
                 <img src="@/assets/ava_price-purple.png" />
                 <div class="stat">
                     <p class="label">
-                        Total {{toggle}} Stake
+                        Total {{toggle}} Stake Amount
                         <TooltipMeta
-                            content="total value of scarce resource ($AVAX) used to secure the Avalanche network using the Proof-of-Stake method"
+                            content="Total value of AVAX locked to secure Avalanche"
                         ></TooltipMeta>
                     </p>
                     <p class="meta_val">
@@ -40,7 +40,7 @@
                     <p class="label">
                         {{toggle}} Validators
                         <TooltipMeta
-                            content="total number of nodes participating in the consensus protocol"
+                            content="Total number of nodes validating transactions on Avalanche"
                         ></TooltipMeta>
                     </p>
                     <p class="meta_val">{{totalValidatorsCount.toLocaleString()}}</p>

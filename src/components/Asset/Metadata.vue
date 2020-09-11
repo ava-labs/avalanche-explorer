@@ -14,7 +14,7 @@
                     <div class="stat">
                         <p class="label">
                             24h Volume
-                            <TooltipMeta v-bind:content="'number of ' + asset.symbol + ' tokens transferred on the Avalanche network in the past 24 hours'"></TooltipMeta>
+                            <TooltipMeta v-bind:content="'Total value of ' + asset.symbol + ' transferred on Avalanche in the past 24 hours'"></TooltipMeta>
                         </p>
                         <p class="meta_val">{{parseInt(asset.volume_day.toFixed(0)).toLocaleString()}} <span class="unit">{{asset.symbol}}</span></p>
                     </div>
@@ -24,7 +24,7 @@
                     <div class="stat">
                         <p class="label">
                             24h Transactions
-                            <TooltipMeta v-bind:content="'number of transactions involving ' + asset.symbol + ' tokens in the past 24 hours'"></TooltipMeta>
+                            <TooltipMeta v-bind:content="'Total number of state queries or modifications of blockchains involving ' + asset.symbol + ' in the past 24 hours'"></TooltipMeta>
                         </p>
                         <p class="meta_val">{{asset.txCount_day.toLocaleString()}}</p>
                     </div>
@@ -34,7 +34,7 @@
                     <div class="stat">
                         <p class="label">
                             Minted On
-                            <TooltipMeta v-bind:content="'blockchain on which ' + asset.symbol + ' was created'"></TooltipMeta>
+                            <TooltipMeta v-bind:content="'Blockchain where ' + asset.symbol + ' was minted'"></TooltipMeta>
                         </p>
                         <p class="meta_val">{{asset.chainID | blockchain }}</p>
                     </div>
@@ -44,7 +44,7 @@
                     <div class="stat">
                         <p class="label">
                             Initial Supply
-                            <TooltipMeta v-bind:content="'initial value of ' + asset.symbol + ' tokens minted'"></TooltipMeta>
+                            <TooltipMeta v-bind:content="'Initial value of ' + asset.symbol + ' minted'"></TooltipMeta>
                         </p>
                         <p class="meta_val">{{asset.currentSupply.toLocaleString(asset.denomination)}} <span class="unit">{{asset.symbol}}</span></p>
                         <p class="meta_annotation">Minimal Transferrable Unit:</p>

@@ -2,8 +2,8 @@
     <div>
         <div class="header">
             <h2 class="meta_title">
-                Network Activity
-                <TooltipHeading content="key figures of the Avalanche network"></TooltipHeading>
+                Avalanche Network Activity
+                <TooltipHeading content="Key Avalanche stats"></TooltipHeading>
             </h2>
         </div>
         <section class="stats">
@@ -12,7 +12,7 @@
                     <p class="label">
                         24h Transactions
                         <TooltipMeta
-                            content="total number of queries or modifications of the states of all blockchains on the Avalanche network in the past 24 hours"
+                            content="Total number of state queries or modifications of all blockchains on Avalanche in the past 24 hours"
                         ></TooltipMeta>
                     </p>
                     <div v-if="assetsLoaded">
@@ -31,7 +31,7 @@
                     <p class="label">
                         24h Volume
                         <TooltipMeta
-                            content="total value of $AVAX tokens transferred on the Avalanche network in the past 24 hours"
+                            content="Total value of AVAX transferred on Avalanche in the past 24 hours"
                         ></TooltipMeta>
                     </p>
                     <div v-if="assetsLoaded">
@@ -51,7 +51,7 @@
                     <p class="label">
                         Validators
                         <TooltipMeta
-                            content="Total number of nodes participating in the consensus protocol of the Avalanche network"
+                            content="Total number of nodes validating transactions on Avalanche"
                         ></TooltipMeta>
                     </p>
                     <div v-if="subnetsLoaded">
@@ -68,7 +68,7 @@
                     <p class="label">
                         Total Staked
                         <TooltipMeta
-                            content="total value of $AVAX tokens used as a scarce resource to secure the Avalanche network using the Proof-of-Stake method"
+                            content="Total value of AVAX locked to secure Avalanche"
                         ></TooltipMeta>
                     </p>
                     <div v-if="subnetsLoaded">
@@ -87,7 +87,7 @@
                     <p class="label">
                         Blockchains
                         <TooltipMeta
-                            content=""
+                            content="Total number of blockchains on Avalanche"
                         ></TooltipMeta>
                     </p>
                     <div v-if="subnetsLoaded">
@@ -105,7 +105,7 @@
                     <p class="label">
                         Subnets
                         <TooltipMeta
-                            content="total number of blockchains created on this subnetwork"
+                            content="Total number of subnets on Avalanche"
                         ></TooltipMeta>
                     </p>
                     <div v-if="subnetsLoaded">

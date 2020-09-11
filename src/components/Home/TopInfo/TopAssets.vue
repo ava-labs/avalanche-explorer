@@ -4,7 +4,7 @@
             <h2>
                 Top Assets
                 <TooltipHeading
-                    content="the most transferred digital assets on the Avalanche platform in the past 24 hours"
+                    content="The most transferred assets on Avalanche in the past 24 hours"
                 ></TooltipHeading>
             </h2>
         </div>
@@ -15,10 +15,10 @@
             <div class="asset column_headers">
                 <p v-if="$vuetify.breakpoint.smAndUp"></p>
                 <p class="name">
-                    Name <Tooltip content="human-readable name for the asset (not necessarily unique)"></Tooltip>
+                    Name <Tooltip content="Name for the asset"></Tooltip>
                 </p>
                 <p class="metric">
-                    <Tooltip content="number of transactions of this asset"></Tooltip>Txs (24h)
+                    <Tooltip content="Total number of transactions for the asset"></Tooltip>Txs (24h)
                 </p>
             </div>
             <div class="asset" v-for="(asset) in assets" :key="asset.id">

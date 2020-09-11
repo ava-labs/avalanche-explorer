@@ -25,14 +25,14 @@
                 <p>Rank</p>
                 <p>
                     Node ID
-                    <Tooltip content="address of the node participating in the consensus protocol"></Tooltip>
+                    <Tooltip content="Node ID of validator participating in the consensus protocol"></Tooltip>
                 </p>
                 <p style="text-align: right;">
-                    <Tooltip content="amount of $AVAX staked by this node"></Tooltip>Stake
+                    <Tooltip content="Amount of AVAX staked by this validator"></Tooltip>Stake
                 </p>
                 <p style="text-align: right;" v-if="$vuetify.breakpoint.smAndUp">
                     <Tooltip
-                        content="percentage of scarce resource ($AVAX) concentrated up to this validator ranking"
+                        content="Percentage of AVAX concentrated up to this validator ranking"
                     ></Tooltip>Cumulative Stake
                 </p>
             </div>
@@ -204,8 +204,9 @@ export default class Validators extends Vue {
 .headers {
     display: grid;
     grid-template-columns: 70px 1fr 1fr 1fr;
-    font-size: 16px;
-    font-weight: 500;
+    color: main.$black;
+    font-size: 12px;
+    font-weight: 700;
 
     p {
         padding: 12px 15px;

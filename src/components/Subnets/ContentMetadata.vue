@@ -6,7 +6,7 @@
                     <div>
                         <p class="label">
                             Blockchains
-                            <TooltipMeta content="total number of blockchains created on this subnetwork"></TooltipMeta>
+                            <TooltipMeta content="Total number of blockchains created on this subnetwork"></TooltipMeta>
                         </p>
                         <p class="meta_val">{{totalBlockchains}}</p>
                     </div>
@@ -15,7 +15,7 @@
                     <div>
                         <p class="label">
                             Validators
-                            <TooltipMeta content="total number of nodes participating in the consensus protocol of this subnetwork"></TooltipMeta>
+                            <TooltipMeta content="Total number of nodes participating in the consensus protocol of this subnetwork"></TooltipMeta>
                         </p>
                         <p class="meta_val">{{totalValidators}}</p>
                     </div>
@@ -24,7 +24,7 @@
                     <div>
                         <p class="label">
                             Pending Validators
-                            <TooltipMeta content="total number of nodes waiting to participate in the consensus protocol of this subnetwork"></TooltipMeta>
+                            <TooltipMeta content="Total number of nodes waiting to participate in the consensus protocol of this subnetwork"></TooltipMeta>
                         </p>
                         <p class="meta_val">{{totalPendingValidators}}</p>
                     </div>
@@ -33,7 +33,7 @@
                     <div>
                         <p class="label">
                             Control Keys
-                            <TooltipMeta content="in order to add a validator to a subnet, threshold signatures from keys are needed"></TooltipMeta>
+                            <TooltipMeta content="In order to add a validator to a subnet, threshold signatures from keys are needed"></TooltipMeta>
                         </p>
                         <p class="meta_val">{{totalControlKeys}}</p>
                     </div>

@@ -1,7 +1,10 @@
 <template>
     <div class="tx_history">
         <div class="header">
-            <h2>Transaction History</h2>
+            <h2>
+                Transaction History
+                <TooltipHeading content="Timeline of transactions on Avalanche"></TooltipHeading>
+            </h2>
         </div>
         <div class="history_cont">
             <div class="history_settings">
@@ -22,6 +25,7 @@
     </div>
 </template>
 <script>
+import TooltipHeading from "../../misc/TooltipHeading.vue";
 import axios from "@/axios";
 import Chart from "chart.js";
 import moment from "moment";
@@ -36,6 +40,9 @@ export default {
             chart: null,
             loading: false
         };
+    },
+    components: {
+        TooltipHeading,
     },
     methods: {
         setScope(val) {

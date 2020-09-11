@@ -19,21 +19,7 @@
             </p>
         </div>
             <div class="list">
-                <div class="table_headers recent_tx_rows">
-                    <p></p>
-                    <p>
-                        ID
-                        <Tooltip content="a transaction queries or modifies the state of a blockchain"></Tooltip>
-                    </p>
-                    <p>
-                        From
-                        <Tooltip content="address that sends transfer value"></Tooltip>
-                    </p>
-                    <p>
-                        To
-                        <Tooltip content="address that receives transfer value"></Tooltip>
-                    </p>
-                </div>
+                <TxHeader></TxHeader>
                 <transition-group name="fade" v-if="transactions.length > 0">
                     <tx-row
                         v-for="tx in transactions"
@@ -55,6 +41,7 @@
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import Tooltip from "@/components/rows/Tooltip.vue";
+import TxHeader from "@/components/rows/TxRow/TxHeader.vue";
 import TxRow from "@/components/rows/TxRow/TxRow.vue";
 import api from "@/axios";
 import { ITransaction } from '@/js/ITransaction';
@@ -62,6 +49,7 @@ import { ITransaction } from '@/js/ITransaction';
 @Component({
     components: {
         Tooltip,
+        TxHeader,
         TxRow
     },
 })

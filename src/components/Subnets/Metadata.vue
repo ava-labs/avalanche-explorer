@@ -3,9 +3,9 @@
         <div class="card">
             <div class="header">
                 <h2>
-                    Subnets
+                    Subnet Stats
                     <TooltipHeading
-                        content="A Subnet is a set of validators. A Subnet validates a set of blockchains. Each blockchain is validated by exactly one Subnet, which is specified on blockchain creation."
+                        content="A subnet is a dynamic set of validators working together to achieve consensus on the state of a set of blockchains"
                     ></TooltipHeading>
                 </h2>
             </div>
@@ -14,9 +14,9 @@
                     <img src="@/assets/subnet-purple.png" />
                     <div class="stat">
                         <p class="label">
-                            Subnetworks
+                            Subnets
                             <TooltipMeta
-                                content="total number of subnets created on the Avalanche network"
+                                content="Total number of subnets on Avalanche"
                             ></TooltipMeta>
                         </p>
                         <p class="meta_val">{{totalSubnets.toLocaleString()}}</p>
@@ -28,7 +28,7 @@
                         <p class="label">
                             Blockchains
                             <TooltipMeta
-                                content="total number of blockchains created on the Avalanche network"
+                                content="Total number of blockchains on Avalanche"
                             ></TooltipMeta>
                         </p>
                         <p class="meta_val">{{totalBlockchains.toLocaleString()}}</p>
@@ -40,7 +40,7 @@
                         <p class="label">
                             Validators
                             <TooltipMeta
-                                content="total number of nodes participating in the consensus protocol of the Avalanche network"
+                                content="Total number of nodes validating transactions on Avalanche"
                             ></TooltipMeta>
                         </p>
                         <p class="meta_val">{{totalValidators.toLocaleString()}}</p>
@@ -52,7 +52,7 @@
                         <p class="label">
                             Total Stake Amount
                             <TooltipMeta
-                                content="total value of $AVAX tokens used as a scarce resource to secure the Avalanche network using the Proof-of-Stake method"
+                                content="Total value of AVAX locked to secure Avalanche"
                             ></TooltipMeta>
                         </p>
                         <p class="meta_val">

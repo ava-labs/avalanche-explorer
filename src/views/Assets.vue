@@ -5,7 +5,7 @@
                 <h2>
                     Assets
                     <TooltipHeading
-                        content="A smart digital asset is a digital representation of a real-world thing such as an equity, bond, money etc. They can have a complex ruleset that defines their behavior and how they are handled."
+                        content="A unit of value"
                     ></TooltipHeading>
                 </h2>
                 <template v-if="assetsLoaded">
@@ -21,27 +21,27 @@
                 <div class="grid_headers asset_row">
                     <p v-if="$vuetify.breakpoint.smAndUp">
                         Symbol
-                        <Tooltip content="shorthand ticker symbol of the asset"></Tooltip>
+                        <Tooltip content="An arrangement of letters representing an asset"></Tooltip>
                     </p>
                     <p>
                         Name
-                        <Tooltip content="human-readable name for the asset"></Tooltip>
+                        <Tooltip content="Name for the asset"></Tooltip>
                     </p>
                     <p class="volume_day">
-                        <Tooltip content="volume for the past 24h"></Tooltip>24h Volume
+                        <Tooltip content="Volume for the past 24h"></Tooltip>24h Volume
                     </p>
                     <p class="txCount_day" v-if="$vuetify.breakpoint.smAndUp">
-                        <Tooltip content="number of transactions for the past 24h"></Tooltip>24h Tx
+                        <Tooltip content="Number of transactions for the past 24h"></Tooltip>24h Tx
                     </p>
                     <p class="avgTx_day" v-if="$vuetify.breakpoint.smAndUp">
-                        <Tooltip content="average tx value over the past 24h"></Tooltip>Avg Tx
+                        <Tooltip content="Average tx value over the past 24h"></Tooltip>Avg Tx
                     </p>
                     <p class="supply" v-if="$vuetify.breakpoint.smAndUp">
-                        <Tooltip content="units of the asset that have been created"></Tooltip>Supply
+                        <Tooltip content="Total number of tokens minted"></Tooltip>Supply
                     </p>
                     <p class="chain" v-if="$vuetify.breakpoint.smAndUp">
                         Issuance
-                        <Tooltip content="blockchain where this asset was minted"></Tooltip>
+                        <Tooltip content="Blockchain where this asset was minted"></Tooltip>
                     </p>
                 </div>
                 <asset-row v-for="asset in assets" :key="asset.id" class="asset_row" :asset="asset"></asset-row>
