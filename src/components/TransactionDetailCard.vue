@@ -4,51 +4,73 @@
             <h2><slot></slot></h2>
         </header>
         <article class="meta_row">
-            <p class="label">ID</p>
+            <p class="label">
+                Asset ID
+                <Tooltip content="Unique character string generated when a transaction is executed"></Tooltip>
+            </p>
             <div class="genesis_tx">
                 <p>
                     <b>{{txId}}</b>
+                    <Tooltip content=""></Tooltip>
                 </p>
                 <p v-if="isAssetGenesis" class="genesis">Asset Genesis</p>
             </div>
         </article>
         <article class="meta_row">
-            <p class="label">Status</p>
+            <p class="label">
+                Status
+                <Tooltip content="Status of the transaction"></Tooltip>
+            </p>
             <div>
                 <p class="status">Success</p>
                 <p class="status" v-if="type==='assetCreation'">Success</p>
             </div>
         </article>
         <article class="meta_row">
-            <p class="label">Timestamp</p>
+            <p class="label">
+                Timestamp
+                <Tooltip content="Date and time when the transaction was processed"></Tooltip>
+            </p>
             <p class="date">
                 <fa :icon="['far','clock']"></fa>
                 {{dateAgo}} ({{date.toLocaleString()}})
             </p>
         </article>
         <article class="meta_row">
-            <p class="label">Value</p>
+            <p class="label">
+                Value
+                <Tooltip content="Total economic value transferred in this transaction"></Tooltip>
+            </p>
             <p class="values">
                 <span
                     v-for="(val, id) in outValuesDenominated"
                     :key="id"
                 >{{val.amount}} <b>{{val.symbol}}</b></span>
+                <Tooltip content=""></Tooltip>
             </p>
         </article>
         <article class="meta_row">
-            <p class="label">Transaction Fee</p>
+            <p class="label">
+                Transaction Fee
+                <Tooltip content="Amount paid to validators for processing the transaction"></Tooltip>
+            </p>
             <!-- TODO: Tx Fee from API when supported -->
             <p>0.001 AVAX</p>
         </article>
         <article class="meta_row">
-            <p class="label">Memo</p>
+            <p class="label">
+                Memo
+                <Tooltip content=""></Tooltip>
+            </p>
             <div>
                 <p><span class="decode">hex</span> {{memo_hex}}</p>
                 <p><span class="decode">UTF-8</span> {{memo_utf8}}</p>
             </div>
         </article>
         <article class="meta_row" v-if="!isAssetGenesis">
-            <p class="label">Input UTXOs</p>
+            <p class="label">
+                Input UTXOs
+            </p>
             <div v-if="inputs.length > 0">
                 <div class="utxo_headers">
                     <p>Tx</p>
@@ -70,7 +92,9 @@
             </div>
         </article>
         <article class="meta_row">
-            <p class="label">Output UTXOs</p>
+            <p class="label">
+                Output UTXOs
+            </p>
             <div v-if="outputs.length > 0">
                 <div class="utxo_headers">
                     <p>Tx</p>
@@ -108,10 +132,12 @@ import {
 import { bigToDenomString, stringToBig } from "../helper";
 import Big from "big.js";
 import moment from "moment";
+import Tooltip from "../components/rows/Tooltip.vue";
 
 @Component({
     components: {
-        UtxoRow
+        UtxoRow,
+        Tooltip
     }
 })
 export default class TransactionDetailCard extends Vue {

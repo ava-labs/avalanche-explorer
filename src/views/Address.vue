@@ -39,21 +39,7 @@
                     </div>
                 </template>
             </header>
-            <div class="table_headers tx_rows">
-                <p></p>
-                <p>
-                    ID
-                    <Tooltip content="a transaction queries or modifies the state of a blockchain"></Tooltip>
-                </p>
-                <p>
-                    From
-                    <Tooltip content="address that sends transfer value"></Tooltip>
-                </p>
-                <p>
-                    To
-                    <Tooltip content="address that receives transfer value"></Tooltip>
-                </p>
-            </div>
+            <TxHeader></TxHeader>
             <div v-show="txloading">
                 <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
             </div>
@@ -94,6 +80,7 @@ import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import Loader from "../components/misc/Loader.vue";
 import Tooltip from "../components/rows/Tooltip.vue";
 import Metadata from "../components/Address/Metadata.vue";
+import TxHeader from "@/components/rows/TxRow/TxHeader.vue";
 import TxRow from "../components/rows/TxRow/TxRow.vue";
 import PaginationControls from "../components/misc/PaginationControls.vue";
 import api from "../axios";
@@ -109,6 +96,7 @@ import { IBalance, IAddress, IAddressData } from '@/js/IAddress';
         Loader,
         Tooltip,
         Metadata,
+        TxHeader,
         TxRow,
         PaginationControls
     },
@@ -358,6 +346,10 @@ export default class AddressPage extends Vue {
         border-radius: 2px;
         margin: 2px 0;
         box-sizing: border-box;
+        border-bottom: 1px solid #e7e7e7;
+    }
+
+    .tx_item {
         border-bottom: 1px solid #e7e7e7;
     }
 

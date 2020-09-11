@@ -1,10 +1,10 @@
 <template>
     <div id="assets_data_table">
         <div class="controls">
-            <div class="search_container">
-                <div class="search_tabs">
+            <div class="filter_container">
+                <div class="filter_input_container">
                     <input
-                        class="search"
+                        class="filter"
                         type="text"
                         v-model="search"
                         placeholder="Filter by Asset Name"
@@ -26,10 +26,9 @@
             <template #item.name="{item}">
                 <router-link class="name_id" :to="`/asset/${item.id}`">
                 <div>
-                    <span>{{item | nameOrID}} </span>
+                    <span class="name">{{item | nameOrID}} </span>
                     <span class="collision">{{collisionHash(item)}}</span>
-                </div>
-                    
+                </div>                    
                 </router-link>
             </template>
             
@@ -98,9 +97,6 @@ export default class AssetsDataTable extends Vue {
         return this.$store.state.collisionMap;
     }
 
-    // get avgTxValue(): string {
-    //     return (this.asset.txCount_day > 0) ? (this.asset.volume_day.div(this.asset.txCount_day)).toLocaleString(0) : "";
-    // }
 }
 </script>
 
@@ -113,42 +109,11 @@ export default class AssetsDataTable extends Vue {
 
 
 .controls {
-    margin-bottom: 12px;
-    display: flex;
-        flex-direction: row-reverse;
-
-    .search_container {
-        display: flex;
-        flex-direction: row-reverse;
-        justify-content: space-between;
-        align-items: baseline;
-        flex-wrap: wrap;
-        max-width: 300px;
-
-        .search_tabs {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            margin-bottom: 18px;
-        }
-
-        .search {
-            border: 2px solid main.$bg-light;
-            background-color: main.$bg-light;
-            height: 36px;
-            width: 320px;
-            box-sizing: border-box;
-            border-radius: 2px;
-            padding: 8px 12px;
-            outline: none;
-            font-size: 12px;
-            color: main.$primary-color;
-        }
-    }
+    flex-direction: row-reverse;
+    margin-bottom: 18px;
 }
 
 /* FROM ASSET ROW */
-
 .symbol {
     color: main.$secondary-color;
     background-color: main.$secondary-color-xlight;
@@ -246,6 +211,10 @@ export default class AssetsDataTable extends Vue {
             display: none;
         }
     }
+}
+
+.name {
+    font-weight: bold;
 }
 
 @include main.device_xs {

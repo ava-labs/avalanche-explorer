@@ -153,6 +153,8 @@ body {
     margin: 0;
     background-color: main.$white !important;
     color: main.$primary-color;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 p {
@@ -194,6 +196,7 @@ p {
         font-size: 26px;
         margin: 0;
         font-weight: 400;
+        color: main.$primary-color;
     }
 }
 
@@ -219,6 +222,7 @@ p {
         }
     }
 }
+
 /* ==========================================
    detail pages
    ========================================== */
@@ -419,19 +423,53 @@ input {
 }
 
 .v-tooltip__content {
-    background: #fff !important;
-    border: 2px solid rgba(0, 0, 0, 0.87);
-    color: rgba(0, 0, 0, 0.87) !important;
+    background: rgba(0, 0, 0, 1) !important;
+    border: 2px solid rgba(0, 0, 0, 1);
+    color: #fff !important;
     border-radius: 4px;
-    font-weight: 400; /* 700 */
+    font-weight: 700;
     font-size: 12px !important;
     line-height: 1.57em !important;
-    padding: 5px 16px;
+    padding: 8px 16px;
 }
 
 tbody {
     tr:hover {
         background-color: transparent !important;
+    }
+}
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+
+    .filter_text {
+        text-transform: capitalize;
+        font-weight: 400;
+    }
+    
+    .filter_input_container {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        align-items: baseline;
+        flex-wrap: wrap;
+        max-width: 320px;
+
+        .filter {
+            border: 2px solid main.$bg-light;
+            background-color: main.$bg-light;
+            height: 36px;
+            width: 320px;
+            box-sizing: content-box;
+            border-radius: 2px;
+            padding: 8px 12px;
+            outline: none;
+            font-size: 12px;
+            color: main.$primary-color;
+        }
     }
 }
 

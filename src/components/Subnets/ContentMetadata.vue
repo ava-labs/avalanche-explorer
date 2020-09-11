@@ -3,41 +3,37 @@
         <div>
             <div class="meta_data">
                 <div>
-                    <img src="@/assets/blockchain-purple.png" />
                     <div>
                         <p class="label">
                             Blockchains
-                            <TooltipMeta content="total number of blockchains created on thiis subnetwork"></TooltipMeta>
+                            <TooltipMeta content="Total number of blockchains created on this subnetwork"></TooltipMeta>
                         </p>
                         <p class="meta_val">{{totalBlockchains}}</p>
                     </div>
                 </div>
                 <div>
-                    <img src="@/assets/validators-purple.png" />
                     <div>
                         <p class="label">
                             Validators
-                            <TooltipMeta content="total number of nodes participating in the consensus protocol of this subnetwork"></TooltipMeta>
+                            <TooltipMeta content="Total number of nodes participating in the consensus protocol of this subnetwork"></TooltipMeta>
                         </p>
                         <p class="meta_val">{{totalValidators}}</p>
                     </div>
                 </div>
                 <div>
-                    <img src="@/assets/validators-purple.png" />
                     <div>
                         <p class="label">
                             Pending Validators
-                            <TooltipMeta content="total number of nodes waiting to participate in the consensus protocol of this subnetwork"></TooltipMeta>
+                            <TooltipMeta content="Total number of nodes waiting to participate in the consensus protocol of this subnetwork"></TooltipMeta>
                         </p>
                         <p class="meta_val">{{totalPendingValidators}}</p>
                     </div>
                 </div>
                 <div>
-                    <img src="@/assets/key-purple.png" />
                     <div>
                         <p class="label">
                             Control Keys
-                            <TooltipMeta content="total number of nodes waiting to participate in the consensus protocol of this subnetwork"></TooltipMeta>
+                            <TooltipMeta content="In order to add a validator to a subnet, threshold signatures from keys are needed"></TooltipMeta>
                         </p>
                         <p class="meta_val">{{totalControlKeys}}</p>
                     </div>
@@ -78,12 +74,6 @@ export default {
     width: 100%;
     grid-template-columns: 25% 25% 25% 25%;
 
-    img {
-        object-fit: contain;
-        width: 20px;
-        margin-right: 15px;
-    }
-
     > div {
         padding: 30px 15px;
         text-align: left;
@@ -104,7 +94,6 @@ export default {
         font-weight: 400; /* 700 */
         margin-bottom: 6px;
         color: main.$primary-color;
-        opacity: 0.7;
     }
 
     .meta_val {

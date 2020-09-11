@@ -1,12 +1,15 @@
 <template>
     <div class="tx_history">
         <div class="header">
-            <h2>Transaction History</h2>
+            <h2>
+                Transaction History
+                <TooltipHeading content="Timeline of transactions on Avalanche"></TooltipHeading>
+            </h2>
         </div>
         <div class="history_cont">
             <div class="history_settings">
                 <button :active="scope===options[0]" @click="setScope(options[0])">1 year</button>
-                <button :active="scope===options[1]" @click="setScope(options[1])">1 month</button>
+                <button :active="scope===options[1]" @click="setScope(options[1])">1 mo</button>
                 <button :active="scope===options[2]" @click="setScope(options[2])">1 week</button>
                 <button :active="scope===options[3]" @click="setScope(options[3])">1 day</button>
                 <button :active="scope===options[4]" @click="setScope(options[4])">1 hr</button>
@@ -22,6 +25,7 @@
     </div>
 </template>
 <script>
+import TooltipHeading from "../../misc/TooltipHeading.vue";
 import axios from "@/axios";
 import Chart from "chart.js";
 import moment from "moment";
@@ -36,6 +40,9 @@ export default {
             chart: null,
             loading: false
         };
+    },
+    components: {
+        TooltipHeading,
     },
     methods: {
         setScope(val) {
@@ -409,13 +416,17 @@ export default {
         flex-grow: 1;
         font-size: 9px;
         background-color: transparent;
-        color: main.$black;
-        height: 22px;
+        color: main.$primary-color;
+        height: 24px;
         width: 28px;
         border: none;
         margin-left: 3px;
         outline: none;
         border-radius: 2px;
+        padding: 1px 3px;
+        font-weight: 700;
+        text-transform: uppercase;
+        cursor: pointer;
 
         &:hover {
             opacity: 0.7;
@@ -423,7 +434,6 @@ export default {
 
         &[active] {
             color: main.$white;
-            font-weight: 400; /* 700 */
             background-color: main.$primary-color;
         }
     }
