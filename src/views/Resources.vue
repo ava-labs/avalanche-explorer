@@ -5,12 +5,6 @@
                 <h2>Avalanche Directory</h2>
             </div>
             <hr />
-            <div class="everest">
-                <img src="@/assets/everest.png" alt="Image of Mt. Everest">
-                <h3>Welcome to the Everest Testnet</h3>
-                <p class="description">The Avalanche Explorer is an analytics tool that enables people to search the Avalanche blockchain for transactions, addresses, and other platform activities.</p>
-                <p class="description">Everest is our last release before mainnet. Avalanche features high-throughput (~5000tps), fast finality (less than 2 seconds), and high resilience. In our recent incentivized Everest testnet we had over 1,000 worldwide validators.</p>
-            </div>
             <div class="resource_container">
                 <div class="resource">
                     <img src="@/assets/resources_view/Wallet.png" />
@@ -57,33 +51,6 @@
 hr {
     margin-top: 20px;
     opacity: 0.2;
-}
-
-.everest {
-    border: 0;
-    width: 100%;
-    
-    img {
-        width: 100%;
-        max-width: 100%;
-        max-height: 100%;
-        display: block;
-        padding-top: 22px;
-    }
-
-    h3 {
-        margin-top: 1.4em;
-        margin-bottom: .79em;
-        font-size: 38px;
-        line-height: 1.16em;
-    }
-
-    .description {
-        font-size: 20px;
-        line-height: 1.2em;
-        max-width: 900px;
-        margin-bottom: .5em;
-    }
 }
 
 .resource_container {

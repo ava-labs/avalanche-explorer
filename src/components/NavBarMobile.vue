@@ -5,7 +5,7 @@
             <div class="logo">
                 <router-link to="/">
                     <img style="height: 24px" src="@/assets/explorer_logo.png" />
-                    <h1><span class="hide">Avalanche Explorer</span><span class="subnet">Everest</span></h1>
+                    <h1><span class="hide">Avalanche Explorer</span><span class="subnet">AVAX (Private)</span></h1>
                 </router-link>
             </div>
             <div>
