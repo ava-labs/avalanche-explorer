@@ -3,7 +3,7 @@ interface SubnetDict {
 }
 
 let dict: SubnetDict = {
-  "11111111111111111111111111111111LpoYY": "Default Subnet"
+  "11111111111111111111111111111111LpoYY": "Primary Network"
 };
 
 export default dict;

@@ -1751,10 +1751,10 @@ autoprefixer@^9.7.4:
     postcss "^7.0.26"
     postcss-value-parser "^4.0.2"
 
-avalanche@2.4.1:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/avalanche/-/avalanche-2.4.1.tgz#4b03b95b7828601edf65e59407ad35db07a2b429"
-  integrity sha512-oXllRs/h4ZishLLhCWQpvIgwck+R+3322O6quuVqhfNSveAKya6RPdR9a3Ath07s5Iw1PYsSk754cRCFoo1pCg==
+avalanche@^2.5.3:
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/avalanche/-/avalanche-2.5.3.tgz#ef8df64eb637a7c0c01b401fe6e34d7644e4cae6"
+  integrity sha512-6s4wvrveQIavEJgz1Xskhv5xV0ZuYTtMeaNJbkB87o9DnHrpp84xehx/rnWJai0dT0NyPjKRoH9xA5APlZ0MiQ==
   dependencies:
     axios "0.19.2"
     bech32 "1.1.4"

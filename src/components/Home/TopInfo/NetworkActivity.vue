@@ -8,7 +8,7 @@
         </div>
         <section class="stats">
             <article class="meta">
-                <router-link class="stat" to="/transactions">
+                <router-link class="stat" to="/tx">
                     <p class="label">
                         24h Transactions
                         <TooltipMeta
