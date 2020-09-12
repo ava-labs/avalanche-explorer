@@ -11,7 +11,7 @@
             <div class="genesis_tx">
                 <p>
                     <b>{{txId}}</b>
-                    <CopyText :value="`${txID}`" class="copy_but"></CopyText>
+                    <CopyText :value="`${txId}`" class="copy_but"></CopyText>
                 </p>
                 <p v-if="isAssetGenesis" class="genesis">Asset Genesis</p>
             </div>

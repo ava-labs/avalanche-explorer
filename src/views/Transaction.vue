@@ -2,14 +2,14 @@
     <div class="detail">
         <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
         <template v-if="txloading">
-            <Loader :contentId="txID" :message="'Fetching Transaction Details'"></Loader>
+            <Loader :contentId="txId" :message="'Fetching Transaction Details'"></Loader>
         </template>
         <div v-if="!tx && !txloading" class="card tx_details_error">
             <h2>Transaction Details Not Found</h2>
             <p class="message">A record for this transaction ID was not found in the Avalanche Explorer</p>
             <p class="content_id">
-                {{txID}}
-                <CopyText :value="`${txID}`" class="copy_but"></CopyText>
+                {{txId}}
+                <CopyText :value="`${txId}`" class="copy_but"></CopyText>
             </p>
             <p><a href="https://github.com/ava-labs/ortelius/issues" target="_blank">Submit Issue</a></p>
         </div>
@@ -22,6 +22,7 @@
 <script lang="ts">
 import "reflect-metadata";
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
+import CopyText from "@/components/misc/CopyText.vue";
 import Loader from "../components/misc/Loader.vue";
 import TransactionDetailCard from "../components/TransactionDetailCard.vue";
 import { Transaction } from "../js/Transaction";
@@ -30,6 +31,7 @@ import api from "../axios";
 @Component({
     components: {
         Loader,
+        CopyText,
         TransactionDetailCard
     }
 })
@@ -49,8 +51,8 @@ export default class TransactionPage extends Vue {
         }
     ];
 
-    @Watch("txID")
-    ontxIDChanged(val: string, oldVal: string) {
+    @Watch("txId")
+    ontxIdChanged(val: string, oldVal: string) {
         this.getData();
     }
 
@@ -67,15 +69,15 @@ export default class TransactionPage extends Vue {
         return this.$store.state.assetsLoaded;
     }
 
-    get txID(): string {
+    get txId(): string {
         return this.$route.params.id;
     }
 
     getData(): void {
         this.txloading = true;
-        
+
         // TODO: support service for multiple chains
-        let url = `/x/transactions/${this.txID}`;
+        let url = `/x/transactions/${this.txId}`;
         if (this.assetsLoaded) {
             api.get(url).then(res => {
                 this.txloading = false;
