@@ -12,6 +12,9 @@
                         <p v-show="search.length === 0">
                             {{validators.length.toLocaleString() | pluralize}} found
                         </p>
+                        <p v-show="search.length > 0">
+                            ...filtering results
+                        </p>
                     </div>
                     <div class="filter_input_container">
                         <input
@@ -33,7 +36,6 @@
             :headers="headers" 
             :search="search" 
             multi-sort
-            @input="getFilteredCount"
         >
             <!-- TODO: reinstate show-expand when client is patched -->
             <template #item.id="{item}">

@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import { Module } from "vuex";
 import Big from "big.js";
+import BN from "bn.js";
 import { IRootState } from "@/store/types";
 import { IPlatformState } from './IPlatformState';
 import { platform } from "@/avalanche";
@@ -11,7 +12,7 @@ import { IBlockchainData } from './IBlockchain';
 import BlockchainDict from '@/known_blockchains';
 import Blockchain from '@/js/Blockchain';
 
-export const AVALANCHE_SUBNET_ID = Object.keys(SubnetDict).find(key => SubnetDict[key] === "Default Subnet") as string;
+export const AVALANCHE_SUBNET_ID = Object.keys(SubnetDict).find(key => SubnetDict[key] === "Primary Network") as string;
 export const X_CHAIN_ID = Object.keys(BlockchainDict).find(key => BlockchainDict[key] === "X-Chain") as string;
 
 const platform_module: Module<IPlatformState, IRootState> = {
@@ -19,7 +20,9 @@ const platform_module: Module<IPlatformState, IRootState> = {
     state: {
         subnets: {},
         blockchains: [],
-        subnetsLoaded: false
+        subnetsLoaded: false,
+        currentSupply: new BN(0),
+        minStake: new BN(0)
     },
     mutations: {
         setSubnet(state, s) {
@@ -32,7 +35,9 @@ const platform_module: Module<IPlatformState, IRootState> = {
     actions: {
         init({ dispatch }) {
             dispatch("getSubnets");
+            dispatch("updateCurrentSupply");
         },
+
         async getSubnets({ state, commit }) {
             // Get subnets and init classes
             let subnets = (await platform.getSubnets() as ISubnetData[])
@@ -59,36 +64,48 @@ const platform_module: Module<IPlatformState, IRootState> = {
             state.blockchains.unshift(pChain);
 
             // Map blockchains to their subnet
-           state.blockchains.forEach(b => {
+            state.blockchains.forEach(b => {
                 let subnetID = b.subnetID;
                 state.subnets[subnetID].addBlockchain(b);
             });
 
             state.subnetsLoaded = true;
+
+            console.log("Primary Network:", state.subnets[AVALANCHE_SUBNET_ID]);
+            console.log("Subnet         :", state.subnets["2K8ooP9fbFA76vCujXPQbRAy1FKuFJP1vbj6iPNYtNCCQmHULK"]);
+            console.log("Subnet         :", state.subnets["PSP9dMyURieXhjE9xVpoTBhp2AXt3UfPknKnJAyTsax56dd35"]);
+        },
+
+        async updateCurrentSupply({state}){
+            state.currentSupply = await platform.getCurrentSupply();
+        },
+
+        async updateMinStakeAmount({state}){
+            state.minStake = await platform.getMinStake(true);
         },
     },
     getters: {
         totalValidators(state): number {
-            // Count of active validators in default subnet
+            // Count of active validators in Primary Network
             let defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID];
             return (!defaultSubnet) ?
                 0 : defaultSubnet.validators.length;
         },
         totalPendingValidators(state): number {
-            // Count of pending validators in default subnet
+            // Count of pending validators in Primary Network
             let defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID];
             return (!defaultSubnet) ?
                 0 : defaultSubnet.pendingValidators.length;
         },
         totalStake(state): Big {
-            // Total $AVAX active stake on default subnet
+            // Total $AVAX active stake on Primary Network
             let defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID];
             let total = Big(0);
             return (!defaultSubnet) ? total :
                 total = defaultSubnet.validators.reduce((a, v) => a.add(Big(v.totalStakeAmount as number)), total);
         },
         totalPendingStake(state): Big {
-            // Total $AVAX pending stake on default subnet
+            // Total $AVAX pending stake on Primary Network
             let defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID];
             let total = Big(0);
             return (!defaultSubnet) ? total :
