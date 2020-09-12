@@ -5,13 +5,13 @@
         </header>
         <article class="meta_row">
             <p class="label">
-                Asset ID
+                ID
                 <Tooltip content="Unique character string generated when a transaction is executed"></Tooltip>
             </p>
             <div class="genesis_tx">
                 <p>
                     <b>{{txId}}</b>
-                    <Tooltip content=""></Tooltip>
+                    <CopyText :value="`${txID}`" class="copy_but"></CopyText>
                 </p>
                 <p v-if="isAssetGenesis" class="genesis">Asset Genesis</p>
             </div>
@@ -120,6 +120,7 @@
 <script lang="ts">
 import "reflect-metadata";
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
+import CopyText from "@/components/misc/CopyText.vue";
 import Loader from "../components/misc/Loader.vue";
 import UtxoRow from "../components/Transaction/UtxoRow.vue";
 import { Transaction } from "../js/Transaction";
@@ -136,7 +137,8 @@ import Tooltip from "../components/rows/Tooltip.vue";
 @Component({
     components: {
         UtxoRow,
-        Tooltip
+        Tooltip,
+        CopyText
     }
 })
 export default class TransactionDetailCard extends Vue {
