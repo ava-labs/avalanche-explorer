@@ -59,7 +59,7 @@ export default class RecentTransactions extends Vue {
     poller: number = 0;
        
     created() {
-        this.poller = window.setInterval(() => this.pollForTxUpdates(), 1000);
+        this.poller = window.setInterval(() => this.pollForTxUpdates(), 5000);
     }   
     
     destroyed() {

@@ -42,22 +42,24 @@ export default new Vuex.Store({
                 Get and set initial list of all indexed assets
                ========================================== */
             // TODO: support service for multiple chains 
-            let count = 0;
-            let offset = 0;     
+            let isFinished = false;
+            let offset = 0;
             const limit = 500;
             let res = await api.get(`/x/assets?offset=${offset}&limit=${limit}`);
             let assetsData = res.data.assets;
-            count = res.data.count;             // count of indexed assets
             
             // keep getting asset data as necessary
             async function checkForMoreAssets() {
                 offset += limit;
                 let res = await api.get(`/x/assets?offset=${offset}&limit=${limit}`);
                 let moreAssets = res.data.assets;
+                if (moreAssets.length === 0) {
+                    isFinished = true;
+                }
                 assetsData.push(...moreAssets);
             }
 
-            while (offset < count) {
+            while (isFinished === false) {
                 await checkForMoreAssets();
             }
             
@@ -75,7 +77,7 @@ export default new Vuex.Store({
             /* ==========================================
                 Then get asset aggregation data for assets appearing in recent Txs
                ========================================== */
-
+            // TODO: top assets in background thread
             store.dispatch("setAggregatesForAssetsInRecentTransactions");
             
             // DISABLED: get aggregate data for all assets
