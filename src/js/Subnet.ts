@@ -214,9 +214,14 @@ export default class Subnet {
                 startTime:          new Date(parseInt(pv.startTime) * 1000),
                 endTime:            new Date(parseInt(pv.endTime) * 1000),                
                 stakeAmount:        parseInt(pv.stakeAmount),
-                connected:          pv.connected,
-                delegationFee:      parseInt(pv.delegationFee),
+            };
+
+            // Pending Validators - set optional props
+            if ({}.hasOwnProperty.call(pv, "connected")) {
+                pendingValidator.connected = pv.connected as boolean;
+                pendingValidator.delegationFee = parseInt(pv.delegationFee as string);
             }
+
             return pendingValidator;
         });
         return pendingValidators;

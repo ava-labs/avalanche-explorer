@@ -56,9 +56,9 @@ export interface IDelegator_New {
 }
 
 export interface IRewardOwner {
-    locktime:           number      // 0
-    threshold:          number      // 1
-    addresses:          string[]    // ["P-everest1szs36y7mmr99lsyj8g427zju7dhdrm6qscj2qa"]
+    locktime:           number
+    threshold:          number
+    addresses:          string[]
 }
 
 export interface IPendingValidator_New {
@@ -66,9 +66,9 @@ export interface IPendingValidator_New {
     startTime:          Date
     endTime:            Date
     stakeAmount:        number
-    
-    connected:          boolean     // different prop name from other response
-    delegationFee:      number
+    // Validator-only Properties
+    connected?:         boolean
+    delegationFee?:     number
 }
 
 /* ==========================================
@@ -83,11 +83,11 @@ export interface IValidatorData {
     rewardOwner?:       IRewardOwnerData
     potentialReward?:   string
     stakeAmount?:       string
-    uptime?:            string
+    uptime?:            string      // local uptime (not network-level)
     connected?:         boolean
     delegationFee?:     string
     // Non-Primary Network Properties
-    weight?:            string      // this is arbitrarily set
+    weight?:            string      // this is arbitrarily set by the control key holder
 }
 
 export interface IDelegatorData {
@@ -102,17 +102,15 @@ export interface IDelegatorData {
 export interface IRewardOwnerData {
     locktime:           string      // "0"
     threshold:          string      // "1"
-    addresses:          string[]    // ["P-everest1szs36y7mmr99lsyj8g427zju7dhdrm6qscj2qa"]
-                                    // extensible, but will only contain one address for now
+    addresses:          string[]    // extensible, but will only contain one address for now
 }
 
 export interface IPendingValidatorData {
     nodeID:             string
     startTime:          string
     endTime:            string
-    
     stakeAmount:        string
-    
-    connected:          boolean
-    delegationFee:      string
+    // Validator-only properties
+    connected?:         boolean
+    delegationFee?:     string
 }
