@@ -1,11 +1,14 @@
+const xChainID = process.env.VUE_APP_XCHAINID;
+const cChainID = process.env.VUE_APP_CCHAINID;
+
 interface BlockchainDict {
   [key: string]: string
 }
 
 let dict: BlockchainDict = {
   "11111111111111111111111111111111LpoYY": "P-Chain",
-  "jnUjZSRt16TcRnZzmh5aMhavwVHz3zBrSN8GfFMTQkzUnoBxC": "X-Chain",
-  "saMG5YgNsFxzjz4NMkEkt3bAH6hVxWdZkWcEnGB3Z15pcAmsK": "C-Chain"
+  xChainID: "X-Chain",
+  cChainID: "C-Chain"
 };
 
 interface URLMap {
@@ -31,3 +34,4 @@ let prefixDict: URLMap = {
   }
 }
 export default dict;
+``

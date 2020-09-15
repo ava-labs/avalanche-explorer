@@ -1,9 +1,11 @@
+const avaxID = process.env.VUE_APP_AVAXID;
+
 interface AssetDict {
   [key: string]: string
 }
 
 let dict: AssetDict = {
-  "AVAX": "nznftJBicce1PfWQeNEVBmDyweZZ6zcM3p78z9Hy9Hhdhfaxm"
+  "AVAX": avaxID as string
 };
 
 export default dict;
