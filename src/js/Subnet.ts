@@ -52,16 +52,16 @@ export default class Subnet {
         };
         let response = await avalanche_go_api.post("", req);
 
-        console.log(`------------- ${this.id.substring(0,4)} ------------ ${endpoint}`);
+        // console.log(`------------- ${this.id.substring(0,4)} ------------ ${endpoint}`);
         // console.log("result:                        ", response.data.result);
 
         /* ==========================================
-            CURRENT
+            CURRENT VALIDATORS
            ========================================== */
         if (endpoint === "platform.getCurrentValidators") {
             let validatorsData = response.data.result.validators as IValidatorData[];
             let validators: IValidator_New[] = [];
-            console.log(`validatorsData                 `, validatorsData);
+            // console.log(`validatorsData                 `, validatorsData);
 
             // ALL SUBNETS
             if (validatorsData.length > 0) {
@@ -72,25 +72,26 @@ export default class Subnet {
             if (this.id === AVALANCHE_SUBNET_ID) {
                 let delegatorsData = response.data.result.delegators as IDelegatorData[];
                 let delegations: IDelegator_New[] = [];
-                console.log(`delegatorsData                 `, delegatorsData);
+                // console.log(`delegatorsData                 `, delegatorsData);
                 
                 if (delegatorsData.length > 0) {                    
                     delegations = this.castDelegators_New(delegatorsData);
                     // [validators, delegations] = this.nestValidatorsAndDelegators(validators, endpoint);
                 }
                 this.delegations_New = delegations;
+                // console.log("this.delegations_New", this.delegations_New)
             }
             
-            // validators = this.sortByStake(validators, this.id);
+            validators = this.sortByStake(validators, this.id);
             this.validators_New = validators;
         } 
         /* ==========================================
-            PENDING
+            PENDING VALIDATORS
            ========================================== */
         else if (endpoint === "platform.getPendingValidators") {
             let pendingValidatorsData = response.data.result.validators as IPendingValidatorData[];
             let pendingValidators: IPendingValidator_New[] = [];
-            console.log(`pendingValidatorsData          `, pendingValidatorsData);
+            // console.log(`pendingValidatorsData          `, pendingValidatorsData);
             
             // ALL SUBNETS
             if (pendingValidatorsData.length > 0) {
@@ -101,7 +102,7 @@ export default class Subnet {
             if (this.id === AVALANCHE_SUBNET_ID) {
                 let pendingDelegatorsData = response.data.result.delegators as IPendingValidatorData[];
                 let pendingDelegations: IPendingValidator_New[] = [];
-                console.log(`pendingDelegatorsData          `, pendingDelegatorsData);
+                // console.log(`pendingDelegatorsData          `, pendingDelegatorsData);
                                 
                 if (pendingDelegatorsData.length > 0) {                    
                     pendingDelegations = this.castPendingValidators_New(pendingDelegatorsData);
@@ -172,6 +173,10 @@ export default class Subnet {
                 validator.uptime =              parseInt(v.uptime as string), // percentage 
                 validator.connected =           v.connected;
                 validator.delegationFee =       parseInt(v.delegationFee as string);
+                
+                // New
+                validator.totalStakeAmount =    parseInt(v.stakeAmount as string),
+                validator.elapsed =             this.getElapsedStakingPeriod(validator);
             }
             // Non-Primary Network validators - set optional props
             if ({}.hasOwnProperty.call(v, "weight")) {
@@ -214,6 +219,7 @@ export default class Subnet {
                 startTime:          new Date(parseInt(pv.startTime) * 1000),
                 endTime:            new Date(parseInt(pv.endTime) * 1000),                
                 stakeAmount:        parseInt(pv.stakeAmount),
+                totalStakeAmount:   parseInt(pv.stakeAmount),
             };
 
             // Pending Validators - set optional props

@@ -43,6 +43,11 @@ export interface IValidator_New {
     delegationFee?:     number
     // Non-Primary Network Properties
     weight?:            number
+
+    // New
+    totalStakeAmount?:  number   // Primary Network only. sum of validator and delegator stake amountsd
+    rank?: number               // based on stake or weight
+    elapsed?: number            // how much of the staking period has elasped (%)
 }
 
 export interface IDelegator_New {
@@ -69,6 +74,9 @@ export interface IPendingValidator_New {
     // Validator-only Properties
     connected?:         boolean
     delegationFee?:     number
+
+    // New
+    totalStakeAmount?:  number   // Primary Network only. sum of validator and delegator stake amountsd
 }
 
 /* ==========================================

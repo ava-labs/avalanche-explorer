@@ -23,7 +23,7 @@
                             <p class="null">There are no validators for this subnet.</p>
                         </template>
                         <template v-else>
-                            <ValidatorDataTable :validators="subnet.validators" :subnetID="subnetID" :subnet="subnet" :title="'Validators'" class="table_margin"></ValidatorDataTable>
+                            <ValidatorDataTable :validators="subnet.validators_New" :subnetID="subnetID" :subnet="subnet" :title="'Validators'" class="table_margin"></ValidatorDataTable>
                         </template>
                     </v-tab-item>
                     <v-tab-item class="tab_content" value="pending-validators">
@@ -31,7 +31,7 @@
                             <p class="null">There are no pending validators for this subnet.</p>
                         </template>
                         <template v-else>
-                            <ValidatorDataTable :validators="subnet.pendingValidators" :subnetID="subnetID" :subnet="subnet" :title="'Pending Validators'" class="table_margin"></ValidatorDataTable>
+                            <ValidatorDataTable :validators="subnet.pendingValidators_New" :subnetID="subnetID" :subnet="subnet" :title="'Pending Validators'" class="table_margin"></ValidatorDataTable>
                         </template>
                     </v-tab-item>
                     <v-tab-item class="tab_content" value="blockchains">
@@ -51,11 +51,11 @@
                         </template>
                     </v-tab-item>
                     <v-tab-item class="tab_content" value="delegations">
-                        <template v-if="subnet.delegations.length === 0">
+                        <template v-if="subnet.delegations_New.length === 0">
                             <p class="null">There are no delegated stakes for this subnet.</p>
                         </template>
                         <template v-else>
-                            <DelegationDataTable :validators="subnet.delegations" :subnetID="subnetID" :subnet="subnet" :title="'Delegations'" class="table_margin"></DelegationDataTable>
+                            <DelegationDataTable :validators="subnet.delegations_New" :subnetID="subnetID" :subnet="subnet" :title="'Delegations'" class="table_margin"></DelegationDataTable>
                         </template>
                     </v-tab-item>
                 </v-tabs>

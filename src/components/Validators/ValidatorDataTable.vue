@@ -42,6 +42,7 @@
                 <div class="text-truncate" style="max-width: 100px;">{{item.id}}</div>
             </template>
             <template #item.stakeAmount="{item}">{{item.totalStakeAmount | AVAX}} AVAX</template>
+            <template #item.potentialReward="{item}">{{item.potentialReward | AVAX}}</template>
             <template #item.startTime="{item}">
                 <div class="text-right date no-pad-right">{{item.startTime.getTime() | date}}</div>
                 <div class="text-right time no-pad-right">{{item.startTime.getTime() | time}}</div>
@@ -239,11 +240,16 @@ export default class ValidatorDataTable extends Vue {
         return [
             { text: "Validator", value: "nodeID", width: 130 },
             { text: "Stake", value: this.stakeOrWeight, width: 130 },
+            { text: "Potential Reward", value: "potentialReward", width: 130 },
             { text: "Start", value: "startTime", align: "end", width: 80 },
             { text: "Completion", value: "elapsed", align: "center", width: 125 },
             { text: "End", value: "endTime", width: 80 },
             { text: "Duration", value: "duration", width: 85 },
-            // { text: "Payout Address", value: "address", width: 125 },
+            { text: "Payout Address", value: "rewardOwner.addresses[0]", width: 125 },
+            { text: "Delegation Fee", value: "delegationFee", width: 125 },
+            { text: "Connected", value: "connected", width: 125 },
+            { text: "Local Uptime", value: "uptime", width: 125 },
+
             // { text: "Delegators", value: "delegators", width: 100 },
             // { text: "", value: "expand", align: "end" },
         ];
@@ -309,34 +315,11 @@ export default class ValidatorDataTable extends Vue {
     margin-left: 1px;
 }
 
-.filter_count {
-    font-size: 12px;
-}
-
-h3 {
-    font-weight: 400;
-}
 .v-card__text {
     padding-top: 0;
     box-sizing: border-box;
     border-radius: 0 !important;
     padding-left: 16px;
-}
-
-.data_table_header {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-
-    h3 {
-        margin-bottom: 0;
-    }
-
-}
-
-.duration_toggle_container {
-    display: flex;
-    flex-direction: row-reverse;
 }
 
 .v-tab {

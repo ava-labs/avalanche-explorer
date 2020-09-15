@@ -409,6 +409,26 @@ input {
     }
 }
 
+.data_table_header {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    h3 {
+        margin-bottom: 0;
+        font-weight: 400;
+    }
+
+    .filter_count {
+        font-size: 12px;
+    }
+}
+
+.duration_toggle_container {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
 @include main.device_s {
     .view_all {
         width: 100%;

@@ -70,10 +70,6 @@ const platform_module: Module<IPlatformState, IRootState> = {
             });
 
             state.subnetsLoaded = true;
-
-            console.log("Primary Network:", state.subnets[AVALANCHE_SUBNET_ID]);
-            console.log("Subnet         :", state.subnets["2K8ooP9fbFA76vCujXPQbRAy1FKuFJP1vbj6iPNYtNCCQmHULK"]);
-            console.log("Subnet         :", state.subnets["PSP9dMyURieXhjE9xVpoTBhp2AXt3UfPknKnJAyTsax56dd35"]);
         },
 
         async updateCurrentSupply({state}){
