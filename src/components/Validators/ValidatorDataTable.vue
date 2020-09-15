@@ -41,7 +41,9 @@
             <template #item.id="{item}">
                 <div class="text-truncate" style="max-width: 100px;">{{item.id}}</div>
             </template>
-            <template #item.stakeAmount="{item}">{{item.totalStakeAmount | AVAX}} AVAX</template>
+            <template #item.stakeAmount="{item}">
+                {{item.totalStakeAmount | AVAX}} AVAX
+            </template>
             <template #item.potentialReward="{item}">{{item.potentialReward | AVAX}}</template>
             <template #item.startTime="{item}">
                 <div class="text-right date no-pad-right">{{item.startTime.getTime() | date}}</div>
@@ -198,7 +200,7 @@ import { scaleLinear } from "d3-scale";
     },
     filters: {
         AVAX(val: number) {
-            return toAVAX(val);
+            return toAVAX(val).toFixed(4).toLocaleString();
         },
         duration(val: number) {
             return moment.duration(val).humanize();
@@ -238,14 +240,14 @@ export default class ValidatorDataTable extends Vue {
 
     get headers(): any[] {
         return [
-            { text: "Validator", value: "nodeID", width: 130 },
-            { text: "Stake", value: this.stakeOrWeight, width: 130 },
-            { text: "Potential Reward", value: "potentialReward", width: 130 },
+            { text: "Validator", value: "nodeID", width: 400 },
+            { text: "Stake", value: this.stakeOrWeight, width: 250 },
+            { text: "Potential Reward", value: "potentialReward", width: 200 },
             { text: "Start", value: "startTime", align: "end", width: 80 },
             { text: "Completion", value: "elapsed", align: "center", width: 125 },
             { text: "End", value: "endTime", width: 80 },
             { text: "Duration", value: "duration", width: 85 },
-            { text: "Payout Address", value: "rewardOwner.addresses[0]", width: 125 },
+            { text: "Payout Address", value: "rewardOwner.addresses[0]", width: 400 },
             { text: "Delegation Fee", value: "delegationFee", width: 125 },
             { text: "Connected", value: "connected", width: 125 },
             { text: "Local Uptime", value: "uptime", width: 125 },

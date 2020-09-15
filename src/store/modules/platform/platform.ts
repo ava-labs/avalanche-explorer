@@ -54,8 +54,6 @@ const platform_module: Module<IPlatformState, IRootState> = {
             state.blockchains = (await platform.getBlockchains() as IBlockchainData[])
                 .map((b: IBlockchainData) => new Blockchain(b));
 
-            console.log("state.blockchains", state.blockchains);
-
             // Add P-Chain manually
             let pChain = new Blockchain({
                 name: BlockchainDict[AVALANCHE_SUBNET_ID],
