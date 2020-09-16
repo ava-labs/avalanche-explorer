@@ -66,7 +66,11 @@ const platform_module: Module<IPlatformState, IRootState> = {
             // Map blockchains to their subnet
             state.blockchains.forEach(b => {
                 let subnetID = b.subnetID;
-                state.subnets[subnetID].addBlockchain(b);
+                try {
+                    state.subnets[subnetID].addBlockchain(b);
+                } catch(err) {
+                    console.log(err);
+                } 
             });
 
             state.subnetsLoaded = true;
