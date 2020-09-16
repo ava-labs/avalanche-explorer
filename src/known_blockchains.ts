@@ -1,5 +1,12 @@
-const xChainID = process.env.VUE_APP_XCHAINID;
-const cChainID = process.env.VUE_APP_CCHAINID;
+const defaultNetworkID = parseInt(process.env.VUE_APP_DEFAULT_NETWORKID || "4");
+
+const xChainID = (defaultNetworkID === 0) 
+  ? process.env.VUE_APP_XCHAINID as string
+  : process.env.VUE_APP_TEST_XCHAINID as string;
+
+const cChainID = (defaultNetworkID === 0) 
+  ? process.env.VUE_APP_CCHAINID as string
+  : process.env.VUE_APP_TEST_CCHAINID as string;
 
 interface BlockchainDict {
   [key: string]: string
@@ -7,9 +14,10 @@ interface BlockchainDict {
 
 let dict: BlockchainDict = {
   "11111111111111111111111111111111LpoYY": "P-Chain",
-  xChainID: "X-Chain",
-  cChainID: "C-Chain"
 };
+
+dict[xChainID] = "X-Chain";
+dict[cChainID] = "C-Chain";
 
 interface URLMap {
   [key: string]: ClientMap
@@ -34,4 +42,3 @@ let prefixDict: URLMap = {
   }
 }
 export default dict;
-``

@@ -11,14 +11,16 @@ export default class Network {
     chainId:string;
     url: string;
     
-    explorerUrl:    string | undefined;
+    explorerUrl: string | undefined;
+    explorerFEUrl: string;
 
     constructor(
         name: string, 
         url: string, 
         networkId: number, 
         chainId: string, 
-        explorerUrl?: string
+        explorerUrl?: string,
+        explorerFEUrl?: string,
     ) {
         this.protocol = "http";
         this.ip="localhost";
@@ -33,6 +35,7 @@ export default class Network {
         this.updateURL(url);
                 
         this.explorerUrl = explorerUrl;
+        this.explorerFEUrl = explorerFEUrl || "";
     }
 
     public updateURL(url: string): void {

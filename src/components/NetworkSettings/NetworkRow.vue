@@ -58,25 +58,27 @@ export default class NetworkRow extends Vue {
 
     async select() {
         let net = this.network;
-        try {
-            let isSel = await this.$store.dispatch('Network/setNetwork', net);
+        window.location.href = net.explorerFEUrl;
+        
+        // try {
+        //     let isSel = await this.$store.dispatch('Network/setNetwork', net);
 
-            this.$store.dispatch('Notifications/add', {
-                title: "Network Connected",
-                message: "Connected to " + net.name,
-                type: "success"
-            }, { root: true });
+        //     this.$store.dispatch('Notifications/add', {
+        //         title: "Network Connected",
+        //         message: "Connected to " + net.name,
+        //         type: "success"
+        //     }, { root: true });
 
-            // @ts-ignore;
-            this.$parent.$parent.isActive = false;
-        } catch (e) {
-            this.$store.state.Network.selectedNetwork = null;
-            this.$store.dispatch('Notifications/add', {
-                title: "Connection Failed",
-                message: `Failed to connect ${net.name}`,
-                type: "error"
-            }, { root: true });
-        }
+        //     // @ts-ignore;
+        //     this.$parent.$parent.isActive = false;
+        // } catch (e) {
+        //     this.$store.state.Network.selectedNetwork = null;
+        //     this.$store.dispatch('Notifications/add', {
+        //         title: "Connection Failed",
+        //         message: `Failed to connect ${net.name}`,
+        //         type: "error"
+        //     }, { root: true });
+        // }
 
     }
 }
