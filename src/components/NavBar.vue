@@ -120,9 +120,14 @@ export default Vue.extend({
     }
 }
 
-.search_bar {
-    min-width: 375px;
-    width: 100%;
+.row {
+    width: 33%;
+    max-width: 600px;
+    
+    .search_bar {
+        width: 100%;
+    }
+
 }
 
 .rightside {
