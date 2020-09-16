@@ -87,17 +87,14 @@
         }
 
         get status(): string{
-            console.log("this.$store.state.Network.status", this.$store.state.Network.status);
             return this.$store.state.Network.status;
         }
         
         get activeNetwork(): Network | null {
-            console.log("this.$store.state.Network.selectedNetwork", this.$store.state.Network.selectedNetwork)
             return this.$store.state.Network.selectedNetwork;
         }
         
         get networks(): Network {
-            console.log("this.$store.state.Network.networks", this.$store.state.Network.networks)
             return this.$store.state.Network.networks;
         }
     }
