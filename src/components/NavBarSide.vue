@@ -29,7 +29,7 @@ export default class NavbarSide extends Vue {}
     padding-top: 0 !important;
     padding-bottom: 0 !important;
     min-width: 270px;
-    height: calc(100vh - main.$navbar_height_offset_l);
+    height: calc(100vh - #{main.$navbar_height_offset_l});
     background-color: main.$white;
     border-right: 1px solid main.$gray-light;
 }

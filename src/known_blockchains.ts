@@ -1,5 +1,3 @@
-import { faCommentsDollar } from '@fortawesome/free-solid-svg-icons';
-
 const defaultNetworkID = parseInt(process.env.VUE_APP_DEFAULT_NETWORKID || "4");
 
 const xChainID = (defaultNetworkID === 0) 
