@@ -7,6 +7,7 @@ import AddressDict from "@/known_addresses";
 import AssetDict from '@/known_assets';
 import Platform from "./modules/platform/platform";
 import Address from "./modules/address/address";
+import Network from './modules/network/network';
 import Notifications from "./modules/notifications/notifications";
 import { avm } from '@/avalanche';
 import { IAssetData_Ortelius, IAssetData_Avalanche_Go, ICollisionMap } from '@/js/IAsset';
@@ -21,7 +22,8 @@ export default new Vuex.Store({
     modules: {
         Platform,
         Address,
-        Notifications
+        Notifications,
+        Network,
     },
     state: {
         assets: {},

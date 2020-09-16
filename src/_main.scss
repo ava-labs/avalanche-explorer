@@ -1,59 +1,60 @@
-$max_width: 1800px;
+$max_width:             1800px;
 
-$width_xs: 600px;
-$width_s: 960px;
-$width_m: 1264px;
-$width_l: 1904px;
+$width_l:               1904px;
+$width_m:               1264px;
+$width_s:               960px;
+$width_xs:              600px;
 
-$container_padding_xs: 10px 10px;
-$container_padding_s: 12px 12px;
-$container_padding_m: 30px 8vw;
-$container_padding_l: 30px 18vw;
+$container_padding_l:   15px 18vw 0 15px;
+$container_padding_m:   15px 8vw 0 15px;
+$container_padding_s:   15px 0 15px;
+$container_padding_xs:  15px 10px 0 15px;
 
-@mixin device_xs {
-  @media only screen and (max-width: $width_xs) { @content; }
-}
-
-@mixin device_s {
-  @media only screen and (max-width: $width_s) { @content; }
-  // @media only screen and (min-width: $xs) and (max-width: $width_s) { @content; }
-}
-
-@mixin device_m {
-  @media only screen and (min-width: $width_s) and (max-width: $width_m) { @content; }
-}
-
-@mixin device_l {
-  @media only screen and (min-width: $width_m) and (max-width: $width_l) { @content; }
-}
+$navbar_height_offset_l: 100px;
 
 @mixin device_xl {
-  @media only screen and (min-width: $width_l) { @content; }
+  @media only screen and                           (min-width: $width_l) { @content; }
 }
+                          @mixin device_l {
+                            @media only screen and (max-width: $width_l) and (min-width: $width_m) { @content; }
+                          }
+                                                    @mixin device_m {
+                                                      @media only screen and (max-width: $width_m) and (min-width: $width_s) { @content; }
+                                                    }
+                                                                              @mixin device_s {
+                                                                                @media only screen and (max-width: $width_s) and (min-width: $width_xs) { @content; }
+                                                                              }
+                                                                                                        @mixin device_xs {
+                                                                                                          @media only screen and (max-width: $width_xs)                                 { @content; }
+                                                                                                        }
 
-$white: #fff;
 $black: #212121;
 $gray: #6e7479;
 $gray-input: #d6dae1;
 $gray-light: #e8e7ea;
-$gray-xlight:#f5f6fa;
+$gray-xlight: #f5f6fa;
+$white: #fff;
+
+$purple: #4c2e56;
+$purple-light: #867e89;
+$purple-xlight:#fcfbfe;
+
+$pink: #E84970;
+$pink-light: #FF8080;
+$pink-extra-light: #ffe6e6;
 
 $red: #e84142;
 $red-light: #c15656;
 $red-xlight: #ffe6e6;
-$orange: #ef8f4a;
 
-$purple: #4c2e56;
-$purple-light: #867e89;
-$purple-xlight: #fcfbfe;
-$pink: #E84970;
-$pink-light: #FF8080;
-$pink-extra-light: #ffe6e6;
 $blue: #2196f3; 
 $blue-light: #e6f5ff;
 
 $green: #42b983;
 $green-light: #e4fbef;
+
+$orange: #ef8f4a;
+
 $primary-color: $purple;
 $primary-color-light: $purple-light;
 $primary-color-xlight: $purple-xlight;

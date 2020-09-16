@@ -27,6 +27,7 @@
                 </v-list-item>
                 <template>
                     <v-list-item to="/">Home</v-list-item>
+                    <v-list-item to="/tx">Transactions</v-list-item>
                     <v-list-item to="/subnets">Subnets</v-list-item>
                     <v-list-item to="/validators">Validators</v-list-item>
                     <v-list-item to="/assets">Assets</v-list-item>

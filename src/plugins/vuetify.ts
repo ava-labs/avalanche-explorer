@@ -3,13 +3,13 @@ import Vuetify from 'vuetify';
 
 // Font Awesome
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faSearch, faSnowman, faSync, faInfoCircle, faBars, faTimes, faCheck, faCheckCircle, faExclamation, faCopy } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faSnowman, faSync, faInfoCircle, faBars, faTimes, faCheck, faCheckCircle, faExclamation, faCopy, faCog } from '@fortawesome/free-solid-svg-icons'
 
 import { faClock } from '@fortawesome/free-regular-svg-icons';
 import { faTwitter, faDiscord, faReddit } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faSearch, faTwitter, faDiscord, faReddit, faSnowman, faClock, faSync, faInfoCircle, faBars, faTimes, faCheck, faCheckCircle, faExclamation, faCopy);
+library.add(faSearch, faTwitter, faDiscord, faReddit, faSnowman, faClock, faSync, faInfoCircle, faBars, faTimes, faCheck, faCheckCircle, faExclamation, faCopy, faCog);
 Vue.component('fa', FontAwesomeIcon);
 
 Vue.use(Vuetify);
