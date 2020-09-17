@@ -275,7 +275,17 @@ export default {
         },
         // raw data
         dataX() {
-            return (!this.history) ? [] : this.history.intervals;
+            let rawData = (!this.history) ? [] : this.history.intervals;
+            // the last item in the data series will not constitute a full time intergral
+            // replace its data with a projection based on the series avg, if necessary ("sad")
+            if (rawData.length > 0) {
+                const average = (rawData.map(d => d.transactionCount).reduce((acc, c) => acc + c, 0) / rawData.length).toFixed(0);
+                const lastValue = rawData[rawData.length - 1].transactionCount;
+                if (lastValue < average) {
+                    rawData[rawData.length - 1].transactionCount = average;
+                }
+            }
+            return rawData;
         },
         // charted data
         valuesX() {
