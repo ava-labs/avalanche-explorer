@@ -5,7 +5,7 @@ import { avalanche } from "@/avalanche";
 import Network from "@/js/Network";
 import axios from "@/axios";
 
-const defaultNetworkID = parseInt(process.env.VUE_APP_DEFAULT_NETWORKID || "4");
+const DEFAULT_NETWORK_ID = parseInt(process.env.VUE_APP_DEFAULT_NETWORKID || "4");
 
 // Mainnet
 const networkName = process.env.VUE_APP_NETWORKNAME;
@@ -58,14 +58,14 @@ const network_module: Module<INetworkState, IRootState> = {
                 explorerFEUrl_test
             );
             
-            if (defaultNetworkID === 0) {
+            if (DEFAULT_NETWORK_ID === 0) {
                 await commit("addNetwork", mainnet);
             }
             await commit("addNetwork", testnet);
 
             // initialize selected network
             try {
-                let defaultNetwork = state.networks.find((network: Network) => network.networkId === defaultNetworkID);
+                let defaultNetwork = state.networks.find((network: Network) => network.networkId === DEFAULT_NETWORK_ID);
                 let res = await dispatch("setNetwork", defaultNetwork);
                 return true;
             } catch (e) {

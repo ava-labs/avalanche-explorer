@@ -1,6 +1,6 @@
-const defaultNetworkID = parseInt(process.env.VUE_APP_DEFAULT_NETWORKID || "4");
+const DEFAULT_NETWORK_ID = parseInt(process.env.VUE_APP_DEFAULT_NETWORKID || "4");
 
-const avaxFaucetID = (defaultNetworkID === 0) 
+const AVAX_FAUCET_ID = (DEFAULT_NETWORK_ID === 0) 
   ? process.env.VUE_APP_FAUCETADDRESS as string
   : process.env.VUE_APP_TEST_FAUCETADDRESS as string;
 
@@ -10,6 +10,6 @@ interface AddressDict {
 
 let dict: AddressDict = {};
 
-dict[avaxFaucetID] = "The AVAX Faucet";
+dict[AVAX_FAUCET_ID] = "The AVAX Faucet";
 
 export default dict;

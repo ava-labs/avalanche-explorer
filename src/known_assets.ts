@@ -1,6 +1,6 @@
-const defaultNetworkID = parseInt(process.env.VUE_APP_DEFAULT_NETWORKID || "4");
+const DEFAULT_NETWORK_ID = parseInt(process.env.VUE_APP_DEFAULT_NETWORKID || "4");
 
-const avaxID = (defaultNetworkID === 0) 
+const AVAX_ID = (DEFAULT_NETWORK_ID === 0) 
   ? process.env.VUE_APP_AVAXID as string
   : process.env.VUE_APP_TEST_AVAXID as string;
 
@@ -9,7 +9,7 @@ interface AssetDict {
 }
 
 let dict: AssetDict = {
-  "AVAX": avaxID
+  "AVAX": AVAX_ID
 };
 
 export default dict;
