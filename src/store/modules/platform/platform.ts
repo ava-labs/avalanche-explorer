@@ -14,6 +14,7 @@ import Blockchain from '@/js/Blockchain';
 
 export const AVALANCHE_SUBNET_ID = Object.keys(SubnetDict).find(key => SubnetDict[key] === "Primary Network") as string;
 export const X_CHAIN_ID = Object.keys(BlockchainDict).find(key => BlockchainDict[key] === "X-Chain") as string;
+export const TOTAL_AVAX_SUPPLY = Big(360000000);
 
 const platform_module: Module<IPlatformState, IRootState> = {
     namespaced: true,

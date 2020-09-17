@@ -28,7 +28,7 @@
                         <router-link :to="`/asset/${asset.id}`" class="asset_name">{{asset.name}}</router-link>
                         <span class="collision">{{collisionHash(asset)}}</span>
                     </div>
-                    <p class="metric">{{asset.txCount_day.toLocaleString()}}</p>
+                    <p class="metric metric_value">{{asset.txCount_day.toLocaleString()}}</p>
                     <!--TODO: normalize asset.volume_day -->
                 </div>
             </div>
@@ -174,8 +174,8 @@ export default class TopAssets extends Vue {
         padding-right: 0;
     }
 
-    .metric-value {
-        color: main.$green;
+    .metric_value {
+        font-size: 16px;
     }
 }
 

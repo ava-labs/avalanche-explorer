@@ -24,7 +24,7 @@ export default {
 
 .top_info {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1.25fr 1fr;
     column-gap: 15px;
     padding: 0;
     overflow: auto;
@@ -33,7 +33,7 @@ export default {
     overflow: visible;
 
     > div {
-        padding: 30px;
+        padding: 24px;
         overflow: auto;
     }
 

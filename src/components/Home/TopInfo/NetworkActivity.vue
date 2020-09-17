@@ -6,7 +6,7 @@
                 <TooltipHeading content="Key Avalanche stats"></TooltipHeading>
             </h2>
         </div>
-        <section class="stats">
+        <section class="stats one-column">
             <article class="meta">
                 <router-link class="stat" to="/tx">
                     <p class="label">
@@ -18,11 +18,11 @@
                     <div v-if="assetsLoaded">
                         <p class="meta_val">
                             {{totalTransactions.toLocaleString()}}
-                            <span class="unit">({{tpmText}} TPM)</span>
+                            <span class="unit">{{tpmText}} TPM</span>
                         </p>
                     </div>
                     <div v-else>
-                        <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
+                        <v-progress-circular :size="16" :width="2" color="#fcfbfe" indeterminate key="1"></v-progress-circular>
                     </div>
                 </router-link>
             </article>
@@ -42,10 +42,12 @@
                         <!--<p class="change">+ 24%</p>-->
                     </div>
                     <div v-else>
-                        <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
+                        <v-progress-circular :size="16" :width="2" color="#fcfbfe" indeterminate key="1"></v-progress-circular>
                     </div>
                 </router-link>
             </article>
+        </section>
+        <section class="stats two-column">
             <article class="meta">
                 <router-link class="stat" to="/validators">
                     <p class="label">
@@ -59,7 +61,7 @@
                         <!--<p class="change">+ 24%</p>-->
                     </div>
                     <div v-else>
-                        <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
+                        <v-progress-circular :size="16" :width="2" color="#fcfbfe" indeterminate key="1"></v-progress-circular>
                     </div>
                 </router-link>
             </article>
@@ -78,7 +80,7 @@
                         </p>
                     </div>
                     <div v-else>
-                        <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
+                        <v-progress-circular :size="16" :width="2" color="#fcfbfe" indeterminate key="1"></v-progress-circular>
                     </div>
                 </router-link>
             </article>
@@ -96,7 +98,7 @@
                         </p>
                     </div>
                     <div v-else>
-                        <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
+                        <v-progress-circular :size="16" :width="2" color="#fcfbfe" indeterminate key="1"></v-progress-circular>
                     </div>
                 </router-link>
             </article>
@@ -114,7 +116,40 @@
                         </p>
                     </div>
                     <div v-else>
-                        <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
+                        <v-progress-circular :size="16" :width="2" color="#fcfbfe" indeterminate key="1"></v-progress-circular>
+                    </div>
+                </router-link>
+            </article>
+            <article class="meta">
+                <router-link class="stat" to="/subnets">
+                    <p class="label">
+                        Staking Ratio
+                        <TooltipMeta
+                            content="Percentage of AVAX locked to secure Avalanche out of total AVAX supply (350m)"
+                        ></TooltipMeta>
+                    </p>
+                    <div v-if="subnetsLoaded">
+                        <p class="meta_val">
+                            {{percentStaked}} %
+                        </p>
+                    </div>
+                    <div v-else>
+                        <v-progress-circular :size="16" :width="2" color="#fcfbfe" indeterminate key="1"></v-progress-circular>
+                    </div>
+                </router-link>
+            </article>
+            <article class="meta">
+                <router-link class="stat" to="/subnets">
+                    <p class="label">
+                        Annual Staking Reward
+                    </p>
+                    <div v-if="subnetsLoaded">
+                        <p class="meta_val">
+                            TBD
+                        </p>
+                    </div>
+                    <div v-else>
+                        <v-progress-circular :size="16" :width="2" color="#fcfbfe" indeterminate key="1"></v-progress-circular>
                     </div>
                 </router-link>
             </article>
@@ -126,12 +161,13 @@ import "reflect-metadata";
 import { Vue, Component, Watch } from "vue-property-decorator";
 
 import axios from "@/axios";
-import { stringToBig } from "@/helper";
+import { stringToBig, bigToDenomBig } from "@/helper";
 import TooltipHeading from "../../misc/TooltipHeading.vue";
 import TooltipMeta from "../TopInfo/TooltipMeta.vue";
 import { AVAX_ID } from "@/store/index";
 import { Asset } from '@/js/Asset';
 import Big from "big.js";
+import { TOTAL_AVAX_SUPPLY } from "@/store/modules/platform/platform";
 
 @Component({
     components: {
@@ -262,6 +298,13 @@ export default class NetworkActivity extends Vue {
     get totalSubnets(): number {
         return Object.keys(this.$store.state.Platform.subnets).length;
     }
+
+    get percentStaked(): string {
+        let totalStake = this.$store.getters["Platform/totalStake"];
+        totalStake = bigToDenomBig(totalStake, 9);        
+        let percentStaked = (totalStake.div(TOTAL_AVAX_SUPPLY)).times(100);
+        return percentStaked.toFixed(2);
+    }
 }
 
 </script>
@@ -279,11 +322,37 @@ export default class NetworkActivity extends Vue {
     color: main.$white
 }
 
+.one-column {
+    grid-template-columns: 1fr;
+    row-gap: 45px;
+    margin-bottom: 45px;
+
+    .meta {
+        .meta_val {
+            padding-top: 10px;
+            font-size: 36px;
+
+            .unit {
+                font-size: 20px !important;
+            }
+        }
+    }
+}
+
+.two-column {
+    grid-template-columns: minmax(0, .75fr) minmax(0, 1fr);
+    row-gap: 45px;
+    column-gap: 30px;    
+    
+    .meta {
+        .meta_val {
+            font-size: 20px;
+        }
+    }
+}
+
 .stats {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    row-gap: 45px;
-    column-gap: 30px;
     padding: 4px 0 0;
     flex-wrap: wrap;
     overflow: auto;
@@ -298,6 +367,9 @@ export default class NetworkActivity extends Vue {
         font-weight: 700;
         
         .stat {
+            display: flex;
+            flex-direction: column;
+
             &:hover {
                 text-decoration: none !important;
                 opacity: 0.7;
@@ -309,7 +381,7 @@ export default class NetworkActivity extends Vue {
         }
 
         p {
-            padding: 2px 4px;
+            padding: 2px 0;
             font-weight: 400; /* 700 */
         }
 
@@ -318,23 +390,26 @@ export default class NetworkActivity extends Vue {
             color: main.$white;
             font-size: 12px;
             font-weight: 700;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
+            padding-left: 3px;
         }
 
         .meta_val {
-            font-size: 18px;
-            line-height: 1em;
+            font-weight: 300;
             color: main.$white;
-
+            line-height: 1em;
+             
             .unit {
+                font-family: "Rubik", sans-serif;
                 font-size: 12px;
-                opacity: 0.7;
+                opacity: 0.7;    
             }
         }
 
         .change {
-            background-color: main.$green-light;
+            font-family: "Rubik", sans-serif;
             color: main.$green !important;
+            background-color: main.$green-light;
             padding: 2px 4px;
             border-radius: 2px;
             flex-grow: 0 !important;
@@ -365,8 +440,28 @@ export default class NetworkActivity extends Vue {
     .stats {
         grid-template-columns: none;
 
-        img {
-            display: none;
+        .one-column {
+            grid-template-columns: 1fr;
+            row-gap: 45px;
+            margin-bottom: 45px;
+
+            .meta {
+                .meta_val {
+                    font-size: 20px;
+
+                    .unit {
+                        font-size: 14px !important;
+                    }
+                }
+            }
+        }
+
+        .two-column { 
+            .meta {
+                .meta_val {
+                    font-size: 20px;
+                }
+            }
         }
 
         .stat {

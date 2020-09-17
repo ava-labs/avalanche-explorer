@@ -126,9 +126,10 @@ export default class OutputUtxo extends Vue {
     color: main.$secondary-color;
     font-weight: 400;
     letter-spacing: 0.1em;
-    font-size: 11px;
+    font-size: 16px;
 
     span {
+        font-size: 12px;
         font-weight: 700;
     }
 }

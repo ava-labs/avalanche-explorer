@@ -55,7 +55,7 @@ import { ITransaction } from '@/js/ITransaction';
 })
 export default class RecentTransactions extends Vue {
     loading: boolean = false;
-    txNum: number = 10;
+    txNum: number = 25;
     poller: number = 0;
        
     created() {

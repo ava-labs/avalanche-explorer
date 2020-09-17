@@ -73,6 +73,7 @@ export default class TransactionResult extends Vue {
     color: main.$primary-color;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-weight: 700;
 }
 
 .ago {

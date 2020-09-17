@@ -15,7 +15,7 @@ function toAVAX(nAVAX: string | number): number {
         nAVAX / Math.pow(10, 9);
 }
 
-function bigToDenomString(val: Big, denomination = 0) {
+function bigToDenomBig(val: Big, denomination = 0): Big {
     return val.div(Math.pow(10, denomination));
 }
 
@@ -97,7 +97,7 @@ function trimmedLocaleString(amount: Big, denomination: number = 0, normalize: b
 export {
     toAVAX,
     stringToBig,
-    bigToDenomString,
+    bigToDenomBig,
     addressMap,
     subnetMap,
     blockchainMap,

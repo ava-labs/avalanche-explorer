@@ -147,6 +147,7 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
 
 /* ==========================================
    typography
@@ -184,6 +185,10 @@ p {
 .v-application .primary--text {
     color: main.$primary-color !important;
     caret-color: main.$primary-color !important;
+}
+
+.numeral {
+    font-family: "Major Mono Display", sans-serif;
 }
 
 /* ==========================================

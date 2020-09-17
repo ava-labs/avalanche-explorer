@@ -129,7 +129,7 @@ import {
     OutputValuesDict,
     outValuesDenominated
 } from "../js/ITransaction";
-import { bigToDenomString, stringToBig } from "../helper";
+import { stringToBig } from "../helper";
 import Big from "big.js";
 import moment from "moment";
 import Tooltip from "@/components/rows/Tooltip.vue";
