@@ -121,8 +121,8 @@
 import "reflect-metadata";
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import CopyText from "@/components/misc/CopyText.vue";
-import Loader from "../components/misc/Loader.vue";
-import UtxoRow from "../components/Transaction/UtxoRow.vue";
+import Loader from "@/components/misc/Loader.vue";
+import UtxoRow from "@/components/Transaction/UtxoRow.vue";
 import { Transaction } from "../js/Transaction";
 import {
     ITransactionOutput,
@@ -132,7 +132,7 @@ import {
 import { bigToDenomString, stringToBig } from "../helper";
 import Big from "big.js";
 import moment from "moment";
-import Tooltip from "../components/rows/Tooltip.vue";
+import Tooltip from "@/components/rows/Tooltip.vue";
 
 @Component({
     components: {
@@ -180,7 +180,7 @@ export default class TransactionDetailCard extends Vue {
     }
 
     get isMemo(): boolean {
-        return (this.tx.memo === "") ? false : true;
+        return (this.tx.memo === "" || null) ? false : true;
     }
 
     get txId(): string {

@@ -28,7 +28,7 @@ export default class NavbarSide extends Vue {}
     margin-top: main.$navbar_height_offset_l;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
-    min-width: 270px;
+    min-width: 240px;
     height: 100%;
     background-color: main.$white;
     border-right: 1px solid main.$gray-light;
@@ -37,4 +37,31 @@ export default class NavbarSide extends Vue {}
         text-decoration: none !important;
     }
 }
+
+.v-list--nav {
+    padding: 15px 0;
+}
+
+.v-list--nav .v-list-item {
+    padding: 0 24px;
+    color: main.$primary-color;
+}
+
+.v-list--nav .v-list-item, 
+.v-list--nav .v-list-item:before {
+    border-radius: 0;
+}
+
+.v-list-item--active::before {
+    background-color: main.$primary-color-light !important;
+}
+
+.theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
+    color: main.$primary-color-light !important;
+}
+</style>
+
+<style lang="scss">
+@use "../main";
+.navbar_side {}
 </style>

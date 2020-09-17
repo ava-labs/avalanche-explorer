@@ -16,7 +16,7 @@
 <script lang="ts">
 import "reflect-metadata";
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
-import Loader from "../components/misc/Loader.vue";
+import Loader from "@/components/misc/Loader.vue";
 import api from "../axios";
 import Blockchain from "@/js/Blockchain";
 import BlockchainDetailCard from "@/components/Blockchain/BlockchainDetailCard.vue";

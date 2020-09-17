@@ -1,5 +1,5 @@
 <template>
-    <v-footer color="#000">
+    <v-footer color="#4c2e56">
         <div class="powered_by">
             <div class="header">
                 <img src="@/assets/ava_logo_white.png" />
@@ -41,6 +41,8 @@ export default {};
 <style scoped lang="scss">
 @use "../main";
 .v-footer {
+    margin: 60px 0 0 -15px;
+    padding-top: 30px;
     padding-bottom: 0px !important;
     color: main.$white !important;
     align-items: flex-start;
@@ -49,6 +51,11 @@ export default {};
     column-gap: 60px;
 }
 .powered_by {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
     .header {
         display: flex;
         align-items: center;

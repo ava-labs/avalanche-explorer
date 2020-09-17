@@ -72,12 +72,12 @@
 <script lang="ts">
 import "reflect-metadata";
 import { Vue, Component } from "vue-property-decorator";
-import ValidatorRow from "../components/rows/ValidatorRow/ValidatorRow.vue";
-import ValidatorPaginationControls from "../components/misc/ValidatorPaginationControls.vue";
+import ValidatorRow from "@/components/rows/ValidatorRow/ValidatorRow.vue";
+import ValidatorPaginationControls from "@/components/misc/ValidatorPaginationControls.vue";
 import { AVALANCHE_SUBNET_ID } from "@/store/modules/platform/platform";
-import Tooltip from "../components/rows/Tooltip.vue";
-import TooltipHeading from "../components/misc/TooltipHeading.vue";
-import TooltipMeta from "../components/misc/TooltipMeta.vue";
+import Tooltip from "@/components/rows/Tooltip.vue";
+import TooltipHeading from "@/components/misc/TooltipHeading.vue";
+import TooltipMeta from "@/components/misc/TooltipMeta.vue";
 import Metadata from "@/components/Validators/Metadata.vue";
 import { IValidator } from "@/store/modules/platform/IValidator";
 

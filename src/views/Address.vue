@@ -77,12 +77,12 @@
 <script lang="ts">
 import "reflect-metadata";
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
-import Loader from "../components/misc/Loader.vue";
-import Tooltip from "../components/rows/Tooltip.vue";
-import Metadata from "../components/Address/Metadata.vue";
+import Loader from "@/components/misc/Loader.vue";
+import Tooltip from "@/components/rows/Tooltip.vue";
+import Metadata from "@/components/Address/Metadata.vue";
 import TxHeader from "@/components/rows/TxRow/TxHeader.vue";
-import TxRow from "../components/rows/TxRow/TxRow.vue";
-import PaginationControls from "../components/misc/PaginationControls.vue";
+import TxRow from "@/components/rows/TxRow/TxRow.vue";
+import PaginationControls from "@/components/misc/PaginationControls.vue";
 import api from "../axios";
 import Big from "big.js";
 import { stringToBig, blockchainMap, trimmedLocaleString } from "@/helper";

@@ -1,5 +1,5 @@
 <template>
-    <div class="tx_history">
+    <div class="tx_history card">
         <div class="header">
             <h2>
                 Transaction History
@@ -400,7 +400,7 @@ export default {
 }
 
 .header {
-    padding-bottom: 20px;
+    padding-bottom: 30px;
 }
 
 .history_cont {

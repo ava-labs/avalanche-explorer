@@ -1,7 +1,8 @@
 <template>
     <div class="home">
-        <top-info class="card"></top-info>
+        <top-info></top-info>
         <recent-transactions class="card recent_tx"></recent-transactions>
+        <!-- <Footer class="footer"></Footer> -->
     </div>
 </template>
 
@@ -9,11 +10,13 @@
 import { Vue, Component } from "vue-property-decorator";
 import TopInfo from "@/components/Home/TopInfo/TopInfo.vue";
 import RecentTransactions from "@/components/Home/RecentTransactions.vue";
+// import Footer from "@/components/Footer.vue";
 
 @Component({
     components: {
         TopInfo,
-        RecentTransactions
+        RecentTransactions,
+        // Footer
     }
 })
 export default class Home extends Vue {}
@@ -24,7 +27,6 @@ export default class Home extends Vue {}
 
 .home {
     margin: 0px auto;
-    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;

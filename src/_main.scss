@@ -10,7 +10,7 @@ $container_padding_m:   15px 8vw 0 15px;
 $container_padding_s:   15px 0 15px;
 $container_padding_xs:  15px 10px 0 15px;
 
-$navbar_height_offset_l: 100px;
+$navbar_height_offset_l: 76px;
 
 @mixin device_xl {
   @media only screen and                           (min-width: $width_l) { @content; }
@@ -33,6 +33,7 @@ $gray: #6e7479;
 $gray-input: #d6dae1;
 $gray-light: #e8e7ea;
 $gray-xlight: #f5f6fa;
+$momo: rgb(245, 246, 250);
 $white: #fff;
 
 $purple: #4c2e56;

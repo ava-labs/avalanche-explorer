@@ -36,10 +36,10 @@
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 import api from "@/axios";
-import Tooltip from "../components/rows/Tooltip.vue";
+import Tooltip from "@/components/rows/Tooltip.vue";
 import TxHeader from "@/components/rows/TxRow/TxHeader.vue";
-import TxRow from "../components/rows/TxRow/TxRow.vue";
-import PaginationControls from "../components/misc/PaginationControls.vue";
+import TxRow from "@/components/rows/TxRow/TxRow.vue";
+import PaginationControls from "@/components/misc/PaginationControls.vue";
 import { Transaction } from '@/js/Transaction';
 
 @Component({

@@ -53,13 +53,13 @@
 <script lang="ts">
 import "reflect-metadata";
 import { Vue, Component, Watch } from "vue-property-decorator";
-import Loader from "../components/misc/Loader.vue";
-import Metadata from "../components/Asset/Metadata.vue";
-import TransactionDetailCard from "../components/TransactionDetailCard.vue";
-import PaginationControls from "../components/misc/PaginationControls.vue";
-import Tooltip from "../components/rows/Tooltip.vue";
+import Loader from "@/components/misc/Loader.vue";
+import Metadata from "@/components/Asset/Metadata.vue";
+import TransactionDetailCard from "@/components/TransactionDetailCard.vue";
+import PaginationControls from "@/components/misc/PaginationControls.vue";
+import Tooltip from "@/components/rows/Tooltip.vue";
 import TxHeader from "@/components/rows/TxRow/TxHeader.vue";
-import TxRow from "../components/rows/TxRow/TxRow.vue";
+import TxRow from "@/components/rows/TxRow/TxRow.vue";
 import { Transaction } from "../js/Transaction";
 import { Asset } from "@/js/Asset";
 import api from "../axios";

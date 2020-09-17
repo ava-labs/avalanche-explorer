@@ -24,15 +24,17 @@ export default {
 
 .top_info {
     display: grid;
-    grid-template-columns: 33% 33% 33%;
-    padding: 30px 0;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 15px;
+    padding: 0;
     overflow: auto;
     width: 100%;
+    background: transparent;
+    overflow: visible;
 
     > div {
-        padding: 0px 30px;
+        padding: 30px;
         overflow: auto;
-        border-right: 1px solid #c4c4c455;
     }
 
     > div:last-of-type {
@@ -58,18 +60,17 @@ export default {
             padding: 30px;
             margin-bottom: 10px;
             border: none;
-            /* border-bottom: 1px solid #c4c4c455; */
         }
     }
 }
 
 @include main.device_xs {
     .top_info {
+        grid-template-columns: 1fr;
         background-color: #f8f8f8;
         
         > div {
             padding: 30px 15px;
-            /* box-shadow: main.$box-shadow; */
             background-color: main.$white;
         }
     }

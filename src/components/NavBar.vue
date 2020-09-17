@@ -1,8 +1,8 @@
 <template>
-    <v-app-bar div="navbar" app dark flat dense :height="100" :style="{backgroundColor: navColor}">
+    <v-app-bar div="navbar" app dark flat dense :height="76" :style="{backgroundColor: navColor}">
         <div class="logo">
             <router-link to="/">
-                <img style="width: 200px" src="@/assets/explorer_logo_light.png" />
+                <img style="height: 31px" src="@/assets/explorer_logo_light.png" />
             </router-link>
         </div>
         <v-spacer class="spacer_mid"></v-spacer>

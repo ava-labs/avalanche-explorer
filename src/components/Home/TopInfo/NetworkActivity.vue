@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="network_statistics" class="card">
         <div class="header">
             <h2 class="meta_title">
                 Avalanche Network Activity
@@ -268,14 +268,21 @@ export default class NetworkActivity extends Vue {
 <style scoped lang="scss">
 @use "../../../main";
 
+#network_statistics {
+    background-color: main.$primary-color;
+}
 .header {
-    padding-bottom: 20px;
+    padding-bottom: 30px;
+}
+
+.meta_title {
+    color: main.$white
 }
 
 .stats {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    row-gap: 30px;
+    row-gap: 45px;
     column-gap: 30px;
     padding: 4px 0 0;
     flex-wrap: wrap;
@@ -308,7 +315,7 @@ export default class NetworkActivity extends Vue {
 
         .label {
             text-transform: capitalize;
-            color: main.$primary-color;
+            color: main.$white;
             font-size: 12px;
             font-weight: 700;
             margin-bottom: 4px;
@@ -317,6 +324,7 @@ export default class NetworkActivity extends Vue {
         .meta_val {
             font-size: 18px;
             line-height: 1em;
+            color: main.$white;
 
             .unit {
                 font-size: 12px;

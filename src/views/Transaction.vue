@@ -23,8 +23,8 @@
 import "reflect-metadata";
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import CopyText from "@/components/misc/CopyText.vue";
-import Loader from "../components/misc/Loader.vue";
-import TransactionDetailCard from "../components/TransactionDetailCard.vue";
+import Loader from "@/components/misc/Loader.vue";
+import TransactionDetailCard from "@/components/TransactionDetailCard.vue";
 import { Transaction } from "../js/Transaction";
 import api from "../axios";
 

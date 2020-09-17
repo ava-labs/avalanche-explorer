@@ -21,8 +21,8 @@
 import "reflect-metadata";
 import { Vue, Component, Watch } from "vue-property-decorator";
 import api from "@/axios";
-import ResultRow from "../components/Search/ResultRow.vue";
-import AddressRow from "../components/rows/AddressRow.vue";
+import ResultRow from "@/components/Search/ResultRow.vue";
+import AddressRow from "@/components/rows/AddressRow.vue";
 
 @Component({
     components: {

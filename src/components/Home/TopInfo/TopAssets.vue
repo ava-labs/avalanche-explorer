@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="card">
         <div class="header">
             <h2>
                 Top Assets
@@ -8,27 +8,29 @@
                 ></TooltipHeading>
             </h2>
         </div>
-        <div v-if="!assetAggregatesLoaded">
+        <div class="table_spinner_container" v-if="!assetAggregatesLoaded">
             <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
         </div>
         <div v-else>
-            <div class="asset column_headers">
-                <p v-if="$vuetify.breakpoint.smAndUp"></p>
-                <p class="name">
-                    Name <Tooltip content="Name for the asset"></Tooltip>
-                </p>
-                <p class="metric">
-                    <Tooltip content="Total number of transactions for the asset"></Tooltip>Txs (24h)
-                </p>
-            </div>
-            <div class="asset" v-for="(asset) in assets" :key="asset.id">
-                <div v-if="$vuetify.breakpoint.smAndUp"><span class="symbol">{{asset.symbol}}</span></div>
-                <div class="name name_value">
-                    <router-link :to="`/asset/${asset.id}`" class="asset_name">{{asset.name}}</router-link>
-                    <span class="collision">{{collisionHash(asset)}}</span>
+            <div class="table">
+                <div class="asset column_headers">
+                    <p v-if="$vuetify.breakpoint.smAndUp"></p>
+                    <p class="name">
+                        Name <Tooltip content="Name for the asset"></Tooltip>
+                    </p>
+                    <p class="metric">
+                        <Tooltip content="Total number of transactions for the asset"></Tooltip>Txs (24h)
+                    </p>
                 </div>
-                <p class="metric">{{asset.txCount_day.toLocaleString()}}</p>
-                <!--TODO: normalize asset.volume_day -->
+                <div class="asset" v-for="(asset) in assets" :key="asset.id">
+                    <div v-if="$vuetify.breakpoint.smAndUp"><span class="symbol">{{asset.symbol}}</span></div>
+                    <div class="name name_value">
+                        <router-link :to="`/asset/${asset.id}`" class="asset_name">{{asset.name}}</router-link>
+                        <span class="collision">{{collisionHash(asset)}}</span>
+                    </div>
+                    <p class="metric">{{asset.txCount_day.toLocaleString()}}</p>
+                    <!--TODO: normalize asset.volume_day -->
+                </div>
             </div>
             <div class="bottom" >
                 <router-link to="/assets" class="view_all">View All Assets</router-link>
@@ -65,7 +67,7 @@ export default class TopAssets extends Vue {
         res = res.filter((asset: Asset) => asset.id !== AVAX_ID);
         res.sort((a: Asset, b: Asset) => b.txCount_day - a.txCount_day);
         res.unshift(avax);
-        return res.slice(0, 5);
+        return res.slice(0, 10);
     }
 
     get assetAggregatesLoaded(): boolean {
@@ -91,12 +93,20 @@ export default class TopAssets extends Vue {
 <style scoped lang="scss">
 @use "../../../main";
 
+.table_spinner_container {
+    min-height: 265px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .header {
-    padding-bottom: 20px;
+    padding-bottom: 30px;
 }
 
 .column_headers {
-    font-weight: 500;
+    font-weight: 700;
+    color: main.$primary-color;
     border-bottom: 1px solid main.$gray-light;
 }
 
@@ -127,9 +137,9 @@ export default class TopAssets extends Vue {
     }
 
     .asset_name {
-        font-size: 12px;
+        font-size: 16px;
         color: main.$primary-color !important;
-        font-weight: bold;
+        font-weight: 400;
     }
 
     .collision {
