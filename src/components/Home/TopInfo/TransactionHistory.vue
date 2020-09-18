@@ -22,7 +22,9 @@
                 <canvas ref="canv"></canvas>
             </div>
         </div>
-        <TransactionHistoryMeta v-show="aggregates !== null" :aggregates="aggregates"></TransactionHistoryMeta>
+        <template v-if="aggregates && !loading">
+            <TransactionHistoryMeta :aggregates="aggregates"></TransactionHistoryMeta>
+        </template>
     </div>
 </template>
 <script>
@@ -72,8 +74,6 @@ export default {
                     this.loading = false;
                     this.history = res.data;
                     this.aggregates = res.data.aggregates;
-                    console.log(this.aggregates);
-                    console.log("this.history", res.data);
                     this.draw();
                 });
         }, 
