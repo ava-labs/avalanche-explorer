@@ -137,13 +137,24 @@
 
     .network_body {
         position: fixed;
-        z-index: 2;
+        z-index: 10000;
         top: 31px;
         right: 16px;
         border-radius: 4px;
         background-color: #fff;
         box-shadow: 2px 2px 10px rgba(0,0,0,0.4);
+        font-size: 16px;
     }
+
+    @include main.device_l {
+        .network_body {
+            position: absolute;
+            z-index: 10000;
+            top: -11px;
+            right: -227px;
+        }
+    }
+
 
     .header {
         border-bottom: 1px solid main.$gray-light;

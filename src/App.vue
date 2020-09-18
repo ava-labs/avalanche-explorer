@@ -116,7 +116,7 @@ export default Vue.extend({
 @include main.device_l {
 
     .content {
-        padding-top: 160px !important;
+        padding-top: 131px !important;
     }
 
     .side_container {
@@ -182,6 +182,20 @@ export default Vue.extend({
 
     .footer {
         padding: main.$container_padding_xs;
+    }
+}
+
+@include main.device_l {
+    .v-tooltip__content {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+}
+
+@include main.device_m {
+    .v-tooltip__content {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
     }
 }
 </style>
@@ -513,20 +527,6 @@ input {
     font-size: 12px !important;
     line-height: 1.57em !important;
     padding: 8px 16px;
-}
-
-@include main.device_l {
-    .v-tooltip__content {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-    }
-}
-
-@include main.device_m {
-    .v-tooltip__content {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-    }
 }
 
 tbody {
