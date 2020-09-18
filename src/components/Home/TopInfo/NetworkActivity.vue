@@ -312,20 +312,23 @@ export default class NetworkActivity extends Vue {
 @use "../../../main";
 
 #network_statistics {
-    background-color: main.$primary-color;
+    background-color: main.$secondary-color-xlight;
+    color: main.$primary-color;
 }
 .header {
     padding-bottom: 30px;
 }
 
 .meta_title {
-    color: main.$white
+    /* color: main.$white */
 }
 
 .one-column {
     grid-template-columns: 1fr;
-    row-gap: 45px;
-    margin-bottom: 45px;
+    row-gap: 30px;
+    margin-bottom: 25px;
+    padding-bottom: 15px !important;
+    border-bottom: 1px solid main.$primary-color-xlight;
 
     .meta {
         .meta_val {
@@ -341,7 +344,7 @@ export default class NetworkActivity extends Vue {
 
 .two-column {
     grid-template-columns: minmax(0, .75fr) minmax(0, 1fr);
-    row-gap: 45px;
+    row-gap: 30px;
     column-gap: 30px;    
     
     .meta {
@@ -387,7 +390,7 @@ export default class NetworkActivity extends Vue {
 
         .label {
             text-transform: capitalize;
-            color: main.$white;
+            /* color: main.$white; */
             font-size: 12px;
             font-weight: 700;
             margin-bottom: 6px;
@@ -396,7 +399,7 @@ export default class NetworkActivity extends Vue {
 
         .meta_val {
             font-weight: 300;
-            color: main.$white;
+            /* color: main.$white; */
             line-height: 1em;
              
             .unit {

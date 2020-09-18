@@ -163,7 +163,7 @@ export default class RecentTransactions extends Vue {
 .bottom {
     display: flex;
     flex-flow: row-reverse;
-    margin-top: 30px;
+    margin-top: 15px;
 }
 
 .fade-enter-active,

@@ -1,5 +1,5 @@
 <template>
-    <v-card id="validator_data_table">
+    <div id="validator_data_table">
         <v-card-title>
             <div class="data_table_header">
                 <!-- 1 -->
@@ -98,7 +98,7 @@
                 {{(item.endTime - item.startTime) | duration}}
             </template>
         </v-data-table>
-    </v-card>
+    </div>
 </template>
 
 <script lang="ts">

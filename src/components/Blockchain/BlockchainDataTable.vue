@@ -1,5 +1,5 @@
 <template>
-    <v-card id="blockchain_data_table">
+    <div id="blockchain_data_table">
         <v-card-title v-if="title">
             {{title}}
             <v-spacer></v-spacer>
@@ -28,7 +28,7 @@
                 </div>
             </template>
         </v-data-table>
-    </v-card>
+    </div>
 </template>
 
 <script lang="ts">

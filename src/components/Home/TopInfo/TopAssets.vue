@@ -105,6 +105,7 @@ export default class TopAssets extends Vue {
 }
 
 .column_headers {
+    font-size: 12px;
     font-weight: 700;
     color: main.$primary-color;
     border-bottom: 1px solid main.$gray-light;
@@ -112,11 +113,16 @@ export default class TopAssets extends Vue {
 
 .asset {
     display: grid;
-    grid-template-columns: 35px 1fr 100px;
+    grid-template-columns: 46px 1fr 100px;
     column-gap: 10px;
-    margin-bottom: 8px;
+    padding: 4px 0 4px;
     font-size: 12px;
     overflow: auto;
+
+    &:nth-child(6),
+    &:nth-child(11) {
+        border-bottom: 1px solid main.$gray-light;
+    }
 
     > * {
         align-self: center;
@@ -134,6 +140,8 @@ export default class TopAssets extends Vue {
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+        display: inline-block;
+        margin-top: 1px;
     }
 
     .asset_name {
@@ -146,6 +154,7 @@ export default class TopAssets extends Vue {
         padding-left: 8px;
         font-size: .75em;
         color: main.$primary-color-light;
+        font-weight: 400;
 
         :hover {
             text-decoration: none !important;
@@ -157,11 +166,11 @@ export default class TopAssets extends Vue {
         color: main.$secondary-color;
         background-color: main.$secondary-color-xlight;
         min-height: 1em;
-        min-width: 20px;
+        min-width: 38px;
         text-align: center;
         margin: 0;
-        padding: 3px 4px;
-        font-size: 9px;
+        padding: 4px 4px;
+        font-size: 12px;
         border-radius: 3px;
         display: inline-block;
         vertical-align: middle;
@@ -172,6 +181,7 @@ export default class TopAssets extends Vue {
         text-align: right;
         width: 100%;
         padding-right: 0;
+        color: main.$primary-color;
     }
 
     .metric_value {
@@ -183,7 +193,7 @@ export default class TopAssets extends Vue {
     display: flex;
     flex-flow: row-reverse;
     justify-content: center;
-    margin-top: 30px;
+    margin-top: 15px;
 }
 
 @include main.device_s {

@@ -131,17 +131,18 @@ export default class Metadata extends Vue {
         .label {
             text-transform: capitalize;
             color: main.$primary-color;
-            font-size: 14px;
-            font-weight: 500;
+            font-size: 12px;
+            font-weight: 700;
             margin-bottom: 6px;
         }
 
         .meta_val {
-            font-size: 32px;
+            font-size: 36px;
             line-height: 1em;
+            font-weight: 300;
 
             .unit {
-                font-size: 14px;
+                font-size: 20px;
                 opacity: 0.7;
             }
         }

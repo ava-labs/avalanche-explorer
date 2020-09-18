@@ -22,6 +22,7 @@
                 <canvas ref="canv"></canvas>
             </div>
         </div>
+        <TransactionHistoryMeta v-show="aggregates !== null" :aggregates="aggregates"></TransactionHistoryMeta>
     </div>
 </template>
 <script>
@@ -29,6 +30,7 @@ import TooltipHeading from "../../misc/TooltipHeading.vue";
 import axios from "@/axios";
 import Chart from "chart.js";
 import moment from "moment";
+import TransactionHistoryMeta from "@/components/Home/TopInfo/TransactionHistoryMeta";
 
 export default {
     data() {
@@ -38,11 +40,13 @@ export default {
             scope: "day",
             history: null,
             chart: null,
-            loading: false
+            loading: false,
+            aggregates: null
         };
     },
     components: {
         TooltipHeading,
+        TransactionHistoryMeta,
     },
     methods: {
         setScope(val) {
@@ -67,6 +71,9 @@ export default {
                 .then(res => {
                     this.loading = false;
                     this.history = res.data;
+                    this.aggregates = res.data.aggregates;
+                    console.log(this.aggregates);
+                    console.log("this.history", res.data);
                     this.draw();
                 });
         }, 
@@ -329,7 +336,8 @@ export default {
             },
 
             options: {
-                maintainAspectRatio: false,
+                aspectRatio: 1.62,
+                maintainAspectRatio: true,
                 responsive: true,
                 title: {
                     display: false,

@@ -110,7 +110,6 @@
         display: flex;
         color: main.$primary-color-light;
         min-width: 140px;
-        margin-right: 30px;
 
         img {
             max-height: 24px;
