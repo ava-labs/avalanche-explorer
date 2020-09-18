@@ -10,7 +10,7 @@
                 <router-view class="router_view"></router-view>
             </v-content>
         </div>  
-        <responsive-guidelines></responsive-guidelines>
+        <!-- <responsive-guidelines></responsive-guidelines> -->
 
         <!-- <Footer class="footer"></Footer> -->
         <notifications></notifications>
@@ -24,7 +24,7 @@ import NavBarMobile from "@/components/NavBarMobile.vue";
 import NavBarOld from "@/components/NavBarOld.vue";
 import NavBarSide from "@/components/NavBarSide.vue";
 // import Footer from "@/components/Footer.vue";
-import ResponsiveGuidelines from "@/components/misc/ResponsiveGuidelines.vue";
+// import ResponsiveGuidelines from "@/components/misc/ResponsiveGuidelines.vue";
 import { IMetaTag } from "@/router/IMetaTag";
 import Notifications from "@/components/Notifications.vue";
 
@@ -35,7 +35,7 @@ export default Vue.extend({
         NavBarMobile,
         NavBarOld,
         NavBarSide,
-        ResponsiveGuidelines,
+        // ResponsiveGuidelines,
         // Footer,
         Notifications
     },
