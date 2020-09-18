@@ -185,6 +185,25 @@ export default class TxRow extends Vue {
 }
 
 @include main.xsOnly {
+    .tx_row {
+        padding: 8px;
+        grid-template-columns: none;
+        grid-template-rows: max-content max-content max-content max-content max-content;
+    }
+
+    .avatar {
+        display: none;
+    }
+
+    .id_col {
+        display: flex;
+        align-items: baseline;
+        height: 27px;
+        a {
+            flex-grow: 1;
+        }
+    }
+
     .id {
         margin-bottom: 4px;
     }

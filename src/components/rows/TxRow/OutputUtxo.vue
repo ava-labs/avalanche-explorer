@@ -138,5 +138,14 @@ export default class OutputUtxo extends Vue {
     .info_col {
         padding: 0 10px 0 0;
     }
+
+    .amount {
+        font-size: 12px;
+
+        span {
+            font-size: 12px;
+            font-weight: 700;
+        }
+    }
 }
 </style>

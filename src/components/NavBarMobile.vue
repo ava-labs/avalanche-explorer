@@ -4,11 +4,12 @@
         <div class="inner">
             <div class="logo">
                 <router-link to="/">
-                    <img style="height: 24px" src="@/assets/explorer_logo.png" />
-                    <h1><span class="hide">Avalanche Explorer</span><span class="subnet">AVAX (Private)</span></h1>
+                    <img style="height: 16px" src="@/assets/explorer_logo.png" />
+                    <h1><span class="hide">Avalanche Explorer</span></h1>
                 </router-link>
             </div>
-            <div>
+            <div class="buttons">
+                <NetworkMenu></NetworkMenu>
                 <v-btn @click="isSearch = !isSearch" icon class="search_btn">
                     <fa icon="search"></fa>
                 </v-btn>
@@ -56,10 +57,12 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import SearchBarMobile from "@/components/misc/SearchBar/SearchBarMobile.vue";
+import NetworkMenu from "./NetworkSettings/NetworkMenu.vue";
 
 @Component({
     components: {
-        SearchBarMobile
+        SearchBarMobile,
+        NetworkMenu
     }
 })
 export default class NavbarMobile extends Vue {
@@ -113,6 +116,10 @@ export default class NavbarMobile extends Vue {
     align-items: center;
 }
 
+.buttons {
+    display: flex;
+}
+
 .search_btn {
     padding-right: 15px;
 }
@@ -148,11 +155,11 @@ export default class NavbarMobile extends Vue {
             height: 1px;
             display: inline-block;
             overflow: hidden;
-            position: absolute!important;
-            border: 0!important;
-            padding: 0!important;
-            margin: 0!important;
-            clip: rect(1px,1px,1px,1px);
+            position: absolute !important;
+            border: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            clip: rect(1px, 1px, 1px, 1px);
         }
 
         .subnet {
