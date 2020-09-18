@@ -102,7 +102,7 @@ export default class Metadata extends Vue {
 @use"../../main";
 
 .metadata {
-    margin-bottom: 30px;
+    margin-bottom: 15px;
 
     .header {
         display: flex;

@@ -28,10 +28,9 @@ export default class NavbarSide extends Vue {}
     margin-top: main.$navbar_height_offset_l;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
-    min-width: 240px;
+    min-width: 200px;
     height: 100%;
     background-color: main.$white;
-    border-right: 1px solid main.$gray-light;
 
     a:hover {
         text-decoration: none !important;

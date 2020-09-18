@@ -60,7 +60,6 @@ export default Vue.extend({
     z-index: 10 !important;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
-    border-bottom: 1px solid main.$gray-light;
     > .v-toolbar__content {
         padding: 0;
     }

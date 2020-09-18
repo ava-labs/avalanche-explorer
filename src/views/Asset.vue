@@ -230,8 +230,8 @@ $symbol_w: 35px;
 
 .transactions {
     overflow: auto;
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin-top: 15px;
+    margin-bottom: 15px;
 
     .tx_rows {
         width: 100%;

@@ -14,7 +14,7 @@
         </article>
         <article class="meta_row">
             <p class="label">AVAX Balance</p>
-            <p class="symbol">{{avaxBalance.toLocaleString(this.assetsMap[AVAX].denomination)}} AVAX</p>
+            <!-- <p class="symbol">{{avaxBalance.toLocaleString(this.assetsMap[AVAX].denomination)}} AVAX</p> -->
         </article>
         <article class="meta_row">
             <p class="label">Transactions</p>
@@ -55,6 +55,7 @@ export default class Metadata extends Vue {
     } 
 
     get assetsMap(): any {
+        console.log(Object.keys(this.$store.state.assets));
         return this.$store.state.assets;
     }
 

@@ -99,7 +99,6 @@ export default class NetworkActivity extends Vue {
     .stats {
         grid-template-columns: 50% 50%;
         grid-template-rows: max-content;
-
     }
 }
 

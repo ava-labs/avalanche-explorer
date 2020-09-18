@@ -1,5 +1,14 @@
 <template>
     <div class="assets">
+        <!-- <wordcloud
+            v-if="assetsLoaded"
+            :data="assetNames"
+            nameKey="name"
+            valueKey="value"
+            :color="myColors"
+            :showTooltip="true"
+            :wordClick="wordClickHandler">
+        </wordcloud> -->
         <div class="card">
             <div class="header">
                 <h2>
@@ -63,13 +72,16 @@ import TooltipHeading from "@/components/misc/TooltipHeading.vue";
 import { Asset } from "@/js/Asset";
 import axios from "@/axios";
 import { IAssetData_Ortelius } from "../js/IAsset";
+//@ts-ignore
+import wordcloud from 'vue-wordcloud';
 
 @Component({
     components: {
         Tooltip,
         TooltipHeading,
         AssetRow,
-        AssetsDataTable
+        AssetsDataTable,
+        wordcloud
     },
     filters: {
         pluralize(val:number) {
@@ -82,6 +94,14 @@ import { IAssetData_Ortelius } from "../js/IAsset";
     }
 })
 export default class AssetsPage extends Vue {
+    myColors: string[] = ['#1f77b4', '#629fc9', '#94bedb', '#c9e0ef'];
+    
+    //@ts-ignore
+    wordClickHandler(name, value, vm) {
+      console.log('wordClickHandler', name, value, vm);
+
+    }
+
     get assets(): Asset[] {
         let res: Asset[] = this.$store.getters.assetsArrayNonProfane;
         let avax: Asset = res.find((asset: Asset) => asset.id === "nznftJBicce1PfWQeNEVBmDyweZZ6zcM3p78z9Hy9Hhdhfaxm") as Asset;
@@ -93,6 +113,16 @@ export default class AssetsPage extends Vue {
 
     get assetsLoaded(): boolean {
         return this.$store.state.assetsLoaded;
+    }
+
+    get assetNames(): any[] {
+        return this.assets.map((asset:Asset) => {
+            return {
+                name: asset.name, 
+                value: 1,
+                // value: asset.currentSupply.toFixed(0)
+            }
+        });
     }
 }
 </script>
