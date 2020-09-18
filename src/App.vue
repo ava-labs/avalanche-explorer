@@ -1,7 +1,8 @@
 <template>
     <v-app class="butt">
-        <nav-bar class="navbar" v-if="$vuetify.breakpoint.mdAndUp"></nav-bar>
         <nav-bar-mobile v-if="$vuetify.breakpoint.smAndDown"></nav-bar-mobile>
+        <NavBarOld class="navbarold" v-if="$vuetify.breakpoint.mdAndUp && $vuetify.breakpoint.lgAndDown"></NavBarOld>
+        <nav-bar class="navbar" v-if="$vuetify.breakpoint.xlOnly"></nav-bar>
         <template></template>
         <div class="side_container">
             <NavBarSide v-if="$vuetify.breakpoint.xlOnly"></NavBarSide>
@@ -20,6 +21,7 @@
 import Vue from "vue";
 import NavBar from "@/components/NavBar.vue";
 import NavBarMobile from "@/components/NavBarMobile.vue";
+import NavBarOld from "@/components/NavBarOld.vue";
 import NavBarSide from "@/components/NavBarSide.vue";
 // import Footer from "@/components/Footer.vue";
 import ResponsiveGuidelines from "@/components/misc/ResponsiveGuidelines.vue";
@@ -31,6 +33,7 @@ export default Vue.extend({
     components: {
         NavBar,
         NavBarMobile,
+        NavBarOld,
         NavBarSide,
         ResponsiveGuidelines,
         // Footer,
@@ -79,9 +82,8 @@ export default Vue.extend({
     background-color: main.$gray-xlight !important;
     width: 100vw;
     height: 100vh;
-    /* background-color: main.$momo; */
-    /* background-color: #ffffff; */
 }
+
 .side_container {
     display: flex;
     flex-direction: row;
@@ -102,12 +104,21 @@ export default Vue.extend({
    RESPONSIVE
    ========================================== */
 
+.navbarold {
+    padding: main.$container_padding_l_old;
+}
+
 .router_view,
 .footer {
     padding: main.$container_padding_l;
 }
 
 @include main.device_l {
+
+    .content {
+        padding-top: 160px !important;
+    }
+
     .side_container {
         display: flex;
         flex-direction: row;
@@ -116,21 +127,41 @@ export default Vue.extend({
         overflow-y: hidden;
     }
     
-    .router_view,
+    .navbarold,
+    .router_view {
+        padding: main.$container_padding_m_old;
+    }
+
     .footer {
         padding: main.$container_padding_m;
     }
 }
 
 @include main.device_m {
-    .router_view,
+
+    .content {
+        padding-top: 124px !important;
+    }
+
+    .navbarold,
+    .router_view {
+        padding: main.$container_padding_s_old;
+    }
+
     .footer {
         padding: main.$container_padding_s;
     }
 }
 
+
 @include main.device_s {
-    .router_view,
+
+    /* MOBILE NAV */
+    
+    .router_view {
+        padding: main.$container_padding_xs_old;
+    }
+
     .footer {
         padding: main.$container_padding_xs;
     }
@@ -141,12 +172,16 @@ export default Vue.extend({
 }
 
 @include main.device_xs {
-    .footer {
-        padding: main.$container_padding_xs;
+    
+    /* MOBILE NAV */
+
+    .navbarold,
+    .router_view  {
+        padding: main.$container_padding_xs_old;
     }
 
-    .router_view {
-        padding: 10px 0;
+    .footer {
+        padding: main.$container_padding_xs;
     }
 }
 </style>
@@ -212,7 +247,6 @@ p {
     background-color: main.$white;
     padding: 20px;
     border-radius: 6px;
-    /* box-shadow: main.$box-shadow; */
 }
 
 .header {
@@ -479,6 +513,20 @@ input {
     font-size: 12px !important;
     line-height: 1.57em !important;
     padding: 8px 16px;
+}
+
+@include main.device_l {
+    .v-tooltip__content {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+}
+
+@include main.device_m {
+    .v-tooltip__content {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
 }
 
 tbody {

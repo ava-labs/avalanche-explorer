@@ -5,12 +5,18 @@ $width_m:               1264px;
 $width_s:               960px;
 $width_xs:              600px;
 
+$container_padding_l_old: 15px 18vw;
+$container_padding_m_old: 15px 8vw;
+$container_padding_s_old: 12px 12px;
+$container_padding_xs_old: 10px 10px;
+
 $container_padding_l:   15px 18vw 0 15px;
 $container_padding_m:   15px 8vw 0 15px;
 $container_padding_s:   15px 0 15px;
-$container_padding_xs:  15px 10px 0 15px;
+$container_padding_xs:  10px 10px;
 
 $navbar_height_offset_l: 76px;
+$navbar_height_offset_m: 160px;
 
 @mixin device_xl {
   @media only screen and                           (min-width: $width_l) { @content; }
