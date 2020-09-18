@@ -66,7 +66,7 @@ export default class InputUTXO extends Vue {
     }
 }
 
-@include main.device-xs {
+@include main.xsOnly {
     .from {
         margin-bottom: 0;
 

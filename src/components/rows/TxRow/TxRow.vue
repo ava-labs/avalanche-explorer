@@ -163,7 +163,7 @@ export default class TxRow extends Vue {
     margin-bottom: 6px;
 }
 
-@include main.device_s {
+@include main.smOnly {
     .tx_row {
         padding: 8px;
         grid-template-columns: none;
@@ -184,7 +184,7 @@ export default class TxRow extends Vue {
     }
 }
 
-@include main.device_xs {
+@include main.xsOnly {
     .id {
         margin-bottom: 4px;
     }

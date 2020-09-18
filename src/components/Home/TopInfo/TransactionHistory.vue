@@ -478,7 +478,7 @@ export default {
     position: relative;
 }
 
-@include main.device_s {
+@include main.smOnly {
     .history_settings {
         margin: 8px 0px;
         display: flex;

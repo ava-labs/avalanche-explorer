@@ -120,7 +120,7 @@ export default class AssetRow extends Vue {
     }
 }
 
-@include main.device_s {
+@include main.smOnly {
     .symbol {
         padding: 2px;
     }
@@ -135,7 +135,7 @@ export default class AssetRow extends Vue {
     }
 }
 
-@include main.device_xs {
+@include main.xsOnly {
     .asset_row {
         p {
             font-size: 12px;

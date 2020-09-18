@@ -167,7 +167,7 @@ export default class AssetsPage extends Vue {
     text-align: right;
 }
 
-@include main.device_s {
+@include main.smOnly {
     .asset_list {
         padding: 5px 0;
     }
@@ -178,7 +178,7 @@ export default class AssetsPage extends Vue {
     }
 }
 
-@include main.device_s {
+@include main.smOnly {
     .asset_list {
         padding: 5px 0;
     }
@@ -189,7 +189,7 @@ export default class AssetsPage extends Vue {
     }
 }
 
-@include main.device_xs {
+@include main.xsOnly {
     .asset_list {
         padding: 5px 0;
     }

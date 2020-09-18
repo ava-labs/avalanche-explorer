@@ -1,38 +1,50 @@
-$max_width:             1800px;
+$max_width:              1800px;
 
-$width_l:               1904px;
-$width_m:               1264px;
-$width_s:               960px;
-$width_xs:              600px;
+$width_lg:               1904px;
+$width_md:               1264px;
+$width_sm:               960px;
+$width_xs:               600px;
 
-$container_padding_l_old: 15px 18vw;
-$container_padding_m_old: 15px 8vw;
-$container_padding_s_old: 12px 12px;
-$container_padding_xs_old: 10px 10px;
+$container_padding_xl:  15px 15px;
+$container_padding_lg:  15px 8vw;
+$container_padding_md:  15px 15px;
+$container_padding_sm:  15px 15px;
+$container_padding_xs:  15px 15px;
 
-$container_padding_l:   15px 18vw 0 15px;
-$container_padding_m:   15px 8vw 0 15px;
-$container_padding_s:   15px 0 15px;
-$container_padding_xs:  10px 10px;
+$navbar_height_offset_xl: 76px;
+$navbar_height_offset_lg: 100px;
+$navbar_height_offset_md: 100px;
+// $navbar_height_offset_sm: 160px;
+// $navbar_height_offset_xs: 160px;
 
-$navbar_height_offset_l: 76px;
-$navbar_height_offset_m: 160px;
 
-@mixin device_xl {
-  @media only screen and                           (min-width: $width_l) { @content; }
+@mixin xlOnly {
+  @media only screen 
+  and (min-width: $width_lg) { @content; }
 }
-                          @mixin device_l {
-                            @media only screen and (max-width: $width_l) and (min-width: $width_m) { @content; }
-                          }
-                                                    @mixin device_m {
-                                                      @media only screen and (max-width: $width_m) and (min-width: $width_s) { @content; }
-                                                    }
-                                                                              @mixin device_s {
-                                                                                @media only screen and (max-width: $width_s) and (min-width: $width_xs) { @content; }
-                                                                              }
-                                                                                                        @mixin device_xs {
-                                                                                                          @media only screen and (max-width: $width_xs)                                 { @content; }
-                                                                                                        }
+// --------------------------------------------- 1904px
+@mixin lgOnly {
+  @media only screen 
+  and (max-width: $width_lg)
+  and (min-width: $width_md) { @content; }
+}
+// --------------------------------------------- 1264px
+@mixin mdOnly {
+  @media only screen
+  and (max-width: $width_md)
+  and (min-width: $width_sm) { @content; }
+}
+// --------------------------------------------- 960px
+@mixin smOnly {
+  @media only screen 
+  and (max-width: $width_sm) 
+  and (min-width: $width_xs) { @content; }
+}
+// --------------------------------------------- 600px
+@mixin xsOnly {
+  @media only screen 
+  and (max-width: $width_xs) { @content; }
+}
 
 $black: #212121;
 $gray: #6e7479;

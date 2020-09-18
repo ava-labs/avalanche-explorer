@@ -104,7 +104,7 @@ export default {
     }
 }
 
-@include main.device_s {
+@include main.smOnly {
     .meta_data {
         grid-template-columns: 50% 50%;
 

@@ -146,7 +146,7 @@
         font-size: 16px;
     }
 
-    @include main.device_l {
+    @include main.lgOnly {
         .network_body {
             position: absolute;
             z-index: 10000;
@@ -182,7 +182,7 @@
         }
     }
 
-    @include main.device_xs {
+    @include main.xsOnly {
         .network_body {
             position: fixed;
             width: 100vw;
@@ -192,7 +192,7 @@
         }
     }
 
-    @include main.device_s {
+    @include main.smOnly {
         .toggle_but{
             min-width: auto;
         }

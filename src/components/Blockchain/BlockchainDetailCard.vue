@@ -133,7 +133,7 @@ export default class TransactionDetailCard extends Vue {
     justify-content: flex-end;
 }
 
-@include main.device_s {
+@include main.smOnly {
     .bar {
         flex-direction: column;
         align-items: stretch;

@@ -3,7 +3,7 @@
         <div class="header">
             <h2 class="meta_title">
                 Avalanche Network Activity
-                <TooltipHeading content="Key Avalanche stats"></TooltipHeading>
+                <TooltipHeading content="Key Avalanche stats" :color="'#2196f3'"></TooltipHeading>
             </h2>
         </div>
         <section class="stats one-column">
@@ -13,6 +13,7 @@
                         24h Transactions
                         <TooltipMeta
                             content="Total number of state queries or modifications of all blockchains on Avalanche in the past 24 hours"
+                            :color="'#2196f3'"
                         ></TooltipMeta>
                     </p>
                     <div v-if="assetsLoaded">
@@ -32,6 +33,7 @@
                         24h Volume
                         <TooltipMeta
                             content="Total value of AVAX transferred on Avalanche in the past 24 hours"
+                            :color="'#2196f3'"
                         ></TooltipMeta>
                     </p>
                     <div v-if="assetsLoaded">
@@ -54,6 +56,7 @@
                         Validators
                         <TooltipMeta
                             content="Total number of nodes validating transactions on Avalanche"
+                            :color="'#2196f3'"
                         ></TooltipMeta>
                     </p>
                     <div v-if="subnetsLoaded">
@@ -71,6 +74,7 @@
                         Total Staked
                         <TooltipMeta
                             content="Total value of AVAX locked to secure Avalanche"
+                            :color="'#2196f3'"
                         ></TooltipMeta>
                     </p>
                     <div v-if="subnetsLoaded">
@@ -90,6 +94,7 @@
                         Blockchains
                         <TooltipMeta
                             content="Total number of blockchains on Avalanche"
+                            :color="'#2196f3'"
                         ></TooltipMeta>
                     </p>
                     <div v-if="subnetsLoaded">
@@ -108,6 +113,7 @@
                         Subnets
                         <TooltipMeta
                             content="Total number of subnets on Avalanche"
+                            :color="'#2196f3'"
                         ></TooltipMeta>
                     </p>
                     <div v-if="subnetsLoaded">
@@ -126,6 +132,7 @@
                         Staking Ratio
                         <TooltipMeta
                             content="Percentage of AVAX locked to secure Avalanche out of total AVAX supply (350m)"
+                            :color="'#2196f3'"
                         ></TooltipMeta>
                     </p>
                     <div v-if="subnetsLoaded">
@@ -426,7 +433,7 @@ export default class NetworkActivity extends Vue {
     }
 }
 
-@include main.device_m {
+@include main.mdOnly {
     .stats {
         img {
             width: 24px;
@@ -434,7 +441,7 @@ export default class NetworkActivity extends Vue {
     }
 }
 
-@include main.device_s {
+@include main.smOnly {
     .stats {
         grid-template-columns: 50% 50%;
         grid-template-rows: max-content;
@@ -445,7 +452,7 @@ export default class NetworkActivity extends Vue {
     }
 }
 
-@include main.device_xs {
+@include main.xsOnly {
     .stats {
         grid-template-columns: none;
 

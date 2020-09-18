@@ -118,7 +118,7 @@ export default class Addresses extends Vue {
     }
 }
 
-@include main.device_s {
+@include main.smOnly {
     .table_headers {
         display: none;
     }

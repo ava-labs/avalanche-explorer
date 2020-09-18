@@ -164,7 +164,7 @@ button {
     }
 }
 
-@include main.device_xs {
+@include main.xsOnly {
     img {
         display: none;
     }

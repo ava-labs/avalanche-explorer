@@ -196,13 +196,13 @@ export default class TopAssets extends Vue {
     margin-top: 15px;
 }
 
-@include main.device_s {
+@include main.smOnly {
     .asset {
         column-gap: 3px;
     }
 }
 
-@include main.device_xs {
+@include main.xsOnly {
     .asset {
         grid-template-columns: 1fr 100px;
     }

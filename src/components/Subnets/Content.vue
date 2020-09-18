@@ -235,14 +235,14 @@ export default class Content extends Vue {
     padding-top: 9px;
 }
 
-@include main.device_s {
+@include main.smOnly {
     .v-card__text {
         padding-left: 16px;
         padding-right: 0;
     }
 }
 
-@include main.device_xs {
+@include main.xsOnly {
     .subnet_header {
         padding: 0;
     }

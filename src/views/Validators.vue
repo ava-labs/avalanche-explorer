@@ -220,7 +220,7 @@ export default class Validators extends Vue {
     font-size: 12px;
 }
 
-@include main.device_s {
+@include main.smOnly {
     .header {
         flex-direction: column;
     }
@@ -256,7 +256,7 @@ export default class Validators extends Vue {
     }
 }
 
-@include main.device_xs {
+@include main.xsOnly {
     .validators {
         padding: 30px 15px;
     }

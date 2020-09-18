@@ -373,7 +373,7 @@ export default class AddressPage extends Vue {
 }
 
 
-@include main.device_s {
+@include main.smOnly {
     .bar {
         flex-direction: column;
         align-items: stretch;

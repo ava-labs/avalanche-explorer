@@ -78,10 +78,10 @@ export default class ControlKeyTable extends Vue {
     padding: 32px 16px;
 }
 
-@include main.device_s {
+@include main.smOnly {
 }
 
-@include main.device_xs {
+@include main.xsOnly {
 }
 </style>
 

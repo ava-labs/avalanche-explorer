@@ -87,7 +87,7 @@ export default class Search extends Vue {
     justify-content: center;
 }
 
-@include main.device_s {
+@include main.smOnly {
     .result_row {
         padding: 6px 12px;
     }

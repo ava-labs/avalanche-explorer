@@ -146,7 +146,7 @@ export default class Metadata extends Vue {
     }
 }
 
-@include main.device_s {
+@include main.smOnly {
     .stats {
         grid-template-columns: 50% 50%;
         grid-template-rows: max-content;
@@ -175,7 +175,7 @@ export default class Metadata extends Vue {
     }
 }
 
-@include main.device_xs {
+@include main.xsOnly {
     .meta_data {
         margin-bottom: 10px;
     }
@@ -214,7 +214,7 @@ export default class Metadata extends Vue {
     border-bottom: 4px solid main.$secondary-color;
 }
 
-@include main.device_s {
+@include main.smOnly {
     .header {
         flex-direction: column;
     }

@@ -109,7 +109,7 @@ export default class BalanceTable extends Vue {
     }
 }
 
-@include main.device_m {
+@include main.mdOnly {
     .balances_container {
         .balance_row {
             grid-template-columns: 60px 100px 225px 225px 225px 75px 75px;
@@ -117,7 +117,7 @@ export default class BalanceTable extends Vue {
     }
 }
 
-@include main.device_s {
+@include main.smOnly {
     .balances_container {
         .balance_row {
             grid-template-columns: 50px 100px 225px 225px 225px 75px 75px;

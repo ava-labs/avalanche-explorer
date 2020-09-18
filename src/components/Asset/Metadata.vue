@@ -185,7 +185,7 @@ export default class Metadata extends Vue {
     }
 }
 
-@include main.device_m {
+@include main.mdOnly {
     .stats {
         img {
             width: 24px;
@@ -207,7 +207,7 @@ export default class Metadata extends Vue {
     }
 }
 
-@include main.device_s {
+@include main.smOnly {
     .stats {
         grid-template-columns: 50% 50%;
         grid-template-rows: max-content;
@@ -219,7 +219,7 @@ export default class Metadata extends Vue {
 }
 
 
-@include main.device_xs {
+@include main.xsOnly {
     .metadata {
         margin-bottom: 10px;
 

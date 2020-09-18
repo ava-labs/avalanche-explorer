@@ -116,7 +116,7 @@ export default {};
     }
 }
 
-@include main.device_s {
+@include main.smOnly {
     .v-footer {
         grid-template-columns: none;
         grid-template-rows: max-content max-content max-content;

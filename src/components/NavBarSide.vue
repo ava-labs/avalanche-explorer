@@ -8,7 +8,7 @@
             <v-list-item to="/assets">Assets</v-list-item>
             <v-list-item to="/tx">Transactions</v-list-item>
             <!-- <v-list-item to="/addresses">Addresses</v-list-item> -->
-            <v-list-item href="https://cchain.explorer.avax.network/">C-Chain Explorer</v-list-item>
+            <v-list-item href="https://cchain.explorer.avax.network/">C-Chain</v-list-item>
             <v-list-item to="/resources">Resources</v-list-item>
         </v-list>
     </div>
@@ -25,7 +25,7 @@ export default class NavbarSide extends Vue {}
 @use "../main";
 
 .navbar_side {
-    margin-top: main.$navbar_height_offset_l;
+    margin-top: main.$navbar_height_offset_xl;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
     min-width: 200px;
@@ -58,9 +58,4 @@ export default class NavbarSide extends Vue {}
 .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
     color: main.$primary-color-light !important;
 }
-</style>
-
-<style lang="scss">
-@use "../main";
-.navbar_side {}
 </style>

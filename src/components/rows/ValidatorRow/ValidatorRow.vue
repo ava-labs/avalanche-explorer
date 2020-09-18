@@ -211,7 +211,7 @@ export default class ValidatorRow extends Vue {
         text-align: right;
     }
 }
-@include main.device_s {
+@include main.smOnly {
     .validator {
         grid-template-columns: 70px 1fr 1fr 1fr 1fr;
         grid-template-rows: max-content max-content;
@@ -223,7 +223,7 @@ export default class ValidatorRow extends Vue {
     }
 }
 
-@include main.device_xs {
+@include main.xsOnly {
     .validator {
         grid-template-columns: 42px 1fr 1fr .5fr;
         grid-template-rows: max-content max-content;

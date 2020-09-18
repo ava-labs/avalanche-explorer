@@ -142,7 +142,7 @@ export default class Transactions extends Vue {
     justify-content: flex-end;
 }
 
-@include main.device_s {
+@include main.smOnly {
     .table_headers {
         display: none;
     }

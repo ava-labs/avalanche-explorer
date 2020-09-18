@@ -95,14 +95,14 @@ export default class NetworkActivity extends Vue {
     }
 }
 
-@include main.device_s {
+@include main.smOnly {
     .stats {
         grid-template-columns: 50% 50%;
         grid-template-rows: max-content;
     }
 }
 
-@include main.device_xs {
+@include main.xsOnly {
     .stats {
         grid-template-columns: none;
 

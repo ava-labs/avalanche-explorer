@@ -119,7 +119,7 @@ img {
     opacity: 0;
 }
 
-@include main.device_s {
+@include main.smOnly {
     .quote_container {
         margin-top: 15px;
     }
@@ -135,7 +135,7 @@ img {
     }
 }
 
-@include main.device_xs {
+@include main.xsOnly {
 
     .quote_container {
         margin-top: 0;

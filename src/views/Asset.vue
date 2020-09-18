@@ -218,7 +218,7 @@ $symbol_w: 35px;
     margin-top: 30px;
 }
 
-@include main.device_xs {
+@include main.xsOnly {
     .asset_genesis {
         margin-top: 10px;
     }   
@@ -256,7 +256,7 @@ $symbol_w: 35px;
     justify-content: flex-end;
 }
 
-@include main.device_s {
+@include main.smOnly {
     .transactions {
         margin-bottom: 10px;
         

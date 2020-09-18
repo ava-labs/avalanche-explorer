@@ -332,14 +332,14 @@ export default class ValidatorDataTable extends Vue {
     padding-top: 7px;
 }
 
-@include main.device_s {
+@include main.smOnly {
     .v-card__text {
         padding-left: 16px;
         padding-right: 0;
     }
 }
 
-@include main.device_xs {
+@include main.xsOnly {
     #validator-data-table {
         .v-data-table td,
         .v-data-table th {
@@ -400,7 +400,7 @@ export default class ValidatorDataTable extends Vue {
     }
 }
 
-@include main.device_xs {
+@include main.xsOnly {
     #validator-data-table {
         .v-data-table td,
         .v-data-table th {

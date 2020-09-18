@@ -1,44 +1,27 @@
 <template>
-    <v-app-bar
-        div="navbar"
-        app
-        dark
-        flat
-        dense
-        :height="100"
-        :style="{backgroundColor: navColor}"
-    >
+    <v-app-bar div="navbar" app dark flat dense :height="76" :style="{backgroundColor: navColor}">
+        <!-- LEFT -->
         <div class="logo">
             <router-link to="/">
-                <img style="width: 200px" src="@/assets/explorer_logo.png" />
+                <img style="height: 31px" src="@/assets/explorer_logo_light.png" />
                 <h1>
                     <span class="hide">Avalanche Explorer</span>
-                    <!-- <span class="subnet">Everest</span> -->
-                    <NetworkMenu></NetworkMenu>
                 </h1>
             </router-link>
         </div>
         <v-spacer class="spacer_mid"></v-spacer>
+        <!-- MIDDLE -->
+        <div class="row">
+            <search-bar
+                class="search_bar"
+                placeholder="Search by Address / TxId / Asset"
+                @search="onsearch"
+            ></search-bar>
+        </div>
+        <v-spacer class="spacer_mid"></v-spacer>
+        <!-- LEFT -->
         <div class="rightside">
-            <div class="row" style="display: flex">
-                <div class="routes">
-                    <router-link to="/">Home</router-link>
-                    <router-link to="/subnets">Subnets</router-link>
-                    <router-link to="/validators">Validators</router-link>
-                    <router-link to="/assets">Assets</router-link>
-                    <!-- <router-link to="/addresses">Addresses</router-link> -->
-                    <router-link to="/blockchains">Blockchains</router-link>
-                    <a href="https://cchain.explorer.avax.network/">C-Chain</a>
-                    <router-link to="/resources">Resources</router-link>
-                </div>
-            </div>
-            <div class="row">
-                <search-bar
-                    class="search_bar"
-                    placeholder="Search by Address / TxId / Asset"
-                    @search="onsearch"
-                ></search-bar>
-            </div>
+            <NetworkMenu></NetworkMenu>
         </div>
     </v-app-bar>
 </template>
@@ -68,6 +51,7 @@ export default Vue.extend({
         showSearch() {
             return (this.$router.currentRoute.name === "Home") ? false : true;
         },
+        // overrides Vuetify theme
         navColor() {
             return "#fff";
         }
@@ -106,22 +90,17 @@ export default Vue.extend({
         padding-left: 10px;
         margin: 0;
 
-        &:hover {
-            opacity: 0.7;
-            text-decoration: none !important;
-        }
-
         .hide {
             font-size: 0;
             width: 1px;
             height: 1px;
             display: inline-block;
             overflow: hidden;
-            position: absolute!important;
-            border: 0!important;
-            padding: 0!important;
-            margin: 0!important;
-            clip: rect(1px,1px,1px,1px);
+            position: absolute !important;
+            border: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            clip: rect(1px, 1px, 1px, 1px);
         }
 
         .subnet {
@@ -131,14 +110,23 @@ export default Vue.extend({
             display: inline-block;
         }
     }
+
     img {
         max-height: calc(100% - 15px);
     }
+
+    span {
+        color: main.$primary-color;
+    }
 }
 
-.search_bar {
-    min-width: 375px;
-    width: 100%;
+.row {
+    width: 33%;
+    max-width: 600px;
+
+    .search_bar {
+        width: 100%;
+    }
 }
 
 .rightside {
@@ -152,62 +140,36 @@ export default Vue.extend({
     }
 }
 
-.routes {
-    overflow: auto;
-    padding: 4px 0px;
-    white-space: normal;
-}
-
-.routes a {
-    color: main.$primary-color-light !important;
-    font-size: 14px;
-    padding-right: 20px;
-
-    &.router-link-exact-active {
-        color: main.$primary-color !important;
-    }
-    
-    &:hover {
-        opacity: 0.7;
-        text-decoration: none;
-    }
-
-    &:last-child {
-        padding-right: 0;
-    }
-}
-
-@include main.device_s {    
+@include main.smOnly {
     .logo {
         height: 100%;
         padding: 15px 0px 15px 6px;
         display: flex;
         flex-direction: column;
 
+        a {
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            height: 100%;
+        }
 
-    a {
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: center;
-        height: 100%;
-    }
+        h1 {
+            padding-left: 161px;
+            height: 12px;
+            .subnet {
+                font-size: 12px;
+                color: main.$primary-color;
+                padding-top: 9px;
+                padding-bottom: 0;
+                display: block;
+            }
+        }
 
-    h1 {
-        padding-left: 161px;
-        height: 12px;
-        .subnet {
-            font-size: 12px;
-            color: main.$primary-color;
-            padding-top: 9px;
-            padding-bottom: 0;
-            display: block;
+        img {
+            max-height: calc(100% - 15px);
         }
     }
-
-    img {
-        max-height: calc(100% - 15px);
-    }
-}
 
     .rightside {
         width: 100%;
@@ -224,6 +186,7 @@ export default Vue.extend({
 #navbar {
     .v-toolbar__content {
         padding: 0 !important;
+        height: 91px !important;
     }
 }
 </style>

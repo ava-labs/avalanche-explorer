@@ -171,7 +171,7 @@ export default class RecentTransactions extends Vue {
     transition: opacity 1s;
 }
 
-@include main.device_s {
+@include main.smOnly {
     .table_headers {
         display: none;
     }
@@ -185,7 +185,7 @@ export default class RecentTransactions extends Vue {
     }
 }
 
-@include main.device_xs {
+@include main.xsOnly {
     .header {
         display: flex;
         flex-direction: column;

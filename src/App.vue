@@ -1,30 +1,31 @@
 <template>
-    <v-app class="butt">
-        <nav-bar-mobile v-if="$vuetify.breakpoint.smAndDown"></nav-bar-mobile>
-        <NavBarOld class="navbarold" v-if="$vuetify.breakpoint.mdAndUp && $vuetify.breakpoint.lgAndDown"></NavBarOld>
-        <nav-bar class="navbar" v-if="$vuetify.breakpoint.xlOnly"></nav-bar>
-        <template></template>
+    <v-app>
+        <NavBarXL class="navbar_xl" v-if="$vuetify.breakpoint.xlOnly"></NavBarXL>        
+        <NavBar class="navbar" v-if="$vuetify.breakpoint.mdAndUp && $vuetify.breakpoint.lgAndDown"></NavBar>
+        <NavBarMobile class="navbar_mobile" v-if="$vuetify.breakpoint.smAndDown"></NavBarMobile>
+        
         <div class="side_container">
             <NavBarSide v-if="$vuetify.breakpoint.xlOnly"></NavBarSide>
             <v-content class="content">
                 <router-view class="router_view"></router-view>
             </v-content>
         </div>  
-        <!-- <responsive-guidelines></responsive-guidelines> -->
-
+        
         <!-- <Footer class="footer"></Footer> -->
         <notifications></notifications>
+        <ResponsiveGuidelines></ResponsiveGuidelines>
     </v-app>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import NavBar from "@/components/NavBar.vue";
+
 import NavBarMobile from "@/components/NavBarMobile.vue";
-import NavBarOld from "@/components/NavBarOld.vue";
+import NavBar from "@/components/NavBar.vue";
+import NavBarXL from "@/components/NavBarXL.vue";
 import NavBarSide from "@/components/NavBarSide.vue";
-// import Footer from "@/components/Footer.vue";
-// import ResponsiveGuidelines from "@/components/misc/ResponsiveGuidelines.vue";
+import ResponsiveGuidelines from "@/components/misc/ResponsiveGuidelines.vue";
+// import Footer from "@/components/Footer.vue"
 import { IMetaTag } from "@/router/IMetaTag";
 import Notifications from "@/components/Notifications.vue";
 
@@ -33,9 +34,9 @@ export default Vue.extend({
     components: {
         NavBar,
         NavBarMobile,
-        NavBarOld,
+        NavBarXL,
         NavBarSide,
-        // ResponsiveGuidelines,
+        ResponsiveGuidelines,
         // Footer,
         Notifications
     },
@@ -104,19 +105,13 @@ export default Vue.extend({
    RESPONSIVE
    ========================================== */
 
-.navbarold {
-    padding: main.$container_padding_l_old;
-}
+@include main.xlOnly {
 
-.router_view,
-.footer {
-    padding: main.$container_padding_l;
-}
+    /* .navbarXL { } */
 
-@include main.device_l {
-
-    .content {
-        padding-top: 131px !important;
+    .router_view,
+    .footer {
+        padding: main.$container_padding_xl;
     }
 
     .side_container {
@@ -126,78 +121,83 @@ export default Vue.extend({
         height: 100%;
         overflow-y: hidden;
     }
-    
-    .navbarold,
-    .router_view {
-        padding: main.$container_padding_m_old;
-    }
-
-    .footer {
-        padding: main.$container_padding_m;
-    }
-}
-
-@include main.device_m {
 
     .content {
-        padding-top: 124px !important;
+        padding: main.$container_padding_xl;
     }
 
-    .navbarold,
-    .router_view {
-        padding: main.$container_padding_s_old;
-    }
+}
 
+@include main.lgOnly {
+    
+    .navbar,
+    .router_view,
     .footer {
-        padding: main.$container_padding_s;
+        padding: main.$container_padding_lg;
+    }
+ 
+    .content {
+        padding-top: main.$navbar_height_offset_lg !important;
+    }
+}
+
+@include main.mdOnly {
+
+    .navbar,
+    .router_view,
+    .footer {
+        padding: main.$container_padding_md;
+    }
+
+    .content {
+        padding-top: main.$navbar_height_offset_md !important;
     }
 }
 
 
-@include main.device_s {
+@include main.smOnly {
 
-    /* MOBILE NAV */
+    /* .navbar_mobile { } */
     
-    .router_view {
-        padding: main.$container_padding_xs_old;
-    }
-
-    .footer {
-        padding: main.$container_padding_xs;
-    }
-
     .side_container {
         flex-direction: column;
+    }    
+    .router_view,
+    .footer {
+        padding: main.$container_padding_sm;
     }
+    
 }
 
-@include main.device_xs {
+@include main.xsOnly {
     
-    /* MOBILE NAV */
+    /* .navbar_mobile { } */
 
-    .navbarold,
-    .router_view  {
-        padding: main.$container_padding_xs_old;
-    }
-
+    .router_view,
     .footer {
         padding: main.$container_padding_xs;
     }
 }
 
-@include main.device_l {
+/* @include main.lgOnly {
+
+    .v-toolbar--dense .v-toolbar__content, 
+    .v-toolbar--dense .v-toolbar__extension {
+        padding: 0 !important;
+    }
+
     .v-tooltip__content {
         padding-left: 0 !important;
         padding-right: 0 !important;
     }
 }
 
-@include main.device_m {
+@include main.mdOnly {
     .v-tooltip__content {
         padding-left: 0 !important;
         padding-right: 0 !important;
     }
-}
+} */
 </style>
 
 <style lang="scss">
@@ -259,7 +259,7 @@ p {
 
 .card {
     background-color: main.$white;
-    padding: 20px;
+    padding: 15px;
     border-radius: 6px;
 }
 
@@ -272,7 +272,7 @@ p {
     }
 }
 
-@include main.device_s {
+@include main.smOnly {
     .header {
         h2 {
             font-size: 26px;
@@ -281,9 +281,8 @@ p {
     }
 }
 
-@include main.device_xs {
+@include main.xsOnly {
     .card {
-        padding: 30px 15px 30px;
         border-radius: 0;
     }
 
@@ -417,7 +416,7 @@ p {
     overflow: auto;
 }
 
-@include main.device_s {
+@include main.smOnly {
     .meta_row {
         padding: 16px 0;
         grid-template-columns: none;
@@ -442,7 +441,7 @@ p {
     }
 }
 
-@include main.device_xs {
+@include main.xsOnly {
     .utxo_table {
         margin-top: 5px;
     }
@@ -499,7 +498,7 @@ input {
     flex-direction: row-reverse;
 }
 
-@include main.device_s {
+@include main.smOnly {
     .view_all {
         width: 100%;
         text-align: center;
@@ -569,6 +568,17 @@ tbody {
     }
 }
 
+.v-toolbar--dense .v-toolbar__content, 
+.v-toolbar--dense .v-toolbar__extension {
+    padding: 0;
+}
+
+@include main.xlOnly {
+    .v-toolbar--dense .v-toolbar__content, 
+    .v-toolbar--dense .v-toolbar__extension {
+        padding: 0 15px;
+    }
+}
 /* ==========================================
    transitions + animations
    ========================================== */

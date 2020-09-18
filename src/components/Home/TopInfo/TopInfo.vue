@@ -43,14 +43,14 @@ export default {
     }
 }
 
-@include main.device_l {
+@include main.lgOnly {
     .top_info {
         grid-template-columns: 1fr 1fr 1fr;
     }
 }
 
 
-@include main.device_s {
+@include main.smOnly {
     .top_info {
         grid-template-columns: 1fr;
         grid-template-rows: max-content max-content max-content;
@@ -64,7 +64,7 @@ export default {
     }
 }
 
-@include main.device_xs {
+@include main.xsOnly {
     .top_info {
         grid-template-columns: 1fr;
         background-color: #f8f8f8;

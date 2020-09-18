@@ -134,7 +134,7 @@ export default class OutputUtxo extends Vue {
     }
 }
 
-@include main.device_xs {
+@include main.xsOnly {
     .info_col {
         padding: 0 10px 0 0;
     }

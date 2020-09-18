@@ -67,10 +67,10 @@ export default class AddressDataTable extends Vue {
     line-height: 1em;
 }
 
-@include main.device_s {
+@include main.smOnly {
 }
 
-@include main.device_xs {
+@include main.xsOnly {
 }
 </style>
 
