@@ -32,11 +32,6 @@ import Big from "big.js";
 })
 export default class NetworkActivity extends Vue {
     @Prop() aggregates!: any;    
-    
-    // startTime: "2020-09-17T03:00:00Z"
-    // endTime: "2020-09-18T03:00:00Z"
-    // transactionCount: 426900
-    // outputCount: 853765
 }
 
 </script>
@@ -49,7 +44,7 @@ export default class NetworkActivity extends Vue {
 
 .stats {
     display: grid;
-    grid-template-columns: minmax(0, .75fr) minmax(0, 1fr);
+    grid-template-columns: 1fr 1fr;
     row-gap: 45px;
     column-gap: 30px;
     padding: 4px 0 0;
@@ -57,16 +52,15 @@ export default class NetworkActivity extends Vue {
     overflow: auto;
     width: 100%;
 
-    /* hyperlink */
     .meta {
-        font-size: 12px;
         display: flex;
-        flex-grow: 1;
-        justify-content: flex-start;
-        flex-wrap: wrap;
-        font-weight: 700;
         flex-direction: column-reverse;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        flex-grow: 1;
         text-align: center;
+        font-size: 12px;
+        font-weight: 700;
         
         p {
             padding: 2px 4px;
@@ -95,16 +89,9 @@ export default class NetworkActivity extends Vue {
     }
 }
 
-@include main.smOnly {
-    .stats {
-        grid-template-columns: 50% 50%;
-        grid-template-rows: max-content;
-    }
-}
-
 @include main.xsOnly {
     .stats {
-        grid-template-columns: none;
+        grid-template-columns: 1fr 1fr;
 
         .stat {
             .label {
@@ -115,7 +102,7 @@ export default class NetworkActivity extends Vue {
                 font-size: 20px;
 
                 .unit {
-                    font-size: 14px;
+                    font-size: 12px;
                 }
             }
         }

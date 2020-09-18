@@ -1,19 +1,17 @@
 <template>
     <v-app>
-        <NavBarXL class="navbar_xl" v-if="$vuetify.breakpoint.xlOnly"></NavBarXL>        
-        <NavBar class="navbar" v-if="$vuetify.breakpoint.mdAndUp && $vuetify.breakpoint.lgAndDown"></NavBar>
-        <NavBarMobile class="navbar_mobile" v-if="$vuetify.breakpoint.smAndDown"></NavBarMobile>
-        
+        <nav-bar-XL class="navbar_xl" v-if="$vuetify.breakpoint.xlOnly"></nav-bar-XL>        
+        <nav-bar class="navbar" v-if="$vuetify.breakpoint.lgAndDown && $vuetify.breakpoint.mdAndUp"></nav-bar>
+        <nav-bar-mobile class="navbar_mobile" v-if="$vuetify.breakpoint.smAndDown"></nav-bar-mobile>        
         <div class="side_container">
-            <NavBarSide v-if="$vuetify.breakpoint.xlOnly"></NavBarSide>
+            <nav-bar-side v-if="$vuetify.breakpoint.xlOnly"></nav-bar-side>
             <v-content class="content">
                 <router-view class="router_view"></router-view>
             </v-content>
-        </div>  
-        
-        <!-- <Footer class="footer"></Footer> -->
+        </div>          
+        <Footer class="footer" v-if="$vuetify.breakpoint.lgAndDown"></Footer>
         <notifications></notifications>
-        <ResponsiveGuidelines></ResponsiveGuidelines>
+        <!-- <ResponsiveGuidelines></ResponsiveGuidelines> -->
     </v-app>
 </template>
 
@@ -24,8 +22,8 @@ import NavBarMobile from "@/components/NavBarMobile.vue";
 import NavBar from "@/components/NavBar.vue";
 import NavBarXL from "@/components/NavBarXL.vue";
 import NavBarSide from "@/components/NavBarSide.vue";
-import ResponsiveGuidelines from "@/components/misc/ResponsiveGuidelines.vue";
-// import Footer from "@/components/Footer.vue"
+// import ResponsiveGuidelines from "@/components/misc/ResponsiveGuidelines.vue";
+import Footer from "@/components/Footer.vue"
 import { IMetaTag } from "@/router/IMetaTag";
 import Notifications from "@/components/Notifications.vue";
 
@@ -36,8 +34,8 @@ export default Vue.extend({
         NavBarMobile,
         NavBarXL,
         NavBarSide,
-        ResponsiveGuidelines,
-        // Footer,
+        // ResponsiveGuidelines,
+        Footer,
         Notifications
     },
     data: () => ({}),
@@ -81,8 +79,6 @@ export default Vue.extend({
 @use"main";
 .v-application {
     background-color: main.$gray-xlight !important;
-    width: 100vw;
-    height: 100vh;
 }
 
 .side_container {
@@ -106,6 +102,11 @@ export default Vue.extend({
    ========================================== */
 
 @include main.xlOnly {
+
+    .v-application {
+        width: 100vw;
+        height: 100vh;
+    }
 
     /* .navbarXL { } */
 
@@ -178,26 +179,6 @@ export default Vue.extend({
         padding: main.$container_padding_xs;
     }
 }
-
-/* @include main.lgOnly {
-
-    .v-toolbar--dense .v-toolbar__content, 
-    .v-toolbar--dense .v-toolbar__extension {
-        padding: 0 !important;
-    }
-
-    .v-tooltip__content {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-    }
-}
-
-@include main.mdOnly {
-    .v-tooltip__content {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-    }
-} */
 </style>
 
 <style lang="scss">

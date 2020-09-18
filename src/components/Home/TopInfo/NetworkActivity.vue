@@ -41,7 +41,6 @@
                             {{avaxVolume}}
                             <span class="unit">AVAX</span>
                         </p>
-                        <!--<p class="change">+ 24%</p>-->
                     </div>
                     <div v-else>
                         <v-progress-circular :size="16" :width="2" color="#fcfbfe" indeterminate key="1"></v-progress-circular>
@@ -61,7 +60,6 @@
                     </p>
                     <div v-if="subnetsLoaded">
                         <p class="meta_val">{{validatorCount.toLocaleString()}}</p>
-                        <!--<p class="change">+ 24%</p>-->
                     </div>
                     <div v-else>
                         <v-progress-circular :size="16" :width="2" color="#fcfbfe" indeterminate key="1"></v-progress-circular>
@@ -319,7 +317,6 @@ export default class NetworkActivity extends Vue {
 @use "../../../main";
 
 #network_statistics {
-    /* background-color: main.$secondary-color-xlight; */
     color: main.$primary-color;
     background-color: main.$blue-light2;
     color: main.$blue;
@@ -330,7 +327,6 @@ export default class NetworkActivity extends Vue {
 }
 
 .meta_title {
-    /* color: main.$white */
     color: main.$blue;
 }
 
@@ -396,12 +392,11 @@ export default class NetworkActivity extends Vue {
 
         p {
             padding: 2px 0;
-            font-weight: 400; /* 700 */
+            font-weight: 400;
         }
 
         .label {
             text-transform: capitalize;
-            /* color: main.$white; */
             color: main.$blue;
             font-size: 12px;
             font-weight: 700;
@@ -411,7 +406,6 @@ export default class NetworkActivity extends Vue {
 
         .meta_val {
             font-weight: 300;
-            /* color: main.$white; */
             color: main.$blue;
             line-height: 1em;
              
@@ -420,15 +414,6 @@ export default class NetworkActivity extends Vue {
                 font-size: 12px;
                 opacity: 0.7;    
             }
-        }
-
-        .change {
-            font-family: "Rubik", sans-serif;
-            color: main.$green !important;
-            background-color: main.$green-light;
-            padding: 2px 4px;
-            border-radius: 2px;
-            flex-grow: 0 !important;
         }
     }
 }
@@ -489,7 +474,7 @@ export default class NetworkActivity extends Vue {
                 font-size: 20px;
 
                 .unit {
-                    font-size: 14px;
+                    font-size: 14px !important;
                 }
             }
         }

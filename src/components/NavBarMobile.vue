@@ -1,6 +1,6 @@
 <template>
     <div class="navbar_mobile">
-        <!--   TOOLBAR     -->
+        <!--   TOOLBAR    -->
         <div class="inner">
             <div class="logo">
                 <router-link to="/">
@@ -30,7 +30,6 @@
                     <v-list-item to="/subnets">Subnets</v-list-item>
                     <v-list-item to="/validators">Validators</v-list-item>
                     <v-list-item to="/assets">Assets</v-list-item>
-                    <!-- <v-list-item to="/addresses">Addresses</v-list-item> -->
                     <v-list-item to="/blockchains">Blockchains</v-list-item>
                     <v-list-item to="/tx">Transactions</v-list-item>
                     <v-list-item href="https://cchain.explorer.avax.network/">C-Chain</v-list-item>

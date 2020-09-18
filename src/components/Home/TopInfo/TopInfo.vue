@@ -1,7 +1,7 @@
 <template>
     <div class="top_info">
         <transaction-history></transaction-history>
-        <NetworkActivity></NetworkActivity>
+        <network-activity></network-activity>
         <top-assets></top-assets>
     </div>
 </template>
@@ -27,7 +27,6 @@ export default {
     grid-template-columns: 1fr 1fr 1fr;
     column-gap: 15px;
     padding: 0;
-    overflow: auto;
     width: 100%;
     background: transparent;
     overflow: visible;
@@ -39,7 +38,6 @@ export default {
 
     > div:last-of-type {
         min-height: 256px;
-        border: none;
     }
 }
 
@@ -57,9 +55,11 @@ export default {
         padding: 0;
 
         > div {
-            padding: 30px;
-            margin-bottom: 10px;
-            border: none;
+            margin-bottom: 15px;
+        }
+
+        > div:last-of-type {
+            margin-bottom: 0;
         }
     }
 }
@@ -67,11 +67,10 @@ export default {
 @include main.xsOnly {
     .top_info {
         grid-template-columns: 1fr;
-        background-color: #f8f8f8;
         
         > div {
-            padding: 30px 15px;
-            background-color: main.$white;
+            padding: 15px;
+            margin-bottom: 15px;
         }
     }
 }

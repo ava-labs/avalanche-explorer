@@ -1,5 +1,5 @@
 <template>
-    <v-footer color="#4c2e56">
+    <v-footer color="#000">
         <div class="powered_by">
             <div class="header">
                 <img src="@/assets/ava_logo_white.png" />
@@ -41,14 +41,18 @@ export default {};
 <style scoped lang="scss">
 @use "../main";
 .v-footer {
-    margin: 60px 0 0 -15px;
-    padding-top: 30px;
+    margin: 60px 0 -1px 0;
+    padding-top: 60px !important;
     padding-bottom: 0px !important;
     color: main.$white !important;
     align-items: flex-start;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     column-gap: 60px;
+
+    h4 {
+        margin-top: 12px;
+    }
 }
 .powered_by {
     height: 100%;
@@ -72,6 +76,7 @@ export default {};
             object-fit: contain;
         }
     }
+
     p {
         margin: 24px 0px;
         font-size: 13px;
@@ -117,6 +122,25 @@ export default {};
 }
 
 @include main.smOnly {
+    .v-footer {
+        grid-template-columns: none;
+        grid-template-rows: max-content max-content max-content;
+        padding: 20px 30px;
+        padding-bottom: 0;
+        flex-direction: column-reverse;
+        justify-content: center;
+    }
+
+    .list {
+        width: 100%;
+    }
+
+    .powered_by {
+        grid-row: 3;
+    }
+}
+
+@include main.xsOnly {
     .v-footer {
         grid-template-columns: none;
         grid-template-rows: max-content max-content max-content;

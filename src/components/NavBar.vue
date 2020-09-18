@@ -218,7 +218,8 @@ export default Vue.extend({
 
 <style lang="scss">
 #navbar {
-    .v-toolbar--dense .v-toolbar__content, .v-toolbar--dense .v-toolbar__extension {
+    .v-toolbar--dense .v-toolbar__content, 
+    .v-toolbar--dense .v-toolbar__extension {
         padding-top: 0;
         padding-bottom: 0;
         padding-right: 0;
