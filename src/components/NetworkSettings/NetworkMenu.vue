@@ -104,10 +104,14 @@
 
     .network_menu {
         position: relative;
+        display: flex;
+        justify-content: center;
     }
 
     .toggle_but {
         display: flex;
+        justify-content: center;
+        align-items: center;
         color: main.$primary-color-light;
         min-width: 140px;
 
@@ -182,19 +186,52 @@
         }
     }
 
+    @include main.smOnly {
+        .network_menu {
+            padding-right: 24px;
+        }
+
+        .toggle_but {
+
+            img {
+                max-height: 18px;
+                margin-right: 3px;
+            }
+
+            button {
+                font-size: 12px;
+            }
+
+            min-width: auto;
+        }
+    }
+
     @include main.xsOnly {
+
+        .network_menu {
+            padding-right: 24px;
+        }
+
+        .toggle_but {
+
+            img {
+                max-height: 18px;
+                margin-right: 3px;
+            }
+
+            button {
+                font-size: 12px;
+            }
+
+            min-width: auto;
+        }
+
         .network_body {
             position: fixed;
             width: 100vw;
             z-index: 2;
             right: 0 !important;
             left: 0 !important;
-        }
-    }
-
-    @include main.smOnly {
-        .toggle_but{
-            min-width: auto;
         }
     }
 </style>
