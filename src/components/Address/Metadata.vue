@@ -14,7 +14,18 @@
         </article>
         <article class="meta_row">
             <p class="label">AVAX Balance</p>
-            <!-- <p class="symbol">{{avaxBalance.toLocaleString(this.assetsMap[AVAX].denomination)}} AVAX</p> -->
+            <div class="symbol">
+                <p>{{avaxBalance.toLocaleString(this.assetsMap[AVAX].denomination)}} AVAX</p>
+                <v-alert
+                    class="info_alert"
+                    v-if="isManhattan"
+                    dense
+                    type="info"
+                >
+                <p class="title"><b>THIS PAGE DISPLAYS ONLY YOUR UNLOCKED AVAX TOKENS.</b></p>
+                     <p class="description">To view your full AVAX wallet balance, please visit the <a class="info_link" href="https://wallet.avax.network">Avalanche Wallet</a> and select the "Manhattan Testnet" network endpoint.</p>
+                </v-alert>
+            </div>
         </article>
         <article class="meta_row">
             <p class="label">Transactions</p>
@@ -35,6 +46,7 @@ import BalanceTable from "@/components/Address/BalanceTable.vue";
 import { IAddress, IBalance } from '@/js/IAddress'; 
 import Big from "big.js";
 import { AVAX_ID } from "@/store/index";
+import { DEFAULT_NETWORK_ID } from "@/store/modules/network/network";
 
 @Component({
     components: {
@@ -49,6 +61,10 @@ export default class Metadata extends Vue {
     @Prop() totalTransactionCount!: number;
     @Prop() totalUtxoCount!: number;
     @Prop() assets!: IBalance[];    
+
+    get isManhattan(): boolean {
+        return (DEFAULT_NETWORK_ID === 0) ? true : false;
+    }
 
     get AVAX(): string {
         return AVAX_ID;
@@ -88,4 +104,22 @@ export default class Metadata extends Vue {
 <style lang="scss">
 @use "../../main";
 
+.info_alert {
+    margin-top: 15px;
+    max-width: 600px;
+    line-height: 1.25em;
+
+    p.title {
+        padding-top: 3px
+    }
+    p.description {
+        padding-top: 1rem;
+    }
+}
+
+.detail a {
+    display: inline !important;
+    color: main.$white !important;
+    text-decoration: underline !important;
+}
 </style>

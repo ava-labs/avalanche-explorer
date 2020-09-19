@@ -2,13 +2,25 @@
     <v-app>
         <nav-bar-XL class="navbar_xl" v-if="$vuetify.breakpoint.xlOnly"></nav-bar-XL>        
         <nav-bar class="navbar" v-if="$vuetify.breakpoint.lgAndDown && $vuetify.breakpoint.mdAndUp"></nav-bar>
-        <nav-bar-mobile class="navbar_mobile" v-if="$vuetify.breakpoint.smAndDown"></nav-bar-mobile>        
-        <div class="side_container">
-            <nav-bar-side v-if="$vuetify.breakpoint.xlOnly"></nav-bar-side>
-            <v-content class="content">
-                <router-view class="router_view"></router-view>
-            </v-content>
-        </div>          
+        <nav-bar-mobile class="navbar_mobile" v-if="$vuetify.breakpoint.smAndDown"></nav-bar-mobile>
+        <div>
+            <v-alert
+                class="manhattan_alert"
+                v-if="isManhattan"
+                text
+                type="warning"
+                rounded="0"
+            >
+                <p class="description">Notice: This Explorer does not reflect Avalanche's Mainnet, its genesis state, or any network activity. Data here is reflective of a temporary test network.</p>
+            </v-alert>
+            <div class="side_container">
+                <nav-bar-side v-if="$vuetify.breakpoint.xlOnly"></nav-bar-side>
+                <v-content class="content">
+                    <router-view class="router_view"></router-view>
+                </v-content>
+            </div>          
+        </div>
+        
         <Footer class="footer" v-if="$vuetify.breakpoint.lgAndDown"></Footer>
         <notifications></notifications>
         <!-- <ResponsiveGuidelines></ResponsiveGuidelines> -->
@@ -26,6 +38,7 @@ import NavBarSide from "@/components/NavBarSide.vue";
 import Footer from "@/components/Footer.vue"
 import { IMetaTag } from "@/router/IMetaTag";
 import Notifications from "@/components/Notifications.vue";
+import { DEFAULT_NETWORK_ID } from "@/store/modules/network/network";
 
 export default Vue.extend({
     name: "App",
@@ -39,6 +52,11 @@ export default Vue.extend({
         Notifications
     },
     data: () => ({}),
+    computed: {
+        isManhattan() {
+            return (DEFAULT_NETWORK_ID === 0) ? true : false;
+        }
+    },
     async created() {
         this.$store.dispatch("init");
         this.$store.dispatch("Platform/init");
@@ -79,6 +97,10 @@ export default Vue.extend({
 @use"main";
 .v-application {
     background-color: main.$gray-xlight !important;
+}
+
+.manhattan_alert {
+    margin-top: 100px !important;
 }
 
 .side_container {
@@ -125,6 +147,7 @@ export default Vue.extend({
 
     .content {
         padding: main.$container_padding_xl;
+        padding-top: 0 !important;
     }
 
 }
@@ -138,7 +161,8 @@ export default Vue.extend({
     }
  
     .content {
-        padding-top: main.$navbar_height_offset_lg !important;
+        padding-top: 0 !important;
+        /* padding-top: main.$navbar_height_offset_lg !important; */
     }
 }
 
@@ -151,7 +175,8 @@ export default Vue.extend({
     }
 
     .content {
-        padding-top: main.$navbar_height_offset_md !important;
+        padding-top: 0 !important;
+        /* padding-top: main.$navbar_height_offset_md !important; */
     }
 }
 
@@ -166,6 +191,7 @@ export default Vue.extend({
     .router_view,
     .footer {
         padding: main.$container_padding_sm;
+        padding-top: 0 !important;
     }
     
 }
@@ -177,6 +203,7 @@ export default Vue.extend({
     .router_view,
     .footer {
         padding: main.$container_padding_xs;
+        padding-top: 0 !important;
     }
 }
 </style>

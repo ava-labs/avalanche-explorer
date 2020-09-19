@@ -27,7 +27,7 @@
                     <router-link to="/assets">Assets</router-link>
                     <!-- <router-link to="/addresses">Addresses</router-link> -->
                     <router-link to="/blockchains">Blockchains</router-link>
-                    <a href="https://cchain.explorer.avax.network/">C-Chain</a>
+                    <a v-bind:href="cChainURL">C-Chain</a>
                     <router-link to="/resources">Resources</router-link>
                 </div>
             </div>
@@ -46,6 +46,7 @@
 import Vue from "vue";
 import SearchBar from "@/components/misc/SearchBar/SearchBar";
 import NetworkMenu from "./NetworkSettings/NetworkMenu.vue";
+import { DEFAULT_NETWORK_ID, cChainExplorerURL, cChainExplorerURL_test } from "@/store/modules/network/network";
 
 export default Vue.extend({
     components: {
@@ -69,6 +70,10 @@ export default Vue.extend({
         },
         navColor() {
             return "#fff";
+        },
+        cChainURL() {
+            console.log("WHAT", (DEFAULT_NETWORK_ID === 0) ? cChainExplorerURL : cChainExplorerURL_test);
+            return (DEFAULT_NETWORK_ID === 0) ? cChainExplorerURL : cChainExplorerURL_test;
         }
     }
 });

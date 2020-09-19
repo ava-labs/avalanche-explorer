@@ -118,6 +118,7 @@ export default class NavbarMobile extends Vue {
 
 .buttons {
     display: flex;
+    justify-content: center;
 }
 
 .search_btn {

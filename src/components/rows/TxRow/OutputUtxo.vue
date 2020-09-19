@@ -12,6 +12,28 @@
                     {{amount}}
                     <span>{{asset.symbol}}</span>
                 </p>
+                
+                <!-- <div class="value">
+                    <span class="amount">
+                        <span class="chunk">
+                            <span class="digit">0</span>
+                            <span class="digit decimal">.</span>
+                            <span class="digit decimal">0</span>
+                            <span class="digit decimal">0</span>
+                            <span class="digit decimal">0</span>
+                        </span>
+                        <span class="chunk small">
+                            <span class="digit decimal">0</span>
+                            <span class="digit decimal">3</span>
+                            <span class="digit decimal">3</span>
+                        </span>
+                        <span class="chunk small">
+                            <span class="digit decimal">5</span>
+                            <span class="digit decimal">6</span>
+                        </span>
+                    </span>
+                    <span class="currency">bch</span>
+                </div> -->
             </div>
         </div>
     </div>
@@ -21,8 +43,8 @@
 import "reflect-metadata";
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { addressMap, trimmedLocaleString } from "@/helper";
-import { ITransactionOutput } from '@/js/ITransaction';
-import { Asset } from '@/js/Asset';
+import { ITransactionOutput } from "@/js/ITransaction";
+import { Asset } from "@/js/Asset";
 import Big from "big.js";
 
 @Component({
@@ -33,18 +55,17 @@ import Big from "big.js";
                 value = value.substring(2, value.length);
             }
             return addressMap(value);
-        }
-    }
+        },
+    },
 })
-
 export default class OutputUtxo extends Vue {
     @Prop() output!: ITransactionOutput;
-    
+
     get asset(): Asset {
         if (this.$store.state.assets[this.output.assetID]) {
-            return this.$store.state.assets[this.output.assetID]
+            return this.$store.state.assets[this.output.assetID];
         }
-        this.$store.dispatch("addUnknownAsset", this.output.assetID);        
+        this.$store.dispatch("addUnknownAsset", this.output.assetID);
         //@ts-ignore
         return {
             id: "",
@@ -55,15 +76,15 @@ export default class OutputUtxo extends Vue {
             name: "",
             symbol: "",
             profane: false,
-        }
+        };
     }
 
     get addresses(): string[] {
         return this.output.addresses;
     }
-    
+
     get amount(): string {
-        let amt = Big(this.output.amount); 
+        let amt = Big(this.output.amount);
         return trimmedLocaleString(amt, this.asset.denomination);
     }
 }
@@ -108,7 +129,8 @@ export default class OutputUtxo extends Vue {
         }
     }
 
-    p, a {
+    p,
+    a {
         padding: 4px 12px;
     }
 }

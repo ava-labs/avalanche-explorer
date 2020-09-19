@@ -5,7 +5,7 @@ import { avalanche } from "@/avalanche";
 import Network from "@/js/Network";
 import axios from "@/axios";
 
-const DEFAULT_NETWORK_ID = parseInt(process.env.VUE_APP_DEFAULT_NETWORKID || "4");
+export const DEFAULT_NETWORK_ID = parseInt(process.env.VUE_APP_DEFAULT_NETWORKID || "4");
 
 // Mainnet
 const networkName = process.env.VUE_APP_NETWORKNAME;
@@ -16,6 +16,7 @@ const avalancheJSIP = process.env.VUE_APP_AVALANCHE_JS_IP || "";
 const avalancheJSPort = parseInt(process.env.VUE_APP_AVALANCHE_JS_PORT || "80");
 const avalancheJSNetworkID = parseInt(process.env.VUE_APP_AVALANCHE_JS_NETWORKID || "0");
 const avalancheJSChainID = process.env.VUE_APP_AVALANCHE_JS_CHAINID || "X";
+export const cChainExplorerURL = process.env.VUE_APP_TEST_CCHAIN_EXPLORER_URL || "";
 
 // Testnet
 const networkName_test = process.env.VUE_APP_TEST_NETWORKNAME || "";
@@ -26,6 +27,7 @@ const avalancheJSIP_test = process.env.VUE_APP_TEST_AVALANCHE_JS_IP || "";
 const avalancheJSPort_test = parseInt(process.env.VUE_APP_TEST_AVALANCHE_JS_PORT || "80");
 const avalancheJSNetworkID_test = parseInt(process.env.VUE_APP_TEST_AVALANCHE_JS_NETWORKID || "0");
 const avalancheJSChainID_test = process.env.VUE_APP_TEST_AVALANCHE_JS_CHAINID || "";
+export const cChainExplorerURL_test = process.env.VUE_APP_TEST_CCHAIN_EXPLORER_URL || "";
 
 const network_module: Module<INetworkState, IRootState> = {
     namespaced: true,

@@ -23,7 +23,7 @@
                         </p>
                     </div>
                     <div v-else>
-                        <v-progress-circular :size="16" :width="2" color="#fcfbfe" indeterminate key="1"></v-progress-circular>
+                        <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
                     </div>
                 </router-link>
             </article>
@@ -43,7 +43,7 @@
                         </p>
                     </div>
                     <div v-else>
-                        <v-progress-circular :size="16" :width="2" color="#fcfbfe" indeterminate key="1"></v-progress-circular>
+                        <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
                     </div>
                 </router-link>
             </article>
@@ -62,7 +62,7 @@
                         <p class="meta_val">{{validatorCount.toLocaleString()}}</p>
                     </div>
                     <div v-else>
-                        <v-progress-circular :size="16" :width="2" color="#fcfbfe" indeterminate key="1"></v-progress-circular>
+                        <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
                     </div>
                 </router-link>
             </article>
@@ -82,7 +82,7 @@
                         </p>
                     </div>
                     <div v-else>
-                        <v-progress-circular :size="16" :width="2" color="#fcfbfe" indeterminate key="1"></v-progress-circular>
+                        <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
                     </div>
                 </router-link>
             </article>
@@ -101,7 +101,7 @@
                         </p>
                     </div>
                     <div v-else>
-                        <v-progress-circular :size="16" :width="2" color="#fcfbfe" indeterminate key="1"></v-progress-circular>
+                        <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
                     </div>
                 </router-link>
             </article>
@@ -120,7 +120,7 @@
                         </p>
                     </div>
                     <div v-else>
-                        <v-progress-circular :size="16" :width="2" color="#fcfbfe" indeterminate key="1"></v-progress-circular>
+                        <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
                     </div>
                 </router-link>
             </article>
@@ -139,7 +139,7 @@
                         </p>
                     </div>
                     <div v-else>
-                        <v-progress-circular :size="16" :width="2" color="#fcfbfe" indeterminate key="1"></v-progress-circular>
+                        <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
                     </div>
                 </router-link>
             </article>
@@ -154,7 +154,7 @@
                         </p>
                     </div>
                     <div v-else>
-                        <v-progress-circular :size="16" :width="2" color="#fcfbfe" indeterminate key="1"></v-progress-circular>
+                        <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
                     </div>
                 </router-link>
             </article>
@@ -318,8 +318,8 @@ export default class NetworkActivity extends Vue {
 
 #network_statistics {
     color: main.$primary-color;
-    background-color: main.$blue-light2;
-    color: main.$blue;
+    /* background-color: main.$blue-light2; */
+    /* color: main.$blue; */
 }
 
 .header {
@@ -327,7 +327,7 @@ export default class NetworkActivity extends Vue {
 }
 
 .meta_title {
-    color: main.$blue;
+    /* color: main.$blue; */
 }
 
 .one-column {
@@ -397,7 +397,7 @@ export default class NetworkActivity extends Vue {
 
         .label {
             text-transform: capitalize;
-            color: main.$blue;
+            /* color: main.$blue; */
             font-size: 12px;
             font-weight: 700;
             margin-bottom: 6px;
@@ -406,7 +406,7 @@ export default class NetworkActivity extends Vue {
 
         .meta_val {
             font-weight: 300;
-            color: main.$blue;
+            /* color: main.$blue; */
             line-height: 1em;
              
             .unit {
