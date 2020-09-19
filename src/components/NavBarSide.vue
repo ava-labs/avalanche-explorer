@@ -25,7 +25,8 @@ export default class NavbarSide extends Vue {}
 @use "../main";
 
 .navbar_side {
-    margin-top: main.$navbar_height_offset_xl;
+    /* margin-top: main.$navbar_height_offset_xl; */
+    margin-top: -15px;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
     min-width: 200px;

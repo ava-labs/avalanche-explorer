@@ -1,7 +1,7 @@
 <template>
     <v-app>
-        <nav-bar-XL class="navbar_xl" v-if="$vuetify.breakpoint.xlOnly"></nav-bar-XL>        
-        <nav-bar class="navbar" v-if="$vuetify.breakpoint.lgAndDown && $vuetify.breakpoint.mdAndUp"></nav-bar>
+        <!-- <nav-bar-XL class="navbar_xl" v-if="$vuetify.breakpoint.xlOnly"></nav-bar-XL>         -->
+        <nav-bar class="navbar" v-if="$vuetify.breakpoint.mdAndUp"></nav-bar>
         <nav-bar-mobile class="navbar_mobile" v-if="$vuetify.breakpoint.smAndDown"></nav-bar-mobile>
         <div>
             <v-alert
@@ -14,7 +14,7 @@
                 <p class="description">Notice: This Explorer does not reflect Avalanche's Mainnet, its genesis state, or any network activity. Data here is reflective of a temporary test network.</p>
             </v-alert>
             <div class="side_container">
-                <nav-bar-side v-if="$vuetify.breakpoint.xlOnly"></nav-bar-side>
+                <!-- <nav-bar-side v-if="$vuetify.breakpoint.xlOnly"></nav-bar-side> -->
                 <v-content class="content">
                     <router-view class="router_view"></router-view>
                 </v-content>
@@ -45,8 +45,8 @@ export default Vue.extend({
     components: {
         NavBar,
         NavBarMobile,
-        NavBarXL,
-        NavBarSide,
+        // NavBarXL,
+        // NavBarSide,
         // ResponsiveGuidelines,
         Footer,
         Notifications
@@ -132,6 +132,7 @@ export default Vue.extend({
 
     /* .navbarXL { } */
 
+    .navbar,
     .router_view,
     .footer {
         padding: main.$container_padding_xl;
@@ -150,6 +151,9 @@ export default Vue.extend({
         padding-top: 0 !important;
     }
 
+    .manhattan_alert {
+        margin-top: main.$navbar_height_offset_xl !important;
+    }
 }
 
 @include main.lgOnly {
@@ -193,7 +197,10 @@ export default Vue.extend({
         padding: main.$container_padding_sm;
         padding-top: 0 !important;
     }
-    
+
+    .manhattan_alert {
+        margin-top: 0px !important;
+    }
 }
 
 @include main.xsOnly {
@@ -205,6 +212,10 @@ export default Vue.extend({
         padding: main.$container_padding_xs;
         padding-top: 0 !important;
     }
+
+    .manhattan_alert {
+        margin-top: 0px !important;
+    } 
 }
 </style>
 
