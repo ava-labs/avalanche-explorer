@@ -21,7 +21,7 @@
             </div>          
         </div>
         
-        <Footer class="footer" v-if="$vuetify.breakpoint.lgAndDown"></Footer>
+        <Footer class="footer"></Footer>
         <notifications></notifications>
         <!-- <ResponsiveGuidelines></ResponsiveGuidelines> -->
     </v-app>
@@ -125,10 +125,10 @@ export default Vue.extend({
 
 @include main.xlOnly {
 
-    .v-application {
+    /* .v-application {
         width: 100vw;
         height: 100vh;
-    }
+    } */
 
     /* .navbarXL { } */
 
