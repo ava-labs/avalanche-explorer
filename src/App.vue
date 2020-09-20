@@ -90,6 +90,7 @@ export default Vue.extend({
 <style scoped lang="scss">
 .v-application {
     background-color: $gray-xlight !important;
+    min-height: 100vh;
 }
 
 .manhattan_alert {
@@ -105,6 +106,7 @@ export default Vue.extend({
 }
 
 .content {
+    min-height: 100%;
     overflow-y: scroll;
 }
 
@@ -265,13 +267,13 @@ p {
    layout
    ========================================== */
 
-/* .v-content__wrap {
-    height: 100%;
-} */
+.v-content__wrap {
+    min-height: calc(100vh - navbar_height_offset_xl);
+}
 
 .card {
     background-color: $white;
-    padding: 15px;
+    padding: 30px;
     border-radius: 6px;
 }
 

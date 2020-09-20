@@ -17,7 +17,7 @@ export default class TooltipMeta extends Vue {
     @Prop() color?: string;
 
     get fillColor(): string {
-        return this.color ? this.color : "#d6dae1";
+        return this.color ? this.color : "#2196f3";
     }
 }
 </script>

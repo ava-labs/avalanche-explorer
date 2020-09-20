@@ -92,10 +92,10 @@ export default {
 .received{ 
     span {
         display: inline-block;
-    width: 38px;
-    opacity: 0.4;
-    text-align: left;
-    padding-left: 4px;
+        width: 38px;
+        opacity: 0.4;
+        text-align: left;
+        padding-left: 4px;
     }
 }
 

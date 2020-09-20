@@ -54,6 +54,7 @@ export default class InputUTXO extends Vue {
         padding-left: 0;
         text-decoration: none;
         max-width: 250px;
+        word-break: break-all;
 
         &:hover {
             text-decoration: underline;

@@ -25,7 +25,6 @@
                     <router-link to="/subnets">Subnets</router-link>
                     <router-link to="/validators">Validators</router-link>
                     <router-link to="/assets">Assets</router-link>
-                    <!-- <router-link to="/addresses">Addresses</router-link> -->
                     <router-link to="/blockchains">Blockchains</router-link>
                     <a v-bind:href="cChainURL">C-Chain</a>
                     <router-link to="/resources">Resources</router-link>
@@ -72,7 +71,6 @@ export default Vue.extend({
             return "#fff";
         },
         cChainURL() {
-            console.log("WHAT", (DEFAULT_NETWORK_ID === 0) ? cChainExplorerURL : cChainExplorerURL_test);
             return (DEFAULT_NETWORK_ID === 0) ? cChainExplorerURL : cChainExplorerURL_test;
         }
     }

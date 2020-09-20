@@ -49,7 +49,6 @@ export default new Vuex.Store({
             const limit = 500;
             let res = await api.get(`/x/assets?offset=${offset}&limit=${limit}`);
             let assetsData = res.data.assets;
-            console.log("assetsData", assetsData);
             
             // keep getting asset data as necessary
             async function checkForMoreAssets() {
