@@ -197,7 +197,6 @@ export default class AssetPage extends Vue {
 
 <style scoped lang="scss">
 
-
 $symbol_w: 35px;
 
 .symbol {

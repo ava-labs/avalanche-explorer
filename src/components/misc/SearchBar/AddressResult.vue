@@ -57,7 +57,6 @@ export default class AddressResult extends Vue {
 </script>
 <style scoped lang="scss">
 
-
 .symbol_container {
     width: 50px;
     height: 50px;

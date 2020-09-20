@@ -100,7 +100,6 @@ export default class Addresses extends Vue {
 
 <style scoped lang="scss">
 
-
 .addresses {
     font-size: 12px;
 }

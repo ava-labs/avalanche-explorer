@@ -106,7 +106,6 @@ export default class Transactions extends Vue {
 
 <style scoped lang="scss">
 
-
 .transactions {
     font-size: 12px;
 }

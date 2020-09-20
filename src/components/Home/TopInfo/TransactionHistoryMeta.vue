@@ -37,7 +37,6 @@ export default class NetworkActivity extends Vue {
 </script>
 <style scoped lang="scss">
 
-
 #tx_history_statistics {
     margin-top: 30px;
 }

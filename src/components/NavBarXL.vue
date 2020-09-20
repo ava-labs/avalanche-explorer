@@ -61,7 +61,6 @@ export default Vue.extend({
 
 <style scoped lang="scss">
 
-
 .navbar {
     z-index: 10 !important;
     padding-top: 0 !important;

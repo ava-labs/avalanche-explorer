@@ -35,7 +35,6 @@ export default {
 </script>
 <style scoped lang="scss">
 
-
 $color_bright: $secondary-color-light;
 $color_dark: $secondary-color;
 

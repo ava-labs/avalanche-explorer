@@ -129,7 +129,6 @@ export default class AssetsPage extends Vue {
 
 <style scoped lang="scss">
 
-
 .header {
     .count {
         padding-top: 5px;

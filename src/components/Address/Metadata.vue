@@ -83,7 +83,6 @@ export default class Metadata extends Vue {
 
 <style scoped lang="scss">
 
-
 .addr {
     text-overflow: ellipsis;
     word-break: keep-all;

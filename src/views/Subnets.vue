@@ -101,7 +101,6 @@ export default class Subnets extends Vue {
 
 <style scoped lang="scss">
 
-
 .headers {
     display: grid;
     grid-template-columns: 70px 1fr 1fr 1fr;

@@ -117,7 +117,6 @@ export default class Input extends Vue {
         padding-right: 10px;
     }
 
-
     .amount{
         background-color: $primary-color-light;
         color: $primary-color;

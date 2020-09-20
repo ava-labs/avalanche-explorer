@@ -30,7 +30,6 @@ export default class CopyText extends Vue {
 </script>
 <style scoped lang="scss">
 
-
 .copyBut {
     display: inline-block;
     margin-left: 16px;

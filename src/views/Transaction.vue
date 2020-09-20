@@ -96,7 +96,6 @@ export default class TransactionPage extends Vue {
 
 <style scoped lang="scss">
 
-
 .tx_details_error {
     display: flex;
     flex-direction: column;

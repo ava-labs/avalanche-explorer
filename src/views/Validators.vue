@@ -180,7 +180,6 @@ export default class Validators extends Vue {
 </script>
 <style scoped lang="scss">
 
-
 .pagination_container {
     display: flex;
     justify-content: flex-end;

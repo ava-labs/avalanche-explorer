@@ -274,7 +274,6 @@ export default class AddressPage extends Vue {
 
 <style scoped lang="scss">
 
-
 /* ==========================================
    details
    ========================================== */

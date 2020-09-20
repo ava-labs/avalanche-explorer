@@ -65,7 +65,6 @@ export default class Search extends Vue {
 
 <style scoped lang="scss">
 
-
 .results {
     margin-top: 40px;
 }

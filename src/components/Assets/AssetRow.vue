@@ -45,7 +45,6 @@ export default class AssetRow extends Vue {
 
 <style scoped lang="scss">
 
-
 .asset_row {
     > * {
         align-self: center;

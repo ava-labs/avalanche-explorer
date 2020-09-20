@@ -139,7 +139,6 @@ export default class Content extends Vue {
 
 <style scoped lang="scss">
 
-
 .subnet_count {
     margin-top: 5px;
 }

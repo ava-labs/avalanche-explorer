@@ -146,7 +146,6 @@
 </script>
 <style scoped lang="scss">
 
-
     .custom_network{
         padding: 0px 15px;
         padding-bottom: 15px;

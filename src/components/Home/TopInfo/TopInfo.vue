@@ -21,7 +21,6 @@ export default {
 
 <style scoped lang="scss">
 
-
 .top_info {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;

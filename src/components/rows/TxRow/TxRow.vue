@@ -101,7 +101,6 @@ export default class TxRow extends Vue {
 </script>
 <style scoped lang="scss">
 
-
 .tx_row {
     padding: 12px 0px;
     position: relative;

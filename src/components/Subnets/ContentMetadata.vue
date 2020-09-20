@@ -60,7 +60,6 @@ export default {
 </script>
 <style scoped lang="scss">
 
-
 .metadata {
     margin-bottom: 15px;
     .header {

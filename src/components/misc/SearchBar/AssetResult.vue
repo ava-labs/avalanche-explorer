@@ -46,7 +46,6 @@ export default class AssetResult extends Vue {
 
 <style scoped lang="scss">
 
-
 .symbol_container {
     width: 50px;
     height: 50px;

@@ -411,7 +411,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 
-
 .tx_history {
     display: flex;
     flex-direction: column;

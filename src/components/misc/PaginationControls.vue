@@ -64,7 +64,6 @@ export default class PaginationControls extends Vue {
 
 <style scoped lang="scss">
 
-
 .pagination_control {
     display: flex;
     font-size: 12px;

@@ -315,7 +315,6 @@ export default class NetworkActivity extends Vue {
 </script>
 <style scoped lang="scss">
 
-
 #network_statistics {
     color: $primary-color;
     /* background-color: $blue-light2; */

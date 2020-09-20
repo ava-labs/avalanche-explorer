@@ -23,7 +23,6 @@ export default class NavbarSide extends Vue {}
 
 <style scoped lang="scss">
 
-
 .navbar_side {
     /* margin-top: $navbar_height_offset_xl; */
     padding-top: 0 !important;

@@ -61,7 +61,6 @@ export default class BalanceTable extends Vue {
 
 <style scoped lang="scss">
 
-
 .balances_container {
     overflow-x: scroll;
 

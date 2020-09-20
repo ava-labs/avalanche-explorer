@@ -102,7 +102,6 @@ export default class AssetsDataTable extends Vue {
 
 <style scoped lang="scss">
 
-
 #assets_data_table {
     margin-left: 1px;
 }

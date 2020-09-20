@@ -91,7 +91,6 @@ export default class RecentTransactions extends Vue {
 
 <style scoped lang="scss">
 
-
 .refresh {
     margin-left: 16px;
 }

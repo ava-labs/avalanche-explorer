@@ -24,7 +24,6 @@ export default class Indexed extends Vue {
 
 <style scoped lang="scss">
 
-
 .icon-container {
     font-size: 20px;
     display: flex;

@@ -89,7 +89,6 @@ export default class ValidatorRow extends Vue {
 </script>
 <style scoped lang="scss">
 
-
 .validator {
     display: grid;
     grid-template-columns: 70px 1fr 1fr 1fr;

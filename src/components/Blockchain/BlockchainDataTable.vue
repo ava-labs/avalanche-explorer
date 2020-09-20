@@ -81,7 +81,6 @@ export default class BlockchainDataTable extends Vue {
 
 <style scoped lang="scss">
 
-
 .table_image {
     height: 20px;
     display: inline-block;

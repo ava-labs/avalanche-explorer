@@ -30,7 +30,6 @@ export default class TxHeader extends Vue {}
 
 <style scoped lang="scss">
 
-
 .table_headers {
     display: grid;
     grid-template-columns: 40px .62fr 1.2fr 1.2fr;

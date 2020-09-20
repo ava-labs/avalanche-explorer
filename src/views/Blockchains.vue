@@ -55,7 +55,6 @@ export default class Blockchains extends Vue {
 
 <style scoped lang="scss">
 
-
 .blockchains {
     font-size: 12px;
 }

@@ -100,7 +100,6 @@
     }
 </script>
 <style scoped lang="scss">
-    
 
     .network_menu {
         position: relative;

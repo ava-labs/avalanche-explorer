@@ -47,7 +47,6 @@
 </template>
 <style scoped lang="scss">
 
-
 hr {
     margin-top: 20px;
     opacity: 0.2;

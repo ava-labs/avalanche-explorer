@@ -88,7 +88,6 @@ export default class Metadata extends Vue {
 
 <style scoped lang="scss">
 
-
 .meta_data {
     margin-bottom: 30px;
 

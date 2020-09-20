@@ -92,7 +92,6 @@ export default class TopAssets extends Vue {
 
 <style scoped lang="scss">
 
-
 .table_spinner_container {
     min-height: 265px;
     display: flex;

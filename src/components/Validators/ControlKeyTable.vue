@@ -55,7 +55,6 @@ export default class ControlKeyTable extends Vue {
 
 <style scoped lang="scss">
 
-
 .table_image {
     height: 20px;
     display: inline-block;

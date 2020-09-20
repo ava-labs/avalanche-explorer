@@ -89,7 +89,6 @@ export default class NavbarMobile extends Vue {
 
 <style scoped lang="scss">
 
-
 .navbar_mobile {
     padding-top: 0 !important;
     padding-bottom: 0 !important;

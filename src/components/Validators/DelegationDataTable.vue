@@ -218,7 +218,6 @@ export default class ValidatorDataTable extends Vue {
 
 <style scoped lang="scss">
 
-
 #validator-data-table {
     margin-left: 1px;
 }

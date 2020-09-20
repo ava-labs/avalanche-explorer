@@ -37,7 +37,6 @@ export default class SubnetTabs extends Vue {
 
 <style scoped lang="scss">
 
-
 .v-tabs--vertical {
     margin-right: 30px;
     flex-direction: row-reverse;
