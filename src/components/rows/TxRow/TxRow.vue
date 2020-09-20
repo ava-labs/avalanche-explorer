@@ -39,6 +39,12 @@ export default class TxRow extends Vue {
     }
 
     get tx_id() {
+        // console.log("");
+        // console.log("");
+        // console.log("================================================================================================================");
+        // console.log("");
+        // console.log("==", this.transaction.id);
+        // console.log("");
         return this.transaction.id;
     }
 
@@ -48,40 +54,13 @@ export default class TxRow extends Vue {
         return moment(date).fromNow();
     }
 
-    get outputs() {
-        let ins = this.inputs;
-
-        let senders: string[] = [];
-
-        for (let i = 0; i < ins.length; i++) {
-            let input = ins[i];
-            let addrs = input.output.addresses;
-            senders.push(...addrs);
-        }
-
-        let outs = this.transaction.outputs;
-        let res = outs;
-        if (outs.length > 1) {
-            res = outs.filter((val, index) => {
-                let addrs = val.addresses;
-
-                // If change UTXO then don't show
-                let flag = false;
-                addrs.forEach(addr => {
-                    if (senders.includes(addr)) flag = true;
-                });
-                if (flag) return false;
-                return true;
-            });
-        }
-
-        return res;
-    }
-
     get inputs() {
+        // console.log("== GET INPUTS ==");
         let addedAddr: string[] = [];
         let ins = this.transaction.inputs || [];
-        let res = ins.filter((val, index) => {
+        // console.log("> ins         ", ins);
+        
+        let res = ins.filter(val => {
             let addrs = val.output.addresses;
             let flag = false;
             addrs.forEach(addr => {
@@ -94,9 +73,55 @@ export default class TxRow extends Vue {
             if (flag) return false;
             return true;
         });
+
+        // console.log("  input res   ", res);
         return res;
     }
-    
+
+    get outputs() {
+        // console.log("");
+        // console.log("== GET OUTPUTS ==");
+        
+        // INPUT UTXOS
+        let ins = this.inputs;
+        let senders: string[] = [];        
+        // console.log("> ins         ", ins);
+        
+        // INPUT ADDRESSES
+        for (let i = 0; i < ins.length; i++) {
+            let input = ins[i];
+            let addrs = input.output.addresses;
+            // addrs.forEach(addr => console.log("                  ", addr.substring(6, 11)));
+            senders.push(...addrs);
+        }
+        // console.log("%c  froms       ", 'background: #222; color: #bada55', senders);
+        // console.log("--");
+
+
+        // OUTPUT UTXOS
+        let outs = this.transaction.outputs;
+        let recipients = outs;
+       
+        // console.log("> outs        ", outs);
+
+        // output UTXO addresses
+        if (outs.length > 1) {
+            recipients = outs.filter((val, i) => {
+                let addrs = val.addresses;
+                // addrs.forEach(addr => console.log("                  ", addr.substring(6, 11), "                ", i) );
+                // If change UTXO then don't show
+                let flag = false;
+                // TODO check on when length is greater than one. 
+                addrs.forEach(addr => {
+                    if (senders.includes(addr)) flag = true;
+                });
+                if (flag) return false;
+                return true;
+            });
+        }
+        // console.log("%c  tos         ", 'background: #222; color: #bada55', recipients.map(utxo => utxo.addresses));
+        return recipients;
+    }    
 }
 </script>
 <style scoped lang="scss">

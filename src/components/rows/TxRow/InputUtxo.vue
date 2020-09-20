@@ -24,7 +24,7 @@ import { ITransactionInput } from "@/js/ITransaction";
 export default class InputUTXO extends Vue {
     @Prop() input!: ITransactionInput;
 
-    get addresses(): string[] {
+    get addresses(): string[] { 
         return this.input.output.addresses;
     }
 }
