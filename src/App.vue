@@ -268,7 +268,7 @@ p {
    ========================================== */
 
 .v-content__wrap {
-    min-height: calc(100vh - $navbar_height_offset_xl);
+    min-height: calc(100vh - #{$navbar_height_offset_xl});
 }
 
 .card {
