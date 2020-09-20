@@ -81,14 +81,6 @@ export default class BlockchainDataTable extends Vue {
 
 <style scoped lang="scss">
 
-.table_image {
-    height: 20px;
-    display: inline-block;
-    margin-top: -4px;
-    margin-right: 8px;
-    vertical-align: middle;
-}
-
 .id_overflow {
     overflow: hidden;
     text-overflow: ellipsis;

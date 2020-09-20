@@ -122,10 +122,6 @@ export default class Transactions extends Vue {
     font-size: 12px;
 }
 
-.space {
-    display: flex;
-    justify-content: space-between;
-}
 .header {
     padding-bottom: 20px;
     margin-bottom: 10px;
