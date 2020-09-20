@@ -191,7 +191,7 @@ export default class Content extends Vue {
 }
 
 .table_image {
-    height: 20px;
+    /* height: 20px; */
     display: inline-block;
     margin-top: -4px;
     margin-right: 8px;

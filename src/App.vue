@@ -106,7 +106,7 @@ export default Vue.extend({
 }
 
 .content {
-    min-height: 100%;
+    min-height: 100vh;
     overflow-y: scroll;
 }
 
@@ -507,9 +507,46 @@ input {
     }
 }
 
+.table_image {
+    height: 20px;
+    display: inline-block;
+    margin-top: -4px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
 .duration_toggle_container {
     display: flex;
     flex-direction: row-reverse;
+}
+
+.tx_chain_header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.chain {
+    font-size: 12px;
+    color: $primary-color-light;
+    text-align: right;
+    flex-grow: 1;
+
+    .label {
+        padding: 4px 12px 4px 0;
+        min-height: 1em;
+        line-height: 2em;
+    }
+
+    .tag {
+        padding: 4px 12px;
+        border-radius: 4px;
+        color: $secondary-color;
+        background-color: $secondary-color-xlight;
+        min-height: 1em;
+        line-height: 2em;
+        word-break: keep-all;
+        white-space: nowrap;
+    }
 }
 
 @include smOnly {
@@ -521,6 +558,23 @@ input {
 /* ==========================================
    vuetify overrides
    ========================================== */
+
+.ava_btn {
+    transition: opacity 0.3s;
+    background-color: transparent!important;
+    border-radius: 6px;
+    padding: 10px 24px;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 700 !important;
+    letter-spacing: .5px;
+    text-transform: uppercase!important;
+    font-size: 14px !important;
+    height: 38px;
+    
+    &:hover {
+        opacity: 0.9;
+    }
+}
 
 .theme--light.v-breadcrumbs .v-breadcrumbs__divider,
 .theme--light.v-breadcrumbs .v-breadcrumbs__item--disabled {
@@ -590,7 +644,7 @@ tbody {
 @include xlOnly {
     .v-toolbar--dense .v-toolbar__content, 
     .v-toolbar--dense .v-toolbar__extension {
-        padding: 0 15px;
+        padding: 0;
     }
 }
 /* ==========================================

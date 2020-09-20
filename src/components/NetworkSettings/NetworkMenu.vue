@@ -7,6 +7,7 @@
             <button v-if="status === 'connected'" class="but_primary">{{activeNetwork.name}}</button>
             <button v-else-if="status === 'connecting'">Connecting...</button>
             <button v-else>Disconnected</button>
+            <fa class="caret" icon="angle-down"></fa>
         </div>
         
         <!-- MODAL -->
@@ -125,6 +126,10 @@
             color: $primary-color;
             background-color: $white;
         }
+
+        .caret {
+            padding-left: 5px;
+        }
     }
 
     .network_dispose_bg {
@@ -139,10 +144,14 @@
     }
 
     .network_body {
-        position: fixed;
+        /* position: fixed;
         z-index: 10000;
         top: 31px;
-        right: 16px;
+        right: 16px; */
+        position: absolute;
+        z-index: 10000;
+        top: 17px;
+        right: -210px;
         border-radius: 4px;
         background-color: #fff;
         box-shadow: 2px 2px 10px rgba(0,0,0,0.4);

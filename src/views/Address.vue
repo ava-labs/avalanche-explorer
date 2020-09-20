@@ -15,11 +15,23 @@
             :totalTransactionCount="totalTransactionCount"
             :totalUtxoCount="totalUtxoCount"
             :assets="assets"
+            :prefix="prefix"
         ></Metadata>
         <!-- Address Txs -->
         <section v-if="!loading && !txRequestError" class="card transactions">
             <header class="header">
-                <h2>Transactions</h2>
+                <div class="tx_chain_header">
+                    <h2>Transactions</h2>
+                <p class="chain right" bottom v-if="$vuetify.breakpoint.smAndUp">
+                        <span class="label">You are viewing transactions for</span>
+                        <v-tooltip>
+                            <template v-slot:activator="{ on }">
+                                <span v-on="on" class="tag">X-Chain</span>
+                            </template>
+                            <span>The X-Chain acts as a decentralized platform for creating and trading smart digital assets. (Think X for eXchanging assets.)</span>
+                        </v-tooltip>
+                    </p>
+                </div>
                 <template v-if="txloading && !assetsLoaded">
                     <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
                 </template>
@@ -181,6 +193,11 @@ export default class AddressPage extends Vue {
             address = address.substring(2, address.length);
         }
         return address;
+    }
+
+    get prefix(): string {
+        let address = this.$route.params.address;
+        return address.substring(0, 1);
     }
     
     get txCount(): number {

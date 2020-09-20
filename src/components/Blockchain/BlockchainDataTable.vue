@@ -57,10 +57,10 @@ export default class BlockchainDataTable extends Vue {
 
     get headers(): any[] {
         let headers = [
-            { text: "Name", value: "name" },
-            { text: "Virtual Machine", value: "vmID" },
+            { text: "Name", value: "name", width: 200, fixed: true },
+            { text: "Virtual Machine", value: "vmID", width: 125 },
             { text: "Database Index", value: "indexed", width: 125 },
-            { text: "Subnet", value: "subnetID" },
+            { text: "Subnet", value: "subnetID", width: 300 },
         ];
         return this.subnets ? headers : headers.slice(0, 3);
     }
@@ -97,6 +97,10 @@ export default class BlockchainDataTable extends Vue {
     font-size: 0.825em;
     color: $gray;
     line-height: 1em;
+}
+
+.id {
+    font-weight: 700;
 }
 
 @include smOnly {

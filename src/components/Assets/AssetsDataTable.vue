@@ -26,6 +26,7 @@
             <template #item.name="{item}">
                 <router-link class="name_id" :to="`/asset/${item.id}`">
                 <div>
+                    <img class="table_image" src="@/assets/hex_ava.svg" alt />
                     <span class="name">{{item | nameOrID}} </span>
                     <span class="collision">{{collisionHash(item)}}</span>
                 </div>                    

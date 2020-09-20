@@ -74,6 +74,7 @@ import axios from "@/axios";
 import { IAssetData_Ortelius } from "../js/IAsset";
 //@ts-ignore
 import wordcloud from 'vue-wordcloud';
+import { AVAX_ID } from "@/store/index";
 
 @Component({
     components: {
@@ -104,8 +105,8 @@ export default class AssetsPage extends Vue {
 
     get assets(): Asset[] {
         let res: Asset[] = this.$store.getters.assetsArrayNonProfane;
-        let avax: Asset = res.find((asset: Asset) => asset.id === "nznftJBicce1PfWQeNEVBmDyweZZ6zcM3p78z9Hy9Hhdhfaxm") as Asset;
-        res = res.filter((asset: Asset) => asset.id !== "nznftJBicce1PfWQeNEVBmDyweZZ6zcM3p78z9Hy9Hhdhfaxm");
+        let avax: Asset = res.find((asset: Asset) => asset.id === AVAX_ID) as Asset;
+        res = res.filter((asset: Asset) => asset.id !== AVAX_ID);
         res.sort((a: Asset, b: Asset) => b.txCount_day - a.txCount_day);
         res.unshift(avax);
         return res;

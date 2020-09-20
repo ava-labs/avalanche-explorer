@@ -25,6 +25,7 @@
                 <div class="asset" v-for="(asset) in assets" :key="asset.id">
                     <div v-if="$vuetify.breakpoint.smAndUp"><span class="symbol">{{asset.symbol}}</span></div>
                     <div class="name name_value">
+                        <img class="table_image" src="@/assets/hex_ava.svg" alt />
                         <router-link :to="`/asset/${asset.id}`" class="asset_name">{{asset.name}}</router-link>
                         <span class="collision">{{collisionHash(asset)}}</span>
                     </div>
@@ -99,6 +100,9 @@ export default class TopAssets extends Vue {
     justify-content: center;
 }
 
+.table {
+    border-bottom: 1px solid $gray-light;
+}
 .header {
     padding-bottom: 30px;
 }

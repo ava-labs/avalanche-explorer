@@ -13,9 +13,9 @@
                 <img style="width: 200px" src="@/assets/explorer_logo_light.png" />
                 <h1>
                     <span class="hide">Avalanche Explorer</span>
-                    <NetworkMenu></NetworkMenu>
                 </h1>
             </router-link>
+            <NetworkMenu></NetworkMenu>
         </div>
         <v-spacer class="spacer_mid"></v-spacer>
         <div class="rightside">
@@ -87,6 +87,8 @@ export default Vue.extend({
 }
 
 .logo {
+    display: flex;
+    flex-direction: row;
     height: 100%;
     padding: 15px 0px;
     white-space: nowrap;
@@ -133,6 +135,9 @@ export default Vue.extend({
     img {
         max-height: calc(100% - 15px);
     }
+}
+.network_menu {
+    margin-left: 20px !important;
 }
 
 .search_bar {

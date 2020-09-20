@@ -2,13 +2,13 @@
     <section class="card meta">
         <header class="header">
             <h2 v-if="alias">{{alias}}</h2>
-            <h2 v-else>X-{{addressID}}</h2>
+            <h2 v-else>{{prefix}}-{{addressID}}</h2>
         </header>
         <article class="meta_row">
             <p class="label">Address</p>
             <p class="addr">
-                <span>X-{{addressID}}</span>
-                <CopyText :value="`X-${addressID}`" class="copy_but"></CopyText>
+                <span>{{prefix}}-{{addressID}}</span>
+                <CopyText :value="`${prefix}-${addressID}`" class="copy_but"></CopyText>
                 <span class="alias" v-if="alias">{{alias}}</span>
             </p>
         </article>
@@ -21,12 +21,12 @@
                         :unlockedX="avaxBalance"
                     ></AVAXBalanceTable>
                     <v-alert
-                    class="info_alert"
-                    v-if="isManhattan"
-                    dense
-                    type="info"
-                    color="info"
-                >
+                        class="info_alert"
+                        v-if="isManhattan"
+                        dense
+                        type="info"
+                        color="info"
+                    >
                 <p class="title"><b>THIS PAGE DISPLAYS ONLY YOUR UNLOCKED AVAX TOKENS.</b></p>
                      <p class="description">To view your full AVAX wallet balance, please visit the <a class="info_link" href="https://wallet.avax.network">Avalanche Wallet</a> and select the "Manhattan Testnet" network endpoint.</p>
                 </v-alert>
@@ -64,7 +64,8 @@ export default class Metadata extends Vue {
     @Prop() alias!: string;
     @Prop() totalTransactionCount!: number;
     @Prop() totalUtxoCount!: number;
-    @Prop() assets!: IBalance[];    
+    @Prop() assets!: IBalance[];
+    @Prop() prefix!: string;
 
     get isManhattan(): boolean {
         return (DEFAULT_NETWORK_ID === 0) ? true : false;

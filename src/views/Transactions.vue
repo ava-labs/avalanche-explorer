@@ -2,7 +2,19 @@
     <div class="transactions">
         <div class="card">
             <div class="header">
-                <h2>Transactions</h2>
+                <div class="tx_chain_header">
+                    <h2>Transactions</h2>
+                    <p class="chain right" bottom v-if="$vuetify.breakpoint.smAndUp">
+                        <span class="label">You are viewing transactions for</span>
+                        <v-tooltip>
+                            <template v-slot:activator="{ on }">
+                                <span v-on="on" class="tag">X-Chain</span>
+                            </template>
+                            <span>The X-Chain acts as a decentralized platform for creating and trading smart digital assets. (Think X for eXchanging assets.)</span>
+                        </v-tooltip>
+                    </p>
+                </div>
+            
                 <template v-show="!loading && assetsLoaded">
                     <div class="bar">
                         <p class="count">{{totalTx.toLocaleString()}} transactions found</p>
@@ -110,6 +122,10 @@ export default class Transactions extends Vue {
     font-size: 12px;
 }
 
+.space {
+    display: flex;
+    justify-content: space-between;
+}
 .header {
     padding-bottom: 20px;
     margin-bottom: 10px;
