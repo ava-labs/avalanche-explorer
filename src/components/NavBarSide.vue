@@ -22,16 +22,15 @@ export default class NavbarSide extends Vue {}
 </script>
 
 <style scoped lang="scss">
-@use "../main";
+
 
 .navbar_side {
-    /* margin-top: main.$navbar_height_offset_xl; */
-    margin-top: -15px;
+    /* margin-top: $navbar_height_offset_xl; */
     padding-top: 0 !important;
     padding-bottom: 0 !important;
     min-width: 200px;
     height: 100%;
-    background-color: main.$white;
+    background-color: $white;
 
     a:hover {
         text-decoration: none !important;
@@ -44,7 +43,7 @@ export default class NavbarSide extends Vue {}
 
 .v-list--nav .v-list-item {
     padding: 0 24px;
-    color: main.$primary-color;
+    color: $primary-color;
 }
 
 .v-list--nav .v-list-item, 
@@ -53,10 +52,10 @@ export default class NavbarSide extends Vue {}
 }
 
 .v-list-item--active::before {
-    background-color: main.$primary-color-light !important;
+    background-color: $primary-color-light !important;
 }
 
 .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
-    color: main.$primary-color-light !important;
+    color: $primary-color-light !important;
 }
 </style>

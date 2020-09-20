@@ -95,7 +95,7 @@ export default class TransactionPage extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../main";
+
 
 .tx_details_error {
     display: flex;
@@ -113,12 +113,12 @@ export default class TransactionPage extends Vue {
     .message {
         margin: 12px 0 0.5em;
         font-size: 16px;
-        color: main.$primary-color;
+        color: $primary-color;
     }
 
     .content_id {
         font-size: 16px;
-        color: main.$primary-color-light;
+        color: $primary-color-light;
     }
 
     a {
@@ -129,7 +129,7 @@ export default class TransactionPage extends Vue {
         transition: opacity 0.3s;
         
         background-color: transparent !important;
-        color: main.$secondary-color !important;
+        color: $secondary-color !important;
         padding: 10px 24px;
 
         border-radius: 6px;

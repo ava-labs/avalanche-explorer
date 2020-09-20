@@ -142,7 +142,7 @@
     }
 </script>
 <style scoped lang="scss">
-@use '../../main';
+
 
     .custom_network{
         padding: 0px 15px;
@@ -150,7 +150,7 @@
     }
 
     .header{
-        border-bottom: 1px solid main.$secondary-color;
+        border-bottom: 1px solid $secondary-color;
         padding: 10px 15px;
         display: flex;
         h4{
@@ -185,7 +185,7 @@
     button{
         margin-top: 10px;
         width: 100%;
-        background-color: main.$primary-color;
+        background-color: $primary-color;
         color: #fff;
         font-size: 12px;
         padding: 3px 14px;

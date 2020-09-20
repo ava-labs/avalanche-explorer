@@ -311,7 +311,7 @@ export default class ValidatorDataTable extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../../main";
+
 
 #validator-data-table {
     margin-left: 1px;
@@ -331,7 +331,7 @@ export default class ValidatorDataTable extends Vue {
 }
 
 .v-tab:before {
-    background-color: main.$secondary-color !important;
+    background-color: $secondary-color !important;
 }
 
 .diagram {
@@ -340,22 +340,22 @@ export default class ValidatorDataTable extends Vue {
     width: 100%;
     height: 20px;
     position: relative;
-    border-left: 1px solid main.$gray-light;
-    border-right: 1px solid main.$gray-light;
+    border-left: 1px solid $gray-light;
+    border-right: 1px solid $gray-light;
 }
 
 .chartbar {
     position: absolute;
     top: 0;
     height: 100%;
-    background-color: main.$secondary-color-xlight;
+    background-color: $secondary-color-xlight;
 }
 
 .chartbar_complete {
     position: absolute;
     top: 0;
     height: 100%;
-    background-color: main.$secondary-color;
+    background-color: $secondary-color;
     opacity: 0.5;
 }
 
@@ -379,7 +379,7 @@ export default class ValidatorDataTable extends Vue {
     position: absolute;
     top: -11px;
     font-size: 12px;
-    background-color: main.$primary-color;
+    background-color: $primary-color;
     height: calc(100% + 22px);
     width: 1px;
     z-index: 5;
@@ -390,19 +390,19 @@ export default class ValidatorDataTable extends Vue {
     text-align: right;
     top: 0;
     width: 50px;
-    color: main.$primary-color;
+    color: $primary-color;
     font-size: 12px;
     z-index: 3;
 }
 
 .date {
-    color: main.$gray;
+    color: $gray;
     padding-top: 21px;
     line-height: 1em !important;
 }
 
 .time {
-    color: main.$gray;
+    color: $gray;
     font-size: 10px;
 }
 
@@ -433,14 +433,14 @@ export default class ValidatorDataTable extends Vue {
     letter-spacing: 0.0071428571em;
 }
 
-@include main.smOnly {
+@include smOnly {
     .v-card__text {
         padding-left: 16px;
         padding-right: 0;
     }
 }
 
-@include main.xsOnly {
+@include xsOnly {
     #validator-data-table {
         .v-data-table td,
         .v-data-table th {
@@ -451,17 +451,17 @@ export default class ValidatorDataTable extends Vue {
 </style>
 
 <style lang="scss">
-@use "../../main";
+
 
 #validator_data_table {
 
     .v-application .primary--text {
-        color: main.$primary-color !important;
-        caret-color: main.$primary-color !important;
+        color: $primary-color !important;
+        caret-color: $primary-color !important;
     }
 
     .theme--light.v-tabs > .v-tabs-bar--show-arrows {
-        background-color: main.$white !important;
+        background-color: $white !important;
     }
 
     .theme--light.v-tabs-items {
@@ -501,7 +501,7 @@ export default class ValidatorDataTable extends Vue {
     }
 }
 
-@include main.xsOnly {
+@include xsOnly {
     #validator-data-table {
         .v-data-table td,
         .v-data-table th {
@@ -512,7 +512,7 @@ export default class ValidatorDataTable extends Vue {
 </style>
 
 <style lang="scss">
-@use "../../main";
+
 
 #validator_data_table {
     

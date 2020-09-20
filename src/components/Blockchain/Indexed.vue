@@ -23,7 +23,7 @@ export default class Indexed extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../../main";
+
 
 .icon-container {
     font-size: 20px;
@@ -39,11 +39,11 @@ export default class Indexed extends Vue {
 }
 
 .indexed {
-    color: main.$green;
+    color: $green;
 }
 
 .not-indexed {
-    color: main.$gray;
+    color: $gray;
     opacity: 0.6;
 
     .not-indexed-icon {

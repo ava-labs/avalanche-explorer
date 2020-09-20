@@ -20,7 +20,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use"../../../main";
+
 
 .top_info {
     display: grid;
@@ -41,14 +41,14 @@ export default {
     }
 }
 
-@include main.lgOnly {
+@include lgOnly {
     .top_info {
         grid-template-columns: 1fr 1fr 1fr;
     }
 }
 
 
-@include main.smOnly {
+@include smOnly {
     .top_info {
         grid-template-columns: 1fr;
         grid-template-rows: max-content max-content max-content;
@@ -64,7 +64,7 @@ export default {
     }
 }
 
-@include main.xsOnly {
+@include xsOnly {
     .top_info {
         grid-template-columns: 1fr;
         

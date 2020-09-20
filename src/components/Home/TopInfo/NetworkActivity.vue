@@ -314,12 +314,12 @@ export default class NetworkActivity extends Vue {
 
 </script>
 <style scoped lang="scss">
-@use "../../../main";
+
 
 #network_statistics {
-    color: main.$primary-color;
-    /* background-color: main.$blue-light2; */
-    /* color: main.$blue; */
+    color: $primary-color;
+    /* background-color: $blue-light2; */
+    /* color: $blue; */
 }
 
 .header {
@@ -327,7 +327,7 @@ export default class NetworkActivity extends Vue {
 }
 
 .meta_title {
-    /* color: main.$blue; */
+    /* color: $blue; */
 }
 
 .one-column {
@@ -335,7 +335,7 @@ export default class NetworkActivity extends Vue {
     row-gap: 30px;
     margin-bottom: 25px;
     padding-bottom: 15px !important;
-    border-bottom: 1px solid main.$primary-color-xlight;
+    border-bottom: 1px solid $primary-color-xlight;
 
     .meta {
         .meta_val {
@@ -397,7 +397,7 @@ export default class NetworkActivity extends Vue {
 
         .label {
             text-transform: capitalize;
-            /* color: main.$blue; */
+            /* color: $blue; */
             font-size: 12px;
             font-weight: 700;
             margin-bottom: 6px;
@@ -406,7 +406,7 @@ export default class NetworkActivity extends Vue {
 
         .meta_val {
             font-weight: 300;
-            /* color: main.$blue; */
+            /* color: $blue; */
             line-height: 1em;
              
             .unit {
@@ -418,7 +418,7 @@ export default class NetworkActivity extends Vue {
     }
 }
 
-@include main.mdOnly {
+@include mdOnly {
     .stats {
         img {
             width: 24px;
@@ -426,7 +426,7 @@ export default class NetworkActivity extends Vue {
     }
 }
 
-@include main.smOnly {
+@include smOnly {
     .stats {
         grid-template-columns: 50% 50%;
         grid-template-rows: max-content;
@@ -437,7 +437,7 @@ export default class NetworkActivity extends Vue {
     }
 }
 
-@include main.xsOnly {
+@include xsOnly {
     .stats {
         grid-template-columns: none;
 

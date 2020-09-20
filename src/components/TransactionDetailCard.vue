@@ -268,11 +268,11 @@ export default class TransactionDetailCard extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../main";
+
 
 .decode {
     display: inline-block;
-    color: main.$primary-color-light;
+    color: $primary-color-light;
     width: 60px;
     font-size: 12px;
 }

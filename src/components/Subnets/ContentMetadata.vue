@@ -59,7 +59,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@use"../../main";
+
 
 .metadata {
     margin-bottom: 15px;
@@ -93,18 +93,18 @@ export default {
         font-size: 12px;
         font-weight: 700;
         margin-bottom: 6px;
-        color: main.$primary-color;
+        color: $primary-color;
     }
 
     .meta_val {
         font-size: 36px;
         line-height: 1em;
         font-weight: 300;
-        color: main.$primary-color;
+        color: $primary-color;
     }
 }
 
-@include main.smOnly {
+@include smOnly {
     .meta_data {
         grid-template-columns: 50% 50%;
 

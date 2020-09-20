@@ -100,7 +100,7 @@ export default class TxRow extends Vue {
 }
 </script>
 <style scoped lang="scss">
-@use "../../../main";
+
 
 .tx_row {
     padding: 12px 0px;
@@ -118,18 +118,18 @@ export default class TxRow extends Vue {
     border-radius: 35px;
     line-height: 35px;
     text-align: center;
-    background-color: main.$white;
-    border: 2px solid main.$primary-color;
+    background-color: $white;
+    border: 2px solid $primary-color;
 
     p {
         width: 100%;
         font-weight: 500;
-        color: main.$primary-color;
+        color: $primary-color;
     }
 }
 
 .id {
-    color: main.$primary-color-light !important;
+    color: $primary-color-light !important;
     text-decoration: none;
     font-weight: 400; /* 700 */
     display: block;
@@ -141,7 +141,7 @@ export default class TxRow extends Vue {
     font-weight: 400;
     font-size: 10px;
     margin-top: 5px;
-    color: main.$primary-color-light;
+    color: $primary-color-light;
     word-break: keep-all;
     white-space: nowrap;
 }
@@ -163,7 +163,7 @@ export default class TxRow extends Vue {
     margin-bottom: 6px;
 }
 
-@include main.smOnly {
+@include smOnly {
     .tx_row {
         padding: 8px;
         grid-template-columns: none;
@@ -184,7 +184,7 @@ export default class TxRow extends Vue {
     }
 }
 
-@include main.xsOnly {
+@include xsOnly {
     .tx_row {
         padding: 8px;
         grid-template-columns: none;

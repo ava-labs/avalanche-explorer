@@ -60,7 +60,7 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-@use "../main";
+
 
 .navbar {
     z-index: 10 !important;
@@ -105,7 +105,7 @@ export default Vue.extend({
 
         .subnet {
             font-size: 12px;
-            color: main.$primary-color;
+            color: $primary-color;
             padding-bottom: 7px;
             display: inline-block;
         }
@@ -116,7 +116,7 @@ export default Vue.extend({
     }
 
     span {
-        color: main.$primary-color;
+        color: $primary-color;
     }
 }
 
@@ -140,7 +140,7 @@ export default Vue.extend({
     }
 }
 
-@include main.smOnly {
+@include smOnly {
     .logo {
         height: 100%;
         padding: 15px 0px 15px 6px;
@@ -159,7 +159,7 @@ export default Vue.extend({
             height: 12px;
             .subnet {
                 font-size: 12px;
-                color: main.$primary-color;
+                color: $primary-color;
                 padding-top: 9px;
                 padding-bottom: 0;
                 display: block;

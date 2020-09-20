@@ -87,7 +87,7 @@ export default class Metadata extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../../main";
+
 
 .meta_data {
     margin-bottom: 30px;
@@ -128,7 +128,7 @@ export default class Metadata extends Vue {
 
         .label {
             text-transform: capitalize;
-            color: main.$primary-color;
+            color: $primary-color;
             font-size: 16px;
             font-weight: 700;
             margin-bottom: 6px;
@@ -146,7 +146,7 @@ export default class Metadata extends Vue {
     }
 }
 
-@include main.smOnly {
+@include smOnly {
     .stats {
         grid-template-columns: 50% 50%;
         grid-template-rows: max-content;
@@ -175,7 +175,7 @@ export default class Metadata extends Vue {
     }
 }
 
-@include main.xsOnly {
+@include xsOnly {
     .meta_data {
         margin-bottom: 10px;
     }
@@ -201,7 +201,7 @@ export default class Metadata extends Vue {
 }
 
 .v-tab {    
-    color: main.$primary-color !important;
+    color: $primary-color !important;
     background-color: transparent;
     font-size: 13px;
     font-weight: 400;
@@ -211,10 +211,10 @@ export default class Metadata extends Vue {
 }
 
 .tab_active {
-    border-bottom: 4px solid main.$secondary-color;
+    border-bottom: 4px solid $secondary-color;
 }
 
-@include main.smOnly {
+@include smOnly {
     .header {
         flex-direction: column;
     }
@@ -240,7 +240,7 @@ export default class Metadata extends Vue {
 }
 </style>
 <style lang="scss">
-@use "../../main";
+
 
 #validators_meta {
     
@@ -251,13 +251,13 @@ export default class Metadata extends Vue {
     }
 
     .v-application .primary--text {
-        color: main.$primary-color !important;
-        caret-color: main.$primary-color !important;
+        color: $primary-color !important;
+        caret-color: $primary-color !important;
     }
 
     .v-tabs-slider-wrapper {
-        color: main.$secondary-color;
-        caret-color: main.$secondary-color;
+        color: $secondary-color;
+        caret-color: $secondary-color;
     }
 }
 

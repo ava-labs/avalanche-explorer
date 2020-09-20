@@ -105,7 +105,7 @@ export default class Transactions extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../main";
+
 
 .transactions {
     font-size: 12px;
@@ -142,7 +142,7 @@ export default class Transactions extends Vue {
     justify-content: flex-end;
 }
 
-@include main.smOnly {
+@include smOnly {
     .table_headers {
         display: none;
     }

@@ -84,7 +84,6 @@ export default class NetworkRow extends Vue {
 }
 </script>
 <style scoped lang="scss">
-@use '../../main';
 
 .network_row {
     position: relative;
@@ -92,7 +91,7 @@ export default class NetworkRow extends Vue {
     display: grid;
     grid-template-columns: 40px 1fr 80px;
     column-gap: 15px;
-    border-bottom: 1px solid main.$gray-light;
+    border-bottom: 1px solid $gray-light;
     box-sizing: content-box;
 
     > * {
@@ -102,7 +101,7 @@ export default class NetworkRow extends Vue {
 
 .network_row[active] {
     .status_col {
-        color: main.$green !important;
+        color: $green !important;
     }
 }
 
@@ -112,7 +111,7 @@ img {
 }
 
 .name {
-    color: main.$primary-color;
+    color: $primary-color;
 }
 
 .name_col {
@@ -123,12 +122,12 @@ img {
 
 .status_col {
     font-size: 14px;
-    color: main.$primary-color;
+    color: $primary-color;
     text-align: right;
 }
 
 /* .editBut {
-    color: main.$primary-color;
+    color: $primary-color;
     opacity: 0.4;
     font-size: 11px;
     margin-top: 6px;
@@ -146,25 +145,25 @@ img {
 }
 
 .url {
-    color: main.$primary-color-light;
+    color: $primary-color-light;
     font-size: 12px;
 }
 
 button {
-    color: main.$primary-color;
-    background-color: main.$white;
+    color: $primary-color;
+    background-color: $white;
 }
 
 @keyframes connecting {
     from {
-        color: main.$primary-color;
+        color: $primary-color;
     }
     to {
-        color: main.$green;
+        color: $green;
     }
 }
 
-@include main.xsOnly {
+@include xsOnly {
     img {
         display: none;
     }

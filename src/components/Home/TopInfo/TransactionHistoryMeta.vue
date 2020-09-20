@@ -36,7 +36,7 @@ export default class NetworkActivity extends Vue {
 
 </script>
 <style scoped lang="scss">
-@use "../../../main";
+
 
 #tx_history_statistics {
     margin-top: 30px;
@@ -89,7 +89,7 @@ export default class NetworkActivity extends Vue {
     }
 }
 
-@include main.xsOnly {
+@include xsOnly {
     .stats {
         grid-template-columns: 1fr 1fr;
 

@@ -39,12 +39,12 @@ export default {};
 </script>
 
 <style scoped lang="scss">
-@use "../main";
+
 .v-footer {
     margin: 60px 0 -1px 0;
     padding-top: 60px !important;
     padding-bottom: 0px !important;
-    color: main.$white !important;
+    color: $white !important;
     align-items: flex-start;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -110,7 +110,7 @@ export default {};
 
     a {
         font-weight: lighter;
-        color: main.$white !important;
+        color: $white !important;
         margin-bottom: 14px;
         text-decoration: none;
 
@@ -121,7 +121,7 @@ export default {};
     }
 }
 
-@include main.smOnly {
+@include smOnly {
     .v-footer {
         grid-template-columns: none;
         grid-template-rows: max-content max-content max-content;
@@ -140,7 +140,7 @@ export default {};
     }
 }
 
-@include main.xsOnly {
+@include xsOnly {
     .v-footer {
         grid-template-columns: none;
         grid-template-rows: max-content max-content max-content;

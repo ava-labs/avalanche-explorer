@@ -160,7 +160,7 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-@use"../../../main";
+
 
 .search_bar {
     display: flex;
@@ -187,7 +187,7 @@ input {
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
     padding: 0;
-    color: main.$gray-input;
+    color: $gray-input;
 }
 
 .v-btn:not(.v-btn--round).v-size--default {
@@ -202,11 +202,11 @@ input {
     overflow: auto;
     box-sizing: border-box;
     border-radius: 0 0 2px 2px;
-    background-color: main.$white;
+    background-color: $white;
     top: 56px;
     left: 0px;
     font-size: 12px;
-    color: main.$black;
+    color: $black;
 }
 
 .no_result {
@@ -222,7 +222,7 @@ input {
 }
 
 .search_result {
-    border-bottom: 1px solid main.$gray-input;
+    border-bottom: 1px solid $gray-input;
     cursor: pointer;
 
     &:last-child {

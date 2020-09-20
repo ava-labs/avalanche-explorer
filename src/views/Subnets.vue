@@ -100,7 +100,7 @@ export default class Subnets extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../main";
+
 
 .headers {
     display: grid;
@@ -115,7 +115,7 @@ export default class Subnets extends Vue {
 </style>
 
 <style lang="scss">
-@use "../main";
+
 /* #subnets {
     .v-input__slot {
         width: calc(100% - 24px) !important;

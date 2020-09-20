@@ -49,13 +49,13 @@ export default class ValidatorPaginationControls extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../../main";
+
 .validator_pagination_control {
     display: flex;
 
     > * {
         background-color: transparent;
-        color: main.$primary-color;
+        color: $primary-color;
         border: none;
         margin: 0px 2px;
         padding: 6px 12px;
@@ -76,7 +76,7 @@ button {
 }
 
 .pages {
-    color: main.$black;
+    color: $black;
     cursor: default;
     font-size: 12px;
 
@@ -87,7 +87,7 @@ button {
 }
 
 .disabled {
-    color: main.$gray;
+    color: $gray;
     cursor: default;
 
     &:hover {

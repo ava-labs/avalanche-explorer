@@ -72,5 +72,5 @@ export default class SubnetPage extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../main";
+
 </style>

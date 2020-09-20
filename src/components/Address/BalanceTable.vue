@@ -60,7 +60,7 @@ export default class BalanceTable extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../../main";
+
 
 .balances_container {
     overflow-x: scroll;
@@ -109,7 +109,7 @@ export default class BalanceTable extends Vue {
     }
 }
 
-@include main.mdOnly {
+@include mdOnly {
     .balances_container {
         .balance_row {
             grid-template-columns: 60px 100px 225px 225px 225px 75px 75px;
@@ -117,7 +117,7 @@ export default class BalanceTable extends Vue {
     }
 }
 
-@include main.smOnly {
+@include smOnly {
     .balances_container {
         .balance_row {
             grid-template-columns: 50px 100px 225px 225px 225px 75px 75px;

@@ -99,7 +99,7 @@ export default class Addresses extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../main";
+
 
 .addresses {
     font-size: 12px;
@@ -118,7 +118,7 @@ export default class Addresses extends Vue {
     }
 }
 
-@include main.smOnly {
+@include smOnly {
     .table_headers {
         display: none;
     }

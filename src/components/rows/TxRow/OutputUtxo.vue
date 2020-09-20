@@ -91,7 +91,7 @@ export default class OutputUtxo extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use '../../../main';
+
 .to_amount {
     display: grid;
     grid-template-columns: 1fr max-content;
@@ -139,13 +139,13 @@ export default class OutputUtxo extends Vue {
     display: flex;
     flex-direction: column-reverse;
     height: 100%;
-    background-color: main.$secondary-color-xlight;
+    background-color: $secondary-color-xlight;
     border-radius: 4px;
     justify-content: center;
     align-items: center;
 }
 .amount {
-    color: main.$secondary-color;
+    color: $secondary-color;
     font-weight: 400;
     letter-spacing: 0.1em;
     font-size: 16px;
@@ -156,7 +156,7 @@ export default class OutputUtxo extends Vue {
     }
 }
 
-@include main.xsOnly {
+@include xsOnly {
     .info_col {
         padding: 0 10px 0 0;
     }

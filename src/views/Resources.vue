@@ -46,7 +46,7 @@
     </div>
 </template>
 <style scoped lang="scss">
-@use "../main";
+
 
 hr {
     margin-top: 20px;
@@ -108,7 +108,7 @@ hr {
     a {
         padding: 6px 0;
         border-radius: 4px;
-        background-color: main.$white;
+        background-color: $white;
         border: none;
         outline: none;
         color: #7a838e !important;
@@ -129,7 +129,7 @@ hr {
     font-size: 12px;
 }
 
-@include main.smOnly {
+@include smOnly {
 
     h3 {
         font-size: 18px;

@@ -88,7 +88,7 @@ export default class ValidatorRow extends Vue {
 }
 </script>
 <style scoped lang="scss">
-@use"../../../main";
+
 
 .validator {
     display: grid;
@@ -112,9 +112,9 @@ export default class ValidatorRow extends Vue {
 
 .rank {
     > div {
-        background-color: main.$white;
-        color: main.$primary-color;
-        border: 2px solid main.$primary-color;
+        background-color: $white;
+        color: $primary-color;
+        border: 2px solid $primary-color;
         width: 40px;
         height: 40px;
         border-radius: 40px;
@@ -125,7 +125,7 @@ export default class ValidatorRow extends Vue {
         width: 100%;
         text-align: center;
         font-weight: 900;
-        color: main.$primary-color;
+        color: $primary-color;
     }
 }
 
@@ -211,7 +211,7 @@ export default class ValidatorRow extends Vue {
         text-align: right;
     }
 }
-@include main.smOnly {
+@include smOnly {
     .validator {
         grid-template-columns: 70px 1fr 1fr 1fr 1fr;
         grid-template-rows: max-content max-content;
@@ -223,7 +223,7 @@ export default class ValidatorRow extends Vue {
     }
 }
 
-@include main.xsOnly {
+@include xsOnly {
     .validator {
         grid-template-columns: 42px 1fr 1fr .5fr;
         grid-template-rows: max-content max-content;
@@ -235,7 +235,7 @@ export default class ValidatorRow extends Vue {
 
     .rank > div {
         color: #000;
-        border: 2px solid main.$secondary-color;
+        border: 2px solid $secondary-color;
         width: 24px;
         height: 24px;
         border-radius: 24px;

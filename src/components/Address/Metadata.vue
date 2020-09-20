@@ -82,7 +82,7 @@ export default class Metadata extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../../main";
+
 
 .addr {
     text-overflow: ellipsis;
@@ -91,8 +91,8 @@ export default class Metadata extends Vue {
 
     .alias {
         background-color: #e6ffe6;
-        border: 1px solid main.$green;
-        color: main.$green;
+        border: 1px solid $green;
+        color: $green;
         width: max-content;
         padding: 4px 8px;
         margin: 0px 30px;
@@ -102,7 +102,7 @@ export default class Metadata extends Vue {
 </style>
 
 <style lang="scss">
-@use "../../main";
+
 
 .info_alert {
     margin-top: 15px;
@@ -119,7 +119,7 @@ export default class Metadata extends Vue {
 
 .detail a {
     display: inline !important;
-    color: main.$white !important;
+    color: $white !important;
     text-decoration: underline !important;
 }
 </style>

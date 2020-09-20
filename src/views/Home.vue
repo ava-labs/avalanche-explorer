@@ -20,7 +20,7 @@ export default class Home extends Vue {}
 </script>
 
 <style scoped lang="scss">
-@use "../main";
+
 
 .home {
     margin: 0px auto;
@@ -42,7 +42,7 @@ export default class Home extends Vue {}
     grid-gap: 30px;
 }
 
-@include main.xsOnly {
+@include xsOnly {
     .recent_tx {
         margin-top: 0;
     }

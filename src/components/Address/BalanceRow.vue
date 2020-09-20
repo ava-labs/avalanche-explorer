@@ -28,7 +28,6 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@use"../../main";
 
 .balance_row {
     font-weight: 400;
@@ -47,13 +46,13 @@ export default {
     }
 
     a {
-        color: main.$black !important;
+        color: $black !important;
     }
 }
 
 .symbol {
-    color: main.$secondary-color;
-    background-color: main.$secondary-color-xlight;
+    color: $secondary-color;
+    background-color: $secondary-color-xlight;
     padding: 6px 12px;
     text-align: center;
     border-radius: 4px;
@@ -100,7 +99,7 @@ export default {
     }
 }
 
-@include main.smOnly {
+@include smOnly {
     .symbol {
         padding: 2px;
     }

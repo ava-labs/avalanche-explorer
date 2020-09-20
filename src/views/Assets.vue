@@ -128,12 +128,12 @@ export default class AssetsPage extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../main";
+
 
 .header {
     .count {
         padding-top: 5px;
-        color: main.$primary-color-light;
+        color: $primary-color-light;
         font-size: 12px;
     }
 }
@@ -167,7 +167,7 @@ export default class AssetsPage extends Vue {
     text-align: right;
 }
 
-@include main.smOnly {
+@include smOnly {
     .asset_list {
         padding: 5px 0;
     }
@@ -178,7 +178,7 @@ export default class AssetsPage extends Vue {
     }
 }
 
-@include main.smOnly {
+@include smOnly {
     .asset_list {
         padding: 5px 0;
     }
@@ -189,7 +189,7 @@ export default class AssetsPage extends Vue {
     }
 }
 
-@include main.xsOnly {
+@include xsOnly {
     .asset_list {
         padding: 5px 0;
     }

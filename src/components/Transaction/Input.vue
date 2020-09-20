@@ -119,8 +119,8 @@ export default class Input extends Vue {
 
 
     .amount{
-        background-color: main.$primary-color-light;
-        color: main.$primary-color;
+        background-color: $primary-color-light;
+        color: $primary-color;
         width: max-content;
         padding: 4px 8px;
         border-radius: 3px;

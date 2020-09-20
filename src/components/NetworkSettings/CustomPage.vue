@@ -145,7 +145,7 @@
     }
 </script>
 <style scoped lang="scss">
-@use '../../main';
+
 
     .custom_network{
         padding: 0px 15px;
@@ -153,7 +153,7 @@
     }
 
     .header{
-        border-bottom: 1px solid main.$secondary-color;
+        border-bottom: 1px solid $secondary-color;
         padding: 10px 15px;
         display: flex;
         h4{
@@ -179,8 +179,8 @@
     }
 
     input, select{
-        color: main.$primary-color;
-        background-color: main.$secondary-color;
+        color: $primary-color;
+        background-color: $secondary-color;
         border-radius: 4px;
         padding: 6px 6px;
         font-size: 13px;
@@ -189,7 +189,7 @@
     button{
         margin-top: 10px;
         width: 100%;
-        background-color: main.$primary-color;
+        background-color: $primary-color;
         color: #fff;
         font-size: 12px;
         border-radius: 4px;

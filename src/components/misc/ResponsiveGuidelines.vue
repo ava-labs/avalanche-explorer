@@ -38,7 +38,7 @@ export default {};
 </script>
 
 <style lang="scss">
-@use "../../main";
+
 
 #responsive-guidelines {
     .tick-container {

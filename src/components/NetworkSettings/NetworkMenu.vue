@@ -100,7 +100,7 @@
     }
 </script>
 <style scoped lang="scss">
-    @use '../../main';
+    
 
     .network_menu {
         position: relative;
@@ -112,7 +112,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        color: main.$primary-color-light;
+        color: $primary-color-light;
         min-width: 140px;
 
         img {
@@ -123,8 +123,8 @@
 
         button {
             font-size: 16px;
-            color: main.$primary-color;
-            background-color: main.$white;
+            color: $primary-color;
+            background-color: $white;
         }
     }
 
@@ -135,7 +135,7 @@
         top: 0;
         width: 100vw;
         height: 100vh;
-        background-color: main.$white;
+        background-color: $white;
         opacity: 0.54;
     }
 
@@ -150,7 +150,7 @@
         font-size: 16px;
     }
 
-    @include main.lgOnly {
+    @include lgOnly {
         .network_body {
             position: absolute;
             z-index: 10000;
@@ -161,18 +161,18 @@
 
 
     .header {
-        border-bottom: 1px solid main.$gray-light;
+        border-bottom: 1px solid $gray-light;
         padding: 10px 15px;
         display: flex;
         
         h4 {
             flex-grow: 1;
             margin: 0;
-            color: main.$primary-color;
+            color: $primary-color;
         }
 
         button {
-            background-color: main.$secondary-color;
+            background-color: $secondary-color;
             color: #fff;
             font-size: 12px;
             padding: 3px 14px;
@@ -182,11 +182,11 @@
 
     .network_menu[connected] {
         .toggle_but {
-            color: main.$primary-color;
+            color: $primary-color;
         }
     }
 
-    @include main.smOnly {
+    @include smOnly {
         .network_menu {
             padding-right: 24px;
         }
@@ -206,7 +206,7 @@
         }
     }
 
-    @include main.xsOnly {
+    @include xsOnly {
 
         .network_menu {
             padding-right: 24px;

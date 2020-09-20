@@ -60,7 +60,7 @@ export default class UtxoRow extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../../main";
+
 .utxo_row {
     display: grid;
     grid-gap: 10px;
@@ -85,8 +85,8 @@ a {
 .amount_symbol {
     white-space: nowrap;
     width: max-content;
-    background-color: main.$secondary-color-xlight;
-    color: main.$secondary-color;
+    background-color: $secondary-color-xlight;
+    color: $secondary-color;
     padding: 4px 8px;
     border-radius: 3px;
 }

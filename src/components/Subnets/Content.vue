@@ -138,7 +138,7 @@ export default class Content extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../../main";
+
 
 .subnet_count {
     margin-top: 5px;
@@ -166,11 +166,11 @@ export default class Content extends Vue {
 }
 
 .v-tab:before {
-    background-color: main.$primary-color !important;
+    background-color: $primary-color !important;
 }
 
 .subnet_header {
-    color: main.$black;
+    color: $black;
 
     .subheading {
         text-transform: capitalize;
@@ -179,7 +179,7 @@ export default class Content extends Vue {
     }
 
     h2 {
-        color: main.$primary-color;
+        color: $primary-color;
         margin: 0;
         padding-top: 0;
     }
@@ -215,7 +215,7 @@ export default class Content extends Vue {
     position: absolute;
     top: -11px;
     font-size: 12px;
-    background-color: main.$primary-color;
+    background-color: $primary-color;
     height: calc(100% + 22px);
     width: 1px;
     z-index: 5;
@@ -226,7 +226,7 @@ export default class Content extends Vue {
     text-align: right;
     top: 0;
     width: 50px;
-    color: main.$black;
+    color: $black;
     font-size: 12px;
     z-index: 3;
 }
@@ -235,14 +235,14 @@ export default class Content extends Vue {
     padding-top: 9px;
 }
 
-@include main.smOnly {
+@include smOnly {
     .v-card__text {
         padding-left: 16px;
         padding-right: 0;
     }
 }
 
-@include main.xsOnly {
+@include xsOnly {
     .subnet_header {
         padding: 0;
     }
@@ -250,15 +250,15 @@ export default class Content extends Vue {
 </style>
 
 <style lang="scss">
-@use "../../main";
+
 
 .v-application .primary--text {
-    color: main.$primary-color !important;
-    caret-color: main.$primary-color !important;
+    color: $primary-color !important;
+    caret-color: $primary-color !important;
 }
 
 .theme--light.v-tabs > .v-tabs-bar--show-arrows {
-    background-color: main.$white !important;
+    background-color: $white !important;
 }
 
 th {

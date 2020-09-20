@@ -273,7 +273,7 @@ export default class AddressPage extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../main";
+
 
 /* ==========================================
    details
@@ -295,7 +295,7 @@ export default class AddressPage extends Vue {
         transition: opacity 0.3s;
         
         background-color: transparent !important;
-        color: main.$secondary-color !important;
+        color: $secondary-color !important;
         padding: 10px 24px;
 
         border-radius: 6px;
@@ -360,7 +360,7 @@ export default class AddressPage extends Vue {
     .v-alert {
         margin: 16px;
         padding: 16px;
-        color: main.$blue;
+        color: $blue;
         font-size: 14px;
     }
 }
@@ -373,7 +373,7 @@ export default class AddressPage extends Vue {
 }
 
 
-@include main.smOnly {
+@include smOnly {
     .bar {
         flex-direction: column;
         align-items: stretch;

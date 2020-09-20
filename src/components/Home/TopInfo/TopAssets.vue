@@ -91,7 +91,7 @@ export default class TopAssets extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../../../main";
+
 
 .table_spinner_container {
     min-height: 265px;
@@ -107,8 +107,8 @@ export default class TopAssets extends Vue {
 .column_headers {
     font-size: 12px;
     font-weight: 700;
-    color: main.$primary-color;
-    border-bottom: 1px solid main.$gray-light;
+    color: $primary-color;
+    border-bottom: 1px solid $gray-light;
 }
 
 .asset {
@@ -121,7 +121,7 @@ export default class TopAssets extends Vue {
 
     &:nth-child(6),
     &:nth-child(11) {
-        border-bottom: 1px solid main.$gray-light;
+        border-bottom: 1px solid $gray-light;
     }
 
     > * {
@@ -146,14 +146,14 @@ export default class TopAssets extends Vue {
 
     .asset_name {
         font-size: 16px;
-        color: main.$primary-color !important;
+        color: $primary-color !important;
         font-weight: 400;
     }
 
     .collision {
         padding-left: 8px;
         font-size: .75em;
-        color: main.$primary-color-light;
+        color: $primary-color-light;
         font-weight: 400;
 
         :hover {
@@ -163,8 +163,8 @@ export default class TopAssets extends Vue {
 
     .symbol {
         flex-shrink: 0;
-        color: main.$secondary-color;
-        background-color: main.$secondary-color-xlight;
+        color: $secondary-color;
+        background-color: $secondary-color-xlight;
         min-height: 1em;
         min-width: 38px;
         text-align: center;
@@ -181,7 +181,7 @@ export default class TopAssets extends Vue {
         text-align: right;
         width: 100%;
         padding-right: 0;
-        color: main.$primary-color;
+        color: $primary-color;
     }
 
     .metric_value {
@@ -196,13 +196,13 @@ export default class TopAssets extends Vue {
     margin-top: 15px;
 }
 
-@include main.smOnly {
+@include smOnly {
     .asset {
         column-gap: 3px;
     }
 }
 
-@include main.xsOnly {
+@include xsOnly {
     .asset {
         grid-template-columns: 1fr 100px;
     }

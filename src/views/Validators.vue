@@ -179,7 +179,7 @@ export default class Validators extends Vue {
 }
 </script>
 <style scoped lang="scss">
-@use "../main";
+
 
 .pagination_container {
     display: flex;
@@ -188,7 +188,7 @@ export default class Validators extends Vue {
 }
 
 .validators {
-    background-color: main.$white;
+    background-color: $white;
     border-radius: 6px;
     padding: 30px;
 }
@@ -197,14 +197,14 @@ export default class Validators extends Vue {
     border-top: 1px solid #e7e7e7;
 
     &:nth-of-type(2n) {
-        background-color: main.$secondary-color-xlight;
+        background-color: $secondary-color-xlight;
     }
 }
 
 .headers {
     display: grid;
     grid-template-columns: 70px 1fr 1fr 1fr;
-    color: main.$black;
+    color: $black;
     font-size: 12px;
     font-weight: 700;
 
@@ -220,7 +220,7 @@ export default class Validators extends Vue {
     font-size: 12px;
 }
 
-@include main.smOnly {
+@include smOnly {
     .header {
         flex-direction: column;
     }
@@ -256,7 +256,7 @@ export default class Validators extends Vue {
     }
 }
 
-@include main.xsOnly {
+@include xsOnly {
     .validators {
         padding: 30px 15px;
     }

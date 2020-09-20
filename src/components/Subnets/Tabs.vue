@@ -36,7 +36,7 @@ export default class SubnetTabs extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../../main";
+
 
 .v-tabs--vertical {
     margin-right: 30px;
@@ -63,12 +63,12 @@ export default class SubnetTabs extends Vue {
 }
 
 .v-tab:before {
-    background-color: main.$primary-color !important;
+    background-color: $primary-color !important;
 }
 </style>
 
 <style lang="scss">
-@use "../../main";
+
 
 #subnet_tabs {
 
@@ -91,13 +91,13 @@ export default class SubnetTabs extends Vue {
         font-weight: 500;
     }
     .v-application .primary--text {
-        color: main.$primary-color !important;
-        caret-color: main.$primary-color !important;
+        color: $primary-color !important;
+        caret-color: $primary-color !important;
     }
 
     .v-tabs-slider-wrapper {
-        color: main.$secondary-color;
-        caret-color: main.$secondary-color;
+        color: $secondary-color;
+        caret-color: $secondary-color;
     }
 }
 

@@ -34,10 +34,10 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@use"../../../main";
 
-$color_bright: main.$secondary-color-light;
-$color_dark: main.$secondary-color;
+
+$color_bright: $secondary-color-light;
+$color_dark: $secondary-color;
 
 .cumulative_bar {
     position: absolute;

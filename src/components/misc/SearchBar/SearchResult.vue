@@ -42,11 +42,11 @@ export default {
 </script>
 
 <style lang="scss">
-@use"../../../main";
+
 
 .search_result {
     padding: 8px 13px;
-    background-color: main.$white;
+    background-color: $white;
     display: flex;
     position: relative;
     z-index: 1000;
@@ -70,7 +70,7 @@ export default {
     }
 
     &:hover {
-        background-color: main.$primary-color-xlight;
+        background-color: $primary-color-xlight;
     }
 }
 </style>

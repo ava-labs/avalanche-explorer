@@ -44,7 +44,7 @@ export default class AssetRow extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use"../../main";
+
 
 .asset_row {
     > * {
@@ -62,13 +62,13 @@ export default class AssetRow extends Vue {
     }
     
     a {
-        color: main.$black !important;
+        color: $black !important;
     }
 }
 
 .symbol {
-    color: main.$secondary-color;
-    background-color: main.$secondary-color-xlight;
+    color: $secondary-color;
+    background-color: $secondary-color-xlight;
     padding: 6px 12px;
     text-align: center;
     border-radius: 4px;
@@ -120,7 +120,7 @@ export default class AssetRow extends Vue {
     }
 }
 
-@include main.smOnly {
+@include smOnly {
     .symbol {
         padding: 2px;
     }
@@ -135,7 +135,7 @@ export default class AssetRow extends Vue {
     }
 }
 
-@include main.xsOnly {
+@include xsOnly {
     .asset_row {
         p {
             font-size: 12px;
@@ -146,7 +146,7 @@ export default class AssetRow extends Vue {
             min-width: 30px;
             display: inline-block;
             text-align: left;
-            color: main.$gray;
+            color: $gray;
             opacity: 0.7;
             font-size: 9px;
         }

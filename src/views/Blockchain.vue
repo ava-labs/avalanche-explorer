@@ -76,7 +76,6 @@ export default class BlockchainPage extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../main";
 
 .recent_tx {
     width: 100%;

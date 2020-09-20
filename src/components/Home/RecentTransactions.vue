@@ -90,7 +90,7 @@ export default class RecentTransactions extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../../main";
+
 
 .refresh {
     margin-left: 16px;
@@ -122,7 +122,7 @@ export default class RecentTransactions extends Vue {
 
     .chain {
         font-size: 12px;
-        color: main.$primary-color-light;
+        color: $primary-color-light;
         text-align: right;
         flex-grow: 1;
 
@@ -135,8 +135,8 @@ export default class RecentTransactions extends Vue {
         .tag {
             padding: 4px 12px;
             border-radius: 4px;
-            color: main.$secondary-color;
-            background-color: main.$secondary-color-xlight;
+            color: $secondary-color;
+            background-color: $secondary-color-xlight;
             min-height: 1em;
             line-height: 2em;
             word-break: keep-all;
@@ -171,7 +171,7 @@ export default class RecentTransactions extends Vue {
     transition: opacity 1s;
 }
 
-@include main.smOnly {
+@include smOnly {
     .table_headers {
         display: none;
     }
@@ -185,7 +185,7 @@ export default class RecentTransactions extends Vue {
     }
 }
 
-@include main.xsOnly {
+@include xsOnly {
     .header {
         display: flex;
         flex-direction: column;

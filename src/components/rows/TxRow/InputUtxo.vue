@@ -31,7 +31,7 @@ export default class InputUTXO extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../../../main";
+
 .from {
     display: grid;
     grid-template-columns: max-content 1fr max-content;
@@ -66,7 +66,7 @@ export default class InputUTXO extends Vue {
     }
 }
 
-@include main.xsOnly {
+@include xsOnly {
     .from {
         margin-bottom: 0;
 

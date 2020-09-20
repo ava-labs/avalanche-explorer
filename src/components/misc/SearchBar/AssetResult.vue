@@ -45,7 +45,7 @@ export default class AssetResult extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use"../../../main";
+
 
 .symbol_container {
     width: 50px;
@@ -57,8 +57,8 @@ export default class AssetResult extends Vue {
 
 .symbol {
     padding: 0;
-    background-color: main.$secondary-color-xlight !important;
-    color: main.$secondary-color;
+    background-color: $secondary-color-xlight !important;
+    color: $secondary-color;
     border-radius: 6px;
     font-weight: 500; /* 700 */
     font-size: 11px;
@@ -69,7 +69,7 @@ export default class AssetResult extends Vue {
 }
 
 .name {
-    color: main.$primary-color;
+    color: $primary-color;
     font-weight: 700;
 
     span {

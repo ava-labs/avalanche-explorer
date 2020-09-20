@@ -46,7 +46,7 @@ export default class TransactionResult extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use"../../../main";
+
 
 .symbol_container {
     width: 50px;
@@ -58,9 +58,9 @@ export default class TransactionResult extends Vue {
 
 .symbol {
     padding: 0;
-    background-color: main.$white;
+    background-color: $white;
     border-radius: 20px;
-    border: 2px solid main.$black;
+    border: 2px solid $black;
     font-weight: 500; /* 700 */
     font-size: 11px;
     height: 38px;
@@ -70,7 +70,7 @@ export default class TransactionResult extends Vue {
 }
 
 .id {
-    color: main.$primary-color;
+    color: $primary-color;
     overflow: hidden;
     text-overflow: ellipsis;
     font-weight: 700;

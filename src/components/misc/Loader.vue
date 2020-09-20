@@ -63,7 +63,7 @@ computed: {
 </script>
 
 <style scoped lang="scss">
-@use"../../main";
+
 .page_loader {
     display: flex;
     flex-direction: column;
@@ -101,12 +101,12 @@ img {
 .message {
     margin: 12px 0 0.5em;
     font-size: 16px;
-    color: main.$primary-color;
+    color: $primary-color;
 }
 
 .content_id {
     font-size: 16px;
-    color: main.$primary-color;
+    color: $primary-color;
 }
 
 .fade-enter-active,
@@ -119,7 +119,7 @@ img {
     opacity: 0;
 }
 
-@include main.smOnly {
+@include smOnly {
     .quote_container {
         margin-top: 15px;
     }
@@ -135,7 +135,7 @@ img {
     }
 }
 
-@include main.xsOnly {
+@include xsOnly {
 
     .quote_container {
         margin-top: 0;

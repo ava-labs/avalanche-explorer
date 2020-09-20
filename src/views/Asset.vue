@@ -196,7 +196,7 @@ export default class AssetPage extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../main";
+
 
 $symbol_w: 35px;
 
@@ -218,7 +218,7 @@ $symbol_w: 35px;
     margin-top: 30px;
 }
 
-@include main.xsOnly {
+@include xsOnly {
     .asset_genesis {
         margin-top: 10px;
     }   
@@ -256,7 +256,7 @@ $symbol_w: 35px;
     justify-content: flex-end;
 }
 
-@include main.smOnly {
+@include smOnly {
     .transactions {
         margin-bottom: 10px;
         

@@ -410,7 +410,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@use "../../../main";
+
 
 .tx_history {
     display: flex;
@@ -434,7 +434,7 @@ export default {
         flex-grow: 1;
         font-size: 9px;
         background-color: transparent;
-        color: main.$primary-color;
+        color: $primary-color;
         height: 24px;
         width: 28px;
         border: none;
@@ -451,15 +451,15 @@ export default {
         }
 
         &[active] {
-            color: main.$white;
-            background-color: main.$primary-color;
+            color: $white;
+            background-color: $primary-color;
         }
     }
 }
 
 .loading_cont {
     position: absolute;
-    background-color: main.$white;
+    background-color: $white;
     margin-top: 40px;
     top: -5px;
     left: 0;
@@ -478,7 +478,7 @@ export default {
     position: relative;
 }
 
-@include main.smOnly {
+@include smOnly {
     .history_settings {
         margin: 8px 0px;
         display: flex;

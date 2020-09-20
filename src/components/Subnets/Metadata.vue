@@ -88,7 +88,7 @@ export default class Metadata extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../../main";
+
 
 .metadata {
     margin-bottom: 30px;
@@ -130,7 +130,7 @@ export default class Metadata extends Vue {
 
         .label {
             text-transform: capitalize;
-            color: main.$primary-color;
+            color: $primary-color;
             font-size: 12px;
             font-weight: 700;
             margin-bottom: 6px;
@@ -149,7 +149,7 @@ export default class Metadata extends Vue {
     }
 }
 
-@include main.mdOnly {
+@include mdOnly {
     .stats {
         img {
             width: 24px;
@@ -171,7 +171,7 @@ export default class Metadata extends Vue {
     }
 }
 
-@include main.smOnly {
+@include smOnly {
     .stats {
         grid-template-columns: 50% 50%;
         grid-template-rows: max-content;
@@ -182,7 +182,7 @@ export default class Metadata extends Vue {
     }
 }
 
-@include main.xsOnly {
+@include xsOnly {
     .metadata {
         margin-bottom: 10px;
 

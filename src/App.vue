@@ -6,7 +6,6 @@
         <div>
             <v-alert
                 class="manhattan_alert"
-                v-if="isManhattan"
                 text
                 type="warning"
                 rounded="0"
@@ -52,11 +51,6 @@ export default Vue.extend({
         Notifications
     },
     data: () => ({}),
-    computed: {
-        isManhattan() {
-            return (DEFAULT_NETWORK_ID === 0) ? true : false;
-        }
-    },
     async created() {
         this.$store.dispatch("init");
         this.$store.dispatch("Platform/init");
@@ -94,9 +88,8 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-@use"main";
 .v-application {
-    background-color: main.$gray-xlight !important;
+    background-color: $gray-xlight !important;
 }
 
 .manhattan_alert {
@@ -123,7 +116,7 @@ export default Vue.extend({
    RESPONSIVE
    ========================================== */
 
-@include main.xlOnly {
+@include xlOnly {
 
     /* .v-application {
         width: 100vw;
@@ -135,7 +128,7 @@ export default Vue.extend({
     .navbar,
     .router_view,
     .footer {
-        padding: main.$container_padding_xl;
+        padding: $container_padding_xl;
     }
 
     .side_container {
@@ -147,45 +140,45 @@ export default Vue.extend({
     }
 
     .content {
-        padding: main.$container_padding_xl;
+        padding: $container_padding_xl;
         padding-top: 0 !important;
     }
 
     .manhattan_alert {
-        margin-top: main.$navbar_height_offset_xl !important;
+        margin-top: $navbar_height_offset_xl !important;
     }
 }
 
-@include main.lgOnly {
+@include lgOnly {
     
     .navbar,
     .router_view,
     .footer {
-        padding: main.$container_padding_lg;
+        padding: $container_padding_lg;
     }
  
     .content {
         padding-top: 0 !important;
-        /* padding-top: main.$navbar_height_offset_lg !important; */
+        /* padding-top: $navbar_height_offset_lg !important; */
     }
 }
 
-@include main.mdOnly {
+@include mdOnly {
 
     .navbar,
     .router_view,
     .footer {
-        padding: main.$container_padding_md;
+        padding: $container_padding_md;
     }
 
     .content {
         padding-top: 0 !important;
-        /* padding-top: main.$navbar_height_offset_md !important; */
+        /* padding-top: $navbar_height_offset_md !important; */
     }
 }
 
 
-@include main.smOnly {
+@include smOnly {
 
     /* .navbar_mobile { } */
     
@@ -194,7 +187,7 @@ export default Vue.extend({
     }    
     .router_view,
     .footer {
-        padding: main.$container_padding_sm;
+        padding: $container_padding_sm;
         padding-top: 0 !important;
     }
 
@@ -203,13 +196,13 @@ export default Vue.extend({
     }
 }
 
-@include main.xsOnly {
+@include xsOnly {
     
     /* .navbar_mobile { } */
 
     .router_view,
     .footer {
-        padding: main.$container_padding_xs;
+        padding: $container_padding_xs;
         padding-top: 0 !important;
     }
 
@@ -220,7 +213,7 @@ export default Vue.extend({
 </style>
 
 <style lang="scss">
-@use "main";
+
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap');
@@ -232,8 +225,8 @@ export default Vue.extend({
 body {
     font-family: "Rubik", sans-serif;
     margin: 0;
-    background-color: main.$white !important;
-    color: main.$primary-color;
+    background-color: $white !important;
+    color: $primary-color;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -250,7 +243,7 @@ p {
 }
 
 .v-application a {
-    color: main.$primary-color !important;
+    color: $primary-color !important;
     text-decoration: none;
     font-weight: 400; /* 700 */
 
@@ -260,8 +253,8 @@ p {
 }
 
 .v-application .primary--text {
-    color: main.$primary-color !important;
-    caret-color: main.$primary-color !important;
+    color: $primary-color !important;
+    caret-color: $primary-color !important;
 }
 
 .numeral {
@@ -277,7 +270,7 @@ p {
 } */
 
 .card {
-    background-color: main.$white;
+    background-color: $white;
     padding: 15px;
     border-radius: 6px;
 }
@@ -287,11 +280,11 @@ p {
         font-size: 26px;
         margin: 0;
         font-weight: 400;
-        color: main.$primary-color;
+        color: $primary-color;
     }
 }
 
-@include main.smOnly {
+@include smOnly {
     .header {
         h2 {
             font-size: 26px;
@@ -300,7 +293,7 @@ p {
     }
 }
 
-@include main.xsOnly {
+@include xsOnly {
     .card {
         border-radius: 0;
     }
@@ -326,7 +319,7 @@ p {
         overflow: hidden;
         display: block;
         text-overflow: ellipsis;
-        color: main.$primary-color;
+        color: $primary-color;
         text-decoration: none;
 
         &:hover {
@@ -350,7 +343,7 @@ p {
     grid-template-columns: 140px 1fr;
     overflow-x: scroll;
     padding: 15px 0;
-    border-bottom: 1px solid main.$gray-xlight;
+    border-bottom: 1px solid $gray-xlight;
     
     .label {
         font-weight: 400; /* 700 */
@@ -369,8 +362,8 @@ p {
 
 .genesis {
     background-color: #e6ffe6;
-    border: 1px solid main.$green;
-    color: main.$green;
+    border: 1px solid $green;
+    color: $green;
     width: max-content;
     padding: 4px 8px;
     margin: 0 0 0 30px;
@@ -378,8 +371,8 @@ p {
 }
 
 .status {
-    background-color: main.$green-light;
-    color: main.$green;
+    background-color: $green-light;
+    color: $green;
     width: max-content;
     border-radius: 3px;
     padding: 4px 8px;
@@ -387,8 +380,8 @@ p {
 
 .values {
     span {
-        background-color: main.$secondary-color-xlight;
-        color: main.$secondary-color;
+        background-color: $secondary-color-xlight;
+        color: $secondary-color;
         margin-right: 4px;
         padding: 4px 8px;
         border-radius: 3px;
@@ -435,7 +428,7 @@ p {
     overflow: auto;
 }
 
-@include main.smOnly {
+@include smOnly {
     .meta_row {
         padding: 16px 0;
         grid-template-columns: none;
@@ -460,13 +453,13 @@ p {
     }
 }
 
-@include main.xsOnly {
+@include xsOnly {
     .utxo_table {
         margin-top: 5px;
     }
 
     .detail {
-        padding: main.$container_padding_xs;
+        padding: $container_padding_xs;
     }
 }
 
@@ -517,7 +510,7 @@ input {
     flex-direction: row-reverse;
 }
 
-@include main.smOnly {
+@include smOnly {
     .view_all {
         width: 100%;
         text-align: center;
@@ -573,8 +566,8 @@ tbody {
         max-width: 320px;
 
         .filter {
-            border: 2px solid main.$bg-light;
-            background-color: main.$bg-light;
+            border: 2px solid $bg-light;
+            background-color: $bg-light;
             height: 36px;
             width: 320px;
             box-sizing: content-box;
@@ -582,7 +575,7 @@ tbody {
             padding: 8px 12px;
             outline: none;
             font-size: 12px;
-            color: main.$primary-color;
+            color: $primary-color;
         }
     }
 }
@@ -592,7 +585,7 @@ tbody {
     padding: 0;
 }
 
-@include main.xlOnly {
+@include xlOnly {
     .v-toolbar--dense .v-toolbar__content, 
     .v-toolbar--dense .v-toolbar__extension {
         padding: 0 15px;

@@ -80,7 +80,7 @@ export default class BlockchainDataTable extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../../main";
+
 
 .table_image {
     height: 20px;
@@ -96,19 +96,19 @@ export default class BlockchainDataTable extends Vue {
     white-space: nowrap;
     font-weight: 300;
     font-size: 0.825em;
-    color: main.$gray;
+    color: $gray;
     line-height: 1em;
 }
 
-@include main.smOnly {
+@include smOnly {
 }
 
-@include main.xsOnly {
+@include xsOnly {
 }
 </style>
 
 <style lang="scss">
-@use "../../main";
+
 
 #blockchain_data_table {
     .v-data-footer__icons-before > button,

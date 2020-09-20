@@ -88,12 +88,12 @@ export default class NavbarMobile extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../main";
+
 
 .navbar_mobile {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
-    background-color: main.$white;
+    background-color: $white;
 
     > .v-toolbar__content {
         padding: 0;
@@ -165,7 +165,7 @@ export default class NavbarMobile extends Vue {
 
         .subnet {
             font-size: 12px;
-            color: main.$primary-color;
+            color: $primary-color;
             padding-bottom: 2px;
             display: inline-block;
         }
@@ -217,7 +217,7 @@ button {
     justify-content: flex-start;
     align-items: center;
     padding: 10px 9px 8px;
-    border-bottom: 2px solid main.$gray-input;
+    border-bottom: 2px solid $gray-input;
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
 
