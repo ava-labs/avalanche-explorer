@@ -1,7 +1,7 @@
 <template>
     <div>
         <template v-if="networkID === 1">
-            <v-alert class="testnet_alert mainnet_announcement" text rounded="0">
+            <v-alert class="testnet_alert mainnet_announcement" rounded="0">
                 <p class="description">Per aspera ad astra</p>
             </v-alert>
         </template>
@@ -36,11 +36,6 @@ export default class TestnetAlert extends Vue {
     background-color: $white !important;
 }
 
-.v-application .info--text {
-    color: #FFF !important;
-    caret-color: #FFF !important;
-}
-
 .mainnet_announcement {
     color: $white !important;
     font-weight: 400;
@@ -52,8 +47,10 @@ export default class TestnetAlert extends Vue {
     }
 }
 
-.v-alert--text:before {
-    background-color: $white;
+@if $VUE_APP_DEFAULT_NETWORKID == 1 {
+    .v-alert--text:before {
+        background-color: $white;
+    }
 }
 
 .bold {
