@@ -341,7 +341,7 @@ p {
 }
 
 .status {
-    background-color: $green-light;
+    background-color: $green-xlight;
     color: $green;
     width: max-content;
     border-radius: 3px;

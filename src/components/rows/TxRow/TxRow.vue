@@ -11,7 +11,12 @@
             <span class="label" v-if="$vuetify.breakpoint.smAndDown"></span>
             <utxo-input v-for="(input,i) in inputs" :key="i" :input="input"></utxo-input>
         </div>
-        <div class="to_amount">
+        <div class="to_amount" v-if="isGenesisVertex">
+            <div class="info_col">
+                <router-link :to="`/tx/${tx_id}`" class="view_all">Explore Genesis Vertex</router-link>
+            </div>
+        </div>
+        <div class="to_amount" v-else>
             <output-utxo class="utxo_out" v-for="(output,i) in outputs" :key="i" :output="output"></output-utxo>
         </div>
     </div>
@@ -24,6 +29,7 @@ import OutputUtxo from "@/components/rows/TxRow/OutputUtxo.vue";
 import moment from "moment";
 import { Asset } from '@/js/Asset';
 import { Transaction } from '@/js/Transaction';
+import { DEFAULT_NETWORK_ID } from "@/store/modules/network/network";
 
 @Component({
     components: {
@@ -36,6 +42,11 @@ export default class TxRow extends Vue {
     
     get assets() {
         return this.$store.state.assets;
+    }
+
+    get isGenesisVertex(): boolean {
+        let genesisTxID = (DEFAULT_NETWORK_ID === 0) ? process.env.VUE_APP_AVAXID : process.env.VUE_APP_TEST_AVAXID;
+        return (this.transaction.id === genesisTxID) ? true : false;
     }
 
     get tx_id() {
