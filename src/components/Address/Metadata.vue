@@ -15,11 +15,34 @@
         <article class="meta_row">
             <p class="label">AVAX Balance</p>
             <div class="symbol">
-                <p>{{avaxBalance.toLocaleString(this.assetsMap[AVAX].denomination)}} AVAX</p>
+                <p>{{X_unlocked.toLocaleString(this.assetsMap[AVAX].denomination)}} AVAX</p>
                 <div class="avax_balance_container">
-                    <AVAXBalanceTable 
-                        :unlockedX="avaxBalance"
-                    ></AVAXBalanceTable>
+                    <div>
+                        <v-tabs v-model="tab" show-arrows>
+                            <v-tab>Summary</v-tab>
+                            <v-tab>Detail</v-tab>
+                            <v-tab-item class="tab_content" value="summary">
+                                <AVAXBalanceTableSummary
+                                    :P_unlocked="P_unlocked"
+                                    :P_lockedStakeable="P_lockedStakeable"
+                                    :P_lockedNotStakeable="P_lockedNotStakeable"
+                                    :P_staked="P_staked"
+                                    :X_unlocked="X_unlocked"
+                                    :X_locked="X_locked"
+                                ></AVAXBalanceTableSummary>
+                            </v-tab-item>
+                            <v-tab-item class="tab_content" value="detail">
+                                <AVAXBalanceTableDetail
+                                    :P_unlocked="P_unlocked"
+                                    :P_lockedStakeable="P_lockedStakeable"
+                                    :P_lockedNotStakeable="P_lockedNotStakeable"
+                                    :P_staked="P_staked"
+                                    :X_unlocked="X_unlocked"
+                                    :X_locked="X_locked"
+                                ></AVAXBalanceTableDetail>
+                            </v-tab-item>
+                        </v-tabs>
+                    </div>
                     <v-alert
                         class="info_alert"
                         v-if="isManhattan"
@@ -45,8 +68,9 @@ import "reflect-metadata";
 import { Vue, Component, Prop } from "vue-property-decorator";
 import CopyText from "@/components/misc/CopyText.vue";
 import BalanceTable from "@/components/Address/BalanceTable.vue";
-import AVAXBalanceTable from "@/components/Address/AVAXBalanceTable.vue";
-import { IAddress, IBalance } from '@/js/IAddress'; 
+import AVAXBalanceTableSummary from "@/components/Address/AVAXBalanceTableSummary.vue";
+import AVAXBalanceTableDetail from "@/components/Address/AVAXBalanceTableDetail.vue";
+import { IAddress, IBalance_X } from '@/js/IAddress'; 
 import Big from "big.js";
 import { AVAX_ID } from "@/store/index";
 import { DEFAULT_NETWORK_ID } from "@/store/modules/network/network";
@@ -55,7 +79,8 @@ import { DEFAULT_NETWORK_ID } from "@/store/modules/network/network";
     components: {
         CopyText,
         BalanceTable,
-        AVAXBalanceTable
+        AVAXBalanceTableSummary,
+        AVAXBalanceTableDetail,
     }
 })
 export default class Metadata extends Vue {
@@ -64,7 +89,7 @@ export default class Metadata extends Vue {
     @Prop() alias!: string;
     @Prop() totalTransactionCount!: number;
     @Prop() totalUtxoCount!: number;
-    @Prop() assets!: IBalance[];
+    @Prop() assets!: IBalance_X[];
     @Prop() prefix!: string;
 
     get isManhattan(): boolean {
@@ -79,8 +104,30 @@ export default class Metadata extends Vue {
         return this.$store.state.assets;
     }
 
-    get avaxBalance(): Big {
-        return this.metaData.avaxBalance;
+    // P-Chain AVAX balance
+    get P_unlocked(): Big {
+        return this.metaData.P_unlocked;
+    }
+
+    get P_lockedStakeable(): Big {
+        return this.metaData.P_lockedStakeable;
+    }
+
+    get P_lockedNotStakeable(): Big {
+        return this.metaData.P_lockedNotStakeable;
+    }
+    
+    get P_staked(): Big {
+        return this.metaData.P_staked;
+    }
+
+    // X-Chain AVAX balance
+    get X_unlocked(): Big {
+        return this.metaData.X_unlocked;
+    }
+
+    get X_locked(): Big {
+        return this.metaData.X_locked;
     }
 }
 </script>
@@ -89,7 +136,7 @@ export default class Metadata extends Vue {
 
 .addr {
     text-overflow: ellipsis;
-    word-break: keep-all;
+    word-break: keep-all; 
     white-space: nowrap;
 
     .alias {

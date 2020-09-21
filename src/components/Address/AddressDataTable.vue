@@ -24,7 +24,7 @@
 import "reflect-metadata";
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { VMMap, VMDocumentationMap, trimmedLocaleString } from "@/helper";
-import { IAddress, IBalance } from '@/js/IAddress';
+import { IAddress, IBalance_X } from '@/js/IAddress';
 import Address from '@/js/Address';
 import { Asset } from '@/js/Asset';
 

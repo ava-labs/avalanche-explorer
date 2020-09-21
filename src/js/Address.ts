@@ -1,4 +1,4 @@
-import { IBalanceData, IBalanceDatum, IBalance, IAddressData } from "./IAddress";
+import { IBalance_X_Data, IBalance_X_Datum, IBalance_X, IAddressData, IBalance_P_Data, IBalance_P } from "./IAddress";
 import { stringToBig } from "@/helper";
 import { Asset } from './Asset';
 import Big from "big.js";
@@ -12,26 +12,46 @@ interface IAssetsMap {
 }
 
 export default class Address {
-    address: string;
-    publicKey: string;
-    assets: IBalance[];
-    avaxBalance: Big;
-    totalTransactionCount: number;
-    totalUtxoCount: number
+    address:                            string;
+    publicKey:                          string;
+    // P-Chain AVAX balance
+    AVAX_balance:                       Big;
+    P_unlocked:            Big;
+    P_lockedStakeable:     Big;
+    P_lockedNotStakeable:  Big;
+    P_staked:              Big;
+    utxoIDs_P:                          string[];
+    // X-Chain AVAX balance
+    X_unlocked:            Big;
+    X_locked:              Big;
+    // X-Chain Assets
+    totalTransactionCount:              number;
+    totalUtxoCount:                     number;
+    assets:                             IBalance_X[];
 
     constructor(data: IAddressData, assetsMap: IAssetsMap) {
-        this.address = data.address;
-        this.publicKey = data.publicKey;
-        this.avaxBalance = Big(0);
-        this.totalTransactionCount = 0;
-        this.totalUtxoCount = 0;
-
-        this.assets = this.setBalances(data.assets, assetsMap);
-        this.setAVAXBalance();
+        this.address =                              data.address;
+        this.publicKey =                            data.publicKey;
+        // P-Chain AVAX balance
+        this.AVAX_balance =                         Big(0);
+        this.P_unlocked =              Big(0);
+        this.P_lockedStakeable =       Big(0);
+        this.P_lockedNotStakeable =    Big(0);
+        this.P_staked =                Big(0);
+        this.utxoIDs_P =                            [];
+        // X-Chain AVAX balance
+        this.X_unlocked =              Big(0);
+        this.X_locked =                Big(0);
+        // X-Chain Assets
+        this.totalTransactionCount =                0;
+        this.totalUtxoCount =                       0;
+        this.assets =                               this.set_asset_balances_unlocked_X(data.assets, assetsMap);
+        
+        this.set_X_unlocked();        
     }
 
-    private setBalances(balanceData: IBalanceData, assetsMap: any): IBalance[] {
-        let balances: IBalance[] = [];
+    private set_asset_balances_unlocked_X(balanceData: IBalance_X_Data, assetsMap: any): IBalance_X[] {
+        let balances: IBalance_X[] = [];
 
         /**
          * For each balance in the address's portfolio, get and set:
@@ -40,10 +60,10 @@ export default class Address {
          * - balances metadata
          */
         for (const assetID in balanceData) {
-            let balanceDatum: IBalanceDatum = balanceData[assetID];
+            let balanceDatum: IBalance_X_Datum = balanceData[assetID];
             
             // init the balance
-            let balance: IBalance = {
+            let balance: IBalance_X = {
                 id: assetID,
                 name: "",
                 denomination: 0,
@@ -110,23 +130,33 @@ export default class Address {
     }
     
     // set asset metadata for convenience
-    private setAssetMetadata(asset: Asset | IAssetData_Ortelius | IAssetData_Avalanche_Go, balance: IBalance) {
+    private setAssetMetadata(asset: Asset | IAssetData_Ortelius | IAssetData_Avalanche_Go, balance: IBalance_X) {
         balance.name = asset.name;
         balance.denomination = asset.denomination;
         balance.symbol = asset.symbol;
     }
     
     // set balance data (relies on asset metadata) 
-    private setBalanceData(balanceDatum: IBalanceDatum, denomination: number, balance: IBalance) {
+    private setBalanceData(balanceDatum: IBalance_X_Datum, denomination: number, balance: IBalance_X) {
         balance.balance = stringToBig(balanceDatum.balance, denomination);
         balance.totalReceived = stringToBig(balanceDatum.totalReceived, denomination);
         balance.totalSent = stringToBig(balanceDatum.totalSent, denomination);
     }
 
-    private setAVAXBalance(): void {
+    private set_X_unlocked(): void {
         let result = this.assets.find(asset => asset.id === AVAX_ID);
         if (result) {
-            this.avaxBalance = result.balance;
+            this.X_unlocked = result.balance;
+        }
+    }
+
+    public set_AVAX_balance_P(balance_P_data: IBalance_P_Data): void {
+        if (balance_P_data) {
+            this.AVAX_balance = Big(balance_P_data.balance);
+            this.P_unlocked = Big(balance_P_data.unlocked);
+            this.P_lockedStakeable = Big(balance_P_data.lockedStakeable);
+            this.P_lockedNotStakeable = Big(balance_P_data.lockedNotStakeable);
+            this.utxoIDs_P = balance_P_data.utxoIDs as string[];
         }
     }
 }

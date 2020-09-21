@@ -8,8 +8,8 @@
             <p>Status {{requestErrorStatus}} - {{requestErrorMessage}}</p>
             <p><a href="https://github.com/ava-labs/avalanche-explorer/issues" target="_blank">Submit Issue</a></p>
         </div>
-        <Metadata v-if="metaData && !requestError && assetsLoaded === true" 
-            :metaData="metaData"
+        <Metadata v-if="metadata && !requestError && assetsLoaded === true" 
+            :metaData="metadata"
             :addressID="addressID"
             :alias="alias"
             :totalTransactionCount="totalTransactionCount"
@@ -101,7 +101,8 @@ import { stringToBig, blockchainMap, trimmedLocaleString } from "@/helper";
 import AddressDict from "@/known_addresses";
 import Address from "@/js/Address";
 import { Transaction } from '@/js/Transaction';
-import { IBalance, IAddress, IAddressData } from '@/js/IAddress';
+import { IBalance_X, IAddress, IAddressData, IBalance_P_Data, IBalance_P } from '@/js/IAddress';
+import avalanche_go_api from "@/avalanche_go_api";
 
 @Component({
     components: {
@@ -141,7 +142,9 @@ export default class AddressPage extends Vue {
     requestError: boolean = false;
     requestErrorStatus: number | null = null;
     requestErrorMessage: string | null = null;
-    metaData: Address | null = null;
+    metadata: Address | null = null;
+    // P-Chain balances
+    loading_P: boolean = false;
     // txs
     txloading: boolean = false;
     txRequestError: boolean = false;
@@ -179,8 +182,8 @@ export default class AddressPage extends Vue {
         return AddressDict[this.addressID] ? AddressDict[this.addressID] : "";
     }
 
-    get assets(): IBalance[] {
-        return (this.metaData) ? this.metaData.assets : [];
+    get assets(): IBalance_X[] {
+        return (this.metadata) ? this.metadata.assets : [];
     }
     
     get assetsMap(): any {
@@ -201,29 +204,51 @@ export default class AddressPage extends Vue {
     }
     
     get txCount(): number {
-        return (this.metaData) ? this.metaData.totalTransactionCount : 0;
+        return (this.metadata) ? this.metadata.totalTransactionCount : 0;
     }
 
     get totalTransactionCount():  number {
-        return (this.metaData) ? this.metaData.totalTransactionCount : 0;
+        return (this.metadata) ? this.metadata.totalTransactionCount : 0;
     }
     
     get totalUtxoCount(): number {
-        return (this.metaData) ? this.metaData.totalUtxoCount : 0;
+        return (this.metadata) ? this.metadata.totalUtxoCount : 0;
     }
      
     // get address details and txs
-    updateData() {
+    async updateData() {
         this.loading = true;
+        this.loading_P = true;
         this.txloading = true;
 
         if (this.assetsLoaded) {
             this.getTx();
-            this.getAddressDetails();
+            await this.getAddressDetails_X();
+            this.getAddressDetails_P();
         }
     }
 
-    getAddressDetails() {
+    async getAddressDetails_P() {
+        this.loading_P = true;
+        let req = {
+            "jsonrpc": "2.0",
+            "method": "platform.getBalance",
+            "params": {
+                address: `P-${this.addressID}`
+            },
+            "id": 1
+        };
+        
+        let res: IBalance_P_Data = await avalanche_go_api.post("", req);
+        this.loading_P = false;
+        
+        if (this.metadata) {
+            this.metadata.set_AVAX_balance_P(res);
+        }
+        console.log("this.metadata", this.metadata);
+    }
+
+    getAddressDetails_X() {
         // TODO: support service for multiple chains
         if (this.assetsLoaded === true) {
             let url = `/x/addresses/${this.addressID}`;
@@ -232,7 +257,7 @@ export default class AddressPage extends Vue {
                 
                 if (res.data) {
                     // address in Ortelius
-                    this.metaData = new Address(res.data, this.assetsMap);
+                    this.metadata = new Address(res.data, this.assetsMap);
                 } else {
                     // not in Ortelius
                     let nullData: IAddressData = {
@@ -240,7 +265,7 @@ export default class AddressPage extends Vue {
                         publicKey: "",
                         assets: {},
                     };
-                    this.metaData = new Address(nullData, this.assetsMap);
+                    this.metadata = new Address(nullData, this.assetsMap);
                 }
             })
             .catch(err => {

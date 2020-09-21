@@ -37,7 +37,7 @@ import "reflect-metadata";
 import { Vue, Component, Prop } from "vue-property-decorator";
 import Tooltip from "@/components/rows/Tooltip.vue";
 import BalanceRow from "@/components/Address/BalanceRow.vue";
-import { IBalance } from "@/js/IAddress";
+import { IBalance_X } from "@/js/IAddress";
 
 @Component({
     components: {
@@ -55,7 +55,7 @@ import { IBalance } from "@/js/IAddress";
     }
 })
 export default class BalanceTable extends Vue {
-    @Prop() assets!: IBalance[];
+    @Prop() assets!: IBalance_X[];
 }
 </script>
 
