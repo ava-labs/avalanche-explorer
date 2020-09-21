@@ -227,6 +227,7 @@ export default class AddressPage extends Vue {
             this.getTx();
             await this.getAddressDetails_X();
             this.getAddressDetails_P();
+            this.getStake_P();
         }
     }
 
@@ -240,9 +241,11 @@ export default class AddressPage extends Vue {
             },
             "id": 1
         };
+        console.log("REQUEST:           ", req.params);
         
         let res = await avalanche_go_api.post("", req);
         let result: IStake_P_Data = res.data.result;
+        console.log("RES getStake:      ", result);
         
         if (this.metadata) {
             this.metadata.set_AVAX_staked_P(result);
@@ -264,7 +267,7 @@ export default class AddressPage extends Vue {
         
         let res = await avalanche_go_api.post("", req);
         let result: IBalance_P_Data = res.data.result; 
-        console.log("results", result);
+        console.log("RES getBalance:    ", result);
 
         if (this.metadata) {
             this.metadata.set_AVAX_balance_P(result);

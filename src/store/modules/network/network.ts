@@ -6,6 +6,9 @@ import Network from "@/js/Network";
 import axios from "@/axios";
 
 export const DEFAULT_NETWORK_ID = parseInt(process.env.VUE_APP_DEFAULT_NETWORKID || "4");
+export const DEFAULT_NETWORK_NAME = (DEFAULT_NETWORK_ID === 0) 
+    ? process.env.VUE_APP_NETWORKNAME as string
+    : process.env.VUE_APP_TEST_NETWORKNAME as string;
 
 // Mainnet
 const networkName = process.env.VUE_APP_NETWORKNAME;
