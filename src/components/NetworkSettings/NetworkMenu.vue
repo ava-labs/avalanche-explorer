@@ -2,8 +2,8 @@
     <div class="network_menu" :connected="status==='connected'" @keydown.esc="closeMenu">
         <!-- STATUS BUTTONS -->
         <div class="toggle_but" @click="toggleMenu">
-            <img src="@/assets/network_on.png" v-if="status === 'connected'">
-            <img src="@/assets/network_off.png" v-else>
+            <img :src="require(`@/assets/network_on_${networkColor}.png`)" v-if="status === 'connected'">
+            <img :src="require(`@/assets/network_off_${networkColor}.png`)" v-else>
             <button v-if="status === 'connected'" class="but_primary">{{activeNetwork.name}}</button>
             <button v-else-if="status === 'connecting'">Connecting...</button>
             <button v-else>Disconnected</button>
@@ -47,6 +47,7 @@
     import ListPage from './ListPage.vue';
     // import CustomPage from './CustomPage.vue';
     // import EditPage from "@/components/NetworkSettings/EditPage.vue";
+    import { DEFAULT_NETWORK_ID } from "@/store/modules/network/network";
 
     @Component({
         components: {
@@ -98,6 +99,10 @@
         get networks(): Network {
             return this.$store.state.Network.networks;
         }
+
+        get networkColor(): string {
+            return (DEFAULT_NETWORK_ID === 0) ? "primary" : "white";
+        }
     }
 </script>
 <style scoped lang="scss">
@@ -124,11 +129,24 @@
         button {
             font-size: 16px;
             color: $primary-color;
-            background-color: $white;
+            background-color: transparent;
         }
 
         .caret {
             padding-left: 5px;
+        }
+    }
+
+    @if $VUE_APP_DEFAULT_NETWORKID == 5 {
+        .toggle_but {
+            .caret,
+            button {
+                color: $white;
+            }
+        }
+
+        .network_menu[connected] .toggle_but {
+            color: $white;
         }
     }
 

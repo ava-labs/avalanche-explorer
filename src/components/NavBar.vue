@@ -10,7 +10,7 @@
     >
         <div class="logo">
             <router-link to="/">
-                <img style="width: 200px" src="@/assets/explorer_logo_light.png" />
+                <img style="width: 200px" :src="require(`@/assets/explorer_logo_${logoColor}.png`)" />
                 <h1>
                     <span class="hide">Avalanche Explorer</span>
                 </h1>
@@ -68,11 +68,14 @@ export default Vue.extend({
             return (this.$router.currentRoute.name === "Home") ? false : true;
         },
         navColor() {
-            return "#fff";
+            return (DEFAULT_NETWORK_ID === 0) ? "#fff" : "#2196f3";
+        },
+        logoColor() {
+            return (DEFAULT_NETWORK_ID === 0) ? "light" : "white";
         },
         cChainURL() {
             return (DEFAULT_NETWORK_ID === 0) ? cChainExplorerURL : cChainExplorerURL_test;
-        }
+        },
     }
 });
 </script>
@@ -178,6 +181,16 @@ export default Vue.extend({
 
     &:last-child {
         padding-right: 0;
+    }
+}
+
+@if $VUE_APP_DEFAULT_NETWORKID == 5 { 
+    .routes a {
+        color: rgba(255,255,255, .72) !important;
+
+        &.router-link-exact-active {
+            color: $white !important;
+        }
     }
 }
 

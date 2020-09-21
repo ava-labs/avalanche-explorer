@@ -26,7 +26,7 @@
             <template #item.name="{item}">
                 <router-link class="name_id" :to="`/asset/${item.id}`">
                 <div>
-                    <img class="table_image" src="@/assets/hex_ava.svg" alt />
+                    <img class="table_image" :src="require(`@/assets/hex_ava_${hexColor}.svg`)" alt />
                     <span class="name">{{item | nameOrID}} </span>
                     <span class="collision">{{collisionHash(item)}}</span>
                 </div>                    
@@ -59,6 +59,7 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 import { stringToBig, blockchainMap } from "@/helper";
 import { Asset } from '@/js/Asset';
 import { ICollisionMap } from '@/js/IAsset';
+import { DEFAULT_NETWORK_ID } from "@/store/modules/network/network";
 
 @Component({
     components: {
@@ -96,6 +97,10 @@ export default class AssetsDataTable extends Vue {
 
     get collisionMap(): ICollisionMap {
         return this.$store.state.collisionMap;
+    }
+
+    get hexColor(): string {
+        return (DEFAULT_NETWORK_ID === 0) ? "mainnet" : "testnet";
     }
 
 }

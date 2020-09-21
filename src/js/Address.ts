@@ -152,10 +152,10 @@ export default class Address {
 
     public set_AVAX_balance_P(balance_P_data: IBalance_P_Data): void {
         if (balance_P_data) {
-            this.AVAX_balance = bigToDenomBig(Big(balance_P_data.balance), 9);
-            this.P_unlocked = bigToDenomBig(Big(balance_P_data.unlocked), 9);
-            this.P_lockedStakeable = bigToDenomBig(Big(balance_P_data.lockedStakeable), 9);
-            this.P_lockedNotStakeable = bigToDenomBig(Big(balance_P_data.lockedNotStakeable), 9);
+            this.AVAX_balance = bigToDenomBig((Big(balance_P_data.balance)), 9);
+            this.P_unlocked = bigToDenomBig((Big(balance_P_data.unlocked)), 9);
+            this.P_lockedStakeable = bigToDenomBig((Big(balance_P_data.lockedStakeable)), 9);
+            this.P_lockedNotStakeable = bigToDenomBig((Big(balance_P_data.lockedNotStakeable)), 9);
             this.P_utxoIDs = balance_P_data.utxoIDs as string[];
         }
     }

@@ -4,16 +4,8 @@
         <nav-bar class="navbar" v-if="$vuetify.breakpoint.mdAndUp"></nav-bar>
         <nav-bar-mobile class="navbar_mobile" v-if="$vuetify.breakpoint.smAndDown"></nav-bar-mobile>
         <div>
-            <v-alert
-                class="manhattan_alert"
-                text
-                type="warning"
-                rounded="0"
-            >
-                <p class="description">Notice: This Explorer does not reflect Avalanche's Mainnet, its genesis state, or any network activity. Data here is reflective of a temporary test network.</p>
-            </v-alert>
+            <testnet-alert></testnet-alert>
             <div class="side_container">
-                <!-- <nav-bar-side v-if="$vuetify.breakpoint.xlOnly"></nav-bar-side> -->
                 <v-content class="content">
                     <router-view class="router_view"></router-view>
                 </v-content>
@@ -28,11 +20,9 @@
 
 <script lang="ts">
 import Vue from "vue";
-
-import NavBarMobile from "@/components/NavBarMobile.vue";
 import NavBar from "@/components/NavBar.vue";
-import NavBarXL from "@/components/NavBarXL.vue";
-import NavBarSide from "@/components/NavBarSide.vue";
+import NavBarMobile from "@/components/NavBarMobile.vue";
+import TestnetAlert from "@/components/misc/TestnetAlert.vue";
 // import ResponsiveGuidelines from "@/components/misc/ResponsiveGuidelines.vue";
 import Footer from "@/components/Footer.vue"
 import { IMetaTag } from "@/router/IMetaTag";
@@ -44,9 +34,8 @@ export default Vue.extend({
     components: {
         NavBar,
         NavBarMobile,
-        // NavBarXL,
-        // NavBarSide,
         // ResponsiveGuidelines,
+        TestnetAlert,
         Footer,
         Notifications
     },
@@ -93,11 +82,14 @@ export default Vue.extend({
     min-height: 100vh;
 }
 
-.manhattan_alert {
-    margin-top: 100px !important;
+@if $VUE_APP_DEFAULT_NETWORKID == 5 {
+    .v-application {
+       background-color: #fff !important;
+       background-image: $background_image;
+    }
 }
 
-.side_container {
+.side_container {   
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -120,13 +112,6 @@ export default Vue.extend({
 
 @include xlOnly {
 
-    /* .v-application {
-        width: 100vw;
-        height: 100vh;
-    } */
-
-    /* .navbarXL { } */
-
     .navbar,
     .router_view,
     .footer {
@@ -145,10 +130,6 @@ export default Vue.extend({
         padding: $container_padding_xl;
         padding-top: 0 !important;
     }
-
-    .manhattan_alert {
-        margin-top: $navbar_height_offset_xl !important;
-    }
 }
 
 @include lgOnly {
@@ -161,7 +142,6 @@ export default Vue.extend({
  
     .content {
         padding-top: 0 !important;
-        /* padding-top: $navbar_height_offset_lg !important; */
     }
 }
 
@@ -175,14 +155,11 @@ export default Vue.extend({
 
     .content {
         padding-top: 0 !important;
-        /* padding-top: $navbar_height_offset_md !important; */
     }
 }
 
 
 @include smOnly {
-
-    /* .navbar_mobile { } */
     
     .side_container {
         flex-direction: column;
@@ -192,25 +169,15 @@ export default Vue.extend({
         padding: $container_padding_sm;
         padding-top: 0 !important;
     }
-
-    .manhattan_alert {
-        margin-top: 0px !important;
-    }
 }
 
 @include xsOnly {
     
-    /* .navbar_mobile { } */
-
     .router_view,
     .footer {
         padding: $container_padding_xs;
         padding-top: 0 !important;
     }
-
-    .manhattan_alert {
-        margin-top: 0px !important;
-    } 
 }
 </style>
 
@@ -219,7 +186,6 @@ export default Vue.extend({
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
 
 /* ==========================================
    typography
@@ -259,10 +225,6 @@ p {
     caret-color: $primary-color !important;
 }
 
-.numeral {
-    font-family: "Major Mono Display", sans-serif;
-}
-
 /* ==========================================
    layout
    ========================================== */
@@ -275,6 +237,12 @@ p {
     background-color: $white;
     padding: 30px;
     border-radius: 6px;
+}
+
+@if $VUE_APP_DEFAULT_NETWORKID == 5 {
+    .card {
+        border: 2px solid $blue;
+    }
 }
 
 .header {

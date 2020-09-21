@@ -25,7 +25,7 @@
                 <div class="asset" v-for="(asset) in assets" :key="asset.id">
                     <div v-if="$vuetify.breakpoint.smAndUp"><span class="symbol">{{asset.symbol}}</span></div>
                     <div class="name name_value">
-                        <img class="table_image" src="@/assets/hex_ava.svg" alt />
+                        <img class="table_image hex" :src="require(`@/assets/hex_ava_${hexColor}.svg`)" alt />
                         <router-link :to="`/asset/${asset.id}`" class="asset_name">{{asset.name}}</router-link>
                         <span class="collision">{{collisionHash(asset)}}</span>
                     </div>
@@ -50,6 +50,7 @@ import axios from "@/axios";
 import { Asset } from "@/js/Asset";
 import { AVAX_ID } from "@/store/index";
 import { ICollisionMap } from '@/js/IAsset';
+import { DEFAULT_NETWORK_ID } from "@/store/modules/network/network";
 
 @Component({
     components: {
@@ -87,6 +88,10 @@ export default class TopAssets extends Vue {
 
     get collisionMap(): ICollisionMap {
         return this.$store.state.collisionMap;
+    }
+
+    get hexColor(): string {
+        return (DEFAULT_NETWORK_ID === 0) ? "mainnet" : "testnet";
     }
 }
 </script>
@@ -189,6 +194,14 @@ export default class TopAssets extends Vue {
 
     .metric_value {
         font-size: 16px;
+    }
+}
+
+@if $VUE_APP_DEFAULT_NETWORKID == 5 {
+    .hex {
+        path {
+            fill: $blue;
+        }
     }
 }
 

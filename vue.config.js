@@ -7,6 +7,7 @@ for (let e in process.env) {
 	}
 }
 scssVars += `@import "@/_main.scss"; `;
+scssVars += `@import "@/_background.scss"; `;
 // console.log("scssVars", scssVars);
 
 module.exports = {
