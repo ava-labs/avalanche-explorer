@@ -14,7 +14,7 @@
                 <tbody>
                     <tr v-for="ck in subnet.controlKeys" :key="ck">
                         <td>
-                            <img class="table_image" src="@/assets/key-purple.png" alt />
+                            <img class="table_image" :src="require(`@/assets/key-${imgColor}.png`)" alt />
                             {{ ck }}
                         </td>
                     </tr>
@@ -32,6 +32,7 @@ import { subnetMap, VMMap, VMDocumentationMap } from "@/helper";
 import Subnet from "@/js/Subnet";
 import Blockchain from "@/js/Blockchain";
 import Indexed from "@/components/Blockchain/Indexed.vue";
+import { DEFAULT_NETWORK_ID } from "@/store/modules/network/network";
 
 @Component({
     components: {
@@ -50,11 +51,14 @@ import Indexed from "@/components/Blockchain/Indexed.vue";
 export default class ControlKeyTable extends Vue {
     @Prop() subnet!: Subnet;
     @Prop() title?: string;
+
+    get imgColor(): string {
+        return (DEFAULT_NETWORK_ID === 1) ? "testnet" : "testnet";
+    }
 }
 </script>
 
 <style scoped lang="scss">
-@use "../../main";
 
 .table_image {
     height: 20px;
@@ -70,7 +74,7 @@ export default class ControlKeyTable extends Vue {
     white-space: nowrap;
     font-weight: 300;
     font-size: 0.825em;
-    color: main.$gray;
+    color: $gray;
     line-height: 1em;
 }
 
@@ -78,15 +82,15 @@ export default class ControlKeyTable extends Vue {
     padding: 32px 16px;
 }
 
-@include main.device_s {
+@include smOnly {
 }
 
-@include main.device_xs {
+@include xsOnly {
 }
 </style>
 
 <style lang="scss">
-@use "../../main";
+
 
 #control_key_table {
     .v-data-footer__icons-before > button,

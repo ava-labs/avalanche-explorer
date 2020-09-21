@@ -1,5 +1,5 @@
 <template>
-    <div class="tx_history">
+    <div class="tx_history card">
         <div class="header">
             <h2>
                 Transaction History
@@ -22,6 +22,9 @@
                 <canvas ref="canv"></canvas>
             </div>
         </div>
+        <template v-if="aggregates && !loading">
+            <TransactionHistoryMeta :aggregates="aggregates"></TransactionHistoryMeta>
+        </template>
     </div>
 </template>
 <script>
@@ -29,6 +32,7 @@ import TooltipHeading from "../../misc/TooltipHeading.vue";
 import axios from "@/axios";
 import Chart from "chart.js";
 import moment from "moment";
+import TransactionHistoryMeta from "@/components/Home/TopInfo/TransactionHistoryMeta";
 
 export default {
     data() {
@@ -38,11 +42,13 @@ export default {
             scope: "day",
             history: null,
             chart: null,
-            loading: false
+            loading: false,
+            aggregates: null
         };
     },
     components: {
         TooltipHeading,
+        TransactionHistoryMeta,
     },
     methods: {
         setScope(val) {
@@ -67,6 +73,7 @@ export default {
                 .then(res => {
                     this.loading = false;
                     this.history = res.data;
+                    this.aggregates = res.data.aggregates;
                     this.draw();
                 });
         }, 
@@ -275,7 +282,17 @@ export default {
         },
         // raw data
         dataX() {
-            return (!this.history) ? [] : this.history.intervals;
+            let rawData = (!this.history) ? [] : this.history.intervals;
+            // the last item in the data series will not constitute a full time intergral
+            // replace its data with a projection based on the series avg, if necessary ("sad")
+            if (rawData.length > 0) {
+                const average = (rawData.map(d => d.transactionCount).reduce((acc, c) => acc + c, 0) / rawData.length).toFixed(0);
+                const lastValue = rawData[rawData.length - 1].transactionCount;
+                if (lastValue < average) {
+                    rawData[rawData.length - 1].transactionCount = average;
+                }
+            }
+            return rawData;
         },
         // charted data
         valuesX() {
@@ -319,7 +336,8 @@ export default {
             },
 
             options: {
-                maintainAspectRatio: false,
+                aspectRatio: 1.62,
+                maintainAspectRatio: true,
                 responsive: true,
                 title: {
                     display: false,
@@ -392,7 +410,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@use "../../../main";
 
 .tx_history {
     display: flex;
@@ -400,7 +417,7 @@ export default {
 }
 
 .header {
-    padding-bottom: 20px;
+    padding-bottom: 30px;
 }
 
 .history_cont {
@@ -416,7 +433,7 @@ export default {
         flex-grow: 1;
         font-size: 9px;
         background-color: transparent;
-        color: main.$primary-color;
+        color: $primary-color;
         height: 24px;
         width: 28px;
         border: none;
@@ -433,15 +450,15 @@ export default {
         }
 
         &[active] {
-            color: main.$white;
-            background-color: main.$primary-color;
+            color: $white;
+            background-color: $primary-color;
         }
     }
 }
 
 .loading_cont {
     position: absolute;
-    background-color: main.$white;
+    background-color: $white;
     margin-top: 40px;
     top: -5px;
     left: 0;
@@ -460,7 +477,7 @@ export default {
     position: relative;
 }
 
-@include main.device_s {
+@include smOnly {
     .history_settings {
         margin: 8px 0px;
         display: flex;

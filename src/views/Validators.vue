@@ -72,12 +72,12 @@
 <script lang="ts">
 import "reflect-metadata";
 import { Vue, Component } from "vue-property-decorator";
-import ValidatorRow from "../components/rows/ValidatorRow/ValidatorRow.vue";
-import ValidatorPaginationControls from "../components/misc/ValidatorPaginationControls.vue";
+import ValidatorRow from "@/components/rows/ValidatorRow/ValidatorRow.vue";
+import ValidatorPaginationControls from "@/components/misc/ValidatorPaginationControls.vue";
 import { AVALANCHE_SUBNET_ID } from "@/store/modules/platform/platform";
-import Tooltip from "../components/rows/Tooltip.vue";
-import TooltipHeading from "../components/misc/TooltipHeading.vue";
-import TooltipMeta from "../components/misc/TooltipMeta.vue";
+import Tooltip from "@/components/rows/Tooltip.vue";
+import TooltipHeading from "@/components/misc/TooltipHeading.vue";
+import TooltipMeta from "@/components/misc/TooltipMeta.vue";
 import Metadata from "@/components/Validators/Metadata.vue";
 import { IValidator } from "@/store/modules/platform/IValidator";
 
@@ -179,7 +179,6 @@ export default class Validators extends Vue {
 }
 </script>
 <style scoped lang="scss">
-@use "../main";
 
 .pagination_container {
     display: flex;
@@ -188,7 +187,7 @@ export default class Validators extends Vue {
 }
 
 .validators {
-    background-color: main.$white;
+    background-color: $white;
     border-radius: 6px;
     padding: 30px;
 }
@@ -197,14 +196,14 @@ export default class Validators extends Vue {
     border-top: 1px solid #e7e7e7;
 
     &:nth-of-type(2n) {
-        background-color: main.$secondary-color-xlight;
+        background-color: $secondary-color-xlight;
     }
 }
 
 .headers {
     display: grid;
     grid-template-columns: 70px 1fr 1fr 1fr;
-    color: main.$black;
+    color: $black;
     font-size: 12px;
     font-weight: 700;
 
@@ -220,7 +219,7 @@ export default class Validators extends Vue {
     font-size: 12px;
 }
 
-@include main.device_s {
+@include smOnly {
     .header {
         flex-direction: column;
     }
@@ -256,7 +255,7 @@ export default class Validators extends Vue {
     }
 }
 
-@include main.device_xs {
+@include xsOnly {
     .validators {
         padding: 30px 15px;
     }

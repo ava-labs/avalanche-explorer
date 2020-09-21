@@ -25,9 +25,9 @@
 import "reflect-metadata";
 import { Vue, Component } from "vue-property-decorator";
 import { subnetMap } from "@/helper";
-import Metadata from "../components/Subnets/Metadata.vue";
-import Tabs from "../components/Subnets/Tabs.vue";
-import Loader from "../components/misc/Loader.vue";
+import Metadata from "@/components/Subnets/Metadata.vue";
+import Tabs from "@/components/Subnets/Tabs.vue";
+import Loader from "@/components/misc/Loader.vue";
 import Content from "@/components/Subnets/Content.vue";
 import { AVALANCHE_SUBNET_ID } from "@/store/modules/platform/platform";
 import { ISubnets } from "../store/modules/platform/IPlatformState";
@@ -100,7 +100,6 @@ export default class Subnets extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../main";
 
 .headers {
     display: grid;
@@ -115,7 +114,7 @@ export default class Subnets extends Vue {
 </style>
 
 <style lang="scss">
-@use "../main";
+
 /* #subnets {
     .v-input__slot {
         width: calc(100% - 24px) !important;

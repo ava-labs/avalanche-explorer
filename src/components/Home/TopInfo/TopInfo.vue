@@ -1,7 +1,7 @@
 <template>
     <div class="top_info">
         <transaction-history></transaction-history>
-        <NetworkActivity></NetworkActivity>
+        <network-activity></network-activity>
         <top-assets></top-assets>
     </div>
 </template>
@@ -20,57 +20,56 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use"../../../main";
 
 .top_info {
     display: grid;
-    grid-template-columns: 33% 33% 33%;
-    padding: 30px 0;
-    overflow: auto;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 15px;
+    padding: 0;
     width: 100%;
+    background: transparent;
+    overflow: visible;
 
     > div {
-        padding: 0px 30px;
+        padding: 24px;
         overflow: auto;
-        border-right: 1px solid #c4c4c455;
     }
 
     > div:last-of-type {
         min-height: 256px;
-        border: none;
     }
 }
 
-@include main.device_l {
+@include lgOnly {
     .top_info {
-        grid-template-columns: 360px 1fr minmax(0, 30%);
+        grid-template-columns: 1fr 1fr 1fr;
     }
 }
 
 
-@include main.device_s {
+@include smOnly {
     .top_info {
         grid-template-columns: 1fr;
         grid-template-rows: max-content max-content max-content;
         padding: 0;
 
         > div {
-            padding: 30px;
-            margin-bottom: 10px;
-            border: none;
-            /* border-bottom: 1px solid #c4c4c455; */
+            margin-bottom: 15px;
+        }
+
+        > div:last-of-type {
+            margin-bottom: 0;
         }
     }
 }
 
-@include main.device_xs {
+@include xsOnly {
     .top_info {
-        background-color: #f8f8f8;
+        grid-template-columns: 1fr;
         
         > div {
-            padding: 30px 15px;
-            /* box-shadow: main.$box-shadow; */
-            background-color: main.$white;
+            padding: 15px;
+            margin-bottom: 15px;
         }
     }
 }

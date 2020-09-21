@@ -14,6 +14,7 @@ import Blockchain from '@/js/Blockchain';
 
 export const AVALANCHE_SUBNET_ID = Object.keys(SubnetDict).find(key => SubnetDict[key] === "Primary Network") as string;
 export const X_CHAIN_ID = Object.keys(BlockchainDict).find(key => BlockchainDict[key] === "X-Chain") as string;
+export const TOTAL_AVAX_SUPPLY = Big(360000000);
 
 const platform_module: Module<IPlatformState, IRootState> = {
     namespaced: true,
@@ -66,14 +67,14 @@ const platform_module: Module<IPlatformState, IRootState> = {
             // Map blockchains to their subnet
             state.blockchains.forEach(b => {
                 let subnetID = b.subnetID;
-                state.subnets[subnetID].addBlockchain(b);
+                try {
+                    state.subnets[subnetID].addBlockchain(b);
+                } catch(err) {
+                    console.log(err);
+                } 
             });
 
             state.subnetsLoaded = true;
-
-            console.log("Primary Network:", state.subnets[AVALANCHE_SUBNET_ID]);
-            console.log("Subnet         :", state.subnets["2K8ooP9fbFA76vCujXPQbRAy1FKuFJP1vbj6iPNYtNCCQmHULK"]);
-            console.log("Subnet         :", state.subnets["PSP9dMyURieXhjE9xVpoTBhp2AXt3UfPknKnJAyTsax56dd35"]);
         },
 
         async updateCurrentSupply({state}){

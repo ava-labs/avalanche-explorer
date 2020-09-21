@@ -38,7 +38,7 @@ export default {};
 </script>
 
 <style lang="scss">
-@use "../../main";
+
 
 #responsive-guidelines {
     .tick-container {
@@ -46,21 +46,21 @@ export default {};
         box-sizing: content-box;
         height: 20px;
         display: inline-block;
-        border-right: 1px solid main.$gray-light;
+        border-right: 1px solid cyan;
         z-index: 1000;
     }
 
     .tick-label {
         font-size: 8px;
         text-align: right;
-        color: main.$gray-light;
+        color: cyan;
     }
 
     .guideline {
         position: fixed;
         top: 0;
         height: 100vh;
-        border-right: 1px dashed main.$gray-light;
+        border-right: 1px dashed cyan;
         opacity: 0.5;
         box-sizing: content-box;
         z-index: 1001;
@@ -77,7 +77,7 @@ export default {};
         top: 2px;
         font-size: 8px;
         text-align: right;
-        color: main.$gray-light;
+        color: cyan;
     }
 
     #xs {

@@ -23,7 +23,7 @@
                             <p class="null">There are no validators for this subnet.</p>
                         </template>
                         <template v-else>
-                            <ValidatorDataTable :validators="subnet.validators" :subnetID="subnetID" :subnet="subnet" :title="'Validators'" class="table_margin"></ValidatorDataTable>
+                            <ValidatorDataTable :validators="subnet.validators_New" :subnetID="subnetID" :subnet="subnet" :title="'Validators'" class="table_margin"></ValidatorDataTable>
                         </template>
                     </v-tab-item>
                     <v-tab-item class="tab_content" value="pending-validators">
@@ -31,7 +31,7 @@
                             <p class="null">There are no pending validators for this subnet.</p>
                         </template>
                         <template v-else>
-                            <ValidatorDataTable :validators="subnet.pendingValidators" :subnetID="subnetID" :subnet="subnet" :title="'Pending Validators'" class="table_margin"></ValidatorDataTable>
+                            <ValidatorDataTable :validators="subnet.pendingValidators_New" :subnetID="subnetID" :subnet="subnet" :title="'Pending Validators'" class="table_margin"></ValidatorDataTable>
                         </template>
                     </v-tab-item>
                     <v-tab-item class="tab_content" value="blockchains">
@@ -51,11 +51,11 @@
                         </template>
                     </v-tab-item>
                     <v-tab-item class="tab_content" value="delegations">
-                        <template v-if="subnet.delegations.length === 0">
+                        <template v-if="subnet.delegations_New.length === 0">
                             <p class="null">There are no delegated stakes for this subnet.</p>
                         </template>
                         <template v-else>
-                            <DelegationDataTable :validators="subnet.delegations" :subnetID="subnetID" :subnet="subnet" :title="'Delegations'" class="table_margin"></DelegationDataTable>
+                            <DelegationDataTable :validators="subnet.delegations_New" :subnetID="subnetID" :subnet="subnet" :title="'Delegations'" class="table_margin"></DelegationDataTable>
                         </template>
                     </v-tab-item>
                 </v-tabs>
@@ -138,7 +138,6 @@ export default class Content extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../../main";
 
 .subnet_count {
     margin-top: 5px;
@@ -166,11 +165,11 @@ export default class Content extends Vue {
 }
 
 .v-tab:before {
-    background-color: main.$primary-color !important;
+    background-color: $primary-color !important;
 }
 
 .subnet_header {
-    color: main.$black;
+    color: $black;
 
     .subheading {
         text-transform: capitalize;
@@ -179,7 +178,7 @@ export default class Content extends Vue {
     }
 
     h2 {
-        color: main.$primary-color;
+        color: $primary-color;
         margin: 0;
         padding-top: 0;
     }
@@ -215,7 +214,7 @@ export default class Content extends Vue {
     position: absolute;
     top: -11px;
     font-size: 12px;
-    background-color: main.$primary-color;
+    background-color: $primary-color;
     height: calc(100% + 22px);
     width: 1px;
     z-index: 5;
@@ -226,7 +225,7 @@ export default class Content extends Vue {
     text-align: right;
     top: 0;
     width: 50px;
-    color: main.$black;
+    color: $black;
     font-size: 12px;
     z-index: 3;
 }
@@ -235,14 +234,14 @@ export default class Content extends Vue {
     padding-top: 9px;
 }
 
-@include main.device_s {
+@include smOnly {
     .v-card__text {
         padding-left: 16px;
         padding-right: 0;
     }
 }
 
-@include main.device_xs {
+@include xsOnly {
     .subnet_header {
         padding: 0;
     }
@@ -250,15 +249,15 @@ export default class Content extends Vue {
 </style>
 
 <style lang="scss">
-@use "../../main";
+
 
 .v-application .primary--text {
-    color: main.$primary-color !important;
-    caret-color: main.$primary-color !important;
+    color: $primary-color !important;
+    caret-color: $primary-color !important;
 }
 
 .theme--light.v-tabs > .v-tabs-bar--show-arrows {
-    background-color: main.$white !important;
+    background-color: $white !important;
 }
 
 th {

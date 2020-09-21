@@ -1,6 +1,6 @@
 <template>
     <div class="home">
-        <top-info class="card"></top-info>
+        <top-info></top-info>
         <recent-transactions class="card recent_tx"></recent-transactions>
     </div>
 </template>
@@ -13,18 +13,16 @@ import RecentTransactions from "@/components/Home/RecentTransactions.vue";
 @Component({
     components: {
         TopInfo,
-        RecentTransactions
+        RecentTransactions,
     }
 })
 export default class Home extends Vue {}
 </script>
 
 <style scoped lang="scss">
-@use "../main";
 
 .home {
     margin: 0px auto;
-    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -33,7 +31,7 @@ export default class Home extends Vue {}
 
 .recent_tx {
     width: 100%;
-    margin-top: 30px;
+    margin-top: 15px;
     box-sizing: border-box;
 }
 
@@ -43,7 +41,7 @@ export default class Home extends Vue {}
     grid-gap: 30px;
 }
 
-@include main.device-xs {
+@include xsOnly {
     .recent_tx {
         margin-top: 0;
     }

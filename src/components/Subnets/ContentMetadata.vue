@@ -59,7 +59,6 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@use"../../main";
 
 .metadata {
     margin-bottom: 15px;
@@ -90,19 +89,21 @@ export default {
 
     .label {
         text-transform: capitalize;
-        font-size: 14px;
-        font-weight: 400; /* 700 */
+        font-size: 12px;
+        font-weight: 700;
         margin-bottom: 6px;
-        color: main.$primary-color;
+        color: $primary-color;
     }
 
     .meta_val {
-        font-size: 32px;
+        font-size: 36px;
         line-height: 1em;
+        font-weight: 300;
+        color: $primary-color;
     }
 }
 
-@include main.device_s {
+@include smOnly {
     .meta_data {
         grid-template-columns: 50% 50%;
 

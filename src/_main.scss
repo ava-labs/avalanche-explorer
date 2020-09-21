@@ -1,66 +1,98 @@
-$max_width: 1800px;
+$max_width:              1800px;
 
-$width_xs: 600px;
-$width_s: 960px;
-$width_m: 1264px;
-$width_l: 1904px;
+$width_lg:               1904px;
+$width_md:               1264px;
+$width_sm:               960px;
+$width_xs:               600px;
 
-$container_padding_xs: 10px 10px;
-$container_padding_s: 12px 12px;
-$container_padding_m: 30px 8vw;
-$container_padding_l: 30px 18vw;
+$container_padding_xl:  15px 18vw;
+$container_padding_lg:  15px 8vw;
+$container_padding_md:  15px 15px;
+$container_padding_sm:  15px 15px;
+$container_padding_xs:  15px 15px;
 
-@mixin device_xs {
-  @media only screen and (max-width: $width_xs) { @content; }
+$navbar_height_offset_xl: 100px;
+$navbar_height_offset_lg: 100px;
+$navbar_height_offset_md: 100px;
+// $navbar_height_offset_sm: 160px;
+// $navbar_height_offset_xs: 160px;
+
+
+@mixin xlOnly {
+  @media only screen 
+  and (min-width: $width_lg) { @content; }
+}
+// --------------------------------------------- 1904px
+@mixin lgOnly {
+  @media only screen 
+  and (max-width: $width_lg)
+  and (min-width: $width_md) { @content; }
+}
+// --------------------------------------------- 1264px
+@mixin mdOnly {
+  @media only screen
+  and (max-width: $width_md)
+  and (min-width: $width_sm) { @content; }
+}
+// --------------------------------------------- 960px
+@mixin smOnly {
+  @media only screen 
+  and (max-width: $width_sm) 
+  and (min-width: $width_xs) { @content; }
+}
+// --------------------------------------------- 600px
+@mixin xsOnly {
+  @media only screen 
+  and (max-width: $width_xs) { @content; }
 }
 
-@mixin device_s {
-  @media only screen and (max-width: $width_s) { @content; }
-  // @media only screen and (min-width: $xs) and (max-width: $width_s) { @content; }
-}
-
-@mixin device_m {
-  @media only screen and (min-width: $width_s) and (max-width: $width_m) { @content; }
-}
-
-@mixin device_l {
-  @media only screen and (min-width: $width_m) and (max-width: $width_l) { @content; }
-}
-
-@mixin device_xl {
-  @media only screen and (min-width: $width_l) { @content; }
-}
-
-$white: #fff;
 $black: #212121;
 $gray: #6e7479;
 $gray-input: #d6dae1;
 $gray-light: #e8e7ea;
-$gray-xlight:#f5f6fa;
+$gray-xlight: #f5f6fa;
+$momo: rgb(245, 246, 250);
+$white: #fff;
+
+$purple: #4c2e56;
+$purple-light: #867e89;
+$purple-xlight:#fcfbfe;
+
+$pink: #E84970;
+$pink-light: #FF8080;
+$pink-xlight: #ffe6e6;
 
 $red: #e84142;
 $red-light: #c15656;
 $red-xlight: #ffe6e6;
-$orange: #ef8f4a;
 
-$purple: #4c2e56;
-$purple-light: #867e89;
-$purple-xlight: #fcfbfe;
-$pink: #E84970;
-$pink-light: #FF8080;
-$pink-extra-light: #ffe6e6;
 $blue: #2196f3; 
 $blue-light: #e6f5ff;
+$blue-light2: rgba(33, 150, 243, .12);
 
-$green: #42b983;
-$green-light: #e4fbef;
+$green: #6BC688;
+$green-light: #a9efbf;
+$green-xlight: #e6ffe6;
+
+$orange: #ef8f4a;
+
 $primary-color: $purple;
 $primary-color-light: $purple-light;
 $primary-color-xlight: $purple-xlight;
 
 $secondary-color: $pink;
 $secondary-color-light: $pink-light;
-$secondary-color-xlight: $pink-extra-light;
+$secondary-color-xlight: $pink-xlight;
+
+@if $VUE_APP_DEFAULT_NETWORKID == 5 {
+  $primary-color: $black;
+  $primary-color-light: $gray;
+  $primary-color-xlight: $gray-light;
+  
+  $secondary-color: $blue;
+  $secondary-color-light: $blue-light;
+  $secondary-color-xlight: $blue-light2;
+}
 
 $bg-light: $gray-xlight;
 

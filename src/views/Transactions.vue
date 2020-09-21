@@ -2,7 +2,19 @@
     <div class="transactions">
         <div class="card">
             <div class="header">
-                <h2>Transactions</h2>
+                <div class="tx_chain_header">
+                    <h2>Transactions</h2>
+                    <p class="chain right" bottom v-if="$vuetify.breakpoint.smAndUp">
+                        <span class="label">You are viewing transactions for</span>
+                        <v-tooltip>
+                            <template v-slot:activator="{ on }">
+                                <span v-on="on" class="tag">X-Chain</span>
+                            </template>
+                            <span>The X-Chain acts as a decentralized platform for creating and trading smart digital assets. (Think X for eXchanging assets.)</span>
+                        </v-tooltip>
+                    </p>
+                </div>
+            
                 <template v-show="!loading && assetsLoaded">
                     <div class="bar">
                         <p class="count">{{totalTx.toLocaleString()}} transactions found</p>
@@ -36,10 +48,10 @@
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 import api from "@/axios";
-import Tooltip from "../components/rows/Tooltip.vue";
+import Tooltip from "@/components/rows/Tooltip.vue";
 import TxHeader from "@/components/rows/TxRow/TxHeader.vue";
-import TxRow from "../components/rows/TxRow/TxRow.vue";
-import PaginationControls from "../components/misc/PaginationControls.vue";
+import TxRow from "@/components/rows/TxRow/TxRow.vue";
+import PaginationControls from "@/components/misc/PaginationControls.vue";
 import { Transaction } from '@/js/Transaction';
 
 @Component({
@@ -105,7 +117,6 @@ export default class Transactions extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../main";
 
 .transactions {
     font-size: 12px;
@@ -142,7 +153,7 @@ export default class Transactions extends Vue {
     justify-content: flex-end;
 }
 
-@include main.device_s {
+@include smOnly {
     .table_headers {
         display: none;
     }

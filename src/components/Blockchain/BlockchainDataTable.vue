@@ -1,5 +1,5 @@
 <template>
-    <v-card id="blockchain_data_table">
+    <div id="blockchain_data_table">
         <v-card-title v-if="title">
             {{title}}
             <v-spacer></v-spacer>
@@ -7,7 +7,7 @@
         <v-data-table :items="blockchains" :headers="headers" multi-sort>
             <template #item.name="{item}">
                 <div>
-                    <img class="table_image" src="@/assets/blockchain-purple.png" alt />
+                    <img class="table_image" :src="require(`@/assets/blockchain-${imgColor}.png`)" alt />
                     <template v-if="links">
                         <router-link :to="`/blockchain/${item.id}`" class="id">{{ item.name }}</router-link>
                     </template>
@@ -28,7 +28,7 @@
                 </div>
             </template>
         </v-data-table>
-    </v-card>
+    </div>
 </template>
 
 <script lang="ts">
@@ -38,6 +38,7 @@ import { subnetMap, VMMap, VMDocumentationMap } from "@/helper";
 import Subnet from "@/js/Subnet";
 import Blockchain from "@/js/Blockchain";
 import Indexed from "@/components/Blockchain/Indexed.vue";
+import { DEFAULT_NETWORK_ID } from "@/store/modules/network/network";
 
 @Component({
     components: {
@@ -57,12 +58,16 @@ export default class BlockchainDataTable extends Vue {
 
     get headers(): any[] {
         let headers = [
-            { text: "Name", value: "name" },
-            { text: "Virtual Machine", value: "vmID" },
+            { text: "Name", value: "name", width: 200, fixed: true },
+            { text: "Virtual Machine", value: "vmID", width: 125 },
             { text: "Database Index", value: "indexed", width: 125 },
-            { text: "Subnet", value: "subnetID" },
+            { text: "Subnet", value: "subnetID", width: 300 },
         ];
         return this.subnets ? headers : headers.slice(0, 3);
+    }
+
+    get imgColor(): string {
+        return (DEFAULT_NETWORK_ID === 1) ? "testnet" : "testnet";
     }
 
     subnet(val: string) {
@@ -80,15 +85,6 @@ export default class BlockchainDataTable extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../../main";
-
-.table_image {
-    height: 20px;
-    display: inline-block;
-    margin-top: -4px;
-    margin-right: 8px;
-    vertical-align: middle;
-}
 
 .id_overflow {
     overflow: hidden;
@@ -96,19 +92,23 @@ export default class BlockchainDataTable extends Vue {
     white-space: nowrap;
     font-weight: 300;
     font-size: 0.825em;
-    color: main.$gray;
+    color: $gray;
     line-height: 1em;
 }
 
-@include main.device_s {
+.id {
+    font-weight: 700;
 }
 
-@include main.device_xs {
+@include smOnly {
+}
+
+@include xsOnly {
 }
 </style>
 
 <style lang="scss">
-@use "../../main";
+
 
 #blockchain_data_table {
     .v-data-footer__icons-before > button,

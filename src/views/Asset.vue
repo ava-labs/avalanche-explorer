@@ -53,13 +53,13 @@
 <script lang="ts">
 import "reflect-metadata";
 import { Vue, Component, Watch } from "vue-property-decorator";
-import Loader from "../components/misc/Loader.vue";
-import Metadata from "../components/Asset/Metadata.vue";
-import TransactionDetailCard from "../components/TransactionDetailCard.vue";
-import PaginationControls from "../components/misc/PaginationControls.vue";
-import Tooltip from "../components/rows/Tooltip.vue";
+import Loader from "@/components/misc/Loader.vue";
+import Metadata from "@/components/Asset/Metadata.vue";
+import TransactionDetailCard from "@/components/TransactionDetailCard.vue";
+import PaginationControls from "@/components/misc/PaginationControls.vue";
+import Tooltip from "@/components/rows/Tooltip.vue";
 import TxHeader from "@/components/rows/TxRow/TxHeader.vue";
-import TxRow from "../components/rows/TxRow/TxRow.vue";
+import TxRow from "@/components/rows/TxRow/TxRow.vue";
 import { Transaction } from "../js/Transaction";
 import { Asset } from "@/js/Asset";
 import api from "../axios";
@@ -196,7 +196,6 @@ export default class AssetPage extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../main";
 
 $symbol_w: 35px;
 
@@ -218,7 +217,7 @@ $symbol_w: 35px;
     margin-top: 30px;
 }
 
-@include main.device_xs {
+@include xsOnly {
     .asset_genesis {
         margin-top: 10px;
     }   
@@ -230,8 +229,8 @@ $symbol_w: 35px;
 
 .transactions {
     overflow: auto;
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin-top: 15px;
+    margin-bottom: 15px;
 
     .tx_rows {
         width: 100%;
@@ -256,7 +255,7 @@ $symbol_w: 35px;
     justify-content: flex-end;
 }
 
-@include main.device_s {
+@include smOnly {
     .transactions {
         margin-bottom: 10px;
         

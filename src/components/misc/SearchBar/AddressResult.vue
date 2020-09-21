@@ -56,7 +56,6 @@ export default class AddressResult extends Vue {
 }
 </script>
 <style scoped lang="scss">
-@use"../../../main";
 
 .symbol_container {
     width: 50px;
@@ -80,7 +79,7 @@ $symbol_W: 40px;
 }
 
 .id {
-    color: main.$primary-color;
+    color: $primary-color;
 }
 
 .balance {

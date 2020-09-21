@@ -24,14 +24,14 @@ import { ITransactionInput } from "@/js/ITransaction";
 export default class InputUTXO extends Vue {
     @Prop() input!: ITransactionInput;
 
-    get addresses(): string[] {
+    get addresses(): string[] { 
         return this.input.output.addresses;
     }
 }
 </script>
 
 <style scoped lang="scss">
-@use "../../../main";
+
 .from {
     display: grid;
     grid-template-columns: max-content 1fr max-content;
@@ -54,6 +54,7 @@ export default class InputUTXO extends Vue {
         padding-left: 0;
         text-decoration: none;
         max-width: 250px;
+        word-break: break-all;
 
         &:hover {
             text-decoration: underline;
@@ -66,7 +67,7 @@ export default class InputUTXO extends Vue {
     }
 }
 
-@include main.device-xs {
+@include xsOnly {
     .from {
         margin-bottom: 0;
 

@@ -39,16 +39,27 @@ export default {};
 </script>
 
 <style scoped lang="scss">
-@use "../main";
+
 .v-footer {
+    margin: 60px 0 -1px 0;
+    padding-top: 60px !important;
     padding-bottom: 0px !important;
-    color: main.$white !important;
+    color: $white !important;
     align-items: flex-start;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     column-gap: 60px;
+
+    h4 {
+        margin-top: 12px;
+    }
 }
 .powered_by {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
     .header {
         display: flex;
         align-items: center;
@@ -65,6 +76,7 @@ export default {};
             object-fit: contain;
         }
     }
+
     p {
         margin: 24px 0px;
         font-size: 13px;
@@ -98,7 +110,7 @@ export default {};
 
     a {
         font-weight: lighter;
-        color: main.$white !important;
+        color: $white !important;
         margin-bottom: 14px;
         text-decoration: none;
 
@@ -109,7 +121,26 @@ export default {};
     }
 }
 
-@include main.device_s {
+@include smOnly {
+    .v-footer {
+        grid-template-columns: none;
+        grid-template-rows: max-content max-content max-content;
+        padding: 20px 30px;
+        padding-bottom: 0;
+        flex-direction: column-reverse;
+        justify-content: center;
+    }
+
+    .list {
+        width: 100%;
+    }
+
+    .powered_by {
+        grid-row: 3;
+    }
+}
+
+@include xsOnly {
     .v-footer {
         grid-template-columns: none;
         grid-template-rows: max-content max-content max-content;

@@ -24,7 +24,7 @@
 import "reflect-metadata";
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { VMMap, VMDocumentationMap, trimmedLocaleString } from "@/helper";
-import { IAddress, IBalance } from '@/js/IAddress';
+import { IAddress, IBalance_X } from '@/js/IAddress';
 import Address from '@/js/Address';
 import { Asset } from '@/js/Asset';
 
@@ -47,7 +47,6 @@ export default class AddressDataTable extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../../main";
 
 .table_image {
     height: 20px;
@@ -63,19 +62,19 @@ export default class AddressDataTable extends Vue {
     white-space: nowrap;
     font-weight: 300;
     font-size: 0.825em;
-    color: main.$gray;
+    color: $gray;
     line-height: 1em;
 }
 
-@include main.device_s {
+@include smOnly {
 }
 
-@include main.device_xs {
+@include xsOnly {
 }
 </style>
 
 <style lang="scss">
-@use "../../main";
+
 
 #address_data_table {
     .v-data-footer__icons-before > button,

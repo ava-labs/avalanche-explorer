@@ -63,7 +63,6 @@ export default class PaginationControls extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../../main";
 
 .pagination_control {
     display: flex;
@@ -71,7 +70,7 @@ export default class PaginationControls extends Vue {
 
     > * {
         background-color: transparent;
-        color: main.$primary-color;
+        color: $primary-color;
         border: none;
         margin: 0px 2px;
         padding: 6px 12px;
@@ -92,7 +91,7 @@ button {
 }
 
 .pages {
-    color: main.$black;
+    color: $black;
     cursor: default;
 
     &:hover {
@@ -106,7 +105,7 @@ button {
 }
 
 .disabled {
-    color: main.$gray;
+    color: $gray;
     cursor: default;
 
     &:hover {

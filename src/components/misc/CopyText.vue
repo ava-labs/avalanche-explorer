@@ -29,7 +29,6 @@ export default class CopyText extends Vue {
 }
 </script>
 <style scoped lang="scss">
-@use "../../main";
 
 .copyBut {
     display: inline-block;

@@ -1,14 +1,15 @@
 <template>
     <div class="navbar_mobile">
-        <!--   TOOLBAR     -->
+        <!--   TOOLBAR    -->
         <div class="inner">
             <div class="logo">
                 <router-link to="/">
-                    <img style="height: 24px" src="@/assets/explorer_logo.png" />
-                    <h1><span class="hide">Avalanche Explorer</span><span class="subnet">Everest</span></h1>
+                    <img style="height: 16px" src="@/assets/explorer_logo.png" />
+                    <h1><span class="hide">Avalanche Explorer</span></h1>
                 </router-link>
             </div>
-            <div>
+            <div class="buttons">
+                <NetworkMenu></NetworkMenu>
                 <v-btn @click="isSearch = !isSearch" icon class="search_btn">
                     <fa icon="search"></fa>
                 </v-btn>
@@ -30,8 +31,8 @@
                     <v-list-item to="/subnets">Subnets</v-list-item>
                     <v-list-item to="/validators">Validators</v-list-item>
                     <v-list-item to="/assets">Assets</v-list-item>
-                    <!-- <v-list-item to="/addresses">Addresses</v-list-item> -->
                     <v-list-item to="/blockchains">Blockchains</v-list-item>
+                    <v-list-item to="/tx">Transactions</v-list-item>
                     <v-list-item href="https://cchain.explorer.avax.network/">C-Chain</v-list-item>
                     <v-list-item to="/resources">Resources</v-list-item>
                 </template>
@@ -56,10 +57,12 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import SearchBarMobile from "@/components/misc/SearchBar/SearchBarMobile.vue";
+import NetworkMenu from "./NetworkSettings/NetworkMenu.vue";
 
 @Component({
     components: {
-        SearchBarMobile
+        SearchBarMobile,
+        NetworkMenu
     }
 })
 export default class NavbarMobile extends Vue {
@@ -85,12 +88,11 @@ export default class NavbarMobile extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../main";
 
 .navbar_mobile {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
-    background-color: main.$white;
+    background-color: $white;
 
     > .v-toolbar__content {
         padding: 0;
@@ -111,6 +113,11 @@ export default class NavbarMobile extends Vue {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
 }
 
 .search_btn {
@@ -148,16 +155,16 @@ export default class NavbarMobile extends Vue {
             height: 1px;
             display: inline-block;
             overflow: hidden;
-            position: absolute!important;
-            border: 0!important;
-            padding: 0!important;
-            margin: 0!important;
-            clip: rect(1px,1px,1px,1px);
+            position: absolute !important;
+            border: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            clip: rect(1px, 1px, 1px, 1px);
         }
 
         .subnet {
             font-size: 12px;
-            color: main.$primary-color;
+            color: $primary-color;
             padding-bottom: 2px;
             display: inline-block;
         }
@@ -209,7 +216,7 @@ button {
     justify-content: flex-start;
     align-items: center;
     padding: 10px 9px 8px;
-    border-bottom: 2px solid main.$gray-input;
+    border-bottom: 2px solid $gray-input;
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
 

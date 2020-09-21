@@ -146,12 +146,12 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-@use"../../../main";
+
 
 .search_input_wrapper {
     width: 100%;
     padding: 5px;
-    background-color: main.$bg-light;
+    background-color: $bg-light;
     border-radius: 4px;
     display: flex;
 }
@@ -177,7 +177,7 @@ input {
     border-radius: 0;
     cursor: pointer;
     font-size: 12px;
-    color: main.$primary-color !important;
+    color: $primary-color !important;
     padding: 0 !important;
     min-width: 38px;
     border-radius: 4px;
@@ -188,13 +188,13 @@ input {
     width: 100%;
     box-sizing: border-box;
     border-radius: 0 0 2px 2px;
-    background-color: main.$white;
+    background-color: $white;
     top: calc(100% - 3px);
     left: 0px;
     font-size: 12px;
     color: #333;
-    border: 2px solid main.$bg-light;
-    box-shadow: main.$box-shadow;
+    border: 2px solid $bg-light;
+    box-shadow: $box-shadow;
 }
 
 .no_result {
@@ -210,7 +210,7 @@ input {
 }
 
 .search_result {
-    border-bottom: 1px solid main.$bg-light;
+    border-bottom: 1px solid $bg-light;
     cursor: pointer;
 
     &:last-child {
@@ -226,7 +226,7 @@ input {
     opacity: 0;
 }
 
-@include main.device_s {
+@include smOnly {
     .search_results {
         position: fixed;
     }

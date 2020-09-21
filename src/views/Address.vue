@@ -8,18 +8,30 @@
             <p>Status {{requestErrorStatus}} - {{requestErrorMessage}}</p>
             <p><a href="https://github.com/ava-labs/avalanche-explorer/issues" target="_blank">Submit Issue</a></p>
         </div>
-        <Metadata v-if="metaData && !requestError && assetsLoaded === true" 
-            :metaData="metaData"
+        <Metadata v-if="metadata && !requestError && assetsLoaded === true" 
+            :metaData="metadata"
             :addressID="addressID"
             :alias="alias"
             :totalTransactionCount="totalTransactionCount"
             :totalUtxoCount="totalUtxoCount"
             :assets="assets"
+            :prefix="prefix"
         ></Metadata>
         <!-- Address Txs -->
         <section v-if="!loading && !txRequestError" class="card transactions">
             <header class="header">
-                <h2>Transactions</h2>
+                <div class="tx_chain_header">
+                    <h2>Transactions</h2>
+                <p class="chain right" bottom v-if="$vuetify.breakpoint.smAndUp">
+                        <span class="label">You are viewing transactions for</span>
+                        <v-tooltip>
+                            <template v-slot:activator="{ on }">
+                                <span v-on="on" class="tag">X-Chain</span>
+                            </template>
+                            <span>The X-Chain acts as a decentralized platform for creating and trading smart digital assets. (Think X for eXchanging assets.)</span>
+                        </v-tooltip>
+                    </p>
+                </div>
                 <template v-if="txloading && !assetsLoaded">
                     <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
                 </template>
@@ -77,19 +89,20 @@
 <script lang="ts">
 import "reflect-metadata";
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
-import Loader from "../components/misc/Loader.vue";
-import Tooltip from "../components/rows/Tooltip.vue";
-import Metadata from "../components/Address/Metadata.vue";
+import Loader from "@/components/misc/Loader.vue";
+import Tooltip from "@/components/rows/Tooltip.vue";
+import Metadata from "@/components/Address/Metadata.vue";
 import TxHeader from "@/components/rows/TxRow/TxHeader.vue";
-import TxRow from "../components/rows/TxRow/TxRow.vue";
-import PaginationControls from "../components/misc/PaginationControls.vue";
+import TxRow from "@/components/rows/TxRow/TxRow.vue";
+import PaginationControls from "@/components/misc/PaginationControls.vue";
 import api from "../axios";
 import Big from "big.js";
 import { stringToBig, blockchainMap, trimmedLocaleString } from "@/helper";
 import AddressDict from "@/known_addresses";
 import Address from "@/js/Address";
 import { Transaction } from '@/js/Transaction';
-import { IBalance, IAddress, IAddressData } from '@/js/IAddress';
+import { IBalance_X, IAddress, IAddressData, IBalance_P_Data, IBalance_P, IStake_P_Data } from '@/js/IAddress';
+import avalanche_go_api from "@/avalanche_go_api";
 
 @Component({
     components: {
@@ -129,7 +142,10 @@ export default class AddressPage extends Vue {
     requestError: boolean = false;
     requestErrorStatus: number | null = null;
     requestErrorMessage: string | null = null;
-    metaData: Address | null = null;
+    metadata: Address | null = null;
+    // P-Chain balances
+    loading_P: boolean = false;
+    stakeloading_P: boolean = false;
     // txs
     txloading: boolean = false;
     txRequestError: boolean = false;
@@ -167,8 +183,8 @@ export default class AddressPage extends Vue {
         return AddressDict[this.addressID] ? AddressDict[this.addressID] : "";
     }
 
-    get assets(): IBalance[] {
-        return (this.metaData) ? this.metaData.assets : [];
+    get assets(): IBalance_X[] {
+        return (this.metadata) ? this.metadata.assets : [];
     }
     
     get assetsMap(): any {
@@ -182,31 +198,82 @@ export default class AddressPage extends Vue {
         }
         return address;
     }
+
+    get prefix(): string {
+        let address = this.$route.params.address;
+        return address.substring(0, 1);
+    }
     
     get txCount(): number {
-        return (this.metaData) ? this.metaData.totalTransactionCount : 0;
+        return (this.metadata) ? this.metadata.totalTransactionCount : 0;
     }
 
     get totalTransactionCount():  number {
-        return (this.metaData) ? this.metaData.totalTransactionCount : 0;
+        return (this.metadata) ? this.metadata.totalTransactionCount : 0;
     }
     
     get totalUtxoCount(): number {
-        return (this.metaData) ? this.metaData.totalUtxoCount : 0;
+        return (this.metadata) ? this.metadata.totalUtxoCount : 0;
     }
      
     // get address details and txs
-    updateData() {
+    async updateData() {
         this.loading = true;
+        this.loading_P = true;
+        this.stakeloading_P = true;
         this.txloading = true;
 
         if (this.assetsLoaded) {
             this.getTx();
-            this.getAddressDetails();
+            await this.getAddressDetails_X();
+            this.getAddressDetails_P();
+            this.getStake_P();
         }
     }
 
-    getAddressDetails() {
+    async getStake_P() {
+        this.stakeloading_P = true;
+        let req = {
+            "jsonrpc": "2.0",
+            "method": "platform.getStake",
+            "params": {
+                address: `P-${this.addressID}`
+            },
+            "id": 1
+        };
+        
+        let res = await avalanche_go_api.post("", req);
+        let result: IStake_P_Data = res.data.result;
+        
+        if (this.metadata) {
+            this.metadata.set_AVAX_staked_P(result);
+        }
+        
+        this.stakeloading_P = false;
+    }
+
+    async getAddressDetails_P() {
+        this.loading_P = true;
+        let req = {
+            "jsonrpc": "2.0",
+            "method": "platform.getBalance",
+            "params": {
+                address: `P-${this.addressID}`
+            },
+            "id": 1
+        };
+        
+        let res = await avalanche_go_api.post("", req);
+        let result: IBalance_P_Data = res.data.result; 
+
+        if (this.metadata) {
+            this.metadata.set_AVAX_balance_P(result);
+        }
+        
+        this.loading_P = false;
+    }
+
+    getAddressDetails_X() {
         // TODO: support service for multiple chains
         if (this.assetsLoaded === true) {
             let url = `/x/addresses/${this.addressID}`;
@@ -215,7 +282,7 @@ export default class AddressPage extends Vue {
                 
                 if (res.data) {
                     // address in Ortelius
-                    this.metaData = new Address(res.data, this.assetsMap);
+                    this.metadata = new Address(res.data, this.assetsMap);
                 } else {
                     // not in Ortelius
                     let nullData: IAddressData = {
@@ -223,7 +290,7 @@ export default class AddressPage extends Vue {
                         publicKey: "",
                         assets: {},
                     };
-                    this.metaData = new Address(nullData, this.assetsMap);
+                    this.metadata = new Address(nullData, this.assetsMap);
                 }
             })
             .catch(err => {
@@ -273,7 +340,6 @@ export default class AddressPage extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../main";
 
 /* ==========================================
    details
@@ -295,7 +361,7 @@ export default class AddressPage extends Vue {
         transition: opacity 0.3s;
         
         background-color: transparent !important;
-        color: main.$secondary-color !important;
+        color: $secondary-color !important;
         padding: 10px 24px;
 
         border-radius: 6px;
@@ -360,7 +426,7 @@ export default class AddressPage extends Vue {
     .v-alert {
         margin: 16px;
         padding: 16px;
-        color: main.$blue;
+        color: $blue;
         font-size: 14px;
     }
 }
@@ -373,7 +439,7 @@ export default class AddressPage extends Vue {
 }
 
 
-@include main.device_s {
+@include smOnly {
     .bar {
         flex-direction: column;
         align-items: stretch;

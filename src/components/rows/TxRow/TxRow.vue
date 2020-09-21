@@ -11,7 +11,12 @@
             <span class="label" v-if="$vuetify.breakpoint.smAndDown"></span>
             <utxo-input v-for="(input,i) in inputs" :key="i" :input="input"></utxo-input>
         </div>
-        <div class="to_amount">
+        <div class="to_amount" v-if="isGenesisVertex">
+            <div class="info_col">
+                <router-link :to="`/tx/${tx_id}`" class="view_all">Explore Genesis Vertex</router-link>
+            </div>
+        </div>
+        <div class="to_amount" v-else>
             <output-utxo class="utxo_out" v-for="(output,i) in outputs" :key="i" :output="output"></output-utxo>
         </div>
     </div>
@@ -24,6 +29,7 @@ import OutputUtxo from "@/components/rows/TxRow/OutputUtxo.vue";
 import moment from "moment";
 import { Asset } from '@/js/Asset';
 import { Transaction } from '@/js/Transaction';
+import { DEFAULT_NETWORK_ID } from "@/store/modules/network/network";
 
 @Component({
     components: {
@@ -38,7 +44,18 @@ export default class TxRow extends Vue {
         return this.$store.state.assets;
     }
 
+    get isGenesisVertex(): boolean {
+        let genesisTxID = (DEFAULT_NETWORK_ID === 1) ? process.env.VUE_APP_AVAXID : process.env.VUE_APP_TEST_AVAXID;
+        return (this.transaction.id === genesisTxID) ? true : false;
+    }
+
     get tx_id() {
+        // console.log("");
+        // console.log("");
+        // console.log("================================================================================================================");
+        // console.log("");
+        // console.log("==", this.transaction.id);
+        // console.log("");
         return this.transaction.id;
     }
 
@@ -48,40 +65,13 @@ export default class TxRow extends Vue {
         return moment(date).fromNow();
     }
 
-    get outputs() {
-        let ins = this.inputs;
-
-        let senders: string[] = [];
-
-        for (let i = 0; i < ins.length; i++) {
-            let input = ins[i];
-            let addrs = input.output.addresses;
-            senders.push(...addrs);
-        }
-
-        let outs = this.transaction.outputs;
-        let res = outs;
-        if (outs.length > 1) {
-            res = outs.filter((val, index) => {
-                let addrs = val.addresses;
-
-                // If change UTXO then don't show
-                let flag = false;
-                addrs.forEach(addr => {
-                    if (senders.includes(addr)) flag = true;
-                });
-                if (flag) return false;
-                return true;
-            });
-        }
-
-        return res;
-    }
-
     get inputs() {
+        // console.log("== GET INPUTS ==");
         let addedAddr: string[] = [];
         let ins = this.transaction.inputs || [];
-        let res = ins.filter((val, index) => {
+        // console.log("> ins         ", ins);
+        
+        let res = ins.filter(val => {
             let addrs = val.output.addresses;
             let flag = false;
             addrs.forEach(addr => {
@@ -94,13 +84,60 @@ export default class TxRow extends Vue {
             if (flag) return false;
             return true;
         });
+
+        // console.log("  input res   ", res);
         return res;
     }
-    
+
+    get outputs() {
+        // console.log("");
+        // console.log("== GET OUTPUTS ==");
+        
+        // INPUT UTXOS
+        let ins = this.inputs;
+        let senders: string[] = [];        
+        // console.log("> ins         ", ins);
+        
+        // INPUT ADDRESSES
+        for (let i = 0; i < ins.length; i++) {
+            let input = ins[i];
+            let addrs = input.output.addresses;
+            // addrs.forEach(addr => console.log("                  ", addr.substring(6, 11)));
+            senders.push(...addrs);
+        }
+        // console.log("%c  froms       ", 'background: #222; color: #bada55', senders);
+        // console.log("--");
+
+
+        // OUTPUT UTXOS
+        let outs = this.transaction.outputs;
+        let recipients = outs;
+       
+        // console.log("> outs        ", outs);
+
+        // output UTXO addresses
+        if (outs.length > 1) {
+            recipients = outs.filter((val, i) => {
+                let addrs = val.addresses;
+                // addrs.forEach(addr => console.log("                  ", addr.substring(6, 11), "                ", i) );
+                let flag = false;
+                // Hide change UTXO for multiple outputs 
+                if (outs.length > 1) {
+                    addrs.forEach(addr => {
+                        if (senders.includes(addr)) {
+                            flag = true;
+                        }
+                    });
+                }
+                return flag ? false : true;
+            });
+        }
+        // console.log("%c  tos         ", 'background: #222; color: #bada55', recipients.map(utxo => utxo.addresses));
+        return recipients;
+    }    
 }
 </script>
 <style scoped lang="scss">
-@use "../../../main";
 
 .tx_row {
     padding: 12px 0px;
@@ -118,18 +155,18 @@ export default class TxRow extends Vue {
     border-radius: 35px;
     line-height: 35px;
     text-align: center;
-    background-color: main.$white;
-    border: 2px solid main.$primary-color;
+    background-color: $white;
+    border: 2px solid $primary-color;
 
     p {
         width: 100%;
         font-weight: 500;
-        color: main.$primary-color;
+        color: $primary-color;
     }
 }
 
 .id {
-    color: main.$primary-color-light !important;
+    color: $primary-color-light !important;
     text-decoration: none;
     font-weight: 400; /* 700 */
     display: block;
@@ -141,7 +178,7 @@ export default class TxRow extends Vue {
     font-weight: 400;
     font-size: 10px;
     margin-top: 5px;
-    color: main.$primary-color-light;
+    color: $primary-color-light;
     word-break: keep-all;
     white-space: nowrap;
 }
@@ -163,7 +200,7 @@ export default class TxRow extends Vue {
     margin-bottom: 6px;
 }
 
-@include main.device_s {
+@include smOnly {
     .tx_row {
         padding: 8px;
         grid-template-columns: none;
@@ -184,7 +221,26 @@ export default class TxRow extends Vue {
     }
 }
 
-@include main.device_xs {
+@include xsOnly {
+    .tx_row {
+        padding: 8px;
+        grid-template-columns: none;
+        grid-template-rows: max-content max-content max-content max-content max-content;
+    }
+
+    .avatar {
+        display: none;
+    }
+
+    .id_col {
+        display: flex;
+        align-items: baseline;
+        height: 27px;
+        a {
+            flex-grow: 1;
+        }
+    }
+
     .id {
         margin-bottom: 4px;
     }

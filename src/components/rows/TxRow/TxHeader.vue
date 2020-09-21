@@ -29,7 +29,6 @@ export default class TxHeader extends Vue {}
 </script>
 
 <style scoped lang="scss">
-@use '../../../main';
 
 .table_headers {
     display: grid;

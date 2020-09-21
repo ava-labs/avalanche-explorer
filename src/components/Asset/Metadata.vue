@@ -99,10 +99,9 @@ export default class Metadata extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use"../../main";
 
 .metadata {
-    margin-bottom: 30px;
+    margin-bottom: 15px;
 
     .header {
         display: flex;
@@ -117,8 +116,8 @@ export default class Metadata extends Vue {
 
     .symbol {
         flex-shrink: 0;
-        color: main.$secondary-color;
-        background-color: main.$secondary-color-xlight;
+        color: $secondary-color;
+        background-color: $secondary-color-xlight;
         min-height: 1em;
         min-width: 20px;
         text-align: center;
@@ -162,7 +161,7 @@ export default class Metadata extends Vue {
 
         .label {
             text-transform: capitalize;
-            color: main.$primary-color;
+            color: $primary-color;
             font-size: 14px;
             font-weight: 500;
             margin-bottom: 6px;
@@ -185,7 +184,7 @@ export default class Metadata extends Vue {
     }
 }
 
-@include main.device_m {
+@include mdOnly {
     .stats {
         img {
             width: 24px;
@@ -207,7 +206,7 @@ export default class Metadata extends Vue {
     }
 }
 
-@include main.device_s {
+@include smOnly {
     .stats {
         grid-template-columns: 50% 50%;
         grid-template-rows: max-content;
@@ -219,7 +218,7 @@ export default class Metadata extends Vue {
 }
 
 
-@include main.device_xs {
+@include xsOnly {
     .metadata {
         margin-bottom: 10px;
 

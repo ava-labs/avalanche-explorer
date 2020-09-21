@@ -37,7 +37,7 @@ import "reflect-metadata";
 import { Vue, Component, Prop } from "vue-property-decorator";
 import Tooltip from "@/components/rows/Tooltip.vue";
 import BalanceRow from "@/components/Address/BalanceRow.vue";
-import { IBalance } from "@/js/IAddress";
+import { IBalance_X } from "@/js/IAddress";
 
 @Component({
     components: {
@@ -55,12 +55,11 @@ import { IBalance } from "@/js/IAddress";
     }
 })
 export default class BalanceTable extends Vue {
-    @Prop() assets!: IBalance[];
+    @Prop() assets!: IBalance_X[];
 }
 </script>
 
 <style scoped lang="scss">
-@use "../../main";
 
 .balances_container {
     overflow-x: scroll;
@@ -70,7 +69,7 @@ export default class BalanceTable extends Vue {
     }
 
     .grid_headers {
-        font-weight: 500;
+        font-weight: 700;
         font-size: 12px;
     }
 
@@ -109,7 +108,7 @@ export default class BalanceTable extends Vue {
     }
 }
 
-@include main.device_m {
+@include mdOnly {
     .balances_container {
         .balance_row {
             grid-template-columns: 60px 100px 225px 225px 225px 75px 75px;
@@ -117,7 +116,7 @@ export default class BalanceTable extends Vue {
     }
 }
 
-@include main.device_s {
+@include smOnly {
     .balances_container {
         .balance_row {
             grid-template-columns: 50px 100px 225px 225px 225px 75px 75px;

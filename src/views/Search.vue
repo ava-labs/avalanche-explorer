@@ -21,8 +21,8 @@
 import "reflect-metadata";
 import { Vue, Component, Watch } from "vue-property-decorator";
 import api from "@/axios";
-import ResultRow from "../components/Search/ResultRow.vue";
-import AddressRow from "../components/rows/AddressRow.vue";
+import ResultRow from "@/components/Search/ResultRow.vue";
+import AddressRow from "@/components/rows/AddressRow.vue";
 
 @Component({
     components: {
@@ -64,14 +64,13 @@ export default class Search extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../main";
 
 .results {
     margin-top: 40px;
 }
 
 .result_row {
-    background-color: main.$white;
+    background-color: $white;
     padding: 25px 30px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     border-radius: 6px;
@@ -87,7 +86,7 @@ export default class Search extends Vue {
     justify-content: center;
 }
 
-@include main.device_s {
+@include smOnly {
     .result_row {
         padding: 6px 12px;
     }

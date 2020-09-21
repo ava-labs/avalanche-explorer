@@ -1,16 +1,48 @@
 <template>
-    <v-card id="validator_data_table">
+    <div id="validator_data_table">
         <v-card-title>
-            {{title}}
-            <v-spacer></v-spacer>
-            <v-switch v-model="absolute" :label="modeText"></v-switch>
+            <div class="data_table_header">
+                <!-- 1 -->
+                <div class="header">
+                    <h3>{{title}}</h3>
+                </div>
+                <!-- 2 -->
+                <div class="controls">
+                    <div class="filter_count">
+                        <p v-show="search.length === 0">
+                            {{validators.length.toLocaleString() | pluralize}} found
+                        </p>
+                        <p v-show="search.length > 0">
+                            ...filtering results
+                        </p>
+                    </div>
+                    <div class="filter_input_container">
+                        <input
+                            class="filter"
+                            type="text"
+                            v-model="search"
+                            placeholder="Filter by NodeID"
+                        />
+                    </div>
+                </div>
+                <!-- 3 -->
+                <div class="duration_toggle_container">
+                    <v-switch v-model="absolute" :label="modeText"></v-switch>
+                </div>
+            </div>
         </v-card-title>
 
-        <v-data-table :items="validators" :headers="headers" multi-sort>
+        <v-data-table 
+            :items="validators" 
+            :headers="headers" 
+            :search="search" 
+            multi-sort 
+        >
             <template #item.id="{item}">
                 <div class="text-truncate" style="max-width: 100px;">{{item.id}}</div>
             </template>
-            <template #item.stakeAmount="{item}">{{item.totalStakeAmount | AVAX}}</template>
+            <template #item.stakeAmount="{item}">{{item.stakeAmount | AVAX}}</template>
+            <template #item.potentialReward="{item}">{{item.potentialReward | AVAX}}</template>
             <template #item.startTime="{item}">
                 <div class="text-right date no-pad-right">{{item.startTime.getTime() | date}}</div>
                 <div class="text-right time no-pad-right">{{item.startTime.getTime() | time}}</div>
@@ -66,7 +98,7 @@
                 {{(item.endTime - item.startTime) | duration}}
             </template>
         </v-data-table>
-    </v-card>
+    </div>
 </template>
 
 <script lang="ts">
@@ -97,6 +129,13 @@ import { scaleLinear } from "d3-scale";
         time(val: number) {
             return moment(val).format("h:mm:ss A");
         },
+        pluralize(val: number): string {
+            return val === 0
+                ? `${val} results`
+                : val > 1
+                ? `${val} results`
+                : `${val} result`;
+        }
     },
 })
 export default class ValidatorDataTable extends Vue {
@@ -109,6 +148,8 @@ export default class ValidatorDataTable extends Vue {
     absolute: boolean = false;
     diagramWidth: number = 125;
     expanded: any[] = [];
+    search: string = "";
+    filteredCount: number = 0;
 
     @Prop() subnetID!: string;
     @Prop() subnet!: Subnet;
@@ -117,20 +158,15 @@ export default class ValidatorDataTable extends Vue {
 
     get headers(): any[] {
         return [
-            { text: "Node", value: "id", width: 100 },
-            { text: "Delegated Stake", value: this.stakeOrWeight, width: 130 },
+            { text: "Node", value: "nodeID", width: 100 },
+            { text: "Delegated Stake", value: "stakeAmount", width: 130 },
+            { text: "Potential Reward", value: "potentialReward", width: 130 },
             { text: "Start", value: "startTime", align: "end", width: 80 },
             { text: "Completion", value: "elapsed", align: "center", width: 125 },
             { text: "End", value: "endTime", width: 80 },
             { text: "Duration", value: "duration", width: 85 },
-            { text: "Payout Address", value: "address", width: 125 },
+            { text: "Payout Address", value: "rewardOwner.addresses[0]", width: 125 },
         ];
-    }
-
-    get stakeOrWeight(): string {
-        return this.subnetID === this.defaultSubnetID
-            ? "stakeAmount"
-            : "weight";
     }
 
     get mode(): string {
@@ -181,7 +217,6 @@ export default class ValidatorDataTable extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../../main";
 
 #validator-data-table {
     margin-left: 1px;
@@ -201,7 +236,7 @@ export default class ValidatorDataTable extends Vue {
 }
 
 .v-tab:before {
-    background-color: main.$secondary-color !important;
+    background-color: $secondary-color !important;
 }
 
 .diagram {
@@ -210,22 +245,22 @@ export default class ValidatorDataTable extends Vue {
     width: 100%;
     height: 20px;
     position: relative;
-    border-left: 1px solid main.$gray-light;
-    border-right: 1px solid main.$gray-light;
+    border-left: 1px solid $gray-light;
+    border-right: 1px solid $gray-light;
 }
 
 .chartbar {
     position: absolute;
     top: 0;
     height: 100%;
-    background-color: main.$secondary-color-xlight;
+    background-color: $secondary-color-xlight;
 }
 
 .chartbar_complete {
     position: absolute;
     top: 0;
     height: 100%;
-    background-color: main.$secondary-color;
+    background-color: $secondary-color;
     opacity: 0.5;
 }
 
@@ -249,7 +284,7 @@ export default class ValidatorDataTable extends Vue {
     position: absolute;
     top: -11px;
     font-size: 12px;
-    background-color: main.$primary-color;
+    background-color: $primary-color;
     height: calc(100% + 22px);
     width: 1px;
     z-index: 5;
@@ -260,19 +295,19 @@ export default class ValidatorDataTable extends Vue {
     text-align: right;
     top: 0;
     width: 50px;
-    color: main.$primary-color;
+    color: $primary-color;
     font-size: 12px;
     z-index: 3;
 }
 
 .date {
-    color: main.$gray;
+    color: $gray;
     padding-top: 21px;
     line-height: 1em !important;
 }
 
 .time {
-    color: main.$gray;
+    color: $gray;
     font-size: 10px;
 }
 
@@ -296,14 +331,14 @@ export default class ValidatorDataTable extends Vue {
     padding-top: 7px;
 }
 
-@include main.device_s {
+@include smOnly {
     .v-card__text {
         padding-left: 16px;
         padding-right: 0;
     }
 }
 
-@include main.device_xs {
+@include xsOnly {
     #validator-data-table {
         .v-data-table td,
         .v-data-table th {
@@ -314,17 +349,17 @@ export default class ValidatorDataTable extends Vue {
 </style>
 
 <style lang="scss">
-@use "../../main";
+
 
 #validator_data_table {
 
     .v-application .primary--text {
-        color: main.$primary-color !important;
-        caret-color: main.$primary-color !important;
+        color: $primary-color !important;
+        caret-color: $primary-color !important;
     }
 
     .theme--light.v-tabs > .v-tabs-bar--show-arrows {
-        background-color: main.$white !important;
+        background-color: $white !important;
     }
 
     .theme--light.v-tabs-items {
@@ -364,7 +399,7 @@ export default class ValidatorDataTable extends Vue {
     }
 }
 
-@include main.device_xs {
+@include xsOnly {
     #validator-data-table {
         .v-data-table td,
         .v-data-table th {
@@ -375,7 +410,7 @@ export default class ValidatorDataTable extends Vue {
 </style>
 
 <style lang="scss">
-@use "../../main";
+
 
 #validator_data_table {
     

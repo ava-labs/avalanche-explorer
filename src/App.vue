@@ -1,24 +1,33 @@
 <template>
     <v-app>
-        <nav-bar class="navbar" v-if="$vuetify.breakpoint.smAndUp"></nav-bar>
-        <nav-bar-mobile v-if="$vuetify.breakpoint.xs"></nav-bar-mobile>
-        <v-content class="content">
-            <router-view class="router_view"></router-view>
-        </v-content>
-        <!-- <responsive-guidelines></responsive-guidelines> -->
+        <!-- <nav-bar-XL class="navbar_xl" v-if="$vuetify.breakpoint.xlOnly"></nav-bar-XL>         -->
+        <nav-bar class="navbar" v-if="$vuetify.breakpoint.mdAndUp"></nav-bar>
+        <nav-bar-mobile class="navbar_mobile" v-if="$vuetify.breakpoint.smAndDown"></nav-bar-mobile>
+        <div>
+            <testnet-alert></testnet-alert>
+            <div class="side_container">
+                <v-content class="content">
+                    <router-view class="router_view"></router-view>
+                </v-content>
+            </div>          
+        </div>
+        
         <Footer class="footer"></Footer>
         <notifications></notifications>
+        <!-- <ResponsiveGuidelines></ResponsiveGuidelines> -->
     </v-app>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import NavBar from "./components/NavBar.vue";
-import NavBarMobile from "./components/NavBarMobile.vue";
-import Footer from "./components/Footer.vue";
-// import ResponsiveGuidelines from "./components/misc/ResponsiveGuidelines.vue";
+import NavBar from "@/components/NavBar.vue";
+import NavBarMobile from "@/components/NavBarMobile.vue";
+import TestnetAlert from "@/components/misc/TestnetAlert.vue";
+// import ResponsiveGuidelines from "@/components/misc/ResponsiveGuidelines.vue";
+import Footer from "@/components/Footer.vue"
 import { IMetaTag } from "@/router/IMetaTag";
 import Notifications from "@/components/Notifications.vue";
+import { DEFAULT_NETWORK_ID } from "@/store/modules/network/network";
 
 export default Vue.extend({
     name: "App",
@@ -26,13 +35,15 @@ export default Vue.extend({
         NavBar,
         NavBarMobile,
         // ResponsiveGuidelines,
+        TestnetAlert,
         Footer,
         Notifications
     },
     data: () => ({}),
-    created(): void {
+    async created() {
         this.$store.dispatch("init");
         this.$store.dispatch("Platform/init");
+        await this.$store.dispatch('Network/init');
     },
     watch: {
         $route: {
@@ -66,83 +77,115 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-@use"main";
 .v-application {
-    background-color: main.$gray-xlight !important;
+    background-color: $gray-xlight !important;
+    min-height: 100vh;
 }
 
-.bg {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    left: 0;
-
-    img {
-        width: 100%;
-        object-fit: cover;
-        opacity: 0.03;
+@if $VUE_APP_DEFAULT_NETWORKID == 5 {
+    .v-application {
+       background-color: #fff !important;
+       background-image: $background_image;
     }
 }
 
+.side_container {   
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    overflow-y: hidden;
+}
+
 .content {
-    position: relative;
+    min-height: 100vh;
+    overflow-y: scroll;
 }
 
 .router_view {
     box-sizing: border-box;
 }
 
-.footer {
-    margin-top: 15vh;
-}
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
 
-.navbar,
-.router_view,
-.footer {
-    padding: main.$container_padding_l;
-}
+@include xlOnly {
 
-@include main.device_l {
     .navbar,
     .router_view,
     .footer {
-        padding: main.$container_padding_m;
+        padding: $container_padding_xl;
+    }
+
+    .side_container {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 100%;
+        overflow-y: hidden;
+    }
+
+    .content {
+        padding: $container_padding_xl;
+        padding-top: 0 !important;
     }
 }
 
-@include main.device_m {
+@include lgOnly {
+    
     .navbar,
     .router_view,
     .footer {
-        padding: main.$container_padding_s;
+        padding: $container_padding_lg;
+    }
+ 
+    .content {
+        padding-top: 0 !important;
     }
 }
 
-@include main.device_s {
+@include mdOnly {
+
     .navbar,
     .router_view,
     .footer {
-        padding: main.$container_padding_xs;
+        padding: $container_padding_md;
+    }
+
+    .content {
+        padding-top: 0 !important;
     }
 }
 
-@include main.device_xs {
-    .navbar,
-    .footer {
-        padding: main.$container_padding_xs;
-    }
 
-    .router_view {
-        padding: 10px 0;
+@include smOnly {
+    
+    .side_container {
+        flex-direction: column;
+    }    
+    .router_view,
+    .footer {
+        padding: $container_padding_sm;
+        padding-top: 0 !important;
+    }
+}
+
+@include xsOnly {
+    
+    .router_view,
+    .footer {
+        padding: $container_padding_xs;
+        padding-top: 0 !important;
     }
 }
 </style>
 
 <style lang="scss">
-@use "main";
+
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@1,400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap');
 
 /* ==========================================
@@ -151,10 +194,17 @@ export default Vue.extend({
 body {
     font-family: "Rubik", sans-serif;
     margin: 0;
-    background-color: main.$white !important;
-    color: main.$primary-color;
+    background-color: $white !important;
+    color: $primary-color;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+    font-family: "Rubik", sans-serif;
+    outline: none !important;
+    border: none;
+    cursor: pointer;
 }
 
 p {
@@ -162,7 +212,7 @@ p {
 }
 
 .v-application a {
-    color: main.$primary-color !important;
+    color: $primary-color !important;
     text-decoration: none;
     font-weight: 400; /* 700 */
 
@@ -172,8 +222,8 @@ p {
 }
 
 .v-application .primary--text {
-    color: main.$primary-color !important;
-    caret-color: main.$primary-color !important;
+    color: $primary-color !important;
+    caret-color: $primary-color !important;
 }
 
 /* ==========================================
@@ -181,14 +231,19 @@ p {
    ========================================== */
 
 .v-content__wrap {
-    min-height: calc(100vh - 130px);
+    min-height: calc(100vh - #{$navbar_height_offset_xl});
 }
 
 .card {
-    background-color: main.$white;
+    background-color: $white;
     padding: 30px;
     border-radius: 6px;
-    box-shadow: main.$box-shadow;
+}
+
+@if $VUE_APP_DEFAULT_NETWORKID == 5 {
+    .card {
+        border: 2px solid $blue;
+    }
 }
 
 .header {
@@ -196,11 +251,11 @@ p {
         font-size: 26px;
         margin: 0;
         font-weight: 400;
-        color: main.$primary-color;
+        color: $primary-color;
     }
 }
 
-@include main.device_s {
+@include smOnly {
     .header {
         h2 {
             font-size: 26px;
@@ -209,9 +264,8 @@ p {
     }
 }
 
-@include main.device_xs {
+@include xsOnly {
     .card {
-        padding: 30px 15px 30px;
         border-radius: 0;
     }
 
@@ -236,7 +290,7 @@ p {
         overflow: hidden;
         display: block;
         text-overflow: ellipsis;
-        color: main.$primary-color;
+        color: $primary-color;
         text-decoration: none;
 
         &:hover {
@@ -260,7 +314,7 @@ p {
     grid-template-columns: 140px 1fr;
     overflow-x: scroll;
     padding: 15px 0;
-    border-bottom: 1px solid main.$gray-xlight;
+    border-bottom: 1px solid $gray-xlight;
     
     .label {
         font-weight: 400; /* 700 */
@@ -279,8 +333,8 @@ p {
 
 .genesis {
     background-color: #e6ffe6;
-    border: 1px solid main.$green;
-    color: main.$green;
+    border: 1px solid $green;
+    color: $green;
     width: max-content;
     padding: 4px 8px;
     margin: 0 0 0 30px;
@@ -288,8 +342,8 @@ p {
 }
 
 .status {
-    background-color: main.$green-light;
-    color: main.$green;
+    background-color: $green-xlight;
+    color: $green;
     width: max-content;
     border-radius: 3px;
     padding: 4px 8px;
@@ -297,8 +351,8 @@ p {
 
 .values {
     span {
-        background-color: main.$secondary-color-xlight;
-        color: main.$secondary-color;
+        background-color: $secondary-color-xlight;
+        color: $secondary-color;
         margin-right: 4px;
         padding: 4px 8px;
         border-radius: 3px;
@@ -345,7 +399,7 @@ p {
     overflow: auto;
 }
 
-@include main.device_s {
+@include smOnly {
     .meta_row {
         padding: 16px 0;
         grid-template-columns: none;
@@ -370,13 +424,13 @@ p {
     }
 }
 
-@include main.device_xs {
+@include xsOnly {
     .utxo_table {
         margin-top: 5px;
     }
 
     .detail {
-        padding: main.$container_padding_xs;
+        padding: $container_padding_xs;
     }
 }
 
@@ -407,7 +461,64 @@ input {
     }
 }
 
-@include main.device_s {
+.data_table_header {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    h3 {
+        margin-bottom: 0;
+        font-weight: 400;
+    }
+
+    .filter_count {
+        font-size: 12px;
+    }
+}
+
+.table_image {
+    height: 20px;
+    display: inline-block;
+    margin-top: -4px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.duration_toggle_container {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.tx_chain_header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.chain {
+    font-size: 12px;
+    color: $primary-color-light;
+    text-align: right;
+    flex-grow: 1;
+
+    .label {
+        padding: 4px 12px 4px 0;
+        min-height: 1em;
+        line-height: 2em;
+    }
+
+    .tag {
+        padding: 4px 12px;
+        border-radius: 4px;
+        color: $secondary-color;
+        background-color: $secondary-color-xlight;
+        min-height: 1em;
+        line-height: 2em;
+        word-break: keep-all;
+        white-space: nowrap;
+    }
+}
+
+@include smOnly {
     .view_all {
         width: 100%;
         text-align: center;
@@ -417,9 +528,30 @@ input {
    vuetify overrides
    ========================================== */
 
+.ava_btn {
+    transition: opacity 0.3s;
+    background-color: transparent!important;
+    border-radius: 6px;
+    padding: 10px 24px;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 700 !important;
+    letter-spacing: .5px;
+    text-transform: uppercase!important;
+    font-size: 14px !important;
+    height: 38px;
+    
+    &:hover {
+        opacity: 0.9;
+    }
+}
+
 .theme--light.v-breadcrumbs .v-breadcrumbs__divider,
 .theme--light.v-breadcrumbs .v-breadcrumbs__item--disabled {
     color: rgba(0, 0, 0, 0.38) !important;
+}
+
+.v-breadcrumbs {
+    padding: 8px 12px 20px !important;
 }
 
 .v-tooltip__content {
@@ -459,8 +591,8 @@ tbody {
         max-width: 320px;
 
         .filter {
-            border: 2px solid main.$bg-light;
-            background-color: main.$bg-light;
+            border: 2px solid $bg-light;
+            background-color: $bg-light;
             height: 36px;
             width: 320px;
             box-sizing: content-box;
@@ -468,11 +600,22 @@ tbody {
             padding: 8px 12px;
             outline: none;
             font-size: 12px;
-            color: main.$primary-color;
+            color: $primary-color;
         }
     }
 }
 
+.v-toolbar--dense .v-toolbar__content, 
+.v-toolbar--dense .v-toolbar__extension {
+    padding: 0;
+}
+
+@include xlOnly {
+    .v-toolbar--dense .v-toolbar__content, 
+    .v-toolbar--dense .v-toolbar__extension {
+        padding: 0;
+    }
+}
 /* ==========================================
    transitions + animations
    ========================================== */

@@ -26,6 +26,7 @@
             <template #item.name="{item}">
                 <router-link class="name_id" :to="`/asset/${item.id}`">
                 <div>
+                    <img class="table_image" :src="require(`@/assets/hex_ava_${hexColor}.svg`)" alt />
                     <span class="name">{{item | nameOrID}} </span>
                     <span class="collision">{{collisionHash(item)}}</span>
                 </div>                    
@@ -58,6 +59,7 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 import { stringToBig, blockchainMap } from "@/helper";
 import { Asset } from '@/js/Asset';
 import { ICollisionMap } from '@/js/IAsset';
+import { DEFAULT_NETWORK_ID } from "@/store/modules/network/network";
 
 @Component({
     components: {
@@ -97,11 +99,14 @@ export default class AssetsDataTable extends Vue {
         return this.$store.state.collisionMap;
     }
 
+    get hexColor(): string {
+        return (DEFAULT_NETWORK_ID === 1) ? "mainnet" : "testnet";
+    }
+
 }
 </script>
 
 <style scoped lang="scss">
-@use "../../main";
 
 #assets_data_table {
     margin-left: 1px;
@@ -115,8 +120,8 @@ export default class AssetsDataTable extends Vue {
 
 /* FROM ASSET ROW */
 .symbol {
-    color: main.$secondary-color;
-    background-color: main.$secondary-color-xlight;
+    color: $secondary-color;
+    background-color: $secondary-color-xlight;
     padding: 6px 12px;
     text-align: center;
     border-radius: 4px;
@@ -138,21 +143,21 @@ export default class AssetsDataTable extends Vue {
 .collision {
     padding-left: 8px;
     font-size: .75em;
-    color: main.$primary-color-light;
+    color: $primary-color-light;
 
     :hover {
         text-decoration: none !important;
     }
 }
 
-@include main.device_s {
+@include smOnly {
     .v-card__text {
         padding-left: 16px;
         padding-right: 0;
     }
 }
 
-@include main.device_xs {
+@include xsOnly {
     #validator-data-table {
         .v-data-table td,
         .v-data-table th {
@@ -163,17 +168,17 @@ export default class AssetsDataTable extends Vue {
 </style>
 
 <style lang="scss">
-@use "../../main";
+
 
 #assets_data_table {
 
     .v-application .primary--text {
-        color: main.$primary-color !important;
-        caret-color: main.$primary-color !important;
+        color: $primary-color !important;
+        caret-color: $primary-color !important;
     }
 
     .theme--light.v-tabs > .v-tabs-bar--show-arrows {
-        background-color: main.$white !important;
+        background-color: $white !important;
     }
 
     .theme--light.v-tabs-items {
@@ -217,7 +222,7 @@ export default class AssetsDataTable extends Vue {
     font-weight: bold;
 }
 
-@include main.device_xs {
+@include xsOnly {
     #validator-data-table {
         .v-data-table td,
         .v-data-table th {
@@ -237,7 +242,7 @@ export default class AssetsDataTable extends Vue {
             min-width: 30px;
             display: inline-block;
             text-align: left;
-            color: main.$gray;
+            color: $gray;
             opacity: 0.7;
             font-size: 9px;
         }
@@ -259,7 +264,7 @@ export default class AssetsDataTable extends Vue {
 </style>
 
 <style lang="scss">
-@use "../../main";
+
 
 #assets_data_table {
     

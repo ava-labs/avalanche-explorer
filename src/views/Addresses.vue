@@ -23,7 +23,7 @@
 import { Vue, Component } from "vue-property-decorator";
 import api from "@/axios";
 import Address from "@/js/Address";
-import { IAddress, IAddressData, IBalance } from '@/js/IAddress';
+import { IAddress, IAddressData, IBalance_X } from '@/js/IAddress';
 import Big from "big.js";
 import AddressDataTable from '@/components/Address/AddressDataTable.vue';
 
@@ -70,10 +70,20 @@ export default class Addresses extends Vue {
                 let address: IAddress = {
                     address: addressData.address,
                     publicKey: addressData.publicKey,
-                    assets: [],
-                    avaxBalance: Big(0),
+                    // P-Chain AVAX balance
+                    AVAX_balance: Big(0),
+                    P_unlocked: Big(0),
+                    P_lockedStakeable: Big(0),
+                    P_lockedNotStakeable: Big(0),
+                    P_staked: Big(0),
+                    P_utxoIDs: [],
+                    // X-Chain AVAX balance
+                    X_unlocked: Big(0),
+                    X_locked: Big(0),
+                    // X-Chain Assets
                     totalTransactionCount: 0,
-                    totalUtxoCount: 0
+                    totalUtxoCount: 0,
+                    assets: [],
                 }
 
                 if (this.assetsMap) {
@@ -83,7 +93,7 @@ export default class Addresses extends Vue {
                 return address;
             });
             sorted.sort((a: IAddress, b: IAddress) => {
-                let diff = a.avaxBalance.minus(b.avaxBalance);
+                let diff = a.X_unlocked.minus(b.X_unlocked);
                 if (diff.gt(0)) return -1;
                 else if (diff.lt(0)) return 1;
                 else return 0;
@@ -99,7 +109,6 @@ export default class Addresses extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../main";
 
 .addresses {
     font-size: 12px;
@@ -118,7 +127,7 @@ export default class Addresses extends Vue {
     }
 }
 
-@include main.device_s {
+@include smOnly {
     .table_headers {
         display: none;
     }

@@ -10,9 +10,12 @@
     >
         <div class="logo">
             <router-link to="/">
-                <img style="width: 200px" src="@/assets/explorer_logo.png" />
-                <h1><span class="hide">Avalanche Explorer</span><span class="subnet">Everest</span></h1>
+                <img style="width: 200px" :src="require(`@/assets/explorer_logo_${logoColor}.png`)" />
+                <h1>
+                    <span class="hide">Avalanche Explorer</span>
+                </h1>
             </router-link>
+            <NetworkMenu></NetworkMenu>
         </div>
         <v-spacer class="spacer_mid"></v-spacer>
         <div class="rightside">
@@ -22,9 +25,8 @@
                     <router-link to="/subnets">Subnets</router-link>
                     <router-link to="/validators">Validators</router-link>
                     <router-link to="/assets">Assets</router-link>
-                    <!-- <router-link to="/addresses">Addresses</router-link> -->
                     <router-link to="/blockchains">Blockchains</router-link>
-                    <a href="https://cchain.explorer.avax.network/">C-Chain</a>
+                    <a v-bind:href="cChainURL">C-Chain</a>
                     <router-link to="/resources">Resources</router-link>
                 </div>
             </div>
@@ -42,10 +44,13 @@
 <script>
 import Vue from "vue";
 import SearchBar from "@/components/misc/SearchBar/SearchBar";
+import NetworkMenu from "./NetworkSettings/NetworkMenu.vue";
+import { DEFAULT_NETWORK_ID, cChainExplorerURL, cChainExplorerURL_test } from "@/store/modules/network/network";
 
 export default Vue.extend({
     components: {
-        SearchBar
+        SearchBar,
+        NetworkMenu
     },
     methods: {
         onsearch(val) {
@@ -63,25 +68,30 @@ export default Vue.extend({
             return (this.$router.currentRoute.name === "Home") ? false : true;
         },
         navColor() {
-            return "#fff";
-        }
+            return (DEFAULT_NETWORK_ID === 1) ? "#fff" : "#2196f3";
+        },
+        logoColor() {
+            return (DEFAULT_NETWORK_ID === 1) ? "light" : "white";
+        },
+        cChainURL() {
+            return (DEFAULT_NETWORK_ID === 1) ? cChainExplorerURL : cChainExplorerURL_test;
+        },
     }
 });
 </script>
 
 <style scoped lang="scss">
-@use "../main";
+
 
 .navbar {
     z-index: 10 !important;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
-    > .v-toolbar__content {
-        padding: 0;
-    }
 }
 
 .logo {
+    display: flex;
+    flex-direction: row;
     height: 100%;
     padding: 15px 0px;
     white-space: nowrap;
@@ -97,7 +107,7 @@ export default Vue.extend({
     }
 
     h1 {
-        padding-left: 10px;
+        padding-left: 20px;
         margin: 0;
 
         &:hover {
@@ -120,7 +130,7 @@ export default Vue.extend({
 
         .subnet {
             font-size: 12px;
-            color: main.$primary-color;
+            color: $primary-color;
             padding-bottom: 7px;
             display: inline-block;
         }
@@ -128,6 +138,9 @@ export default Vue.extend({
     img {
         max-height: calc(100% - 15px);
     }
+}
+.network_menu {
+    margin-left: 20px !important;
 }
 
 .search_bar {
@@ -153,12 +166,12 @@ export default Vue.extend({
 }
 
 .routes a {
-    color: main.$primary-color-light !important;
+    color: $primary-color-light !important;
     font-size: 14px;
     padding-right: 20px;
 
     &.router-link-exact-active {
-        color: main.$primary-color !important;
+        color: $primary-color !important;
     }
     
     &:hover {
@@ -171,7 +184,17 @@ export default Vue.extend({
     }
 }
 
-@include main.device_s {    
+@if $VUE_APP_DEFAULT_NETWORKID == 5 { 
+    .routes a {
+        color: rgba(255,255,255,.72) !important;
+
+        &.router-link-exact-active {
+            color: $white !important;
+        }
+    }
+}
+
+@include smOnly {    
     .logo {
         height: 100%;
         padding: 15px 0px 15px 6px;
@@ -191,7 +214,7 @@ export default Vue.extend({
         height: 12px;
         .subnet {
             font-size: 12px;
-            color: main.$primary-color;
+            color: $primary-color;
             padding-top: 9px;
             padding-bottom: 0;
             display: block;
@@ -216,8 +239,12 @@ export default Vue.extend({
 
 <style lang="scss">
 #navbar {
-    .v-toolbar__content {
-        padding: 0 !important;
+    .v-toolbar--dense .v-toolbar__content, 
+    .v-toolbar--dense .v-toolbar__extension {
+        padding-top: 0;
+        padding-bottom: 0;
+        padding-right: 0;
+        padding-left: 0
     }
 }
 </style>

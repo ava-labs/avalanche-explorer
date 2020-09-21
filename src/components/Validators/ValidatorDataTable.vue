@@ -41,7 +41,10 @@
             <template #item.id="{item}">
                 <div class="text-truncate" style="max-width: 100px;">{{item.id}}</div>
             </template>
-            <template #item.stakeAmount="{item}">{{item.totalStakeAmount | AVAX}} AVAX</template>
+            <template #item.stakeAmount="{item}">
+                {{item.totalStakeAmount | AVAX}} AVAX
+            </template>
+            <template #item.potentialReward="{item}">{{item.potentialReward | AVAX}}</template>
             <template #item.startTime="{item}">
                 <div class="text-right date no-pad-right">{{item.startTime.getTime() | date}}</div>
                 <div class="text-right time no-pad-right">{{item.startTime.getTime() | time}}</div>
@@ -197,7 +200,7 @@ import { scaleLinear } from "d3-scale";
     },
     filters: {
         AVAX(val: number) {
-            return toAVAX(val);
+            return toAVAX(val).toFixed(4).toLocaleString();
         },
         duration(val: number) {
             return moment.duration(val).humanize();
@@ -237,13 +240,18 @@ export default class ValidatorDataTable extends Vue {
 
     get headers(): any[] {
         return [
-            { text: "Validator", value: "nodeID", width: 130 },
-            { text: "Stake", value: this.stakeOrWeight, width: 130 },
+            { text: "Validator", value: "nodeID", width: 400},
+            { text: "Stake", value: this.stakeOrWeight, width: 250 },
+            { text: "Potential Reward", value: "potentialReward", width: 200 },
             { text: "Start", value: "startTime", align: "end", width: 80 },
             { text: "Completion", value: "elapsed", align: "center", width: 125 },
             { text: "End", value: "endTime", width: 80 },
             { text: "Duration", value: "duration", width: 85 },
-            // { text: "Payout Address", value: "address", width: 125 },
+            { text: "Payout Address", value: "rewardOwner.addresses[0]", width: 400 },
+            { text: "Delegation Fee", value: "delegationFee", width: 125 },
+            { text: "Connected", value: "connected", width: 125 },
+            { text: "Local Uptime", value: "uptime", width: 125 },
+
             // { text: "Delegators", value: "delegators", width: 100 },
             // { text: "", value: "expand", align: "end" },
         ];
@@ -303,40 +311,16 @@ export default class ValidatorDataTable extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../../main";
 
 #validator-data-table {
     margin-left: 1px;
 }
 
-.filter_count {
-    font-size: 12px;
-}
-
-h3 {
-    font-weight: 400;
-}
 .v-card__text {
     padding-top: 0;
     box-sizing: border-box;
     border-radius: 0 !important;
     padding-left: 16px;
-}
-
-.data_table_header {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-
-    h3 {
-        margin-bottom: 0;
-    }
-
-}
-
-.duration_toggle_container {
-    display: flex;
-    flex-direction: row-reverse;
 }
 
 .v-tab {
@@ -346,7 +330,7 @@ h3 {
 }
 
 .v-tab:before {
-    background-color: main.$secondary-color !important;
+    background-color: $secondary-color !important;
 }
 
 .diagram {
@@ -355,22 +339,22 @@ h3 {
     width: 100%;
     height: 20px;
     position: relative;
-    border-left: 1px solid main.$gray-light;
-    border-right: 1px solid main.$gray-light;
+    border-left: 1px solid $gray-light;
+    border-right: 1px solid $gray-light;
 }
 
 .chartbar {
     position: absolute;
     top: 0;
     height: 100%;
-    background-color: main.$secondary-color-xlight;
+    background-color: $secondary-color-xlight;
 }
 
 .chartbar_complete {
     position: absolute;
     top: 0;
     height: 100%;
-    background-color: main.$secondary-color;
+    background-color: $secondary-color;
     opacity: 0.5;
 }
 
@@ -394,7 +378,7 @@ h3 {
     position: absolute;
     top: -11px;
     font-size: 12px;
-    background-color: main.$primary-color;
+    background-color: $primary-color;
     height: calc(100% + 22px);
     width: 1px;
     z-index: 5;
@@ -405,19 +389,19 @@ h3 {
     text-align: right;
     top: 0;
     width: 50px;
-    color: main.$primary-color;
+    color: $primary-color;
     font-size: 12px;
     z-index: 3;
 }
 
 .date {
-    color: main.$gray;
+    color: $gray;
     padding-top: 21px;
     line-height: 1em !important;
 }
 
 .time {
-    color: main.$gray;
+    color: $gray;
     font-size: 10px;
 }
 
@@ -448,14 +432,14 @@ h3 {
     letter-spacing: 0.0071428571em;
 }
 
-@include main.device_s {
+@include smOnly {
     .v-card__text {
         padding-left: 16px;
         padding-right: 0;
     }
 }
 
-@include main.device_xs {
+@include xsOnly {
     #validator-data-table {
         .v-data-table td,
         .v-data-table th {
@@ -466,17 +450,17 @@ h3 {
 </style>
 
 <style lang="scss">
-@use "../../main";
+
 
 #validator_data_table {
 
     .v-application .primary--text {
-        color: main.$primary-color !important;
-        caret-color: main.$primary-color !important;
+        color: $primary-color !important;
+        caret-color: $primary-color !important;
     }
 
     .theme--light.v-tabs > .v-tabs-bar--show-arrows {
-        background-color: main.$white !important;
+        background-color: $white !important;
     }
 
     .theme--light.v-tabs-items {
@@ -516,7 +500,7 @@ h3 {
     }
 }
 
-@include main.device_xs {
+@include xsOnly {
     #validator-data-table {
         .v-data-table td,
         .v-data-table th {
@@ -527,7 +511,7 @@ h3 {
 </style>
 
 <style lang="scss">
-@use "../../main";
+
 
 #validator_data_table {
     

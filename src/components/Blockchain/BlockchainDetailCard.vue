@@ -64,7 +64,6 @@ export default class TransactionDetailCard extends Vue {
 </script>
 
 <style scoped lang="scss">
-@use "../../main";
 
 /* ==========================================
    details
@@ -77,8 +76,8 @@ export default class TransactionDetailCard extends Vue {
 
     .alias {
         background-color: #e6ffe6;
-        border: 1px solid main.$green;
-        color: main.$green;
+        border: 1px solid $green;
+        color: $green;
         width: max-content;
         padding: 4px 8px;
         margin: 0px 30px;
@@ -133,7 +132,7 @@ export default class TransactionDetailCard extends Vue {
     justify-content: flex-end;
 }
 
-@include main.device_s {
+@include smOnly {
     .bar {
         flex-direction: column;
         align-items: stretch;

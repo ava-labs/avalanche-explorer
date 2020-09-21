@@ -20,7 +20,7 @@
         </div>
         <div class="stats">
             <article>
-                <img src="@/assets/ava_price-purple.png" />
+                <img :src="require(`@/assets/ava_price-${imgColor}.png`)" />
                 <div class="stat">
                     <p class="label">
                         Total {{toggle}} Stake Amount
@@ -35,7 +35,7 @@
                 </div>
             </article>
             <article>
-                <img src="@/assets/validators-purple.png" />
+                <img :src="require(`@/assets/validators-${imgColor}.png`)" />
                 <div class="stat">
                     <p class="label">
                         {{toggle}} Validators
@@ -56,6 +56,7 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 import { AVALANCHE_SUBNET_ID } from "@/store/modules/platform/platform";
 import TooltipHeading from "@/components/misc/TooltipHeading.vue";
 import TooltipMeta from "@/components/misc/TooltipMeta.vue";
+import { DEFAULT_NETWORK_ID } from "@/store/modules/network/network";
 
 @Component({
     components: {
@@ -83,11 +84,14 @@ export default class Metadata extends Vue {
             ? this.$store.getters["Platform/totalValidators"]
             : this.$store.getters["Platform/totalPendingValidators"];
     }
+
+    get imgColor(): string {
+        return (DEFAULT_NETWORK_ID === 1) ? "testnet" : "testnet";
+    }
 }
 </script>
 
 <style scoped lang="scss">
-@use "../../main";
 
 .meta_data {
     margin-bottom: 30px;
@@ -128,7 +132,7 @@ export default class Metadata extends Vue {
 
         .label {
             text-transform: capitalize;
-            color: main.$primary-color;
+            color: $primary-color;
             font-size: 16px;
             font-weight: 700;
             margin-bottom: 6px;
@@ -146,7 +150,7 @@ export default class Metadata extends Vue {
     }
 }
 
-@include main.device_s {
+@include smOnly {
     .stats {
         grid-template-columns: 50% 50%;
         grid-template-rows: max-content;
@@ -175,7 +179,7 @@ export default class Metadata extends Vue {
     }
 }
 
-@include main.device_xs {
+@include xsOnly {
     .meta_data {
         margin-bottom: 10px;
     }
@@ -201,7 +205,7 @@ export default class Metadata extends Vue {
 }
 
 .v-tab {    
-    color: main.$primary-color !important;
+    color: $primary-color !important;
     background-color: transparent;
     font-size: 13px;
     font-weight: 400;
@@ -211,10 +215,10 @@ export default class Metadata extends Vue {
 }
 
 .tab_active {
-    border-bottom: 4px solid main.$secondary-color;
+    border-bottom: 4px solid $secondary-color;
 }
 
-@include main.device_s {
+@include smOnly {
     .header {
         flex-direction: column;
     }
@@ -240,7 +244,7 @@ export default class Metadata extends Vue {
 }
 </style>
 <style lang="scss">
-@use "../../main";
+
 
 #validators_meta {
     
@@ -251,13 +255,13 @@ export default class Metadata extends Vue {
     }
 
     .v-application .primary--text {
-        color: main.$primary-color !important;
-        caret-color: main.$primary-color !important;
+        color: $primary-color !important;
+        caret-color: $primary-color !important;
     }
 
     .v-tabs-slider-wrapper {
-        color: main.$secondary-color;
-        caret-color: main.$secondary-color;
+        color: $secondary-color;
+        caret-color: $secondary-color;
     }
 }
 

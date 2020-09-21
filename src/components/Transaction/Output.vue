@@ -61,8 +61,8 @@ export default class Output extends Vue {
 
 <style scoped lang="scss">
     .amount_symbol{
-        background-color: main.$primary-color-light;
-        color: main.$primary-color;
+        background-color: $primary-color-light;
+        color: $primary-color;
         padding: 4px 8px;
         border-radius: 3px;
         white-space: nowrap;

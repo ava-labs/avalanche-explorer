@@ -11,7 +11,7 @@
             </div>
             <section class="stats">
                 <article>
-                    <img src="@/assets/subnet-purple.png" />
+                    <img :src="require(`@/assets/subnet-${imgColor}.png`)" />
                     <div class="stat">
                         <p class="label">
                             Subnets
@@ -23,7 +23,7 @@
                     </div>
                 </article>
                 <article>
-                    <img src="@/assets/blockchain-purple.png" />
+                    <img :src="require(`@/assets/blockchain-${imgColor}.png`)" />
                     <div class="stat">
                         <p class="label">
                             Blockchains
@@ -35,7 +35,7 @@
                     </div>
                 </article>
                 <article>
-                    <img src="@/assets/validators-purple.png" />
+                    <img :src="require(`@/assets/validators-${imgColor}.png`)" />
                     <div class="stat">
                         <p class="label">
                             Validators
@@ -47,7 +47,7 @@
                     </div>
                 </article>
                 <article>
-                    <img src="@/assets/ava_price-purple.png" />
+                    <img :src="require(`@/assets/ava_price-${imgColor}.png`)" />
                     <div class="stat">
                         <p class="label">
                             Total Stake Amount
@@ -72,6 +72,7 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 import TooltipHeading from "../../components/misc/TooltipHeading.vue";
 import TooltipMeta from "../../components/misc/TooltipMeta.vue";
 import Big from "big.js";
+import { DEFAULT_NETWORK_ID } from "@/store/modules/network/network";
 
 @Component({
     components: {
@@ -84,11 +85,14 @@ export default class Metadata extends Vue {
     @Prop() totalBlockchains!: number;
     @Prop() totalValidators!: number;
     @Prop() totalStake!: Big;
+
+    get imgColor(): string {
+        return (DEFAULT_NETWORK_ID === 1) ? "testnet" : "testnet";
+    }
 }
 </script>
 
 <style scoped lang="scss">
-@use "../../main";
 
 .metadata {
     margin-bottom: 30px;
@@ -130,25 +134,26 @@ export default class Metadata extends Vue {
 
         .label {
             text-transform: capitalize;
-            color: main.$primary-color;
-            font-size: 14px;
-            font-weight: 500;
+            color: $primary-color;
+            font-size: 12px;
+            font-weight: 700;
             margin-bottom: 6px;
         }
 
         .meta_val {
-            font-size: 32px;
+            font-size: 36px;
             line-height: 1em;
+            font-weight: 300;
 
             .unit {
-                font-size: 14px;
+                font-size: 20px;
                 opacity: 0.7;
             }
         }
     }
 }
 
-@include main.device_m {
+@include mdOnly {
     .stats {
         img {
             width: 24px;
@@ -170,7 +175,7 @@ export default class Metadata extends Vue {
     }
 }
 
-@include main.device_s {
+@include smOnly {
     .stats {
         grid-template-columns: 50% 50%;
         grid-template-rows: max-content;
@@ -181,7 +186,7 @@ export default class Metadata extends Vue {
     }
 }
 
-@include main.device_xs {
+@include xsOnly {
     .metadata {
         margin-bottom: 10px;
 
