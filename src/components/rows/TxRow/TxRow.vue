@@ -120,14 +120,16 @@ export default class TxRow extends Vue {
             recipients = outs.filter((val, i) => {
                 let addrs = val.addresses;
                 // addrs.forEach(addr => console.log("                  ", addr.substring(6, 11), "                ", i) );
-                // If change UTXO then don't show
                 let flag = false;
-                // TODO check on when length is greater than one. 
-                addrs.forEach(addr => {
-                    if (senders.includes(addr)) flag = true;
-                });
-                if (flag) return false;
-                return true;
+                // Hide change UTXO for multiple outputs 
+                if (outs.length > 1) {
+                    addrs.forEach(addr => {
+                        if (senders.includes(addr)) {
+                            flag = true;
+                        }
+                    });
+                }
+                return flag ? false : true;
             });
         }
         // console.log("%c  tos         ", 'background: #222; color: #bada55', recipients.map(utxo => utxo.addresses));

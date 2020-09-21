@@ -2,12 +2,12 @@
     <div>
         <template v-if="networkID === 0">
             <v-alert class="testnet_alert" text type="warning" rounded="0">
-                <p class="description">Notice: This Testnet Explorer does not reflect Avalanche's Mainnet, its genesis state, or any network activity. Data here is reflective of the {{networkName}} test network.</p>
+                <p class="description">Notice: This Explorer displays activity on the {{networkName}} Testnet, <span class="bold">not</span> the Avalanche Mainnet.</p>
             </v-alert>
         </template>
         <template v-else>
             <v-alert class="testnet_alert" text type="info" rounded="0">
-                <p class="description">Notice: This Testnet Explorer does not reflect Avalanche's Mainnet, its genesis state, or any network activity. Data here is reflective of the {{networkName}} test network.</p>
+                <p class="description">Notice: This Explorer displays activity on the {{networkName}} Testnet, <span class="bold">not</span> the Avalanche Mainnet.</p>
             </v-alert>
         </template>
     </div>
@@ -36,6 +36,10 @@ export default class TestnetAlert extends Vue {
     background-color: $white !important;
 }
 
+.bold {
+    font-weight: 700;
+}
+
 @include xlOnly {
     .testnet_alert {
         margin-top: $navbar_height_offset_xl !important;
@@ -47,7 +51,7 @@ export default class TestnetAlert extends Vue {
 @include lgOnly {
     .testnet_alert {
         padding-left: 8vw;
-        padding-right: s8vw;
+        padding-right: 8vw;
     }
 }
 

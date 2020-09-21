@@ -127,6 +127,7 @@ img {
 
 .name {
     color: $primary-color;
+    font-weight: 700;
 }
 
 .name_col {
@@ -151,10 +152,6 @@ img {
         opacity: 0.8;
     }
 } */
-
-.connected {
-    font-weight: 700;
-}
 
 .connecting {
     animation-name: connecting;
