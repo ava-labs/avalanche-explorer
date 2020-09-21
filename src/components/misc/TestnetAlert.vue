@@ -1,8 +1,8 @@
 <template>
     <div>
-        <template v-if="networkID === 0">
-            <v-alert class="testnet_alert" text type="warning" rounded="0">
-                <p class="description">Notice: This Explorer displays activity on the {{networkName}} Testnet, <span class="bold">not</span> the Avalanche Mainnet.</p>
+        <template v-if="networkID === 1">
+            <v-alert class="testnet_alert mainnet_announcement" text rounded="0">
+                <p class="description">Per aspera ad astra</p>
             </v-alert>
         </template>
         <template v-else>
@@ -34,6 +34,26 @@ export default class TestnetAlert extends Vue {
 .testnet_alert {
     margin-top: 100px !important;
     background-color: $white !important;
+}
+
+.v-application .info--text {
+    color: #FFF !important;
+    caret-color: #FFF !important;
+}
+
+.mainnet_announcement {
+    color: $white !important;
+    font-weight: 400;
+    font-style: italic;
+    background-image: linear-gradient(to left, #ff8080, #f6a06a, #debf6f, #c2da8f, #a9efbf) !important;
+
+    .description {
+        text-align: center;
+    }
+}
+
+.v-alert--text:before {
+    background-color: $white;
 }
 
 .bold {
