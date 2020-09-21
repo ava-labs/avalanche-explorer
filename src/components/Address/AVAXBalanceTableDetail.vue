@@ -5,12 +5,14 @@
                 <thead>
                     <tr class="grid_headers">
                         <th class="text-left">Type</th>
+                        <th class="text-right chain"></th>
                         <th class="text-right balance">Amount</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="item in balances" :key="item.name">
+                    <tr v-for="(item, i) in balances" :key="i">
                         <td class="text-left">{{ item.name }}</td>
+                        <td class="text-right chain">{{ item.chain }}</td>
                         <td class="text-right balance">{{ item.balance }} <span>AVAX</span></td>
                     </tr>
                 </tbody>
@@ -38,31 +40,38 @@ export default class AVAXBalanceTableDetail extends Vue {
 	
     balances: any[] = [
         {
-            name: "Unlocked (Platform Chain)",
+            name: "Unlocked",
+            chain: "Platform",
             balance: this.P_unlocked
         },
         {
-            name: "Locked Stakeable (Platform Chain)",
+            name: "Locked (Stakeable)",
+            chain: "Platform",
             balance: this.P_lockedStakeable
         },
         {
-            name: "Locked Not Stakeable (Platform Chain)",
+            name: "Locked (Not-Stakeable)",
+            chain: "Platform",
             balance: this.P_lockedNotStakeable
         },
         {
-            name: "Staked (Platform Chain)",
+            name: "Staked",
+            chain: "Platform",
             balance: this.P_staked
         },
         {
-            name: "Unlocked (Exchange Chain)",
+            name: "Unlocked",
+            chain: "Exchange",
             balance: this.X_unlocked
         },
         {
-            name: "Locked (Exchange Chain)",
+            name: "Locked",
+            chain: "Exchange",
             balance: this.X_locked
         },
         {
             name: "Total Balance",
+            chain: "",            
             balance: this.totalAVAX,
         },
     ];
@@ -87,6 +96,14 @@ export default class AVAXBalanceTableDetail extends Vue {
 
 .text-left {
 	padding-left: 0;
+}
+
+.chain {
+    width: 60px;
+    font-size: 12px;
+    color: $primary-color-light;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .text-right,
