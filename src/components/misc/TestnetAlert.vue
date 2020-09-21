@@ -1,15 +1,29 @@
 <template>
-    <v-alert class="testnet_alert" text type="info" rounded="0">
-        <p class="description">Notice: This Testnet Explorer does not reflect Avalanche's Mainnet, its genesis state, or any network activity. Data here is reflective of the Fuji test network.</p>
-    </v-alert>
+    <div>
+        <template v-if="networkID === 0">
+            <v-alert class="testnet_alert" text type="warning" rounded="0">
+                <p class="description">Notice: This Testnet Explorer does not reflect Avalanche's Mainnet, its genesis state, or any network activity. Data here is reflective of the Fuji test network.</p>
+            </v-alert>
+        </template>
+        <template v-else>
+            <v-alert class="testnet_alert" text type="info" rounded="0">
+                <p class="description">Notice: This Testnet Explorer does not reflect Avalanche's Mainnet, its genesis state, or any network activity. Data here is reflective of the Fuji test network.</p>
+            </v-alert>
+        </template>
+    </div>
 </template>
 
 <script lang="ts">
 import "reflect-metadata";
 import { Vue, Component } from "vue-property-decorator";
+import { DEFAULT_NETWORK_ID } from "@/store/modules/network/network";
 
 @Component({})
-export default class TestnetAlert extends Vue {}
+export default class TestnetAlert extends Vue {
+    get networkID(): number {
+        return DEFAULT_NETWORK_ID;
+    }
+}
 </script>
 
 <style scoped lang="scss">
