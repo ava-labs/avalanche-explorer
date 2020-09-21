@@ -233,7 +233,7 @@ export default class ValidatorRow extends Vue {
     }
 
     .rank > div {
-        color: #000;
+        color: $secondary-color;
         border: 2px solid $secondary-color;
         width: 24px;
         height: 24px;

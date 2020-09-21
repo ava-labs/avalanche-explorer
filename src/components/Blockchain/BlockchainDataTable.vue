@@ -7,7 +7,7 @@
         <v-data-table :items="blockchains" :headers="headers" multi-sort>
             <template #item.name="{item}">
                 <div>
-                    <img class="table_image" src="@/assets/blockchain-purple.png" alt />
+                    <img class="table_image" :src="require(`@/assets/blockchain-${imgColor}.png`)" alt />
                     <template v-if="links">
                         <router-link :to="`/blockchain/${item.id}`" class="id">{{ item.name }}</router-link>
                     </template>
@@ -38,6 +38,7 @@ import { subnetMap, VMMap, VMDocumentationMap } from "@/helper";
 import Subnet from "@/js/Subnet";
 import Blockchain from "@/js/Blockchain";
 import Indexed from "@/components/Blockchain/Indexed.vue";
+import { DEFAULT_NETWORK_ID } from "@/store/modules/network/network";
 
 @Component({
     components: {
@@ -63,6 +64,10 @@ export default class BlockchainDataTable extends Vue {
             { text: "Subnet", value: "subnetID", width: 300 },
         ];
         return this.subnets ? headers : headers.slice(0, 3);
+    }
+
+    get imgColor(): string {
+        return (DEFAULT_NETWORK_ID === 1) ? "testnet" : "testnet";
     }
 
     subnet(val: string) {

@@ -20,7 +20,7 @@
         </div>
         <div class="stats">
             <article>
-                <img src="@/assets/ava_price-purple.png" />
+                <img :src="require(`@/assets/ava_price-${imgColor}.png`)" />
                 <div class="stat">
                     <p class="label">
                         Total {{toggle}} Stake Amount
@@ -35,7 +35,7 @@
                 </div>
             </article>
             <article>
-                <img src="@/assets/validators-purple.png" />
+                <img :src="require(`@/assets/validators-${imgColor}.png`)" />
                 <div class="stat">
                     <p class="label">
                         {{toggle}} Validators
@@ -56,6 +56,7 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 import { AVALANCHE_SUBNET_ID } from "@/store/modules/platform/platform";
 import TooltipHeading from "@/components/misc/TooltipHeading.vue";
 import TooltipMeta from "@/components/misc/TooltipMeta.vue";
+import { DEFAULT_NETWORK_ID } from "@/store/modules/network/network";
 
 @Component({
     components: {
@@ -82,6 +83,10 @@ export default class Metadata extends Vue {
         return this.toggle === "active"
             ? this.$store.getters["Platform/totalValidators"]
             : this.$store.getters["Platform/totalPendingValidators"];
+    }
+
+    get imgColor(): string {
+        return (DEFAULT_NETWORK_ID === 1) ? "testnet" : "testnet";
     }
 }
 </script>

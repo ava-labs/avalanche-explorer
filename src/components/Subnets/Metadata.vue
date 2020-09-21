@@ -11,7 +11,7 @@
             </div>
             <section class="stats">
                 <article>
-                    <img src="@/assets/subnet-purple.png" />
+                    <img :src="require(`@/assets/subnet-${imgColor}.png`)" />
                     <div class="stat">
                         <p class="label">
                             Subnets
@@ -23,7 +23,7 @@
                     </div>
                 </article>
                 <article>
-                    <img src="@/assets/blockchain-purple.png" />
+                    <img :src="require(`@/assets/blockchain-${imgColor}.png`)" />
                     <div class="stat">
                         <p class="label">
                             Blockchains
@@ -35,7 +35,7 @@
                     </div>
                 </article>
                 <article>
-                    <img src="@/assets/validators-purple.png" />
+                    <img :src="require(`@/assets/validators-${imgColor}.png`)" />
                     <div class="stat">
                         <p class="label">
                             Validators
@@ -47,7 +47,7 @@
                     </div>
                 </article>
                 <article>
-                    <img src="@/assets/ava_price-purple.png" />
+                    <img :src="require(`@/assets/ava_price-${imgColor}.png`)" />
                     <div class="stat">
                         <p class="label">
                             Total Stake Amount
@@ -72,6 +72,7 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 import TooltipHeading from "../../components/misc/TooltipHeading.vue";
 import TooltipMeta from "../../components/misc/TooltipMeta.vue";
 import Big from "big.js";
+import { DEFAULT_NETWORK_ID } from "@/store/modules/network/network";
 
 @Component({
     components: {
@@ -84,6 +85,10 @@ export default class Metadata extends Vue {
     @Prop() totalBlockchains!: number;
     @Prop() totalValidators!: number;
     @Prop() totalStake!: Big;
+
+    get imgColor(): string {
+        return (DEFAULT_NETWORK_ID === 1) ? "testnet" : "testnet";
+    }
 }
 </script>
 

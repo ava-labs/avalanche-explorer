@@ -47,7 +47,7 @@ const network_module: Module<INetworkState, IRootState> = {
     actions: {
         async init({state, commit, dispatch}) {
             let mainnet = new Network(
-                `${networkName} Testnet`,
+                `${networkName} Mainnet`,
                 `${avalancheJSProtocol}://${avalancheJSIP}:${avalancheJSPort}`,
                 avalancheJSNetworkID, 
                 avalancheJSChainID,

@@ -85,6 +85,10 @@ $secondary-color-light: $pink-light;
 $secondary-color-xlight: $pink-xlight;
 
 @if $VUE_APP_DEFAULT_NETWORKID == 5 {
+  $primary-color: $black;
+  $primary-color-light: $gray;
+  $primary-color-xlight: $gray-light;
+  
   $secondary-color: $blue;
   $secondary-color-light: $blue-light;
   $secondary-color-xlight: $blue-light2;
