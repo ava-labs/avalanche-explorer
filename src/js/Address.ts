@@ -1,5 +1,5 @@
-import { IBalance_X_Data, IBalance_X_Datum, IBalance_X, IAddressData, IBalance_P_Data, IBalance_P } from "./IAddress";
-import { stringToBig } from "@/helper";
+import { IBalance_X_Data, IBalance_X_Datum, IBalance_X, IAddressData, IBalance_P_Data, IBalance_P, IStake_P_Data } from "./IAddress";
+import { stringToBig, bigToDenomBig } from "@/helper";
 import { Asset } from './Asset';
 import Big from "big.js";
 import api from "@/axios";
@@ -16,36 +16,36 @@ export default class Address {
     publicKey:                          string;
     // P-Chain AVAX balance
     AVAX_balance:                       Big;
-    P_unlocked:            Big;
-    P_lockedStakeable:     Big;
-    P_lockedNotStakeable:  Big;
-    P_staked:              Big;
-    utxoIDs_P:                          string[];
+    P_unlocked:                         Big;
+    P_lockedStakeable:                  Big;
+    P_lockedNotStakeable:               Big;
+    P_staked:                           Big;
+    P_utxoIDs:                          string[];
     // X-Chain AVAX balance
-    X_unlocked:            Big;
-    X_locked:              Big;
+    X_unlocked:                         Big;
+    X_locked:                           Big;
     // X-Chain Assets
     totalTransactionCount:              number;
     totalUtxoCount:                     number;
     assets:                             IBalance_X[];
 
     constructor(data: IAddressData, assetsMap: IAssetsMap) {
-        this.address =                              data.address;
-        this.publicKey =                            data.publicKey;
+        this.address =                  data.address;
+        this.publicKey =                data.publicKey;
         // P-Chain AVAX balance
-        this.AVAX_balance =                         Big(0);
-        this.P_unlocked =              Big(0);
-        this.P_lockedStakeable =       Big(0);
-        this.P_lockedNotStakeable =    Big(0);
-        this.P_staked =                Big(0);
-        this.utxoIDs_P =                            [];
+        this.AVAX_balance =             Big(0);
+        this.P_unlocked =               Big(0);
+        this.P_lockedStakeable =        Big(0);
+        this.P_lockedNotStakeable =     Big(0);
+        this.P_staked =                 Big(0);
+        this.P_utxoIDs =                [];
         // X-Chain AVAX balance
-        this.X_unlocked =              Big(0);
-        this.X_locked =                Big(0);
+        this.X_unlocked =               Big(0);
+        this.X_locked =                 Big(0);
         // X-Chain Assets
-        this.totalTransactionCount =                0;
-        this.totalUtxoCount =                       0;
-        this.assets =                               this.set_asset_balances_unlocked_X(data.assets, assetsMap);
+        this.totalTransactionCount =    0;
+        this.totalUtxoCount =           0;
+        this.assets =                   this.set_asset_balances_unlocked_X(data.assets, assetsMap);
         
         this.set_X_unlocked();        
     }
@@ -152,11 +152,17 @@ export default class Address {
 
     public set_AVAX_balance_P(balance_P_data: IBalance_P_Data): void {
         if (balance_P_data) {
-            this.AVAX_balance = Big(balance_P_data.balance);
-            this.P_unlocked = Big(balance_P_data.unlocked);
-            this.P_lockedStakeable = Big(balance_P_data.lockedStakeable);
-            this.P_lockedNotStakeable = Big(balance_P_data.lockedNotStakeable);
-            this.utxoIDs_P = balance_P_data.utxoIDs as string[];
+            this.AVAX_balance = bigToDenomBig(Big(balance_P_data.balance), 9);
+            this.P_unlocked = bigToDenomBig(Big(balance_P_data.unlocked), 9);
+            this.P_lockedStakeable = bigToDenomBig(Big(balance_P_data.lockedStakeable), 9);
+            this.P_lockedNotStakeable = bigToDenomBig(Big(balance_P_data.lockedNotStakeable), 9);
+            this.P_utxoIDs = balance_P_data.utxoIDs as string[];
+        }
+    }
+
+    public set_AVAX_staked_P(stake_P_data: IStake_P_Data): void {
+        if (stake_P_data) {
+            this.P_staked = bigToDenomBig(Big(stake_P_data.staked), 9);
         }
     }
 }

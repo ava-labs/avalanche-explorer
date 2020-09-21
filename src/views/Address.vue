@@ -8,7 +8,12 @@
             <p>Status {{requestErrorStatus}} - {{requestErrorMessage}}</p>
             <p><a href="https://github.com/ava-labs/avalanche-explorer/issues" target="_blank">Submit Issue</a></p>
         </div>
-        <Metadata v-if="metadata && !requestError && assetsLoaded === true" 
+        <Metadata 
+            v-if="metadata && 
+                !requestError && 
+                !loading_P && 
+                !stakeloading_P && 
+                assetsLoaded === true" 
             :metaData="metadata"
             :addressID="addressID"
             :alias="alias"
@@ -101,7 +106,7 @@ import { stringToBig, blockchainMap, trimmedLocaleString } from "@/helper";
 import AddressDict from "@/known_addresses";
 import Address from "@/js/Address";
 import { Transaction } from '@/js/Transaction';
-import { IBalance_X, IAddress, IAddressData, IBalance_P_Data, IBalance_P } from '@/js/IAddress';
+import { IBalance_X, IAddress, IAddressData, IBalance_P_Data, IBalance_P, IStake_P_Data } from '@/js/IAddress';
 import avalanche_go_api from "@/avalanche_go_api";
 
 @Component({
@@ -145,6 +150,7 @@ export default class AddressPage extends Vue {
     metadata: Address | null = null;
     // P-Chain balances
     loading_P: boolean = false;
+    stakeloading_P: boolean = false;
     // txs
     txloading: boolean = false;
     txRequestError: boolean = false;
@@ -219,6 +225,7 @@ export default class AddressPage extends Vue {
     async updateData() {
         this.loading = true;
         this.loading_P = true;
+        this.stakeloading_P = true;
         this.txloading = true;
 
         if (this.assetsLoaded) {
@@ -226,6 +233,26 @@ export default class AddressPage extends Vue {
             await this.getAddressDetails_X();
             this.getAddressDetails_P();
         }
+    }
+
+    async getStake_P() {
+        this.stakeloading_P = true;
+        let req = {
+            "jsonrpc": "2.0",
+            "method": "platform.getStake",
+            "params": {
+                address: `P-${this.addressID}`
+            },
+            "id": 1
+        };
+        
+        let res: IStake_P_Data = await avalanche_go_api.post("", req);
+        
+        if (this.metadata) {
+            this.metadata.set_AVAX_staked_P(res);
+        }
+        
+        this.stakeloading_P = false;
     }
 
     async getAddressDetails_P() {
@@ -240,12 +267,12 @@ export default class AddressPage extends Vue {
         };
         
         let res: IBalance_P_Data = await avalanche_go_api.post("", req);
-        this.loading_P = false;
         
         if (this.metadata) {
             this.metadata.set_AVAX_balance_P(res);
         }
-        console.log("this.metadata", this.metadata);
+        
+        this.loading_P = false;
     }
 
     getAddressDetails_X() {

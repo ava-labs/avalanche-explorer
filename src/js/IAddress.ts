@@ -1,22 +1,22 @@
 import Big from 'big.js';
 
 export interface IAddress {
-    address:                            string,    // "custom1wvdqtl8g5jjv2r5rk8qzgktf9kx95nx8fm2xsh
-    publicKey:                          string,
+    address:                    string,    // "custom1wvdqtl8g5jjv2r5rk8qzgktf9kx95nx8fm2xsh
+    publicKey:                  string,
     // P-Chain AVAX balance
-    AVAX_balance:                       Big,        // ?
-    P_unlocked:            Big,
-    P_lockedStakeable:     Big,
-    P_lockedNotStakeable:  Big,
-    P_staked:              Big,
-    utxoIDs_P:                            string[],
+    AVAX_balance:               Big,        
+    P_unlocked:                 Big,        // unlocked tokens. stake/move (denominated)
+    P_lockedStakeable:          Big,        // vesting tokens. stake/!move (denominated)
+    P_lockedNotStakeable:       Big,        // vesting tokens. !stake/!move (denominated)
+    P_staked:                   Big,        // staked tokens. from getStake (denominated)
+    P_utxoIDs:                  string[],
     // X-Chain AVAX balance
-    X_unlocked:            Big,
-    X_locked:              Big,
+    X_unlocked:                 Big,
+    X_locked:                   Big,
     // X-Chain Assets
-    totalTransactionCount:              number,
-    totalUtxoCount:                     number,
-    assets:                             IBalance_X[],
+    totalTransactionCount:      number,
+    totalUtxoCount:             number,
+    assets:                     IBalance_X[],
 }
 
 export interface IBalance_X {
@@ -45,10 +45,8 @@ export interface IBalance_P {
 
 /* ==========================================
    Ortelius API
-        - unlocked X-Chain AVAX
-        - unlocked X-Chain assets
-        - TODO: locked X-Chain AVAX
-        - TODO: locked X-Chain assets
+        - unlocked X-Chain AVAX + assets
+        - TODO: locked eventually
    ========================================== */
 
 export interface IAddressData {
@@ -78,13 +76,13 @@ export interface IBalance_X_Datum {
    ========================================== */
 
 export interface IBalance_P_Data {
-    balance:                    string,     // ?
-    unlocked:                   string,     // unlocked tokens on P-chain. can stake. can move
-    lockedStakeable:            string,     // vesting tokens. can stake. cannot move.
-    lockedNotStakeable:         string,     // vesting tokens. cannot stake. cannot move.
+    balance:                    string,             
+    unlocked:                   string,             // unlocked tokens. stake/move (no denom)
+    lockedStakeable:            string,             // vesting tokens. stake/!move (no denom)
+    lockedNotStakeable:         string,             // vesting tokens. !stake/!move (no denom)
     utxoIDs:                    string[] | null
 }
 
-// getStake(address[es])
-    // one address = one stake balance.
-    // many addresses = sum of stake balances.
+export interface IStake_P_Data {
+    staked:                     string
+}

@@ -76,7 +76,7 @@ export default class Addresses extends Vue {
                     P_lockedStakeable: Big(0),
                     P_lockedNotStakeable: Big(0),
                     P_staked: Big(0),
-                    utxoIDs_P: [],
+                    P_utxoIDs: [],
                     // X-Chain AVAX balance
                     X_unlocked: Big(0),
                     X_locked: Big(0),
