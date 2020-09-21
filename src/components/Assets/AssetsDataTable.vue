@@ -100,7 +100,7 @@ export default class AssetsDataTable extends Vue {
     }
 
     get hexColor(): string {
-        return (DEFAULT_NETWORK_ID === 0) ? "mainnet" : "testnet";
+        return (DEFAULT_NETWORK_ID === 1) ? "mainnet" : "testnet";
     }
 
 }

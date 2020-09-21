@@ -8,7 +8,7 @@ let PORT = 80;
 let NETWORK_ID = 0;
 let CHAIN_ID = "X";
 
-if (DEFAULT_NETWORK_ID === 0) {
+if (DEFAULT_NETWORK_ID === 1) {
     PROTOCOL = process.env.VUE_APP_AVALANCHE_JS_PROTOCOL as string;
     IP = process.env.VUE_APP_AVALANCHE_JS_IP as string;
     PORT = parseInt(process.env.VUE_APP_AVALANCHE_JS_PORT as string);

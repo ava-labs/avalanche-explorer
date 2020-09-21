@@ -45,7 +45,7 @@ export default class TxRow extends Vue {
     }
 
     get isGenesisVertex(): boolean {
-        let genesisTxID = (DEFAULT_NETWORK_ID === 0) ? process.env.VUE_APP_AVAXID : process.env.VUE_APP_TEST_AVAXID;
+        let genesisTxID = (DEFAULT_NETWORK_ID === 1) ? process.env.VUE_APP_AVAXID : process.env.VUE_APP_TEST_AVAXID;
         return (this.transaction.id === genesisTxID) ? true : false;
     }
 

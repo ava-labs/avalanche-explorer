@@ -101,7 +101,7 @@
         }
 
         get networkColor(): string {
-            return (DEFAULT_NETWORK_ID === 0) ? "primary" : "white";
+            return (DEFAULT_NETWORK_ID === 1) ? "primary" : "white";
         }
     }
 </script>

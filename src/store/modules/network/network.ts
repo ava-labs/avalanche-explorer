@@ -5,8 +5,8 @@ import { avalanche } from "@/avalanche";
 import Network from "@/js/Network";
 import axios from "@/axios";
 
-export const DEFAULT_NETWORK_ID = parseInt(process.env.VUE_APP_DEFAULT_NETWORKID || "4");
-export const DEFAULT_NETWORK_NAME = (DEFAULT_NETWORK_ID === 0) 
+export const DEFAULT_NETWORK_ID = parseInt(process.env.VUE_APP_DEFAULT_NETWORKID || "1");
+export const DEFAULT_NETWORK_NAME = (DEFAULT_NETWORK_ID === 1) 
     ? process.env.VUE_APP_NETWORKNAME as string
     : process.env.VUE_APP_TEST_NETWORKNAME as string;
 
@@ -16,8 +16,8 @@ const explorerFEUrl = process.env.VUE_APP_EXPLORER_FE_URL || "";
 const orteliusURL = process.env.VUE_APP_ORTELIUS_URL || "";
 const avalancheJSProtocol = process.env.VUE_APP_AVALANCHE_JS_PROTOCOL || "";
 const avalancheJSIP = process.env.VUE_APP_AVALANCHE_JS_IP || "";
-const avalancheJSPort = parseInt(process.env.VUE_APP_AVALANCHE_JS_PORT || "80");
-const avalancheJSNetworkID = parseInt(process.env.VUE_APP_AVALANCHE_JS_NETWORKID || "0");
+const avalancheJSPort = parseInt(process.env.VUE_APP_AVALANCHE_JS_PORT || "443");
+const avalancheJSNetworkID = parseInt(process.env.VUE_APP_AVALANCHE_JS_NETWORKID || "1");
 const avalancheJSChainID = process.env.VUE_APP_AVALANCHE_JS_CHAINID || "X";
 export const cChainExplorerURL = process.env.VUE_APP_TEST_CCHAIN_EXPLORER_URL || "";
 
@@ -27,8 +27,8 @@ const explorerFEUrl_test = process.env.VUE_APP_TEST_EXPLORER_FE_URL || "";
 const orteliusURL_test = process.env.VUE_APP_TEST_ORTELIUS_URL || "";
 const avalancheJSProtocol_test = process.env.VUE_APP_TEST_AVALANCHE_JS_PROTOCOL || "";
 const avalancheJSIP_test = process.env.VUE_APP_TEST_AVALANCHE_JS_IP || "";
-const avalancheJSPort_test = parseInt(process.env.VUE_APP_TEST_AVALANCHE_JS_PORT || "80");
-const avalancheJSNetworkID_test = parseInt(process.env.VUE_APP_TEST_AVALANCHE_JS_NETWORKID || "0");
+const avalancheJSPort_test = parseInt(process.env.VUE_APP_TEST_AVALANCHE_JS_PORT || "443");
+const avalancheJSNetworkID_test = parseInt(process.env.VUE_APP_TEST_AVALANCHE_JS_NETWORKID || "5");
 const avalancheJSChainID_test = process.env.VUE_APP_TEST_AVALANCHE_JS_CHAINID || "";
 export const cChainExplorerURL_test = process.env.VUE_APP_TEST_CCHAIN_EXPLORER_URL || "";
 

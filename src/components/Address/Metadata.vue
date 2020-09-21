@@ -92,7 +92,7 @@ export default class Metadata extends Vue {
     @Prop() prefix!: string;
 
     get isManhattan(): boolean {
-        return (DEFAULT_NETWORK_ID === 0) ? true : false;
+        return (DEFAULT_NETWORK_ID === 1) ? true : false;
     }
 
     get AVAX(): string {
