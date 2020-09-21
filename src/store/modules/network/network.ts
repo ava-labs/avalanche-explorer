@@ -63,9 +63,7 @@ const network_module: Module<INetworkState, IRootState> = {
                 explorerFEUrl_test
             );
             
-            if (DEFAULT_NETWORK_ID === 0) {
-                await commit("addNetwork", mainnet);
-            }
+            await commit("addNetwork", mainnet);
             await commit("addNetwork", testnet);
 
             // initialize selected network

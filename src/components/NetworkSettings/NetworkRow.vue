@@ -1,5 +1,5 @@
 <template>
-    <div class="network_row" :active="isSelected">
+    <a class="network_row" :active="isSelected" :href="explorerFEUrl">
         <img src="@/assets/network_ava.png" />
         <div class="name_col">
             <p class="name">{{network.name}}</p>
@@ -9,11 +9,11 @@
             </button> -->
         </div>
         <div class="status_col">
-            <button v-if="!isSelected" @click="select">Select</button>
+            <button v-if="!isSelected" @click="select"></button>
             <button v-else-if="!isConnected" class="connecting">Connecting...</button>
-            <p v-else>Connected</p>
+            <p class="connected" v-else>Connected</p>
         </div>
-    </div>
+    </a>
 </template>
 
 <script lang="ts">
@@ -54,6 +54,11 @@ export default class NetworkRow extends Vue {
         // console.log(this.$parent.$parent.$parent.onedit);
         // @ts-ignore;
         this.$parent.$parent.$parent.onedit(this.network);
+    }
+
+    get explorerFEUrl() {
+        let net = this.network;
+        return net.explorerFEUrl;
     }
 
     async select() {
@@ -97,12 +102,22 @@ export default class NetworkRow extends Vue {
     > * {
         align-self: center;
     }
+
+    &:hover {
+        text-decoration: none !important;
+        opacity: 0.7;
+    }
 }
 
 .network_row[active] {
     .status_col {
         color: $green !important;
     }
+}
+
+.network_link {
+    display: flex;
+    flex-direction: row;
 }
 
 img {
@@ -136,6 +151,10 @@ img {
         opacity: 0.8;
     }
 } */
+
+.connected {
+    font-weight: 700;
+}
 
 .connecting {
     animation-name: connecting;
