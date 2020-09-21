@@ -186,7 +186,7 @@ export default Vue.extend({
 
 @if $VUE_APP_DEFAULT_NETWORKID == 5 { 
     .routes a {
-        color: rgba(255,255,255, .72) !important;
+        color: rgba(255,255,255,.72) !important;
 
         &.router-link-exact-active {
             color: $white !important;

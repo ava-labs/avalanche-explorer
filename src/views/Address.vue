@@ -8,12 +8,7 @@
             <p>Status {{requestErrorStatus}} - {{requestErrorMessage}}</p>
             <p><a href="https://github.com/ava-labs/avalanche-explorer/issues" target="_blank">Submit Issue</a></p>
         </div>
-        <Metadata 
-            v-if="metadata && 
-                !requestError && 
-                !loading_P && 
-                !stakeloading_P && 
-                assetsLoaded === true" 
+        <Metadata v-if="metadata && !requestError && assetsLoaded === true" 
             :metaData="metadata"
             :addressID="addressID"
             :alias="alias"
@@ -246,10 +241,11 @@ export default class AddressPage extends Vue {
             "id": 1
         };
         
-        let res: IStake_P_Data = await avalanche_go_api.post("", req);
+        let res = await avalanche_go_api.post("", req);
+        let result: IStake_P_Data = res.data.result;
         
         if (this.metadata) {
-            this.metadata.set_AVAX_staked_P(res);
+            this.metadata.set_AVAX_staked_P(result);
         }
         
         this.stakeloading_P = false;
@@ -266,10 +262,12 @@ export default class AddressPage extends Vue {
             "id": 1
         };
         
-        let res: IBalance_P_Data = await avalanche_go_api.post("", req);
-        
+        let res = await avalanche_go_api.post("", req);
+        let result: IBalance_P_Data = res.data.result; 
+        console.log("results", result);
+
         if (this.metadata) {
-            this.metadata.set_AVAX_balance_P(res);
+            this.metadata.set_AVAX_balance_P(result);
         }
         
         this.loading_P = false;

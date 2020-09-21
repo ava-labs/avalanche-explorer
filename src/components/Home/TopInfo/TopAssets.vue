@@ -25,7 +25,7 @@
                 <div class="asset" v-for="(asset) in assets" :key="asset.id">
                     <div v-if="$vuetify.breakpoint.smAndUp"><span class="symbol">{{asset.symbol}}</span></div>
                     <div class="name name_value">
-                        <img class="table_image hex" :src="require(`@/assets/hex_ava_${hexColor}.svg`)" alt />
+                        <img class="table_image" :src="require(`@/assets/hex_ava_${hexColor}.svg`)" alt />
                         <router-link :to="`/asset/${asset.id}`" class="asset_name">{{asset.name}}</router-link>
                         <span class="collision">{{collisionHash(asset)}}</span>
                     </div>
@@ -194,14 +194,6 @@ export default class TopAssets extends Vue {
 
     .metric_value {
         font-size: 16px;
-    }
-}
-
-@if $VUE_APP_DEFAULT_NETWORKID == 5 {
-    .hex {
-        path {
-            fill: $blue;
-        }
     }
 }
 

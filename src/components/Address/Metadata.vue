@@ -15,13 +15,12 @@
         <article class="meta_row">
             <p class="label">AVAX Balance</p>
             <div class="symbol">
-                <p>{{X_unlocked.toLocaleString(this.assetsMap[AVAX].denomination)}} AVAX</p>
                 <div class="avax_balance_container">
                     <div>
-                        <v-tabs v-model="tab" show-arrows>
+                        <v-tabs show-arrows>
                             <v-tab>Summary</v-tab>
                             <v-tab>Detail</v-tab>
-                            <v-tab-item class="tab_content" value="summary">
+                            <v-tab-item class="tab_content">
                                 <AVAXBalanceTableSummary
                                     :P_unlocked="P_unlocked"
                                     :P_lockedStakeable="P_lockedStakeable"
@@ -31,7 +30,7 @@
                                     :X_locked="X_locked"
                                 ></AVAXBalanceTableSummary>
                             </v-tab-item>
-                            <v-tab-item class="tab_content" value="detail">
+                            <v-tab-item class="tab_content">
                                 <AVAXBalanceTableDetail
                                     :P_unlocked="P_unlocked"
                                     :P_lockedStakeable="P_lockedStakeable"
@@ -43,7 +42,7 @@
                             </v-tab-item>
                         </v-tabs>
                     </div>
-                    <v-alert
+                    <!-- <v-alert
                         class="info_alert"
                         v-if="isManhattan"
                         dense
@@ -52,12 +51,12 @@
                     >
                 <p class="title"><b>THIS PAGE DISPLAYS ONLY YOUR UNLOCKED AVAX TOKENS.</b></p>
                      <p class="description">To view your full AVAX wallet balance, please visit the <a class="info_link" href="https://wallet.avax.network">Avalanche Wallet</a> and select the "Manhattan Testnet" network endpoint.</p>
-                </v-alert>
+                </v-alert> -->
                 </div>
             </div>
         </article>
         <article class="meta_row">
-            <p class="label">Portfolio</p>
+            <p class="label">X-Chain Portfolio</p>
             <BalanceTable :assets="assets"></BalanceTable>
         </article>
     </section>
