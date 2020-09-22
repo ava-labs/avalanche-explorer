@@ -106,7 +106,7 @@ export default class TxRow extends Vue {
         
         // INPUT UTXOS
         let ins = this.inputs;
-        let senders: string[] = [];        
+        let senders: string[] = [];
         // console.log("> ins         ", ins);
         
         // INPUT ADDRESSES
