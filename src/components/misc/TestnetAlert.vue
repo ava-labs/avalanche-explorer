@@ -2,7 +2,7 @@
     <div>
         <template v-if="networkID === 1">
             <v-alert class="testnet_alert mainnet_announcement" rounded="0">
-                <p class="description">Per aspera ad astra</p>
+                <p class="description">Per consensum ad astra</p>
             </v-alert>
         </template>
         <template v-else>
