@@ -1,5 +1,5 @@
 <template>
-    <div class="search">
+    <div class="search card">
         <p>Showing results for <span>{{query}}</span></p>
         <div class="results" v-if="results.length > 0">
             <result-row
@@ -10,7 +10,7 @@
                 :query="query"
             ></result-row>
         </div>
-        <div class="not_found" v-else>
+        <div class="not_found card" v-else>
             <h2>Not Found</h2>
             <p>Couldn't find any transaction, address or asset with that query.</p>
         </div>

@@ -114,7 +114,6 @@ export default class RecentTransactions extends Vue {
 
     .refresh {
         color: $primary-color;
-        /* font-size: 12px; */
         text-transform: none;
         border: none;
     }

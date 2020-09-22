@@ -457,7 +457,7 @@ input {
     font-size: 14px;
     
     &:hover {
-        opacity: 0.9;
+        opacity: 0.7;
     }
 }
 

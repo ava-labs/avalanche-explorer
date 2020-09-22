@@ -67,6 +67,13 @@ export default class InputUTXO extends Vue {
     }
 }
 
+@include smOnly {
+    .from {
+        .addr {
+        }
+    }
+}
+
 @include xsOnly {
     .from {
         margin-bottom: 0;
