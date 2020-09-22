@@ -64,8 +64,8 @@ export default class TxRow extends Vue {
         // console.log("");
         // console.log("================================================================================================================");
         // console.log("");
-        console.log("==", this.transaction.id);
-        console.log("  ", this.transaction.type);
+        // console.log("==", this.transaction.id);
+        // console.log("  ", this.transaction.type);
         // console.log("");
         return this.transaction.id;
     }
@@ -124,7 +124,7 @@ export default class TxRow extends Vue {
         let outs = this.transaction.outputs;
         let recipients = outs;
        
-        console.log("> outs        ", outs);
+        // console.log("> outs        ", outs);
 
         // output UTXO addresses
         if (outs) {
@@ -157,7 +157,7 @@ export default class TxRow extends Vue {
     padding: 12px 0px;
     position: relative;
     display: grid;
-    grid-template-columns: 40px .62fr 1.2fr 1.2fr;
+    grid-template-columns: 40px .62fr 0.9fr 1.5fr;
     flex-direction: row;
     align-items: center;
     font-size: 12px;
