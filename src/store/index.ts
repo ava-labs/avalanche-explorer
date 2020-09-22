@@ -138,8 +138,11 @@ export default new Vuex.Store({
             })
             let uniques = duplicates.filter((item, i, ar) => ar.indexOf(item) === i);
             uniques.forEach((assetID: string) => {
-                store.commit("addAssetToSubsetForAggregation", assetID);  // initialize as [assetID]: false
-                store.commit("updateAssetWithAggregationData", assetID);
+                // only request aggregates for assets that are in the Ortelius assets map
+                if (store.state.assets[assetID]) {
+                    store.commit("addAssetToSubsetForAggregation", assetID);  // initialize as [assetID]: false
+                    store.commit("updateAssetWithAggregationData", assetID);
+                }
             });
         },
 
