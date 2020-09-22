@@ -3,7 +3,7 @@
         <div class="header">
             <h2 class="meta_title">
                 Avalanche Network Activity
-                <TooltipHeading content="Key Avalanche stats" :color="'#2196f3'"></TooltipHeading>
+                <!-- <TooltipHeading content="Key Avalanche stats" :color="'#2196f3'"></TooltipHeading> -->
             </h2>
         </div>
         <section class="stats one-column">
