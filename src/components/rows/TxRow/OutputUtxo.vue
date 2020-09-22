@@ -123,6 +123,7 @@ export default class OutputUtxo extends Vue {
         padding-left: 0;
         text-decoration: none;
         max-width: 250px;
+        height: 100%;
 
         &:hover {
             text-decoration: underline;

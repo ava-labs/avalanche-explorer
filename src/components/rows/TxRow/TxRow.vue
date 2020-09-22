@@ -9,7 +9,12 @@
         </div>
         <div class="info_col">
             <span class="label" v-if="$vuetify.breakpoint.smAndDown"></span>
-            <utxo-input v-for="(input,i) in inputs" :key="i" :input="input"></utxo-input>
+            <template v-if="transaction.type === 'import'">
+                <div class="tx_type_label import_tx">imported from other Chain</div>
+            </template>
+            <template v-else>
+                <utxo-input v-for="(input,i) in inputs" :key="i" :input="input"></utxo-input>
+            </template>
         </div>
         <div class="to_amount" v-if="isGenesisVertex">
             <div class="info_col">
@@ -17,6 +22,11 @@
             </div>
         </div>
         <div class="to_amount" v-else>
+            <template v-if="transaction.type === 'export'">
+                <div class="info_col tx_type_label export_tx">exported to other Chain</div>
+            </template>
+            <template>
+            </template>
             <output-utxo class="utxo_out" v-for="(output,i) in outputs" :key="i" :output="output"></output-utxo>
         </div>
     </div>
@@ -54,7 +64,8 @@ export default class TxRow extends Vue {
         // console.log("");
         // console.log("================================================================================================================");
         // console.log("");
-        // console.log("==", this.transaction.id);
+        console.log("==", this.transaction.id);
+        console.log("  ", this.transaction.type);
         // console.log("");
         return this.transaction.id;
     }
@@ -113,10 +124,11 @@ export default class TxRow extends Vue {
         let outs = this.transaction.outputs;
         let recipients = outs;
        
-        // console.log("> outs        ", outs);
+        console.log("> outs        ", outs);
 
         // output UTXO addresses
-        if (outs.length > 1) {
+        if (outs) {
+            if (outs.length > 1) {
             recipients = outs.filter((val, i) => {
                 let addrs = val.addresses;
                 // addrs.forEach(addr => console.log("                  ", addr.substring(6, 11), "                ", i) );
@@ -133,6 +145,8 @@ export default class TxRow extends Vue {
             });
         }
         // console.log("%c  tos         ", 'background: #222; color: #bada55', recipients.map(utxo => utxo.addresses));
+        }
+        
         return recipients;
     }    
 }
@@ -192,12 +206,26 @@ export default class TxRow extends Vue {
 }
 
 .info_col {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
     padding: 0px 10px;
     overflow: auto;
 }
 
 .utxo_out {
     margin-bottom: 6px;
+}
+
+.tx_type_label {
+    color: $primary-color-light;
+    font-style: italic;
+    font-size: .875em;
+    min-height: 16px;
+    display: flex;
+    align-items: flex-start;
+    padding-top: 6px;
+    padding-bottom: 6px;
 }
 
 @include smOnly {
@@ -235,10 +263,15 @@ export default class TxRow extends Vue {
     .id_col {
         display: flex;
         align-items: baseline;
-        height: 27px;
+        height: 32px;
+        
         a {
             flex-grow: 1;
         }
+    }
+
+    .time {
+        margin-top: 0;
     }
 
     .id {
@@ -255,6 +288,10 @@ export default class TxRow extends Vue {
 
     .utxo_out {
         margin-bottom: 2px;
+    }
+
+    .tx_type_label {
+        padding-left: 42px;
     }
 }
 </style>
