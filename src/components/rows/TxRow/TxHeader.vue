@@ -32,7 +32,7 @@ export default class TxHeader extends Vue {}
 
 .table_headers {
     display: grid;
-    grid-template-columns: 40px .62fr 1.2fr 1.2fr;
+    grid-template-columns: 40px .62fr 0.9fr 1.5fr;
     padding-bottom: 7px;
     border-bottom: 1px solid #e7e7e7;
 

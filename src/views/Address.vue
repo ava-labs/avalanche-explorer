@@ -403,7 +403,7 @@ export default class AddressPage extends Vue {
         p {
             padding: 0px 10px;
             font-weight: 400; /* 700 */
-            font-size: 12px;     // MOMO
+            font-size: 12px;    
         }
     }
 

@@ -31,7 +31,7 @@ import Big from "big.js";
     }
 })
 export default class NetworkActivity extends Vue {
-    @Prop() aggregates!: any;    
+    @Prop() aggregates!: any;
 }
 
 </script>
