@@ -19,7 +19,7 @@ const avalancheJSIP = process.env.VUE_APP_AVALANCHE_JS_IP || "";
 const avalancheJSPort = parseInt(process.env.VUE_APP_AVALANCHE_JS_PORT || "443");
 const avalancheJSNetworkID = parseInt(process.env.VUE_APP_AVALANCHE_JS_NETWORKID || "1");
 const avalancheJSChainID = process.env.VUE_APP_AVALANCHE_JS_CHAINID || "X";
-export const cChainExplorerURL = process.env.VUE_APP_TEST_CCHAIN_EXPLORER_URL || "";
+export const cChainExplorerURL = process.env.VUE_APP_CCHAIN_EXPLORER_URL || "";
 
 // Testnet
 const networkName_test = process.env.VUE_APP_TEST_NETWORKNAME || "";
