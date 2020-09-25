@@ -5,7 +5,8 @@
                 <h2>
                     {{asset | name}}
                     <span class="symbol">{{asset.symbol}}</span>
-                    <p class="alias" v-if="asset.alias">Alias: {{asset.alias}}</p>
+                    <p class="alias" v-if="asset.alias"><span>Alias</span>  {{asset.alias}}</p>
+                    <p class="alias"><span>ID</span> {{asset.id}}</p>
                 </h2>
             </div>
             <section class="stats">
@@ -127,6 +128,12 @@ export default class Metadata extends Vue {
         border-radius: 3px;
         display: inline-block;
         vertical-align: middle;
+    }
+}
+
+.alias {
+    span {
+        font-weight: 700;
     }
 }
 
