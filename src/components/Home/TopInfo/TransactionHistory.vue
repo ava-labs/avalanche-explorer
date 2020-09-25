@@ -127,6 +127,9 @@ export default {
             this.chart.data.datasets.forEach(dataset => {
                 dataset.data = [];
             });
+            // reset y-axis
+            this.chart.options.scales.yAxes[0].ticks.max = this.yAxesTicksMax;
+            // update
             this.chart.update();
         },
     },
@@ -280,6 +283,30 @@ export default {
             }
             return res;
         },
+        yAxesTicksMax() {
+            let res = 1;           
+            switch (this.scope) {
+                case "year":
+                    res = 1000000;
+                    break;
+                case "month":
+                    res = 100000;
+                    break;
+                case "week":
+                    res = 100000;
+                    break;
+                case "day":
+                    res = 10000;
+                    break;
+                case "hour":
+                    res = 1000;
+                    break;
+                case "minute":
+                    res = 1000;
+                    break;
+            }
+            return res;
+        },
         // raw data
         dataX() {
             let rawData = (!this.history) ? [] : this.history.intervals;
@@ -308,6 +335,7 @@ export default {
     },
     mounted() {
         this.context = this.$refs.canv.getContext("2d");
+
         let myLineChart = new Chart(this.context, {
             type: "line",
             data: {
@@ -363,7 +391,6 @@ export default {
                             labelString: this.xAxislabel
                         }
                     },
-
                     y: {
                         display: false,
                         scaleLabel: {
@@ -390,15 +417,37 @@ export default {
                     ],
                     yAxes: [
                         {
+                            type: "logarithmic",
                             gridLines: {
-                                color: "rgba(0, 0, 0, 0.03)"
+                                color: "rgba(255, 0, 0, 0.03)",
+                                zeroLineWidth: 0,
                             },
                             ticks: {
                                 autoSkip: true,
-                                maxTicksLimit: 5,
                                 precision: 0,
-                                min: 0
-                            }
+                                min: 0,
+                                max: 100000,
+                                callback: function (value, index, values) {
+                                    switch (value){
+                                        case 1000000:
+                                            return "1M";
+                                        case 100000:
+                                            return "100K";
+                                        case 10000:
+                                            return "10K";
+                                        case 1000:
+                                            return "1K";
+                                        case 100:
+                                            return "100";
+                                        case 10:
+                                            return "10";
+                                        case 0:
+                                            return "0";
+                                        default:
+                                            return null;
+                                    }
+                                }
+                            },
                         }
                     ]
                 }

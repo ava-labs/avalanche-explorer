@@ -1,9 +1,12 @@
 <template>
     <div class="utxo_row">
         <!-- Tx -->
-        <router-link :to="`/tx/${txId}`" v-if="type==='input'">{{txId}}</router-link>
+        <router-link :to="`/tx/${txId}`" v-if="txId!=='-'">{{txId}}</router-link>
         <p v-else>-</p>
         <!-- Metrics -->
+        <p class="redeemed">
+            <fa icon="check-circle" v-if="redeemed"></fa>
+        </p>
         <p>{{utxo.locktime}}</p>
         <p>{{utxo.threshold}}</p>
         <!-- From/To -->
@@ -52,9 +55,27 @@ export default class UtxoRow extends Vue {
     }
 
     get txId(): string {
-        return this.utxo.redeemingTransactionID === null
-            ? "-"
-            : this.utxo.transactionID;
+        let redeemingID = this.utxo.redeemingTransactionID;
+
+        return this.type === "output"
+            ? redeemingID === null 
+                ? "-" 
+                : redeemingID
+            : this.utxo.redeemingTransactionID === null
+                ? "-"
+                : this.utxo.transactionID;
+    }
+
+    get redeemed(): boolean {
+        let redeemingID = this.utxo.redeemingTransactionID;
+
+        return this.type === "output"
+            ? redeemingID === null 
+                ? false
+                : true
+            : this.utxo.redeemingTransactionID === null
+                ? false
+                : false;
     }
 }
 </script>
@@ -75,6 +96,10 @@ a {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+.redeemed {
+    color: $green;
 }
 
 .col_amount {

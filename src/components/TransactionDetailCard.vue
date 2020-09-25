@@ -73,6 +73,7 @@
             <div v-if="inputs.length > 0">
                 <div class="utxo_headers">
                     <p>Tx</p>
+                    <p></p>
                     <p>Lock Time</p>
                     <p>Threshold</p>
                     <p>From</p>
@@ -97,6 +98,7 @@
             <div v-if="outputs.length > 0">
                 <div class="utxo_headers">
                     <p>Tx</p>
+                    <p></p>
                     <p>Lock Time</p>
                     <p>Threshold</p>
                     <p>To</p>
