@@ -366,7 +366,7 @@ p {
 
 .utxo_headers,
 .io_item {
-    grid-template-columns: 120px 80px 80px 1fr 1fr;
+    grid-template-columns: 120px 80px 80px 80px 1fr 1fr;
 }
 
 .utxo_headers {
