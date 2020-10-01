@@ -7,7 +7,7 @@
             </h2>
         </div>
         <section class="stats one-column">
-            <article class="meta">
+            <!-- <article class="meta">
                 <router-link class="stat" to="/tx">
                     <p class="label">
                         24h Transactions
@@ -26,7 +26,7 @@
                         <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
                     </div>
                 </router-link>
-            </article>
+            </article> -->
             <article class="meta">
                 <router-link class="stat" to="/assets">
                     <p class="label">
