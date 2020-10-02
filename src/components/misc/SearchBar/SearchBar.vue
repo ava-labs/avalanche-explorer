@@ -80,9 +80,11 @@ export default Vue.extend({
             this.showResults = false;
             this.results = [];
         },
+        // Hitting [enter] takes you to the search page 
         search() {
             if (!this.canSearch) return;
             this.$emit("search", this.searchValue);
+            this.closeSearch();
         },
         oninput() {
             this.$emit("input", this.searchValue);
@@ -231,18 +233,6 @@ input {
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
 }
-
-/* .search_results_mask {
-  position: fixed;
-  z-index: 9998;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, .5);
-  display: table;
-  transition: opacity .3s ease;
-} */
 
 @include smOnly {
     .search_results {

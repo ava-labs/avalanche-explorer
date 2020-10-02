@@ -54,7 +54,12 @@ export default Vue.extend({
     },
     methods: {
         onsearch(val) {
-            this.$router.push({ path: "/search", query: { query: val } });
+            this.$router.push({ path: "/search", query: { query: val } })
+                .catch(error => {
+                    if (error.name != "NavigationDuplicated") {
+                        throw error;
+                    }
+                });
         }
     },
     computed: {
