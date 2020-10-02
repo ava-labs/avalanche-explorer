@@ -234,23 +234,28 @@ export default class TransactionDetailCard extends Vue {
         let outs = this.outputs;
         
         outs.forEach(out => {
-            let assetId = out.assetID;
+            let assetID = out.assetID;
             let amount = out.amount;
-            let asset = this.assets[assetId];
-            let denomination = asset.denomination;
-
-            if (dict[assetId]) {
-                let valNow = dict[assetId].amount;
-                dict[assetId].amount = valNow.plus(amount);
+            let asset = this.assets[assetID];
+            let denomination = 0;
+            let symbol = assetID;
+            if (asset) {
+                denomination = asset.denomination;
+                symbol = asset.symbol;
             } else {
-                dict[assetId] = {
-                    symbol: asset.symbol,
+                this.$store.dispatch("addUnknownAsset", assetID);
+            }            
+            if (dict[assetID]) {
+                let valNow = dict[assetID].amount;
+                dict[assetID].amount = valNow.plus(amount);
+            } else {
+                dict[assetID] = {
+                    symbol,
                     amount,
                     denomination
                 };
             }
         });
-
         return dict;
     }
 
