@@ -121,32 +121,33 @@ export default class TxRow extends Vue {
 
 
         // OUTPUT UTXOS
-        let outs = this.transaction.outputs;
-        let recipients = outs;
+        let outputUTXOs = this.transaction.outputs;
+        let recipients = outputUTXOs;
        
-        // console.log("> outs        ", outs);
+        // console.log("> outputUTXOs        ", outputUTXOs);
 
-        // output UTXO addresses
-        if (outs) {
+        if (outputUTXOs) {
+            // TODO: reinstate filter when Tx Types are supported
             // Hide change UTXO for multiple outputs 
-            if (outs.length > 1) {
-                recipients = outs.filter((val, i) => {
-                    let addrs = val.addresses;
-                    // addrs.forEach(addr => console.log("                  ", addr.substring(6, 11), "                ", i) );
-                    let flag = false;
-                    addrs.forEach(addr => {
-                        if (senders.includes(addr)) {
-                            flag = true;
-                        }
-                    });
-                    return flag ? false : true;
-                });
-            } 
+            // output UTXO addresses
+            // if (outputUTXOs.length > 1) {
+            //     recipients = outputUTXOs.filter((UTXO, i) => {
+            //         let flag = false;
+            //         UTXO.addresses.forEach(addr => console.log("                  ", addr.substring(6, 11), "                ", i) );
+            //         UTXO.addresses.forEach(addr => {
+            //             if (senders.includes(addr)) {
+            //                 flag = true;
+            //             }
+            //         });
+            //         return flag ? false : true;
+            //     });
+            // } 
             // Hide nothing
-            else {
-                recipients = outs;
-            }
-            // console.log("%c  tos         ", 'background: #222; color: #bada55', recipients.map(utxo => utxo.addresses));
+            // else {
+            //     recipients = outputUTXOs;    
+            // }
+            // console.log("%c  tos         ", 'background: #FFF; color: #bada55', recipients.map(utxo => utxo.addresses));
+            recipients = outputUTXOs;
         }
         
         return recipients;
