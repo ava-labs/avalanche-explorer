@@ -63,10 +63,10 @@ export default class UtxoRow extends Vue {
         let redeemingID = this.utxo.redeemingTransactionID;
 
         return this.type === "output"
-            ? redeemingID === null 
+            ? (redeemingID === null || redeemingID === "")
                 ? "-" 
-                : redeemingID
-            : redeemingID === null
+                : redeemingID 
+            : (redeemingID === null || redeemingID === "")
                 ? "-"
                 : this.utxo.transactionID;
     }
@@ -75,10 +75,10 @@ export default class UtxoRow extends Vue {
         let redeemingID = this.utxo.redeemingTransactionID;
 
         return this.type === "output"
-            ? redeemingID === null 
+            ? (redeemingID === null || redeemingID === "")
                 ? false
                 : true
-            : redeemingID === null
+            : (redeemingID === null || redeemingID === "")
                 ? false
                 : false;
     }
