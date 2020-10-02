@@ -72,7 +72,7 @@ export default class OutputUtxo extends Vue {
             alias: "",
             chainID: "",
             currentSupply: Big(0),
-            denomination: 1,
+            denomination: 0,
             name: "",
             symbol: "",
             profane: false,

@@ -8,6 +8,7 @@
                 type="text"
                 v-model="searchValue"
                 @keyup.enter="search"
+                @keyup.esc="closeSearch"
                 @input="oninput"
                 @focus="onfocus"
                 @blur="onblur"
@@ -76,11 +77,14 @@ export default Vue.extend({
             }
         },
         onblur() {
-            // this.showResults = false;
+            this.showResults = false;
+            this.results = [];
         },
+        // Hitting [enter] takes you to the search page 
         search() {
             if (!this.canSearch) return;
             this.$emit("search", this.searchValue);
+            this.closeSearch();
         },
         oninput() {
             this.$emit("input", this.searchValue);
@@ -135,6 +139,11 @@ export default Vue.extend({
         onSelectResult(item) {
             this.showResults = false;
             this.searchValue = "";
+        },
+        closeSearch() {
+            this.showResults = false;
+            this.searchValue = "";
+            this.results = [];
         }
     },
     computed: {
@@ -146,7 +155,6 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-
 
 .search_input_wrapper {
     width: 100%;

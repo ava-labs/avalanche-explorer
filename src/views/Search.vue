@@ -1,18 +1,31 @@
 <template>
-    <div class="search card">
-        <p>Showing results for <span>{{query}}</span></p>
-        <div class="results" v-if="results.length > 0">
-            <result-row
-                v-for="(res, i) in results"
-                class="result_row"
-                :key="i"
-                :result="res"
-                :query="query"
-            ></result-row>
-        </div>
-        <div class="not_found card" v-else>
-            <h2>Not Found</h2>
-            <p>Couldn't find any transaction, address or asset with that query.</p>
+    <div class="search">
+        <div class="card">
+            <template v-if="loading && query">
+                <Loader :contentId="query" :message="'Searching'"></Loader>
+            </template>
+            <div>
+                <p v-if="loading && query">Searching for {{ query }}</p>
+            </div>
+
+            <p v-if="!loading">
+                Showing results for <span>{{ query }}</span>
+            </p>
+            <div class="results" v-if="!loading && results.length > 0">
+                <result-row
+                    v-for="(res, i) in results"
+                    class="result_row"
+                    :key="i"
+                    :result="res"
+                ></result-row>
+            </div>
+            <div class="not_found card" v-if="!loading && results.length === 0">
+                <h2>Not Found</h2>
+                <p>
+                    Couldn't find any transaction, address or asset with that
+                    query.
+                </p>
+            </div>
         </div>
     </div>
 </template>
@@ -23,40 +36,43 @@ import { Vue, Component, Watch } from "vue-property-decorator";
 import api from "@/axios";
 import ResultRow from "@/components/Search/ResultRow.vue";
 import AddressRow from "@/components/rows/AddressRow.vue";
+import Loader from "@/components/misc/Loader.vue";
 
 @Component({
     components: {
-        ResultRow
-    }
+        Loader,
+        ResultRow,
+    },
 })
 export default class Search extends Vue {
+    loading: boolean = false;
     query: string | (string | null)[] = "";
     results: any[] = [];
 
     created() {
-        let query = this.$router.currentRoute.query;
-        this.query = query.query;
+        this.query = this.$router.currentRoute.query.query;
         if (this.query) {
             this.search();
         }
     }
-    
+
     @Watch("$route")
     onRouteChanged(val: any) {
-        let query = val.currentRoute.query;
-        this.query = query;
+        this.results = [];
+        this.query = val.query.query;
         this.search();
     }
-    
+
     search() {
-        let parent = this;
+        this.loading = true;
         // TODO: support service for multiple chains
-        api.get("/x/search?query=" + this.query).then(res => {
+        api.get("/x/search?query=" + this.query).then((res) => {
+            this.loading = false;
             let data = res.data;
             if (data === null) {
-                parent.results = [];
+                this.results = [];
             } else {
-                parent.results = data.results;
+                this.results = data.results;
             }
         });
     }
@@ -64,7 +80,6 @@ export default class Search extends Vue {
 </script>
 
 <style scoped lang="scss">
-
 .results {
     margin-top: 40px;
 }

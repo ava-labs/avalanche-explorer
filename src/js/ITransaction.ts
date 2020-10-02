@@ -16,11 +16,11 @@ export interface ITransactionData {
 }
 
 interface IInputTotal {
-    [key: string] :         number
+    [key: string]:          number
 }
 
 interface IOutputTotal {
-    [key: string] :         number
+    [key: string]:          number
 }
 
 // Transaction Input type

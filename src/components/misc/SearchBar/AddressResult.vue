@@ -29,10 +29,6 @@ export default class AddressResult extends Vue {
         this.$emit("select");
     }
 
-    created() {
-        console.log("item", this.item);
-    }
-
     get avaxBalance() {
         return stringToBig(this.item.assets[AVAX_ID].balance, this.avaxDenomination);
     }

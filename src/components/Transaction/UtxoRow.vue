@@ -21,7 +21,7 @@
         <div class="col_amount">
             <p class="amount_symbol">
                 {{amount}}
-                <b>{{asset.symbol}}</b>
+                <b>{{symbol}}</b>
             </p>
         </div>
     </div>
@@ -50,18 +50,23 @@ export default class UtxoRow extends Vue {
         return this.$store.state.assets[this.utxo.assetID];
     }
 
+    get symbol(): string {
+        return this.asset ? this.asset.symbol : this.utxo.assetID;
+    }
+
     get amount(): string {
-        return this.utxo.amount.div(Math.pow(10, this.asset.denomination)).toLocaleString(this.asset.denomination);
+        let denomination = this.asset ? this.asset.denomination : 0;
+        return this.utxo.amount.div(Math.pow(10, denomination)).toLocaleString(denomination);
     }
 
     get txId(): string {
         let redeemingID = this.utxo.redeemingTransactionID;
 
         return this.type === "output"
-            ? redeemingID === null 
+            ? (redeemingID === null || redeemingID === "")
                 ? "-" 
-                : redeemingID
-            : this.utxo.redeemingTransactionID === null
+                : redeemingID 
+            : (redeemingID === null || redeemingID === "")
                 ? "-"
                 : this.utxo.transactionID;
     }
@@ -70,10 +75,10 @@ export default class UtxoRow extends Vue {
         let redeemingID = this.utxo.redeemingTransactionID;
 
         return this.type === "output"
-            ? redeemingID === null 
+            ? (redeemingID === null || redeemingID === "")
                 ? false
                 : true
-            : this.utxo.redeemingTransactionID === null
+            : (redeemingID === null || redeemingID === "")
                 ? false
                 : false;
     }
