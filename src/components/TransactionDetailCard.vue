@@ -56,14 +56,14 @@
             <!-- TODO: Tx Fee from API when supported -->
             <p>0.001 AVAX</p>
         </article>
-        <article class="meta_row" v-if="isMemo">
+        <article class="meta_row" v-if="isText">
             <p class="label">
-                Memo
-                <Tooltip content="A 256-byte memo field for encoding arbitrary data"></Tooltip>
+                Text
+                <Tooltip content="A 256-byte text field for encoding arbitrary data"></Tooltip>
             </p>
             <div>
-                <p><span class="decode">hex</span> {{memo_hex}}</p>
-                <p><span class="decode">UTF-8</span> {{memo_utf8}}</p>
+                <p><span class="decode">hex</span> {{text_hex}}</p>
+                <p><span class="decode">UTF-8</span> {{text_utf8}}</p>
             </div>
         </article>
         <article class="meta_row" v-if="!isAssetGenesis">
@@ -173,15 +173,15 @@ export default class TransactionDetailCard extends Vue {
         }).join(""));
     }
 
-    get memo_hex(): string {
+    get text_hex(): string {
         return this.b64DecodeHex(this.tx.memo);
     }
 
-    get memo_utf8(): string {
+    get text_utf8(): string {
         return this.b64DecodeUnicode(this.tx.memo);
     }
 
-    get isMemo(): boolean {
+    get isText(): boolean {
         return (this.tx.memo === "" || null) ? false : true;
     }
 
