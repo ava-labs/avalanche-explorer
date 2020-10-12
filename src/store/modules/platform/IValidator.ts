@@ -1,60 +1,29 @@
 export interface IValidator {
-    nodeID: string              // validator node id
-    startTime: Date
-    endTime: Date
-    address?: string            // Primary Network only. payout address (not the address who staked) 
-    stakeAmount?: number        // Primary Network only
-    totalStakeAmount?: number   // Primary Network only. sum of validator and delegator stake amounts
-    delegators?: IValidator[]   // Primary Network only. a validator contains delegators if they have the same node id
-    weight?: number             // non-Primary Network only. analogous to stakeAmount
-    rank?: number               // based on stake or weight
-    elapsed?: number            // how much of the staking period has elasped (%)
-}
-
-export interface IStakingData {
-    nodeID: string                      // "NodeID-L7L9PNUDoSGrep7kbbffoApvRgdVxLJdo"
-    startTime: string                   // "1598980959"
-    endTime: string                     // "1599980959"    
-    potentialReward?: string            // "733" 
-    
-    rewardOwner?: IRewardOwnerData
-    stakeAmount?: string                // "17000000"
-    weight?: string
-    
-    delegationFee?: string              // "100.0000"
-    uptime?: string                     // "0.9892"
-    connected?: boolean                 // false
-}
-
-/* ==========================================
-   PRIMARY NETWORK
-   ========================================== */
-
-export interface IValidator_New {
-    nodeID:             string
+    nodeID:             string          // validator node id
     startTime:          Date
     endTime:            Date    
-    // Primary Network Properties
+    // Primary Network only
     rewardOwner?:       IRewardOwner
     potentialReward?:   number
     stakeAmount?:       number
-    uptime?:            number      // percentage 
+    uptime?:            number          // local uptime (percentrage)
     connected?:         boolean
     delegationFee?:     number
-    // Non-Primary Network Properties
-    weight?:            number
+    delegators?:        IDelegator[] | null
+    // Other Networks only
+    weight?:            number          // analogous to stakeAmount. arbitrarily set by the control key holder
 
-    // New
-    totalStakeAmount?:  number   // Primary Network only. sum of validator and delegator stake amountsd
-    rank?: number               // based on stake or weight
-    elapsed?: number            // how much of the staking period has elasped (%)
+    // Frontend Properties
+    totalStakeAmount?:  number          // sum of validator and delegator stake amountsd
+    rank?:              number          // based on stake or weight
+    elapsed?:           number          // how much of the staking period has elasped (%)
 }
 
-export interface IDelegator_New {
+// Primary Network Only
+export interface IDelegator {
     nodeID:             string
     startTime:          Date
     endTime:            Date    
-    // Primary Network Properties (Delegators only apply to Primary Network)
     rewardOwner:        IRewardOwner
     potentialReward:    number
     stakeAmount:        number
@@ -63,20 +32,25 @@ export interface IDelegator_New {
 export interface IRewardOwner {
     locktime:           number
     threshold:          number
-    addresses:          string[]
+    addresses:          string[]        // extensible, but will only contain one address for now
 }
 
-export interface IPendingValidator_New {
+export interface IPendingValidator {
+    nodeID:             string
+    startTime:          Date
+    endTime:            Date
+    
+    stakeAmount:        number
+    connected?:         boolean
+    delegationFee?:     number
+    delegators:         IPendingDelegator | null
+}
+
+export interface IPendingDelegator {
     nodeID:             string
     startTime:          Date
     endTime:            Date
     stakeAmount:        number
-    // Validator-only Properties
-    connected?:         boolean
-    delegationFee?:     number
-
-    // New
-    totalStakeAmount?:  number   // Primary Network only. sum of validator and delegator stake amountsd
 }
 
 /* ==========================================
@@ -87,15 +61,16 @@ export interface IValidatorData {
     nodeID:             string
     startTime:          string
     endTime:            string
-    // Primary Network Properties
+    // Primary Network Only
     rewardOwner?:       IRewardOwnerData
     potentialReward?:   string
     stakeAmount?:       string
-    uptime?:            string      // local uptime (not network-level)
+    uptime?:            string
     connected?:         boolean
     delegationFee?:     string
-    // Non-Primary Network Properties
-    weight?:            string      // this is arbitrarily set by the control key holder
+    delegators?:        IDelegatorData[] | null
+    // Other Networks Only
+    weight?:            string
 }
 
 export interface IDelegatorData {
@@ -104,21 +79,32 @@ export interface IDelegatorData {
     endTime:            string
     rewardOwner:        IRewardOwnerData
     potentialReward:    string
-    stakeAmount:        string
+    stakeAmount:        string    
 }
 
 export interface IRewardOwnerData {
-    locktime:           string      // "0"
-    threshold:          string      // "1"
-    addresses:          string[]    // extensible, but will only contain one address for now
+    locktime:           string
+    threshold:          string
+    addresses:          string[]    
 }
 
 export interface IPendingValidatorData {
     nodeID:             string
     startTime:          string
     endTime:            string
-    stakeAmount:        string
-    // Validator-only properties
+    
+    stakeAmount:        string    
     connected?:         boolean
     delegationFee?:     string
+    delegators?:        null        // always null (even if there is a pendingDelegator). API to be redesigned
+}
+
+// the top-level API response will contain pendingDelegators for currentValidators and pendingValdators 
+export interface IPendingDelegatorData {
+    nodeID:             string
+    startTime:          string
+    endTime:            string
+    // rewardOwner:        IRewardOwnerData     // currently missing from API
+    // potentialReward:    string               // currently missing from API
+    stakeAmount:        string
 }

@@ -110,7 +110,7 @@ const platform_module: Module<IPlatformState, IRootState> = {
             let defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID];
             let total = Big(0);
             return (!defaultSubnet) ? total :
-                total = defaultSubnet.pendingValidators.reduce((a, v) => a.add(Big(v.totalStakeAmount as number)), total);
+                total = defaultSubnet.pendingValidators.reduce((a, v) => a.add(Big(v.stakeAmount as number)), total);
         },
         cumulativeStake(state): number[] {
             // Accumulative distribution of active stakes
@@ -132,7 +132,7 @@ const platform_module: Module<IPlatformState, IRootState> = {
             let total = 0;
             if (defaultSubnet) {
                 defaultSubnet.pendingValidators.forEach(v => {
-                    total += v.totalStakeAmount as number;
+                    total += v.stakeAmount as number;
                     res.push(total)
                 });
             }
