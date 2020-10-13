@@ -4,7 +4,7 @@
             <p class="symbol">{{symbol}}</p>
         </div>
         <div class="data">
-            <p class="name">{{name}} <span>{{id}}</span></p>
+            <p class="name">{{name}} <span>{{idAbbreviated}}</span></p>
             <p class="supply">Supply {{supply.toLocaleString()}} {{symbol}}</p>
         </div>
     </div>
@@ -20,6 +20,10 @@ export default class AssetResult extends Vue {
     @Prop() item!: any;
     
     get id() {
+        return `${this.item.id}`;
+    }
+
+    get idAbbreviated() {
         return `${this.item.id.substring(0, 8)}...`;
     }
 

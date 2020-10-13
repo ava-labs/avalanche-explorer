@@ -1,7 +1,7 @@
 import avalanche_go_api from "@/avalanche_go_api";
 import { ISubnetData } from "@/store/modules/platform/ISubnet"
 import Blockchain from '@/js/Blockchain';
-import { IValidator, IStakingData, IValidatorData, IDelegatorData, IPendingValidatorData, IValidator_New, IDelegator_New, IPendingValidator_New } from "@/store/modules/platform/IValidator";
+import { IValidator, IValidatorData, IDelegator, IDelegatorData, IPendingValidatorData, IPendingValidator, IPendingDelegator, IPendingDelegatorData } from "@/store/modules/platform/IValidator";
 import { AVALANCHE_SUBNET_ID } from '@/store/modules/platform/platform';
 
 export default class Subnet {
@@ -10,15 +10,9 @@ export default class Subnet {
     threshold: number;
     blockchains: Blockchain[];
     validators: IValidator[];
-    pendingValidators: IValidator[];
-    delegations: IValidator[];
-    pendingDelegations: IValidator[];
-
-    validators_New: IValidator_New[];
-    delegations_New: IDelegator_New[]; 
-    pendingValidators_New: IPendingValidator_New[];
-    pendingDelegations_New: IPendingValidator_New[];
-
+    delegators: IDelegator[];
+    pendingValidators: IPendingValidator[];
+    pendingDelegators: IPendingDelegator[];
 
     constructor(data: ISubnetData) {
         this.id = data.id;
@@ -27,13 +21,8 @@ export default class Subnet {
         this.blockchains = [];
         this.validators = [];
         this.pendingValidators = [];
-        this.delegations = [];
-        this.pendingDelegations = [];
-        
-        this.validators_New = []
-        this.pendingValidators_New = [];
-        this.delegations_New = [];
-        this.pendingDelegations_New = [];
+        this.delegators = [];
+        this.pendingDelegators = [];
     }
 
     // TODO: get address details for Platform Keys (https://docs.avax.network/v1.0/en/api/platform/#platformgetaccount)
@@ -60,89 +49,51 @@ export default class Subnet {
            ========================================== */
         if (endpoint === "platform.getCurrentValidators") {
             let validatorsData = response.data.result.validators as IValidatorData[];
-            let validators: IValidator_New[] = [];
-            // console.log(`validatorsData                 `, validatorsData);
-
-            // ALL SUBNETS
+            let validators: IValidator[] = [];
+            let delegators: IDelegator[] = [];
+            
             if (validatorsData.length > 0) {
-                validators = this.castValidators_New(validatorsData);
-            }
-            
-            // PRIMARY NETWORK ONLY
-            if (this.id === AVALANCHE_SUBNET_ID) {
-                let delegatorsData = response.data.result.delegators as IDelegatorData[];
-                let delegations: IDelegator_New[] = [];
-                // console.log(`delegatorsData                 `, delegatorsData);
+                // All Subnets
+                validators = this.setValidators(validatorsData);
+                validators = this.sortByStake(validators, this.id);
                 
-                if (delegatorsData.length > 0) {                    
-                    delegations = this.castDelegators_New(delegatorsData);
-                    // [validators, delegations] = this.nestValidatorsAndDelegators(validators, endpoint);
+                // Primary Network Only
+                if (this.id === AVALANCHE_SUBNET_ID) {
+                    validators.forEach((v: IValidator) => {
+                        if (v.delegators !== null) {
+                            v.delegators?.forEach((d: IDelegator) => delegators.push(d))
+                        }
+                    });
                 }
-                this.delegations_New = delegations;
-                // console.log("this.delegations_New", this.delegations_New)
+                delegators = this.sortDelegators(delegators);
             }
-            
-            validators = this.sortByStake(validators, this.id);
-            this.validators_New = validators;
+
+            this.validators = validators;
+            this.delegators = delegators;
         } 
         /* ==========================================
             PENDING VALIDATORS
            ========================================== */
         else if (endpoint === "platform.getPendingValidators") {
             let pendingValidatorsData = response.data.result.validators as IPendingValidatorData[];
-            let pendingValidators: IPendingValidator_New[] = [];
-            // console.log(`pendingValidatorsData          `, pendingValidatorsData);
+            let pendingValidators: IPendingValidator[] = [];
+            let pendingDelegators: IPendingDelegator[] = [];
             
-            // ALL SUBNETS
+            // All Subnets
             if (pendingValidatorsData.length > 0) {
-                pendingValidators = this.castPendingValidators_New(pendingValidatorsData);
+                pendingValidators = this.setPendingValidators(pendingValidatorsData);              
             }
 
-            // PRIMARY NETWORK ONLY
+            // Primary Network Only
             if (this.id === AVALANCHE_SUBNET_ID) {
-                let pendingDelegatorsData = response.data.result.delegators as IPendingValidatorData[];
-                let pendingDelegations: IPendingValidator_New[] = [];
-                // console.log(`pendingDelegatorsData          `, pendingDelegatorsData);
-                                
-                if (pendingDelegatorsData.length > 0) {                    
-                    pendingDelegations = this.castPendingValidators_New(pendingDelegatorsData);
-                    // [validators, delegations] = this.nestValidatorsAndDelegators(validators, endpoint);                    
-                    this.pendingDelegations_New = pendingDelegations;
-                }                
-                
+                let pendingDelegatorsData = response.data.result.delegators as IPendingValidatorData[];                
+                if (pendingDelegatorsData.length > 0) {
+                    pendingDelegators = this.setPendingDelegators(pendingDelegatorsData);
+                } 
             }
-            
-            // validators = this.sortByStake(validators, this.id);
-            this.pendingValidators_New = pendingValidators;
-        }    
-        
-        /* ==========================================
-            OLD
-           ========================================== */
 
-        let validatorsData = response.data.result.validators as IStakingData[];        
-        let validators: IValidator[] = []; 
-        let delegations: IValidator[] = []; 
-        
-        if (!validatorsData) {
-            return;
-        }
-        
-        if (validatorsData.length > 0) {
-            validators = this.cast(validatorsData);
-            if (this.id === AVALANCHE_SUBNET_ID) {
-                validators = this.sortForDelegators(validators);
-                [validators, delegations] = this.nestValidatorsAndDelegators(validators, endpoint);
-            }
-            validators = this.sortByStake(validators, this.id);
-        }
-
-        if (endpoint === "platform.getCurrentValidators") {
-            this.validators = validators;
-            this.delegations = delegations;
-        } else if (endpoint === "platform.getPendingValidators") {
-            this.pendingValidators = validators;
-            this.pendingDelegations = delegations;
+            this.pendingValidators = pendingValidators;
+            this.pendingDelegators = pendingDelegators;
         }
     }
 
@@ -150,35 +101,34 @@ export default class Subnet {
         this.blockchains.push(data);
     }
 
-    /*
-     * Convert staking data from API into validator objects
+    /**
+     * Convert API data to validators
      */
-    private castValidators_New(validatorsData: IValidatorData[]): IValidator_New[] {
+    private setValidators(validatorsData: IValidatorData[]): IValidator[] {
         let validators = validatorsData.map((v: IValidatorData) => {
-            let validator: IValidator_New = {
+            let validator: IValidator = {
                 nodeID:             v.nodeID,
                 startTime:          new Date(parseInt(v.startTime) * 1000),
                 endTime:            new Date(parseInt(v.endTime) * 1000),
             };
 
-            // Primary Network validators - set optional props
+            // Primary Network
             if ({}.hasOwnProperty.call(v, "stakeAmount")) {
                 validator.rewardOwner = {
                     locktime:                   parseInt(v.rewardOwner!.locktime),
                     threshold:                  parseInt(v.rewardOwner!.threshold),
                     addresses:                  v.rewardOwner!.addresses,
                 };
-                validator.potentialReward =     parseInt(v.potentialReward as string),
-                validator.stakeAmount =         parseInt(v.stakeAmount as string),
-                validator.uptime =              parseInt(v.uptime as string), // percentage 
+                validator.potentialReward =     parseInt(v.potentialReward as string);
+                validator.stakeAmount =         parseInt(v.stakeAmount as string);
+                validator.uptime =              parseInt(v.uptime as string) * 100; // percentage 
                 validator.connected =           v.connected;
                 validator.delegationFee =       parseInt(v.delegationFee as string);
-                
-                // New
-                validator.totalStakeAmount =    parseInt(v.stakeAmount as string),
+                validator.delegators =          this.setDelegators(v.delegators!) as IDelegator[] | null;
+                validator.totalStakeAmount =    this.calculateTotalStakeAmount(validator.delegators, validator.stakeAmount);
                 validator.elapsed =             this.getElapsedStakingPeriod(validator);
             }
-            // Non-Primary Network validators - set optional props
+            // Subnets
             if ({}.hasOwnProperty.call(v, "weight")) {
                 validator.weight = parseInt(v.weight as string);
             }
@@ -187,39 +137,43 @@ export default class Subnet {
         return validators;
     }
 
-    /*
-     * Convert staking data from API into delegator objects
+    /**
+     * Convert API data to delegators
      */
-    private castDelegators_New(delegatorsData: IDelegatorData[]): IDelegator_New[] {
-        let delegators = delegatorsData.map((d: IDelegatorData) => {
-            let delegator: IDelegator_New = {
-                nodeID:             d.nodeID,
-                startTime:          new Date(parseInt(d.startTime) * 1000),
-                endTime:            new Date(parseInt(d.endTime) * 1000),
-                rewardOwner: {
-                    locktime:       parseInt(d.rewardOwner.locktime),
-                    threshold:      parseInt(d.rewardOwner.threshold),
-                    addresses:      d.rewardOwner.addresses,
-                },
-                potentialReward:    parseInt(d.potentialReward),
-                stakeAmount:        parseInt(d.stakeAmount),
-            }
-            return delegator;
-        });
+    private setDelegators(delegatorsData: IDelegatorData[] | null): IDelegator[] | null {
+        let delegators = null;
+
+        if (delegatorsData) {
+            delegators = delegatorsData.map(d => {
+                let delegator: IDelegator = {
+                    nodeID:             d.nodeID,
+                    startTime:          new Date(parseInt(d.startTime) * 1000),
+                    endTime:            new Date(parseInt(d.endTime) * 1000),
+                    rewardOwner: {
+                        locktime:       parseInt(d.rewardOwner.locktime),
+                        threshold:      parseInt(d.rewardOwner.threshold),
+                        addresses:      d.rewardOwner.addresses,
+                    },
+                    potentialReward:    parseInt(d.potentialReward),
+                    stakeAmount:        parseInt(d.stakeAmount),
+                }
+                return delegator;
+            });
+        } 
         return delegators;
     }
 
-    /*
-     * Convert staking data from API into pending validator objects
+    /**
+     * Convert API data to pending validators
      */
-    private castPendingValidators_New(pendingValidatorsData: IPendingValidatorData[]): IPendingValidator_New[] {
+    private setPendingValidators(pendingValidatorsData: IPendingValidatorData[]): IPendingValidator[] {
         let pendingValidators = pendingValidatorsData.map((pv: IPendingValidatorData) => {
-            let pendingValidator: IPendingValidator_New = {
+            let pendingValidator: IPendingValidator = {
                 nodeID:             pv.nodeID,
                 startTime:          new Date(parseInt(pv.startTime) * 1000),
                 endTime:            new Date(parseInt(pv.endTime) * 1000),                
                 stakeAmount:        parseInt(pv.stakeAmount),
-                totalStakeAmount:   parseInt(pv.stakeAmount),
+                delegators:         null
             };
 
             // Pending Validators - set optional props
@@ -232,101 +186,40 @@ export default class Subnet {
         });
         return pendingValidators;
     }
- 
-    /*
-     * Convert staking data from API into validator objects
+
+    /**
+     * Convert API data to pending delegators
      */
-    private cast(stakingData: IStakingData[]): IValidator[] {
-        let validators = stakingData.map((s: IStakingData) => {
-            let validator: IValidator = {
-                nodeID: s.nodeID,
-                startTime: new Date(parseInt(s.startTime) * 1000),
-                endTime: new Date(parseInt(s.endTime) * 1000)
-            }
+    private setPendingDelegators(pendingDelegatorsData: IPendingDelegatorData[] | null): IPendingDelegator[] {
+        let pendingDelegators: IPendingDelegator[] = [];
 
-            // set optional props for validators of Primary Network
-            if ({}.hasOwnProperty.call(s, "stakeAmount")) {
-                validator.stakeAmount = parseInt(s.stakeAmount as string);
-                validator.totalStakeAmount = validator.stakeAmount;
-                validator.elapsed = this.getElapsedStakingPeriod(validator);
-                validator.delegators = [];
-            }
-
-            // if ({}.hasOwnProperty.call(s, "address")) {
-            //     validator.address = s.address;
-            // }
-
-            // set optional props for validators of non-Primary Network
-            if ({}.hasOwnProperty.call(s, "weight")) {
-                validator.weight = parseInt(s.weight as string);
-            }
-
-            return validator;
-        });
-        return validators;
-    }
-    
-    /** 
-     *  Sort validators to find delegators 
-     *  Validator                   = 'address A' stakes via 'id X' with 'earliest startTime'
-     *  Delegation by Validator     = 'address A' stakes via 'id X' with 'later startTime'
-     *  Delegation by Other         = 'address B' stakes via 'id X' with 'later startTime'
-     */
-    private sortForDelegators(validators: IValidator[]): IValidator[] {
-        return validators.sort((a, b) => {
-            // primary sort by id
-            if (a.nodeID < b.nodeID) {
-                return -1;
-            } else if (a.nodeID > b.nodeID) {
-                return 1;
-            }
-            // secondary sort by startTime
-            if (a.startTime.getTime() < b.startTime.getTime()) {
-                return -1;
-            } else if (a.startTime.getTime() < b.startTime.getTime()) {
-                return 1;
-            }
-            return 0
-        });
-    }
-
-    /** 
-     *  Create set of unique validators
-     *  Delegation stakes are nested inside validators
-     *  Create set of delegations
-     */
-    private nestValidatorsAndDelegators(sorted: IValidator[], endpoint: string): IValidator[][] {
-        let validatorsMap: {[key:string]: IValidator} = {};
-        let delegations: IValidator[] = [];
-        for (let i = 0; i < sorted.length; i++) {
-            let nodeID = sorted[i].nodeID;
-            if (validatorsMap[nodeID]) {
-                // nest delegator within validator
-                // eslint-disable-next-line
-                validatorsMap[nodeID].delegators!.push(sorted[i]);
-                delegations.push(sorted[i]);
-            } else {
-                // add validator
-                validatorsMap[nodeID] = sorted[i];
-            }
-        }
-        let nestedValidators: IValidator[] = Object.values(validatorsMap);
-        
-        // calculate totalStakeAmount and delegations
-        nestedValidators.forEach((v => {
-            if (v.delegators) {
-                if (v.delegators.length > 0) {
-                    let delegatedStake = 0;
-                    // eslint-disable-next-line
-                    v.delegators.forEach(d => delegatedStake += d.stakeAmount!);
-                    // eslint-disable-next-line
-                    v.totalStakeAmount! += delegatedStake;
+        if (pendingDelegatorsData) {
+            pendingDelegators = pendingDelegatorsData.map(pd => {
+                let pendingDelegator: IPendingDelegator = {
+                    nodeID:             pd.nodeID,
+                    startTime:          new Date(parseInt(pd.startTime) * 1000),
+                    endTime:            new Date(parseInt(pd.endTime) * 1000),
+                    stakeAmount:        parseInt(pd.stakeAmount),
                 }
-                return [];
-            }
-        }));
+                return pendingDelegator;
+            });
+        } 
+        return pendingDelegators;
+    }
 
-        return [nestedValidators, delegations];
+    /** 
+     *  validated + delegated stake
+     */
+    private calculateTotalStakeAmount(delegators: IDelegator[] | null, stakeAmount: number): number {
+        let totalStakeAmount = stakeAmount;
+        
+        if (delegators) {
+            let delegatedStakeAmount = 0;
+            delegators.forEach(d => delegatedStakeAmount += d.stakeAmount);
+            totalStakeAmount += delegatedStakeAmount;
+        }
+
+        return totalStakeAmount;
     }
     
     /** 
@@ -341,9 +234,18 @@ export default class Subnet {
     }
 
     /** 
+     *  Sort by stake
+     */
+    private sortDelegators(delegators: IDelegator[]): IDelegator[] {
+        return (delegators.length > 0) 
+            ? delegators.sort((a, b) => b.stakeAmount - a.stakeAmount)
+            : [];
+    }
+
+    /** 
      *  Elapsed staking period (%)
      */
-    private getElapsedStakingPeriod(validator:IValidator): number {
+    private getElapsedStakingPeriod(validator: IValidator): number {
         let currentTime = new Date().getTime();
         let numerator = currentTime - validator.startTime.getTime();
         let denominator = validator.endTime.getTime() - validator.startTime.getTime();
