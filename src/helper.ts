@@ -4,6 +4,7 @@ import SubnetDict from './known_subnets';
 import BlockchainDict from './known_blockchains';
 import VMDict from './known_vms';
 import {Quote, quotes} from './quotes';
+import { BN } from "avalanche/dist";
 
 function stringToBig(raw: string, denomination = 0): Big {
     return Big(raw).div(Math.pow(10, denomination));
@@ -17,6 +18,10 @@ function toAVAX(nAVAX: string | number): number {
 
 function bigToDenomBig(val: Big, denomination = 0): Big {
     return val.div(Math.pow(10, denomination));
+}
+
+function bnToBig(val: BN, denomination= 0): Big {
+    return new Big(val.toString()).div(Math.pow(10,denomination));
 }
 
 // TODO: support for multiple chains. add a chain param
@@ -98,6 +103,7 @@ export {
     toAVAX,
     stringToBig,
     bigToDenomBig,
+    bnToBig,
     addressMap,
     subnetMap,
     blockchainMap,
