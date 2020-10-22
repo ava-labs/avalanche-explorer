@@ -1,9 +1,9 @@
 <template>
     <div>
         <template v-if="networkID === 1">
-            <v-alert class="testnet_alert mainnet_announcement" rounded="0">
+            <!-- <v-alert class="testnet_alert mainnet_announcement" rounded="0">
                 <p class="description">Per consensum ad astra</p>
-            </v-alert>
+            </v-alert> -->
         </template>
         <template v-else>
             <v-alert class="testnet_alert" text type="info" rounded="0">
