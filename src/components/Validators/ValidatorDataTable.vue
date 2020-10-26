@@ -99,12 +99,17 @@
             <template #item.duration="{item}">
                 {{(item.endTime - item.startTime) | duration}}
             </template>
+            <template #item.delegationFee="{item}">
+                <div>{{(item.delegationFee)}}%</div>
+            </template>
+            <template #item.uptime="{item}">
+                <div>{{(item.uptime).toFixed(2)}}%</div>
+            </template>
             <template #item.delegators="{item}">
                 <div
                     v-show="item.delegators && item.delegators.length>0"
                 >{{(item.delegators.length)}}</div>
             </template>
-            
             <!-- DELEGATOR EXPANDED ITEM -->
             <template #expanded-item="{headers, item}">
                 <td :colspan="headers.length">

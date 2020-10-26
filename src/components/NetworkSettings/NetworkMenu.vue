@@ -213,6 +213,19 @@
     }
 
     @include smOnly {
+        @if $VUE_APP_DEFAULT_NETWORKID == 5 {
+            .toggle_but {
+                .caret,
+                button {
+                    color: $primary-color-light;
+                }
+            }
+
+            .network_menu[connected] .toggle_but {
+                color: $primary-color-light;
+            }
+        }
+        
         .network_menu {
             padding-right: 24px;
         }
@@ -233,6 +246,18 @@
     }
 
     @include xsOnly {
+        @if $VUE_APP_DEFAULT_NETWORKID == 5 {
+            .toggle_but {
+                .caret,
+                button {
+                    color: $primary-color-light;
+                }
+            }
+
+            .network_menu[connected] .toggle_but {
+                color: $primary-color-light;
+            }
+        }
 
         .network_menu {
             padding-right: 24px;
@@ -258,6 +283,31 @@
             z-index: 2;
             right: 0 !important;
             left: 0 !important;
+        }
+    }
+    
+    @include xxs {
+        @if $VUE_APP_DEFAULT_NETWORKID == 5 {
+            .toggle_but {
+                .caret,
+                button {
+                    color: $primary-color-light;
+                }
+            }
+
+            .network_menu[connected] .toggle_but {
+                color: $primary-color-light;
+            }
+        }
+
+        .toggle_but {
+            img {
+                display: none;
+            }
+
+            button {
+                text-align: right;
+            }
         }
     }
 </style>

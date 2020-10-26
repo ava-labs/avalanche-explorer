@@ -5,7 +5,7 @@
         <nav-bar-mobile class="navbar_mobile" v-if="$vuetify.breakpoint.smAndDown"></nav-bar-mobile>
         <div>
             <testnet-alert></testnet-alert>
-            <div class="side_container">
+                <div class="side_container">
                 <v-content class="content">
                     <router-view class="router_view"></router-view>
                 </v-content>
@@ -129,6 +129,10 @@ export default Vue.extend({
     .content {
         padding: $container_padding_xl;
         padding-top: 0 !important;
+
+        @if $VUE_APP_DEFAULT_NETWORKID == 1 { 
+            padding-top: $navbar_height_offset_xl !important;
+        }
     }
 }
 
@@ -142,6 +146,10 @@ export default Vue.extend({
  
     .content {
         padding-top: 0 !important;
+
+        @if $VUE_APP_DEFAULT_NETWORKID == 1 { 
+            padding-top: $navbar_height_offset_lg !important;
+        }        
     }
 }
 
@@ -155,6 +163,10 @@ export default Vue.extend({
 
     .content {
         padding-top: 0 !important;
+
+        @if $VUE_APP_DEFAULT_NETWORKID == 1 { 
+            padding-top: $navbar_height_offset_md !important;
+        }        
     }
 }
 
@@ -163,11 +175,18 @@ export default Vue.extend({
     
     .side_container {
         flex-direction: column;
-    }    
+    }
     .router_view,
     .footer {
         padding: $container_padding_sm;
         padding-top: 0 !important;
+    }
+    .content {
+        padding-top: 0 !important;
+
+        @if $VUE_APP_DEFAULT_NETWORKID == 1 { 
+            padding-top: $navbar_height_offset_sm !important;
+        }  
     }
 }
 
@@ -177,6 +196,15 @@ export default Vue.extend({
     .footer {
         padding: $container_padding_xs;
         padding-top: 0 !important;
+    }
+
+    .content {        
+        padding-top: 0 !important;
+
+        @if $VUE_APP_DEFAULT_NETWORKID == 1 { 
+            padding-top: $navbar_height_offset_xs !important;
+        }  
+
     }
 }
 </style>
