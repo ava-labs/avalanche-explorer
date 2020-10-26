@@ -121,7 +121,7 @@ export default class Subnet {
                 };
                 validator.potentialReward =     parseInt(v.potentialReward as string);
                 validator.stakeAmount =         parseInt(v.stakeAmount as string);
-                validator.uptime =              parseInt(v.uptime as string) * 100; // percentage 
+                validator.uptime =              parseFloat(v.uptime as string) * 100; // percentage 
                 validator.connected =           v.connected;
                 validator.delegationFee =       parseInt(v.delegationFee as string);
                 validator.delegators =          this.setDelegators(v.delegators!) as IDelegator[] | null;
