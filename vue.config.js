@@ -2,9 +2,9 @@
 let scssVars = "";
 scssVars += `$VUE_APP_DEFAULT_NETWORKID: ${process.env.VUE_APP_DEFAULT_NETWORKID}; `;
 for (let e in process.env) {
-	if (/VUE_APP_SCSS_/i.test(e)) {
-		scssVars += `$${e}: ${process.env[e]}; `;
-	}
+  if (/VUE_APP_SCSS_/i.test(e)) {
+    scssVars += `$${e}: ${process.env[e]}; `;
+  }
 }
 scssVars += `@import "@/_main.scss"; `;
 scssVars += `@import "@/_background.scss"; `;
@@ -12,16 +12,14 @@ scssVars += `@import "@/_background.scss"; `;
 
 module.exports = {
   devServer: {
-    https: true
+    https: true,
   },
-  "transpileDependencies": [
-    "vuetify"
-  ],
+  transpileDependencies: ["vuetify"],
   css: {
     loaderOptions: {
       scss: {
-        prependData: scssVars
-      }
-    }
-  }
-}
+        prependData: scssVars,
+      },
+    },
+  },
+};
