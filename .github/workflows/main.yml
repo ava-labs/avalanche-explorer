@@ -30,7 +30,7 @@ jobs:
             - run: yarn install
 
             - name: linting
-              run: yarn run lint
+              run: yarn run lint:ci
 
             - name: cypress-run
               uses: cypress-io/github-action@v2
