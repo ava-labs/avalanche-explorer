@@ -12,7 +12,7 @@ scssVars += `@import "@/_background.scss"; `;
 
 module.exports = {
   devServer: {
-    https: true,
+    https: !process.env.USE_HTTP,
   },
   transpileDependencies: ["vuetify"],
   css: {
