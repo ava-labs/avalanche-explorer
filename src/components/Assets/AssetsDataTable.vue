@@ -12,106 +12,123 @@
                 </div>
             </div>
         </div>
-        <v-data-table 
-            :items="assets" 
-            :headers="headers" 
+        <v-data-table
+            :items="assets"
+            :headers="headers"
             :items-per-page="15"
             :search="search"
             multi-sort
         >
-            <template #item.symbol="{item}">
-                <p v-if="item.symbol && $vuetify.breakpoint.smAndUp" class="symbol">{{item.symbol}}</p>
-                <p v-if="!item.symbol && $vuetify.breakpoint.smAndUp" class="no_symbol"></p>
+            <template #item.symbol="{ item }">
+                <p
+                    v-if="item.symbol && $vuetify.breakpoint.smAndUp"
+                    class="symbol"
+                >
+                    {{ item.symbol }}
+                </p>
+                <p
+                    v-if="!item.symbol && $vuetify.breakpoint.smAndUp"
+                    class="no_symbol"
+                ></p>
             </template>
-            <template #item.name="{item}">
+            <template #item.name="{ item }">
                 <router-link class="name_id" :to="`/asset/${item.id}`">
-                <div>
-                    <img class="table_image" :src="require(`@/assets/hex_ava_${hexColor}.svg`)" alt />
-                    <span class="name">{{item | nameOrID}} </span>
-                    <span class="collision">{{collisionHash(item)}}</span>
-                </div>                    
+                    <div>
+                        <img
+                            class="table_image"
+                            :src="require(`@/assets/hex_ava_${hexColor}.svg`)"
+                            alt
+                        />
+                        <span class="name">{{ item | nameOrID }} </span>
+                        <span class="collision">{{ collisionHash(item) }}</span>
+                    </div>
                 </router-link>
             </template>
-            
-            <template #item.volume_day="{item}">
+
+            <template #item.volume_day="{ item }">
                 <p class="volume_day">
-                    {{item.volume_day.toLocaleString()}} 
-                    <span class="unit" v-if="$vuetify.breakpoint.xs">{{item.symbol}}</span>
+                    {{ item.volume_day.toLocaleString() }}
+                    <span class="unit" v-if="$vuetify.breakpoint.xs">{{
+                        item.symbol
+                    }}</span>
                 </p>
             </template>
-            <template #item.txCount_day="{item}">
-                <p class="supply" v-if="$vuetify.breakpoint.smAndUp">{{item.txCount_day.toLocaleString()}}</p>
+            <template #item.txCount_day="{ item }">
+                <p class="supply" v-if="$vuetify.breakpoint.smAndUp">
+                    {{ item.txCount_day.toLocaleString() }}
+                </p>
             </template>
 
-            <template #item.currentSupply="{item}">
-                <p class="supply" v-if="$vuetify.breakpoint.smAndUp">{{item.currentSupply.toLocaleString(item.denomination)}} <span>{{item.symbol}}</span></p>
+            <template #item.currentSupply="{ item }">
+                <p class="supply" v-if="$vuetify.breakpoint.smAndUp">
+                    {{ item.currentSupply.toLocaleString(item.denomination) }}
+                    <span>{{ item.symbol }}</span>
+                </p>
             </template>
-            <template #item.chainID="{item}">
-                <p class="chain" v-if="$vuetify.breakpoint.smAndUp">{{item.chainID | blockchain}}</p>
+            <template #item.chainID="{ item }">
+                <p class="chain" v-if="$vuetify.breakpoint.smAndUp">
+                    {{ item.chainID | blockchain }}
+                </p>
             </template>
         </v-data-table>
     </div>
 </template>
 
 <script lang="ts">
-import "reflect-metadata";
-import { Vue, Component, Prop } from "vue-property-decorator";
-import { stringToBig, blockchainMap } from "@/helper";
-import { Asset } from '@/js/Asset';
-import { ICollisionMap } from '@/js/IAsset';
-import { DEFAULT_NETWORK_ID } from "@/store/modules/network/network";
+import 'reflect-metadata'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import { stringToBig, blockchainMap } from '@/helper'
+import { Asset } from '@/js/Asset'
+import { ICollisionMap } from '@/js/IAsset'
+import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
 
 @Component({
-    components: {
-    },
-    filters: {        
+    components: {},
+    filters: {
         blockchain(val: string): string {
-            return blockchainMap(val);
+            return blockchainMap(val)
         },
         nameOrID(val: Asset): string {
-            return val.name? val.name :val.id;
-        }
+            return val.name ? val.name : val.id
+        },
     },
 })
 export default class AssetsDataTable extends Vue {
-    search: string = '';
-    
-    @Prop() assets!: Asset[];
+    search: string = ''
+
+    @Prop() assets!: Asset[]
 
     get headers(): any[] {
         return [
-            { text: "Symbol", value: "symbol", width: 100},
-            { text: "Name", value: "name"},
-            { text: "24h Volume", value: "volume_day", width: 250},
-            { text: "24h Tx", value:"txCount_day", width: 100},
-            { text: "Supply", value:"currentSupply", width: 250},
-            { text: "Issuance", value:"chainID", width: 60, sortable: false},
-        ];
+            { text: 'Symbol', value: 'symbol', width: 100 },
+            { text: 'Name', value: 'name' },
+            { text: '24h Volume', value: 'volume_day', width: 250 },
+            { text: '24h Tx', value: 'txCount_day', width: 100 },
+            { text: 'Supply', value: 'currentSupply', width: 250 },
+            { text: 'Issuance', value: 'chainID', width: 60, sortable: false },
+        ]
     }
 
     collisionHash(asset: Asset): string | null {
-        return (this.collisionMap[asset.symbol]) 
+        return this.collisionMap[asset.symbol]
             ? `${asset.id.substring(0, 8)}`
-            : null;
+            : null
     }
 
     get collisionMap(): ICollisionMap {
-        return this.$store.state.collisionMap;
+        return this.$store.state.collisionMap
     }
 
     get hexColor(): string {
-        return (DEFAULT_NETWORK_ID === 1) ? "mainnet" : "testnet";
+        return DEFAULT_NETWORK_ID === 1 ? 'mainnet' : 'testnet'
     }
-
 }
 </script>
 
 <style scoped lang="scss">
-
 #assets_data_table {
     margin-left: 1px;
 }
-
 
 .controls {
     flex-direction: row-reverse;
@@ -142,7 +159,7 @@ export default class AssetsDataTable extends Vue {
 
 .collision {
     padding-left: 8px;
-    font-size: .75em;
+    font-size: 0.75em;
     color: $primary-color-light;
 
     :hover {
@@ -168,10 +185,7 @@ export default class AssetsDataTable extends Vue {
 </style>
 
 <style lang="scss">
-
-
 #assets_data_table {
-
     .v-application .primary--text {
         color: $primary-color !important;
         caret-color: $primary-color !important;
@@ -230,7 +244,6 @@ export default class AssetsDataTable extends Vue {
         }
     }
 
-
     /* FROM ASSETROW */
     .asset_row {
         p {
@@ -264,13 +277,10 @@ export default class AssetsDataTable extends Vue {
 </style>
 
 <style lang="scss">
-
-
 #assets_data_table {
-    
     .v-data-table__expand-icon {
         border: none;
-        background-color: rgba(255,255,255,0);
+        background-color: rgba(255, 255, 255, 0);
         border-radius: 0;
     }
 
@@ -278,7 +288,7 @@ export default class AssetsDataTable extends Vue {
     .v-data-footer__icons-after > button {
         border-width: inherit;
         cursor: pointer;
-    }    
+    }
 
     .v-select.v-text-field input {
         border-color: transparent;

@@ -1,48 +1,62 @@
 <template>
     <div class="balances_container">
         <div class="bar">
-            <p class="count">{{Object.keys(assets).length | pluralize}} found</p>
+            <p class="count">
+                {{ Object.keys(assets).length | pluralize }} found
+            </p>
         </div>
         <div v-if="assets.length > 0" class="grid_headers balance_row">
             <p>
                 Symbol
-                <Tooltip content="An arrangement of letters representing an asset"></Tooltip>
+                <Tooltip
+                    content="An arrangement of letters representing an asset"
+                ></Tooltip>
             </p>
             <p class="name">
                 Name
                 <Tooltip content="Name for the asset"></Tooltip>
             </p>
             <p class="balance">
-                <Tooltip content="Balance held by this address"></Tooltip>Balance
+                <Tooltip content="Balance held by this address"></Tooltip
+                >Balance
             </p>
             <p class="sent">
                 <Tooltip content="Total sent by this address"></Tooltip>Sent
             </p>
             <p class="received">
-                <Tooltip content="Total received by this address"></Tooltip>Received
+                <Tooltip content="Total received by this address"></Tooltip
+                >Received
             </p>
             <p class="txs">
-                <Tooltip content="Total transactions involving this address"></Tooltip>Txs
+                <Tooltip
+                    content="Total transactions involving this address"
+                ></Tooltip
+                >Txs
             </p>
             <p class="utxos">
-                <Tooltip content="Total UTXOs involving this address"></Tooltip>UTXOs
+                <Tooltip content="Total UTXOs involving this address"></Tooltip
+                >UTXOs
             </p>
         </div>
-        <BalanceRow v-for="(asset, index) in assets" v-bind:key="index" :asset="asset"></BalanceRow>
+        <BalanceRow
+            v-for="(asset, index) in assets"
+            v-bind:key="index"
+            :asset="asset"
+        ></BalanceRow>
     </div>
 </template>
 
 <script lang="ts">
-import "reflect-metadata";
-import { Vue, Component, Prop } from "vue-property-decorator";
-import Tooltip from "@/components/rows/Tooltip.vue";
-import BalanceRow from "@/components/Address/BalanceRow.vue";
-import { IBalance_X } from "@/js/IAddress";
+import 'reflect-metadata'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import Tooltip from '@/components/rows/Tooltip.vue'
+import BalanceRow from '@/components/Address/BalanceRow.vue'
+import { IBalance_X } from '@/js/IAddress'
 
 @Component({
     components: {
         Tooltip,
-        BalanceRow
+        BalanceRow,
     },
     filters: {
         pluralize(val: number): string {
@@ -50,17 +64,16 @@ import { IBalance_X } from "@/js/IAddress";
                 ? `${val} assets`
                 : val > 1
                 ? `${val} assets`
-                : `${val} asset`;
-        }
-    }
+                : `${val} asset`
+        },
+    },
 })
 export default class BalanceTable extends Vue {
-    @Prop() assets!: IBalance_X[];
+    @Prop() assets!: IBalance_X[]
 }
 </script>
 
 <style scoped lang="scss">
-
 .balances_container {
     overflow-x: scroll;
 

@@ -1,15 +1,18 @@
 <template>
     <section class="card meta">
         <header class="header">
-            <h2 v-if="alias">{{alias}}</h2>
-            <h2 v-else>{{prefix}}-{{addressID}}</h2>
+            <h2 v-if="alias">{{ alias }}</h2>
+            <h2 v-else>{{ prefix }}-{{ addressID }}</h2>
         </header>
         <article class="meta_row">
             <p class="label">Address</p>
             <p class="addr">
-                <span>{{prefix}}-{{addressID}}</span>
-                <CopyText :value="`${prefix}-${addressID}`" class="copy_but"></CopyText>
-                <span class="alias" v-if="alias">{{alias}}</span>
+                <span>{{ prefix }}-{{ addressID }}</span>
+                <CopyText
+                    :value="`${prefix}-${addressID}`"
+                    class="copy_but"
+                ></CopyText>
+                <span class="alias" v-if="alias">{{ alias }}</span>
             </p>
         </article>
         <article class="meta_row">
@@ -63,16 +66,16 @@
 </template>
 
 <script lang="ts">
-import "reflect-metadata";
-import { Vue, Component, Prop } from "vue-property-decorator";
-import CopyText from "@/components/misc/CopyText.vue";
-import BalanceTable from "@/components/Address/BalanceTable.vue";
-import AVAXBalanceTableSummary from "@/components/Address/AVAXBalanceTableSummary.vue";
-import AVAXBalanceTableDetail from "@/components/Address/AVAXBalanceTableDetail.vue";
-import { IAddress, IBalance_X } from '@/js/IAddress'; 
-import Big from "big.js";
-import { AVAX_ID } from "@/store/index";
-import { DEFAULT_NETWORK_ID } from "@/store/modules/network/network";
+import 'reflect-metadata'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import CopyText from '@/components/misc/CopyText.vue'
+import BalanceTable from '@/components/Address/BalanceTable.vue'
+import AVAXBalanceTableSummary from '@/components/Address/AVAXBalanceTableSummary.vue'
+import AVAXBalanceTableDetail from '@/components/Address/AVAXBalanceTableDetail.vue'
+import { IAddress, IBalance_X } from '@/js/IAddress'
+import Big from 'big.js'
+import { AVAX_ID } from '@/store/index'
+import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
 
 @Component({
     components: {
@@ -80,62 +83,61 @@ import { DEFAULT_NETWORK_ID } from "@/store/modules/network/network";
         BalanceTable,
         AVAXBalanceTableSummary,
         AVAXBalanceTableDetail,
-    }
+    },
 })
 export default class Metadata extends Vue {
-    @Prop() metaData!: IAddress;
-    @Prop() addressID!: string;
-    @Prop() alias!: string;
-    @Prop() totalTransactionCount!: number;
-    @Prop() totalUtxoCount!: number;
-    @Prop() assets!: IBalance_X[];
-    @Prop() prefix!: string;
+    @Prop() metaData!: IAddress
+    @Prop() addressID!: string
+    @Prop() alias!: string
+    @Prop() totalTransactionCount!: number
+    @Prop() totalUtxoCount!: number
+    @Prop() assets!: IBalance_X[]
+    @Prop() prefix!: string
 
     get isManhattan(): boolean {
-        return (DEFAULT_NETWORK_ID === 1) ? true : false;
+        return DEFAULT_NETWORK_ID === 1 ? true : false
     }
 
     get AVAX(): string {
-        return AVAX_ID;
-    } 
+        return AVAX_ID
+    }
 
     get assetsMap(): any {
-        return this.$store.state.assets;
+        return this.$store.state.assets
     }
 
     // P-Chain AVAX balance
     get P_unlocked(): Big {
-        return this.metaData.P_unlocked;
+        return this.metaData.P_unlocked
     }
 
     get P_lockedStakeable(): Big {
-        return this.metaData.P_lockedStakeable;
+        return this.metaData.P_lockedStakeable
     }
 
     get P_lockedNotStakeable(): Big {
-        return this.metaData.P_lockedNotStakeable;
+        return this.metaData.P_lockedNotStakeable
     }
-    
+
     get P_staked(): Big {
-        return this.metaData.P_staked;
+        return this.metaData.P_staked
     }
 
     // X-Chain AVAX balance
     get X_unlocked(): Big {
-        return this.metaData.X_unlocked;
+        return this.metaData.X_unlocked
     }
 
     get X_locked(): Big {
-        return this.metaData.X_locked;
+        return this.metaData.X_locked
     }
 }
 </script>
 
 <style scoped lang="scss">
-
 .addr {
     text-overflow: ellipsis;
-    word-break: keep-all; 
+    word-break: keep-all;
     white-space: nowrap;
 
     .alias {
@@ -151,12 +153,9 @@ export default class Metadata extends Vue {
 .avax_balance_container {
     /* display: flex; */
 }
-
 </style>
 
 <style lang="scss">
-
-
 .info_alert {
     margin-top: 15px;
     max-width: 500px;
@@ -165,7 +164,7 @@ export default class Metadata extends Vue {
     box-sizing: border-box;
 
     p.title {
-        padding-top: 3px
+        padding-top: 3px;
     }
     p.description {
         padding-top: 1rem;
@@ -197,5 +196,4 @@ export default class Metadata extends Vue {
         }
     }
 }
-
 </style>

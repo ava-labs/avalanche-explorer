@@ -4,7 +4,10 @@
         <div class="inner">
             <div class="logo">
                 <router-link to="/">
-                    <img style="height: 16px" src="@/assets/explorer_logo.png" />
+                    <img
+                        style="height: 16px"
+                        src="@/assets/explorer_logo.png"
+                    />
                     <h1><span class="hide">Avalanche Explorer</span></h1>
                 </router-link>
             </div>
@@ -19,11 +22,14 @@
             </div>
         </div>
         <!--   MOBILE MENU     -->
-        <v-navigation-drawer v-model="isDrawer" fixed style="z-index: 999;">
+        <v-navigation-drawer v-model="isDrawer" fixed style="z-index: 999">
             <v-list dense nav>
                 <v-list-item>
                     <div class="drawer_img_container">
-                        <img src="@/assets/explorer_logo.png" class="drawer_img" />
+                        <img
+                            src="@/assets/explorer_logo.png"
+                            class="drawer_img"
+                        />
                     </div>
                 </v-list-item>
                 <template>
@@ -33,13 +39,20 @@
                     <v-list-item to="/assets">Assets</v-list-item>
                     <v-list-item to="/blockchains">Blockchains</v-list-item>
                     <v-list-item to="/tx">Transactions</v-list-item>
-                    <v-list-item href="https://cchain.explorer.avax.network/">C-Chain</v-list-item>
+                    <v-list-item href="https://cchain.explorer.avax.network/"
+                        >C-Chain</v-list-item
+                    >
                     <v-list-item to="/resources">Resources</v-list-item>
                 </template>
             </v-list>
         </v-navigation-drawer>
         <!--   SEARCH     -->
-        <v-dialog v-model="isSearch" fullscreen hide-overlay transition="dialog-bottom-transition">
+        <v-dialog
+            v-model="isSearch"
+            fullscreen
+            hide-overlay
+            transition="dialog-bottom-transition"
+        >
             <v-card>
                 <div class="search_container" v-if="isSearch">
                     <search-bar-mobile
@@ -55,40 +68,39 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
-import SearchBarMobile from "@/components/misc/SearchBar/SearchBarMobile.vue";
-import NetworkMenu from "./NetworkSettings/NetworkMenu.vue";
+import { Vue, Component } from 'vue-property-decorator'
+import SearchBarMobile from '@/components/misc/SearchBar/SearchBarMobile.vue'
+import NetworkMenu from './NetworkSettings/NetworkMenu.vue'
 
 @Component({
     components: {
         SearchBarMobile,
-        NetworkMenu
-    }
+        NetworkMenu,
+    },
 })
 export default class NavbarMobile extends Vue {
-    isDrawer: boolean = false;
-    isSearch: boolean = false;
+    isDrawer: boolean = false
+    isSearch: boolean = false
 
     onsearch(val: string) {
-        this.$router.push({ path: "/search", query: { query: val } });
+        this.$router.push({ path: '/search', query: { query: val } })
     }
 
     get showSearch() {
-        return this.$router.currentRoute.name === "Home" ? false : true;
+        return this.$router.currentRoute.name === 'Home' ? false : true
     }
 
     get navColor() {
-        return "#fff";
+        return '#fff'
     }
 
     closeSearch(val: boolean) {
-        this.isSearch = val;
+        this.isSearch = val
     }
 }
 </script>
 
 <style scoped lang="scss">
-
 .navbar_mobile {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
@@ -195,13 +207,12 @@ a {
     height: 54px;
     display: flex;
     align-items: center;
-    
+
     .drawer_img {
         padding-bottom: 10px;
         height: 24px;
-    }    
+    }
 }
-
 
 button {
     font-weight: 400; /* 700 */
@@ -223,7 +234,7 @@ button {
     .v-btn {
         border: none !important;
     }
-    
+
     .search_bar {
         width: 100%;
     }

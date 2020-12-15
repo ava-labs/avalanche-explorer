@@ -1,18 +1,22 @@
 <template>
     <div class="to_amount">
         <div class="info_col">
-            <div class="to" v-for="(addr,i) in addresses" :key="i">
-                <span class="label" v-if="$vuetify.breakpoint.smAndDown">To</span>
-                <router-link class="addr" :to="`/address/X-`+addr">{{addr | address}}</router-link>
+            <div class="to" v-for="(addr, i) in addresses" :key="i">
+                <span class="label" v-if="$vuetify.breakpoint.smAndDown"
+                    >To</span
+                >
+                <router-link class="addr" :to="`/address/X-` + addr">{{
+                    addr | address
+                }}</router-link>
             </div>
         </div>
-        <div class="info_col" style="padding-right: 0;">
+        <div class="info_col" style="padding-right: 0">
             <div class="amount_col to">
                 <p class="amount">
-                    {{amount}}
-                    <span>{{asset.symbol}}</span>
+                    {{ amount }}
+                    <span>{{ asset.symbol }}</span>
                 </p>
-                
+
                 <!-- <div class="value">
                     <span class="amount">
                         <span class="chunk">
@@ -40,58 +44,57 @@
 </template>
 
 <script lang="ts">
-import "reflect-metadata";
-import { Vue, Component, Prop } from "vue-property-decorator";
-import { addressMap, trimmedLocaleString } from "@/helper";
-import { ITransactionOutput } from "@/js/ITransaction";
-import { Asset } from "@/js/Asset";
-import Big from "big.js";
+import 'reflect-metadata'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import { addressMap, trimmedLocaleString } from '@/helper'
+import { ITransactionOutput } from '@/js/ITransaction'
+import { Asset } from '@/js/Asset'
+import Big from 'big.js'
 
 @Component({
     filters: {
         address(val: string) {
-            let value = val;
-            if (value.indexOf("-") === 1) {
-                value = value.substring(2, value.length);
+            let value = val
+            if (value.indexOf('-') === 1) {
+                value = value.substring(2, value.length)
             }
-            return addressMap(value);
+            return addressMap(value)
         },
     },
 })
 export default class OutputUtxo extends Vue {
-    @Prop() output!: ITransactionOutput;
+    @Prop() output!: ITransactionOutput
 
     get asset(): Asset {
         if (this.$store.state.assets[this.output.assetID]) {
-            return this.$store.state.assets[this.output.assetID];
+            return this.$store.state.assets[this.output.assetID]
         }
-        this.$store.dispatch("addUnknownAsset", this.output.assetID);
+        this.$store.dispatch('addUnknownAsset', this.output.assetID)
         //@ts-ignore
         return {
-            id: "",
-            alias: "",
-            chainID: "",
+            id: '',
+            alias: '',
+            chainID: '',
             currentSupply: Big(0),
             denomination: 0,
-            name: "",
-            symbol: "",
+            name: '',
+            symbol: '',
             profane: false,
-        };
+        }
     }
 
     get addresses(): string[] {
-        return this.output.addresses;
+        return this.output.addresses
     }
 
     get amount(): string {
-        let amt = Big(this.output.amount);
-        return trimmedLocaleString(amt, this.asset.denomination);
+        let amt = Big(this.output.amount)
+        return trimmedLocaleString(amt, this.asset.denomination)
     }
 }
 </script>
 
 <style scoped lang="scss">
-
 .to_amount {
     display: grid;
     grid-template-columns: 1fr max-content;

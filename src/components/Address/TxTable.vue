@@ -1,51 +1,56 @@
 <template>
     <div class="tx_table" v-if="transactions">
         <transition-group name="fade">
-            <tx-row v-for="tx in tx_page" class="tx_item" :key="tx.id" :transaction="tx"></tx-row>
+            <tx-row
+                v-for="tx in tx_page"
+                class="tx_item"
+                :key="tx.id"
+                :transaction="tx"
+            ></tx-row>
         </transition-group>
     </div>
 </template>
 
 <script>
-import TxRow from "../rows/TxRow/TxRow";
+import TxRow from '../rows/TxRow/TxRow'
 
-const PAGINATION = 25;
+const PAGINATION = 25
 export default {
     components: {
-        TxRow
+        TxRow,
     },
     data() {
         return {
             pageNow: 0,
             from: 0,
             to: PAGINATION,
-            pagination: PAGINATION
-        };
+            pagination: PAGINATION,
+        }
     },
     props: {
-        transactions: Array
+        transactions: Array,
     },
     computed: {
         tx_page() {
-            let start = this.pageNow * PAGINATION;
-            let end = start + PAGINATION;
-            return this.transactions.slice(start, end);
+            let start = this.pageNow * PAGINATION
+            let end = start + PAGINATION
+            return this.transactions.slice(start, end)
         },
         pageNum() {
-            return Math.ceil(this.transactions.length / PAGINATION);
-        }
+            return Math.ceil(this.transactions.length / PAGINATION)
+        },
     },
     methods: {
         setPage(num) {
-            let start = num * PAGINATION;
-            let end = start + PAGINATION;
+            let start = num * PAGINATION
+            let end = start + PAGINATION
 
-            this.from = start;
-            this.to = end;
-            this.pageNow = num;
-        }
-    }
-};
+            this.from = start
+            this.to = end
+            this.pageNow = num
+        },
+    },
+}
 </script>
 
 <style scoped lang="scss">

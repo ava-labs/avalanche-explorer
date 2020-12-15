@@ -1,77 +1,83 @@
-import api from "@/axios";
-import { IAssetData_Ortelius } from "./IAsset";
-import { profanities } from "@/js/Profanities";
-import Big from "big.js";
-import { stringToBig } from '@/helper';
-import store from '../store';
+import api from '@/axios'
+import { IAssetData_Ortelius } from './IAsset'
+import { profanities } from '@/js/Profanities'
+import Big from 'big.js'
+import { stringToBig } from '@/helper'
+import store from '../store'
 
 class Asset {
-    id: string;
-    alias: string;
-    chainID: string;
-    currentSupply: Big;
-    denomination: number;
-    name: string;
-    symbol: string;
+    id: string
+    alias: string
+    chainID: string
+    currentSupply: Big
+    denomination: number
+    name: string
+    symbol: string
     // aggregate data
-    volume_day: Big;
-    txCount_day: number;
-    isHistoryUpdated: boolean;
+    volume_day: Big
+    txCount_day: number
+    isHistoryUpdated: boolean
     // FE metadata
-    profane: boolean;
+    profane: boolean
     // not in indexer
-    isUnknown: boolean;
+    isUnknown: boolean
 
     constructor(assetData: IAssetData_Ortelius, isUnknown: boolean) {
-        this.id = assetData.id;
-        this.alias = assetData.alias;
-        this.chainID = assetData.chainID;
+        this.id = assetData.id
+        this.alias = assetData.alias
+        this.chainID = assetData.chainID
         // TODO: supply is genesis TX only
-        this.currentSupply = Big(assetData.currentSupply).div(Math.pow(10, assetData.denomination));
-        this.denomination = assetData.denomination;
-        this.name = assetData.name;
-        this.symbol = assetData.symbol;
-        this.volume_day = Big(0);
-        this.txCount_day = 0;
+        this.currentSupply = Big(assetData.currentSupply).div(
+            Math.pow(10, assetData.denomination)
+        )
+        this.denomination = assetData.denomination
+        this.name = assetData.name
+        this.symbol = assetData.symbol
+        this.volume_day = Big(0)
+        this.txCount_day = 0
         // aggregate data
-        this.isHistoryUpdated = false;
+        this.isHistoryUpdated = false
         // not in indexer
-        this.isUnknown = isUnknown;
+        this.isUnknown = isUnknown
         // FE metadata
-        this.profane = false;
-        this.checkForProfanities(this.name);
-        this.checkForProfanities(this.symbol);
+        this.profane = false
+        this.checkForProfanities(this.name)
+        this.checkForProfanities(this.symbol)
     }
 
     // Daily Volume
     public updateVolumeHistory(): void {
         if (this.isUnknown === false) {
-            let endDate = new Date();
-            let startTime = Date.now() - (1000 * 60 * 60 * 24);
-            let startDate = new Date(startTime);
-        
+            let endDate = new Date()
+            let startTime = Date.now() - 1000 * 60 * 60 * 24
+            let startDate = new Date(startTime)
+
             // TODO: support service for multiple chains
             // TODO: declare interface
-            api.get(`/x/transactions/aggregates?startTime=${startDate.toISOString()}&endTime=${endDate.toISOString()}&assetID=${this.id}`).then(res => {
-                let txCount = res.data.aggregates.transactionCount || 0;
-                let txVolume = res.data.aggregates.transactionVolume || "0";
-                this.volume_day = stringToBig(txVolume, this.denomination);
-                this.txCount_day = txCount;
-                this.isHistoryUpdated = true;
+            api.get(
+                `/x/transactions/aggregates?startTime=${startDate.toISOString()}&endTime=${endDate.toISOString()}&assetID=${
+                    this.id
+                }`
+            ).then((res) => {
+                let txCount = res.data.aggregates.transactionCount || 0
+                let txVolume = res.data.aggregates.transactionVolume || '0'
+                this.volume_day = stringToBig(txVolume, this.denomination)
+                this.txCount_day = txCount
+                this.isHistoryUpdated = true
                 // TODO: remove when API implements precomputed aggregates
-                store.commit("updateAssetInSubsetForAggregation", this.id);
-                store.dispatch("checkAssetsSubsetAggregatesLoaded");
+                store.commit('updateAssetInSubsetForAggregation', this.id)
+                store.dispatch('checkAssetsSubsetAggregatesLoaded')
                 // DISABLE
                 // store.dispatch("checkAssetAggregatesLoaded");
-            });
+            })
         }
     }
 
     private checkForProfanities(value: string): void {
         if (this.profane) {
-            return;
+            return
         }
-        this.profane = profanities.screen(value);
+        this.profane = profanities.screen(value)
     }
 }
 

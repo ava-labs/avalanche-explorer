@@ -2,50 +2,55 @@
     <a class="network_row" :active="isSelected" :href="explorerFEUrl">
         <img src="@/assets/network_ava.png" />
         <div class="name_col">
-            <p class="name">{{network.name}}</p>
-            <p class="url">{{endpoint}}</p>
+            <p class="name">{{ network.name }}</p>
+            <p class="url">{{ endpoint }}</p>
             <!-- <button class="editBut" @click="edit" v-if="!isSelected">
                 <fa icon="cog"></fa>Edit
             </button> -->
         </div>
         <div class="status_col">
             <button v-if="!isSelected" @click="select"></button>
-            <button v-else-if="!isConnected" class="connecting">Connecting...</button>
+            <button v-else-if="!isConnected" class="connecting">
+                Connecting...
+            </button>
             <p class="connected" v-else>Connected</p>
         </div>
     </a>
 </template>
 
 <script lang="ts">
-import 'reflect-metadata';
-import { Vue, Component, Prop } from 'vue-property-decorator';
-import Network from '@/js/Network';
+import 'reflect-metadata'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import Network from '@/js/Network'
 
 @Component({})
 export default class NetworkRow extends Vue {
-    @Prop() network!: Network;
+    @Prop() network!: Network
 
     get endpoint(): string {
-        let net = this.network;
-        let portText = "";
+        let net = this.network
+        let portText = ''
         if (net.port) {
-            portText = ":" + net.port;
+            portText = ':' + net.port
         }
         return `${net.protocol}://${net.ip}${portText}`
     }
 
     get networkStatus(): string {
-        return this.$store.state.Network.status;
+        return this.$store.state.Network.status
     }
 
     get isConnected(): boolean {
-        let state = this.$store.state.Network;
-        return (this.network === state.selectedNetwork && this.networkStatus === "connected") ? true : false;
+        let state = this.$store.state.Network
+        return this.network === state.selectedNetwork &&
+            this.networkStatus === 'connected'
+            ? true
+            : false
     }
 
     get isSelected(): boolean {
-        let state = this.$store.state.Network;
-        return (this.network === state.selectedNetwork) ? true : false;
+        let state = this.$store.state.Network
+        return this.network === state.selectedNetwork ? true : false
     }
 
     edit() {
@@ -53,18 +58,18 @@ export default class NetworkRow extends Vue {
         // console.log(this.$parent.$parent.onedit);
         // console.log(this.$parent.$parent.$parent.onedit);
         // @ts-ignore;
-        this.$parent.$parent.$parent.onedit(this.network);
+        this.$parent.$parent.$parent.onedit(this.network)
     }
 
     get explorerFEUrl() {
-        let net = this.network;
-        return net.explorerFEUrl;
+        let net = this.network
+        return net.explorerFEUrl
     }
 
     async select() {
-        let net = this.network;
-        window.location.href = net.explorerFEUrl;
-        
+        let net = this.network
+        window.location.href = net.explorerFEUrl
+
         // try {
         //     let isSel = await this.$store.dispatch('Network/setNetwork', net);
 
@@ -84,12 +89,10 @@ export default class NetworkRow extends Vue {
         //         type: "error"
         //     }, { root: true });
         // }
-
     }
 }
 </script>
 <style scoped lang="scss">
-
 .network_row {
     position: relative;
     padding: 12px 0px;

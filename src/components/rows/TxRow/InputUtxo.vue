@@ -2,36 +2,36 @@
     <div>
         <div class="from" v-for="addr in addresses" :key="addr">
             <span class="label" v-if="$vuetify.breakpoint.smAndDown">From</span>
-            <router-link class="addr" :to="`/address/X-${addr}`">{{addr | address}}</router-link>
+            <router-link class="addr" :to="`/address/X-${addr}`">{{
+                addr | address
+            }}</router-link>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-import "reflect-metadata";
-import { Vue, Component, Prop } from "vue-property-decorator";
-import { addressMap } from "@/helper";
-import { ITransactionInput } from "@/js/ITransaction";
+import 'reflect-metadata'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import { addressMap } from '@/helper'
+import { ITransactionInput } from '@/js/ITransaction'
 
 @Component({
     filters: {
         address(val: string): string {
-            return addressMap(val);
-        }
-    }
+            return addressMap(val)
+        },
+    },
 })
-
 export default class InputUTXO extends Vue {
-    @Prop() input!: ITransactionInput;
+    @Prop() input!: ITransactionInput
 
-    get addresses(): string[] { 
-        return this.input.output.addresses;
+    get addresses(): string[] {
+        return this.input.output.addresses
     }
 }
 </script>
 
 <style scoped lang="scss">
-
 .from {
     display: grid;
     grid-template-columns: max-content 1fr max-content;

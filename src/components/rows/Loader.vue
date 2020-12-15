@@ -1,10 +1,15 @@
 <template>
     <div class="loading-container">
-        <v-progress-circular :size="35" :width="2" color="#E84970" indeterminate></v-progress-circular>
+        <v-progress-circular
+            :size="35"
+            :width="2"
+            color="#E84970"
+            indeterminate
+        ></v-progress-circular>
     </div>
 </template>
 <script>
-export default {};
+export default {}
 </script>
 
 <style scoped lang="scss">

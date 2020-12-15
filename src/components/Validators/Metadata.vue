@@ -23,13 +23,13 @@
                 <img :src="require(`@/assets/ava_price-${imgColor}.png`)" />
                 <div class="stat">
                     <p class="label">
-                        Total {{toggle}} Stake Amount
+                        Total {{ toggle }} Stake Amount
                         <TooltipMeta
                             content="Total value of AVAX locked to secure Avalanche"
                         ></TooltipMeta>
                     </p>
                     <p class="meta_val">
-                        {{totalStake}}
+                        {{ totalStake }}
                         <span class="unit">AVAX</span>
                     </p>
                 </div>
@@ -38,12 +38,14 @@
                 <img :src="require(`@/assets/validators-${imgColor}.png`)" />
                 <div class="stat">
                     <p class="label">
-                        {{toggle}} Validators
+                        {{ toggle }} Validators
                         <TooltipMeta
                             content="Total number of nodes validating transactions on Avalanche"
                         ></TooltipMeta>
                     </p>
-                    <p class="meta_val">{{totalValidatorsCount.toLocaleString()}}</p>
+                    <p class="meta_val">
+                        {{ totalValidatorsCount.toLocaleString() }}
+                    </p>
                 </div>
             </article>
         </div>
@@ -51,48 +53,48 @@
 </template>
 
 <script lang="ts">
-import "reflect-metadata";
-import { Vue, Component, Prop } from "vue-property-decorator";
-import { AVALANCHE_SUBNET_ID } from "@/store/modules/platform/platform";
-import TooltipHeading from "@/components/misc/TooltipHeading.vue";
-import TooltipMeta from "@/components/misc/TooltipMeta.vue";
-import { DEFAULT_NETWORK_ID } from "@/store/modules/network/network";
+import 'reflect-metadata'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import { AVALANCHE_SUBNET_ID } from '@/store/modules/platform/platform'
+import TooltipHeading from '@/components/misc/TooltipHeading.vue'
+import TooltipMeta from '@/components/misc/TooltipMeta.vue'
+import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
 
 @Component({
     components: {
         TooltipHeading,
-        TooltipMeta
-    }
+        TooltipMeta,
+    },
 })
 export default class Metadata extends Vue {
-    toggle: string = "active"; // active | pending
+    toggle: string = 'active' // active | pending
 
     typeChange(val: string) {
-        this.toggle = val ? "pending" : "active";
-        this.$emit("toggle", this.toggle);
+        this.toggle = val ? 'pending' : 'active'
+        this.$emit('toggle', this.toggle)
     }
 
     get totalStake() {
-        let valBig = this.toggle === "active"
-            ? this.$store.getters["Platform/totalStake"]
-            : this.$store.getters["Platform/totalPendingStake"];
-        return valBig.div(Math.pow(10, 9)).toLocaleString();
+        let valBig =
+            this.toggle === 'active'
+                ? this.$store.getters['Platform/totalStake']
+                : this.$store.getters['Platform/totalPendingStake']
+        return valBig.div(Math.pow(10, 9)).toLocaleString()
     }
 
     get totalValidatorsCount() {
-        return this.toggle === "active"
-            ? this.$store.getters["Platform/totalValidators"]
-            : this.$store.getters["Platform/totalPendingValidators"];
+        return this.toggle === 'active'
+            ? this.$store.getters['Platform/totalValidators']
+            : this.$store.getters['Platform/totalPendingValidators']
     }
 
     get imgColor(): string {
-        return (DEFAULT_NETWORK_ID === 1) ? "testnet" : "testnet";
+        return DEFAULT_NETWORK_ID === 1 ? 'testnet' : 'testnet'
     }
 }
 </script>
 
 <style scoped lang="scss">
-
 .meta_data {
     margin-bottom: 30px;
 
@@ -204,7 +206,7 @@ export default class Metadata extends Vue {
     flex-grow: 0;
 }
 
-.v-tab {    
+.v-tab {
     color: $primary-color !important;
     background-color: transparent;
     font-size: 13px;
@@ -244,12 +246,9 @@ export default class Metadata extends Vue {
 }
 </style>
 <style lang="scss">
-
-
 #validators_meta {
-    
     .v-tab.v-tab {
-        font-family: "Rubik", sans-serif;
+        font-family: 'Rubik', sans-serif;
         text-transform: uppercase;
         font-weight: 500;
     }
@@ -264,5 +263,4 @@ export default class Metadata extends Vue {
         caret-color: $secondary-color;
     }
 }
-
 </style>

@@ -4,59 +4,78 @@
             <p>Tx</p>
         </div>
         <div class="info_col id_col">
-            <router-link :to="`/tx/${tx_id}`" class="id">{{tx_id}}...</router-link>
-            <p class="time">{{ago}}</p>
+            <router-link :to="`/tx/${tx_id}`" class="id"
+                >{{ tx_id }}...</router-link
+            >
+            <p class="time">{{ ago }}</p>
         </div>
         <div class="info_col">
             <span class="label" v-if="$vuetify.breakpoint.smAndDown"></span>
             <template v-if="transaction.type === 'import'">
-                <div class="tx_type_label import_tx">imported from other Chain</div>
+                <div class="tx_type_label import_tx">
+                    imported from other Chain
+                </div>
             </template>
             <template v-else>
-                <utxo-input v-for="(input,i) in inputs" :key="i" :input="input"></utxo-input>
+                <utxo-input
+                    v-for="(input, i) in inputs"
+                    :key="i"
+                    :input="input"
+                ></utxo-input>
             </template>
         </div>
         <div class="to_amount" v-if="isGenesisVertex">
             <div class="info_col">
-                <router-link :to="`/tx/${tx_id}`" class="view_all">Explore Genesis Vertex</router-link>
+                <router-link :to="`/tx/${tx_id}`" class="view_all"
+                    >Explore Genesis Vertex</router-link
+                >
             </div>
         </div>
         <div class="to_amount" v-else>
             <template v-if="transaction.type === 'export'">
-                <div class="info_col tx_type_label export_tx">exported to other Chain</div>
+                <div class="info_col tx_type_label export_tx">
+                    exported to other Chain
+                </div>
             </template>
-            <template>
-            </template>
-            <output-utxo class="utxo_out" v-for="(output,i) in outputs" :key="i" :output="output"></output-utxo>
+            <template> </template>
+            <output-utxo
+                class="utxo_out"
+                v-for="(output, i) in outputs"
+                :key="i"
+                :output="output"
+            ></output-utxo>
         </div>
     </div>
 </template>
 <script lang="ts">
-import "reflect-metadata";
-import { Vue, Component, Prop } from "vue-property-decorator";
-import UtxoInput from "@/components/rows/TxRow/InputUtxo.vue";
-import OutputUtxo from "@/components/rows/TxRow/OutputUtxo.vue";
-import moment from "moment";
-import { Asset } from '@/js/Asset';
-import { Transaction } from '@/js/Transaction';
-import { DEFAULT_NETWORK_ID } from "@/store/modules/network/network";
+import 'reflect-metadata'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import UtxoInput from '@/components/rows/TxRow/InputUtxo.vue'
+import OutputUtxo from '@/components/rows/TxRow/OutputUtxo.vue'
+import moment from 'moment'
+import { Asset } from '@/js/Asset'
+import { Transaction } from '@/js/Transaction'
+import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
 
 @Component({
     components: {
         UtxoInput,
-        OutputUtxo
-    }
+        OutputUtxo,
+    },
 })
 export default class TxRow extends Vue {
-    @Prop() transaction!: Transaction;
-    
+    @Prop() transaction!: Transaction
+
     get assets() {
-        return this.$store.state.assets;
+        return this.$store.state.assets
     }
 
     get isGenesisVertex(): boolean {
-        let genesisTxID = (DEFAULT_NETWORK_ID === 1) ? process.env.VUE_APP_AVAXID : process.env.VUE_APP_TEST_AVAXID;
-        return (this.transaction.id === genesisTxID) ? true : false;
+        let genesisTxID =
+            DEFAULT_NETWORK_ID === 1
+                ? process.env.VUE_APP_AVAXID
+                : process.env.VUE_APP_TEST_AVAXID
+        return this.transaction.id === genesisTxID ? true : false
     }
 
     get tx_id() {
@@ -67,68 +86,67 @@ export default class TxRow extends Vue {
         // console.log("==", this.transaction.id);
         // console.log("  ", this.transaction.type);
         // console.log("");
-        return this.transaction.id;
+        return this.transaction.id
     }
 
     get ago() {
-        let stamp = this.transaction.timestamp;
-        let date = new Date(stamp);
-        return moment(date).fromNow();
+        let stamp = this.transaction.timestamp
+        let date = new Date(stamp)
+        return moment(date).fromNow()
     }
 
     get inputs() {
         // console.log("== GET INPUTS ==");
-        let addedAddr: string[] = [];
-        let ins = this.transaction.inputs || [];
+        let addedAddr: string[] = []
+        let ins = this.transaction.inputs || []
         // console.log("> ins         ", ins);
-        
-        let res = ins.filter(val => {
-            let addrs = val.output.addresses;
-            let flag = false;
-            addrs.forEach(addr => {
+
+        let res = ins.filter((val) => {
+            let addrs = val.output.addresses
+            let flag = false
+            addrs.forEach((addr) => {
                 if (addedAddr.includes(addr)) {
-                    flag = true;
+                    flag = true
                 } else {
-                    addedAddr.push(addr);
+                    addedAddr.push(addr)
                 }
-            });
-            if (flag) return false;
-            return true;
-        });
+            })
+            if (flag) return false
+            return true
+        })
 
         // console.log("  input res   ", res);
-        return res;
+        return res
     }
 
     get outputs() {
         // console.log("");
         // console.log("== GET OUTPUTS ==");
-        
+
         // INPUT UTXOS
-        let ins = this.inputs;
-        let senders: string[] = [];
+        let ins = this.inputs
+        let senders: string[] = []
         // console.log("> ins         ", ins);
-        
+
         // INPUT ADDRESSES
         for (let i = 0; i < ins.length; i++) {
-            let input = ins[i];
-            let addrs = input.output.addresses;
+            let input = ins[i]
+            let addrs = input.output.addresses
             // addrs.forEach(addr => console.log("                  ", addr.substring(6, 11)));
-            senders.push(...addrs);
+            senders.push(...addrs)
         }
         // console.log("%c  froms       ", 'background: #222; color: #bada55', senders);
         // console.log("--");
 
-
         // OUTPUT UTXOS
-        let outputUTXOs = this.transaction.outputs;
-        let recipients = outputUTXOs;
-       
+        let outputUTXOs = this.transaction.outputs
+        let recipients = outputUTXOs
+
         // console.log("> outputUTXOs        ", outputUTXOs);
 
         if (outputUTXOs) {
             // TODO: reinstate filter when Tx Types are supported
-            // Hide change UTXO for multiple outputs 
+            // Hide change UTXO for multiple outputs
             // output UTXO addresses
             // if (outputUTXOs.length > 1) {
             //     recipients = outputUTXOs.filter((UTXO, i) => {
@@ -141,26 +159,25 @@ export default class TxRow extends Vue {
             //         });
             //         return flag ? false : true;
             //     });
-            // } 
+            // }
             // Hide nothing
             // else {
-            //     recipients = outputUTXOs;    
+            //     recipients = outputUTXOs;
             // }
             // console.log("%c  tos         ", 'background: #FFF; color: #bada55', recipients.map(utxo => utxo.addresses));
-            recipients = outputUTXOs;
+            recipients = outputUTXOs
         }
-        
-        return recipients;
-    }    
+
+        return recipients
+    }
 }
 </script>
 <style scoped lang="scss">
-
 .tx_row {
     padding: 12px 0px;
     position: relative;
     display: grid;
-    grid-template-columns: 40px .62fr 0.9fr 1.5fr;
+    grid-template-columns: 40px 0.62fr 0.9fr 1.5fr;
     flex-direction: row;
     align-items: center;
     font-size: 12px;
@@ -223,7 +240,7 @@ export default class TxRow extends Vue {
 .tx_type_label {
     color: $primary-color-light;
     font-style: italic;
-    font-size: .875em;
+    font-size: 0.875em;
     min-height: 16px;
     display: flex;
     align-items: flex-start;
@@ -267,7 +284,7 @@ export default class TxRow extends Vue {
         display: flex;
         align-items: baseline;
         height: 32px;
-        
+
         a {
             flex-grow: 1;
         }
@@ -284,7 +301,7 @@ export default class TxRow extends Vue {
     .tx_row {
         padding: 8px 0;
     }
-    
+
     .info_col {
         padding: 0 10px 0 0;
     }

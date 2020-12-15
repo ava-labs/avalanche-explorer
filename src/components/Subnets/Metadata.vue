@@ -19,11 +19,15 @@
                                 content="Total number of subnets on Avalanche"
                             ></TooltipMeta>
                         </p>
-                        <p class="meta_val">{{totalSubnets.toLocaleString()}}</p>
+                        <p class="meta_val">
+                            {{ totalSubnets.toLocaleString() }}
+                        </p>
                     </div>
                 </article>
                 <article>
-                    <img :src="require(`@/assets/blockchain-${imgColor}.png`)" />
+                    <img
+                        :src="require(`@/assets/blockchain-${imgColor}.png`)"
+                    />
                     <div class="stat">
                         <p class="label">
                             Blockchains
@@ -31,11 +35,15 @@
                                 content="Total number of blockchains on Avalanche"
                             ></TooltipMeta>
                         </p>
-                        <p class="meta_val">{{totalBlockchains.toLocaleString()}}</p>
+                        <p class="meta_val">
+                            {{ totalBlockchains.toLocaleString() }}
+                        </p>
                     </div>
                 </article>
                 <article>
-                    <img :src="require(`@/assets/validators-${imgColor}.png`)" />
+                    <img
+                        :src="require(`@/assets/validators-${imgColor}.png`)"
+                    />
                     <div class="stat">
                         <p class="label">
                             Validators
@@ -43,7 +51,9 @@
                                 content="Total number of nodes validating transactions on Avalanche"
                             ></TooltipMeta>
                         </p>
-                        <p class="meta_val">{{totalValidators.toLocaleString()}}</p>
+                        <p class="meta_val">
+                            {{ totalValidators.toLocaleString() }}
+                        </p>
                     </div>
                 </article>
                 <article>
@@ -56,7 +66,7 @@
                             ></TooltipMeta>
                         </p>
                         <p class="meta_val">
-                            {{totalStake.toLocaleString()}}
+                            {{ totalStake.toLocaleString() }}
                             <span class="unit">AVAX</span>
                         </p>
                     </div>
@@ -67,33 +77,32 @@
 </template>
 
 <script lang="ts">
-import "reflect-metadata";
-import { Vue, Component, Prop } from "vue-property-decorator";
-import TooltipHeading from "../../components/misc/TooltipHeading.vue";
-import TooltipMeta from "../../components/misc/TooltipMeta.vue";
-import Big from "big.js";
-import { DEFAULT_NETWORK_ID } from "@/store/modules/network/network";
+import 'reflect-metadata'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import TooltipHeading from '../../components/misc/TooltipHeading.vue'
+import TooltipMeta from '../../components/misc/TooltipMeta.vue'
+import Big from 'big.js'
+import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
 
 @Component({
     components: {
         TooltipHeading,
-        TooltipMeta
-    }
+        TooltipMeta,
+    },
 })
 export default class Metadata extends Vue {
-    @Prop() totalSubnets!: number;
-    @Prop() totalBlockchains!: number;
-    @Prop() totalValidators!: number;
-    @Prop() totalStake!: Big;
+    @Prop() totalSubnets!: number
+    @Prop() totalBlockchains!: number
+    @Prop() totalValidators!: number
+    @Prop() totalStake!: Big
 
     get imgColor(): string {
-        return (DEFAULT_NETWORK_ID === 1) ? "testnet" : "testnet";
+        return DEFAULT_NETWORK_ID === 1 ? 'testnet' : 'testnet'
     }
 }
 </script>
 
 <style scoped lang="scss">
-
 .metadata {
     margin-bottom: 30px;
 

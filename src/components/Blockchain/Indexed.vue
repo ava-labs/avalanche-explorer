@@ -6,24 +6,25 @@
         </p>
         <p class="icon-container not-indexed" v-show="!indexed">
             <fa icon="exclamation" class="not-indexed-icon"></fa>
-            <span v-show="notIndexedLabel" class="not-indexed">Not Indexed</span>
+            <span v-show="notIndexedLabel" class="not-indexed"
+                >Not Indexed</span
+            >
         </p>
     </div>
 </template>
 
 <script lang="ts">
-import "reflect-metadata";
-import { Vue, Component, Prop } from "vue-property-decorator";
+import 'reflect-metadata'
+import { Vue, Component, Prop } from 'vue-property-decorator'
 
 @Component({})
 export default class Indexed extends Vue {
-    @Prop() indexed!: boolean;
-    @Prop() notIndexedLabel?: boolean;
+    @Prop() indexed!: boolean
+    @Prop() notIndexedLabel?: boolean
 }
 </script>
 
 <style scoped lang="scss">
-
 .icon-container {
     font-size: 20px;
     display: flex;
@@ -32,7 +33,7 @@ export default class Indexed extends Vue {
 
     span {
         margin-left: 6px;
-        font-size: .8rem;
+        font-size: 0.8rem;
         font-weight: 500;
     }
 }

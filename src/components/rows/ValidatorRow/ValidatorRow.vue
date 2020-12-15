@@ -2,19 +2,19 @@
     <div class="validator">
         <div class="rank">
             <div>
-                <p>{{validator.rank}}</p>
+                <p>{{ validator.rank }}</p>
             </div>
         </div>
         <div class="id_col">
-            <p>{{validator.nodeID}}</p>
-            <p>{{duration}}</p>
+            <p>{{ validator.nodeID }}</p>
+            <p>{{ duration }}</p>
         </div>
         <div class="stake_col">
-            <p class="stakeAmount">{{stakeAmountText}} AVAX</p>
-            <p>{{stakePercText}}%</p>
+            <p class="stakeAmount">{{ stakeAmountText }} AVAX</p>
+            <p>{{ stakePercText }}%</p>
         </div>
         <div class="comm_col">
-            <p>{{cumulativePercText}}%</p>
+            <p>{{ cumulativePercText }}%</p>
             <cumulative-bar
                 :total="totalStake"
                 :amount="stakeAmount"
@@ -25,70 +25,77 @@
 </template>
 
 <script lang="ts">
-import "reflect-metadata";
-import { Vue, Component, Prop } from "vue-property-decorator";
-import moment from "moment";
-import Big from "big.js";
-import { toAVAX } from "../../../helper";
-import CumulativeBar from "./CumulativeBar.vue";
-import { IValidator } from '@/store/modules/platform/IValidator';
+import 'reflect-metadata'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import moment from 'moment'
+import Big from 'big.js'
+import { toAVAX } from '../../../helper'
+import CumulativeBar from './CumulativeBar.vue'
+import { IValidator } from '@/store/modules/platform/IValidator'
 
 @Component({
     filters: {
         date(date: Date) {
-            let today = new Date();
-            let mom = moment(date).fromNow();
-            return mom;
-        }
+            let today = new Date()
+            let mom = moment(date).fromNow()
+            return mom
+        },
     },
     components: {
-        CumulativeBar
+        CumulativeBar,
     },
 })
 export default class ValidatorRow extends Vue {
-    @Prop() validator!: IValidator;
-    @Prop() cumulativeStake!: number;
-        
+    @Prop() validator!: IValidator
+    @Prop() cumulativeStake!: number
+
     get totalStake() {
-        let val = this.$store.getters["Platform/totalStake"];
-        return toAVAX(parseInt(val.toString()));
+        let val = this.$store.getters['Platform/totalStake']
+        return toAVAX(parseInt(val.toString()))
     }
-    
+
     get stakeAmount() {
-        return this.validator.stakeAmount ? toAVAX(this.validator.stakeAmount) : 0;
+        return this.validator.stakeAmount
+            ? toAVAX(this.validator.stakeAmount)
+            : 0
     }
-    
+
     get stakeAmountText() {
-        return this.validator.stakeAmount ? toAVAX(this.validator.stakeAmount).toFixed(9) : "";
+        return this.validator.stakeAmount
+            ? toAVAX(this.validator.stakeAmount).toFixed(9)
+            : ''
     }
-    
+
     get stakePerc() {
-        return this.stakeAmount / this.totalStake * 100;
+        return (this.stakeAmount / this.totalStake) * 100
     }
-    
-    get stakePercText() {            
+
+    get stakePercText() {
         // redundant assignments bc referencing computed values affect performance
-        let stakeAmount = toAVAX(this.validator.stakeAmount as number);
-        let totalStake = toAVAX(parseInt(this.$store.getters["Platform/totalStake"].toString()));
-        return (stakeAmount / totalStake * 100).toFixed(8);
+        let stakeAmount = toAVAX(this.validator.stakeAmount as number)
+        let totalStake = toAVAX(
+            parseInt(this.$store.getters['Platform/totalStake'].toString())
+        )
+        return ((stakeAmount / totalStake) * 100).toFixed(8)
     }
-    
+
     get cumulativePercText() {
-        let cumulativeStake = toAVAX(this.cumulativeStake);
-        let totalStake = toAVAX(parseInt(this.$store.getters["Platform/totalStake"].toString()));
-        return (cumulativeStake / totalStake * 100).toFixed(0);
+        let cumulativeStake = toAVAX(this.cumulativeStake)
+        let totalStake = toAVAX(
+            parseInt(this.$store.getters['Platform/totalStake'].toString())
+        )
+        return ((cumulativeStake / totalStake) * 100).toFixed(0)
     }
 
     get duration() {
-        let endTime = this.validator.endTime.getTime();
-        let startTime = this.validator.startTime.getTime();
-        let dur = endTime - startTime;
-        return moment.duration(dur).humanize();
-    } 
+        let endTime = this.validator.endTime.getTime()
+        let startTime = this.validator.startTime.getTime()
+        let dur = endTime - startTime
+        return moment.duration(dur).humanize()
+    }
 }
 </script>
 <style scoped lang="scss">
-
 .validator {
     display: grid;
     grid-template-columns: 70px 1fr 1fr 1fr;
@@ -224,7 +231,7 @@ export default class ValidatorRow extends Vue {
 
 @include xsOnly {
     .validator {
-        grid-template-columns: 42px 1fr 1fr .5fr;
+        grid-template-columns: 42px 1fr 1fr 0.5fr;
         grid-template-rows: max-content max-content;
 
         > div {

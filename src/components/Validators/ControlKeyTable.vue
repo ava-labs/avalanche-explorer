@@ -1,7 +1,7 @@
 <template>
     <v-card id="control_key_table">
         <v-card-title v-if="title">
-            {{title}}
+            {{ title }}
             <v-spacer></v-spacer>
         </v-card-title>
         <v-simple-table>
@@ -14,25 +14,32 @@
                 <tbody>
                     <tr v-for="ck in subnet.controlKeys" :key="ck">
                         <td>
-                            <img class="table_image" :src="require(`@/assets/key-${imgColor}.png`)" alt />
+                            <img
+                                class="table_image"
+                                :src="require(`@/assets/key-${imgColor}.png`)"
+                                alt
+                            />
                             {{ ck }}
                         </td>
                     </tr>
                 </tbody>
             </template>
         </v-simple-table>
-        <p class="threshold">{{subnet.threshold | pluralizeThreshold}} needed to add a validator to the subnet.</p>
+        <p class="threshold">
+            {{ subnet.threshold | pluralizeThreshold }} needed to add a
+            validator to the subnet.
+        </p>
     </v-card>
 </template>
 
 <script lang="ts">
-import "reflect-metadata";
-import { Vue, Component, Prop } from "vue-property-decorator";
-import { subnetMap, VMMap, VMDocumentationMap } from "@/helper";
-import Subnet from "@/js/Subnet";
-import Blockchain from "@/js/Blockchain";
-import Indexed from "@/components/Blockchain/Indexed.vue";
-import { DEFAULT_NETWORK_ID } from "@/store/modules/network/network";
+import 'reflect-metadata'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import { subnetMap, VMMap, VMDocumentationMap } from '@/helper'
+import Subnet from '@/js/Subnet'
+import Blockchain from '@/js/Blockchain'
+import Indexed from '@/components/Blockchain/Indexed.vue'
+import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
 
 @Component({
     components: {
@@ -44,22 +51,21 @@ import { DEFAULT_NETWORK_ID } from "@/store/modules/network/network";
                 ? `${val} threshold signatures from addresses are`
                 : val > 1
                 ? `${val} threshold signatures from addresses are`
-                : `${val} threshold signature from address is`;
-        }
-    }
+                : `${val} threshold signature from address is`
+        },
+    },
 })
 export default class ControlKeyTable extends Vue {
-    @Prop() subnet!: Subnet;
-    @Prop() title?: string;
+    @Prop() subnet!: Subnet
+    @Prop() title?: string
 
     get imgColor(): string {
-        return (DEFAULT_NETWORK_ID === 1) ? "testnet" : "testnet";
+        return DEFAULT_NETWORK_ID === 1 ? 'testnet' : 'testnet'
     }
 }
 </script>
 
 <style scoped lang="scss">
-
 .table_image {
     height: 20px;
     display: inline-block;
@@ -90,8 +96,6 @@ export default class ControlKeyTable extends Vue {
 </style>
 
 <style lang="scss">
-
-
 #control_key_table {
     .v-data-footer__icons-before > button,
     .v-data-footer__icons-after > button {

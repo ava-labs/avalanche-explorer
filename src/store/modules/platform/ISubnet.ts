@@ -1,7 +1,7 @@
-import Blockchain from '@/js/Blockchain';
+import Blockchain from '@/js/Blockchain'
 
 export interface ISubnetData {
-    id: string,
-    controlKeys: string[],
-    threshold: string,
+    id: string
+    controlKeys: string[]
+    threshold: string
 }

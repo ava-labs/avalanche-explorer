@@ -11,8 +11,12 @@
                     <h3>Wallet &amp; Faucet</h3>
                     <p>Used to receive and spend cryptoassets</p>
                     <div class="buts">
-                        <a href="https://wallet.avax.network" target="_blank">Wallet</a>
-                        <a href="https://faucet.avax.network" target="_blank">Faucet</a>
+                        <a href="https://wallet.avax.network" target="_blank"
+                            >Wallet</a
+                        >
+                        <a href="https://faucet.avax.network" target="_blank"
+                            >Faucet</a
+                        >
                     </div>
                 </div>
                 <div class="resource">
@@ -20,8 +24,12 @@
                     <h3>Learning Resources</h3>
                     <p>Learn more about blockchain basics</p>
                     <div class="buts">
-                        <a href="https://docs.avax.network/" target="_blank">Documentation</a>
-                        <a href="https://github.com/ava-labs" target="_blank">Github</a>
+                        <a href="https://docs.avax.network/" target="_blank"
+                            >Documentation</a
+                        >
+                        <a href="https://github.com/ava-labs" target="_blank"
+                            >Github</a
+                        >
                     </div>
                 </div>
                 <div class="resource">
@@ -29,8 +37,14 @@
                     <h3>Social</h3>
                     <p>Get close to the Avalanche community</p>
                     <div class="buts">
-                        <a href="https://chat.avax.network" target="_blank">Discord</a>
-                        <a href="https://twitter.com/avalancheavax" target="_blank">Twitter</a>
+                        <a href="https://chat.avax.network" target="_blank"
+                            >Discord</a
+                        >
+                        <a
+                            href="https://twitter.com/avalancheavax"
+                            target="_blank"
+                            >Twitter</a
+                        >
                     </div>
                 </div>
                 <div class="resource ava_x">
@@ -38,15 +52,18 @@
                     <h3>Avalanche-X</h3>
                     <p>Apply for grants to build on Avalanche.</p>
                     <div class="buts">
-                        <a href="https://www.avalabs.org/avalanche-x" target="_blank">Apply for Grants</a>
+                        <a
+                            href="https://www.avalabs.org/avalanche-x"
+                            target="_blank"
+                            >Apply for Grants</a
+                        >
                     </div>
                 </div>
             </div>
-        </div>  
+        </div>
     </div>
 </template>
 <style scoped lang="scss">
-
 hr {
     margin-top: 20px;
     opacity: 0.2;
@@ -66,7 +83,7 @@ hr {
     flex-direction: column;
     justify-content: center;
     padding: 45px 30px 30px;
-    border: 3px solid #e8e7ea; 
+    border: 3px solid #e8e7ea;
     border-radius: 7px;
 
     h3 {
@@ -83,7 +100,7 @@ hr {
         font-size: 16px;
         padding-bottom: 15px;
     }
-    
+
     img {
         max-height: 60px;
         object-fit: contain;
@@ -96,10 +113,10 @@ hr {
         grid-gap: 30px;
 
         a {
-            font-family: "DM Sans", sans-serif;
+            font-family: 'DM Sans', sans-serif;
             font-weight: 700 !important;
-            letter-spacing: .5px;
-            text-transform: uppercase!important;
+            letter-spacing: 0.5px;
+            text-transform: uppercase !important;
             font-size: 14px !important;
             padding: 10px 24px;
             color: $white !important;
@@ -123,7 +140,6 @@ hr {
 }
 
 @include smOnly {
-
     h3 {
         font-size: 18px;
     }

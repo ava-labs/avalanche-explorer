@@ -5,7 +5,11 @@
                 <img src="@/assets/ava_logo_white.png" />
                 <h4>Avalanche Explorer</h4>
             </div>
-            <p class="avalanche_desc">Avalanche Explorer is an analytics tool that enables people to search the Avalanche blockchain for transactions, addresses, and other platform activities.</p>
+            <p class="avalanche_desc">
+                Avalanche Explorer is an analytics tool that enables people to
+                search the Avalanche blockchain for transactions, addresses, and
+                other platform activities.
+            </p>
             <img class="yeti" src="@/assets/yeti_footer.png" />
         </div>
         <div class="list">
@@ -22,24 +26,23 @@
         <div class="list">
             <h4>Social</h4>
             <a href="https://twitter.com/avalancheavax" target="_blank">
-                <fa :icon="['fab','twitter']"></fa>Twitter
+                <fa :icon="['fab', 'twitter']"></fa>Twitter
             </a>
             <a href="https://chat.avax.network" target="_blank">
-                <fa :icon="['fab','discord']"></fa>Discord
+                <fa :icon="['fab', 'discord']"></fa>Discord
             </a>
             <a href="https://reddit.com/r/avax" target="_blank">
-                <fa :icon="['fab','reddit']"></fa>Reddit
+                <fa :icon="['fab', 'reddit']"></fa>Reddit
             </a>
         </div>
     </v-footer>
 </template>
 
 <script>
-export default {};
+export default {}
 </script>
 
 <style scoped lang="scss">
-
 .v-footer {
     margin: 60px 0 -1px 0;
     padding-top: 60px !important;
@@ -59,7 +62,7 @@ export default {};
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    
+
     .header {
         display: flex;
         align-items: center;

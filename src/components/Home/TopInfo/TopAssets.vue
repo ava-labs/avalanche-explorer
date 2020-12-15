@@ -9,7 +9,13 @@
             </h2>
         </div>
         <div class="table_spinner_container" v-if="!assetAggregatesLoaded">
-            <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
+            <v-progress-circular
+                :size="16"
+                :width="2"
+                color="#E84970"
+                indeterminate
+                key="1"
+            ></v-progress-circular>
         </div>
         <div v-else>
             <div class="table">
@@ -19,22 +25,41 @@
                         Name <Tooltip content="Name for the asset"></Tooltip>
                     </p>
                     <p class="metric">
-                        <Tooltip content="Total number of transactions for the asset"></Tooltip>Txs (24h)
+                        <Tooltip
+                            content="Total number of transactions for the asset"
+                        ></Tooltip
+                        >Txs (24h)
                     </p>
                 </div>
-                <div class="asset" v-for="(asset) in assets" :key="asset.id">
-                    <div v-if="$vuetify.breakpoint.smAndUp"><span class="symbol">{{asset.symbol}}</span></div>
-                    <div class="name name_value">
-                        <img class="table_image" :src="require(`@/assets/hex_ava_${hexColor}.svg`)" alt />
-                        <router-link :to="`/asset/${asset.id}`" class="asset_name">{{asset.name}}</router-link>
-                        <span class="collision">{{collisionHash(asset)}}</span>
+                <div class="asset" v-for="asset in assets" :key="asset.id">
+                    <div v-if="$vuetify.breakpoint.smAndUp">
+                        <span class="symbol">{{ asset.symbol }}</span>
                     </div>
-                    <p class="metric metric_value">{{asset.txCount_day.toLocaleString()}}</p>
+                    <div class="name name_value">
+                        <img
+                            class="table_image"
+                            :src="require(`@/assets/hex_ava_${hexColor}.svg`)"
+                            alt
+                        />
+                        <router-link
+                            :to="`/asset/${asset.id}`"
+                            class="asset_name"
+                            >{{ asset.name }}</router-link
+                        >
+                        <span class="collision">{{
+                            collisionHash(asset)
+                        }}</span>
+                    </div>
+                    <p class="metric metric_value">
+                        {{ asset.txCount_day.toLocaleString() }}
+                    </p>
                     <!--TODO: normalize asset.volume_day -->
                 </div>
             </div>
-            <div class="bottom" >
-                <router-link to="/assets" class="view_all">View All Assets</router-link>
+            <div class="bottom">
+                <router-link to="/assets" class="view_all"
+                    >View All Assets</router-link
+                >
             </div>
         </div>
         <!-- Balance Table - vuetify data table -->
@@ -42,62 +67,61 @@
 </template>
 
 <script lang="ts">
-import "reflect-metadata";
-import { Vue, Component } from "vue-property-decorator";
-import Tooltip from "../../../components/rows/Tooltip.vue";
-import TooltipHeading from "../../../components/misc/TooltipHeading.vue";
-import axios from "@/axios";
-import { Asset } from "@/js/Asset";
-import { AVAX_ID } from "@/store/index";
-import { ICollisionMap } from '@/js/IAsset';
-import { DEFAULT_NETWORK_ID } from "@/store/modules/network/network";
+import 'reflect-metadata'
+import { Vue, Component } from 'vue-property-decorator'
+import Tooltip from '../../../components/rows/Tooltip.vue'
+import TooltipHeading from '../../../components/misc/TooltipHeading.vue'
+import axios from '@/axios'
+import { Asset } from '@/js/Asset'
+import { AVAX_ID } from '@/store/index'
+import { ICollisionMap } from '@/js/IAsset'
+import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
 
 @Component({
     components: {
         Tooltip,
-        TooltipHeading
-    }
+        TooltipHeading,
+    },
 })
 export default class TopAssets extends Vue {
     created() {
-        let parent = this;
+        let parent = this
     }
 
     get assets(): Asset[] {
-        let res = this.$store.getters.assetsArrayNonProfane;
-        let avax = res.find((asset: Asset) => asset.id === AVAX_ID);
-        res = res.filter((asset: Asset) => asset.id !== AVAX_ID);
-        res.sort((a: Asset, b: Asset) => b.txCount_day - a.txCount_day);
-        res.unshift(avax);
-        return res.slice(0, 10);
+        let res = this.$store.getters.assetsArrayNonProfane
+        let avax = res.find((asset: Asset) => asset.id === AVAX_ID)
+        res = res.filter((asset: Asset) => asset.id !== AVAX_ID)
+        res.sort((a: Asset, b: Asset) => b.txCount_day - a.txCount_day)
+        res.unshift(avax)
+        return res.slice(0, 10)
     }
 
     get assetAggregatesLoaded(): boolean {
-        return this.$store.state.assetAggregatesLoaded;
+        return this.$store.state.assetAggregatesLoaded
     }
 
     get assetsLoaded(): boolean {
-        return this.$store.state.assetsLoaded;
+        return this.$store.state.assetsLoaded
     }
 
     collisionHash(asset: Asset): string | null {
-        return (this.collisionMap[asset.symbol]) 
+        return this.collisionMap[asset.symbol]
             ? `${asset.id.substring(0, 8)}`
-            : null;
+            : null
     }
 
     get collisionMap(): ICollisionMap {
-        return this.$store.state.collisionMap;
+        return this.$store.state.collisionMap
     }
 
     get hexColor(): string {
-        return (DEFAULT_NETWORK_ID === 1) ? "mainnet" : "testnet";
+        return DEFAULT_NETWORK_ID === 1 ? 'mainnet' : 'testnet'
     }
 }
 </script>
 
 <style scoped lang="scss">
-
 .table_spinner_container {
     min-height: 265px;
     display: flex;
@@ -160,7 +184,7 @@ export default class TopAssets extends Vue {
 
     .collision {
         padding-left: 8px;
-        font-size: .75em;
+        font-size: 0.75em;
         color: $primary-color-light;
         font-weight: 400;
 

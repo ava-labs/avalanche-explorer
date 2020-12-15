@@ -9,88 +9,104 @@
                         <template v-slot:activator="{ on }">
                             <span v-on="on" class="tag">X-Chain</span>
                         </template>
-                        <span>The X-Chain acts as a decentralized platform for creating and trading smart digital assets. (Think X for eXchanging assets.)</span>
+                        <span
+                            >The X-Chain acts as a decentralized platform for
+                            creating and trading smart digital assets. (Think X
+                            for eXchanging assets.)</span
+                        >
                     </v-tooltip>
                 </p>
             </div>
             <div class="right" bottom v-if="$vuetify.breakpoint.smAndUp">
-                <v-btn :loading="loading" :text="true" @click="updateTx" class="refresh ava_btn">
+                <v-btn
+                    :loading="loading"
+                    :text="true"
+                    @click="updateTx"
+                    class="refresh ava_btn"
+                >
                     <fa icon="sync"></fa>
                     <span class="ava-btn-label">Refresh</span>
                 </v-btn>
-                <router-link to="/tx" class="view_all">View All Transactions</router-link>
+                <router-link to="/tx" class="view_all"
+                    >View All Transactions</router-link
+                >
             </div>
         </div>
-            <div class="list">
-                <TxHeader></TxHeader>
-                <transition-group name="fade" v-if="transactions.length > 0">
-                    <tx-row
-                        v-for="tx in transactions"
-                        :key="tx.id"
-                        class="recent_tx_rows"
-                        :transaction="tx"
-                    ></tx-row>
-                </transition-group>
-                <div v-if="transactions.length === 0">
-                    <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
-                </div>
+        <div class="list">
+            <TxHeader></TxHeader>
+            <transition-group name="fade" v-if="transactions.length > 0">
+                <tx-row
+                    v-for="tx in transactions"
+                    :key="tx.id"
+                    class="recent_tx_rows"
+                    :transaction="tx"
+                ></tx-row>
+            </transition-group>
+            <div v-if="transactions.length === 0">
+                <v-progress-circular
+                    :size="16"
+                    :width="2"
+                    color="#E84970"
+                    indeterminate
+                    key="1"
+                ></v-progress-circular>
             </div>
+        </div>
     </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from "vue-property-decorator";
-import Tooltip from "@/components/rows/Tooltip.vue";
-import TxHeader from "@/components/rows/TxRow/TxHeader.vue";
-import TxRow from "@/components/rows/TxRow/TxRow.vue";
-import api from "@/axios";
-import { ITransaction } from '@/js/ITransaction';
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+import Tooltip from '@/components/rows/Tooltip.vue'
+import TxHeader from '@/components/rows/TxRow/TxHeader.vue'
+import TxRow from '@/components/rows/TxRow/TxRow.vue'
+import api from '@/axios'
+import { ITransaction } from '@/js/ITransaction'
 
 @Component({
     components: {
         Tooltip,
         TxHeader,
-        TxRow
+        TxRow,
     },
 })
 export default class RecentTransactions extends Vue {
-    loading: boolean = false;
-    txNum: number = 25;
-    poller: number = 0;
-       
+    loading: boolean = false
+    txNum: number = 25
+    poller: number = 0
+
     created() {
-        this.poller = window.setInterval(() => this.pollForTxUpdates(), 5000);
-    }   
-    
-    destroyed() {
-        window.clearInterval(this.poller);
+        this.poller = window.setInterval(() => this.pollForTxUpdates(), 5000)
     }
-    
+
+    destroyed() {
+        window.clearInterval(this.poller)
+    }
+
     get assetsLoaded(): boolean {
-        return this.$store.state.assetsLoaded;
+        return this.$store.state.assetsLoaded
     }
 
     get transactions(): ITransaction[] {
-        return this.$store.state.recentTransactions;
+        return this.$store.state.recentTransactions
     }
 
     async updateTx(): Promise<void> {
-        this.loading = true;
+        this.loading = true
         if (this.assetsLoaded) {
             // TODO: support service for multiple chains
-            await this.$store.dispatch("getRecentTransactions", this.txNum);
-            this.loading = false;
+            await this.$store.dispatch('getRecentTransactions', this.txNum)
+            this.loading = false
         }
     }
 
     pollForTxUpdates(): void {
-        this.$store.dispatch("getRecentTransactions", this.txNum);
+        this.$store.dispatch('getRecentTransactions', this.txNum)
     }
 }
 </script>
 
 <style scoped lang="scss">
-
 .refresh {
     margin-left: 16px;
 }
@@ -118,7 +134,6 @@ export default class RecentTransactions extends Vue {
         border: none;
     }
 
-
     .left {
         display: flex;
         flex-direction: column;
@@ -126,8 +141,7 @@ export default class RecentTransactions extends Vue {
         align-items: flex-start;
         flex-grow: 1;
     }
-    
-    
+
     .right {
         flex-grow: 1;
         display: flex;

@@ -13,47 +13,75 @@
             <div class="header">
                 <h2>
                     Assets
-                    <TooltipHeading
-                        content="A unit of value"
-                    ></TooltipHeading>
+                    <TooltipHeading content="A unit of value"></TooltipHeading>
                 </h2>
                 <template v-if="assetsLoaded">
                     <div class="bar">
-                        <p class="count">{{Object.keys(assets).length | pluralize}} found</p>
+                        <p class="count">
+                            {{ Object.keys(assets).length | pluralize }} found
+                        </p>
                     </div>
                 </template>
             </div>
             <div v-if="!assetsLoaded">
-                <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
+                <v-progress-circular
+                    :size="16"
+                    :width="2"
+                    color="#E84970"
+                    indeterminate
+                    key="1"
+                ></v-progress-circular>
             </div>
-            <div class="asset_list" v-if="assetsLoaded && $vuetify.breakpoint.smAndDown">
+            <div
+                class="asset_list"
+                v-if="assetsLoaded && $vuetify.breakpoint.smAndDown"
+            >
                 <div class="grid_headers asset_row">
                     <p v-if="$vuetify.breakpoint.smAndUp">
                         Symbol
-                        <Tooltip content="An arrangement of letters representing an asset"></Tooltip>
+                        <Tooltip
+                            content="An arrangement of letters representing an asset"
+                        ></Tooltip>
                     </p>
                     <p>
                         Name
                         <Tooltip content="Name for the asset"></Tooltip>
                     </p>
                     <p class="volume_day">
-                        <Tooltip content="Volume for the past 24h"></Tooltip>24h Volume
+                        <Tooltip content="Volume for the past 24h"></Tooltip>24h
+                        Volume
                     </p>
                     <p class="txCount_day" v-if="$vuetify.breakpoint.smAndUp">
-                        <Tooltip content="Number of transactions for the past 24h"></Tooltip>24h Tx
+                        <Tooltip
+                            content="Number of transactions for the past 24h"
+                        ></Tooltip
+                        >24h Tx
                     </p>
                     <p class="avgTx_day" v-if="$vuetify.breakpoint.smAndUp">
-                        <Tooltip content="Average tx value over the past 24h"></Tooltip>Avg Tx
+                        <Tooltip
+                            content="Average tx value over the past 24h"
+                        ></Tooltip
+                        >Avg Tx
                     </p>
                     <p class="supply" v-if="$vuetify.breakpoint.smAndUp">
-                        <Tooltip content="Total number of tokens minted"></Tooltip>Supply
+                        <Tooltip
+                            content="Total number of tokens minted"
+                        ></Tooltip
+                        >Supply
                     </p>
                     <p class="chain" v-if="$vuetify.breakpoint.smAndUp">
                         Issuance
-                        <Tooltip content="Blockchain where this asset was minted"></Tooltip>
+                        <Tooltip
+                            content="Blockchain where this asset was minted"
+                        ></Tooltip>
                     </p>
                 </div>
-                <asset-row v-for="asset in assets" :key="asset.id" class="asset_row" :asset="asset"></asset-row>
+                <asset-row
+                    v-for="asset in assets"
+                    :key="asset.id"
+                    class="asset_row"
+                    :asset="asset"
+                ></asset-row>
             </div>
             <div v-if="$vuetify.breakpoint.smAndUp">
                 <AssetsDataTable :assets="assets"></AssetsDataTable>
@@ -63,18 +91,18 @@
 </template>
 
 <script lang="ts">
-import "reflect-metadata";
-import { Vue, Component } from "vue-property-decorator";
-import AssetRow from "@/components/Assets/AssetRow.vue";
-import AssetsDataTable from "@/components/Assets/AssetsDataTable.vue";
-import Tooltip from "@/components/rows/Tooltip.vue";
-import TooltipHeading from "@/components/misc/TooltipHeading.vue";
-import { Asset } from "@/js/Asset";
-import axios from "@/axios";
-import { IAssetData_Ortelius } from "../js/IAsset";
+import 'reflect-metadata'
+import { Vue, Component } from 'vue-property-decorator'
+import AssetRow from '@/components/Assets/AssetRow.vue'
+import AssetsDataTable from '@/components/Assets/AssetsDataTable.vue'
+import Tooltip from '@/components/rows/Tooltip.vue'
+import TooltipHeading from '@/components/misc/TooltipHeading.vue'
+import { Asset } from '@/js/Asset'
+import axios from '@/axios'
+import { IAssetData_Ortelius } from '../js/IAsset'
 //@ts-ignore
-import wordcloud from 'vue-wordcloud';
-import { AVAX_ID } from "@/store/index";
+import wordcloud from 'vue-wordcloud'
+import { AVAX_ID } from '@/store/index'
 
 @Component({
     components: {
@@ -82,54 +110,54 @@ import { AVAX_ID } from "@/store/index";
         TooltipHeading,
         AssetRow,
         AssetsDataTable,
-        wordcloud
+        wordcloud,
     },
     filters: {
-        pluralize(val:number) {
+        pluralize(val: number) {
             return val === 0
                 ? `${val} assets`
                 : val > 1
                 ? `${val.toLocaleString()} assets`
-                : `${val} asset`;
+                : `${val} asset`
         },
-    }
+    },
 })
 export default class AssetsPage extends Vue {
-    myColors: string[] = ['#1f77b4', '#629fc9', '#94bedb', '#c9e0ef'];
-    
+    myColors: string[] = ['#1f77b4', '#629fc9', '#94bedb', '#c9e0ef']
+
     //@ts-ignore
     wordClickHandler(name, value, vm) {
-      console.log('wordClickHandler', name, value, vm);
-
+        console.log('wordClickHandler', name, value, vm)
     }
 
     get assets(): Asset[] {
-        let res: Asset[] = this.$store.getters.assetsArrayNonProfane;
-        let avax: Asset = res.find((asset: Asset) => asset.id === AVAX_ID) as Asset;
-        res = res.filter((asset: Asset) => asset.id !== AVAX_ID);
-        res.sort((a: Asset, b: Asset) => b.txCount_day - a.txCount_day);
-        res.unshift(avax);
-        return res;
+        let res: Asset[] = this.$store.getters.assetsArrayNonProfane
+        let avax: Asset = res.find(
+            (asset: Asset) => asset.id === AVAX_ID
+        ) as Asset
+        res = res.filter((asset: Asset) => asset.id !== AVAX_ID)
+        res.sort((a: Asset, b: Asset) => b.txCount_day - a.txCount_day)
+        res.unshift(avax)
+        return res
     }
 
     get assetsLoaded(): boolean {
-        return this.$store.state.assetsLoaded;
+        return this.$store.state.assetsLoaded
     }
 
     get assetNames(): any[] {
-        return this.assets.map((asset:Asset) => {
+        return this.assets.map((asset: Asset) => {
             return {
-                name: asset.name, 
+                name: asset.name,
                 value: 1,
                 // value: asset.currentSupply.toFixed(0)
             }
-        });
+        })
     }
 }
 </script>
 
 <style scoped lang="scss">
-
 .header {
     .count {
         padding-top: 5px;

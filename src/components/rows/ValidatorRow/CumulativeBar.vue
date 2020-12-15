@@ -1,40 +1,39 @@
 <template>
     <div class="cumulative_bar">
-        <div ref="agg_bar" class="agg_bar" :style="{width: `${barPerc}%`}">
-            <div class="now_bar" :style="{width: `${nowPerc}%`}"></div>
+        <div ref="agg_bar" class="agg_bar" :style="{ width: `${barPerc}%` }">
+            <div class="now_bar" :style="{ width: `${nowPerc}%` }"></div>
         </div>
     </div>
 </template>
 <script>
-import { toAVAX } from "../../../helper";
+import { toAVAX } from '../../../helper'
 
 export default {
     props: {
         total: {
             type: Number,
-            required: true
+            required: true,
         },
         accumulated: {
             type: Number,
-            required: true
+            required: true,
         },
         amount: {
             type: Number,
-            required: true
-        }
+            required: true,
+        },
     },
     computed: {
         barPerc() {
-            return toAVAX(this.accumulated) / this.total * 100;
+            return (toAVAX(this.accumulated) / this.total) * 100
         },
         nowPerc() {
-            return toAVAX(this.amount) / toAVAX(this.accumulated) * 100;
-        }
-    }
-};
+            return (toAVAX(this.amount) / toAVAX(this.accumulated)) * 100
+        },
+    },
+}
 </script>
 <style scoped lang="scss">
-
 $color_bright: $secondary-color-light;
 $color_dark: $secondary-color;
 

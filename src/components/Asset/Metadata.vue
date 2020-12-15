@@ -3,10 +3,12 @@
         <div class="card">
             <div class="header">
                 <h2>
-                    {{asset | name}}
-                    <span class="symbol">{{asset.symbol}}</span>
-                    <p class="alias" v-if="asset.alias"><span>Alias</span>  {{asset.alias}}</p>
-                    <p class="alias"><span>ID</span> {{asset.id}}</p>
+                    {{ asset | name }}
+                    <span class="symbol">{{ asset.symbol }}</span>
+                    <p class="alias" v-if="asset.alias">
+                        <span>Alias</span> {{ asset.alias }}
+                    </p>
+                    <p class="alias"><span>ID</span> {{ asset.id }}</p>
                 </h2>
             </div>
             <section class="stats">
@@ -15,9 +17,22 @@
                     <div class="stat">
                         <p class="label">
                             24h Volume
-                            <TooltipMeta v-bind:content="'Total value of ' + asset.symbol + ' transferred on Avalanche in the past 24 hours'"></TooltipMeta>
+                            <TooltipMeta
+                                v-bind:content="
+                                    'Total value of ' +
+                                    asset.symbol +
+                                    ' transferred on Avalanche in the past 24 hours'
+                                "
+                            ></TooltipMeta>
                         </p>
-                        <p class="meta_val">{{parseInt(asset.volume_day.toFixed(0)).toLocaleString()}} <span class="unit">{{asset.symbol}}</span></p>
+                        <p class="meta_val">
+                            {{
+                                parseInt(
+                                    asset.volume_day.toFixed(0)
+                                ).toLocaleString()
+                            }}
+                            <span class="unit">{{ asset.symbol }}</span>
+                        </p>
                     </div>
                 </article>
                 <article>
@@ -25,9 +40,17 @@
                     <div class="stat">
                         <p class="label">
                             24h Transactions
-                            <TooltipMeta v-bind:content="'Total number of state queries or modifications of blockchains involving ' + asset.symbol + ' in the past 24 hours'"></TooltipMeta>
+                            <TooltipMeta
+                                v-bind:content="
+                                    'Total number of state queries or modifications of blockchains involving ' +
+                                    asset.symbol +
+                                    ' in the past 24 hours'
+                                "
+                            ></TooltipMeta>
                         </p>
-                        <p class="meta_val">{{asset.txCount_day.toLocaleString()}}</p>
+                        <p class="meta_val">
+                            {{ asset.txCount_day.toLocaleString() }}
+                        </p>
                     </div>
                 </article>
                 <article>
@@ -35,9 +58,15 @@
                     <div class="stat">
                         <p class="label">
                             Minted On
-                            <TooltipMeta v-bind:content="'Blockchain where ' + asset.symbol + ' was minted'"></TooltipMeta>
+                            <TooltipMeta
+                                v-bind:content="
+                                    'Blockchain where ' +
+                                    asset.symbol +
+                                    ' was minted'
+                                "
+                            ></TooltipMeta>
                         </p>
-                        <p class="meta_val">{{asset.chainID | blockchain }}</p>
+                        <p class="meta_val">{{ asset.chainID | blockchain }}</p>
                     </div>
                 </article>
                 <article>
@@ -45,11 +74,30 @@
                     <div class="stat">
                         <p class="label">
                             Initial Supply
-                            <TooltipMeta v-bind:content="'Initial value of ' + asset.symbol + ' minted'"></TooltipMeta>
+                            <TooltipMeta
+                                v-bind:content="
+                                    'Initial value of ' +
+                                    asset.symbol +
+                                    ' minted'
+                                "
+                            ></TooltipMeta>
                         </p>
-                        <p class="meta_val">{{asset.currentSupply.toLocaleString(asset.denomination)}} <span class="unit">{{asset.symbol}}</span></p>
-                        <p class="meta_annotation">Minimal Transferrable Unit:</p>
-                        <p class="meta_annotation">{{minimalTransferrableUnit}} ({{asset.denomination | pluralize}})</p>
+                        <p class="meta_val">
+                            {{
+                                asset.currentSupply.toLocaleString(
+                                    asset.denomination
+                                )
+                            }}
+                            <span class="unit">{{ asset.symbol }}</span>
+                        </p>
+                        <p class="meta_annotation">
+                            Minimal Transferrable Unit:
+                        </p>
+                        <p class="meta_annotation">
+                            {{ minimalTransferrableUnit }} ({{
+                                asset.denomination | pluralize
+                            }})
+                        </p>
                     </div>
                 </article>
             </section>
@@ -58,49 +106,45 @@
 </template>
 
 <script lang="ts">
-import "reflect-metadata";
-import { Vue, Component, Prop } from "vue-property-decorator";
-import Big from "big.js";
-import { Asset } from "@/js/Asset";
-import { blockchainMap } from "../../helper";
-import TooltipMeta from "../../components/misc/TooltipMeta.vue";
+import 'reflect-metadata'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import Big from 'big.js'
+import { Asset } from '@/js/Asset'
+import { blockchainMap } from '../../helper'
+import TooltipMeta from '../../components/misc/TooltipMeta.vue'
 
-@Component ({
+@Component({
     components: {
-        TooltipMeta
+        TooltipMeta,
     },
 
     filters: {
         name(val: Asset): string {
-            return val.name ? val.name : val.id;
+            return val.name ? val.name : val.id
         },
         blockchain(val: string): string {
-            return blockchainMap(val);
+            return blockchainMap(val)
         },
         pluralize(val: number): string {
             return val === 0
                 ? `no fractional units`
                 : val > 1
-                    ? `${val} decimal digits`
-                    : `${val} decimal digit`;
-        }
-    }
-
+                ? `${val} decimal digits`
+                : `${val} decimal digit`
+        },
+    },
 })
-
 export default class Metadata extends Vue {
-    @Prop() asset!: Asset;
+    @Prop() asset!: Asset
 
     get minimalTransferrableUnit() {
-        let power = -1 * this.asset.denomination;
-        return Math.pow(10, power).toFixed(this.asset.denomination);
+        let power = -1 * this.asset.denomination
+        return Math.pow(10, power).toFixed(this.asset.denomination)
     }
 }
-
 </script>
 
 <style scoped lang="scss">
-
 .metadata {
     margin-bottom: 15px;
 
@@ -110,7 +154,7 @@ export default class Metadata extends Vue {
         justify-content: space-between;
 
         .alias {
-            margin-top: .5em;
+            margin-top: 0.5em;
             font-size: 14px;
         }
     }
@@ -224,7 +268,6 @@ export default class Metadata extends Vue {
     }
 }
 
-
 @include xsOnly {
     .metadata {
         margin-bottom: 10px;
@@ -247,5 +290,4 @@ export default class Metadata extends Vue {
         }
     }
 }
-
 </style>

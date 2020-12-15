@@ -22,7 +22,7 @@
                     <p>Searching...</p>
                 </div>
                 <div v-else>
-                    <div class="no_result" v-if="results.length===0">
+                    <div class="no_result" v-if="results.length === 0">
                         <p class="icon">
                             <fa icon="snowman"></fa>
                         </p>
@@ -30,7 +30,7 @@
                     </div>
                     <search-result
                         class="search_result"
-                        v-for="(res) in results"
+                        v-for="res in results"
                         :key="getKey(res)"
                         :item="res"
                         @click.native="onSelectResult(res)"
@@ -42,126 +42,125 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "@/axios";
-import SearchResult from "@/components/misc/SearchBar/SearchResult";
+import Vue from 'vue'
+import axios from '@/axios'
+import SearchResult from '@/components/misc/SearchBar/SearchResult'
 
 export default Vue.extend({
     components: {
-        SearchResult
+        SearchResult,
     },
     data() {
         return {
             showResults: false,
             results: [],
             isAjax: false,
-            searchValue: "",
-        };
+            searchValue: '',
+        }
     },
     created() {
         // assign debounce here (not in methods)
-        this.debounceSearch = this.debounce(this.autoSearch, 500);
+        this.debounceSearch = this.debounce(this.autoSearch, 500)
     },
     mounted() {
         this.$nextTick(() => {
-            this.focus();
-        });
+            this.focus()
+        })
     },
     props: {
         placeholder: {
             type: String,
-            default: ""
-        }
+            default: '',
+        },
     },
     methods: {
         focus() {
-            this.$refs.input.focus();
+            this.$refs.input.focus()
         },
         onfocus() {
             // display previous results, if any
             if (this.searchValue.length > 0) {
-                this.showResults = true;
+                this.showResults = true
             }
         },
         onblur() {
             // this.showResults = false;
         },
         search() {
-            if (!this.canSearch) return;
-            this.$emit("search", this.searchValue);
+            if (!this.canSearch) return
+            this.$emit('search', this.searchValue)
         },
         oninput() {
-            this.$emit("input", this.searchValue);
-            this.debounceSearch();
+            this.$emit('input', this.searchValue)
+            this.debounceSearch()
         },
         autoSearch() {
-            let parent = this;
-            let query = this.searchValue;
-            const SEARCH_LIM = 5;
+            let parent = this
+            let query = this.searchValue
+            const SEARCH_LIM = 5
 
-            if (query === "") {
-                this.showResults = false;
-                return;
+            if (query === '') {
+                this.showResults = false
+                return
             }
 
-            let split = query.split("-");
-            query = split[split.length - 1];
+            let split = query.split('-')
+            query = split[split.length - 1]
 
-            this.isAjax = true;
-            this.showResults = true;
+            this.isAjax = true
+            this.showResults = true
             // TODO: support service for multiple chains
-            axios.get(`/x/search?query=${query}&limit=${SEARCH_LIM}`)
-                .then(res => {
-                    let data = res.data;
-                    parent.results = data.results;
-                    parent.isAjax = false;
-                });
+            axios
+                .get(`/x/search?query=${query}&limit=${SEARCH_LIM}`)
+                .then((res) => {
+                    let data = res.data
+                    parent.results = data.results
+                    parent.isAjax = false
+                })
         },
         debounce(func, wait, immediate) {
-            let timeout;
+            let timeout
             return function executedFunction(...theArgs) {
-                let context = this;
-                let args = theArgs;
-                let later = function() {
-                    timeout = null;
-                    if (!immediate) func.apply(context, args);
-                };
-                let callNow = immediate && !timeout;
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-                if (callNow) func.apply(context, args);
-            };
+                let context = this
+                let args = theArgs
+                let later = function () {
+                    timeout = null
+                    if (!immediate) func.apply(context, args)
+                }
+                let callNow = immediate && !timeout
+                clearTimeout(timeout)
+                timeout = setTimeout(later, wait)
+                if (callNow) func.apply(context, args)
+            }
         },
         getKey(item) {
-            let res = item.type;
-            if (item.type === "address") {
-                res += item.data.address;
+            let res = item.type
+            if (item.type === 'address') {
+                res += item.data.address
             } else {
-                res += item.data.id;
+                res += item.data.id
             }
-            return res;
+            return res
         },
         onSelectResult(item) {
-            this.closeSearch();
+            this.closeSearch()
         },
         closeSearch() {
-            this.isAjax = false;
-            this.searchValue = "";
-            this.showResults = false;
-            this.$emit("change", false);
-        }
+            this.isAjax = false
+            this.searchValue = ''
+            this.showResults = false
+            this.$emit('change', false)
+        },
     },
     computed: {
         canSearch() {
-            return this.searchValue === "" ? false : true;
-        }
-    }
-});
+            return this.searchValue === '' ? false : true
+        },
+    },
+})
 </script>
 
 <style scoped lang="scss">
-
-
 .search_bar {
     display: flex;
     background-color: transparent;

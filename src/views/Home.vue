@@ -6,21 +6,20 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
-import TopInfo from "@/components/Home/TopInfo/TopInfo.vue";
-import RecentTransactions from "@/components/Home/RecentTransactions.vue";
+import { Vue, Component } from 'vue-property-decorator'
+import TopInfo from '@/components/Home/TopInfo/TopInfo.vue'
+import RecentTransactions from '@/components/Home/RecentTransactions.vue'
 
 @Component({
     components: {
         TopInfo,
         RecentTransactions,
-    }
+    },
 })
 export default class Home extends Vue {}
 </script>
 
 <style scoped lang="scss">
-
 .home {
     margin: 0px auto;
     display: flex;
