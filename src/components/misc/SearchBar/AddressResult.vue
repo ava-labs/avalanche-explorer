@@ -27,7 +27,7 @@ export default class AddressResult extends Vue {
 
     select() {
         // TODO: support for multiple chains. add a chain param
-        let url = `/address/X-${this.item.address}`
+        const url = `/address/X-${this.item.address}`
         this.$router.push(url)
         this.$emit('select')
     }

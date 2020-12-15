@@ -17,7 +17,7 @@ export default class CopyText extends Vue {
 
     copy() {
         // @ts-ignore
-        let copytext: HTMLInputElement = this.$refs.copytext
+        const copytext: HTMLInputElement = this.$refs.copytext
         copytext.select()
         copytext.setSelectionRange(0, 99999)
         document.execCommand('copy')

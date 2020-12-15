@@ -6,9 +6,9 @@ import {
     NotificationInput,
 } from '@/store/modules/notifications/types'
 
-const COLOR_SUCCESS: string = '#6BC688'
-const COLOR_WARNING: string = '#c39043'
-const COLOR_ERROR: string = '#E84970'
+const COLOR_SUCCESS = '#6BC688'
+const COLOR_WARNING = '#c39043'
+const COLOR_ERROR = '#E84970'
 let notif_id = 0
 
 const notifications_module: Module<NotifState, IRootState> = {
@@ -18,9 +18,9 @@ const notifications_module: Module<NotifState, IRootState> = {
     },
     actions: {
         add(store, data: NotificationInput) {
-            let id = notif_id++
-            let type: string = data.type || 'success'
-            let duration: number = data.duration || 5000
+            const id = notif_id++
+            const type: string = data.type || 'success'
+            const duration: number = data.duration || 5000
             let color: string = COLOR_SUCCESS
 
             switch (type) {
@@ -35,7 +35,7 @@ const notifications_module: Module<NotifState, IRootState> = {
                     break
             }
 
-            let item: Notification = {
+            const item: Notification = {
                 id: id,
                 title: data.title,
                 message: data.message,
@@ -45,7 +45,7 @@ const notifications_module: Module<NotifState, IRootState> = {
 
             setTimeout(() => {
                 for (let i = 0; i < store.state.items.length; i++) {
-                    let item = store.state.items[i]
+                    const item = store.state.items[i]
                     if (item.id === id) {
                         store.state.items.splice(i, 1)
                     }

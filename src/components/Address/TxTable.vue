@@ -1,10 +1,10 @@
 <template>
-    <div class="tx_table" v-if="transactions">
+    <div v-if="transactions" class="tx_table">
         <transition-group name="fade">
             <tx-row
                 v-for="tx in tx_page"
-                class="tx_item"
                 :key="tx.id"
+                class="tx_item"
                 :transaction="tx"
             ></tx-row>
         </transition-group>
@@ -19,6 +19,9 @@ export default {
     components: {
         TxRow,
     },
+    props: {
+        transactions: Array,
+    },
     data() {
         return {
             pageNow: 0,
@@ -27,13 +30,10 @@ export default {
             pagination: PAGINATION,
         }
     },
-    props: {
-        transactions: Array,
-    },
     computed: {
         tx_page() {
-            let start = this.pageNow * PAGINATION
-            let end = start + PAGINATION
+            const start = this.pageNow * PAGINATION
+            const end = start + PAGINATION
             return this.transactions.slice(start, end)
         },
         pageNum() {
@@ -42,8 +42,8 @@ export default {
     },
     methods: {
         setPage(num) {
-            let start = num * PAGINATION
-            let end = start + PAGINATION
+            const start = num * PAGINATION
+            const end = start + PAGINATION
 
             this.from = start
             this.to = end

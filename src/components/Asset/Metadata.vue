@@ -5,7 +5,7 @@
                 <h2>
                     {{ asset | name }}
                     <span class="symbol">{{ asset.symbol }}</span>
-                    <p class="alias" v-if="asset.alias">
+                    <p v-if="asset.alias" class="alias">
                         <span>Alias</span> {{ asset.alias }}
                     </p>
                     <p class="alias"><span>ID</span> {{ asset.id }}</p>
@@ -18,7 +18,7 @@
                         <p class="label">
                             24h Volume
                             <TooltipMeta
-                                v-bind:content="
+                                :content="
                                     'Total value of ' +
                                     asset.symbol +
                                     ' transferred on Avalanche in the past 24 hours'
@@ -41,7 +41,7 @@
                         <p class="label">
                             24h Transactions
                             <TooltipMeta
-                                v-bind:content="
+                                :content="
                                     'Total number of state queries or modifications of blockchains involving ' +
                                     asset.symbol +
                                     ' in the past 24 hours'
@@ -59,7 +59,7 @@
                         <p class="label">
                             Minted On
                             <TooltipMeta
-                                v-bind:content="
+                                :content="
                                     'Blockchain where ' +
                                     asset.symbol +
                                     ' was minted'
@@ -75,7 +75,7 @@
                         <p class="label">
                             Initial Supply
                             <TooltipMeta
-                                v-bind:content="
+                                :content="
                                     'Initial value of ' +
                                     asset.symbol +
                                     ' minted'
@@ -138,7 +138,7 @@ export default class Metadata extends Vue {
     @Prop() asset!: Asset
 
     get minimalTransferrableUnit() {
-        let power = -1 * this.asset.denomination
+        const power = -1 * this.asset.denomination
         return Math.pow(10, power).toFixed(this.asset.denomination)
     }
 }

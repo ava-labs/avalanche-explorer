@@ -1,18 +1,18 @@
 <template>
     <div class="pagination_control">
         <button
-            @click="page = 1"
             :class="{
                 disabled: page == 1,
             }"
+            @click="page = 1"
         >
             First
         </button>
         <button
-            @click="pageDown"
             :class="{
                 disabled: page == 1,
             }"
+            @click="pageDown"
         >
             &#60;
         </button>
@@ -22,18 +22,18 @@
             <span>{{ totalPages }}</span>
         </p>
         <button
-            @click="pageUp"
             :class="{
                 disabled: page == totalPages,
             }"
+            @click="pageUp"
         >
             &#62;
         </button>
         <button
-            @click="page = totalPages"
             :class="{
                 disabled: page == totalPages,
             }"
+            @click="page = totalPages"
         >
             Last
         </button>
@@ -49,11 +49,11 @@ export default class PaginationControls extends Vue {
     @Prop() total!: number
     @Prop() limit!: number
 
-    page: number = 1
+    page = 1
 
     @Watch('page')
     onPageChanged(val: number) {
-        let offset = (val - 1) * this.limit
+        const offset = (val - 1) * this.limit
         this.$emit('change', offset)
     }
 
@@ -62,13 +62,13 @@ export default class PaginationControls extends Vue {
     }
 
     pageUp(): void {
-        let page = this.page + 1
+        const page = this.page + 1
         if (page > this.totalPages) return
         this.page = page
     }
 
     pageDown(): void {
-        let page = this.page - 1
+        const page = this.page - 1
         if (page < 1) return
         this.page = page
     }

@@ -1,8 +1,8 @@
 <template>
     <div class="to_amount">
         <div class="info_col">
-            <div class="to" v-for="(addr, i) in addresses" :key="i">
-                <span class="label" v-if="$vuetify.breakpoint.smAndDown"
+            <div v-for="(addr, i) in addresses" :key="i" class="to">
+                <span v-if="$vuetify.breakpoint.smAndDown" class="label"
                     >To</span
                 >
                 <router-link class="addr" :to="`/address/X-` + addr">{{
@@ -88,7 +88,7 @@ export default class OutputUtxo extends Vue {
     }
 
     get amount(): string {
-        let amt = Big(this.output.amount)
+        const amt = Big(this.output.amount)
         return trimmedLocaleString(amt, this.asset.denomination)
     }
 }

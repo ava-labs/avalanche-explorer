@@ -74,6 +74,10 @@ import moment from 'moment'
 import TransactionHistoryMeta from '@/components/Home/TopInfo/TransactionHistoryMeta'
 
 export default {
+    components: {
+        TooltipHeading,
+        TransactionHistoryMeta,
+    },
     data() {
         return {
             context: null,
@@ -84,105 +88,6 @@ export default {
             loading: false,
             aggregates: null,
         }
-    },
-    components: {
-        TooltipHeading,
-        TransactionHistoryMeta,
-    },
-    methods: {
-        setScope(val) {
-            this.scope = val
-            this.updateHistory()
-        },
-        updateHistory() {
-            this.loading = true
-
-            let interval = this.intervalMs // our selected interval (startTime to endTime) in ms
-            let intervalSize = this.intervalSize // integral (granularity)
-
-            let now = Date.now()
-            let roundedNow = this.roundToNearestInterval(now) // round to nearest whole integral for cleaner time presentation
-
-            let endTime = new Date(roundedNow).toISOString()
-            let startTime = new Date(roundedNow - interval).toISOString()
-
-            // TODO: support service for multiple chains
-            // TODO: asset param when supported by API
-            axios
-                .get(
-                    `/x/transactions/aggregates?startTime=${startTime}&endTime=${endTime}&intervalSize=${intervalSize}`
-                )
-                .then((res) => {
-                    this.loading = false
-                    this.history = res.data
-                    this.aggregates = res.data.aggregates
-                    this.draw()
-                })
-        },
-        roundToNearestInterval(now) {
-            let res = 0
-            switch (this.scope) {
-                case 'year':
-                    // round to nearest month
-                    res =
-                        new moment(now).startOf('month').valueOf() +
-                        1000 * 60 * 60 * 24 * 30
-                    break
-                case 'month':
-                    // round to nearest day
-                    res =
-                        new moment(now).startOf('day').valueOf() +
-                        1000 * 60 * 60 * 24
-                    break
-                case 'week':
-                    // round to nearest day
-                    res =
-                        new moment(now).startOf('day').valueOf() +
-                        1000 * 60 * 60 * 24
-                    break
-                case 'day':
-                    // round to nearest hour
-                    res =
-                        new moment(now).startOf('hour').valueOf() +
-                        1000 * 60 * 60
-                    break
-                case 'hour':
-                    // round to nearest minute
-                    res =
-                        new moment(now).startOf('minute').valueOf() + 1000 * 60
-                    break
-                case 'minute':
-                    // round to nearest second
-                    res = new moment(now).startOf('second').valueOf() + 1000
-                    break
-            }
-            return res
-        },
-        draw() {
-            this.clearChart()
-            // bind data to chart
-            this.chart.options.scales.xAxes[0].ticks.maxTicksLimit = this.maxTicksLimit
-            this.valuesX.forEach((d, i) => {
-                let label = this.labelsX[i]
-                this.chart.data.labels.push(label)
-                this.chart.data.datasets.forEach((dataset) => {
-                    dataset.data.push(d)
-                })
-            })
-            this.chart.update()
-        },
-        clearChart() {
-            // clear labels
-            this.chart.data.labels = []
-            // clear data
-            this.chart.data.datasets.forEach((dataset) => {
-                dataset.data = []
-            })
-            // reset y-axis
-            this.chart.options.scales.yAxes[0].ticks.max = this.yAxesTicksMax
-            // update
-            this.chart.update()
-        },
     },
     computed: {
         intervalMs() {
@@ -256,7 +161,7 @@ export default {
         },
         intervalFormat() {
             let res = ''
-            let scope = this.scope
+            const scope = this.scope
 
             switch (this.intervalSize) {
                 case 'month':
@@ -359,7 +264,7 @@ export default {
         },
         // raw data
         dataX() {
-            let rawData = !this.history ? [] : this.history.intervals
+            const rawData = !this.history ? [] : this.history.intervals
             // the last item in the data series will not constitute a full time intergral
             // replace its data with a projection based on the series avg, if necessary ("sad")
             if (rawData.length > 0) {
@@ -392,7 +297,7 @@ export default {
     mounted() {
         this.context = this.$refs.canv.getContext('2d')
 
-        let myLineChart = new Chart(this.context, {
+        const myLineChart = new Chart(this.context, {
             type: 'line',
             data: {
                 labels: [
@@ -511,6 +416,101 @@ export default {
         })
 
         this.chart = myLineChart
+    },
+    methods: {
+        setScope(val) {
+            this.scope = val
+            this.updateHistory()
+        },
+        updateHistory() {
+            this.loading = true
+
+            const interval = this.intervalMs // our selected interval (startTime to endTime) in ms
+            const intervalSize = this.intervalSize // integral (granularity)
+
+            const now = Date.now()
+            const roundedNow = this.roundToNearestInterval(now) // round to nearest whole integral for cleaner time presentation
+
+            const endTime = new Date(roundedNow).toISOString()
+            const startTime = new Date(roundedNow - interval).toISOString()
+
+            // TODO: support service for multiple chains
+            // TODO: asset param when supported by API
+            axios
+                .get(
+                    `/x/transactions/aggregates?startTime=${startTime}&endTime=${endTime}&intervalSize=${intervalSize}`
+                )
+                .then((res) => {
+                    this.loading = false
+                    this.history = res.data
+                    this.aggregates = res.data.aggregates
+                    this.draw()
+                })
+        },
+        roundToNearestInterval(now) {
+            let res = 0
+            switch (this.scope) {
+                case 'year':
+                    // round to nearest month
+                    res =
+                        new moment(now).startOf('month').valueOf() +
+                        1000 * 60 * 60 * 24 * 30
+                    break
+                case 'month':
+                    // round to nearest day
+                    res =
+                        new moment(now).startOf('day').valueOf() +
+                        1000 * 60 * 60 * 24
+                    break
+                case 'week':
+                    // round to nearest day
+                    res =
+                        new moment(now).startOf('day').valueOf() +
+                        1000 * 60 * 60 * 24
+                    break
+                case 'day':
+                    // round to nearest hour
+                    res =
+                        new moment(now).startOf('hour').valueOf() +
+                        1000 * 60 * 60
+                    break
+                case 'hour':
+                    // round to nearest minute
+                    res =
+                        new moment(now).startOf('minute').valueOf() + 1000 * 60
+                    break
+                case 'minute':
+                    // round to nearest second
+                    res = new moment(now).startOf('second').valueOf() + 1000
+                    break
+            }
+            return res
+        },
+        draw() {
+            this.clearChart()
+            // bind data to chart
+            this.chart.options.scales.xAxes[0].ticks.maxTicksLimit = this.maxTicksLimit
+            this.valuesX.forEach((d, i) => {
+                const label = this.labelsX[i]
+                this.chart.data.labels.push(label)
+                this.chart.data.datasets.forEach((dataset) => {
+                    dataset.data.push(d)
+                })
+            })
+            this.chart.update()
+        },
+        clearChart() {
+            // clear labels
+            this.chart.data.labels = []
+            // clear data
+            this.chart.data.datasets.forEach((dataset) => {
+                dataset.data = []
+            })
+            // reset y-axis
+            this.chart.options.scales.yAxes[0].ticks.max = this.yAxesTicksMax
+            // update
+            this.chart.update()
+        },
     },
 }
 </script>

@@ -40,7 +40,7 @@
         </div>
         <BalanceRow
             v-for="(asset, index) in assets"
-            v-bind:key="index"
+            :key="index"
             :asset="asset"
         ></BalanceRow>
     </div>

@@ -7,12 +7,12 @@
         <!-- STATUS BUTTONS -->
         <div class="toggle_but" @click="toggleMenu">
             <img
-                :src="require(`@/assets/network_on_${networkColor}.png`)"
                 v-if="status === 'connected'"
+                :src="require(`@/assets/network_on_${networkColor}.png`)"
             />
             <img
-                :src="require(`@/assets/network_off_${networkColor}.png`)"
                 v-else
+                :src="require(`@/assets/network_off_${networkColor}.png`)"
             />
             <button v-if="status === 'connected'" class="but_primary">
                 {{ activeNetwork.name }}
@@ -24,7 +24,7 @@
 
         <!-- MODAL -->
         <transition-group name="fade">
-            <div class="network_body" v-if="isModalOpen" key="body">
+            <div v-if="isModalOpen" key="body" class="network_body">
                 <!-- MODAL HEADER -->
                 <div class="header">
                     <template v-if="page === 'list'">
@@ -34,11 +34,11 @@
                     <template v-if="page === 'custom'">
                         <h4>Add Custom Network</h4>
                         <button
-                            @click="viewList"
                             style="
                                 background-color: transparent;
                                 color: #3a3144;
                             "
+                            @click="viewList"
                         >
                             Cancel
                         </button>
@@ -46,11 +46,11 @@
                     <template v-if="page === 'edit'">
                         <h4>Edit Network</h4>
                         <button
-                            @click="viewList"
                             style="
                                 background-color: transparent;
                                 color: #3a3144;
                             "
+                            @click="viewList"
                         >
                             Cancel
                         </button>
@@ -65,9 +65,9 @@
             </div>
             <!-- BACKGROUND -->
             <div
-                class="network_dispose_bg"
                 v-if="isModalOpen"
                 key="bg"
+                class="network_dispose_bg"
                 @click="closeMenu"
             ></div>
         </transition-group>
@@ -90,8 +90,8 @@ import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
     },
 })
 export default class NetworkMenu extends Vue {
-    page: string = 'list' // list, custom, edit
-    isModalOpen: boolean = false
+    page = 'list' // list, custom, edit
+    isModalOpen = false
     editNetwork: Network | null = null
 
     toggleMenu(): void {

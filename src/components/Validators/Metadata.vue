@@ -9,10 +9,10 @@
             </h2>
             <v-tabs
                 class="tabs"
-                @change="typeChange"
                 active-class="tab_active"
                 height="32"
                 hide-slider
+                @change="typeChange"
             >
                 <v-tab>Active</v-tab>
                 <v-tab>Pending</v-tab>
@@ -67,7 +67,7 @@ import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
     },
 })
 export default class Metadata extends Vue {
-    toggle: string = 'active' // active | pending
+    toggle = 'active' // active | pending
 
     typeChange(val: string) {
         this.toggle = val ? 'pending' : 'active'
@@ -75,7 +75,7 @@ export default class Metadata extends Vue {
     }
 
     get totalStake() {
-        let valBig =
+        const valBig =
             this.toggle === 'active'
                 ? this.$store.getters['Platform/totalStake']
                 : this.$store.getters['Platform/totalPendingStake']

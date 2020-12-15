@@ -21,9 +21,9 @@
                 </div>
                 <div class="filter_input_container">
                     <input
+                        v-model="search"
                         class="filter"
                         type="text"
-                        v-model="search"
                         placeholder="Filter by Node ID"
                     />
                 </div>
@@ -42,7 +42,7 @@
                     ></Tooltip
                     >Stake
                 </p>
-                <p style="text-align: right" v-if="$vuetify.breakpoint.smAndUp">
+                <p v-if="$vuetify.breakpoint.smAndUp" style="text-align: right">
                     <Tooltip
                         content="Percentage of AVAX concentrated up to this validator ranking"
                     ></Tooltip
@@ -55,9 +55,9 @@
             <div v-show="search.length === 0">
                 <div v-show="validators.length > 0">
                     <validator-row
-                        class="validator"
                         v-for="v in paginatedValidators"
                         :key="v.nodeID + v.stakeAmount"
+                        class="validator"
                         :validator="v"
                         :cumulative-stake="cumulativeStake[v.rank - 1]"
                     ></validator-row>
@@ -65,9 +65,9 @@
             </div>
             <div v-show="search.length > 0">
                 <validator-row
-                    class="validator"
                     v-for="v in matchedValidators"
                     :key="v.nodeID + v.stakeAmount"
+                    class="validator"
                     :validator="v"
                     :cumulative-stake="cumulativeStake[v.rank - 1]"
                 ></validator-row>
@@ -91,7 +91,6 @@ import { AVALANCHE_SUBNET_ID } from '@/store/modules/platform/platform'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import Metadata from '@/components/Validators/Metadata.vue'
 import { IValidator } from '@/store/modules/platform/IValidator'
-import Subnet from '../js/Subnet'
 
 @Component({
     components: {
@@ -111,15 +110,15 @@ import Subnet from '../js/Subnet'
     },
 })
 export default class Validators extends Vue {
-    search: string = ''
-    toggle: string = 'active' // active | pending
-    limit: number = 25 // how many rows to display
-    start: number = 0
+    search = ''
+    toggle = 'active' // active | pending
+    limit = 25 // how many rows to display
+    start = 0
 
     matchSearch(val: HTMLInputElement) {
         if (this.search) {
-            let idUpper = val.id.toUpperCase()
-            let queryUpper = this.search.toUpperCase()
+            const idUpper = val.id.toUpperCase()
+            const queryUpper = this.search.toUpperCase()
             if (!idUpper.includes(queryUpper)) {
                 return false
             }
@@ -136,7 +135,7 @@ export default class Validators extends Vue {
     }
 
     get totalStake() {
-        let valBig =
+        const valBig =
             this.toggle === 'active'
                 ? this.$store.getters['Platform/totalStake']
                 : this.$store.getters['Platform/totalPendingStake']
@@ -150,7 +149,7 @@ export default class Validators extends Vue {
     }
 
     get validators() {
-        let defaultSubnet = this.$store.state.Platform.subnets[
+        const defaultSubnet = this.$store.state.Platform.subnets[
             AVALANCHE_SUBNET_ID
         ]
         if (defaultSubnet) {
@@ -172,18 +171,18 @@ export default class Validators extends Vue {
     }
 
     get pendingValidators() {
-        let defaultSubnet = this.$store.state.Platform.subnets[
+        const defaultSubnet = this.$store.state.Platform.subnets[
             AVALANCHE_SUBNET_ID
         ]
         if (defaultSubnet) {
-            let vals = defaultSubnet.pendingValidators
+            const vals = defaultSubnet.pendingValidators
             return vals
         }
         return []
     }
 
     get cumulativeStake() {
-        let defaultSubnet = this.$store.state.Platform.subnets[
+        const defaultSubnet = this.$store.state.Platform.subnets[
             AVALANCHE_SUBNET_ID
         ]
         if (defaultSubnet) {

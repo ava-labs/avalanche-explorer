@@ -3,14 +3,14 @@
         <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
         <template v-if="!subnetsLoaded">
             <Loader
-                :contentId="subnetID"
+                :content-id="subnetID"
                 :message="'Fetching Subnet Details'"
             ></Loader>
         </template>
         <template v-else>
             <div class="card">
                 <Content
-                    :subnetID="subnetID"
+                    :subnet-i-d="subnetID"
                     :subnet="subnets[subnetID]"
                 ></Content>
             </div>

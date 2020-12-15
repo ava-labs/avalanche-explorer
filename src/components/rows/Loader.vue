@@ -19,4 +19,4 @@ export default {}
     align-items: center;
     margin-top: 12px;
 }
-</style>  
+</style>

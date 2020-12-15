@@ -45,7 +45,7 @@ const platform_module: Module<IPlatformState, IRootState> = {
 
         async getSubnets({ state, commit }) {
             // Get subnets and init classes
-            let subnets = ((await platform.getSubnets()) as ISubnetData[]).map(
+            const subnets = ((await platform.getSubnets()) as ISubnetData[]).map(
                 (s: ISubnetData) => new Subnet(s)
             )
 
@@ -62,7 +62,7 @@ const platform_module: Module<IPlatformState, IRootState> = {
             )
 
             // Add P-Chain manually
-            let pChain = new Blockchain({
+            const pChain = new Blockchain({
                 name: BlockchainDict[AVALANCHE_SUBNET_ID],
                 id: AVALANCHE_SUBNET_ID,
                 subnetID: AVALANCHE_SUBNET_ID,
@@ -72,7 +72,7 @@ const platform_module: Module<IPlatformState, IRootState> = {
 
             // Map blockchains to their subnet
             state.blockchains.forEach((b) => {
-                let subnetID = b.subnetID
+                const subnetID = b.subnetID
                 try {
                     state.subnets[subnetID].addBlockchain(b)
                 } catch (err) {
@@ -94,17 +94,17 @@ const platform_module: Module<IPlatformState, IRootState> = {
     getters: {
         totalValidators(state): number {
             // Count of active validators in Primary Network
-            let defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID]
+            const defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID]
             return !defaultSubnet ? 0 : defaultSubnet.validators.length
         },
         totalPendingValidators(state): number {
             // Count of pending validators in Primary Network
-            let defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID]
+            const defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID]
             return !defaultSubnet ? 0 : defaultSubnet.pendingValidators.length
         },
         totalStake(state): Big {
             // Total $AVAX active stake on Primary Network
-            let defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID]
+            const defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID]
             let total = Big(0)
             return !defaultSubnet
                 ? total
@@ -115,7 +115,7 @@ const platform_module: Module<IPlatformState, IRootState> = {
         },
         totalPendingStake(state): Big {
             // Total $AVAX pending stake on Primary Network
-            let defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID]
+            const defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID]
             let total = Big(0)
             return !defaultSubnet
                 ? total
@@ -126,8 +126,8 @@ const platform_module: Module<IPlatformState, IRootState> = {
         },
         cumulativeStake(state): number[] {
             // Accumulative distribution of active stakes
-            let defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID]
-            let res: number[] = []
+            const defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID]
+            const res: number[] = []
             let total = 0
             if (defaultSubnet) {
                 defaultSubnet.validators.forEach((v) => {
@@ -139,8 +139,8 @@ const platform_module: Module<IPlatformState, IRootState> = {
         },
         cumulativePendingStake(state): number[] {
             // Accumulative distribution of pending stakes
-            let defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID]
-            let res: number[] = []
+            const defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID]
+            const res: number[] = []
             let total = 0
             if (defaultSubnet) {
                 defaultSubnet.pendingValidators.forEach((v) => {

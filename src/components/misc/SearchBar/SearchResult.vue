@@ -28,16 +28,16 @@ export default {
         AddressResult,
         AssetResult,
     },
-    data() {
-        return {
-            tx: null,
-        }
-    },
     props: {
         item: {
             type: Object,
             required: true,
         },
+    },
+    data() {
+        return {
+            tx: null,
+        }
     },
     computed: {
         type() {
@@ -46,7 +46,7 @@ export default {
     },
     created() {
         if (this.type === 'transaction') {
-            let tx = new Transaction(this.item.data)
+            const tx = new Transaction(this.item.data)
             this.tx = tx
         }
     },

@@ -1,4 +1,4 @@
-let network_id: number = 0
+let network_id = 0
 
 export default class Network {
     id: number // used for FE unique key
@@ -40,7 +40,7 @@ export default class Network {
 
     public updateURL(url: string): void {
         // parse the url
-        let split: string[] = url.split('://')
+        const split: string[] = url.split('://')
 
         // parse protocol
         this.protocol = split[0]
@@ -48,9 +48,9 @@ export default class Network {
         // parse port
         if (split[1].includes(':')) {
             // if the URL contains a port setting
-            let urlSplit: string[] = split[1].split(':')
-            let ip: string = urlSplit[0]
-            let port: string = urlSplit[1]
+            const urlSplit: string[] = split[1].split(':')
+            const ip: string = urlSplit[0]
+            const port: string = urlSplit[1]
             this.ip = ip
             this.port = parseInt(port)
         } else {

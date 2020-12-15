@@ -3,24 +3,24 @@
         <form @submit.prevent="">
             <div>
                 <label>Network Name</label>
-                <input type="text" placeholder="Network Name" v-model="name" />
+                <input v-model="name" type="text" placeholder="Network Name" />
             </div>
             <div>
                 <label>URL</label>
                 <input
+                    v-model="url"
                     type="text"
                     placeholder="http://localhost:9650"
-                    v-model="url"
                     @input="checkUrl"
                 />
-                <p class="form_error" v-if="err_url">{{ err_url }}</p>
+                <p v-if="err_url" class="form_error">{{ err_url }}</p>
             </div>
             <div>
                 <label>Explorer API (optional)</label>
                 <input
+                    v-model="explorer_api"
                     type="text"
                     placeholder="www"
-                    v-model="explorer_api"
                     @input="cleanExplorerUrl"
                 />
             </div>
@@ -28,17 +28,17 @@
                 <div>
                     <label>Network ID</label>
                     <input
+                        v-model="networkId"
                         type="number"
                         placeholder="Network ID"
-                        v-model="networkId"
                     />
                 </div>
                 <div>
                     <label>Chain ID</label>
                     <input
+                        v-model="chainId"
                         type="text"
                         placeholder="Chain ID"
-                        v-model="chainId"
                     />
                 </div>
             </div>
@@ -53,6 +53,12 @@ import { AvaNetwork } from '@/js/AvaNetwork'
 import punycode from 'punycode'
 
 export default {
+    props: {
+        net: {
+            type: AvaNetwork,
+            required: true,
+        },
+    },
     data() {
         return {
             name: 'My Custom Network',
@@ -64,14 +70,8 @@ export default {
             err_url: '',
         }
     },
-    props: {
-        net: {
-            type: AvaNetwork,
-            required: true,
-        },
-    },
     mounted() {
-        let net = this.net
+        const net = this.net
 
         this.name = net.name
         this.url = net.getFullURL()
@@ -81,12 +81,12 @@ export default {
     methods: {
         cleanExplorerUrl() {
             // console.log(val);
-            let url = this.explorer_api
+            const url = this.explorer_api
             this.explorer_api = punycode.toASCII(url)
             // console.log(this.explorer_api);
         },
         checkUrl() {
-            let err = ''
+            const err = ''
             let url = this.url
             // protect against homograph attack: https://hethical.io/homograph-attack-using-internationalized-domain-name/
             url = punycode.toASCII(url)
@@ -101,8 +101,8 @@ export default {
                 return false
             }
 
-            let split = url.split('://')
-            let rest = split[1]
+            const split = url.split('://')
+            const rest = split[1]
 
             // must have base ip
             if (rest.length === 0) {
@@ -116,7 +116,7 @@ export default {
                 return false
             }
 
-            let port = rest.split(':')[1]
+            const port = rest.split(':')[1]
 
             // Port must be number
             if (isNaN(port) || port.length === 0) {
@@ -131,7 +131,7 @@ export default {
             let err = null
 
             // check for HTTP HTTPS on url
-            let url = this.url
+            const url = this.url
 
             if (
                 url.substr(0, 7) !== 'http://' &&
@@ -151,7 +151,7 @@ export default {
             this.$emit('delete')
         },
         saveNetwork() {
-            let net = this.net
+            const net = this.net
             net.name = this.name
             net.updateURL(this.url)
             net.networkId = this.networkId

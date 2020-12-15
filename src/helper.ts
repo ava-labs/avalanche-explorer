@@ -80,23 +80,21 @@ function countDecimals(value: number): [boolean, number] {
 
 function trimmedLocaleString(
     amount: Big,
-    denomination: number = 0,
-    normalize: boolean = true
+    denomination = 0,
+    normalize = true
 ): string {
     // produce a localeString with trimmed trailing 0s
     // e.g. 44999999.999120000 to 44,999,999.99912
 
     // convert and denominate
-    let denominatedAmt = normalize
+    const denominatedAmt = normalize
         ? amount.div(Math.pow(10, denomination)).toFixed(denomination)
         : amount.toFixed(denomination)
 
     // determine cutoff point for trailing 0s
     // handle scientific notation and decimal formats
-    let scientific: boolean
-    let decimalPlaces: number
-    let number = parseFloat(denominatedAmt)
-    ;[scientific, decimalPlaces] = countDecimals(number)
+    const number = parseFloat(denominatedAmt)
+    const [scientific, decimalPlaces] = countDecimals(number)
 
     return scientific
         ? amount.div(Math.pow(10, denomination)).toFixed(denomination)

@@ -1,10 +1,10 @@
 <template>
     <v-app>
         <!-- <nav-bar-XL class="navbar_xl" v-if="$vuetify.breakpoint.xlOnly"></nav-bar-XL>         -->
-        <nav-bar class="navbar" v-if="$vuetify.breakpoint.mdAndUp"></nav-bar>
+        <nav-bar v-if="$vuetify.breakpoint.mdAndUp" class="navbar"></nav-bar>
         <nav-bar-mobile
-            class="navbar_mobile"
             v-if="$vuetify.breakpoint.smAndDown"
+            class="navbar_mobile"
         ></nav-bar-mobile>
         <div>
             <testnet-alert></testnet-alert>
@@ -43,11 +43,6 @@ export default Vue.extend({
         Notifications,
     },
     data: () => ({}),
-    async created() {
-        this.$store.dispatch('init')
-        this.$store.dispatch('Platform/init')
-        await this.$store.dispatch('Network/init')
-    },
     watch: {
         $route: {
             handler: (to, from) => {
@@ -79,6 +74,11 @@ export default Vue.extend({
             },
             immediate: true,
         },
+    },
+    async created() {
+        this.$store.dispatch('init')
+        this.$store.dispatch('Platform/init')
+        await this.$store.dispatch('Network/init')
     },
 })
 </script>

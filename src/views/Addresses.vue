@@ -14,11 +14,11 @@
             </div>
             <template v-if="loading && !assetsLoaded">
                 <v-progress-circular
+                    key="1"
                     :size="16"
                     :width="2"
                     color="#E84970"
                     indeterminate
-                    key="1"
                 ></v-progress-circular>
             </template>
             <template v-else>
@@ -50,16 +50,16 @@ import AddressDataTable from '@/components/Address/AddressDataTable.vue'
     },
 })
 export default class Addresses extends Vue {
-    loading: boolean = true
+    loading = true
     addressesList: IAddress[] = []
-    totalAddresses: number = 0
+    totalAddresses = 0
 
     async created() {
         this.loading = false
         // TODO: support service for multiple chains
         api.get('/x/addresses').then((res) => {
             this.totalAddresses = res.data.count
-            let addresses: IAddressData = res.data.addresses
+            const addresses: IAddressData = res.data.addresses
 
             // TODO: unique addresses or sort in API
             // let addressesMap: {[key:string]: IAddressData} = {};
@@ -73,7 +73,7 @@ export default class Addresses extends Vue {
             // }
             // let sorted = Object.values(addressesMap).map((addressData: IAddressData) => {
 
-            let sorted = Object.values(addresses).map(
+            const sorted = Object.values(addresses).map(
                 (addressData: IAddressData) => {
                     let address: IAddress = {
                         address: addressData.address,
@@ -102,7 +102,7 @@ export default class Addresses extends Vue {
                 }
             )
             sorted.sort((a: IAddress, b: IAddress) => {
-                let diff = a.X_unlocked.minus(b.X_unlocked)
+                const diff = a.X_unlocked.minus(b.X_unlocked)
                 if (diff.gt(0)) return -1
                 else if (diff.lt(0)) return 1
                 else return 0

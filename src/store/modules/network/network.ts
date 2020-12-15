@@ -58,7 +58,7 @@ const network_module: Module<INetworkState, IRootState> = {
     },
     actions: {
         async init({ state, commit, dispatch }) {
-            let mainnet = new Network(
+            const mainnet = new Network(
                 `${networkName} Mainnet`,
                 `${avalancheJSProtocol}://${avalancheJSIP}:${avalancheJSPort}`,
                 avalancheJSNetworkID,
@@ -66,7 +66,7 @@ const network_module: Module<INetworkState, IRootState> = {
                 orteliusURL,
                 explorerFEUrl
             )
-            let testnet = new Network(
+            const testnet = new Network(
                 `${networkName_test} Testnet`,
                 `${avalancheJSProtocol_test}://${avalancheJSIP_test}:${avalancheJSPort_test}`,
                 avalancheJSNetworkID_test,
@@ -80,11 +80,11 @@ const network_module: Module<INetworkState, IRootState> = {
 
             // initialize selected network
             try {
-                let defaultNetwork = state.networks.find(
+                const defaultNetwork = state.networks.find(
                     (network: Network) =>
                         network.networkId === DEFAULT_NETWORK_ID
                 )
-                let res = await dispatch('setNetwork', defaultNetwork)
+                const res = await dispatch('setNetwork', defaultNetwork)
                 return true
             } catch (e) {
                 console.log(e)

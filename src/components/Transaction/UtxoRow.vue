@@ -1,13 +1,13 @@
 <template>
     <div class="utxo_row">
         <!-- Tx -->
-        <router-link :to="`/tx/${txId}`" v-if="txId !== '-'">{{
+        <router-link v-if="txId !== '-'" :to="`/tx/${txId}`">{{
             txId
         }}</router-link>
         <p v-else>-</p>
         <!-- Metrics -->
         <p class="redeemed">
-            <fa icon="check-circle" v-if="redeemed"></fa>
+            <fa v-if="redeemed" icon="check-circle"></fa>
         </p>
         <p>{{ utxo.locktime }}</p>
         <p>{{ utxo.threshold }}</p>
@@ -15,8 +15,8 @@
         <div>
             <router-link
                 v-for="(addr, i) in utxo.addresses"
-                :to="`/address/X-${addr}`"
                 :key="i"
+                :to="`/address/X-${addr}`"
                 >{{ addr | address }}</router-link
             >
         </div>
@@ -57,14 +57,14 @@ export default class UtxoRow extends Vue {
     }
 
     get amount(): string {
-        let denomination = this.asset ? this.asset.denomination : 0
+        const denomination = this.asset ? this.asset.denomination : 0
         return this.utxo.amount
             .div(Math.pow(10, denomination))
             .toLocaleString(denomination)
     }
 
     get txId(): string {
-        let redeemingID = this.utxo.redeemingTransactionID
+        const redeemingID = this.utxo.redeemingTransactionID
 
         return this.type === 'output'
             ? redeemingID === null || redeemingID === ''
@@ -76,7 +76,7 @@ export default class UtxoRow extends Vue {
     }
 
     get redeemed(): boolean {
-        let redeemingID = this.utxo.redeemingTransactionID
+        const redeemingID = this.utxo.redeemingTransactionID
 
         return this.type === 'output'
             ? redeemingID === null || redeemingID === ''

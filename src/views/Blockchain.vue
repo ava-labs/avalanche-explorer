@@ -3,7 +3,7 @@
         <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
         <template v-if="loading && !subnetsLoaded">
             <Loader
-                :contentId="blockchainId"
+                :content-id="blockchainId"
                 :message="'Fetching Blockchain Details'"
             />
         </template>
@@ -35,7 +35,7 @@ import RecentTransactions from '@/components/Home/RecentTransactions.vue'
     },
 })
 export default class BlockchainPage extends Vue {
-    loading: boolean = true
+    loading = true
     blockchain: Blockchain | null = null
 
     breadcrumbs: any = [
@@ -74,7 +74,7 @@ export default class BlockchainPage extends Vue {
 
     getData(): void {
         this.loading = false
-        let blockchains = this.$store.state.Platform.blockchains
+        const blockchains = this.$store.state.Platform.blockchains
         this.blockchain = blockchains.find(
             (b: Blockchain) => b.id === this.blockchainId
         )

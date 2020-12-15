@@ -14,11 +14,11 @@
             </div>
             <template v-if="loading && !subnetsLoaded">
                 <v-progress-circular
+                    key="1"
                     :size="16"
                     :width="2"
                     color="#E84970"
                     indeterminate
-                    key="1"
                 ></v-progress-circular>
             </template>
             <template v-else>
@@ -33,11 +33,8 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch } from 'vue-property-decorator'
-import api from '@/axios'
-import { IPlatformState } from '@/store/modules/platform/IPlatformState'
+import { Vue, Component } from 'vue-property-decorator'
 import BlockchainDataTable from '@/components/Blockchain/BlockchainDataTable.vue'
-import Blockchain from '../js/Blockchain'
 
 @Component({
     components: {
@@ -45,7 +42,7 @@ import Blockchain from '../js/Blockchain'
     },
 })
 export default class Blockchains extends Vue {
-    loading: boolean = true
+    loading = true
 
     async created() {
         this.loading = false

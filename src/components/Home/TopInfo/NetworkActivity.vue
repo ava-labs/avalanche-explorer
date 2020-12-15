@@ -44,11 +44,11 @@
                     </div>
                     <div v-else>
                         <v-progress-circular
+                            key="1"
                             :size="16"
                             :width="2"
                             color="#E84970"
                             indeterminate
-                            key="1"
                         ></v-progress-circular>
                     </div>
                 </router-link>
@@ -71,11 +71,11 @@
                     </div>
                     <div v-else>
                         <v-progress-circular
+                            key="1"
                             :size="16"
                             :width="2"
                             color="#E84970"
                             indeterminate
-                            key="1"
                         ></v-progress-circular>
                     </div>
                 </router-link>
@@ -97,11 +97,11 @@
                     </div>
                     <div v-else>
                         <v-progress-circular
+                            key="1"
                             :size="16"
                             :width="2"
                             color="#E84970"
                             indeterminate
-                            key="1"
                         ></v-progress-circular>
                     </div>
                 </router-link>
@@ -122,11 +122,11 @@
                     </div>
                     <div v-else>
                         <v-progress-circular
+                            key="1"
                             :size="16"
                             :width="2"
                             color="#E84970"
                             indeterminate
-                            key="1"
                         ></v-progress-circular>
                     </div>
                 </router-link>
@@ -147,11 +147,11 @@
                     </div>
                     <div v-else>
                         <v-progress-circular
+                            key="1"
                             :size="16"
                             :width="2"
                             color="#E84970"
                             indeterminate
-                            key="1"
                         ></v-progress-circular>
                     </div>
                 </router-link>
@@ -170,11 +170,11 @@
                     </div>
                     <div v-else>
                         <v-progress-circular
+                            key="1"
                             :size="16"
                             :width="2"
                             color="#E84970"
                             indeterminate
-                            key="1"
                         ></v-progress-circular>
                     </div>
                 </router-link>
@@ -189,11 +189,11 @@
                     </div>
                     <div v-else>
                         <v-progress-circular
+                            key="1"
                             :size="16"
                             :width="2"
                             color="#E84970"
                             indeterminate
-                            key="1"
                         ></v-progress-circular>
                     </div>
                 </router-link>
@@ -225,7 +225,7 @@ import { BN } from 'avalanche/dist'
 })
 export default class NetworkActivity extends Vue {
     volumeCache: Big = Big(0)
-    totalTransactionsCache: number = 0
+    totalTransactionsCache = 0
 
     get assetsLoaded(): boolean {
         return this.$store.state.assetsLoaded
@@ -252,33 +252,33 @@ export default class NetworkActivity extends Vue {
     created() {
         // Get 24h volume cache
         // TODO: remove when API is enhanced
-        let volumeCacheJSON = localStorage.getItem('avaxCache')
+        const volumeCacheJSON = localStorage.getItem('avaxCache')
         let volumeCache = Big(0)
         if (volumeCacheJSON) {
-            let cache = JSON.parse(volumeCacheJSON)
+            const cache = JSON.parse(volumeCacheJSON)
             volumeCache = Big(cache.volume_day)
         }
         this.volumeCache = volumeCache
 
         // Get totalTransactions cache
         // TODO: remove when API is enhanced
-        let totalTransactionsCacheJSON = localStorage.getItem(
+        const totalTransactionsCacheJSON = localStorage.getItem(
             'totalTransactions'
         )
         let totalTransactionsCache = 0
         if (totalTransactionsCacheJSON) {
-            let cache = JSON.parse(totalTransactionsCacheJSON)
+            const cache = JSON.parse(totalTransactionsCacheJSON)
             totalTransactionsCache = cache
         }
         this.totalTransactionsCache = totalTransactionsCache
     }
 
     saveCacheAvax() {
-        let asset = this.avax
+        const asset = this.avax
         if (asset) {
-            let volume_day = asset.volume_day.toString()
-            let txCount_day = asset.txCount_day
-            let cache = {
+            const volume_day = asset.volume_day.toString()
+            const txCount_day = asset.txCount_day
+            const cache = {
                 volume_day, // AVAX volume
                 txCount_day, // AVAX count
             }
@@ -287,8 +287,8 @@ export default class NetworkActivity extends Vue {
     }
 
     saveCacheTotalTransactions() {
-        let totalTransactions = this.totalTransactions
-        let cache = {
+        const totalTransactions = this.totalTransactions
+        const cache = {
             totalTransactions, // count across all assets
         }
         localStorage.setItem(
@@ -299,14 +299,14 @@ export default class NetworkActivity extends Vue {
 
     // Data from Ortelius
     get tpmText(): string {
-        let day = 60 * 24
-        let avg = this.totalTransactions / day
+        const day = 60 * 24
+        const avg = this.totalTransactions / day
         return avg > 1 ? avg.toFixed(0) : avg.toFixed(2)
     }
 
     get tpsText(): string {
-        let day = 60 * 60 * 24
-        let avg = this.totalTransactions / day
+        const day = 60 * 60 * 24
+        const avg = this.totalTransactions / day
         return avg > 1 ? avg.toFixed(0) : avg.toFixed(2)
     }
 
@@ -355,23 +355,23 @@ export default class NetworkActivity extends Vue {
     get percentStaked(): string {
         let totalStake = this.$store.getters['Platform/totalStake']
         totalStake = bigToDenomBig(totalStake, 9)
-        let percentStaked = totalStake.div(TOTAL_AVAX_SUPPLY).times(100)
+        const percentStaked = totalStake.div(TOTAL_AVAX_SUPPLY).times(100)
         return percentStaked.toFixed(2)
     }
 
     get annualStakingRewardPercentage(): string {
-        let networkID = avalanche.getNetworkID()
+        const networkID = avalanche.getNetworkID()
 
         //@ts-ignore
-        let defaultValues = Defaults.network[networkID]
+        const defaultValues = Defaults.network[networkID]
         if (!defaultValues) {
             console.error('Network default values not found.')
             return 'TBD'
         }
 
-        let maxConsumption: number = defaultValues.P.maxConsumption
-        let minConsumption: number = defaultValues.P.minConsumption
-        let avgReturn: number = ((maxConsumption + minConsumption) / 2) * 100
+        const maxConsumption: number = defaultValues.P.maxConsumption
+        const minConsumption: number = defaultValues.P.minConsumption
+        const avgReturn: number = ((maxConsumption + minConsumption) / 2) * 100
 
         return `${avgReturn.toFixed(0)}%`
     }
@@ -380,19 +380,19 @@ export default class NetworkActivity extends Vue {
         // console.log("=====================================================")
         // console.log("=====================================================")
 
-        let totalStake: string = this.$store.getters[
+        const totalStake: string = this.$store.getters[
             'Platform/totalStake'
         ].toFixed()
-        let totalStake_BN: BN = new BN(totalStake)
+        const totalStake_BN: BN = new BN(totalStake)
         // console.log("totalStake_BN                  ", totalStake_BN.toString());
 
-        let ONE_YEAR_SECONDS = 60 * 60 * 24 * 365
-        let TOTAL_AVAX_SUPPLY_BN = new BN(
+        const ONE_YEAR_SECONDS = 60 * 60 * 24 * 365
+        const TOTAL_AVAX_SUPPLY_BN = new BN(
             TOTAL_AVAX_SUPPLY.times(Math.pow(10, 9)).toFixed()
         )
         // console.log("TOTAL_AVAX_SUPPLY_BN           ", TOTAL_AVAX_SUPPLY_BN.toString());
 
-        let annualStakingReward: BN = this.calculateStakingReward(
+        const annualStakingReward: BN = this.calculateStakingReward(
             totalStake_BN,
             ONE_YEAR_SECONDS,
             TOTAL_AVAX_SUPPLY_BN
@@ -414,7 +414,7 @@ export default class NetworkActivity extends Vue {
         // console.log("duration                       ", duration);
         // console.log("currentSupply                  ", currentSupply.toString());
 
-        let networkID = avalanche.getNetworkID()
+        const networkID = avalanche.getNetworkID()
 
         //@ts-ignore
         let defValues = Defaults.network[networkID]
@@ -427,17 +427,17 @@ export default class NetworkActivity extends Vue {
 
         // console.log("-----------------------")
 
-        let maxConsumption: number = defValues.maxConsumption
+        const maxConsumption: number = defValues.maxConsumption
         // console.log("maxConsumption                 ", maxConsumption);
-        let minConsumption: number = defValues.minConsumption
+        const minConsumption: number = defValues.minConsumption
         // console.log("minConsumption                 ", minConsumption);
-        let diffConsumption: number = maxConsumption - minConsumption
+        const diffConsumption: number = maxConsumption - minConsumption
         // console.log("diffConsumption                ", diffConsumption);
-        let maxSupply: BN = defValues.maxSupply
+        const maxSupply: BN = defValues.maxSupply
         // console.log("maxSupply                      ", maxSupply.toString());
-        let maxStakingDuration: BN = defValues.maxStakingDuration
+        const maxStakingDuration: BN = defValues.maxStakingDuration
         // console.log("maxStakingDuration             ", maxStakingDuration.toString());
-        let remainingSupply = maxSupply.sub(currentSupply)
+        const remainingSupply = maxSupply.sub(currentSupply)
         // console.log("remainingSupply                ", remainingSupply.toString());
 
         // console.log("-----------------------")
@@ -446,19 +446,19 @@ export default class NetworkActivity extends Vue {
 
         // console.log("-----------------------")
 
-        let amtBig = Big(amount.div(ONEAVAX).toString())
+        const amtBig = Big(amount.div(ONEAVAX).toString())
         // console.log("amtBig                         ", amtBig.toFixed());
-        let currentSupplyBig = Big(currentSupply.div(ONEAVAX).toString())
+        const currentSupplyBig = Big(currentSupply.div(ONEAVAX).toString())
         // console.log("currentSupplyBig               ", currentSupplyBig.toFixed());
-        let remainingSupplyBig = Big(remainingSupply.div(ONEAVAX).toString())
+        const remainingSupplyBig = Big(remainingSupply.div(ONEAVAX).toString())
         // console.log("remainingSupplyBig             ", remainingSupplyBig.toFixed());
-        let portionOfExistingSupplyBig = amtBig.div(currentSupplyBig)
+        const portionOfExistingSupplyBig = amtBig.div(currentSupplyBig)
         // console.log("portionOfExistingSupplyBig     ", portionOfExistingSupplyBig.toFixed());
 
-        let portionOfStakingDuration: number =
+        const portionOfStakingDuration: number =
             duration / maxStakingDuration.toNumber()
         // console.log("portionOfStakingDuration       ", portionOfStakingDuration);
-        let mintingRate: number =
+        const mintingRate: number =
             minConsumption + diffConsumption * portionOfStakingDuration
         // console.log("mintingRate                    ", mintingRate);
 
@@ -469,9 +469,9 @@ export default class NetworkActivity extends Vue {
         rewardBig = rewardBig.times(Big(mintingRate * portionOfStakingDuration))
         // console.log("rewardBig                      ", rewardBig.toFixed());
 
-        let rewardStr = rewardBig.times(Math.pow(10, 9)).toFixed(0)
+        const rewardStr = rewardBig.times(Math.pow(10, 9)).toFixed(0)
         // console.log("rewardStr                      ", rewardStr);
-        let rewardBN = new BN(rewardStr)
+        const rewardBN = new BN(rewardStr)
         // console.log("rewardBN                       ", rewardBN.toString());
 
         return rewardBN

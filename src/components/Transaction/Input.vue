@@ -4,10 +4,10 @@
             <div class="from">
                 <b>From</b
                 ><router-link
-                    class="address"
                     v-for="addr in addresses"
-                    :to="`/address/${addr}`"
                     :key="addr"
+                    class="address"
+                    :to="`/address/${addr}`"
                     >{{ addr }}</router-link
                 >
             </div>
@@ -47,17 +47,17 @@ export default class Input extends Vue {
     }
 
     get amount() {
-        let asset = this.asset
-        let res = Big(this.input.output.amount).div(
+        const asset = this.asset
+        const res = Big(this.input.output.amount).div(
             Math.pow(10, asset.denomination)
         )
         return res.toFixed(asset.denomination)
     }
 
     get asset() {
-        let assets = this.$store.state.assets
-        let assetId = this.input.output.assetID
-        let res = assets[assetId]
+        const assets = this.$store.state.assets
+        const assetId = this.input.output.assetID
+        const res = assets[assetId]
         return res
     }
 

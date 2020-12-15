@@ -25,16 +25,16 @@
             </div>
             <div v-if="!assetsLoaded">
                 <v-progress-circular
+                    key="1"
                     :size="16"
                     :width="2"
                     color="#E84970"
                     indeterminate
-                    key="1"
                 ></v-progress-circular>
             </div>
             <div
-                class="asset_list"
                 v-if="assetsLoaded && $vuetify.breakpoint.smAndDown"
+                class="asset_list"
             >
                 <div class="grid_headers asset_row">
                     <p v-if="$vuetify.breakpoint.smAndUp">
@@ -51,25 +51,25 @@
                         <Tooltip content="Volume for the past 24h"></Tooltip>24h
                         Volume
                     </p>
-                    <p class="txCount_day" v-if="$vuetify.breakpoint.smAndUp">
+                    <p v-if="$vuetify.breakpoint.smAndUp" class="txCount_day">
                         <Tooltip
                             content="Number of transactions for the past 24h"
                         ></Tooltip
                         >24h Tx
                     </p>
-                    <p class="avgTx_day" v-if="$vuetify.breakpoint.smAndUp">
+                    <p v-if="$vuetify.breakpoint.smAndUp" class="avgTx_day">
                         <Tooltip
                             content="Average tx value over the past 24h"
                         ></Tooltip
                         >Avg Tx
                     </p>
-                    <p class="supply" v-if="$vuetify.breakpoint.smAndUp">
+                    <p v-if="$vuetify.breakpoint.smAndUp" class="supply">
                         <Tooltip
                             content="Total number of tokens minted"
                         ></Tooltip
                         >Supply
                     </p>
-                    <p class="chain" v-if="$vuetify.breakpoint.smAndUp">
+                    <p v-if="$vuetify.breakpoint.smAndUp" class="chain">
                         Issuance
                         <Tooltip
                             content="Blockchain where this asset was minted"
@@ -132,7 +132,7 @@ export default class AssetsPage extends Vue {
 
     get assets(): Asset[] {
         let res: Asset[] = this.$store.getters.assetsArrayNonProfane
-        let avax: Asset = res.find(
+        const avax: Asset = res.find(
             (asset: Asset) => asset.id === AVAX_ID
         ) as Asset
         res = res.filter((asset: Asset) => asset.id !== AVAX_ID)

@@ -29,7 +29,7 @@
                     <router-link to="/validators">Validators</router-link>
                     <router-link to="/assets">Assets</router-link>
                     <router-link to="/blockchains">Blockchains</router-link>
-                    <a v-bind:href="cChainURL">C-Chain</a>
+                    <a :href="cChainURL">C-Chain</a>
                     <router-link to="/resources">Resources</router-link>
                 </div>
             </div>
@@ -59,17 +59,6 @@ export default Vue.extend({
         SearchBar,
         NetworkMenu,
     },
-    methods: {
-        onsearch(val) {
-            this.$router
-                .push({ path: '/search', query: { query: val } })
-                .catch((error) => {
-                    if (error.name != 'NavigationDuplicated') {
-                        throw error
-                    }
-                })
-        },
-    },
     computed: {
         themeType() {
             return this.$vuetify.theme.dark ? 'dark' : 'light'
@@ -90,6 +79,17 @@ export default Vue.extend({
             return DEFAULT_NETWORK_ID === 1
                 ? cChainExplorerURL
                 : cChainExplorerURL_test
+        },
+    },
+    methods: {
+        onsearch(val) {
+            this.$router
+                .push({ path: '/search', query: { query: val } })
+                .catch((error) => {
+                    if (error.name != 'NavigationDuplicated') {
+                        throw error
+                    }
+                })
         },
     },
 })

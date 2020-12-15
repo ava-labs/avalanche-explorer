@@ -27,7 +27,7 @@ const address_module: Module<IAddressState, IRootState> = {
         async getAddresses({ state, commit }) {
             // TODO: support service for multiple chains
             await api.get('/x/addresses').then((res) => {
-                let addresses = res.data.addresses
+                const addresses = res.data.addresses
                 addresses.forEach((addressData: any) => {
                     commit('addAddress', addressData)
                 })

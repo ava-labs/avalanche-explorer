@@ -3,30 +3,30 @@
         <form @submit.prevent="submit">
             <div>
                 <label>Network Name</label>
-                <input type="text" placeholder="Network Name" v-model="name" />
+                <input v-model="name" type="text" placeholder="Network Name" />
             </div>
             <div>
                 <label>URL</label>
                 <input
+                    v-model="url"
                     type="text"
                     placeholder="http://localhost:9650"
-                    v-model="url"
                     @input="checkUrl"
                 />
-                <p class="form_error" v-if="err_url">{{ err_url }}</p>
+                <p v-if="err_url" class="form_error">{{ err_url }}</p>
             </div>
             <div>
                 <label>Explorer API (optional)</label>
                 <input
+                    v-model="explorer_api"
                     type="text"
                     placeholder="www"
-                    v-model="explorer_api"
                     @input="cleanExplorerUrl"
                 />
             </div>
             <div>
                 <label>Chain ID</label>
-                <input type="text" placeholder="Chain ID" v-model="chainId" />
+                <input v-model="chainId" type="text" placeholder="Chain ID" />
             </div>
             <p v-if="err" class="form_error">{{ err }}</p>
             <!--            <button>Add Network</button>-->
@@ -65,7 +65,7 @@ export default {
             this.explorer_api = url
         },
         checkUrl() {
-            let err = ''
+            const err = ''
             let url = this.url
             // protect against homograph attack: https://hethical.io/homograph-attack-using-internationalized-domain-name/
 
@@ -81,8 +81,8 @@ export default {
                 return false
             }
 
-            let split = url.split('://')
-            let rest = split[1]
+            const split = url.split('://')
+            const rest = split[1]
 
             // must have base ip
             if (rest.length === 0) {
@@ -96,7 +96,7 @@ export default {
                 return false
             }
 
-            let port = rest.split(':')[1]
+            const port = rest.split(':')[1]
 
             // Port must be number
             if (isNaN(port) || port.length === 0) {
@@ -111,7 +111,7 @@ export default {
             let err = null
 
             // check for HTTP HTTPS on url
-            let url = this.url
+            const url = this.url
 
             if (
                 url.substr(0, 7) !== 'http://' &&
@@ -128,7 +128,7 @@ export default {
         },
         async submit() {
             this.err = null
-            let err = this.errCheck()
+            const err = this.errCheck()
 
             if (err) {
                 this.err = err
@@ -139,7 +139,7 @@ export default {
             let netID = null
 
             try {
-                let resp = await axios.post(this.url + '/ext/info', {
+                const resp = await axios.post(this.url + '/ext/info', {
                     jsonrpc: '2.0',
                     id: 1,
                     method: 'info.getNetworkID',
@@ -152,7 +152,7 @@ export default {
                 return
             }
 
-            let net = new AvaNetwork(
+            const net = new AvaNetwork(
                 this.name,
                 this.url,
                 netID,

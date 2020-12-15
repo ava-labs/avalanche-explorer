@@ -44,7 +44,7 @@ export default class AssetResult extends Vue {
     }
 
     select() {
-        let url = `/asset/${this.id}`
+        const url = `/asset/${this.id}`
         this.$router.push(url)
         this.$emit('select')
     }

@@ -4,9 +4,9 @@
             <div class="filter_container">
                 <div class="filter_input_container">
                     <input
+                        v-model="search"
                         class="filter"
                         type="text"
-                        v-model="search"
                         placeholder="Filter by Asset Name"
                     />
                 </div>
@@ -48,25 +48,25 @@
             <template #item.volume_day="{ item }">
                 <p class="volume_day">
                     {{ item.volume_day.toLocaleString() }}
-                    <span class="unit" v-if="$vuetify.breakpoint.xs">{{
+                    <span v-if="$vuetify.breakpoint.xs" class="unit">{{
                         item.symbol
                     }}</span>
                 </p>
             </template>
             <template #item.txCount_day="{ item }">
-                <p class="supply" v-if="$vuetify.breakpoint.smAndUp">
+                <p v-if="$vuetify.breakpoint.smAndUp" class="supply">
                     {{ item.txCount_day.toLocaleString() }}
                 </p>
             </template>
 
             <template #item.currentSupply="{ item }">
-                <p class="supply" v-if="$vuetify.breakpoint.smAndUp">
+                <p v-if="$vuetify.breakpoint.smAndUp" class="supply">
                     {{ item.currentSupply.toLocaleString(item.denomination) }}
                     <span>{{ item.symbol }}</span>
                 </p>
             </template>
             <template #item.chainID="{ item }">
-                <p class="chain" v-if="$vuetify.breakpoint.smAndUp">
+                <p v-if="$vuetify.breakpoint.smAndUp" class="chain">
                     {{ item.chainID | blockchain }}
                 </p>
             </template>
@@ -94,7 +94,7 @@ import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
     },
 })
 export default class AssetsDataTable extends Vue {
-    search: string = ''
+    search = ''
 
     @Prop() assets!: Asset[]
 

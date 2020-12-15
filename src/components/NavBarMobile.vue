@@ -13,10 +13,10 @@
             </div>
             <div class="buttons">
                 <NetworkMenu></NetworkMenu>
-                <v-btn @click="isSearch = !isSearch" icon class="search_btn">
+                <v-btn icon class="search_btn" @click="isSearch = !isSearch">
                     <fa icon="search"></fa>
                 </v-btn>
-                <v-btn @click="isDrawer = !isDrawer" icon>
+                <v-btn icon @click="isDrawer = !isDrawer">
                     <fa icon="bars"></fa>
                 </v-btn>
             </div>
@@ -54,7 +54,7 @@
             transition="dialog-bottom-transition"
         >
             <v-card>
-                <div class="search_container" v-if="isSearch">
+                <div v-if="isSearch" class="search_container">
                     <search-bar-mobile
                         class="search_bar"
                         placeholder="Search by Address / TxId / Asset"
@@ -79,8 +79,8 @@ import NetworkMenu from './NetworkSettings/NetworkMenu.vue'
     },
 })
 export default class NavbarMobile extends Vue {
-    isDrawer: boolean = false
-    isSearch: boolean = false
+    isDrawer = false
+    isSearch = false
 
     onsearch(val: string) {
         this.$router.push({ path: '/search', query: { query: val } })

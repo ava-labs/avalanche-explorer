@@ -47,11 +47,6 @@ export default Vue.extend({
         SearchBar,
         NetworkMenu,
     },
-    methods: {
-        onsearch(val) {
-            this.$router.push({ path: '/search', query: { query: val } })
-        },
-    },
     computed: {
         themeType() {
             return this.$vuetify.theme.dark ? 'dark' : 'light'
@@ -65,6 +60,11 @@ export default Vue.extend({
         // overrides Vuetify theme
         navColor() {
             return '#fff'
+        },
+    },
+    methods: {
+        onsearch(val) {
+            this.$router.push({ path: '/search', query: { query: val } })
         },
     },
 })

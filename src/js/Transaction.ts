@@ -58,8 +58,8 @@ export class Transaction implements ITransaction {
     }
 
     getInputAddresses(): string[] {
-        let res: string[] = []
-        let inputs = this.inputs || []
+        const res: string[] = []
+        const inputs = this.inputs || []
 
         inputs.forEach((input) => {
             res.push(...input.output.addresses)

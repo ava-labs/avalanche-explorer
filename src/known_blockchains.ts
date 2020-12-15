@@ -16,7 +16,7 @@ interface BlockchainDict {
     [key: string]: string
 }
 
-let dict: BlockchainDict = {
+const dict: BlockchainDict = {
     '11111111111111111111111111111111LpoYY': 'P-Chain',
 }
 
@@ -31,7 +31,7 @@ interface ClientMap {
     [key: string]: string
 }
 
-let prefixDict: URLMap = {
+const prefixDict: URLMap = {
     'x-chain': {
         go: '/ext/bc/X/',
         js: '/ext/bc/X/',

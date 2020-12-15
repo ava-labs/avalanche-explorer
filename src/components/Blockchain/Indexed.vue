@@ -1,10 +1,10 @@
 <template>
     <div class="indexed">
-        <p class="icon-container indexed" v-show="indexed">
+        <p v-show="indexed" class="icon-container indexed">
             <fa icon="check-circle"></fa>
             <span>Indexed</span>
         </p>
-        <p class="icon-container not-indexed" v-show="!indexed">
+        <p v-show="!indexed" class="icon-container not-indexed">
             <fa icon="exclamation" class="not-indexed-icon"></fa>
             <span v-show="notIndexedLabel" class="not-indexed"
                 >Not Indexed</span

@@ -27,10 +27,10 @@ export default {
     },
     computed: {
         filledPerc() {
-            let now = new Date()
-            let total = this.end - this.start
+            const now = new Date()
+            const total = this.end - this.start
 
-            let perc = (now - this.start) / total
+            const perc = (now - this.start) / total
             return perc
         },
     },

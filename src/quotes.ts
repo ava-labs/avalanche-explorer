@@ -3,7 +3,7 @@ export interface Quote {
     quote: string
 }
 
-let quotes: Quote[] = [
+const quotes: Quote[] = [
     {
         author: 'Ada Lovelace',
         quote:

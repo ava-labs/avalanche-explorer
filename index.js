@@ -1,9 +1,9 @@
 const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
-let history = require('connect-history-api-fallback')
+const history = require('connect-history-api-fallback')
 
-let app = express()
+const app = express()
 app.disable('x-powered-by')
 app.use(cors())
 app.use(bodyParser.json())

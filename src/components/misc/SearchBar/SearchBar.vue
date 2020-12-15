@@ -1,28 +1,28 @@
 <template>
     <div class="search_bar">
         <div class="search_input_wrapper">
-            <v-btn @click="search" color="#fff" :loading="isAjax" depressed>
+            <v-btn color="#fff" :loading="isAjax" depressed @click="search">
                 <fa icon="search"></fa>
             </v-btn>
             <input
-                type="text"
                 v-model="searchValue"
+                type="text"
+                :placeholder="placeholder"
                 @keyup.enter="search"
                 @keyup.esc="closeSearch"
                 @input="oninput"
                 @focus="onfocus"
                 @blur="onblur"
-                :placeholder="placeholder"
             />
         </div>
         <transition name="fade">
-            <div class="search_results" v-if="showResults">
-                <div class="no_result" v-if="isAjax">
+            <div v-if="showResults" class="search_results">
+                <div v-if="isAjax" class="no_result">
                     <p>Searching...</p>
                 </div>
                 <div v-else>
                     <!-- NO RESULTS -->
-                    <div class="no_result" v-if="results === null">
+                    <div v-if="results === null" class="no_result">
                         <p class="icon">
                             <fa icon="snowman"></fa>
                         </p>
@@ -30,9 +30,9 @@
                     </div>
                     <!-- RESULTS -->
                     <search-result
-                        class="search_result"
                         v-for="res in results"
                         :key="getKey(res)"
+                        class="search_result"
                         :item="res"
                         @click.native="onSelectResult(res)"
                     ></search-result>
@@ -51,6 +51,12 @@ export default Vue.extend({
     components: {
         SearchResult,
     },
+    props: {
+        placeholder: {
+            type: String,
+            default: '',
+        },
+    },
     data() {
         return {
             showResults: false,
@@ -59,15 +65,14 @@ export default Vue.extend({
             searchValue: '',
         }
     },
+    computed: {
+        canSearch() {
+            return this.searchValue === '' ? false : true
+        },
+    },
     created() {
         // assign debounce here (not in methods)
         this.debounceSearch = this.debounce(this.autoSearch, 500)
-    },
-    props: {
-        placeholder: {
-            type: String,
-            default: '',
-        },
     },
     methods: {
         onfocus() {
@@ -99,7 +104,7 @@ export default Vue.extend({
                 return
             }
 
-            let split = query.split('-')
+            const split = query.split('-')
             query = split[split.length - 1]
 
             this.isAjax = true
@@ -108,7 +113,7 @@ export default Vue.extend({
             axios
                 .get(`/x/search?query=${query}&limit=${SEARCH_LIM}`)
                 .then((res) => {
-                    let data = res.data
+                    const data = res.data
                     this.results = data.results
                     this.isAjax = false
                 })
@@ -116,13 +121,13 @@ export default Vue.extend({
         debounce(func, wait, immediate) {
             let timeout
             return function executedFunction(...theArgs) {
-                let context = this
-                let args = theArgs
-                let later = function () {
+                const context = this
+                const args = theArgs
+                const later = function () {
                     timeout = null
                     if (!immediate) func.apply(context, args)
                 }
-                let callNow = immediate && !timeout
+                const callNow = immediate && !timeout
                 clearTimeout(timeout)
                 timeout = setTimeout(later, wait)
                 if (callNow) func.apply(context, args)
@@ -145,11 +150,6 @@ export default Vue.extend({
             this.showResults = false
             this.searchValue = ''
             this.results = []
-        },
-    },
-    computed: {
-        canSearch() {
-            return this.searchValue === '' ? false : true
         },
     },
 })

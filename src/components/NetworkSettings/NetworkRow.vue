@@ -13,7 +13,7 @@
             <button v-else-if="!isConnected" class="connecting">
                 Connecting...
             </button>
-            <p class="connected" v-else>Connected</p>
+            <p v-else class="connected">Connected</p>
         </div>
     </a>
 </template>
@@ -28,7 +28,7 @@ export default class NetworkRow extends Vue {
     @Prop() network!: Network
 
     get endpoint(): string {
-        let net = this.network
+        const net = this.network
         let portText = ''
         if (net.port) {
             portText = ':' + net.port
@@ -41,7 +41,7 @@ export default class NetworkRow extends Vue {
     }
 
     get isConnected(): boolean {
-        let state = this.$store.state.Network
+        const state = this.$store.state.Network
         return this.network === state.selectedNetwork &&
             this.networkStatus === 'connected'
             ? true
@@ -49,7 +49,7 @@ export default class NetworkRow extends Vue {
     }
 
     get isSelected(): boolean {
-        let state = this.$store.state.Network
+        const state = this.$store.state.Network
         return this.network === state.selectedNetwork ? true : false
     }
 
@@ -62,12 +62,12 @@ export default class NetworkRow extends Vue {
     }
 
     get explorerFEUrl() {
-        let net = this.network
+        const net = this.network
         return net.explorerFEUrl
     }
 
     async select() {
-        let net = this.network
+        const net = this.network
         window.location.href = net.explorerFEUrl
 
         // try {

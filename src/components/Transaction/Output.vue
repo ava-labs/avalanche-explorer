@@ -5,8 +5,8 @@
                 <b>To</b>
                 <router-link
                     v-for="(addr, i) in output.addresses"
-                    :to="`/address/${addr}`"
                     :key="i"
+                    :to="`/address/${addr}`"
                 >
                     {{ addr }}
                 </router-link>
@@ -48,16 +48,18 @@ export default class Output extends Vue {
     @Prop() output!: any
 
     get asset() {
-        let assets = this.$store.state.assets
-        let id = this.output.assetID
-        let res = assets[id]
+        const assets = this.$store.state.assets
+        const id = this.output.assetID
+        const res = assets[id]
         // TODO: exception when asset not found
         return res
     }
 
     get amount() {
-        let asset = this.asset
-        let res = Big(this.output.amount).div(Math.pow(10, asset.denomination))
+        const asset = this.asset
+        const res = Big(this.output.amount).div(
+            Math.pow(10, asset.denomination)
+        )
         return res.toFixed(asset.denomination)
     }
 }

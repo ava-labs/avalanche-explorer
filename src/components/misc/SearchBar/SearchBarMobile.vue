@@ -1,37 +1,37 @@
 <template>
     <div class="search_bar">
-        <v-btn @click="search" color="#FFF" :loading="isAjax" depressed>
+        <v-btn color="#FFF" :loading="isAjax" depressed @click="search">
             <fa icon="search"></fa>
         </v-btn>
         <input
-            type="text"
+            ref="input"
             v-model="searchValue"
+            type="text"
+            :placeholder="placeholder"
             @keyup.enter="search"
             @input="oninput"
             @focus="onfocus"
             @blur="onblur"
-            :placeholder="placeholder"
-            ref="input"
         />
         <v-btn icon @click="closeSearch">
             <fa icon="times"></fa>
         </v-btn>
         <transition name="fade">
-            <div class="search_results" v-if="showResults">
-                <div class="no_result" v-if="isAjax">
+            <div v-if="showResults" class="search_results">
+                <div v-if="isAjax" class="no_result">
                     <p>Searching...</p>
                 </div>
                 <div v-else>
-                    <div class="no_result" v-if="results.length === 0">
+                    <div v-if="results.length === 0" class="no_result">
                         <p class="icon">
                             <fa icon="snowman"></fa>
                         </p>
                         <p>No Results Found</p>
                     </div>
                     <search-result
-                        class="search_result"
                         v-for="res in results"
                         :key="getKey(res)"
+                        class="search_result"
                         :item="res"
                         @click.native="onSelectResult(res)"
                     ></search-result>
@@ -50,6 +50,12 @@ export default Vue.extend({
     components: {
         SearchResult,
     },
+    props: {
+        placeholder: {
+            type: String,
+            default: '',
+        },
+    },
     data() {
         return {
             showResults: false,
@@ -57,6 +63,11 @@ export default Vue.extend({
             isAjax: false,
             searchValue: '',
         }
+    },
+    computed: {
+        canSearch() {
+            return this.searchValue === '' ? false : true
+        },
     },
     created() {
         // assign debounce here (not in methods)
@@ -66,12 +77,6 @@ export default Vue.extend({
         this.$nextTick(() => {
             this.focus()
         })
-    },
-    props: {
-        placeholder: {
-            type: String,
-            default: '',
-        },
     },
     methods: {
         focus() {
@@ -95,7 +100,7 @@ export default Vue.extend({
             this.debounceSearch()
         },
         autoSearch() {
-            let parent = this
+            const parent = this
             let query = this.searchValue
             const SEARCH_LIM = 5
 
@@ -104,7 +109,7 @@ export default Vue.extend({
                 return
             }
 
-            let split = query.split('-')
+            const split = query.split('-')
             query = split[split.length - 1]
 
             this.isAjax = true
@@ -113,7 +118,7 @@ export default Vue.extend({
             axios
                 .get(`/x/search?query=${query}&limit=${SEARCH_LIM}`)
                 .then((res) => {
-                    let data = res.data
+                    const data = res.data
                     parent.results = data.results
                     parent.isAjax = false
                 })
@@ -121,13 +126,13 @@ export default Vue.extend({
         debounce(func, wait, immediate) {
             let timeout
             return function executedFunction(...theArgs) {
-                let context = this
-                let args = theArgs
-                let later = function () {
+                const context = this
+                const args = theArgs
+                const later = function () {
                     timeout = null
                     if (!immediate) func.apply(context, args)
                 }
-                let callNow = immediate && !timeout
+                const callNow = immediate && !timeout
                 clearTimeout(timeout)
                 timeout = setTimeout(later, wait)
                 if (callNow) func.apply(context, args)
@@ -150,11 +155,6 @@ export default Vue.extend({
             this.searchValue = ''
             this.showResults = false
             this.$emit('change', false)
-        },
-    },
-    computed: {
-        canSearch() {
-            return this.searchValue === '' ? false : true
         },
     },
 })

@@ -11,7 +11,7 @@ interface AddressDict {
     [key: string]: string
 }
 
-let dict: AddressDict = {}
+const dict: AddressDict = {}
 
 dict[AVAX_FAUCET_ID] = 'The AVAX Faucet'
 

@@ -3,7 +3,7 @@
         <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
         <template v-if="txloading">
             <Loader
-                :contentId="txId"
+                :content-id="txId"
                 :message="'Fetching Transaction Details'"
             ></Loader>
         </template>
@@ -50,7 +50,7 @@ import api from '../axios'
     },
 })
 export default class TransactionPage extends Vue {
-    txloading: boolean = false
+    txloading = false
     tx: Transaction | null = null
     breadcrumbs: any = [
         {
@@ -91,7 +91,7 @@ export default class TransactionPage extends Vue {
         this.txloading = true
 
         // TODO: support service for multiple chains
-        let url = `/x/transactions/${this.txId}`
+        const url = `/x/transactions/${this.txId}`
         if (this.assetsLoaded) {
             api.get(url)
                 .then((res) => {

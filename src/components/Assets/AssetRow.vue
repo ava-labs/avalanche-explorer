@@ -12,22 +12,22 @@
         }}</router-link>
         <p class="volume_day">
             {{ asset.volume_day.toLocaleString() }}
-            <span class="unit" v-if="$vuetify.breakpoint.xs">{{
+            <span v-if="$vuetify.breakpoint.xs" class="unit">{{
                 asset.symbol
             }}</span>
         </p>
-        <p class="txCount_day" v-if="$vuetify.breakpoint.smAndUp">
+        <p v-if="$vuetify.breakpoint.smAndUp" class="txCount_day">
             {{ asset.txCount_day.toLocaleString() }}
         </p>
-        <p class="avgTx_day" v-if="$vuetify.breakpoint.smAndUp">
+        <p v-if="$vuetify.breakpoint.smAndUp" class="avgTx_day">
             {{ avgTxValue }}
         </p>
         <!-- <p class="denomination" v-if="$vuetify.breakpoint.smAndUp">{{asset.denomination}}</p> -->
-        <p class="supply" v-if="$vuetify.breakpoint.smAndUp">
+        <p v-if="$vuetify.breakpoint.smAndUp" class="supply">
             {{ asset.currentSupply.toLocaleString(asset.denomination) }}
             <span>{{ asset.symbol }}</span>
         </p>
-        <p class="chain" v-if="$vuetify.breakpoint.smAndUp">
+        <p v-if="$vuetify.breakpoint.smAndUp" class="chain">
             {{ asset.chainID | blockchain }}
         </p>
     </div>

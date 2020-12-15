@@ -17,9 +17,9 @@
                     </div>
                     <div class="filter_input_container">
                         <input
+                            v-model="search"
                             class="filter"
                             type="text"
-                            v-model="search"
                             placeholder="Filter by NodeID"
                         />
                     </div>
@@ -57,11 +57,11 @@
                 </div>
             </template>
             <template #item.elapsed="{ item }">
-                <div class="diagram-container" v-show="mode === 'absolute'">
+                <div v-show="mode === 'absolute'" class="diagram-container">
                     <div class="diagram">
                         <div
                             class="chartbar"
-                            v-bind:style="{
+                            :style="{
                                 left: `${scale(item.startTime.getTime())}px`,
                                 width: `${
                                     scale(item.endTime.getTime()) -
@@ -71,7 +71,7 @@
                         ></div>
                         <div
                             class="chartbar_complete"
-                            v-bind:style="{
+                            :style="{
                                 left: `${scale(item.startTime.getTime())}px`,
                                 width: `${
                                     scale(currentTime) -
@@ -81,22 +81,22 @@
                         ></div>
                         <div
                             class="now"
-                            v-bind:style="{ left: `${scale(currentTime)}px` }"
+                            :style="{ left: `${scale(currentTime)}px` }"
                         ></div>
                     </div>
                 </div>
-                <div class="diagram-container" v-if="mode === 'relative'">
+                <div v-if="mode === 'relative'" class="diagram-container">
                     <div class="diagram">
                         <div
                             class="chartbar"
-                            v-bind:style="{
+                            :style="{
                                 left: `0px`,
                                 width: `${diagramWidth}px`,
                             }"
                         ></div>
                         <div
                             class="chartbar_complete"
-                            v-bind:style="{
+                            :style="{
                                 left: `0px`,
                                 width: `${scaleRelative(
                                     (currentTime - item.startTime.getTime()) /
@@ -107,7 +107,7 @@
                         ></div>
                         <div
                             class="percentage_text text-right"
-                            v-bind:style="{ left: `71px` }"
+                            :style="{ left: `71px` }"
                         >
                             {{ item.elapsed }} %
                         </div>
@@ -167,13 +167,13 @@ export default class ValidatorDataTable extends Vue {
     currentTime: number | null = null
     startTimes: number[] = []
     endTimes: number[] = []
-    minTime: number = 0
-    maxTime: number = 1
-    absolute: boolean = false
-    diagramWidth: number = 125
+    minTime = 0
+    maxTime = 1
+    absolute = false
+    diagramWidth = 125
     expanded: any[] = []
-    search: string = ''
-    filteredCount: number = 0
+    search = ''
+    filteredCount = 0
 
     @Prop() subnetID!: string
     @Prop() subnet!: Subnet
@@ -211,14 +211,14 @@ export default class ValidatorDataTable extends Vue {
     }
 
     created() {
-        let now = new Date()
+        const now = new Date()
         this.currentTime = now.getTime()
         this.minTime = this.minStartTime()
         this.maxTime = this.maxEndTime()
     }
 
     minStartTime() {
-        let startTimes: number[] = []
+        const startTimes: number[] = []
         this.subnet.validators.forEach((v: IValidator) => {
             startTimes.push(v.startTime.getTime())
         })
@@ -226,7 +226,7 @@ export default class ValidatorDataTable extends Vue {
     }
 
     maxEndTime() {
-        let endTimes: number[] = []
+        const endTimes: number[] = []
         this.subnet.validators.forEach((v: IValidator) => {
             endTimes.push(v.endTime.getTime())
         })

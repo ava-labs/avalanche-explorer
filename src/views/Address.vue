@@ -3,7 +3,7 @@
         <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
         <Loader
             v-if="loading && !requestError"
-            :contentId="addressID"
+            :content-id="addressID"
             :message="'Fetching Address Details'"
         ></Loader>
         <!-- Address Details -->
@@ -20,11 +20,11 @@
         </div>
         <Metadata
             v-if="metadata && !requestError && assetsLoaded === true"
-            :metaData="metadata"
-            :addressID="addressID"
+            :meta-data="metadata"
+            :address-i-d="addressID"
             :alias="alias"
-            :totalTransactionCount="totalTransactionCount"
-            :totalUtxoCount="totalUtxoCount"
+            :total-transaction-count="totalTransactionCount"
+            :total-utxo-count="totalUtxoCount"
             :assets="assets"
             :prefix="prefix"
         ></Metadata>
@@ -34,16 +34,16 @@
                 <div class="tx_chain_header">
                     <h2>Transactions</h2>
                     <p
+                        v-if="$vuetify.breakpoint.smAndUp"
                         class="chain right"
                         bottom
-                        v-if="$vuetify.breakpoint.smAndUp"
                     >
                         <span class="label"
                             >You are viewing transactions for</span
                         >
                         <v-tooltip>
                             <template v-slot:activator="{ on }">
-                                <span v-on="on" class="tag">X-Chain</span>
+                                <span class="tag" v-on="on">X-Chain</span>
                             </template>
                             <span
                                 >The X-Chain acts as a decentralized platform
@@ -55,11 +55,11 @@
                 </div>
                 <template v-if="txloading && !assetsLoaded">
                     <v-progress-circular
+                        key="1"
                         :size="16"
                         :width="2"
                         color="#E84970"
                         indeterminate
-                        key="1"
                     ></v-progress-circular>
                 </template>
                 <template v-else>
@@ -74,10 +74,10 @@
                         </p>
                         <div class="pagination-container">
                             <pagination-controls
+                                ref="paginationTop"
                                 :total="totalTransactionCount"
                                 :limit="limit"
                                 @change="page_change"
-                                ref="paginationTop"
                             ></pagination-controls>
                         </div>
                     </div>
@@ -86,21 +86,21 @@
             <TxHeader></TxHeader>
             <div v-show="txloading">
                 <v-progress-circular
+                    key="1"
                     :size="16"
                     :width="2"
                     color="#E84970"
                     indeterminate
-                    key="1"
                 ></v-progress-circular>
             </div>
             <div v-show="!txloading">
                 <div class="rows">
                     <transition-group name="fade">
                         <tx-row
-                            class="tx_item"
                             v-for="tx in transactions"
-                            :transaction="tx"
                             :key="tx.id"
+                            class="tx_item"
+                            :transaction="tx"
                         ></tx-row>
                     </transition-group>
                 </div>
@@ -109,10 +109,10 @@
                 </v-alert>
                 <div class="bar-table">
                     <pagination-controls
+                        ref="paginationBottom"
                         :total="totalTransactionCount"
                         :limit="limit"
                         @change="page_change"
-                        ref="paginationBottom"
                     >
                     </pagination-controls>
                 </div>
@@ -180,23 +180,23 @@ export default class AddressPage extends Vue {
         },
     ]
     // details
-    loading: boolean = false
-    requestError: boolean = false
+    loading = false
+    requestError = false
     requestErrorStatus: number | null = null
     requestErrorMessage: string | null = null
     metadata: Address | null = null
     // P-Chain balances
-    loading_P: boolean = false
-    stakeloading_P: boolean = false
+    loading_P = false
+    stakeloading_P = false
     // txs
-    txloading: boolean = false
-    txRequestError: boolean = false
+    txloading = false
+    txRequestError = false
     transactions: Transaction[] = []
     // tx pagination
-    totalTx: number = 0
-    limit: number = 25 // how many to display
-    offset: number = 0
-    sort: string = 'timestamp-desc'
+    totalTx = 0
+    limit = 25 // how many to display
+    offset = 0
+    sort = 'timestamp-desc'
 
     created() {
         this.updateData()
@@ -242,7 +242,7 @@ export default class AddressPage extends Vue {
     }
 
     get prefix(): string {
-        let address = this.$route.params.address
+        const address = this.$route.params.address
         return address.substring(0, 1)
     }
 
@@ -275,7 +275,7 @@ export default class AddressPage extends Vue {
 
     async getStake_P() {
         this.stakeloading_P = true
-        let req = {
+        const req = {
             jsonrpc: '2.0',
             method: 'platform.getStake',
             params: {
@@ -284,8 +284,8 @@ export default class AddressPage extends Vue {
             id: 1,
         }
 
-        let res = await avalanche_go_api.post('', req)
-        let result: IStake_P_Data = res.data.result
+        const res = await avalanche_go_api.post('', req)
+        const result: IStake_P_Data = res.data.result
 
         if (this.metadata) {
             this.metadata.set_AVAX_staked_P(result)
@@ -296,7 +296,7 @@ export default class AddressPage extends Vue {
 
     async getAddressDetails_P() {
         this.loading_P = true
-        let req = {
+        const req = {
             jsonrpc: '2.0',
             method: 'platform.getBalance',
             params: {
@@ -305,8 +305,8 @@ export default class AddressPage extends Vue {
             id: 1,
         }
 
-        let res = await avalanche_go_api.post('', req)
-        let result: IBalance_P_Data = res.data.result
+        const res = await avalanche_go_api.post('', req)
+        const result: IBalance_P_Data = res.data.result
 
         if (this.metadata) {
             this.metadata.set_AVAX_balance_P(result)
@@ -318,7 +318,7 @@ export default class AddressPage extends Vue {
     getAddressDetails_X() {
         // TODO: support service for multiple chains
         if (this.assetsLoaded === true) {
-            let url = `/x/addresses/${this.addressID}`
+            const url = `/x/addresses/${this.addressID}`
             api.get(url)
                 .then((res) => {
                     this.loading = false
@@ -328,7 +328,7 @@ export default class AddressPage extends Vue {
                         this.metadata = new Address(res.data, this.assetsMap)
                     } else {
                         // not in Ortelius
-                        let nullData: IAddressData = {
+                        const nullData: IAddressData = {
                             address: this.addressID,
                             publicKey: '',
                             assets: {},
@@ -355,7 +355,7 @@ export default class AddressPage extends Vue {
 
         // Get txs by address
         // TODO: support service for multiple chains
-        let url = `/x/transactions?address=${this.addressID}&sort=${this.sort}&offset=${this.offset}&limit=${this.limit}`
+        const url = `/x/transactions?address=${this.addressID}&sort=${this.sort}&offset=${this.offset}&limit=${this.limit}`
 
         api.get(url)
             .then((res) => {
@@ -374,7 +374,7 @@ export default class AddressPage extends Vue {
     page_change(val: number) {
         this.offset = val
         this.getTx()
-        let pgNum = Math.floor(this.offset / this.limit) + 1
+        const pgNum = Math.floor(this.offset / this.limit) + 1
         // @ts-ignore
         this.$refs.paginationTop.setPage(pgNum)
         // @ts-ignore

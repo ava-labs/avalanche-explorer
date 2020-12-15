@@ -1,11 +1,11 @@
 <template>
-    <v-tooltip bottom v-if="$vuetify.breakpoint.smAndUp">
+    <v-tooltip v-if="$vuetify.breakpoint.smAndUp" bottom>
         <template v-slot:activator="{ on }">
             <fa
-                v-on="on"
                 icon="info-circle"
                 transform="shrink-6"
                 :style="{ color: 'fillColor' }"
+                v-on="on"
             ></fa>
         </template>
         <span>{{ content }}</span>

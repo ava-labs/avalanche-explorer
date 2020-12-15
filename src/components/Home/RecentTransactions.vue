@@ -7,7 +7,7 @@
                     <span class="label">You are viewing transactions for</span>
                     <v-tooltip>
                         <template v-slot:activator="{ on }">
-                            <span v-on="on" class="tag">X-Chain</span>
+                            <span class="tag" v-on="on">X-Chain</span>
                         </template>
                         <span
                             >The X-Chain acts as a decentralized platform for
@@ -17,12 +17,12 @@
                     </v-tooltip>
                 </p>
             </div>
-            <div class="right" bottom v-if="$vuetify.breakpoint.smAndUp">
+            <div v-if="$vuetify.breakpoint.smAndUp" class="right" bottom>
                 <v-btn
                     :loading="loading"
                     :text="true"
-                    @click="updateTx"
                     class="refresh ava_btn"
+                    @click="updateTx"
                 >
                     <fa icon="sync"></fa>
                     <span class="ava-btn-label">Refresh</span>
@@ -34,7 +34,7 @@
         </div>
         <div class="list">
             <TxHeader></TxHeader>
-            <transition-group name="fade" v-if="transactions.length > 0">
+            <transition-group v-if="transactions.length > 0" name="fade">
                 <tx-row
                     v-for="tx in transactions"
                     :key="tx.id"
@@ -44,11 +44,11 @@
             </transition-group>
             <div v-if="transactions.length === 0">
                 <v-progress-circular
+                    key="1"
                     :size="16"
                     :width="2"
                     color="#E84970"
                     indeterminate
-                    key="1"
                 ></v-progress-circular>
             </div>
         </div>
@@ -71,9 +71,9 @@ import { ITransaction } from '@/js/ITransaction'
     },
 })
 export default class RecentTransactions extends Vue {
-    loading: boolean = false
-    txNum: number = 25
-    poller: number = 0
+    loading = false
+    txNum = 25
+    poller = 0
 
     created() {
         this.poller = window.setInterval(() => this.pollForTxUpdates(), 5000)

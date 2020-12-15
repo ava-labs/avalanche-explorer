@@ -1,7 +1,7 @@
 <template>
-    <div class="notifications" v-show="items.length > 0">
+    <div v-show="items.length > 0" class="notifications">
         <transition-group name="list">
-            <div class="notif_item" v-for="notif in items" :key="notif.id">
+            <div v-for="notif in items" :key="notif.id" class="notif_item">
                 <p
                     class="notif_title"
                     :style="{

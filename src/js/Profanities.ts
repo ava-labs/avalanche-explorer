@@ -12,11 +12,11 @@ class Profanities {
     }
 
     screen(input: string): boolean {
-        let value = input.toLowerCase()
+        const value = input.toLowerCase()
         let profane = false
 
         // CHECK #1 - short list of unambiguous profanities
-        for (let expletive of this.expletives) {
+        for (const expletive of this.expletives) {
             // partial match ("****shit", "******fuck**")
             if (value.includes(expletive)) {
                 profane = true
@@ -26,9 +26,9 @@ class Profanities {
 
         // CHECK #2 - longer list
         if (!profane) {
-            let values = value.split(' ') // "ass coin"
-            for (let value of values) {
-                for (let cuss of this.cusses) {
+            const values = value.split(' ') // "ass coin"
+            for (const value of values) {
+                for (const cuss of this.cusses) {
                     if (value.includes(cuss)) {
                         // partial match - long words ("asshole")
                         if (cuss.length > 4) {
@@ -48,9 +48,9 @@ class Profanities {
     }
 
     private getCusses() {
-        let cusses: string[] = []
+        const cusses: string[] = []
         // profanities with a high sureness rating
-        for (let [key, value] of Object.entries(cuss.default)) {
+        for (const [key, value] of Object.entries(cuss.default)) {
             if ((value as number) > 1) {
                 cusses.push(key)
             }
@@ -60,5 +60,5 @@ class Profanities {
     }
 }
 
-let profanities = new Profanities()
+const profanities = new Profanities()
 export { profanities }

@@ -25,15 +25,15 @@
 import Big from 'big.js'
 
 export default {
+    filters: {
+        nameOrID(val) {
+            return val.name ? val.name : val.id
+        },
+    },
     props: {
         asset: {
             type: Object,
             required: true,
-        },
-    },
-    filters: {
-        nameOrID(val) {
-            return val.name ? val.name : val.id
         },
     },
 }

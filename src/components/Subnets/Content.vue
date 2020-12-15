@@ -7,10 +7,10 @@
                     <h2>{{ subnetID | subnet }}</h2>
                 </div>
                 <ContentMetadata
-                    :totalBlockchains="subnet.blockchains.length"
-                    :totalValidators="subnet.validators.length"
-                    :totalPendingValidators="subnet.pendingValidators.length"
-                    :totalControlKeys="subnet.controlKeys.length"
+                    :total-blockchains="subnet.blockchains.length"
+                    :total-validators="subnet.validators.length"
+                    :total-pending-validators="subnet.pendingValidators.length"
+                    :total-control-keys="subnet.controlKeys.length"
                 ></ContentMetadata>
                 <v-tabs v-model="tab" show-arrows>
                     <v-tab href="#validators">Validators</v-tab>
@@ -27,7 +27,7 @@
                         <template v-else>
                             <ValidatorDataTable
                                 :validators="subnet.validators"
-                                :subnetID="subnetID"
+                                :subnet-i-d="subnetID"
                                 :subnet="subnet"
                                 :title="'Validators'"
                                 class="table_margin"
@@ -43,7 +43,7 @@
                         <template v-else>
                             <ValidatorDataTable
                                 :validators="subnet.pendingValidators"
-                                :subnetID="subnetID"
+                                :subnet-i-d="subnetID"
                                 :subnet="subnet"
                                 :title="'Pending Validators'"
                                 class="table_margin"
@@ -88,7 +88,7 @@
                         <template v-else>
                             <DelegationDataTable
                                 :validators="subnet.delegators"
-                                :subnetID="subnetID"
+                                :subnet-i-d="subnetID"
                                 :subnet="subnet"
                                 :title="'Delegations'"
                                 class="table_margin"
@@ -143,15 +143,15 @@ import ControlKeyTable from '@/components/Validators/ControlKeyTable.vue'
     },
 })
 export default class Content extends Vue {
-    dense: boolean = true
-    fixedHeader: boolean = true
+    dense = true
+    fixedHeader = true
     defaultSubnetID: string = AVALANCHE_SUBNET_ID
     currentTime: number | null = null
     startTimes: number[] = []
     endTimes: number[] = []
-    minTime: number = 0
-    maxTime: number = 1
-    absolute: boolean = false
+    minTime = 0
+    maxTime = 1
+    absolute = false
 
     @Prop() subnetID!: string
     @Prop() subnet!: Subnet

@@ -7,12 +7,12 @@
                 <h2>Recent Transactions</h2>
                 <template v-if="txloading && !assetsLoaded">
                     <v-progress-circular
+                        key="1"
+                        ref="paginationTop"
                         :size="16"
                         :width="2"
                         color="#E84970"
                         indeterminate
-                        key="1"
-                        ref="paginationTop"
                     ></v-progress-circular>
                 </template>
                 <!-- <template v-else>
@@ -31,21 +31,21 @@
             <TxHeader></TxHeader>
             <template v-if="txloading">
                 <v-progress-circular
+                    key="1"
                     :size="16"
                     :width="2"
                     color="#E84970"
                     indeterminate
-                    key="1"
                 ></v-progress-circular>
             </template>
             <template v-else>
                 <div class="rows">
                     <transition-group name="fade">
                         <tx-row
-                            class="tx_item"
                             v-for="tx in transactions"
-                            :transaction="tx"
                             :key="tx.id"
+                            class="tx_item"
+                            :transaction="tx"
                         ></tx-row>
                     </transition-group>
                 </div>
@@ -56,7 +56,7 @@
         </section>
         <template v-if="!genesisTx">
             <Loader
-                :contentId="assetID"
+                :content-id="assetID"
                 :message="'Fetching Asset Details'"
             ></Loader>
         </template>
@@ -95,11 +95,11 @@ import api from '../axios'
 })
 export default class AssetPage extends Vue {
     genesisTx: Transaction | null = null
-    txloading: boolean = false
-    totalTx: number = 0
-    limit: number = 10 // how many to display
-    offset: number = 0
-    sort: string = 'timestamp-desc'
+    txloading = false
+    totalTx = 0
+    limit = 10 // how many to display
+    offset = 0
+    sort = 'timestamp-desc'
     transactions: Transaction[] = []
 
     created() {
@@ -159,7 +159,7 @@ export default class AssetPage extends Vue {
     }
 
     getData(): void {
-        let parent = this
+        const parent = this
         this.txloading = true
 
         if (this.assetsLoaded) {
@@ -168,7 +168,7 @@ export default class AssetPage extends Vue {
             api.get(url)
                 .then((res) => {
                     const data = res.data
-                    let tx = new Transaction(data)
+                    const tx = new Transaction(data)
                     parent.genesisTx = tx
                 })
                 .catch((err) => {
@@ -186,12 +186,12 @@ export default class AssetPage extends Vue {
     }
 
     getTx() {
-        let parent = this
+        const parent = this
         parent.txloading = true
 
         // Get txs by address
         // TODO: support service for multiple chains
-        let url = `/x/transactions?assetID=${this.assetID}&sort=${this.sort}&offset=${this.offset}&limit=${this.limit}`
+        const url = `/x/transactions?assetID=${this.assetID}&sort=${this.sort}&offset=${this.offset}&limit=${this.limit}`
 
         api.get(url).then((res) => {
             parent.txloading = false
@@ -202,7 +202,7 @@ export default class AssetPage extends Vue {
     page_change(val: number) {
         this.offset = val
         this.getTx()
-        let pgNum = Math.floor(this.offset / this.limit) + 1
+        const pgNum = Math.floor(this.offset / this.limit) + 1
         // @ts-ignore
         this.$refs.paginationTop.setPage(pgNum)
         // @ts-ignore

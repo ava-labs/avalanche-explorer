@@ -1,4 +1,4 @@
-let expletives: string[] = [
+const expletives: string[] = [
     'boner',
     'booty',
     'choad',

@@ -7,7 +7,7 @@ interface IVirtualMachine {
     documentation: string
 }
 
-let dict: VMDict = {
+const dict: VMDict = {
     '': {
         name: 'platformvm',
         documentation: 'https://docs.avax.network/v1.0/en/api/platform/',

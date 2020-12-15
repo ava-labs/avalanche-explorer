@@ -12,7 +12,7 @@
                     :value="`${prefix}-${addressID}`"
                     class="copy_but"
                 ></CopyText>
-                <span class="alias" v-if="alias">{{ alias }}</span>
+                <span v-if="alias" class="alias">{{ alias }}</span>
             </p>
         </article>
         <article class="meta_row">
@@ -25,22 +25,26 @@
                             <v-tab>Detail</v-tab>
                             <v-tab-item class="tab_content">
                                 <AVAXBalanceTableSummary
-                                    :P_unlocked="P_unlocked"
-                                    :P_lockedStakeable="P_lockedStakeable"
-                                    :P_lockedNotStakeable="P_lockedNotStakeable"
-                                    :P_staked="P_staked"
-                                    :X_unlocked="X_unlocked"
-                                    :X_locked="X_locked"
+                                    :p-unlocked="P_unlocked"
+                                    :p-locked-stakeable="P_lockedStakeable"
+                                    :p-locked-not-stakeable="
+                                        P_lockedNotStakeable
+                                    "
+                                    :p-staked="P_staked"
+                                    :x-unlocked="X_unlocked"
+                                    :x-locked="X_locked"
                                 ></AVAXBalanceTableSummary>
                             </v-tab-item>
                             <v-tab-item class="tab_content">
                                 <AVAXBalanceTableDetail
-                                    :P_unlocked="P_unlocked"
-                                    :P_lockedStakeable="P_lockedStakeable"
-                                    :P_lockedNotStakeable="P_lockedNotStakeable"
-                                    :P_staked="P_staked"
-                                    :X_unlocked="X_unlocked"
-                                    :X_locked="X_locked"
+                                    :p-unlocked="P_unlocked"
+                                    :p-locked-stakeable="P_lockedStakeable"
+                                    :p-locked-not-stakeable="
+                                        P_lockedNotStakeable
+                                    "
+                                    :p-staked="P_staked"
+                                    :x-unlocked="X_unlocked"
+                                    :x-locked="X_locked"
                                 ></AVAXBalanceTableDetail>
                             </v-tab-item>
                         </v-tabs>

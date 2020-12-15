@@ -1,5 +1,5 @@
 <template>
-    <section class="card meta" v-if="this.blockchain">
+    <section v-if="this.blockchain" class="card meta">
         <header class="header">
             <h2>{{ blockchain.name }} Details</h2>
         </header>
@@ -38,7 +38,7 @@
             <p class="blockchain">
                 <Indexed
                     :indexed="blockchain.indexed"
-                    v-bind:notIndexedLabel="true"
+                    :not-indexed-label="true"
                 ></Indexed>
             </p>
         </article>

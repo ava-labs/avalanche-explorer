@@ -40,7 +40,7 @@ export default class Subnet {
         /* ==========================================
             GET DATA FROM SERVICE
            ========================================== */
-        let req = {
+        const req = {
             jsonrpc: '2.0',
             method: endpoint,
             params: {
@@ -48,7 +48,7 @@ export default class Subnet {
             },
             id: 1,
         }
-        let response = await avalanche_go_api.post('', req)
+        const response = await avalanche_go_api.post('', req)
 
         // console.log(`------------- ${this.id.substring(0,4)} ------------ ${endpoint}`);
         // console.log("result:                        ", response.data.result);
@@ -57,7 +57,7 @@ export default class Subnet {
             CURRENT VALIDATORS
            ========================================== */
         if (endpoint === 'platform.getCurrentValidators') {
-            let validatorsData = response.data.result
+            const validatorsData = response.data.result
                 .validators as IValidatorData[]
             let validators: IValidator[] = []
             let delegators: IDelegator[] = []
@@ -86,7 +86,7 @@ export default class Subnet {
             /* ==========================================
             PENDING VALIDATORS
            ========================================== */
-            let pendingValidatorsData = response.data.result
+            const pendingValidatorsData = response.data.result
                 .validators as IPendingValidatorData[]
             let pendingValidators: IPendingValidator[] = []
             let pendingDelegators: IPendingDelegator[] = []
@@ -100,7 +100,7 @@ export default class Subnet {
 
             // Primary Network Only
             if (this.id === AVALANCHE_SUBNET_ID) {
-                let pendingDelegatorsData = response.data.result
+                const pendingDelegatorsData = response.data.result
                     .delegators as IPendingValidatorData[]
                 if (pendingDelegatorsData.length > 0) {
                     pendingDelegators = this.setPendingDelegators(
@@ -122,8 +122,8 @@ export default class Subnet {
      * Convert API data to validators
      */
     private setValidators(validatorsData: IValidatorData[]): IValidator[] {
-        let validators = validatorsData.map((v: IValidatorData) => {
-            let validator: IValidator = {
+        const validators = validatorsData.map((v: IValidatorData) => {
+            const validator: IValidator = {
                 nodeID: v.nodeID,
                 startTime: new Date(parseInt(v.startTime) * 1000),
                 endTime: new Date(parseInt(v.endTime) * 1000),
@@ -171,7 +171,7 @@ export default class Subnet {
 
         if (delegatorsData) {
             delegators = delegatorsData.map((d) => {
-                let delegator: IDelegator = {
+                const delegator: IDelegator = {
                     nodeID: d.nodeID,
                     startTime: new Date(parseInt(d.startTime) * 1000),
                     endTime: new Date(parseInt(d.endTime) * 1000),
@@ -195,9 +195,9 @@ export default class Subnet {
     private setPendingValidators(
         pendingValidatorsData: IPendingValidatorData[]
     ): IPendingValidator[] {
-        let pendingValidators = pendingValidatorsData.map(
+        const pendingValidators = pendingValidatorsData.map(
             (pv: IPendingValidatorData) => {
-                let pendingValidator: IPendingValidator = {
+                const pendingValidator: IPendingValidator = {
                     nodeID: pv.nodeID,
                     startTime: new Date(parseInt(pv.startTime) * 1000),
                     endTime: new Date(parseInt(pv.endTime) * 1000),
@@ -229,7 +229,7 @@ export default class Subnet {
 
         if (pendingDelegatorsData) {
             pendingDelegators = pendingDelegatorsData.map((pd) => {
-                let pendingDelegator: IPendingDelegator = {
+                const pendingDelegator: IPendingDelegator = {
                     nodeID: pd.nodeID,
                     startTime: new Date(parseInt(pd.startTime) * 1000),
                     endTime: new Date(parseInt(pd.endTime) * 1000),
@@ -289,9 +289,9 @@ export default class Subnet {
      *  Elapsed staking period (%)
      */
     private getElapsedStakingPeriod(validator: IValidator): number {
-        let currentTime = new Date().getTime()
-        let numerator = currentTime - validator.startTime.getTime()
-        let denominator =
+        const currentTime = new Date().getTime()
+        const numerator = currentTime - validator.startTime.getTime()
+        const denominator =
             validator.endTime.getTime() - validator.startTime.getTime()
         return Math.round((numerator / denominator) * 100)
     }

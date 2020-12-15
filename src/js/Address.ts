@@ -4,7 +4,6 @@ import {
     IBalance_X,
     IAddressData,
     IBalance_P_Data,
-    IBalance_P,
     IStake_P_Data,
 } from './IAddress'
 import { stringToBig, bigToDenomBig } from '@/helper'
@@ -62,7 +61,7 @@ export default class Address {
         balanceData: IBalance_X_Data,
         assetsMap: any
     ): IBalance_X[] {
-        let balances: IBalance_X[] = []
+        const balances: IBalance_X[] = []
 
         /**
          * For each balance in the address's portfolio, get and set:
@@ -71,10 +70,10 @@ export default class Address {
          * - balances metadata
          */
         for (const assetID in balanceData) {
-            let balanceDatum: IBalance_X_Datum = balanceData[assetID]
+            const balanceDatum: IBalance_X_Datum = balanceData[assetID]
 
             // init the balance
-            let balance: IBalance_X = {
+            const balance: IBalance_X = {
                 id: assetID,
                 name: '',
                 denomination: 0,
@@ -90,7 +89,7 @@ export default class Address {
 
             // If asset exists in store
             if (assetsMap[assetID]) {
-                let asset: Asset = assetsMap[assetID]
+                const asset: Asset = assetsMap[assetID]
 
                 this.setAssetMetadata(asset, balance)
                 this.setBalanceData(balanceDatum, balance.denomination, balance)
@@ -108,7 +107,7 @@ export default class Address {
                 api.get(`/x/assets/${assetID}`).then((res) => {
                     if (res.data) {
                         console.log('FOUND ASSET IN ORTELIUS', res.data)
-                        let asset: IAssetData_Ortelius = res.data
+                        const asset: IAssetData_Ortelius = res.data
 
                         this.setAssetMetadata(asset, balance)
                         this.setBalanceData(
@@ -130,7 +129,7 @@ export default class Address {
                             (res: IAssetData_Avalanche_Go) => {
                                 if (res) {
                                     console.log('FOUND ASSET IN GECKO', res)
-                                    let asset = res
+                                    const asset = res
 
                                     this.setAssetMetadata(asset, balance)
                                     this.setBalanceData(
@@ -189,7 +188,7 @@ export default class Address {
     }
 
     private set_X_unlocked(): void {
-        let result = this.assets.find((asset) => asset.id === AVAX_ID)
+        const result = this.assets.find((asset) => asset.id === AVAX_ID)
         if (result) {
             this.X_unlocked = result.balance
         }

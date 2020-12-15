@@ -1,5 +1,5 @@
 <template>
-    <section class="card meta" v-if="tx">
+    <section v-if="tx" class="card meta">
         <header class="header">
             <h2><slot></slot></h2>
         </header>
@@ -25,7 +25,7 @@
             </p>
             <div>
                 <p class="status">Success</p>
-                <p class="status" v-if="type === 'assetCreation'">Success</p>
+                <p v-if="type === 'assetCreation'" class="status">Success</p>
             </div>
         </article>
         <article class="meta_row">
@@ -63,7 +63,7 @@
             <!-- TODO: Tx Fee from API when supported -->
             <p>0.001 AVAX</p>
         </article>
-        <article class="meta_row" v-if="isText">
+        <article v-if="isText" class="meta_row">
             <p class="label">
                 Text
                 <Tooltip
@@ -75,7 +75,7 @@
                 <p><span class="decode">UTF-8</span> {{ text_utf8 }}</p>
             </div>
         </article>
-        <article class="meta_row" v-if="!isAssetGenesis">
+        <article v-if="!isAssetGenesis" class="meta_row">
             <p class="label">Input UTXOs</p>
             <div v-if="inputs.length > 0">
                 <div class="utxo_headers">
@@ -87,9 +87,9 @@
                     <p class="amount">Amount</p>
                 </div>
                 <utxo-row
-                    class="io_item"
                     v-for="(input, i) in inputs"
                     :key="i"
+                    class="io_item"
                     :utxo="input"
                     type="input"
                 ></utxo-row>
@@ -113,9 +113,9 @@
                     <p class="amount">Amount</p>
                 </div>
                 <utxo-row
-                    class="io_item"
                     v-for="(output, i) in outputs"
                     :key="i"
+                    class="io_item"
                     :utxo="output"
                     type="output"
                 ></utxo-row>
@@ -211,8 +211,8 @@ export default class TransactionDetailCard extends Vue {
     }
 
     get inputs(): ITransactionOutput[] {
-        let res: ITransactionOutput[] = []
-        let ins = this.tx.inputs
+        const res: ITransactionOutput[] = []
+        const ins = this.tx.inputs
 
         if (!ins) return res
 
@@ -247,13 +247,13 @@ export default class TransactionDetailCard extends Vue {
     }
 
     get outValues(): OutputValuesDict {
-        let dict: OutputValuesDict = {}
-        let outs = this.outputs
+        const dict: OutputValuesDict = {}
+        const outs = this.outputs
 
         outs.forEach((out) => {
-            let assetID = out.assetID
-            let amount = out.amount
-            let asset = this.assets[assetID]
+            const assetID = out.assetID
+            const amount = out.amount
+            const asset = this.assets[assetID]
             let denomination = 0
             let symbol = assetID
             if (asset) {
@@ -263,7 +263,7 @@ export default class TransactionDetailCard extends Vue {
                 this.$store.dispatch('addUnknownAsset', assetID)
             }
             if (dict[assetID]) {
-                let valNow = dict[assetID].amount
+                const valNow = dict[assetID].amount
                 dict[assetID].amount = valNow.plus(amount)
             } else {
                 dict[assetID] = {
@@ -277,10 +277,10 @@ export default class TransactionDetailCard extends Vue {
     }
 
     get outValuesDenominated() {
-        let outValuesDenominated: outValuesDenominated = {}
-        for (let assetId in this.outValues) {
-            let val = this.outValues[assetId]
-            let res = stringToBig(
+        const outValuesDenominated: outValuesDenominated = {}
+        for (const assetId in this.outValues) {
+            const val = this.outValues[assetId]
+            const res = stringToBig(
                 val.amount.toString(),
                 val.denomination
             ).toLocaleString(val.denomination)

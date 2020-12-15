@@ -32,7 +32,7 @@
             <template #item.indexed="{ item }">
                 <Indexed
                     :indexed="item.indexed"
-                    v-bind:notIndexedLabel="false"
+                    :not-indexed-label="false"
                 ></Indexed>
             </template>
             <template #item.subnetID="{ item }">
@@ -72,7 +72,7 @@ export default class BlockchainDataTable extends Vue {
     @Prop() title?: string
 
     get headers(): any[] {
-        let headers = [
+        const headers = [
             { text: 'Name', value: 'name', width: 200, fixed: true },
             { text: 'Virtual Machine', value: 'vmID', width: 125 },
             { text: 'Database Index', value: 'indexed', width: 125 },

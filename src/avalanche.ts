@@ -26,14 +26,14 @@ if (DEFAULT_NETWORK_ID === 1) {
     CHAIN_ID = process.env.VUE_APP_TEST_AVALANCHE_JS_CHAINID as string
 }
 
-let avalanche = new avalancheJS.Avalanche(
+const avalanche = new avalancheJS.Avalanche(
     IP,
     PORT,
     PROTOCOL,
     NETWORK_ID,
     CHAIN_ID
 )
-let avm = avalanche.XChain()
-let platform = avalanche.PChain()
+const avm = avalanche.XChain()
+const platform = avalanche.PChain()
 
 export { avalanche, avm, platform }

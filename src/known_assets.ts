@@ -11,7 +11,7 @@ interface AssetDict {
     [key: string]: string
 }
 
-let dict: AssetDict = {
+const dict: AssetDict = {
     AVAX: AVAX_ID,
 }
 

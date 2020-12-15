@@ -36,8 +36,8 @@ import { IValidator } from '@/store/modules/platform/IValidator'
 @Component({
     filters: {
         date(date: Date) {
-            let today = new Date()
-            let mom = moment(date).fromNow()
+            const today = new Date()
+            const mom = moment(date).fromNow()
             return mom
         },
     },
@@ -50,7 +50,7 @@ export default class ValidatorRow extends Vue {
     @Prop() cumulativeStake!: number
 
     get totalStake() {
-        let val = this.$store.getters['Platform/totalStake']
+        const val = this.$store.getters['Platform/totalStake']
         return toAVAX(parseInt(val.toString()))
     }
 
@@ -72,25 +72,25 @@ export default class ValidatorRow extends Vue {
 
     get stakePercText() {
         // redundant assignments bc referencing computed values affect performance
-        let stakeAmount = toAVAX(this.validator.stakeAmount as number)
-        let totalStake = toAVAX(
+        const stakeAmount = toAVAX(this.validator.stakeAmount as number)
+        const totalStake = toAVAX(
             parseInt(this.$store.getters['Platform/totalStake'].toString())
         )
         return ((stakeAmount / totalStake) * 100).toFixed(8)
     }
 
     get cumulativePercText() {
-        let cumulativeStake = toAVAX(this.cumulativeStake)
-        let totalStake = toAVAX(
+        const cumulativeStake = toAVAX(this.cumulativeStake)
+        const totalStake = toAVAX(
             parseInt(this.$store.getters['Platform/totalStake'].toString())
         )
         return ((cumulativeStake / totalStake) * 100).toFixed(0)
     }
 
     get duration() {
-        let endTime = this.validator.endTime.getTime()
-        let startTime = this.validator.startTime.getTime()
-        let dur = endTime - startTime
+        const endTime = this.validator.endTime.getTime()
+        const startTime = this.validator.startTime.getTime()
+        const dur = endTime - startTime
         return moment.duration(dur).humanize()
     }
 }

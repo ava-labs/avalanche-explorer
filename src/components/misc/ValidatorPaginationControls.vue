@@ -1,9 +1,9 @@
 <template>
     <div class="validator_pagination_control">
-        <button @click="page = 1" :class="{ disabled: page === 1 }">
+        <button :class="{ disabled: page === 1 }" @click="page = 1">
             First
         </button>
-        <button @click="pageDown" :class="{ disabled: page === 1 }">
+        <button :class="{ disabled: page === 1 }" @click="pageDown">
             &#60;
         </button>
         <p class="pages">
@@ -11,12 +11,12 @@
             <b>{{ page }}</b> of
             <b>{{ totalPages }}</b>
         </p>
-        <button @click="pageUp" :class="{ disabled: page === totalPages }">
+        <button :class="{ disabled: page === totalPages }" @click="pageUp">
             &#62;
         </button>
         <button
-            @click="page = totalPages"
             :class="{ disabled: page === totalPages }"
+            @click="page = totalPages"
         >
             Last
         </button>
@@ -32,11 +32,11 @@ export default class ValidatorPaginationControls extends Vue {
     @Prop() total!: number
     @Prop() limit!: number
 
-    page: number = 1
+    page = 1
 
     @Watch('page')
     onPageChanged(val: number) {
-        let start = (val - 1) * this.limit
+        const start = (val - 1) * this.limit
         this.$emit('change', start)
     }
 
@@ -45,13 +45,13 @@ export default class ValidatorPaginationControls extends Vue {
     }
 
     pageUp(): void {
-        let page = this.page + 1
+        const page = this.page + 1
         if (page > this.totalPages) return
         this.page = page
     }
 
     pageDown(): void {
-        let page = this.page - 1
+        const page = this.page - 1
 
         if (page < 1) return
         this.page = page

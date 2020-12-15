@@ -10,7 +10,7 @@
             <p class="time">{{ ago }}</p>
         </div>
         <div class="info_col">
-            <span class="label" v-if="$vuetify.breakpoint.smAndDown"></span>
+            <span v-if="$vuetify.breakpoint.smAndDown" class="label"></span>
             <template v-if="transaction.type === 'import'">
                 <div class="tx_type_label import_tx">
                     imported from other Chain
@@ -24,14 +24,14 @@
                 ></utxo-input>
             </template>
         </div>
-        <div class="to_amount" v-if="isGenesisVertex">
+        <div v-if="isGenesisVertex" class="to_amount">
             <div class="info_col">
                 <router-link :to="`/tx/${tx_id}`" class="view_all"
                     >Explore Genesis Vertex</router-link
                 >
             </div>
         </div>
-        <div class="to_amount" v-else>
+        <div v-else class="to_amount">
             <template v-if="transaction.type === 'export'">
                 <div class="info_col tx_type_label export_tx">
                     exported to other Chain
@@ -39,9 +39,9 @@
             </template>
             <template> </template>
             <output-utxo
-                class="utxo_out"
                 v-for="(output, i) in outputs"
                 :key="i"
+                class="utxo_out"
                 :output="output"
             ></output-utxo>
         </div>
@@ -71,7 +71,7 @@ export default class TxRow extends Vue {
     }
 
     get isGenesisVertex(): boolean {
-        let genesisTxID =
+        const genesisTxID =
             DEFAULT_NETWORK_ID === 1
                 ? process.env.VUE_APP_AVAXID
                 : process.env.VUE_APP_TEST_AVAXID
@@ -90,19 +90,19 @@ export default class TxRow extends Vue {
     }
 
     get ago() {
-        let stamp = this.transaction.timestamp
-        let date = new Date(stamp)
+        const stamp = this.transaction.timestamp
+        const date = new Date(stamp)
         return moment(date).fromNow()
     }
 
     get inputs() {
         // console.log("== GET INPUTS ==");
-        let addedAddr: string[] = []
-        let ins = this.transaction.inputs || []
+        const addedAddr: string[] = []
+        const ins = this.transaction.inputs || []
         // console.log("> ins         ", ins);
 
-        let res = ins.filter((val) => {
-            let addrs = val.output.addresses
+        const res = ins.filter((val) => {
+            const addrs = val.output.addresses
             let flag = false
             addrs.forEach((addr) => {
                 if (addedAddr.includes(addr)) {
@@ -124,14 +124,14 @@ export default class TxRow extends Vue {
         // console.log("== GET OUTPUTS ==");
 
         // INPUT UTXOS
-        let ins = this.inputs
-        let senders: string[] = []
+        const ins = this.inputs
+        const senders: string[] = []
         // console.log("> ins         ", ins);
 
         // INPUT ADDRESSES
         for (let i = 0; i < ins.length; i++) {
-            let input = ins[i]
-            let addrs = input.output.addresses
+            const input = ins[i]
+            const addrs = input.output.addresses
             // addrs.forEach(addr => console.log("                  ", addr.substring(6, 11)));
             senders.push(...addrs)
         }
@@ -139,7 +139,7 @@ export default class TxRow extends Vue {
         // console.log("--");
 
         // OUTPUT UTXOS
-        let outputUTXOs = this.transaction.outputs
+        const outputUTXOs = this.transaction.outputs
         let recipients = outputUTXOs
 
         // console.log("> outputUTXOs        ", outputUTXOs);

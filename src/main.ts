@@ -26,11 +26,11 @@ declare module 'big.js' {
     }
 }
 
-Big.prototype.toLocaleString = function (toFixed: number = 2) {
-    let value = this
-    let remainder = value.mod(1)
-    let wholeNums = value.minus(remainder)
-    let wnInt = parseInt(wholeNums.toFixed(0))
+Big.prototype.toLocaleString = function (toFixed = 2) {
+    const value = this
+    const remainder = value.mod(1)
+    const wholeNums = value.minus(remainder)
+    const wnInt = parseInt(wholeNums.toFixed(0))
 
     if (toFixed === 0) return wnInt.toLocaleString()
 

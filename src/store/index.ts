@@ -51,16 +51,18 @@ export default new Vuex.Store({
             let isFinished = false
             let offset = 0
             const limit = 500
-            let res = await api.get(`/x/assets?offset=${offset}&limit=${limit}`)
-            let assetsData = res.data.assets
+            const res = await api.get(
+                `/x/assets?offset=${offset}&limit=${limit}`
+            )
+            const assetsData = res.data.assets
 
             // keep getting asset data as necessary
             async function checkForMoreAssets() {
                 offset += limit
-                let res = await api.get(
+                const res = await api.get(
                     `/x/assets?offset=${offset}&limit=${limit}`
                 )
-                let moreAssets = res.data.assets
+                const moreAssets = res.data.assets
                 if (moreAssets.length === 0) {
                     isFinished = true
                 }
@@ -94,12 +96,12 @@ export default new Vuex.Store({
             /* ==========================================
                 Uniqueify Symbols
                ========================================== */
-            let collisionMap = await store.dispatch('getCollisionMap')
+            const collisionMap = await store.dispatch('getCollisionMap')
             store.commit('addCollisionMap', collisionMap)
         },
 
         async getRecentTransactions(store, txNum: number) {
-            let txRes = await api.get(
+            const txRes = await api.get(
                 `/x/transactions?sort=timestamp-desc&limit=${txNum}`
             )
             store.commit('addRecentTransactions', txRes.data.transactions)
@@ -107,10 +109,10 @@ export default new Vuex.Store({
 
         // Adds an unknown asset id to the assets dictionary
         async addUnknownAsset({ commit }, assetId: string) {
-            let desc: IAssetData_Avalanche_Go = await avm.getAssetDescription(
+            const desc: IAssetData_Avalanche_Go = await avm.getAssetDescription(
                 assetId
             )
-            let newAssetData: IAssetData_Ortelius = {
+            const newAssetData: IAssetData_Ortelius = {
                 alias: '',
                 chainID: X_CHAIN_ID,
                 currentSupply: '0',
@@ -134,21 +136,21 @@ export default new Vuex.Store({
 
         // TODO: remove when API implements precomputed aggregates
         async setAggregatesForAssetsInRecentTransactions(store) {
-            let txNum = 500
-            let txRes = await api.get(
+            const txNum = 500
+            const txRes = await api.get(
                 `/x/transactions?sort=timestamp-desc&limit=${txNum}`
             )
-            let duplicates: string[] = []
+            const duplicates: string[] = []
             // find assetIDs in the txs using the inputTotals/outputTotals fields
             txRes.data.transactions.forEach((tx: ITransactionData) => {
-                for (let inputAddress in tx.inputTotals) {
+                for (const inputAddress in tx.inputTotals) {
                     duplicates.push(inputAddress)
                 }
-                for (let outputAddress in tx.outputTotals) {
+                for (const outputAddress in tx.outputTotals) {
                     duplicates.push(outputAddress)
                 }
             })
-            let uniques = duplicates.filter(
+            const uniques = duplicates.filter(
                 (item, i, ar) => ar.indexOf(item) === i
             )
             uniques.forEach((assetID: string) => {
@@ -163,9 +165,9 @@ export default new Vuex.Store({
         // dispatched from Asset instance upon /aggregates response
         // TODO: remove when API implements precomputed aggregates
         checkAssetsSubsetAggregatesLoaded(store) {
-            let assetsSubsetForAggregationArray =
+            const assetsSubsetForAggregationArray =
                 store.getters['assetsSubsetForAggregationArray']
-            let notLoaded = assetsSubsetForAggregationArray.find(
+            const notLoaded = assetsSubsetForAggregationArray.find(
                 (value: boolean) => value === false
             )
             if (notLoaded === undefined) {
@@ -175,11 +177,11 @@ export default new Vuex.Store({
         },
 
         getCollisionMap({ state }): ICollisionMap {
-            let map: ICollisionMap = {}
-            let assets = state.assets
-            for (let asset in assets) {
-                let symbol = assets[asset].symbol
-                let id = assets[asset].id
+            const map: ICollisionMap = {}
+            const assets = state.assets
+            for (const asset in assets) {
+                const symbol = assets[asset].symbol
+                const id = assets[asset].id
                 if (map[symbol]) {
                     map[symbol].push(id)
                 } else {
@@ -227,12 +229,12 @@ export default new Vuex.Store({
     },
     getters: {
         assetsArray(state: IRootState): Asset[] {
-            let res: Asset[] = []
-            for (let i in state.assets) {
+            const res: Asset[] = []
+            for (const i in state.assets) {
                 res.push(state.assets[i])
             }
             res.sort((a, b) => {
-                let diff = b.volume_day.minus(a.volume_day)
+                const diff = b.volume_day.minus(a.volume_day)
                 if (diff.gt(0)) return -1
                 else if (diff.lt(0)) return 1
                 else return 0
@@ -251,15 +253,15 @@ export default new Vuex.Store({
         },
         // TODO: remove when API implements precomputed aggregates
         assetsSubsetForAggregationArray(state: IRootState): boolean[] {
-            let res: boolean[] = []
-            for (let i in state.assetsSubsetForAggregations) {
+            const res: boolean[] = []
+            for (const i in state.assetsSubsetForAggregations) {
                 res.push(state.assetsSubsetForAggregations[i])
             }
             return res
         },
         totalTransactions(state: IRootState): number {
             let totalTransactions = 0
-            for (let asset in state.assets) {
+            for (const asset in state.assets) {
                 totalTransactions += state.assets[asset].txCount_day
             }
             return totalTransactions

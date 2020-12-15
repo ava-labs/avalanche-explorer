@@ -5,17 +5,17 @@
         </template>
         <template v-else>
             <Metadata
-                :totalSubnets="totalSubnets"
-                :totalValidators="totalValidators"
-                :totalBlockchains="totalBlockchains"
-                :totalStake="totalStake"
+                :total-subnets="totalSubnets"
+                :total-validators="totalValidators"
+                :total-blockchains="totalBlockchains"
+                :total-stake="totalStake"
             ></Metadata>
-            <div class="card" v-if="this.$vuetify.breakpoint.mdAndUp">
+            <div v-if="this.$vuetify.breakpoint.mdAndUp" class="card">
                 <Tabs :subnets="subnets"></Tabs>
             </div>
             <div
-                class="card selection"
                 v-if="this.$vuetify.breakpoint.smAndDown"
+                class="card selection"
             >
                 <v-select
                     v-model="selection"
@@ -24,7 +24,7 @@
                     outlined
                 ></v-select>
                 <Content
-                    :subnetID="selection"
+                    :subnet-i-d="selection"
                     :subnet="subnets[selection]"
                 ></Content>
             </div>
@@ -41,8 +41,8 @@ import Tabs from '@/components/Subnets/Tabs.vue'
 import Loader from '@/components/misc/Loader.vue'
 import Content from '@/components/Subnets/Content.vue'
 import { AVALANCHE_SUBNET_ID } from '@/store/modules/platform/platform'
-import { ISubnets } from '../store/modules/platform/IPlatformState'
 import Big from 'big.js'
+import { ISubnets } from '../store/modules/platform/IPlatformState'
 
 interface IMap {
     text: string
@@ -87,8 +87,8 @@ export default class Subnets extends Vue {
     }
 
     get totalStake(): Big {
-        let valBig = this.$store.getters['Platform/totalStake']
-        let res = valBig.div(Math.pow(10, 9))
+        const valBig = this.$store.getters['Platform/totalStake']
+        const res = valBig.div(Math.pow(10, 9))
         return res
     }
 
@@ -97,9 +97,9 @@ export default class Subnets extends Vue {
     }
 
     get subnetsByName(): IMap[] {
-        let list: IMap[] = []
+        const list: IMap[] = []
         Object.keys(this.subnets).forEach((key) => {
-            let object: IMap = {
+            const object: IMap = {
                 text: subnetMap(key) ? subnetMap(key) : key,
                 value: key,
             }

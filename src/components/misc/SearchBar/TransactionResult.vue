@@ -19,7 +19,7 @@ import moment from 'moment'
 @Component({
     filters: {
         date(val: string) {
-            let date = new Date(val)
+            const date = new Date(val)
             return moment(date).fromNow()
         },
     },
@@ -37,7 +37,7 @@ export default class TransactionResult extends Vue {
 
     select() {
         if (this.tx) {
-            let url = `/tx/${this.tx.id}`
+            const url = `/tx/${this.tx.id}`
             this.$router.push(url)
             this.$emit('select')
         }

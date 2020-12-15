@@ -26,11 +26,11 @@ export default {
             return this.utxo.addresses
         },
         amount() {
-            let val = stringToBig(this.utxo.amount, this.asset.denomination)
+            const val = stringToBig(this.utxo.amount, this.asset.denomination)
             return val
         },
         asset() {
-            let id = this.utxo.assetID
+            const id = this.utxo.assetID
             return this.$store.state.assets[id]
         },
         txId() {

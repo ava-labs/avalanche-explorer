@@ -8,13 +8,13 @@
                 ></TooltipHeading>
             </h2>
         </div>
-        <div class="table_spinner_container" v-if="!assetAggregatesLoaded">
+        <div v-if="!assetAggregatesLoaded" class="table_spinner_container">
             <v-progress-circular
+                key="1"
                 :size="16"
                 :width="2"
                 color="#E84970"
                 indeterminate
-                key="1"
             ></v-progress-circular>
         </div>
         <div v-else>
@@ -31,7 +31,7 @@
                         >Txs (24h)
                     </p>
                 </div>
-                <div class="asset" v-for="asset in assets" :key="asset.id">
+                <div v-for="asset in assets" :key="asset.id" class="asset">
                     <div v-if="$vuetify.breakpoint.smAndUp">
                         <span class="symbol">{{ asset.symbol }}</span>
                     </div>
@@ -85,12 +85,12 @@ import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
 })
 export default class TopAssets extends Vue {
     created() {
-        let parent = this
+        const parent = this
     }
 
     get assets(): Asset[] {
         let res = this.$store.getters.assetsArrayNonProfane
-        let avax = res.find((asset: Asset) => asset.id === AVAX_ID)
+        const avax = res.find((asset: Asset) => asset.id === AVAX_ID)
         res = res.filter((asset: Asset) => asset.id !== AVAX_ID)
         res.sort((a: Asset, b: Asset) => b.txCount_day - a.txCount_day)
         res.unshift(avax)

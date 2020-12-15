@@ -48,9 +48,9 @@ class Asset {
     // Daily Volume
     public updateVolumeHistory(): void {
         if (this.isUnknown === false) {
-            let endDate = new Date()
-            let startTime = Date.now() - 1000 * 60 * 60 * 24
-            let startDate = new Date(startTime)
+            const endDate = new Date()
+            const startTime = Date.now() - 1000 * 60 * 60 * 24
+            const startDate = new Date(startTime)
 
             // TODO: support service for multiple chains
             // TODO: declare interface
@@ -59,8 +59,8 @@ class Asset {
                     this.id
                 }`
             ).then((res) => {
-                let txCount = res.data.aggregates.transactionCount || 0
-                let txVolume = res.data.aggregates.transactionVolume || '0'
+                const txCount = res.data.aggregates.transactionCount || 0
+                const txVolume = res.data.aggregates.transactionVolume || '0'
                 this.volume_day = stringToBig(txVolume, this.denomination)
                 this.txCount_day = txCount
                 this.isHistoryUpdated = true
