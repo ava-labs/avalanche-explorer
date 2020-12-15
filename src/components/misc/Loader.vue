@@ -1,69 +1,76 @@
 <template>
     <div v-if="display" class="page_loader">
         <transition-group name="fade">
-            <div class="quote_container" key="0">
+            <div key="0" class="quote_container">
                 <img src="@/assets/yeti_grover_logo.png" />
                 <div class="quote">
-                    "{{quote.quote}}"
+                    "{{ quote.quote }}"
                     <br />
-                    - {{quote.author}}
+                    - {{ quote.author }}
                 </div>
             </div>
-            <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
-            <div class="message" key="2">{{message}}</div>
-            <div class="content_id" key="3" v-if="contentId">{{contentId}}</div>
+            <v-progress-circular
+                key="1"
+                :size="16"
+                :width="2"
+                color="#E84970"
+                indeterminate
+            ></v-progress-circular>
+            <div key="2" class="message">{{ message }}</div>
+            <div v-if="contentId" key="3" class="content_id">
+                {{ contentId }}
+            </div>
         </transition-group>
     </div>
 </template>
 
 <script>
-import { getRandomQuote } from "../../helper";
+import { getRandomQuote } from '../../helper'
 
 export default {
-    data() {
-        return {
-            display: false
-        };
-    },
     props: {
         contentId: String,
-        message: String
+        message: String,
+    },
+    data() {
+        return {
+            display: false,
+        }
+    },
+    computed: {
+        quote() {
+            return getRandomQuote()
+        },
     },
     created() {
         // assign debounce here (not in methods)
-        this.debounceShow = this.debounce(this.show, 500);
-        this.debounceShow();
-    },
-computed: {
-        quote() {
-            return getRandomQuote();
-        }
+        this.debounceShow = this.debounce(this.show, 500)
+        this.debounceShow()
     },
     methods: {
         show() {
-            this.display = true;
+            this.display = true
         },
         debounce(func, wait, immediate) {
-            let timeout;
+            let timeout
             return function executedFunction(...theArgs) {
-                let context = this;
-                let args = theArgs;
-                let later = function() {
-                    timeout = null;
-                    if (!immediate) func.apply(context, args);
-                };
-                let callNow = immediate && !timeout;
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-                if (callNow) func.apply(context, args);
-            };
-        }
-    }
-};
+                const context = this
+                const args = theArgs
+                const later = function () {
+                    timeout = null
+                    if (!immediate) func.apply(context, args)
+                }
+                const callNow = immediate && !timeout
+                clearTimeout(timeout)
+                timeout = setTimeout(later, wait)
+                if (callNow) func.apply(context, args)
+            }
+        },
+    },
+}
 </script>
 
 <style scoped lang="scss">
-
 .page_loader {
     display: flex;
     flex-direction: column;
@@ -136,7 +143,6 @@ img {
 }
 
 @include xsOnly {
-
     .quote_container {
         margin-top: 0;
     }

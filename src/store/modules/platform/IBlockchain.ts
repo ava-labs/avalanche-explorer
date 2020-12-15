@@ -1,6 +1,6 @@
 export interface IBlockchainData {
-    id: string,
-    name: string,
-    subnetID: string,
-    vmID: string,
+    id: string
+    name: string
+    subnetID: string
+    vmID: string
 }

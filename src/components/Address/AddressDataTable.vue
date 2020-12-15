@@ -1,19 +1,23 @@
 <template>
     <v-card id="address_data_table">
         <v-card-title v-if="title">
-            {{title}}
+            {{ title }}
             <v-spacer></v-spacer>
         </v-card-title>
         <v-data-table :items="addresses" :headers="headers" multi-sort>
-            <template #item.address="{item}">
+            <template #item.address="{ item }">
                 <div>
                     <template v-if="links">
-                        <router-link :to="`/address/${item.address}`" class="id">{{ item.address }}</router-link>
+                        <router-link
+                            :to="`/address/${item.address}`"
+                            class="id"
+                            >{{ item.address }}</router-link
+                        >
                     </template>
                     <template v-else>{{ item.address }}</template>
                 </div>
             </template>
-            <template #item.avaxBalance="{item}">
+            <template #item.avaxBalance="{ item }">
                 {{ item.avaxBalance }}
             </template>
         </v-data-table>
@@ -21,33 +25,31 @@
 </template>
 
 <script lang="ts">
-import "reflect-metadata";
-import { Vue, Component, Prop } from "vue-property-decorator";
-import { VMMap, VMDocumentationMap, trimmedLocaleString } from "@/helper";
-import { IAddress, IBalance_X } from '@/js/IAddress';
-import Address from '@/js/Address';
-import { Asset } from '@/js/Asset';
+import 'reflect-metadata'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import { VMMap, VMDocumentationMap, trimmedLocaleString } from '@/helper'
+import { IAddress, IBalance_X } from '@/js/IAddress'
+import Address from '@/js/Address'
+import { Asset } from '@/js/Asset'
 
 @Component({
-    components: {
-    }
+    components: {},
 })
 export default class AddressDataTable extends Vue {
-    @Prop() addresses!: Address[];
-    @Prop() links?: boolean;
-    @Prop() title?: string;
+    @Prop() addresses!: Address[]
+    @Prop() links?: boolean
+    @Prop() title?: string
 
     get headers(): any[] {
         return [
-            { text: "Address", value: "address" },
-            { text: "AVAX Balance", value: "avaxBalance" },
-        ];
-    }    
+            { text: 'Address', value: 'address' },
+            { text: 'AVAX Balance', value: 'avaxBalance' },
+        ]
+    }
 }
 </script>
 
 <style scoped lang="scss">
-
 .table_image {
     height: 20px;
     display: inline-block;
@@ -74,14 +76,12 @@ export default class AddressDataTable extends Vue {
 </style>
 
 <style lang="scss">
-
-
 #address_data_table {
     .v-data-footer__icons-before > button,
     .v-data-footer__icons-after > button {
         border-width: inherit;
         cursor: pointer;
-    }    
+    }
 
     .v-select.v-text-field input {
         border-color: transparent;

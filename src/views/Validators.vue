@@ -8,15 +8,22 @@
             <div class="controls">
                 <div class="filter_count">
                     <p v-show="search.length === 0">
-                        {{totalValidatorsCount.toLocaleString()}} {{toggle}} validators</p>
+                        {{ totalValidatorsCount.toLocaleString() }}
+                        {{ toggle }} validators
+                    </p>
                     <p v-show="search.length > 0 && matchedValidators">
-                        {{matchedValidators.length.toLocaleString() | pluralize}} found</p>
+                        {{
+                            matchedValidators.length.toLocaleString()
+                                | pluralize
+                        }}
+                        found
+                    </p>
                 </div>
-                <div class="filter_input_container">    
+                <div class="filter_input_container">
                     <input
+                        v-model="search"
                         class="filter"
                         type="text"
-                        v-model="search"
                         placeholder="Filter by Node ID"
                     />
                 </div>
@@ -25,26 +32,32 @@
                 <p>Rank</p>
                 <p>
                     Node ID
-                    <Tooltip content="Node ID of validator participating in the consensus protocol"></Tooltip>
+                    <Tooltip
+                        content="Node ID of validator participating in the consensus protocol"
+                    ></Tooltip>
                 </p>
-                <p style="text-align: right;">
-                    <Tooltip content="Amount of AVAX staked by this validator"></Tooltip>Stake
+                <p style="text-align: right">
+                    <Tooltip
+                        content="Amount of AVAX staked by this validator"
+                    ></Tooltip
+                    >Stake
                 </p>
-                <p style="text-align: right;" v-if="$vuetify.breakpoint.smAndUp">
+                <p v-if="$vuetify.breakpoint.smAndUp" style="text-align: right">
                     <Tooltip
                         content="Percentage of AVAX concentrated up to this validator ranking"
-                    ></Tooltip>Cumulative Stake
+                    ></Tooltip
+                    >Cumulative Stake
                 </p>
             </div>
             <div v-if="validators.length === 0" class="empty_table">
-                <p>No {{toggle}} Validators</p>
+                <p>No {{ toggle }} Validators</p>
             </div>
             <div v-show="search.length === 0">
                 <div v-show="validators.length > 0">
                     <validator-row
-                        class="validator"
                         v-for="v in paginatedValidators"
                         :key="v.nodeID + v.stakeAmount"
+                        class="validator"
                         :validator="v"
                         :cumulative-stake="cumulativeStake[v.rank - 1]"
                     ></validator-row>
@@ -52,9 +65,9 @@
             </div>
             <div v-show="search.length > 0">
                 <validator-row
-                    class="validator"
                     v-for="v in matchedValidators"
                     :key="v.nodeID + v.stakeAmount"
+                    class="validator"
                     :validator="v"
                     :cumulative-stake="cumulativeStake[v.rank - 1]"
                 ></validator-row>
@@ -70,23 +83,21 @@
     </div>
 </template>
 <script lang="ts">
-import "reflect-metadata";
-import { Vue, Component } from "vue-property-decorator";
-import ValidatorRow from "@/components/rows/ValidatorRow/ValidatorRow.vue";
-import ValidatorPaginationControls from "@/components/misc/ValidatorPaginationControls.vue";
-import { AVALANCHE_SUBNET_ID } from "@/store/modules/platform/platform";
-import Tooltip from "@/components/rows/Tooltip.vue";
-import TooltipHeading from "@/components/misc/TooltipHeading.vue";
-import TooltipMeta from "@/components/misc/TooltipMeta.vue";
-import Metadata from "@/components/Validators/Metadata.vue";
-import { IValidator } from "@/store/modules/platform/IValidator";
+import 'reflect-metadata'
+import { Vue, Component } from 'vue-property-decorator'
+import ValidatorRow from '@/components/rows/ValidatorRow/ValidatorRow.vue'
+import ValidatorPaginationControls from '@/components/misc/ValidatorPaginationControls.vue'
+import { AVALANCHE_SUBNET_ID } from '@/store/modules/platform/platform'
+import Tooltip from '@/components/rows/Tooltip.vue'
+import Metadata from '@/components/Validators/Metadata.vue'
+import { IValidator } from '@/store/modules/platform/IValidator'
 
 @Component({
     components: {
         Tooltip,
         ValidatorRow,
         ValidatorPaginationControls,
-        Metadata
+        Metadata,
     },
     filters: {
         pluralize(val: number): string {
@@ -94,92 +105,96 @@ import { IValidator } from "@/store/modules/platform/IValidator";
                 ? `${val} results`
                 : val > 1
                 ? `${val} results`
-                : `${val} result`;
-        }
-    }
+                : `${val} result`
+        },
+    },
 })
 export default class Validators extends Vue {
-    search: string =  "";
-    toggle: string = "active"; // active | pending
-    limit: number = 25; // how many rows to display
-    start: number = 0;
+    search = ''
+    toggle = 'active' // active | pending
+    limit = 25 // how many rows to display
+    start = 0
 
     matchSearch(val: HTMLInputElement) {
         if (this.search) {
-            let idUpper = val.id.toUpperCase();
-            let queryUpper = this.search.toUpperCase();
+            const idUpper = val.id.toUpperCase()
+            const queryUpper = this.search.toUpperCase()
             if (!idUpper.includes(queryUpper)) {
-                return false;
+                return false
             }
         }
-        return true;
+        return true
     }
-    
+
     handleChange(val: number) {
-        this.start = val; // all computed values will react to change
+        this.start = val // all computed values will react to change
     }
-    
+
     handleToggle(val: string) {
-        this.toggle = val;
+        this.toggle = val
     }
 
     get totalStake() {
-        let valBig =
-            this.toggle === "active"
-                ? this.$store.getters["Platform/totalStake"]
-                : this.$store.getters["Platform/totalPendingStake"];
-        return valBig.div(Math.pow(10, 9)).toLocaleString();
+        const valBig =
+            this.toggle === 'active'
+                ? this.$store.getters['Platform/totalStake']
+                : this.$store.getters['Platform/totalPendingStake']
+        return valBig.div(Math.pow(10, 9)).toLocaleString()
     }
 
     get totalValidatorsCount() {
-        return this.toggle === "active"
-            ? this.$store.getters["Platform/totalValidators"]
-            : this.$store.getters["Platform/totalPendingValidators"];
+        return this.toggle === 'active'
+            ? this.$store.getters['Platform/totalValidators']
+            : this.$store.getters['Platform/totalPendingValidators']
     }
 
     get validators() {
-        let defaultSubnet = this.$store.state.Platform.subnets[AVALANCHE_SUBNET_ID];
+        const defaultSubnet = this.$store.state.Platform.subnets[
+            AVALANCHE_SUBNET_ID
+        ]
         if (defaultSubnet) {
-            return this.toggle === "active"
+            return this.toggle === 'active'
                 ? defaultSubnet.validators
-                : defaultSubnet.pendingValidators;
+                : defaultSubnet.pendingValidators
         }
-        return [];
+        return []
     }
 
     get matchedValidators() {
         return this.validators
             .filter((v: IValidator) => v.nodeID.includes(this.search))
-            .slice(0, 10);
+            .slice(0, 10)
     }
 
     get paginatedValidators() {
-        return this.validators.slice(this.start, this.start + this.limit);
-    }
-    
-    get pendingValidators() {
-        let defaultSubnet = this.$store.state.Platform.subnets[AVALANCHE_SUBNET_ID];
-        if (defaultSubnet) {
-            let vals = defaultSubnet.pendingValidators;
-            return vals;
-        }
-        return [];
-    }
-    
-    get cumulativeStake() {
-        let defaultSubnet = this.$store.state.Platform.subnets[AVALANCHE_SUBNET_ID];
-        if (defaultSubnet) {
-            return this.toggle === "active"
-                ? this.$store.getters["Platform/cumulativeStake"]
-                : this.$store.getters["Platform/cumulativePendingStake"];
-        }
-        return [];
+        return this.validators.slice(this.start, this.start + this.limit)
     }
 
+    get pendingValidators() {
+        const defaultSubnet = this.$store.state.Platform.subnets[
+            AVALANCHE_SUBNET_ID
+        ]
+        if (defaultSubnet) {
+            const vals = defaultSubnet.pendingValidators
+            return vals
+        }
+        return []
+    }
+
+    get cumulativeStake() {
+        const defaultSubnet = this.$store.state.Platform.subnets[
+            AVALANCHE_SUBNET_ID
+        ]
+        if (defaultSubnet) {
+            return this.toggle === 'active'
+                ? this.$store.getters['Platform/cumulativeStake']
+                : this.$store.getters['Platform/cumulativePendingStake']
+        }
+        return []
+    }
 }
 </script>
 <style scoped lang="scss">
-
 .pagination_container {
     display: flex;
     justify-content: flex-end;

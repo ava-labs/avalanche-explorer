@@ -3,40 +3,42 @@
         <section class="stats">
             <article class="meta">
                 <p class="label">Addresses</p>
-                <p class="meta_val">{{aggregates.addressCount.toLocaleString()}}</p>
+                <p class="meta_val">
+                    {{ aggregates.addressCount.toLocaleString() }}
+                </p>
             </article>
             <article class="meta">
                 <p class="label">Assets</p>
-                <p class="meta_val">{{aggregates.assetCount.toLocaleString()}}</p>
+                <p class="meta_val">
+                    {{ aggregates.assetCount.toLocaleString() }}
+                </p>
             </article>
         </section>
     </div>
 </template>
 <script lang="ts">
-import "reflect-metadata";
-import { Vue, Component, Prop } from "vue-property-decorator";
+import 'reflect-metadata'
+import { Vue, Component, Prop } from 'vue-property-decorator'
 
-import axios from "@/axios";
-import { stringToBig } from "@/helper";
-import TooltipHeading from "../../misc/TooltipHeading.vue";
-import TooltipMeta from "../TopInfo/TooltipMeta.vue";
-import { AVAX_ID } from "@/store/index";
-import { Asset } from '@/js/Asset';
-import Big from "big.js";
+import axios from '@/axios'
+import { stringToBig } from '@/helper'
+import TooltipHeading from '../../misc/TooltipHeading.vue'
+import TooltipMeta from '../TopInfo/TooltipMeta.vue'
+import { AVAX_ID } from '@/store/index'
+import { Asset } from '@/js/Asset'
+import Big from 'big.js'
 
 @Component({
     components: {
         TooltipHeading,
-        TooltipMeta
-    }
+        TooltipMeta,
+    },
 })
 export default class NetworkActivity extends Vue {
-    @Prop() aggregates!: any;
+    @Prop() aggregates!: any
 }
-
 </script>
 <style scoped lang="scss">
-
 #tx_history_statistics {
     margin-top: 30px;
 }
@@ -60,7 +62,7 @@ export default class NetworkActivity extends Vue {
         text-align: center;
         font-size: 12px;
         font-weight: 700;
-        
+
         p {
             padding: 2px 4px;
             font-weight: 400;

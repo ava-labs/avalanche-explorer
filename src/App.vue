@@ -1,17 +1,20 @@
 <template>
     <v-app>
         <!-- <nav-bar-XL class="navbar_xl" v-if="$vuetify.breakpoint.xlOnly"></nav-bar-XL>         -->
-        <nav-bar class="navbar" v-if="$vuetify.breakpoint.mdAndUp"></nav-bar>
-        <nav-bar-mobile class="navbar_mobile" v-if="$vuetify.breakpoint.smAndDown"></nav-bar-mobile>
+        <nav-bar v-if="$vuetify.breakpoint.mdAndUp" class="navbar"></nav-bar>
+        <nav-bar-mobile
+            v-if="$vuetify.breakpoint.smAndDown"
+            class="navbar_mobile"
+        ></nav-bar-mobile>
         <div>
             <testnet-alert></testnet-alert>
-                <div class="side_container">
+            <div class="side_container">
                 <v-content class="content">
                     <router-view class="router_view"></router-view>
                 </v-content>
-            </div>          
+            </div>
         </div>
-        
+
         <Footer class="footer"></Footer>
         <notifications></notifications>
         <!-- <ResponsiveGuidelines></ResponsiveGuidelines> -->
@@ -19,61 +22,65 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import NavBar from "@/components/NavBar.vue";
-import NavBarMobile from "@/components/NavBarMobile.vue";
-import TestnetAlert from "@/components/misc/TestnetAlert.vue";
+import Vue from 'vue'
+import NavBar from '@/components/NavBar.vue'
+import NavBarMobile from '@/components/NavBarMobile.vue'
+import TestnetAlert from '@/components/misc/TestnetAlert.vue'
 // import ResponsiveGuidelines from "@/components/misc/ResponsiveGuidelines.vue";
-import Footer from "@/components/Footer.vue"
-import { IMetaTag } from "@/router/IMetaTag";
-import Notifications from "@/components/Notifications.vue";
-import { DEFAULT_NETWORK_ID } from "@/store/modules/network/network";
+import Footer from '@/components/Footer.vue'
+import { IMetaTag } from '@/router/IMetaTag'
+import Notifications from '@/components/Notifications.vue'
+import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
 
 export default Vue.extend({
-    name: "App",
+    name: 'App',
     components: {
         NavBar,
         NavBarMobile,
         // ResponsiveGuidelines,
         TestnetAlert,
         Footer,
-        Notifications
+        Notifications,
     },
     data: () => ({}),
-    async created() {
-        this.$store.dispatch("init");
-        this.$store.dispatch("Platform/init");
-        await this.$store.dispatch('Network/init');
-    },
     watch: {
         $route: {
             handler: (to, from) => {
                 // Remove stale tags from the document using key attribute
-                Array.from(document.querySelectorAll("[vue-router-data]"))
-                    .map(el => {
+                Array.from(document.querySelectorAll('[vue-router-data]')).map(
+                    (el) => {
                         if (el.parentNode) {
-                            el.parentNode.removeChild(el);
-                            return;
+                            el.parentNode.removeChild(el)
+                            return
                         }
                     }
-                );
+                )
                 // Update tags
-                document.title = to.meta.title || "Avalanche Explorer";
+                document.title = to.meta.title || 'Avalanche Explorer'
                 if (to.meta.metaTags) {
                     to.meta.metaTags
                         .map((tagDef: IMetaTag) => {
-                            const tag = document.createElement("meta");
-                            Object.keys(tagDef).forEach(key => tag.setAttribute(key, tagDef[key]));
-                            tag.setAttribute("vue-router-data", ""); 
-                            return tag;
+                            const tag = document.createElement('meta')
+                            Object.keys(tagDef).forEach((key) =>
+                                tag.setAttribute(key, tagDef[key])
+                            )
+                            tag.setAttribute('vue-router-data', '')
+                            return tag
                         })
-                        .forEach((tag: HTMLMetaElement) => document.head.appendChild(tag));
+                        .forEach((tag: HTMLMetaElement) =>
+                            document.head.appendChild(tag)
+                        )
                 }
             },
-            immediate: true
-        }
-    }
-});
+            immediate: true,
+        },
+    },
+    async created() {
+        this.$store.dispatch('init')
+        this.$store.dispatch('Platform/init')
+        await this.$store.dispatch('Network/init')
+    },
+})
 </script>
 
 <style scoped lang="scss">
@@ -84,12 +91,12 @@ export default Vue.extend({
 
 @if $VUE_APP_DEFAULT_NETWORKID == 5 {
     .v-application {
-       background-color: #fff !important;
-       background-image: $background_image;
+        background-color: #fff !important;
+        background-image: $background_image;
     }
 }
 
-.side_container {   
+.side_container {
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -111,7 +118,6 @@ export default Vue.extend({
    ========================================== */
 
 @include xlOnly {
-
     .navbar,
     .router_view,
     .footer {
@@ -130,31 +136,29 @@ export default Vue.extend({
         padding: $container_padding_xl;
         padding-top: 0 !important;
 
-        @if $VUE_APP_DEFAULT_NETWORKID == 1 { 
+        @if $VUE_APP_DEFAULT_NETWORKID == 1 {
             padding-top: $navbar_height_offset_xl !important;
         }
     }
 }
 
 @include lgOnly {
-    
     .navbar,
     .router_view,
     .footer {
         padding: $container_padding_lg;
     }
- 
+
     .content {
         padding-top: 0 !important;
 
-        @if $VUE_APP_DEFAULT_NETWORKID == 1 { 
+        @if $VUE_APP_DEFAULT_NETWORKID == 1 {
             padding-top: $navbar_height_offset_lg !important;
-        }        
+        }
     }
 }
 
 @include mdOnly {
-
     .navbar,
     .router_view,
     .footer {
@@ -164,15 +168,13 @@ export default Vue.extend({
     .content {
         padding-top: 0 !important;
 
-        @if $VUE_APP_DEFAULT_NETWORKID == 1 { 
+        @if $VUE_APP_DEFAULT_NETWORKID == 1 {
             padding-top: $navbar_height_offset_md !important;
-        }        
+        }
     }
 }
 
-
 @include smOnly {
-    
     .side_container {
         flex-direction: column;
     }
@@ -184,34 +186,31 @@ export default Vue.extend({
     .content {
         padding-top: 0 !important;
 
-        @if $VUE_APP_DEFAULT_NETWORKID == 1 { 
+        @if $VUE_APP_DEFAULT_NETWORKID == 1 {
             padding-top: $navbar_height_offset_sm !important;
-        }  
+        }
     }
 }
 
 @include xsOnly {
-    
     .router_view,
     .footer {
         padding: $container_padding_xs;
         padding-top: 0 !important;
     }
 
-    .content {        
+    .content {
         padding-top: 0 !important;
 
-        @if $VUE_APP_DEFAULT_NETWORKID == 1 { 
+        @if $VUE_APP_DEFAULT_NETWORKID == 1 {
             padding-top: $navbar_height_offset_xs !important;
-        }  
-
+        }
     }
 }
 </style>
 
 <style lang="scss">
-
-@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@1,400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap');
@@ -220,7 +219,7 @@ export default Vue.extend({
    typography
    ========================================== */
 body {
-    font-family: "Rubik", sans-serif;
+    font-family: 'Rubik', sans-serif;
     margin: 0;
     background-color: $white !important;
     color: $primary-color;
@@ -229,7 +228,7 @@ body {
 }
 
 button {
-    font-family: "Rubik", sans-serif;
+    font-family: 'Rubik', sans-serif;
     outline: none !important;
     border: none;
     cursor: pointer;
@@ -343,7 +342,7 @@ p {
     overflow-x: scroll;
     padding: 15px 0;
     border-bottom: 1px solid $gray-xlight;
-    
+
     .label {
         font-weight: 400; /* 700 */
         margin-right: 8px;
@@ -474,16 +473,16 @@ input {
     width: max-content;
     text-decoration: none !important;
     transition: opacity 0.3s;
-    
-    background-color: transparent!important;
+
+    background-color: transparent !important;
     border-radius: 6px;
     padding: 10px 24px;
-    font-family: "DM Sans", sans-serif;
+    font-family: 'DM Sans', sans-serif;
     font-weight: 700 !important;
-    letter-spacing: .5px;
-    text-transform: uppercase!important;
+    letter-spacing: 0.5px;
+    text-transform: uppercase !important;
     font-size: 14px;
-    
+
     &:hover {
         opacity: 0.7;
     }
@@ -558,16 +557,16 @@ input {
 
 .ava_btn {
     transition: opacity 0.3s;
-    background-color: transparent!important;
+    background-color: transparent !important;
     border-radius: 6px;
     padding: 10px 24px;
-    font-family: "DM Sans", sans-serif;
+    font-family: 'DM Sans', sans-serif;
     font-weight: 700 !important;
-    letter-spacing: .5px;
-    text-transform: uppercase!important;
+    letter-spacing: 0.5px;
+    text-transform: uppercase !important;
     font-size: 14px !important;
     height: 38px;
-    
+
     &:hover {
         opacity: 0.9;
     }
@@ -609,7 +608,7 @@ tbody {
         text-transform: capitalize;
         font-weight: 400;
     }
-    
+
     .filter_input_container {
         display: flex;
         flex-direction: row-reverse;
@@ -633,13 +632,13 @@ tbody {
     }
 }
 
-.v-toolbar--dense .v-toolbar__content, 
+.v-toolbar--dense .v-toolbar__content,
 .v-toolbar--dense .v-toolbar__extension {
     padding: 0;
 }
 
 @include xlOnly {
-    .v-toolbar--dense .v-toolbar__content, 
+    .v-toolbar--dense .v-toolbar__content,
     .v-toolbar--dense .v-toolbar__extension {
         padding: 0;
     }
@@ -658,5 +657,4 @@ tbody {
 /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
 }
-
 </style>

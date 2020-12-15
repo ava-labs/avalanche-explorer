@@ -7,25 +7,32 @@
         </template>
         <template v-else>
             <v-alert class="testnet_alert" text type="info" rounded="0">
-                <p class="description">Notice: This Explorer displays activity on the {{networkName}} Testnet, <span class="bold">not</span> the Avalanche Mainnet.</p>
+                <p class="description">
+                    Notice: This Explorer displays activity on the
+                    {{ networkName }} Testnet, <span class="bold">not</span> the
+                    Avalanche Mainnet.
+                </p>
             </v-alert>
         </template>
     </div>
 </template>
 
 <script lang="ts">
-import "reflect-metadata";
-import { Vue, Component } from "vue-property-decorator";
-import { DEFAULT_NETWORK_ID, DEFAULT_NETWORK_NAME } from "@/store/modules/network/network";
+import 'reflect-metadata'
+import { Vue, Component } from 'vue-property-decorator'
+import {
+    DEFAULT_NETWORK_ID,
+    DEFAULT_NETWORK_NAME,
+} from '@/store/modules/network/network'
 
 @Component({})
 export default class TestnetAlert extends Vue {
     get networkID(): number {
-        return DEFAULT_NETWORK_ID;
+        return DEFAULT_NETWORK_ID
     }
 
     get networkName(): string {
-        return DEFAULT_NETWORK_NAME;
+        return DEFAULT_NETWORK_NAME
     }
 }
 </script>
@@ -40,7 +47,14 @@ export default class TestnetAlert extends Vue {
     color: $white !important;
     font-weight: 400;
     font-style: italic;
-    background-image: linear-gradient(to left, #ff8080, #f6a06a, #debf6f, #c2da8f, #a9efbf) !important;
+    background-image: linear-gradient(
+        to left,
+        #ff8080,
+        #f6a06a,
+        #debf6f,
+        #c2da8f,
+        #a9efbf
+    ) !important;
 
     .description {
         text-align: center;

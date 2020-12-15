@@ -1,16 +1,18 @@
 <template>
-    <section class="card meta" v-if="tx">
+    <section v-if="tx" class="card meta">
         <header class="header">
             <h2><slot></slot></h2>
         </header>
         <article class="meta_row">
             <p class="label">
                 ID
-                <Tooltip content="Unique character string generated when a transaction is executed"></Tooltip>
+                <Tooltip
+                    content="Unique character string generated when a transaction is executed"
+                ></Tooltip>
             </p>
             <div class="genesis_tx">
                 <p>
-                    <b>{{txId}}</b>
+                    <b>{{ txId }}</b>
                     <CopyText :value="`${txId}`" class="copy_but"></CopyText>
                 </p>
                 <p v-if="isAssetGenesis" class="genesis">Asset Genesis</p>
@@ -23,53 +25,58 @@
             </p>
             <div>
                 <p class="status">Success</p>
-                <p class="status" v-if="type==='assetCreation'">Success</p>
+                <p v-if="type === 'assetCreation'" class="status">Success</p>
             </div>
         </article>
         <article class="meta_row">
             <p class="label">
                 Timestamp
-                <Tooltip content="Date and time when the transaction was processed"></Tooltip>
+                <Tooltip
+                    content="Date and time when the transaction was processed"
+                ></Tooltip>
             </p>
             <p class="date">
-                <fa :icon="['far','clock']"></fa>
-                {{dateAgo}} ({{date.toLocaleString()}})
+                <fa :icon="['far', 'clock']"></fa>
+                {{ dateAgo }} ({{ date.toLocaleString() }})
             </p>
         </article>
         <article class="meta_row">
             <p class="label">
                 Value
-                <Tooltip content="Total economic value transferred in this transaction"></Tooltip>
+                <Tooltip
+                    content="Total economic value transferred in this transaction"
+                ></Tooltip>
             </p>
             <p class="values">
-                <span
-                    v-for="(val, id) in outValuesDenominated"
-                    :key="id"
-                >{{val.amount}} <b>{{val.symbol}}</b></span>
+                <span v-for="(val, id) in outValuesDenominated" :key="id"
+                    >{{ val.amount }} <b>{{ val.symbol }}</b></span
+                >
             </p>
         </article>
         <article class="meta_row">
             <p class="label">
                 Transaction Fee
-                <Tooltip content="Amount paid to validators for processing the transaction"></Tooltip>
+                <Tooltip
+                    content="Amount paid to validators for processing the transaction"
+                ></Tooltip>
             </p>
             <!-- TODO: Tx Fee from API when supported -->
             <p>0.001 AVAX</p>
         </article>
-        <article class="meta_row" v-if="isText">
+        <article v-if="isText" class="meta_row">
             <p class="label">
                 Text
-                <Tooltip content="A 256-byte text field for encoding arbitrary data"></Tooltip>
+                <Tooltip
+                    content="A 256-byte text field for encoding arbitrary data"
+                ></Tooltip>
             </p>
             <div>
-                <p><span class="decode">hex</span> {{text_hex}}</p>
-                <p><span class="decode">UTF-8</span> {{text_utf8}}</p>
+                <p><span class="decode">hex</span> {{ text_hex }}</p>
+                <p><span class="decode">UTF-8</span> {{ text_utf8 }}</p>
             </div>
         </article>
-        <article class="meta_row" v-if="!isAssetGenesis">
-            <p class="label">
-                Input UTXOs
-            </p>
+        <article v-if="!isAssetGenesis" class="meta_row">
+            <p class="label">Input UTXOs</p>
             <div v-if="inputs.length > 0">
                 <div class="utxo_headers">
                     <p>Tx</p>
@@ -80,21 +87,22 @@
                     <p class="amount">Amount</p>
                 </div>
                 <utxo-row
-                    class="io_item"
                     v-for="(input, i) in inputs"
                     :key="i"
+                    class="io_item"
                     :utxo="input"
                     type="input"
                 ></utxo-row>
             </div>
             <div v-else>
-                <p>No input UTXOs found for this transaction on the Avalanche Explorer.</p>
+                <p>
+                    No input UTXOs found for this transaction on the Avalanche
+                    Explorer.
+                </p>
             </div>
         </article>
         <article class="meta_row">
-            <p class="label">
-                Output UTXOs
-            </p>
+            <p class="label">Output UTXOs</p>
             <div v-if="outputs.length > 0">
                 <div class="utxo_headers">
                     <p>Tx</p>
@@ -105,9 +113,9 @@
                     <p class="amount">Amount</p>
                 </div>
                 <utxo-row
-                    class="io_item"
                     v-for="(output, i) in outputs"
                     :key="i"
+                    class="io_item"
                     :utxo="output"
                     type="output"
                 ></utxo-row>
@@ -120,162 +128,173 @@
 </template>
 
 <script lang="ts">
-import "reflect-metadata";
-import { Vue, Component, Prop, Watch } from "vue-property-decorator";
-import CopyText from "@/components/misc/CopyText.vue";
-import Loader from "@/components/misc/Loader.vue";
-import UtxoRow from "@/components/Transaction/UtxoRow.vue";
-import { Transaction } from "../js/Transaction";
+import 'reflect-metadata'
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+import CopyText from '@/components/misc/CopyText.vue'
+import Loader from '@/components/misc/Loader.vue'
+import UtxoRow from '@/components/Transaction/UtxoRow.vue'
+import { Transaction } from '../js/Transaction'
 import {
     ITransactionOutput,
     OutputValuesDict,
-    outValuesDenominated
-} from "../js/ITransaction";
-import { stringToBig } from "../helper";
-import Big from "big.js";
-import moment from "moment";
-import Tooltip from "@/components/rows/Tooltip.vue";
+    outValuesDenominated,
+} from '../js/ITransaction'
+import { stringToBig } from '../helper'
+import Big from 'big.js'
+import moment from 'moment'
+import Tooltip from '@/components/rows/Tooltip.vue'
 
 @Component({
     components: {
         UtxoRow,
         Tooltip,
-        CopyText
-    }
+        CopyText,
+    },
 })
 export default class TransactionDetailCard extends Vue {
-    @Prop() tx!: Transaction;
+    @Prop() tx!: Transaction
 
-     b64DecodeHex(str: string): string {
-        const raw = atob(str);
-        let result = "";
+    b64DecodeHex(str: string): string {
+        const raw = atob(str)
+        let result = ''
         for (let i = 0; i < raw.length; i++) {
-            const hex = raw.charCodeAt(i).toString(16);
-            result += (hex.length === 2 ? hex : "0" + hex);
+            const hex = raw.charCodeAt(i).toString(16)
+            result += hex.length === 2 ? hex : '0' + hex
         }
-        return result.toUpperCase();
+        return result.toUpperCase()
     }
 
     b64EncodeUnicode(str: string): string {
         // first we use encodeURIComponent to get percent-encoded UTF-8,
         // then we convert the percent encodings into raw bytes which
         // can be fed into btoa.
-        return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
-            function toSolidBytes(match, p1) {
-                return String.fromCharCode(parseInt(("0x" + p1)));
-        }));
+        return btoa(
+            encodeURIComponent(str).replace(
+                /%([0-9A-F]{2})/g,
+                function toSolidBytes(match, p1) {
+                    return String.fromCharCode(parseInt('0x' + p1))
+                }
+            )
+        )
     }
 
     b64DecodeUnicode(str: string): string {
         // Going backwards: from bytestream, to percent-encoding, to original string.
-        return decodeURIComponent(atob(str).split('').map(function(c) {
-            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join(""));
+        return decodeURIComponent(
+            atob(str)
+                .split('')
+                .map(function (c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+                })
+                .join('')
+        )
     }
 
     get text_hex(): string {
-        return this.b64DecodeHex(this.tx.memo);
+        return this.b64DecodeHex(this.tx.memo)
     }
 
     get text_utf8(): string {
-        return this.b64DecodeUnicode(this.tx.memo);
+        return this.b64DecodeUnicode(this.tx.memo)
     }
 
     get isText(): boolean {
-        return (this.tx.memo === "" || null) ? false : true;
+        return this.tx.memo === '' || null ? false : true
     }
 
     get txId(): string {
-        return this.tx.id;
+        return this.tx.id
     }
 
     get chainId(): string {
-        return this.tx.chainID;
+        return this.tx.chainID
     }
 
     get inputs(): ITransactionOutput[] {
-        let res: ITransactionOutput[] = [];
-        let ins = this.tx.inputs;
+        const res: ITransactionOutput[] = []
+        const ins = this.tx.inputs
 
-        if (!ins) return res;
+        if (!ins) return res
 
         for (let i = 0; i < ins.length; i++) {
-            res.push(ins[i].output);
+            res.push(ins[i].output)
         }
-        return res;
+        return res
     }
 
     get isAssetGenesis(): boolean {
-        return this.type === "create_asset";
+        return this.type === 'create_asset'
     }
 
     get outputs(): ITransactionOutput[] {
-        return this.tx.outputs;
+        return this.tx.outputs
     }
 
     get type(): string {
-        return this.tx.type;
+        return this.tx.type
     }
 
     get date(): Date {
-        return new Date(this.tx.timestamp);
+        return new Date(this.tx.timestamp)
     }
 
     get dateAgo(): string {
-        return moment(this.date).fromNow();
+        return moment(this.date).fromNow()
     }
 
     get assets(): any {
-        return this.$store.state.assets;
+        return this.$store.state.assets
     }
 
     get outValues(): OutputValuesDict {
-        let dict: OutputValuesDict = {};
-        let outs = this.outputs;
-        
-        outs.forEach(out => {
-            let assetID = out.assetID;
-            let amount = out.amount;
-            let asset = this.assets[assetID];
-            let denomination = 0;
-            let symbol = assetID;
+        const dict: OutputValuesDict = {}
+        const outs = this.outputs
+
+        outs.forEach((out) => {
+            const assetID = out.assetID
+            const amount = out.amount
+            const asset = this.assets[assetID]
+            let denomination = 0
+            let symbol = assetID
             if (asset) {
-                denomination = asset.denomination;
-                symbol = asset.symbol;
+                denomination = asset.denomination
+                symbol = asset.symbol
             } else {
-                this.$store.dispatch("addUnknownAsset", assetID);
-            }            
+                this.$store.dispatch('addUnknownAsset', assetID)
+            }
             if (dict[assetID]) {
-                let valNow = dict[assetID].amount;
-                dict[assetID].amount = valNow.plus(amount);
+                const valNow = dict[assetID].amount
+                dict[assetID].amount = valNow.plus(amount)
             } else {
                 dict[assetID] = {
                     symbol,
                     amount,
-                    denomination
-                };
+                    denomination,
+                }
             }
-        });
-        return dict;
+        })
+        return dict
     }
 
     get outValuesDenominated() {
-        let outValuesDenominated: outValuesDenominated = {};
-        for (let assetId in this.outValues) {
-            let val = this.outValues[assetId];
-            let res = stringToBig(val.amount.toString(), val.denomination).toLocaleString(val.denomination);
+        const outValuesDenominated: outValuesDenominated = {}
+        for (const assetId in this.outValues) {
+            const val = this.outValues[assetId]
+            const res = stringToBig(
+                val.amount.toString(),
+                val.denomination
+            ).toLocaleString(val.denomination)
             outValuesDenominated[assetId] = {
                 amount: res,
-                symbol: val.symbol
-            };
+                symbol: val.symbol,
+            }
         }
-        return outValuesDenominated;
+        return outValuesDenominated
     }
 }
 </script>
 
 <style scoped lang="scss">
-
 .decode {
     display: inline-block;
     color: $primary-color-light;

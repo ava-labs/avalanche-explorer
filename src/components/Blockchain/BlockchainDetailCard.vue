@@ -1,70 +1,72 @@
 <template>
-    <section class="card meta" v-if="this.blockchain">
+    <section v-if="this.blockchain" class="card meta">
         <header class="header">
-            <h2>{{blockchain.name}} Details</h2>
+            <h2>{{ blockchain.name }} Details</h2>
         </header>
         <article class="meta_row">
             <p class="label">Name</p>
             <p class="blockchain">
-                <span>{{blockchain.name}}</span>
+                <span>{{ blockchain.name }}</span>
             </p>
         </article>
         <article class="meta_row">
             <p class="label">ID</p>
             <p class="blockchain">
-                <span>{{blockchain.id}}</span>
+                <span>{{ blockchain.id }}</span>
             </p>
         </article>
         <article class="meta_row">
             <p class="label">Subnet</p>
             <p class="blockchain">
-                <span>{{blockchain.subnetID}}</span>
+                <span>{{ blockchain.subnetID }}</span>
             </p>
         </article>
         <article class="meta_row">
             <p class="label">Validators</p>
             <p class="blockchain">
-                <span>{{validatorsCount}}</span>
+                <span>{{ validatorsCount }}</span>
             </p>
         </article>
         <article class="meta_row">
             <p class="label">VM ID</p>
             <p class="blockchain">
-                <span>{{blockchain.vmID}}</span>
+                <span>{{ blockchain.vmID }}</span>
             </p>
         </article>
         <article class="meta_row">
             <p class="label">Indexed</p>
             <p class="blockchain">
-                <Indexed :indexed="blockchain.indexed" v-bind:notIndexedLabel="true"></Indexed>
+                <Indexed
+                    :indexed="blockchain.indexed"
+                    :not-indexed-label="true"
+                ></Indexed>
             </p>
         </article>
     </section>
 </template>
 
 <script lang="ts">
-import "reflect-metadata";
-import { Vue, Component, Prop, Watch } from "vue-property-decorator";
-import Blockchain from "@/js/Blockchain";
-import Indexed from "@/components/Blockchain/Indexed.vue";
+import 'reflect-metadata'
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+import Blockchain from '@/js/Blockchain'
+import Indexed from '@/components/Blockchain/Indexed.vue'
 
 @Component({
     components: {
-        Indexed
-    }
+        Indexed,
+    },
 })
 export default class TransactionDetailCard extends Vue {
-    @Prop() blockchain!: Blockchain;
+    @Prop() blockchain!: Blockchain
 
     get validatorsCount() {
-        return this.$store.state.Platform.subnets[this.blockchain.subnetID].validators.length;
+        return this.$store.state.Platform.subnets[this.blockchain.subnetID]
+            .validators.length
     }
-
 }
 </script>
 
 <style scoped lang="scss">
-
 /* ==========================================
    details
    ========================================== */
@@ -143,7 +145,6 @@ export default class TransactionDetailCard extends Vue {
             justify-content: center;
             align-items: center;
         }
-
     }
 
     .bar-table {

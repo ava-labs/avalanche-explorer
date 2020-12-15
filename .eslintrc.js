@@ -1,30 +1,34 @@
 module.exports = {
-  root: true,
-  env: {
-    node: true
-  },
-  "extends": [
-    "plugin:vue/essential",
-    "eslint:recommended",
-    "@vue/typescript/recommended"
-  ],
-  parserOptions: {
-    ecmaVersion: 2020
-  },
-  rules: {
-    "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
-    "@typescript-eslint/camelcase": "off",
-    "@typescript-eslint/no-this-alias": "off",
-    "prefer-const": "off",
-    "no-console": "off",
-    "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-unused-vars": "off",
-    "@typescript-eslint/type-annotation-spacing": "off",
-    "@typescript-eslint/member-delimiter-style": "off",
-    "@typescript-eslint/interface-name-prefix": "off",
-    "@typescript-eslint/no-var-requires": "off",
-    "@typescript-eslint/ban-ts-ignore": "off",
-    "@typescript-eslint/no-inferrable-types": "off", 
-    "@typescript-eslint/class-name-casing": "off"
-  }
+    root: true,
+    env: {
+        node: true,
+    },
+    extends: [
+        'eslint:recommended',
+        'plugin:@typescript-eslint/eslint-recommended',
+        'plugin:@typescript-eslint/recommended',
+        'plugin:vue/recommended',
+        'prettier/vue',
+        '@vue/eslint-config-typescript',
+        '@vue/eslint-config-prettier',
+    ],
+    parserOptions: {
+        parser: '@typescript-eslint/parser',
+    },
+    rules: {
+        'no-console': 'off',
+        // 'no-unused-vars': 'off',
+        'vue/no-unused-components': 'off',
+        'no-unreachable': 'off',
+        'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+        '@typescript-eslint/explicit-function-return-type': 'off',
+        '@typescript-eslint/no-var-requires': 'off',
+        '@typescript-eslint/no-explicit-any': 'off',
+        '@typescript-eslint/camelcase': 'off',
+        '@typescript-eslint/ban-ts-ignore': 'off',
+        '@typescript-eslint/member-delimiter-style': 'off',
+        '@typescript-eslint/interface-name-prefix': 'off',
+        '@typescript-eslint/no-this-alias': 'warn',
+        '@typescript-eslint/class-name-casing': 'warn',
+    },
 }

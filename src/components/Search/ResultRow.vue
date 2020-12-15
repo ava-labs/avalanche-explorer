@@ -1,36 +1,48 @@
 <template>
-    <transaction-result v-if="type===`transaction`" class="search_result" :item="result.data"></transaction-result>
-    <address-result v-else-if="type===`address`" class="search_result" :item="result.data"></address-result>
-    <asset-result v-else-if="type===`asset`" class="search_result" :item="result.data"></asset-result>
+    <transaction-result
+        v-if="type === `transaction`"
+        class="search_result"
+        :item="result.data"
+    ></transaction-result>
+    <address-result
+        v-else-if="type === `address`"
+        class="search_result"
+        :item="result.data"
+    ></address-result>
+    <asset-result
+        v-else-if="type === `asset`"
+        class="search_result"
+        :item="result.data"
+    ></asset-result>
 </template>
 
 <script lang="ts">
-import "reflect-metadata";
-import { Vue, Component, Prop } from "vue-property-decorator";
-import TransactionResult from "@/components/misc/SearchBar/TransactionResult.vue";
-import AddressResult from "@/components/misc/SearchBar/AddressResult.vue";
-import AssetResult from "@/components/misc/SearchBar/AssetResult.vue";
-import { Transaction } from "@/js/Transaction";
+import 'reflect-metadata'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import TransactionResult from '@/components/misc/SearchBar/TransactionResult.vue'
+import AddressResult from '@/components/misc/SearchBar/AddressResult.vue'
+import AssetResult from '@/components/misc/SearchBar/AssetResult.vue'
+import { Transaction } from '@/js/Transaction'
 
 @Component({
     components: {
         TransactionResult,
         AddressResult,
-        AssetResult
-    }
-}) 
+        AssetResult,
+    },
+})
 export default class ResultRow extends Vue {
-    tx: Transaction | null = null;
-    @Prop() result!: any;
+    tx: Transaction | null = null
+    @Prop() result!: any
 
     created() {
-        if (this.type === "transaction") {
-            this.tx = new Transaction(this.result.data);
+        if (this.type === 'transaction') {
+            this.tx = new Transaction(this.result.data)
         }
     }
 
     get type() {
-        return this.result.type;
+        return this.result.type
     }
 }
 </script>

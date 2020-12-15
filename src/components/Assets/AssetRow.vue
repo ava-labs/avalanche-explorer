@@ -1,50 +1,69 @@
 <template>
     <div class="asset_row">
-        <p v-if="asset.symbol && $vuetify.breakpoint.smAndUp" class="symbol">{{asset.symbol}}</p>
-        <p v-if="!asset.symbol && $vuetify.breakpoint.smAndUp" class="no_symbol"></p>
-        <router-link class="name_id" :to="`/asset/${asset.id}`">{{asset | nameOrID}}</router-link>
-        <p class="volume_day">
-            {{asset.volume_day.toLocaleString()}} 
-            <span class="unit" v-if="$vuetify.breakpoint.xs">{{asset.symbol}}</span>
+        <p v-if="asset.symbol && $vuetify.breakpoint.smAndUp" class="symbol">
+            {{ asset.symbol }}
         </p>
-        <p class="txCount_day" v-if="$vuetify.breakpoint.smAndUp">{{asset.txCount_day.toLocaleString()}}</p>
-        <p class="avgTx_day" v-if="$vuetify.breakpoint.smAndUp">{{avgTxValue}}</p>
+        <p
+            v-if="!asset.symbol && $vuetify.breakpoint.smAndUp"
+            class="no_symbol"
+        ></p>
+        <router-link class="name_id" :to="`/asset/${asset.id}`">{{
+            asset | nameOrID
+        }}</router-link>
+        <p class="volume_day">
+            {{ asset.volume_day.toLocaleString() }}
+            <span v-if="$vuetify.breakpoint.xs" class="unit">{{
+                asset.symbol
+            }}</span>
+        </p>
+        <p v-if="$vuetify.breakpoint.smAndUp" class="txCount_day">
+            {{ asset.txCount_day.toLocaleString() }}
+        </p>
+        <p v-if="$vuetify.breakpoint.smAndUp" class="avgTx_day">
+            {{ avgTxValue }}
+        </p>
         <!-- <p class="denomination" v-if="$vuetify.breakpoint.smAndUp">{{asset.denomination}}</p> -->
-        <p class="supply" v-if="$vuetify.breakpoint.smAndUp">{{asset.currentSupply.toLocaleString(asset.denomination)}} <span>{{asset.symbol}}</span></p>
-        <p class="chain" v-if="$vuetify.breakpoint.smAndUp">{{asset.chainID | blockchain}}</p>
+        <p v-if="$vuetify.breakpoint.smAndUp" class="supply">
+            {{ asset.currentSupply.toLocaleString(asset.denomination) }}
+            <span>{{ asset.symbol }}</span>
+        </p>
+        <p v-if="$vuetify.breakpoint.smAndUp" class="chain">
+            {{ asset.chainID | blockchain }}
+        </p>
     </div>
 </template>
 
 <script lang="ts">
-import "reflect-metadata";
-import { Vue, Component, Prop } from "vue-property-decorator";
-import { stringToBig, blockchainMap } from "@/helper";
-import { Asset } from "@/js/Asset";
-import Big from "big.js";
+import 'reflect-metadata'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import { stringToBig, blockchainMap } from '@/helper'
+import { Asset } from '@/js/Asset'
+import Big from 'big.js'
 
 @Component({
     filters: {
         blockchain(val: string): string {
-            return blockchainMap(val);
+            return blockchainMap(val)
         },
         nameOrID(val: Asset): string {
-            return val.name? val.name :val.id;
-        }
+            return val.name ? val.name : val.id
+        },
     },
 })
-
 export default class AssetRow extends Vue {
-    @Prop() asset!: Asset;
-        
-    get avgTxValue(): string {
-        return (this.asset.txCount_day > 0) ? (this.asset.volume_day.div(this.asset.txCount_day)).toLocaleString(0) : "";
-    }
+    @Prop() asset!: Asset
 
+    get avgTxValue(): string {
+        return this.asset.txCount_day > 0
+            ? this.asset.volume_day
+                  .div(this.asset.txCount_day)
+                  .toLocaleString(0)
+            : ''
+    }
 }
 </script>
 
 <style scoped lang="scss">
-
 .asset_row {
     > * {
         align-self: center;
@@ -59,7 +78,7 @@ export default class AssetRow extends Vue {
         font-size: 14px;
         text-overflow: ellipsis;
     }
-    
+
     a {
         color: $black !important;
     }

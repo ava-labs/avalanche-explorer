@@ -8,15 +8,15 @@
             </div>
             <div>
                 <p class="label">Balance</p>
-                <p>{{balance}}</p>
+                <p>{{ balance }}</p>
             </div>
             <div>
                 <p class="label"># of Transactions</p>
-                <p>{{txCount}}</p>
+                <p>{{ txCount }}</p>
             </div>
             <div>
                 <p class="label">Lifetime Value</p>
-                <p>{{lifetimeValue}}</p>
+                <p>{{ lifetimeValue }}</p>
             </div>
         </div>
 
@@ -28,24 +28,24 @@ export default {
     props: {
         address: {
             type: Object,
-            required: true
-        }
+            required: true,
+        },
     },
     computed: {
         txCount() {
-            return this.address.data.transactionCount;
+            return this.address.data.transactionCount
         },
         balance() {
-            return this.address.data.balance;
+            return this.address.data.balance
         },
         lifetimeValue() {
-            return this.address.data.lifetimeValue;
+            return this.address.data.lifetimeValue
         },
         url() {
-            return `/`;
-        }
-    }
-};
+            return `/`
+        },
+    },
+}
 </script>
 <style scoped lang="scss">
 .address_row {

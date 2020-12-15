@@ -6,21 +6,20 @@
     </div>
 </template>
 <script>
-import TopAssets from "@/components/Home/TopInfo/TopAssets";
-import NetworkActivity from "@/components/Home/TopInfo/NetworkActivity";
-import TransactionHistory from "./TransactionHistory";
+import TopAssets from '@/components/Home/TopInfo/TopAssets'
+import NetworkActivity from '@/components/Home/TopInfo/NetworkActivity'
+import TransactionHistory from './TransactionHistory'
 
 export default {
     components: {
         TopAssets,
         NetworkActivity,
-        TransactionHistory
-    }
-};
+        TransactionHistory,
+    },
+}
 </script>
 
 <style scoped lang="scss">
-
 .top_info {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -46,7 +45,6 @@ export default {
     }
 }
 
-
 @include smOnly {
     .top_info {
         grid-template-columns: 1fr;
@@ -66,12 +64,11 @@ export default {
 @include xsOnly {
     .top_info {
         grid-template-columns: 1fr;
-        
+
         > div {
             padding: 15px;
             margin-bottom: 15px;
         }
     }
 }
-
 </style>

@@ -1,49 +1,59 @@
 <template>
-    <transaction-result v-if="type===`transaction`" class="search_result" :item="item.data"></transaction-result>
-    <address-result v-else-if="type===`address`" class="search_result" :item="item.data"></address-result>
-    <asset-result v-else-if="type===`asset`" class="search_result" :item="item.data"></asset-result>
+    <transaction-result
+        v-if="type === `transaction`"
+        class="search_result"
+        :item="item.data"
+    ></transaction-result>
+    <address-result
+        v-else-if="type === `address`"
+        class="search_result"
+        :item="item.data"
+    ></address-result>
+    <asset-result
+        v-else-if="type === `asset`"
+        class="search_result"
+        :item="item.data"
+    ></asset-result>
 </template>
 
 <script>
-import TransactionResult from "@/components/misc/SearchBar/TransactionResult";
-import AddressResult from "@/components/misc/SearchBar/AddressResult";
-import AssetResult from "@/components/misc/SearchBar/AssetResult";
-import { Transaction } from "@/js/Transaction";
+import TransactionResult from '@/components/misc/SearchBar/TransactionResult'
+import AddressResult from '@/components/misc/SearchBar/AddressResult'
+import AssetResult from '@/components/misc/SearchBar/AssetResult'
+import { Transaction } from '@/js/Transaction'
 
 export default {
     components: {
         TransactionResult,
         AddressResult,
-        AssetResult
-    },
-    data() {
-        return {
-            tx: null
-        };
+        AssetResult,
     },
     props: {
         item: {
             type: Object,
-            required: true
+            required: true,
+        },
+    },
+    data() {
+        return {
+            tx: null,
         }
     },
     computed: {
         type() {
-            return this.item.type;
-        }
+            return this.item.type
+        },
     },
     created() {
-        if (this.type === "transaction") {
-            let tx = new Transaction(this.item.data);
-            this.tx = tx;
+        if (this.type === 'transaction') {
+            const tx = new Transaction(this.item.data)
+            this.tx = tx
         }
-    }
-};
+    },
+}
 </script>
 
 <style lang="scss">
-
-
 .search_result {
     padding: 8px 13px;
     background-color: $white;
@@ -74,5 +84,4 @@ export default {
     }
 }
 </style>
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

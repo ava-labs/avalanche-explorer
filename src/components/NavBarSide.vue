@@ -8,21 +8,22 @@
             <v-list-item to="/assets">Assets</v-list-item>
             <v-list-item to="/tx">Transactions</v-list-item>
             <!-- <v-list-item to="/addresses">Addresses</v-list-item> -->
-            <v-list-item href="https://cchain.explorer.avax.network/">C-Chain</v-list-item>
+            <v-list-item href="https://cchain.explorer.avax.network/"
+                >C-Chain</v-list-item
+            >
             <v-list-item to="/resources">Resources</v-list-item>
         </v-list>
     </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
+import { Vue, Component } from 'vue-property-decorator'
 
 @Component({})
 export default class NavbarSide extends Vue {}
 </script>
 
 <style scoped lang="scss">
-
 .navbar_side {
     /* margin-top: $navbar_height_offset_xl; */
     padding-top: 0 !important;
@@ -45,7 +46,7 @@ export default class NavbarSide extends Vue {}
     color: $primary-color;
 }
 
-.v-list--nav .v-list-item, 
+.v-list--nav .v-list-item,
 .v-list--nav .v-list-item:before {
     border-radius: 0;
 }

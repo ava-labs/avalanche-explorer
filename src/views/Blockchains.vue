@@ -5,56 +5,64 @@
                 <h2>Blockchains</h2>
                 <template v-show="!loading && subnetsLoaded">
                     <div class="bar">
-                        <p class="count">{{totalBlockchains.toLocaleString()}} blockchains found</p>
-                    </div>    
+                        <p class="count">
+                            {{ totalBlockchains.toLocaleString() }} blockchains
+                            found
+                        </p>
+                    </div>
                 </template>
             </div>
             <template v-if="loading && !subnetsLoaded">
-                <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
+                <v-progress-circular
+                    key="1"
+                    :size="16"
+                    :width="2"
+                    color="#E84970"
+                    indeterminate
+                ></v-progress-circular>
             </template>
             <template v-else>
-                <BlockchainDataTable :blockchains="blockchains" :links="true" :subnets="true"></BlockchainDataTable>
+                <BlockchainDataTable
+                    :blockchains="blockchains"
+                    :links="true"
+                    :subnets="true"
+                ></BlockchainDataTable>
             </template>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch } from "vue-property-decorator";
-import api from "@/axios";
-import { IPlatformState } from '@/store/modules/platform/IPlatformState';
-import BlockchainDataTable from '@/components/Blockchain/BlockchainDataTable.vue';
-import Blockchain from '../js/Blockchain';
+import { Vue, Component } from 'vue-property-decorator'
+import BlockchainDataTable from '@/components/Blockchain/BlockchainDataTable.vue'
 
 @Component({
     components: {
-        BlockchainDataTable
+        BlockchainDataTable,
     },
 })
-
 export default class Blockchains extends Vue {
-    loading: boolean = true;
+    loading = true
 
     async created() {
-        this.loading = false;
+        this.loading = false
     }
 
     get subnetsLoaded() {
-        return this.$store.state.Platform.subnetsLoaded;
+        return this.$store.state.Platform.subnetsLoaded
     }
 
     get blockchains() {
-        return this.$store.state.Platform.blockchains;
+        return this.$store.state.Platform.blockchains
     }
 
     get totalBlockchains() {
-        return this.$store.getters["Platform/totalBlockchains"];
+        return this.$store.getters['Platform/totalBlockchains']
     }
 }
 </script>
 
 <style scoped lang="scss">
-
 .blockchains {
     font-size: 12px;
 }

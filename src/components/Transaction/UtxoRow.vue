@@ -1,92 +1,95 @@
 <template>
     <div class="utxo_row">
         <!-- Tx -->
-        <router-link :to="`/tx/${txId}`" v-if="txId!=='-'">{{txId}}</router-link>
+        <router-link v-if="txId !== '-'" :to="`/tx/${txId}`">{{
+            txId
+        }}</router-link>
         <p v-else>-</p>
         <!-- Metrics -->
         <p class="redeemed">
-            <fa icon="check-circle" v-if="redeemed"></fa>
+            <fa v-if="redeemed" icon="check-circle"></fa>
         </p>
-        <p>{{utxo.locktime}}</p>
-        <p>{{utxo.threshold}}</p>
+        <p>{{ utxo.locktime }}</p>
+        <p>{{ utxo.threshold }}</p>
         <!-- From/To -->
         <div>
             <router-link
                 v-for="(addr, i) in utxo.addresses"
-                :to="`/address/X-${addr}`"
                 :key="i"
-            >{{addr | address}}</router-link>
+                :to="`/address/X-${addr}`"
+                >{{ addr | address }}</router-link
+            >
         </div>
         <!-- Amount -->
         <div class="col_amount">
             <p class="amount_symbol">
-                {{amount}}
-                <b>{{symbol}}</b>
+                {{ amount }}
+                <b>{{ symbol }}</b>
             </p>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-import "reflect-metadata";
-import { Vue, Component, Prop } from "vue-property-decorator";
-import { addressMap } from "../../helper";
-import { ITransactionOutput } from "../../js/ITransaction";
-import { Asset } from '@/js/Asset';
+import 'reflect-metadata'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import { addressMap } from '../../helper'
+import { ITransactionOutput } from '../../js/ITransaction'
+import { Asset } from '@/js/Asset'
 
 @Component({
     filters: {
         address(val: string): string {
-            return addressMap(val);
-        }
+            return addressMap(val)
+        },
     },
 })
-
 export default class UtxoRow extends Vue {
-    @Prop() utxo!: ITransactionOutput;
-    @Prop() type!: string;
+    @Prop() utxo!: ITransactionOutput
+    @Prop() type!: string
 
     get asset(): Asset {
-        return this.$store.state.assets[this.utxo.assetID];
+        return this.$store.state.assets[this.utxo.assetID]
     }
 
     get symbol(): string {
-        return this.asset ? this.asset.symbol : this.utxo.assetID;
+        return this.asset ? this.asset.symbol : this.utxo.assetID
     }
 
     get amount(): string {
-        let denomination = this.asset ? this.asset.denomination : 0;
-        return this.utxo.amount.div(Math.pow(10, denomination)).toLocaleString(denomination);
+        const denomination = this.asset ? this.asset.denomination : 0
+        return this.utxo.amount
+            .div(Math.pow(10, denomination))
+            .toLocaleString(denomination)
     }
 
     get txId(): string {
-        let redeemingID = this.utxo.redeemingTransactionID;
+        const redeemingID = this.utxo.redeemingTransactionID
 
-        return this.type === "output"
-            ? (redeemingID === null || redeemingID === "")
-                ? "-" 
-                : redeemingID 
-            : (redeemingID === null || redeemingID === "")
-                ? "-"
-                : this.utxo.transactionID;
+        return this.type === 'output'
+            ? redeemingID === null || redeemingID === ''
+                ? '-'
+                : redeemingID
+            : redeemingID === null || redeemingID === ''
+            ? '-'
+            : this.utxo.transactionID
     }
 
     get redeemed(): boolean {
-        let redeemingID = this.utxo.redeemingTransactionID;
+        const redeemingID = this.utxo.redeemingTransactionID
 
-        return this.type === "output"
-            ? (redeemingID === null || redeemingID === "")
+        return this.type === 'output'
+            ? redeemingID === null || redeemingID === ''
                 ? false
                 : true
-            : (redeemingID === null || redeemingID === "")
-                ? false
-                : false;
+            : redeemingID === null || redeemingID === ''
+            ? false
+            : false
     }
 }
 </script>
 
 <style scoped lang="scss">
-
 .utxo_row {
     display: grid;
     grid-gap: 10px;

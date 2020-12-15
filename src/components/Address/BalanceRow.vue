@@ -1,34 +1,44 @@
 <template>
     <div class="balance_row">
-        <p v-if="asset.symbol" class="symbol">{{asset.symbol}}</p>
+        <p v-if="asset.symbol" class="symbol">{{ asset.symbol }}</p>
         <p v-else class="no_symbol"></p>
-        <router-link class="name_id" :to="`/asset/${asset.id}`">{{asset | nameOrID}}</router-link>
-        <p class="balance">{{asset.balance.toLocaleString(asset.denomination)}} <span>{{asset.symbol}}</span></p>
-        <p class="sent">{{asset.totalSent.toLocaleString(asset.denomination)}} <span>{{asset.symbol}}</span></p>
-        <p class="received">{{asset.totalReceived.toLocaleString(asset.denomination)}} <span>{{asset.symbol}}</span></p>
-        <p class="txs">{{asset.transactionCount.toLocaleString()}}</p>
-        <p class="utxos">{{asset.utxoCount.toLocaleString()}}</p>
+        <router-link class="name_id" :to="`/asset/${asset.id}`">{{
+            asset | nameOrID
+        }}</router-link>
+        <p class="balance">
+            {{ asset.balance.toLocaleString(asset.denomination) }}
+            <span>{{ asset.symbol }}</span>
+        </p>
+        <p class="sent">
+            {{ asset.totalSent.toLocaleString(asset.denomination) }}
+            <span>{{ asset.symbol }}</span>
+        </p>
+        <p class="received">
+            {{ asset.totalReceived.toLocaleString(asset.denomination) }}
+            <span>{{ asset.symbol }}</span>
+        </p>
+        <p class="txs">{{ asset.transactionCount.toLocaleString() }}</p>
+        <p class="utxos">{{ asset.utxoCount.toLocaleString() }}</p>
     </div>
 </template>
 <script>
-import Big from "big.js";
+import Big from 'big.js'
 
 export default {
+    filters: {
+        nameOrID(val) {
+            return val.name ? val.name : val.id
+        },
+    },
     props: {
         asset: {
             type: Object,
-            required: true
-        }
+            required: true,
+        },
     },
-    filters: {
-        nameOrID(val) {
-            return val.name ? val.name : val.id;
-        }
-    }
-};
+}
 </script>
 <style scoped lang="scss">
-
 .balance_row {
     font-weight: 400;
     > * {
@@ -87,9 +97,9 @@ export default {
     text-align: right;
 }
 
-.balance, 
-.sent, 
-.received{ 
+.balance,
+.sent,
+.received {
     span {
         display: inline-block;
         width: 38px;

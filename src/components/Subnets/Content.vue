@@ -4,13 +4,13 @@
             <v-card-text>
                 <div class="subnet_header">
                     <div class="subheading">Subnetwork</div>
-                    <h2>{{subnetID | subnet}}</h2>
+                    <h2>{{ subnetID | subnet }}</h2>
                 </div>
                 <ContentMetadata
-                    :totalBlockchains="subnet.blockchains.length"
-                    :totalValidators="subnet.validators.length"
-                    :totalPendingValidators="subnet.pendingValidators.length"
-                    :totalControlKeys="subnet.controlKeys.length"
+                    :total-blockchains="subnet.blockchains.length"
+                    :total-validators="subnet.validators.length"
+                    :total-pending-validators="subnet.pendingValidators.length"
+                    :total-control-keys="subnet.controlKeys.length"
                 ></ContentMetadata>
                 <v-tabs v-model="tab" show-arrows>
                     <v-tab href="#validators">Validators</v-tab>
@@ -20,42 +20,79 @@
                     <v-tab href="#delegations">Delegations</v-tab>
                     <v-tab-item class="tab_content" value="validators">
                         <template v-if="subnet.validators.length === 0">
-                            <p class="null">There are no validators for this subnet.</p>
+                            <p class="null">
+                                There are no validators for this subnet.
+                            </p>
                         </template>
                         <template v-else>
-                            <ValidatorDataTable :validators="subnet.validators" :subnetID="subnetID" :subnet="subnet" :title="'Validators'" class="table_margin"></ValidatorDataTable>
+                            <ValidatorDataTable
+                                :validators="subnet.validators"
+                                :subnet-i-d="subnetID"
+                                :subnet="subnet"
+                                :title="'Validators'"
+                                class="table_margin"
+                            ></ValidatorDataTable>
                         </template>
                     </v-tab-item>
                     <v-tab-item class="tab_content" value="pending-validators">
                         <template v-if="subnet.pendingValidators.length === 0">
-                            <p class="null">There are no pending validators for this subnet.</p>
+                            <p class="null">
+                                There are no pending validators for this subnet.
+                            </p>
                         </template>
                         <template v-else>
-                            <ValidatorDataTable :validators="subnet.pendingValidators" :subnetID="subnetID" :subnet="subnet" :title="'Pending Validators'" class="table_margin"></ValidatorDataTable>
+                            <ValidatorDataTable
+                                :validators="subnet.pendingValidators"
+                                :subnet-i-d="subnetID"
+                                :subnet="subnet"
+                                :title="'Pending Validators'"
+                                class="table_margin"
+                            ></ValidatorDataTable>
                         </template>
                     </v-tab-item>
                     <v-tab-item class="tab_content" value="blockchains">
                         <template v-if="subnet.blockchains.length === 0">
-                            <p class="null">There are no blockchains for this subnet.</p>
+                            <p class="null">
+                                There are no blockchains for this subnet.
+                            </p>
                         </template>
                         <template v-else>
-                            <BlockchainDataTable :blockchains="subnet.blockchains" :title="'Blockchains'" :links="true" class="table_margin"></BlockchainDataTable>
+                            <BlockchainDataTable
+                                :blockchains="subnet.blockchains"
+                                :title="'Blockchains'"
+                                :links="true"
+                                class="table_margin"
+                            ></BlockchainDataTable>
                         </template>
                     </v-tab-item>
                     <v-tab-item class="tab_content" value="control-keys">
                         <template v-if="subnet.controlKeys.length === 0">
-                            <p class="null">There are no control keys for this subnet.</p>
+                            <p class="null">
+                                There are no control keys for this subnet.
+                            </p>
                         </template>
                         <template v-else>
-                            <ControlKeyTable :subnet="subnet" :title="'Control Keys'" class="table_margin"></ControlKeyTable>
+                            <ControlKeyTable
+                                :subnet="subnet"
+                                :title="'Control Keys'"
+                                class="table_margin"
+                            ></ControlKeyTable>
                         </template>
                     </v-tab-item>
                     <v-tab-item class="tab_content" value="delegations">
                         <template v-if="subnet.delegators.length === 0">
-                            <p class="null">There are no delegated stakes for this subnet.</p>
+                            <p class="null">
+                                There are no delegated stakes for this subnet.
+                            </p>
                         </template>
                         <template v-else>
-                            <DelegationDataTable :validators="subnet.delegators" :subnetID="subnetID" :subnet="subnet" :title="'Delegations'" class="table_margin"></DelegationDataTable>
+                            <DelegationDataTable
+                                :validators="subnet.delegators"
+                                :subnet-i-d="subnetID"
+                                :subnet="subnet"
+                                :title="'Delegations'"
+                                class="table_margin"
+                            ></DelegationDataTable>
                         </template>
                     </v-tab-item>
                 </v-tabs>
@@ -65,19 +102,19 @@
 </template>
 
 <script lang="ts">
-import "reflect-metadata";
-import { Vue, Component, Prop } from "vue-property-decorator";
-import { subnetMap, toAVAX } from "@/helper";
-import moment from "moment";
-import Subnet from '@/js/Subnet';
-import { AVALANCHE_SUBNET_ID } from '@/store/modules/platform/platform';
-import { IValidator } from '@/store/modules/platform/IValidator';
-import ContentMetadata from "@/components/Subnets/ContentMetadata.vue";
-import { scaleLinear } from "d3-scale";
-import ValidatorDataTable from "@/components/Validators/ValidatorDataTable.vue";
-import BlockchainDataTable from "@/components/Blockchain/BlockchainDataTable.vue";
-import DelegationDataTable from "@/components/Validators/DelegationDataTable.vue";
-import ControlKeyTable from "@/components/Validators/ControlKeyTable.vue";
+import 'reflect-metadata'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import { subnetMap, toAVAX } from '@/helper'
+import moment from 'moment'
+import Subnet from '@/js/Subnet'
+import { AVALANCHE_SUBNET_ID } from '@/store/modules/platform/platform'
+import { IValidator } from '@/store/modules/platform/IValidator'
+import ContentMetadata from '@/components/Subnets/ContentMetadata.vue'
+import { scaleLinear } from 'd3-scale'
+import ValidatorDataTable from '@/components/Validators/ValidatorDataTable.vue'
+import BlockchainDataTable from '@/components/Blockchain/BlockchainDataTable.vue'
+import DelegationDataTable from '@/components/Validators/DelegationDataTable.vue'
+import ControlKeyTable from '@/components/Validators/ControlKeyTable.vue'
 
 @Component({
     components: {
@@ -85,60 +122,59 @@ import ControlKeyTable from "@/components/Validators/ControlKeyTable.vue";
         ValidatorDataTable,
         BlockchainDataTable,
         ControlKeyTable,
-        DelegationDataTable
+        DelegationDataTable,
     },
     filters: {
         subnet(val: string) {
-            return subnetMap(val);
+            return subnetMap(val)
         },
         AVAX(val: number) {
-            return toAVAX(val);
+            return toAVAX(val)
         },
         duration(val: number) {
-            return moment.duration(val).humanize();
+            return moment.duration(val).humanize()
         },
         date(val: number) {
-            return moment(val).format("D/M/YYYY"); 
+            return moment(val).format('D/M/YYYY')
         },
-        time(val: number) {            
-            return moment(val).format("h:mm:ss A");
-        }
-    }
+        time(val: number) {
+            return moment(val).format('h:mm:ss A')
+        },
+    },
 })
 export default class Content extends Vue {
-    dense: boolean = true;
-    fixedHeader: boolean = true;
-    defaultSubnetID: string = AVALANCHE_SUBNET_ID;
-    currentTime: number | null = null;
-    startTimes: number[] = [];
-    endTimes: number[] = [];
-    minTime: number = 0;
-    maxTime: number = 1;
-    absolute: boolean = false;
-    
-    @Prop() subnetID!: string;
-    @Prop() subnet!: Subnet;
+    dense = true
+    fixedHeader = true
+    defaultSubnetID: string = AVALANCHE_SUBNET_ID
+    currentTime: number | null = null
+    startTimes: number[] = []
+    endTimes: number[] = []
+    minTime = 0
+    maxTime = 1
+    absolute = false
+
+    @Prop() subnetID!: string
+    @Prop() subnet!: Subnet
 
     get mode(): string {
-        return this.absolute ? "absolute" : "relative";
+        return this.absolute ? 'absolute' : 'relative'
     }
 
     get modeText() {
-        return this.absolute ? "Timeline" : "Completion";
+        return this.absolute ? 'Timeline' : 'Completion'
     }
 
     get tab() {
-        return this.$route.query.tab;
+        return this.$route.query.tab
     }
 
-    set tab(tab: string | (string | null)[]) {    
+    set tab(tab: string | (string | null)[]) {
         this.$router.replace({ query: { ...this.$route.query, tab } })
     }
 }
 </script>
 
 <style scoped lang="scss">
-
 .subnet_count {
     margin-top: 5px;
 }
@@ -207,7 +243,7 @@ export default class Content extends Vue {
     padding-top: 10px;
     padding-bottom: 10px;
     position: relative;
-    width: 100%
+    width: 100%;
 }
 
 .now {
@@ -249,8 +285,6 @@ export default class Content extends Vue {
 </style>
 
 <style lang="scss">
-
-
 .v-application .primary--text {
     color: $primary-color !important;
     caret-color: $primary-color !important;

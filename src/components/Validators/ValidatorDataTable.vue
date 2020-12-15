@@ -1,26 +1,25 @@
 <template>
-    <v-card id="validator_data_table">        
+    <v-card id="validator_data_table">
         <v-card-title>
             <div class="data_table_header">
                 <!-- 1 -->
                 <div class="header">
-                    <h3>{{title}}</h3>
+                    <h3>{{ title }}</h3>
                 </div>
                 <!-- 2 -->
                 <div class="controls">
                     <div class="filter_count">
                         <p v-show="search.length === 0">
-                            {{validators.length.toLocaleString() | pluralize}} found
+                            {{ validators.length.toLocaleString() | pluralize }}
+                            found
                         </p>
-                        <p v-show="search.length > 0">
-                            ...filtering results
-                        </p>
+                        <p v-show="search.length > 0">...filtering results</p>
                     </div>
                     <div class="filter_input_container">
                         <input
+                            v-model="search"
                             class="filter"
                             type="text"
-                            v-model="search"
                             placeholder="Filter by NodeID"
                         />
                     </div>
@@ -31,155 +30,230 @@
                 </div>
             </div>
         </v-card-title>
-        <v-data-table 
-            :items="validators" 
-            :headers="headers" 
-            :search="search" 
+        <v-data-table
+            :items="validators"
+            :headers="headers"
+            :search="search"
             multi-sort
         >
             <!-- TODO: reinstate show-expand when client is patched -->
-            <template #item.id="{item}">
-                <div class="text-truncate" style="max-width: 100px;">{{item.id}}</div>
+            <template #item.id="{ item }">
+                <div class="text-truncate" style="max-width: 100px">
+                    {{ item.id }}
+                </div>
             </template>
-            <template #item.stakeAmount="{item}">
-                {{item.totalStakeAmount | AVAX}} AVAX
+            <template #item.stakeAmount="{ item }">
+                {{ item.totalStakeAmount | AVAX }} AVAX
             </template>
-            <template #item.potentialReward="{item}">{{item.potentialReward | AVAX}}</template>
-            <template #item.startTime="{item}">
-                <div class="text-right date no-pad-right">{{item.startTime.getTime() | date}}</div>
-                <div class="text-right time no-pad-right">{{item.startTime.getTime() | time}}</div>
+            <template #item.potentialReward="{ item }">{{
+                item.potentialReward | AVAX
+            }}</template>
+            <template #item.startTime="{ item }">
+                <div class="text-right date no-pad-right">
+                    {{ item.startTime.getTime() | date }}
+                </div>
+                <div class="text-right time no-pad-right">
+                    {{ item.startTime.getTime() | time }}
+                </div>
             </template>
-            <template #item.elapsed="{item}">
-                <div class="diagram-container" v-show="mode === 'absolute'">
+            <template #item.elapsed="{ item }">
+                <div v-show="mode === 'absolute'" class="diagram-container">
                     <div class="diagram">
                         <div
                             class="chartbar"
-                            v-bind:style="{
-                                left: `${scale(item.startTime.getTime())}px`, 
-                                width: `${scale(item.endTime.getTime()) - scale(item.startTime.getTime())}px`
+                            :style="{
+                                left: `${scale(item.startTime.getTime())}px`,
+                                width: `${
+                                    scale(item.endTime.getTime()) -
+                                    scale(item.startTime.getTime())
+                                }px`,
                             }"
                         ></div>
                         <div
                             class="chartbar_complete"
-                            v-bind:style="{
-                                left: `${scale(item.startTime.getTime())}px`, 
-                                width: `${scale(currentTime) - scale(item.startTime.getTime())}px`
+                            :style="{
+                                left: `${scale(item.startTime.getTime())}px`,
+                                width: `${
+                                    scale(currentTime) -
+                                    scale(item.startTime.getTime())
+                                }px`,
                             }"
                         ></div>
-                        <div class="now" v-bind:style="{left: `${scale(currentTime)}px`}"></div>
+                        <div
+                            class="now"
+                            :style="{ left: `${scale(currentTime)}px` }"
+                        ></div>
                     </div>
                 </div>
-                <div class="diagram-container" v-if="mode === 'relative'">
+                <div v-if="mode === 'relative'" class="diagram-container">
                     <div class="diagram">
                         <div
                             class="chartbar"
-                            v-bind:style="{
-                                left: `0px`, 
-                                width: `${diagramWidth}px`
+                            :style="{
+                                left: `0px`,
+                                width: `${diagramWidth}px`,
                             }"
                         ></div>
                         <div
                             class="chartbar_complete"
-                            v-bind:style="{
-                                left: `0px`, 
-                                width: `${scaleRelative((((currentTime - (item.startTime.getTime())) / ((item.endTime.getTime()) - (item.startTime.getTime())))))}px`
+                            :style="{
+                                left: `0px`,
+                                width: `${scaleRelative(
+                                    (currentTime - item.startTime.getTime()) /
+                                        (item.endTime.getTime() -
+                                            item.startTime.getTime())
+                                )}px`,
                             }"
                         ></div>
                         <div
                             class="percentage_text text-right"
-                            v-bind:style="{left: `71px`}"
-                        >{{ item.elapsed }} %</div>
+                            :style="{ left: `71px` }"
+                        >
+                            {{ item.elapsed }} %
+                        </div>
                     </div>
                 </div>
             </template>
-            <template #item.endTime="{item}">
-                <div class="date">{{item.endTime.getTime() | date}}</div>
-                <div class="time">{{item.endTime.getTime() | time}}</div>
+            <template #item.endTime="{ item }">
+                <div class="date">{{ item.endTime.getTime() | date }}</div>
+                <div class="time">{{ item.endTime.getTime() | time }}</div>
             </template>
-            <template #item.duration="{item}">
-                {{(item.endTime - item.startTime) | duration}}
+            <template #item.duration="{ item }">
+                {{ (item.endTime - item.startTime) | duration }}
             </template>
-            <template #item.delegationFee="{item}">
-                <div>{{(item.delegationFee)}}%</div>
+            <template #item.delegationFee="{ item }">
+                <div>{{ item.delegationFee }}%</div>
             </template>
-            <template #item.uptime="{item}">
-                <div>{{(item.uptime).toFixed(2)}}%</div>
+            <template #item.uptime="{ item }">
+                <div>{{ item.uptime.toFixed(2) }}%</div>
             </template>
-            <template #item.delegators="{item}">
-                <div
-                    v-show="item.delegators && item.delegators.length>0"
-                >{{(item.delegators.length)}}</div>
+            <template #item.delegators="{ item }">
+                <div v-show="item.delegators && item.delegators.length > 0">
+                    {{ item.delegators.length }}
+                </div>
             </template>
             <!-- DELEGATOR EXPANDED ITEM -->
-            <template #expanded-item="{headers, item}">
+            <template #expanded-item="{ headers, item }">
                 <td :colspan="headers.length">
-                    <tr v-for="delegator in item.delegators" :key="delegator.id">
-                        <td style="width: 24px;"></td>
+                    <tr
+                        v-for="delegator in item.delegators"
+                        :key="delegator.id"
+                    >
+                        <td style="width: 24px"></td>
                         <td>
-                            <div class="text-truncate delegator-label" style="width: 100px;">Delegator</div>
+                            <div
+                                class="text-truncate delegator-label"
+                                style="width: 100px"
+                            >
+                                Delegator
+                            </div>
                         </td>
                         <td>
-                            <div style="width: 130px">{{delegator.totalStakeAmount | AVAX}}</div>                            
+                            <div style="width: 130px">
+                                {{ delegator.totalStakeAmount | AVAX }}
+                            </div>
                         </td>
                         <td style="width: 80px">
-                            <div class="text-right date no-pad-right">{{delegator.startTime.getTime() | date}}</div>
-                            <div class="text-right time no-pad-right">{{delegator.startTime.getTime() | time}}</div>
+                            <div class="text-right date no-pad-right">
+                                {{ delegator.startTime.getTime() | date }}
+                            </div>
+                            <div class="text-right time no-pad-right">
+                                {{ delegator.startTime.getTime() | time }}
+                            </div>
                         </td>
                         <td style="width: 125px">
-                            <div class="diagram-container" v-show="mode === 'absolute'">
+                            <div
+                                v-show="mode === 'absolute'"
+                                class="diagram-container"
+                            >
                                 <div class="diagram">
                                     <div
                                         class="chartbar"
-                                        v-bind:style="{
-                                            left: `${scale(delegator.startTime.getTime())}px`, 
-                                            width: `${scale(delegator.endTime.getTime()) - scale(delegator.startTime.getTime())}px`
+                                        :style="{
+                                            left: `${scale(
+                                                delegator.startTime.getTime()
+                                            )}px`,
+                                            width: `${
+                                                scale(
+                                                    delegator.endTime.getTime()
+                                                ) -
+                                                scale(
+                                                    delegator.startTime.getTime()
+                                                )
+                                            }px`,
                                         }"
                                     ></div>
                                     <div
                                         class="chartbar_complete"
-                                        v-bind:style="{
-                                            left: `${scale(delegator.startTime.getTime())}px`, 
-                                            width: `${scale(currentTime) - scale(delegator.startTime.getTime())}px`
+                                        :style="{
+                                            left: `${scale(
+                                                delegator.startTime.getTime()
+                                            )}px`,
+                                            width: `${
+                                                scale(currentTime) -
+                                                scale(
+                                                    delegator.startTime.getTime()
+                                                )
+                                            }px`,
                                         }"
                                     ></div>
                                     <div
                                         class="now"
-                                        v-bind:style="{left: `${scale(currentTime)}px`}"
+                                        :style="{
+                                            left: `${scale(currentTime)}px`,
+                                        }"
                                     ></div>
                                 </div>
                             </div>
-                            <div class="diagram-container" v-if="mode === 'relative'">
+                            <div
+                                v-if="mode === 'relative'"
+                                class="diagram-container"
+                            >
                                 <div class="diagram">
                                     <div
                                         class="chartbar"
-                                        v-bind:style="{
-                                            left: `0px`, 
-                                            width: `${diagramWidth}px`
+                                        :style="{
+                                            left: `0px`,
+                                            width: `${diagramWidth}px`,
                                         }"
                                     ></div>
                                     <div
                                         class="chartbar_complete"
-                                        v-bind:style="{
-                                            left: `0px`, 
-                                            width: `${scaleRelative((((currentTime - (delegator.startTime.getTime())) / ((delegator.endTime.getTime()) - (delegator.startTime.getTime())))))}px`
+                                        :style="{
+                                            left: `0px`,
+                                            width: `${scaleRelative(
+                                                (currentTime -
+                                                    delegator.startTime.getTime()) /
+                                                    (delegator.endTime.getTime() -
+                                                        delegator.startTime.getTime())
+                                            )}px`,
                                         }"
                                     ></div>
                                     <div
                                         class="percentage_text text-right"
-                                        v-bind:style="{left: `71px`}"
-                                    >{{ delegator.elapsed }} %</div>
+                                        :style="{ left: `71px` }"
+                                    >
+                                        {{ delegator.elapsed }} %
+                                    </div>
                                 </div>
-                            </div>                            
+                            </div>
                         </td>
                         <td style="width: 80px">
-                            <div class="date">{{delegator.endTime.getTime() | date}}</div>
-                            <div class="time">{{delegator.endTime.getTime() | time}}</div>
+                            <div class="date">
+                                {{ delegator.endTime.getTime() | date }}
+                            </div>
+                            <div class="time">
+                                {{ delegator.endTime.getTime() | time }}
+                            </div>
                         </td>
                         <td style="width: 85px">
-                            {{(delegator.endTime - delegator.startTime) | duration}}
+                            {{
+                                (delegator.endTime - delegator.startTime)
+                                    | duration
+                            }}
                         </td>
                         <td :colspan="headers.length">
-                            <div>{{delegator.address}}</div>
+                            <div>{{ delegator.address }}</div>
                         </td>
                     </tr>
                 </td>
@@ -189,15 +263,15 @@
 </template>
 
 <script lang="ts">
-import "reflect-metadata";
-import { Vue, Component, Prop } from "vue-property-decorator";
-import { subnetMap, toAVAX } from "@/helper";
-import moment from "moment";
-import Subnet from "@/js/Subnet";
-import { AVALANCHE_SUBNET_ID } from "@/store/modules/platform/platform";
-import { IValidator } from "@/store/modules/platform/IValidator";
-import ContentMetadata from "@/components/Subnets/ContentMetadata.vue";
-import { scaleLinear } from "d3-scale";
+import 'reflect-metadata'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import { subnetMap, toAVAX } from '@/helper'
+import moment from 'moment'
+import Subnet from '@/js/Subnet'
+import { AVALANCHE_SUBNET_ID } from '@/store/modules/platform/platform'
+import { IValidator } from '@/store/modules/platform/IValidator'
+import ContentMetadata from '@/components/Subnets/ContentMetadata.vue'
+import { scaleLinear } from 'd3-scale'
 
 @Component({
     components: {
@@ -205,118 +279,122 @@ import { scaleLinear } from "d3-scale";
     },
     filters: {
         AVAX(val: number) {
-            return toAVAX(val).toFixed(4).toLocaleString();
+            return toAVAX(val).toFixed(4).toLocaleString()
         },
         duration(val: number) {
-            return moment.duration(val).humanize();
+            return moment.duration(val).humanize()
         },
         date(val: number) {
-            return moment(val).format("M/D/YYYY");
+            return moment(val).format('M/D/YYYY')
         },
         time(val: number) {
-            return moment(val).format("h:mm:ss A");
+            return moment(val).format('h:mm:ss A')
         },
         pluralize(val: number): string {
             return val === 0
                 ? `${val} results`
                 : val > 1
                 ? `${val} results`
-                : `${val} result`;
-        }
+                : `${val} result`
+        },
     },
 })
 export default class ValidatorDataTable extends Vue {
-    defaultSubnetID: string = AVALANCHE_SUBNET_ID;
-    currentTime: number | null = null;
-    startTimes: number[] = [];
-    endTimes: number[] = [];
-    minTime: number = 0;
-    maxTime: number = 1;
-    absolute: boolean = false;
-    diagramWidth: number = 125;
-    expanded: any[] = [];
-    search: string = "";
-    filteredCount: number = 0;
+    defaultSubnetID: string = AVALANCHE_SUBNET_ID
+    currentTime: number | null = null
+    startTimes: number[] = []
+    endTimes: number[] = []
+    minTime = 0
+    maxTime = 1
+    absolute = false
+    diagramWidth = 125
+    expanded: any[] = []
+    search = ''
+    filteredCount = 0
 
-    @Prop() subnetID!: string;
-    @Prop() subnet!: Subnet;
-    @Prop() validators!: IValidator[];
-    @Prop() title!: string;
+    @Prop() subnetID!: string
+    @Prop() subnet!: Subnet
+    @Prop() validators!: IValidator[]
+    @Prop() title!: string
 
     get headers(): any[] {
         return [
-            { text: "Validator", value: "nodeID", width: 400},
-            { text: "Stake", value: this.stakeOrWeight, width: 250 },
-            { text: "Potential Reward", value: "potentialReward", width: 200 },
-            { text: "Start", value: "startTime", align: "end", width: 80 },
-            { text: "Completion", value: "elapsed", align: "center", width: 125 },
-            { text: "End", value: "endTime", width: 80 },
-            { text: "Duration", value: "duration", width: 85 },
-            { text: "Payout Address", value: "rewardOwner.addresses[0]", width: 400 },
-            { text: "Delegation Fee", value: "delegationFee", width: 125 },
-            { text: "Connected", value: "connected", width: 125 },
-            { text: "Local Uptime", value: "uptime", width: 125 },
+            { text: 'Validator', value: 'nodeID', width: 400 },
+            { text: 'Stake', value: this.stakeOrWeight, width: 250 },
+            { text: 'Potential Reward', value: 'potentialReward', width: 200 },
+            { text: 'Start', value: 'startTime', align: 'end', width: 80 },
+            {
+                text: 'Completion',
+                value: 'elapsed',
+                align: 'center',
+                width: 125,
+            },
+            { text: 'End', value: 'endTime', width: 80 },
+            { text: 'Duration', value: 'duration', width: 85 },
+            {
+                text: 'Payout Address',
+                value: 'rewardOwner.addresses[0]',
+                width: 400,
+            },
+            { text: 'Delegation Fee', value: 'delegationFee', width: 125 },
+            { text: 'Connected', value: 'connected', width: 125 },
+            { text: 'Local Uptime', value: 'uptime', width: 125 },
 
             // { text: "Delegators", value: "delegators", width: 100 },
             // { text: "", value: "expand", align: "end" },
-        ];
+        ]
     }
 
     get stakeOrWeight(): string {
-        return this.subnetID === this.defaultSubnetID
-            ? "stakeAmount"
-            : "weight";
+        return this.subnetID === this.defaultSubnetID ? 'stakeAmount' : 'weight'
     }
 
     get mode(): string {
-        return this.absolute ? "absolute" : "relative";
+        return this.absolute ? 'absolute' : 'relative'
     }
 
     get modeText() {
-        return this.absolute ? "Timeline" : "Completion";
+        return this.absolute ? 'Timeline' : 'Completion'
     }
 
     created() {
-        let now = new Date();
-        this.currentTime = now.getTime();
-        this.minTime = this.minStartTime();
-        this.maxTime = this.maxEndTime();
+        const now = new Date()
+        this.currentTime = now.getTime()
+        this.minTime = this.minStartTime()
+        this.maxTime = this.maxEndTime()
     }
 
     minStartTime() {
-        let startTimes: number[] = [];
+        const startTimes: number[] = []
         this.subnet.validators.forEach((v: IValidator) => {
-            startTimes.push(v.startTime.getTime());
-        });
-        return Math.min(...startTimes);
+            startTimes.push(v.startTime.getTime())
+        })
+        return Math.min(...startTimes)
     }
 
     maxEndTime() {
-        let endTimes: number[] = [];
+        const endTimes: number[] = []
         this.subnet.validators.forEach((v: IValidator) => {
-            endTimes.push(v.endTime.getTime());
-        });
-        return Math.max(...endTimes);
+            endTimes.push(v.endTime.getTime())
+        })
+        return Math.max(...endTimes)
     }
 
     scale(val: number) {
         const scale = scaleLinear()
             .domain([this.minTime, this.maxTime])
-            .range([0, this.diagramWidth]);
-        return scale(val);
+            .range([0, this.diagramWidth])
+        return scale(val)
     }
 
     scaleRelative(val: number) {
-        const scale = scaleLinear()
-            .domain([0, 1])
-            .range([0, this.diagramWidth]);
-        return scale(val);
+        const scale = scaleLinear().domain([0, 1]).range([0, this.diagramWidth])
+        return scale(val)
     }
 }
 </script>
 
 <style scoped lang="scss">
-
 #validator-data-table {
     margin-left: 1px;
 }
@@ -455,10 +533,7 @@ export default class ValidatorDataTable extends Vue {
 </style>
 
 <style lang="scss">
-
-
 #validator_data_table {
-
     .v-application .primary--text {
         color: $primary-color !important;
         caret-color: $primary-color !important;
@@ -516,13 +591,10 @@ export default class ValidatorDataTable extends Vue {
 </style>
 
 <style lang="scss">
-
-
 #validator_data_table {
-    
     .v-data-table__expand-icon {
         border: none;
-        background-color: rgba(255,255,255,0);
+        background-color: rgba(255, 255, 255, 0);
         border-radius: 0;
     }
 
@@ -530,7 +602,7 @@ export default class ValidatorDataTable extends Vue {
     .v-data-footer__icons-after > button {
         border-width: inherit;
         cursor: pointer;
-    }    
+    }
 
     .v-select.v-text-field input {
         border-color: transparent;

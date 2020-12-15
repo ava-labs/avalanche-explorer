@@ -1,20 +1,26 @@
 <template>
     <div id="subnet_tabs">
         <v-tabs vertical right>
-            <v-tab v-for="(s, subnetID) in subnets" :key="s.id">{{subnetID | subnet}}</v-tab>
-            <v-tab-item v-for="(s, subnetID) in subnets" :key="s.id" :vertical="true">
-                <Content :subnetID="subnetID" :subnet="s"></Content>
+            <v-tab v-for="(s, subnetID) in subnets" :key="s.id">{{
+                subnetID | subnet
+            }}</v-tab>
+            <v-tab-item
+                v-for="(s, subnetID) in subnets"
+                :key="s.id"
+                :vertical="true"
+            >
+                <Content :subnet-i-d="subnetID" :subnet="s"></Content>
             </v-tab-item>
         </v-tabs>
     </div>
 </template>
 
 <script lang="ts">
-import "reflect-metadata";
-import { Vue, Component, Prop } from "vue-property-decorator";
-import { subnetMap } from "@/helper";
-import Content from "@/components/Subnets/Content.vue";
-import Subnet from '@/js/Subnet';
+import 'reflect-metadata'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import { subnetMap } from '@/helper'
+import Content from '@/components/Subnets/Content.vue'
+import Subnet from '@/js/Subnet'
 
 interface Subnets {
     [key: string]: Subnet
@@ -22,21 +28,20 @@ interface Subnets {
 
 @Component({
     components: {
-        Content
+        Content,
     },
     filters: {
         subnet(val: string): string {
-            return subnetMap(val);
-        }
-    }
+            return subnetMap(val)
+        },
+    },
 })
 export default class SubnetTabs extends Vue {
-    @Prop() subnets!: Subnets;
+    @Prop() subnets!: Subnets
 }
 </script>
 
 <style scoped lang="scss">
-
 .v-tabs--vertical {
     margin-right: 30px;
     flex-direction: row-reverse;
@@ -67,13 +72,10 @@ export default class SubnetTabs extends Vue {
 </style>
 
 <style lang="scss">
-
-
 #subnet_tabs {
-
     .v-tabs--vertical > .v-tabs-bar {
         max-width: 200px !important;
-        border-left: 1px solid #cecece;     
+        border-left: 1px solid #cecece;
     }
 
     .v-tabs--vertical > .v-window {
@@ -83,9 +85,9 @@ export default class SubnetTabs extends Vue {
     .v-card__text {
         padding-left: 0 !important;
     }
-    
+
     .v-tab.v-tab {
-        font-family: "Rubik", sans-serif;
+        font-family: 'Rubik', sans-serif;
         text-transform: uppercase;
         font-weight: 500;
     }
@@ -99,5 +101,4 @@ export default class SubnetTabs extends Vue {
         caret-color: $secondary-color;
     }
 }
-
 </style>

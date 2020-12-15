@@ -1,9 +1,20 @@
 <template>
-    <v-app-bar div="navbar" app dark flat dense :height="76" :style="{backgroundColor: navColor}">
+    <v-app-bar
+        div="navbar"
+        app
+        dark
+        flat
+        dense
+        :height="76"
+        :style="{ backgroundColor: navColor }"
+    >
         <!-- LEFT -->
         <div class="logo">
             <router-link to="/">
-                <img style="height: 31px" src="@/assets/explorer_logo_light.png" />
+                <img
+                    style="height: 31px"
+                    src="@/assets/explorer_logo_light.png"
+                />
                 <h1>
                     <span class="hide">Avalanche Explorer</span>
                 </h1>
@@ -27,40 +38,39 @@
 </template>
 
 <script>
-import Vue from "vue";
-import SearchBar from "@/components/misc/SearchBar/SearchBar";
-import NetworkMenu from "./NetworkSettings/NetworkMenu.vue";
+import Vue from 'vue'
+import SearchBar from '@/components/misc/SearchBar/SearchBar'
+import NetworkMenu from './NetworkSettings/NetworkMenu.vue'
 
 export default Vue.extend({
     components: {
         SearchBar,
-        NetworkMenu
-    },
-    methods: {
-        onsearch(val) {
-            this.$router.push({ path: "/search", query: { query: val } });
-        }
+        NetworkMenu,
     },
     computed: {
         themeType() {
-            return this.$vuetify.theme.dark ? "dark" : "light";
+            return this.$vuetify.theme.dark ? 'dark' : 'light'
         },
         theme() {
-            return this.$vuetify.theme.themes[this.themeType];
+            return this.$vuetify.theme.themes[this.themeType]
         },
         showSearch() {
-            return (this.$router.currentRoute.name === "Home") ? false : true;
+            return this.$router.currentRoute.name === 'Home' ? false : true
         },
         // overrides Vuetify theme
         navColor() {
-            return "#fff";
-        }
-    }
-});
+            return '#fff'
+        },
+    },
+    methods: {
+        onsearch(val) {
+            this.$router.push({ path: '/search', query: { query: val } })
+        },
+    },
+})
 </script>
 
 <style scoped lang="scss">
-
 .navbar {
     z-index: 10 !important;
     padding-top: 0 !important;

@@ -6,11 +6,14 @@
         flat
         dense
         :height="100"
-        :style="{backgroundColor: navColor}"
+        :style="{ backgroundColor: navColor }"
     >
         <div class="logo">
             <router-link to="/">
-                <img style="width: 200px" :src="require(`@/assets/explorer_logo_${logoColor}.png`)" />
+                <img
+                    style="width: 200px"
+                    :src="require(`@/assets/explorer_logo_${logoColor}.png`)"
+                />
                 <h1>
                     <span class="hide">Avalanche Explorer</span>
                 </h1>
@@ -26,7 +29,7 @@
                     <router-link to="/validators">Validators</router-link>
                     <router-link to="/assets">Assets</router-link>
                     <router-link to="/blockchains">Blockchains</router-link>
-                    <a v-bind:href="cChainURL">C-Chain</a>
+                    <a :href="cChainURL">C-Chain</a>
                     <router-link to="/resources">Resources</router-link>
                 </div>
             </div>
@@ -42,52 +45,57 @@
 </template>
 
 <script>
-import Vue from "vue";
-import SearchBar from "@/components/misc/SearchBar/SearchBar";
-import NetworkMenu from "./NetworkSettings/NetworkMenu.vue";
-import { DEFAULT_NETWORK_ID, cChainExplorerURL, cChainExplorerURL_test } from "@/store/modules/network/network";
+import Vue from 'vue'
+import SearchBar from '@/components/misc/SearchBar/SearchBar'
+import NetworkMenu from './NetworkSettings/NetworkMenu.vue'
+import {
+    DEFAULT_NETWORK_ID,
+    cChainExplorerURL,
+    cChainExplorerURL_test,
+} from '@/store/modules/network/network'
 
 export default Vue.extend({
     components: {
         SearchBar,
-        NetworkMenu
-    },
-    methods: {
-        onsearch(val) {
-            this.$router.push({ path: "/search", query: { query: val } })
-                .catch(error => {
-                    if (error.name != "NavigationDuplicated") {
-                        throw error;
-                    }
-                });
-        }
+        NetworkMenu,
     },
     computed: {
         themeType() {
-            return this.$vuetify.theme.dark ? "dark" : "light";
+            return this.$vuetify.theme.dark ? 'dark' : 'light'
         },
         theme() {
-            return this.$vuetify.theme.themes[this.themeType];
+            return this.$vuetify.theme.themes[this.themeType]
         },
         showSearch() {
-            return (this.$router.currentRoute.name === "Home") ? false : true;
+            return this.$router.currentRoute.name === 'Home' ? false : true
         },
         navColor() {
-            return (DEFAULT_NETWORK_ID === 1) ? "#fff" : "#2196f3";
+            return DEFAULT_NETWORK_ID === 1 ? '#fff' : '#2196f3'
         },
         logoColor() {
-            return (DEFAULT_NETWORK_ID === 1) ? "light" : "white";
+            return DEFAULT_NETWORK_ID === 1 ? 'light' : 'white'
         },
         cChainURL() {
-            return (DEFAULT_NETWORK_ID === 1) ? cChainExplorerURL : cChainExplorerURL_test;
+            return DEFAULT_NETWORK_ID === 1
+                ? cChainExplorerURL
+                : cChainExplorerURL_test
         },
-    }
-});
+    },
+    methods: {
+        onsearch(val) {
+            this.$router
+                .push({ path: '/search', query: { query: val } })
+                .catch((error) => {
+                    if (error.name != 'NavigationDuplicated') {
+                        throw error
+                    }
+                })
+        },
+    },
+})
 </script>
 
 <style scoped lang="scss">
-
-
 .navbar {
     z-index: 10 !important;
     padding-top: 0 !important;
@@ -126,11 +134,11 @@ export default Vue.extend({
             height: 1px;
             display: inline-block;
             overflow: hidden;
-            position: absolute!important;
-            border: 0!important;
-            padding: 0!important;
-            margin: 0!important;
-            clip: rect(1px,1px,1px,1px);
+            position: absolute !important;
+            border: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            clip: rect(1px, 1px, 1px, 1px);
         }
 
         .subnet {
@@ -178,7 +186,7 @@ export default Vue.extend({
     &.router-link-exact-active {
         color: $primary-color !important;
     }
-    
+
     &:hover {
         opacity: 0.7;
         text-decoration: none;
@@ -189,9 +197,9 @@ export default Vue.extend({
     }
 }
 
-@if $VUE_APP_DEFAULT_NETWORKID == 5 { 
+@if $VUE_APP_DEFAULT_NETWORKID == 5 {
     .routes a {
-        color: rgba(255,255,255,.72) !important;
+        color: rgba(255, 255, 255, 0.72) !important;
 
         &.router-link-exact-active {
             color: $white !important;
@@ -199,37 +207,36 @@ export default Vue.extend({
     }
 }
 
-@include smOnly {    
+@include smOnly {
     .logo {
         height: 100%;
         padding: 15px 0px 15px 6px;
         display: flex;
         flex-direction: column;
 
+        a {
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            height: 100%;
+        }
 
-    a {
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: center;
-        height: 100%;
-    }
+        h1 {
+            padding-left: 161px;
+            height: 12px;
+            .subnet {
+                font-size: 12px;
+                color: $primary-color;
+                padding-top: 9px;
+                padding-bottom: 0;
+                display: block;
+            }
+        }
 
-    h1 {
-        padding-left: 161px;
-        height: 12px;
-        .subnet {
-            font-size: 12px;
-            color: $primary-color;
-            padding-top: 9px;
-            padding-bottom: 0;
-            display: block;
+        img {
+            max-height: calc(100% - 15px);
         }
     }
-
-    img {
-        max-height: calc(100% - 15px);
-    }
-}
 
     .rightside {
         width: 100%;
@@ -244,12 +251,12 @@ export default Vue.extend({
 
 <style lang="scss">
 #navbar {
-    .v-toolbar--dense .v-toolbar__content, 
+    .v-toolbar--dense .v-toolbar__content,
     .v-toolbar--dense .v-toolbar__extension {
         padding-top: 0;
         padding-bottom: 0;
         padding-right: 0;
-        padding-left: 0
+        padding-left: 0;
     }
 }
 </style>

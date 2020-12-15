@@ -11,20 +11,11 @@
     "sourceMap": true,
     "baseUrl": ".",
     "experimentalDecorators": true,
-    "types": [
-      "webpack-env"
-    ],
+    "types": ["webpack-env", "./node_modules/@types"],
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": ["src/*"]
     },
-    "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable",
-      "scripthost"
-    ]
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
   "include": [
     "src/**/*.ts",

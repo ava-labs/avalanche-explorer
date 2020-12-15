@@ -2,7 +2,7 @@
     <div class="search">
         <div class="card">
             <template v-if="loading && query">
-                <Loader :contentId="query" :message="'Searching'"></Loader>
+                <Loader :content-id="query" :message="'Searching'"></Loader>
             </template>
             <div>
                 <p v-if="loading && query">Searching for {{ query }}</p>
@@ -11,15 +11,15 @@
             <p v-if="!loading">
                 Showing results for <span>{{ query }}</span>
             </p>
-            <div class="results" v-if="!loading && results.length > 0">
+            <div v-if="!loading && results.length > 0" class="results">
                 <result-row
                     v-for="(res, i) in results"
-                    class="result_row"
                     :key="i"
+                    class="result_row"
                     :result="res"
                 ></result-row>
             </div>
-            <div class="not_found card" v-if="!loading && results.length === 0">
+            <div v-if="!loading && results.length === 0" class="not_found card">
                 <h2>Not Found</h2>
                 <p>
                     Couldn't find any transaction, address or asset with that
@@ -31,12 +31,12 @@
 </template>
 
 <script lang="ts">
-import "reflect-metadata";
-import { Vue, Component, Watch } from "vue-property-decorator";
-import api from "@/axios";
-import ResultRow from "@/components/Search/ResultRow.vue";
-import AddressRow from "@/components/rows/AddressRow.vue";
-import Loader from "@/components/misc/Loader.vue";
+import 'reflect-metadata'
+import { Vue, Component, Watch } from 'vue-property-decorator'
+import api from '@/axios'
+import ResultRow from '@/components/Search/ResultRow.vue'
+import AddressRow from '@/components/rows/AddressRow.vue'
+import Loader from '@/components/misc/Loader.vue'
 
 @Component({
     components: {
@@ -45,36 +45,36 @@ import Loader from "@/components/misc/Loader.vue";
     },
 })
 export default class Search extends Vue {
-    loading: boolean = false;
-    query: string | (string | null)[] = "";
-    results: any[] = [];
+    loading = false
+    query: string | (string | null)[] = ''
+    results: any[] = []
 
     created() {
-        this.query = this.$router.currentRoute.query.query;
+        this.query = this.$router.currentRoute.query.query
         if (this.query) {
-            this.search();
+            this.search()
         }
     }
 
-    @Watch("$route")
+    @Watch('$route')
     onRouteChanged(val: any) {
-        this.results = [];
-        this.query = val.query.query;
-        this.search();
+        this.results = []
+        this.query = val.query.query
+        this.search()
     }
 
     search() {
-        this.loading = true;
+        this.loading = true
         // TODO: support service for multiple chains
-        api.get("/x/search?query=" + this.query).then((res) => {
-            this.loading = false;
-            let data = res.data;
+        api.get('/x/search?query=' + this.query).then((res) => {
+            this.loading = false
+            const data = res.data
             if (data === null) {
-                this.results = [];
+                this.results = []
             } else {
-                this.results = data.results;
+                this.results = data.results
             }
-        });
+        })
     }
 }
 </script>

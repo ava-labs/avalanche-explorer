@@ -34,12 +34,10 @@
 </template>
 
 <script lang="ts">
-export default {};
+export default {}
 </script>
 
 <style lang="scss">
-
-
 #responsive-guidelines {
     .tick-container {
         position: fixed;

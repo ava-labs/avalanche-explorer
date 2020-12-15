@@ -1,16 +1,16 @@
 <template>
     <div :key="asset.id" class="asset_row">
         <div class="avatar">
-            <p>{{asset.symbol}}</p>
+            <p>{{ asset.symbol }}</p>
         </div>
-        <p class="id">{{asset.id}}</p>
+        <p class="id">{{ asset.id }}</p>
         <div>
-            <p class="symbol">{{asset.symbol}}</p>
-            <p class="name">{{asset.name}}</p>
+            <p class="symbol">{{ asset.symbol }}</p>
+            <p class="name">{{ asset.name }}</p>
         </div>
-        <p class="chain">{{asset.chainID}}</p>
-        <p class="denomination">{{asset.denomination}}</p>
-        <p class="supply">{{asset.currentSupply}}</p>
+        <p class="chain">{{ asset.chainID }}</p>
+        <p class="denomination">{{ asset.denomination }}</p>
+        <p class="supply">{{ asset.currentSupply }}</p>
     </div>
 </template>
 <script>
@@ -18,10 +18,10 @@ export default {
     props: {
         asset: {
             type: Object,
-            required: true
-        }
-    }
-};
+            required: true,
+        },
+    },
+}
 </script>
 <style scoped lang="scss">
 .avatar {
@@ -48,7 +48,7 @@ export default {
     > * {
         align-self: center;
     }
-    
+
     > div {
         display: flex;
     }

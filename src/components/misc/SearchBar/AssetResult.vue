@@ -1,55 +1,57 @@
 <template>
     <div class="search_result" @click="select">
         <div class="symbol_container">
-            <p class="symbol">{{symbol}}</p>
+            <p class="symbol">{{ symbol }}</p>
         </div>
         <div class="data">
-            <p class="name">{{name}} <span>{{idAbbreviated}}</span></p>
-            <p class="supply">Supply {{supply.toLocaleString()}} {{symbol}}</p>
+            <p class="name">
+                {{ name }} <span>{{ idAbbreviated }}</span>
+            </p>
+            <p class="supply">
+                Supply {{ supply.toLocaleString() }} {{ symbol }}
+            </p>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-import "reflect-metadata";
-import { Vue, Component, Prop } from "vue-property-decorator";
-import { stringToBig } from "@/helper";
+import 'reflect-metadata'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import { stringToBig } from '@/helper'
 
 @Component({})
 export default class AssetResult extends Vue {
-    @Prop() item!: any;
-    
+    @Prop() item!: any
+
     get id() {
-        return `${this.item.id}`;
+        return `${this.item.id}`
     }
 
     get idAbbreviated() {
-        return `${this.item.id.substring(0, 8)}...`;
+        return `${this.item.id.substring(0, 8)}...`
     }
 
     get name() {
-        return this.item.name;
+        return this.item.name
     }
 
     get symbol() {
-        return this.item.symbol;
+        return this.item.symbol
     }
 
     get supply() {
-        return stringToBig(this.item.currentSupply, this.item.denomination);
+        return stringToBig(this.item.currentSupply, this.item.denomination)
     }
-    
+
     select() {
-        let url = `/asset/${this.id}`;
-        this.$router.push(url);
-        this.$emit("select");
+        const url = `/asset/${this.id}`
+        this.$router.push(url)
+        this.$emit('select')
     }
-    
 }
 </script>
 
 <style scoped lang="scss">
-
 .symbol_container {
     width: 50px;
     height: 50px;
@@ -77,7 +79,7 @@ export default class AssetResult extends Vue {
 
     span {
         display: inline-block;
-        font-size: .875em;
+        font-size: 0.875em;
         opacity: 0.7;
         padding-left: 5px;
         font-weight: 400;
