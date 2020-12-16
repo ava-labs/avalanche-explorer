@@ -8,11 +8,11 @@ for (const e in process.env) {
 }
 scssVars += `@import "@/_main.scss"; `
 scssVars += `@import "@/_background.scss"; `
-// console.log("scssVars", scssVars);
 
 module.exports = {
     devServer: {
         https: !process.env.USE_HTTP,
+        port: process.env.VUE_APP_HTTP_PORT,
     },
     transpileDependencies: ['vuetify'],
     css: {
