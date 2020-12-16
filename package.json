@@ -18,7 +18,7 @@
     "@fortawesome/free-regular-svg-icons": "5.13.0",
     "@fortawesome/free-solid-svg-icons": "5.13.0",
     "@fortawesome/vue-fontawesome": "0.1.9",
-    "avalanche": "^2.5.3",
+    "avalanche": "^3.0.6",
     "axios": "0.19.2",
     "bn.js": "5.1.1",
     "body-parser": "1.19.0",

@@ -28,6 +28,9 @@
                     />
                 </div>
             </div>
+            <div>
+                <node-versions></node-versions>
+            </div>
             <div class="headers">
                 <p>Rank</p>
                 <p>
@@ -91,6 +94,7 @@ import { AVALANCHE_SUBNET_ID } from '@/store/modules/platform/platform'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import Metadata from '@/components/Validators/Metadata.vue'
 import { IValidator } from '@/store/modules/platform/IValidator'
+import NodeVersions from '@/components/Validators/NodeVersions.vue'
 
 @Component({
     components: {
@@ -98,6 +102,7 @@ import { IValidator } from '@/store/modules/platform/IValidator'
         ValidatorRow,
         ValidatorPaginationControls,
         Metadata,
+        NodeVersions,
     },
     filters: {
         pluralize(val: number): string {
