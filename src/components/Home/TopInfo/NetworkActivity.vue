@@ -166,7 +166,7 @@
                         ></TooltipMeta>
                     </p>
                     <div v-if="subnetsLoaded">
-                        <p class="meta_val">{{ percentStaked }} %</p>
+                        <p class="meta_val">{{ percentStaked }}%</p>
                     </div>
                     <div v-else>
                         <v-progress-circular

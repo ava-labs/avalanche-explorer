@@ -4,6 +4,33 @@
             <h2>Node Versions</h2>
         </div>
         <div class="history_cont">
+            <div class="history_settings">
+                <button
+                    :active="displayKey === options[0]"
+                    @click="setdisplayKey(options[0])"
+                >
+                    Stake Amount
+                </button>
+                <button
+                    :active="displayKey === options[1]"
+                    @click="setdisplayKey(options[1])"
+                >
+                    Nodes
+                </button>
+            </div>
+            <div v-show="loading" class="loading_cont">
+                <v-progress-circular
+                    :size="16"
+                    :width="2"
+                    color="#E84970"
+                    indeterminate
+                ></v-progress-circular>
+            </div>
+            <div class="canv_cont">
+                <canvas ref="canv"></canvas>
+            </div>
+        </div>
+        <div class="history_cont">
             <div v-show="loading" class="loading_cont">
                 <v-progress-circular
                     :size="16"
@@ -23,7 +50,7 @@ import 'reflect-metadata'
 import { Vue, Component } from 'vue-property-decorator'
 import Chart from 'chart.js'
 import chroma from 'chroma-js'
-// import { node_api } from '@/node_api'
+import { toAVAX } from '@/helper'
 
 interface IVersion {
     version: string
@@ -39,7 +66,8 @@ export default class NodeVersions extends Vue {
     versions: null | IVersion[] = null
     chart: null | Chart = null
     loading = false
-    tab = 'nodeCount'
+    options: string[] = ['stakeAmount', 'nodeCount']
+    displayKey: keyof IVersion = 'nodeCount'
 
     mounted() {
         const canvas = this.$refs.canv as HTMLCanvasElement
@@ -58,32 +86,24 @@ export default class NodeVersions extends Vue {
         this.updateVersions()
     }
 
+    setdisplayKey(val: keyof IVersion) {
+        this.displayKey = val
+        this.updateVersions()
+    }
+
     async updateVersions() {
         this.loading = true
 
-        // const url = 'https://explorerapi.avax.network/validators'
-        // const test = await fetch(url)
-        //     .then((response) => response.text())
-
-        const info = `peerinfo{version="avalanche/1.0.5",nodeCount=11,stakeAmount=127937396758278}
-peerinfo{version="avalanche/1.0.4",nodeCount=5,stakeAmount=0}
-peerinfo{version="offline",nodeCount=0,stakeAmount=48349000000000}
-peerinfo{version="avalanche/1.1.0",nodeCount=736,stakeAmount=245172275786560352}
-peerinfo{version="avalanche/1.0.6",nodeCount=4,stakeAmount=107421784572919}
-peerinfo{version="avalanche/1.0.2",nodeCount=8,stakeAmount=5674750000000}
-peerinfo{version="avalanche/1.0.3",nodeCount=5,stakeAmount=47011882210757}
-peerinfo{version="avalanche/1.0.0",nodeCount=12,stakeAmount=50526192410066}
-peerinfo{version="avalanche/1.0.1",nodeCount=4,stakeAmount=9299998000000}`
+        const url = 'https://explorerapi.avax.network/validators'
+        const info = (await fetch(url).then((response) =>
+            response.text()
+        )) as string
 
         function removePrefix(s: string): string {
-            if (s.includes('avalanche/')) {
-                return s.split('avalanche/')[1]
-            } else {
-                return s
-            }
+            return s.includes('avalanche/') ? s.split('avalanche/')[1] : s
         }
 
-        let blah: IVersion[] = info
+        let peerInfo: IVersion[] = info
             .split('peerinfo')
             .filter((x) => !!x)
             .map((y) => {
@@ -101,21 +121,23 @@ peerinfo{version="avalanche/1.0.1",nodeCount=4,stakeAmount=9299998000000}`
                 return {
                     version: removePrefix(z.version.slice(1, -1)),
                     nodeCount: parseInt(z.nodeCount),
-                    stakeAmount: parseInt(z.stakeAmount),
+                    stakeAmount: toAVAX(z.stakeAmount),
                 }
             })
 
-        const offline = blah.find((i) => i.version === 'offline') as IVersion
+        const offline = peerInfo.find(
+            (i) => i.version === 'offline'
+        ) as IVersion
 
-        blah = blah
+        peerInfo = peerInfo
             .filter((i) => i.version !== 'offline')
             .sort((a, b) =>
                 a.version.localeCompare(b.version, undefined, { numeric: true })
             )
             .reverse()
-        blah.push(offline)
+        peerInfo.push(offline)
 
-        this.versions = blah
+        this.versions = peerInfo
         this.loading = false
         this.draw()
     }
@@ -134,7 +156,9 @@ peerinfo{version="avalanche/1.0.1",nodeCount=4,stakeAmount=9299998000000}`
             this.chart.data.datasets = [
                 {
                     backgroundColor: colorScale,
-                    data: this.versions.map((v) => v.nodeCount),
+                    data: this.versions.map(
+                        (v) => v[this.displayKey]
+                    ) as number[],
                 },
             ]
             this.chart.update()
