@@ -56,11 +56,10 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+import { Vue, Component } from 'vue-property-decorator'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import TxHeader from '@/components/rows/TxRow/TxHeader.vue'
 import TxRow from '@/components/rows/TxRow/TxRow.vue'
-import api from '@/axios'
 import { ITransaction } from '@/js/ITransaction'
 
 @Component({

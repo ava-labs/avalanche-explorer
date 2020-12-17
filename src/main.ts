@@ -27,6 +27,7 @@ declare module 'big.js' {
 }
 
 Big.prototype.toLocaleString = function (toFixed = 2) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const value = this
     const remainder = value.mod(1)
     const wholeNums = value.minus(remainder)

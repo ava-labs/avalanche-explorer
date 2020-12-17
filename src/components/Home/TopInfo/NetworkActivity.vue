@@ -205,7 +205,6 @@
 import 'reflect-metadata'
 import { Vue, Component, Watch } from 'vue-property-decorator'
 
-import axios from '@/axios'
 import { stringToBig, bigToDenomBig } from '@/helper'
 import TooltipHeading from '../../misc/TooltipHeading.vue'
 import TooltipMeta from '../TopInfo/TooltipMeta.vue'
@@ -214,7 +213,7 @@ import { Asset } from '@/js/Asset'
 import Big from 'big.js'
 import { TOTAL_AVAX_SUPPLY } from '@/store/modules/platform/platform'
 import { avalanche } from '@/avalanche'
-import { Defaults, getPreferredHRP, ONEAVAX } from 'avalanche/dist/utils'
+import { Defaults, ONEAVAX } from 'avalanche/dist/utils'
 import { BN } from 'avalanche/dist'
 
 @Component({
@@ -240,12 +239,12 @@ export default class NetworkActivity extends Vue {
     }
 
     @Watch('avaxVolume')
-    onAvaxVolumeChanged(val: string) {
+    onAvaxVolumeChanged() {
         this.saveCacheAvax()
     }
 
     @Watch('totalTransactions')
-    ontotalTransactionsChanged(val: number) {
+    ontotalTransactionsChanged() {
         this.saveCacheTotalTransactions()
     }
 
@@ -288,9 +287,6 @@ export default class NetworkActivity extends Vue {
 
     saveCacheTotalTransactions() {
         const totalTransactions = this.totalTransactions
-        const cache = {
-            totalTransactions, // count across all assets
-        }
         localStorage.setItem(
             'totalTransactions',
             JSON.stringify(totalTransactions)

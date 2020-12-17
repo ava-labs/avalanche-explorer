@@ -129,18 +129,16 @@
 
 <script lang="ts">
 import 'reflect-metadata'
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+import { Vue, Component, Prop } from 'vue-property-decorator'
 import CopyText from '@/components/misc/CopyText.vue'
-import Loader from '@/components/misc/Loader.vue'
 import UtxoRow from '@/components/Transaction/UtxoRow.vue'
 import { Transaction } from '../js/Transaction'
 import {
     ITransactionOutput,
     OutputValuesDict,
-    outValuesDenominated,
+    OutputValuesDenominated,
 } from '../js/ITransaction'
 import { stringToBig } from '../helper'
-import Big from 'big.js'
 import moment from 'moment'
 import Tooltip from '@/components/rows/Tooltip.vue'
 
@@ -277,7 +275,7 @@ export default class TransactionDetailCard extends Vue {
     }
 
     get outValuesDenominated() {
-        const outValuesDenominated: outValuesDenominated = {}
+        const outValuesDenominated: OutputValuesDenominated = {}
         for (const assetId in this.outValues) {
             const val = this.outValues[assetId]
             const res = stringToBig(
