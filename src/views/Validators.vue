@@ -1,16 +1,12 @@
 <template>
-    <div class="blockchain">
-        <Metadata @toggle="handleToggle"></Metadata>
+    <div class="">
         <div class="validators card">
             <div class="header">
                 <h2>Staking Distribution</h2>
             </div>
+            <StakingMetadata @toggle="handleToggle"></StakingMetadata>
             <div class="controls">
                 <div class="filter_count">
-                    <p v-show="search.length === 0">
-                        {{ totalValidatorsCount.toLocaleString() }}
-                        {{ toggle }} validators
-                    </p>
                     <p v-show="search.length > 0 && matchedValidators">
                         {{
                             matchedValidators.length.toLocaleString()
@@ -27,9 +23,6 @@
                         placeholder="Filter by Node ID"
                     />
                 </div>
-            </div>
-            <div>
-                <node-versions></node-versions>
             </div>
             <div class="headers">
                 <p>Rank</p>
@@ -93,8 +86,9 @@ import ValidatorPaginationControls from '@/components/misc/ValidatorPaginationCo
 import { AVALANCHE_SUBNET_ID } from '@/store/modules/platform/platform'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import Metadata from '@/components/Validators/Metadata.vue'
+import StakingMetadata from '@/components/Validators/StakingMetadata.vue'
 import { IValidator } from '@/store/modules/platform/IValidator'
-import NodeVersions from '@/components/Validators/NodeVersions.vue'
+import PeerInfo from '@/components/Validators/PeerInfo.vue'
 
 @Component({
     components: {
@@ -102,7 +96,8 @@ import NodeVersions from '@/components/Validators/NodeVersions.vue'
         ValidatorRow,
         ValidatorPaginationControls,
         Metadata,
-        NodeVersions,
+        StakingMetadata,
+        PeerInfo,
     },
     filters: {
         pluralize(val: number): string {
