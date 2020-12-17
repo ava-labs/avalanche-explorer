@@ -1,3 +1,4 @@
+const colors = require('colors')
 // Inject SCSS variables into Vue components
 let scssVars = ''
 scssVars += `$VUE_APP_DEFAULT_NETWORKID: ${process.env.VUE_APP_DEFAULT_NETWORKID}; `
@@ -8,6 +9,17 @@ for (const e in process.env) {
 }
 scssVars += `@import "@/_main.scss"; `
 scssVars += `@import "@/_background.scss"; `
+
+/**
+ * This just displays the urls being provided by .env file
+ */
+console.log(`
+${colors.green('.Env configs are:')}
+    Ortelius url: ${colors.magenta(process.env.VUE_APP_ORTELIUS_URL)}
+    Avalanche GO url: ${colors.magenta(process.env.VUE_APP_AVALANCHE_GO_URL)}
+    Fuji url: ${colors.magenta(process.env.VUE_APP_AVALANCHE_JS_IP)}
+    C-Chain url: ${colors.magenta(process.env.VUE_APP_CCHAIN_EXPLORER_URL)}
+`)
 
 module.exports = {
     devServer: {

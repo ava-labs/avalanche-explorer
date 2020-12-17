@@ -12,8 +12,8 @@
             </p>
             <div class="genesis_tx">
                 <p>
-                    <b>{{ txId }}</b>
-                    <CopyText :value="`${txId}`" class="copy_but"></CopyText>
+                    <b>{{ tx.id }}</b>
+                    <CopyText :value="`${tx.id}`" class="copy_but"></CopyText>
                 </p>
                 <p v-if="isAssetGenesis" class="genesis">Asset Genesis</p>
             </div>
@@ -25,7 +25,7 @@
             </p>
             <div>
                 <p class="status">Success</p>
-                <p v-if="type === 'assetCreation'" class="status">Success</p>
+                <p v-if="tx.type === 'assetCreation'" class="status">Success</p>
             </div>
         </article>
         <article class="meta_row">
@@ -37,7 +37,7 @@
             </p>
             <p class="date">
                 <fa :icon="['far', 'clock']"></fa>
-                {{ dateAgo }} ({{ date.toLocaleString() }})
+                {{ date | fromNow }} ({{ date.toLocaleString() }})
             </p>
         </article>
         <article class="meta_row">
@@ -55,13 +55,21 @@
         </article>
         <article class="meta_row">
             <p class="label">
+                Type
+                <Tooltip content="The transaction type"></Tooltip>
+            </p>
+            <p class="values">
+                {{ tx.type | getType }}
+            </p>
+        </article>
+        <article class="meta_row">
+            <p class="label">
                 Transaction Fee
                 <Tooltip
                     content="Amount paid to validators for processing the transaction"
                 ></Tooltip>
             </p>
-            <!-- TODO: Tx Fee from API when supported -->
-            <p>0.001 AVAX</p>
+            <p>{{ tx.txFee | toAVAX }} AVAX</p>
         </article>
         <article v-if="isText" class="meta_row">
             <p class="label">
@@ -103,7 +111,7 @@
         </article>
         <article class="meta_row">
             <p class="label">Output UTXOs</p>
-            <div v-if="outputs.length > 0">
+            <div v-if="tx.outputs.length > 0">
                 <div class="utxo_headers">
                     <p>Tx</p>
                     <p></p>
@@ -113,7 +121,7 @@
                     <p class="amount">Amount</p>
                 </div>
                 <utxo-row
-                    v-for="(output, i) in outputs"
+                    v-for="(output, i) in tx.outputs"
                     :key="i"
                     class="io_item"
                     :utxo="output"
@@ -129,19 +137,16 @@
 
 <script lang="ts">
 import 'reflect-metadata'
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+import { Vue, Component, Prop } from 'vue-property-decorator'
 import CopyText from '@/components/misc/CopyText.vue'
-import Loader from '@/components/misc/Loader.vue'
 import UtxoRow from '@/components/Transaction/UtxoRow.vue'
-import { Transaction } from '../js/Transaction'
+import { getMappingForType, Transaction } from '../js/Transaction'
 import {
     ITransactionOutput,
     OutputValuesDict,
-    outValuesDenominated,
+    IOutValuesDenominated,
 } from '../js/ITransaction'
-import { stringToBig } from '../helper'
-import Big from 'big.js'
-import moment from 'moment'
+import { stringToBig, toAVAX } from '../helper'
 import Tooltip from '@/components/rows/Tooltip.vue'
 
 @Component({
@@ -149,6 +154,10 @@ import Tooltip from '@/components/rows/Tooltip.vue'
         UtxoRow,
         Tooltip,
         CopyText,
+    },
+    filters: {
+        getType: getMappingForType,
+        toAVAX,
     },
 })
 export default class TransactionDetailCard extends Vue {
@@ -202,14 +211,6 @@ export default class TransactionDetailCard extends Vue {
         return this.tx.memo === '' || null ? false : true
     }
 
-    get txId(): string {
-        return this.tx.id
-    }
-
-    get chainId(): string {
-        return this.tx.chainID
-    }
-
     get inputs(): ITransactionOutput[] {
         const res: ITransactionOutput[] = []
         const ins = this.tx.inputs
@@ -223,23 +224,11 @@ export default class TransactionDetailCard extends Vue {
     }
 
     get isAssetGenesis(): boolean {
-        return this.type === 'create_asset'
-    }
-
-    get outputs(): ITransactionOutput[] {
-        return this.tx.outputs
-    }
-
-    get type(): string {
-        return this.tx.type
+        return this.tx.type === 'create_asset'
     }
 
     get date(): Date {
         return new Date(this.tx.timestamp)
-    }
-
-    get dateAgo(): string {
-        return moment(this.date).fromNow()
     }
 
     get assets(): any {
@@ -248,7 +237,7 @@ export default class TransactionDetailCard extends Vue {
 
     get outValues(): OutputValuesDict {
         const dict: OutputValuesDict = {}
-        const outs = this.outputs
+        const outs = this.tx.outputs
 
         outs.forEach((out) => {
             const assetID = out.assetID
@@ -277,7 +266,7 @@ export default class TransactionDetailCard extends Vue {
     }
 
     get outValuesDenominated() {
-        const outValuesDenominated: outValuesDenominated = {}
+        const outValuesDenominated: IOutValuesDenominated = {}
         for (const assetId in this.outValues) {
             const val = this.outValues[assetId]
             const res = stringToBig(
