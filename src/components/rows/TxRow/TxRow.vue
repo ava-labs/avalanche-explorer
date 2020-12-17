@@ -247,14 +247,15 @@ export default class TxRow extends Vue {
     .id_col {
         display: flex;
         align-items: baseline;
-        height: 27px;
+        height: 50px;
         a {
             flex-grow: 1;
         }
     }
 
     .type {
-        display: none;
+        padding-top: 4px;
+        padding-bottom: 4px;
     }
 
     .time {
@@ -276,7 +277,7 @@ export default class TxRow extends Vue {
     .id_col {
         display: flex;
         align-items: baseline;
-        height: 32px;
+        height: 50px;
 
         a {
             flex-grow: 1;
@@ -288,7 +289,8 @@ export default class TxRow extends Vue {
     }
 
     .type {
-        display: none;
+        padding-top: 4px;
+        padding-bottom: 4px;
     }
 
     .id {

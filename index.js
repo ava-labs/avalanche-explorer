@@ -3,7 +3,6 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const history = require('connect-history-api-fallback')
 
-console.log('this is running ')
 const app = express()
 app.disable('x-powered-by')
 app.use(cors())
