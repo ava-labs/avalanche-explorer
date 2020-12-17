@@ -30,7 +30,6 @@ import TestnetAlert from '@/components/misc/TestnetAlert.vue'
 import Footer from '@/components/Footer.vue'
 import { IMetaTag } from '@/router/IMetaTag'
 import Notifications from '@/components/Notifications.vue'
-import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
 
 export default Vue.extend({
     name: 'App',

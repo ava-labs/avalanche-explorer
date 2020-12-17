@@ -81,7 +81,7 @@ export interface OutputValuesDict {
     }
 }
 
-export interface outValuesDenominated {
+export interface IOutValuesDenominated {
     [assetId: string]: {
         amount: string
         symbol: string

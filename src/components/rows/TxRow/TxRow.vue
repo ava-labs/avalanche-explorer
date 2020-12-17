@@ -4,10 +4,14 @@
             <p>Tx</p>
         </div>
         <div class="info_col id_col">
-            <router-link :to="`/tx/${tx_id}`" class="id"
-                >{{ tx_id }}...</router-link
+            <router-link :to="`/tx/${transaction.id}`" class="id"
+                >{{ transaction.id }}...</router-link
             >
-            <p class="time">{{ ago }}</p>
+            <p class="time">{{ transaction.timestamp | fromNow }}</p>
+            <span class="type">
+                <span class="label">TYPE:</span>
+                <span class="value"> {{ transaction.type | getType }}</span>
+            </span>
         </div>
         <div class="info_col">
             <span v-if="$vuetify.breakpoint.smAndDown" class="label"></span>
@@ -52,9 +56,7 @@ import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import UtxoInput from '@/components/rows/TxRow/InputUtxo.vue'
 import OutputUtxo from '@/components/rows/TxRow/OutputUtxo.vue'
-import moment from 'moment'
-import { Asset } from '@/js/Asset'
-import { Transaction } from '@/js/Transaction'
+import { getMappingForType, Transaction } from '@/js/Transaction'
 import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
 
 @Component({
@@ -62,13 +64,12 @@ import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
         UtxoInput,
         OutputUtxo,
     },
+    filters: {
+        getType: getMappingForType,
+    },
 })
 export default class TxRow extends Vue {
     @Prop() transaction!: Transaction
-
-    get assets() {
-        return this.$store.state.assets
-    }
 
     get isGenesisVertex(): boolean {
         const genesisTxID =
@@ -78,28 +79,9 @@ export default class TxRow extends Vue {
         return this.transaction.id === genesisTxID ? true : false
     }
 
-    get tx_id() {
-        // console.log("");
-        // console.log("");
-        // console.log("================================================================================================================");
-        // console.log("");
-        // console.log("==", this.transaction.id);
-        // console.log("  ", this.transaction.type);
-        // console.log("");
-        return this.transaction.id
-    }
-
-    get ago() {
-        const stamp = this.transaction.timestamp
-        const date = new Date(stamp)
-        return moment(date).fromNow()
-    }
-
     get inputs() {
-        // console.log("== GET INPUTS ==");
         const addedAddr: string[] = []
         const ins = this.transaction.inputs || []
-        // console.log("> ins         ", ins);
 
         const res = ins.filter((val) => {
             const addrs = val.output.addresses
@@ -115,18 +97,13 @@ export default class TxRow extends Vue {
             return true
         })
 
-        // console.log("  input res   ", res);
         return res
     }
 
     get outputs() {
-        // console.log("");
-        // console.log("== GET OUTPUTS ==");
-
         // INPUT UTXOS
         const ins = this.inputs
         const senders: string[] = []
-        // console.log("> ins         ", ins);
 
         // INPUT ADDRESSES
         for (let i = 0; i < ins.length; i++) {
@@ -135,14 +112,10 @@ export default class TxRow extends Vue {
             // addrs.forEach(addr => console.log("                  ", addr.substring(6, 11)));
             senders.push(...addrs)
         }
-        // console.log("%c  froms       ", 'background: #222; color: #bada55', senders);
-        // console.log("--");
 
         // OUTPUT UTXOS
         const outputUTXOs = this.transaction.outputs
         let recipients = outputUTXOs
-
-        // console.log("> outputUTXOs        ", outputUTXOs);
 
         if (outputUTXOs) {
             // TODO: reinstate filter when Tx Types are supported
@@ -211,11 +184,23 @@ export default class TxRow extends Vue {
 .time {
     font-weight: 400;
     font-size: 10px;
-    margin-top: 5px;
     color: $primary-color-light;
     word-break: keep-all;
     white-space: nowrap;
+    line-height: 21px;
 }
+
+.type {
+    font-size: 10px;
+    .label {
+        font-size: 8px;
+        color: #bdbdbd;
+    }
+    .value {
+        color: $secondary-color;
+    }
+}
+
 .label {
     font-size: 12px;
     font-weight: 400; /* 700 */
@@ -267,6 +252,14 @@ export default class TxRow extends Vue {
             flex-grow: 1;
         }
     }
+
+    .type {
+        display: none;
+    }
+
+    .time {
+        line-height: 11px;
+    }
 }
 
 @include xsOnly {
@@ -291,7 +284,11 @@ export default class TxRow extends Vue {
     }
 
     .time {
-        margin-top: 0;
+        line-height: 11px;
+    }
+
+    .type {
+        display: none;
     }
 
     .id {

@@ -24,6 +24,21 @@ function getOutput(output: ITransactionOutputData): ITransactionOutput {
     }
 }
 
+export const txTypeMap = new Map<string, string>([
+    ['add_delegator', 'Add Delegator'],
+    ['add_subnet_validator', 'Add Subnet Validator'],
+    ['base', 'Base'],
+    ['create_asset', 'Create Asset'],
+    ['create_subnet', 'Create Subnet'],
+    ['export', 'Export'],
+    ['pvm_export', 'PVM Export'],
+    ['pvm_import', 'PVM Import'],
+])
+
+export function getMappingForType(type: string) {
+    return txTypeMap.get(type) || 'No type provided'
+}
+
 export class Transaction implements ITransaction {
     id: string
     inputs: ITransactionInput[]

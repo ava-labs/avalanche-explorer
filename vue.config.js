@@ -17,6 +17,8 @@ console.log(`
 ${colors.green('.Env configs are:')}
     Ortelius url: ${colors.magenta(process.env.VUE_APP_ORTELIUS_URL)}
     Avalanche GO url: ${colors.magenta(process.env.VUE_APP_AVALANCHE_GO_URL)}
+    Fuji url: ${colors.magenta(process.env.VUE_APP_AVALANCHE_JS_IP)}
+    C-Chain url: ${colors.magenta(process.env.VUE_APP_CCHAIN_EXPLORER_URL)}
 `)
 
 module.exports = {
