@@ -69,8 +69,7 @@
                     content="Amount paid to validators for processing the transaction"
                 ></Tooltip>
             </p>
-            <!-- TODO: Tx Fee from API when supported -->
-            <p>0.001 AVAX</p>
+            <p>{{ tx.txFee | toAVAX }} AVAX</p>
         </article>
         <article v-if="isText" class="meta_row">
             <p class="label">
@@ -147,7 +146,7 @@ import {
     OutputValuesDict,
     IOutValuesDenominated,
 } from '../js/ITransaction'
-import { stringToBig } from '../helper'
+import { stringToBig, toAVAX } from '../helper'
 import Tooltip from '@/components/rows/Tooltip.vue'
 
 @Component({
@@ -158,6 +157,7 @@ import Tooltip from '@/components/rows/Tooltip.vue'
     },
     filters: {
         getType: getMappingForType,
+        toAVAX,
     },
 })
 export default class TransactionDetailCard extends Vue {

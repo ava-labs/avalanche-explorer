@@ -47,6 +47,7 @@ export class Transaction implements ITransaction {
     type: string
     chainID: string
     memo: string
+    txFee: number
 
     constructor(data: ITransactionData) {
         this.inputs =
@@ -70,6 +71,7 @@ export class Transaction implements ITransaction {
         this.chainID = data.chainID
         this.id = data.id
         this.memo = data.memo
+        this.txFee = data.txFee
     }
 
     getInputAddresses(): string[] {

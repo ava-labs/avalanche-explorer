@@ -13,6 +13,7 @@ export interface ITransactionData {
     reusedAddressTotals?: string // TODO new stuff
     memo: string // base64
     timestamp: string
+    txFee: number
 }
 
 interface IInputTotal {
@@ -52,6 +53,7 @@ export interface ITransaction {
     type: string
     chainID: string
     memo: string // base64
+    txFee: number
 }
 
 export interface ITransactionInput {
