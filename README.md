@@ -4,26 +4,31 @@ Frontend Vue.js application for displaying Avalanche network activity and blockc
 
 ## Prerequisites
 
-- Node v12.14
+-   Node v12.14
 
 ## Installation
 
-1) `yarn install`
+1. `yarn install`
 
 ## Development
 
-1) `yarn serve` - project runs with hot reloading
+1. `yarn serve` - project runs with hot reloading
 
 When you go to the app on your browser, you might get a warning saying "Site is not secure." This is because we are signing our own SSL Certificates. Please ignore and continue to the website.
 
 ## Configuration
 
-See `.env.example`. By default, the Avalanche Explorer interfaces with the Everest test network. 
+See `.env`. By default, the Avalanche Explorer interfaces with the Everest test network.
 
-To connect to a local network, install and run instances of:
-- Data indexing backend [Ortelius](https://github.com/ava-labs/ortelius).
-- Avalanche clients via [Avalanche-Go](https://github.com/ava-labs/gecko) or [Avash](https://github.com/ava-labs/avash).
+For local development against ortelius and avalanche go, use the docker container setup by the ortelius team. Info can be
+found [here](https://github.com/ava-labs/ortelius#quick-start-with-standalone-mode). You can also connect to a local network you setup yourself, install and run
+instances by following the instructions found in each lib:
+
+-   Data indexing backend [Ortelius](https://github.com/ava-labs/ortelius).
+-   Avalanche clients via [Avalanche-Go](https://github.com/ava-labs/gecko) or [Avash](https://github.com/ava-labs/avash).
+
+Once those are stood up and running, run `yarn serve:local` the application will use the configs in the `.env.hosted` file as the base urls for ortelius and avalanche go
 
 ## Known Addresses
 
-The file `/src/known_addresses.ts` is a dictionary that maps an address to a name. This can be customized freely. 
+The file `/src/known_addresses.ts` is a dictionary that maps an address to a name. This can be customized freely.

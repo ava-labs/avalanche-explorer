@@ -4,6 +4,7 @@
     "private": true,
     "scripts": {
         "serve": "vue-cli-service serve",
+        "serve:local": "vue-cli-service serve --mode hosted",
         "build": "vue-cli-service build",
         "lint": "vue-cli-service lint",
         "lint:ci": "yarn lint --no-fix",
