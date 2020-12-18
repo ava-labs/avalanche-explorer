@@ -83,25 +83,6 @@ const platform_module: Module<IPlatformState, IRootState> = {
             state.subnetsLoaded = true
         },
 
-        // async getValidators({ state, commit }) {
-        //     // Get validators and init classes
-        //     const validators = (await platform.getValidators()) as any[]
-        // },
-
-        /**
-         * 
-            peerinfo{version="avalanche/1.0.6",nodeCount=4,stakeAmount=107421784572919}
-            peerinfo{version="avalanche/1.0.5",nodeCount=11,stakeAmount=127937396758278}
-            peerinfo{version="avalanche/1.1.0",nodeCount=736,stakeAmount=252515977039829855}
-            peerinfo{version="avalanche/1.0.1",nodeCount=4,stakeAmount=9299998000000}
-            peerinfo{version="avalanche/1.0.0",nodeCount=12,stakeAmount=50526192410066}
-            peerinfo{version="avalanche/1.0.4",nodeCount=4,stakeAmount=0}
-            peerinfo{version="offline",nodeCount=0,stakeAmount=48349000000000}
-            peerinfo{version="avalanche/1.0.3",nodeCount=5,stakeAmount=47011882210757}
-         * 
-         * 
-         */
-
         async updateCurrentSupply({ state }) {
             state.currentSupply = await platform.getCurrentSupply()
         },

@@ -155,11 +155,13 @@ export default class ValidatorStats extends Vue {
         }
         defValues = defValues.P
 
-        const maxConsumption: number = defValues.maxConsumption
-        const minConsumption: number = defValues.minConsumption
+        const {
+            maxConsumption,
+            minConsumption,
+            maxStakingDuration,
+            maxSupply,
+        } = defValues
         const diffConsumption: number = maxConsumption - minConsumption
-        const maxSupply: BN = defValues.maxSupply
-        const maxStakingDuration: BN = defValues.maxStakingDuration
         const remainingSupply = maxSupply.sub(currentSupply)
 
         const amtBig = Big(amount.div(ONEAVAX).toString())
