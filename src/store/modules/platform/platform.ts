@@ -88,7 +88,9 @@ const platform_module: Module<IPlatformState, IRootState> = {
         },
 
         async updateMinStakeAmount({ state }) {
-            state.minStake = await platform.getMinStake(true)
+            state.minStake = (
+                await platform.getMinStake(true)
+            ).minValidatorStake
         },
     },
     getters: {

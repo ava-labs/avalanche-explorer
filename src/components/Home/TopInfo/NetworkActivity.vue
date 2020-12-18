@@ -166,7 +166,7 @@
                         ></TooltipMeta>
                     </p>
                     <div v-if="subnetsLoaded">
-                        <p class="meta_val">{{ percentStaked }} %</p>
+                        <p class="meta_val">{{ percentStaked }}%</p>
                     </div>
                     <div v-else>
                         <v-progress-circular
@@ -204,8 +204,6 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Watch } from 'vue-property-decorator'
-
-import axios from '@/axios'
 import { stringToBig, bigToDenomBig } from '@/helper'
 import TooltipHeading from '../../misc/TooltipHeading.vue'
 import TooltipMeta from '../TopInfo/TooltipMeta.vue'
@@ -214,7 +212,7 @@ import { Asset } from '@/js/Asset'
 import Big from 'big.js'
 import { TOTAL_AVAX_SUPPLY } from '@/store/modules/platform/platform'
 import { avalanche } from '@/avalanche'
-import { Defaults, getPreferredHRP, ONEAVAX } from 'avalanche/dist/utils'
+import { Defaults, ONEAVAX } from 'avalanche/dist/utils'
 import { BN } from 'avalanche/dist'
 
 @Component({
@@ -240,12 +238,12 @@ export default class NetworkActivity extends Vue {
     }
 
     @Watch('avaxVolume')
-    onAvaxVolumeChanged(val: string) {
+    onAvaxVolumeChanged() {
         this.saveCacheAvax()
     }
 
     @Watch('totalTransactions')
-    ontotalTransactionsChanged(val: number) {
+    ontotalTransactionsChanged() {
         this.saveCacheTotalTransactions()
     }
 
@@ -288,9 +286,6 @@ export default class NetworkActivity extends Vue {
 
     saveCacheTotalTransactions() {
         const totalTransactions = this.totalTransactions
-        const cache = {
-            totalTransactions, // count across all assets
-        }
         localStorage.setItem(
             'totalTransactions',
             JSON.stringify(totalTransactions)
@@ -377,30 +372,20 @@ export default class NetworkActivity extends Vue {
     }
 
     get annualStakingReward(): BN {
-        // console.log("=====================================================")
-        // console.log("=====================================================")
-
         const totalStake: string = this.$store.getters[
             'Platform/totalStake'
         ].toFixed()
         const totalStake_BN: BN = new BN(totalStake)
-        // console.log("totalStake_BN                  ", totalStake_BN.toString());
-
         const ONE_YEAR_SECONDS = 60 * 60 * 24 * 365
         const TOTAL_AVAX_SUPPLY_BN = new BN(
             TOTAL_AVAX_SUPPLY.times(Math.pow(10, 9)).toFixed()
         )
-        // console.log("TOTAL_AVAX_SUPPLY_BN           ", TOTAL_AVAX_SUPPLY_BN.toString());
 
         const annualStakingReward: BN = this.calculateStakingReward(
             totalStake_BN,
             ONE_YEAR_SECONDS,
             TOTAL_AVAX_SUPPLY_BN
         )
-
-        // console.log("-----------------------");
-        // console.log("annualStakingReward            ", new Big(annualStakingReward.toString()).div(totalStake).times(100).toFixed());
-
         return annualStakingReward
     }
 
@@ -409,11 +394,6 @@ export default class NetworkActivity extends Vue {
         duration: number,
         currentSupply: BN
     ): BN {
-        // console.log("-----------------------")
-        // console.log("amount                         ", amount.toString());
-        // console.log("duration                       ", duration);
-        // console.log("currentSupply                  ", currentSupply.toString());
-
         const networkID = avalanche.getNetworkID()
 
         //@ts-ignore
@@ -425,54 +405,30 @@ export default class NetworkActivity extends Vue {
         }
         defValues = defValues.P
 
-        // console.log("-----------------------")
-
         const maxConsumption: number = defValues.maxConsumption
-        // console.log("maxConsumption                 ", maxConsumption);
         const minConsumption: number = defValues.minConsumption
-        // console.log("minConsumption                 ", minConsumption);
         const diffConsumption: number = maxConsumption - minConsumption
-        // console.log("diffConsumption                ", diffConsumption);
         const maxSupply: BN = defValues.maxSupply
-        // console.log("maxSupply                      ", maxSupply.toString());
         const maxStakingDuration: BN = defValues.maxStakingDuration
-        // console.log("maxStakingDuration             ", maxStakingDuration.toString());
         const remainingSupply = maxSupply.sub(currentSupply)
-        // console.log("remainingSupply                ", remainingSupply.toString());
-
-        // console.log("-----------------------")
-
-        // console.log("ONEAVAX                        ", ONEAVAX.toString());
-
-        // console.log("-----------------------")
 
         const amtBig = Big(amount.div(ONEAVAX).toString())
-        // console.log("amtBig                         ", amtBig.toFixed());
         const currentSupplyBig = Big(currentSupply.div(ONEAVAX).toString())
-        // console.log("currentSupplyBig               ", currentSupplyBig.toFixed());
         const remainingSupplyBig = Big(remainingSupply.div(ONEAVAX).toString())
-        // console.log("remainingSupplyBig             ", remainingSupplyBig.toFixed());
         const portionOfExistingSupplyBig = amtBig.div(currentSupplyBig)
-        // console.log("portionOfExistingSupplyBig     ", portionOfExistingSupplyBig.toFixed());
 
         const portionOfStakingDuration: number =
             duration / maxStakingDuration.toNumber()
-        // console.log("portionOfStakingDuration       ", portionOfStakingDuration);
         const mintingRate: number =
             minConsumption + diffConsumption * portionOfStakingDuration
-        // console.log("mintingRate                    ", mintingRate);
 
-        // console.log("-----------------------")
         let rewardBig: Big = remainingSupplyBig.times(
             portionOfExistingSupplyBig
         )
         rewardBig = rewardBig.times(Big(mintingRate * portionOfStakingDuration))
-        // console.log("rewardBig                      ", rewardBig.toFixed());
 
         const rewardStr = rewardBig.times(Math.pow(10, 9)).toFixed(0)
-        // console.log("rewardStr                      ", rewardStr);
         const rewardBN = new BN(rewardStr)
-        // console.log("rewardBN                       ", rewardBN.toString());
 
         return rewardBN
     }
@@ -481,16 +437,10 @@ export default class NetworkActivity extends Vue {
 <style scoped lang="scss">
 #network_statistics {
     color: $primary-color;
-    /* background-color: $blue-light2; */
-    /* color: $blue; */
 }
 
 .header {
     padding-bottom: 30px;
-}
-
-.meta_title {
-    /* color: $blue; */
 }
 
 .one-column {

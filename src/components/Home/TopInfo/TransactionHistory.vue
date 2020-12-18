@@ -9,7 +9,7 @@
             </h2>
         </div>
         <div class="history_cont">
-            <div class="history_settings">
+            <div class="chart_toggle_settings">
                 <button
                     :active="scope === options[0]"
                     @click="setScope(options[0])"
@@ -359,7 +359,7 @@ export default {
                             labelString: 'Value',
                         },
                         ticks: {
-                            callback: function (value, index, values) {
+                            callback: function (value) {
                                 return '$' + value
                             },
                         },
@@ -388,7 +388,7 @@ export default {
                                 precision: 0,
                                 min: 0,
                                 max: 100000,
-                                callback: function (value, index, values) {
+                                callback: function (value) {
                                     switch (value) {
                                         case 1000000:
                                             return '1M'
@@ -526,38 +526,6 @@ export default {
 
 .history_cont {
     position: relative;
-}
-
-.history_settings {
-    display: flex;
-    flex-direction: row;
-    margin: 2px 0 20px;
-
-    button {
-        flex-grow: 1;
-        font-size: 9px;
-        background-color: transparent;
-        color: $primary-color;
-        height: 24px;
-        width: 28px;
-        border: none;
-        margin-left: 3px;
-        outline: none;
-        border-radius: 2px;
-        padding: 1px 3px;
-        font-weight: 700;
-        text-transform: uppercase;
-        cursor: pointer;
-
-        &:hover {
-            opacity: 0.7;
-        }
-
-        &[active] {
-            color: $white;
-            background-color: $primary-color;
-        }
-    }
 }
 
 .loading_cont {
