@@ -5,6 +5,7 @@ import store from './store'
 import vuetify from './plugins/vuetify'
 import Big from 'big.js'
 import VueAnalytics from 'vue-analytics'
+import './filters'
 
 Vue.config.productionTip = false
 
