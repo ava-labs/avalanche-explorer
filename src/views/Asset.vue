@@ -80,7 +80,8 @@ import TxHeader from '@/components/rows/TxRow/TxHeader.vue'
 import TxRow from '@/components/rows/TxRow/TxRow.vue'
 import { Transaction } from '../js/Transaction'
 import { Asset } from '@/js/Asset'
-import api from '../axios'
+import { getTransaction } from '@/services/transactions'
+import { getAssetInfo } from '@/services/assets'
 
 @Component({
     components: {
@@ -107,7 +108,7 @@ export default class AssetPage extends Vue {
     }
 
     @Watch('txId')
-    ontxIdChanged(val: string, oldVal: string) {
+    ontxIdChanged() {
         this.getData()
     }
 
@@ -159,17 +160,20 @@ export default class AssetPage extends Vue {
     }
 
     getData(): void {
-        const parent = this
         this.txloading = true
 
         if (this.assetsLoaded) {
             // Get genesis tx
-            let url = `/x/transactions/${this.txId}`
-            api.get(url)
-                .then((res) => {
-                    const data = res.data
+            Promise.all([getTransaction(this.txId), getAssetInfo(this.txId)])
+                .then(([transactionInfo, assetInfo]) => {
+                    return {
+                        ...transactionInfo,
+                        ...assetInfo,
+                    }
+                })
+                .then((data) => {
                     const tx = new Transaction(data)
-                    parent.genesisTx = tx
+                    this.genesisTx = tx
                 })
                 .catch((err) => {
                     console.log(err)
@@ -177,25 +181,32 @@ export default class AssetPage extends Vue {
 
             // Get txs
             // TODO: support service for multiple chains
-            url = `/x/transactions?assetID=${this.assetID}&sort=${this.sort}&offset=${this.offset}&limit=${this.limit}`
-            api.get(url).then((res) => {
-                parent.txloading = false
-                parent.transactions = res.data.transactions
+            getTransaction(null, {
+                assetID: this.assetID,
+                sort: this.sort,
+                offset: this.offset,
+                limit: this.limit,
+            }).then((res) => {
+                this.txloading = false
+                this.transactions = res.data.transactions
             })
         }
     }
 
     getTx() {
-        const parent = this
-        parent.txloading = true
+        this.txloading = true
 
         // Get txs by address
         // TODO: support service for multiple chains
-        const url = `/x/transactions?assetID=${this.assetID}&sort=${this.sort}&offset=${this.offset}&limit=${this.limit}`
-
-        api.get(url).then((res) => {
-            parent.txloading = false
-            parent.transactions = res.data.transactions
+        getTransaction(null, {
+            assetID: this.assetID,
+            sort: this.sort,
+            offset: this.offset,
+            limit: this.limit,
+        }).then((res) => {
+            debugger
+            this.txloading = false
+            this.transactions = res.data.transactions
         })
     }
 

@@ -29,6 +29,10 @@ instances by following the instructions found in each lib:
 
 Once those are stood up and running, run `yarn serve:local` the application will use the configs in the `.env.hosted` file as the base urls for ortelius and avalanche go
 
+## Services
+
+When creating http requests, do so from a service abstraction layer. refer to src/service/\* for an example. The http layer, models and helpers should all be centralized into this layer.
+
 ## Known Addresses
 
 The file `/src/known_addresses.ts` is a dictionary that maps an address to a name. This can be customized freely.
