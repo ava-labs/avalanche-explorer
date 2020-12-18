@@ -83,6 +83,17 @@
                 <p><span class="decode">UTF-8</span> {{ text_utf8 }}</p>
             </div>
         </article>
+        <article class="meta_row">
+            <p class="label">
+                Asset Type
+                <Tooltip
+                    content="The type of asset (NFT, variable or fixed cap)"
+                ></Tooltip>
+            </p>
+            <div>
+                <p>{{ tx | getAssetType }}</p>
+            </div>
+        </article>
         <article v-if="!isAssetGenesis" class="meta_row">
             <p class="label">Input UTXOs</p>
             <div v-if="inputs.length > 0">
@@ -148,6 +159,7 @@ import {
 } from '../js/ITransaction'
 import { stringToBig, toAVAX } from '../helper'
 import Tooltip from '@/components/rows/Tooltip.vue'
+import { getAssetType } from '@/services/assets'
 
 @Component({
     components: {
@@ -158,6 +170,7 @@ import Tooltip from '@/components/rows/Tooltip.vue'
     filters: {
         getType: getMappingForType,
         toAVAX,
+        getAssetType,
     },
 })
 export default class TransactionDetailCard extends Vue {
