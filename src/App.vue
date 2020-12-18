@@ -642,6 +642,44 @@ tbody {
         padding: 0;
     }
 }
+
+/* ==========================================
+   Data Viz
+   ========================================== */
+.chart_toggle_settings {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 2px 0 20px;
+
+    button {
+        flex-grow: 1;
+        font-size: 9px;
+        background-color: transparent;
+        color: $primary-color;
+        height: 24px;
+        width: 28px;
+        border: none;
+        margin-left: 3px;
+        outline: none;
+        border-radius: 2px;
+        padding: 1px 3px;
+        font-weight: 700;
+        text-transform: uppercase;
+        cursor: pointer;
+
+        &:hover {
+            opacity: 0.7;
+        }
+
+        &[active] {
+            color: $white;
+            background-color: $primary-color;
+        }
+    }
+}
+
 /* ==========================================
    transitions + animations
    ========================================== */

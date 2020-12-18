@@ -1,6 +1,7 @@
 <template>
     <div id="validators_meta" class="meta_data">
-        <div class="tabs_container">
+        <div class="header">
+            <h2>Staking Distribution</h2>
             <v-tabs
                 class="tabs"
                 active-class="tab_active"

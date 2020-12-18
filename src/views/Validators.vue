@@ -1,9 +1,7 @@
 <template>
     <div class="">
+        <metadata></metadata>
         <div class="validators card">
-            <div class="header">
-                <h2>Staking Distribution</h2>
-            </div>
             <StakingMetadata @toggle="handleToggle"></StakingMetadata>
             <div class="controls">
                 <div class="filter_count">
@@ -88,7 +86,6 @@ import Tooltip from '@/components/rows/Tooltip.vue'
 import Metadata from '@/components/Validators/Metadata.vue'
 import StakingMetadata from '@/components/Validators/StakingMetadata.vue'
 import { IValidator } from '@/store/modules/platform/IValidator'
-import PeerInfo from '@/components/Validators/PeerInfo.vue'
 
 @Component({
     components: {
@@ -97,7 +94,6 @@ import PeerInfo from '@/components/Validators/PeerInfo.vue'
         ValidatorPaginationControls,
         Metadata,
         StakingMetadata,
-        PeerInfo,
     },
     filters: {
         pluralize(val: number): string {

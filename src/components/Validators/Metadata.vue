@@ -1,100 +1,192 @@
 <template>
     <div id="validators_meta" class="card meta_data">
         <div class="header">
-            <h2>
-                Validator Stats
-                <TooltipHeading
-                    content="A validator is a node that is responsible for verifying transactions on a blockchain"
-                ></TooltipHeading>
-            </h2>
-            <v-tabs
-                class="tabs"
-                active-class="tab_active"
-                height="32"
-                hide-slider
-                @change="typeChange"
-            >
-                <v-tab>Active</v-tab>
-                <v-tab>Pending</v-tab>
-            </v-tabs>
+            <h2>Validators</h2>
         </div>
-        <div class="stats">
-            <article>
-                <img :src="require(`@/assets/ava_price-${imgColor}.png`)" />
-                <div class="stat">
-                    <p class="label">
-                        Total {{ toggle }} Stake Amount
-                        <TooltipMeta
-                            content="Total value of AVAX locked to secure Avalanche"
-                        ></TooltipMeta>
-                    </p>
-                    <p class="meta_val">
-                        {{ totalStake }}
-                        <span class="unit">AVAX</span>
-                    </p>
+        <div class="staking_info">
+            <validator-stats></validator-stats>
+            <div class="peerinfo_cont">
+                <div v-show="loading" class="loading_cont">
+                    <v-progress-circular
+                        :size="16"
+                        :width="2"
+                        color="#E84970"
+                        indeterminate
+                    ></v-progress-circular>
                 </div>
-            </article>
-            <article>
-                <img :src="require(`@/assets/validators-${imgColor}.png`)" />
-                <div class="stat">
-                    <p class="label">
-                        {{ toggle }} Validators
-                        <TooltipMeta
-                            content="Total number of nodes validating transactions on Avalanche"
-                        ></TooltipMeta>
-                    </p>
-                    <p class="meta_val">
-                        {{ totalValidatorsCount.toLocaleString() }}
-                    </p>
+                <peer-stake
+                    v-show="!loading"
+                    :data="versions"
+                    :metric="'stakeAmount'"
+                ></peer-stake>
+            </div>
+            <div class="peerinfo_cont">
+                <div v-show="loading" class="loading_cont">
+                    <v-progress-circular
+                        :size="16"
+                        :width="2"
+                        color="#E84970"
+                        indeterminate
+                    ></v-progress-circular>
                 </div>
-            </article>
+                <peer-count
+                    v-show="!loading"
+                    :data="versions"
+                    :metric="'nodeCount'"
+                ></peer-count>
+            </div>
         </div>
     </div>
 </template>
 
 <script lang="ts">
 import 'reflect-metadata'
-import { Vue, Component, Prop } from 'vue-property-decorator'
-import { AVALANCHE_SUBNET_ID } from '@/store/modules/platform/platform'
-import TooltipHeading from '@/components/misc/TooltipHeading.vue'
-import TooltipMeta from '@/components/misc/TooltipMeta.vue'
-import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
+import { Vue, Component } from 'vue-property-decorator'
+import PeerCount from '@/components/Validators/PeerCount.vue'
+import PeerStake from '@/components/Validators/PeerStake.vue'
+import ValidatorStats from '@/components/Validators/ValidatorStats.vue'
+import { toAVAX } from '@/helper'
+
+export interface IVersion {
+    version: string
+    nodeCount: number
+    stakeAmount: number
+}
 
 @Component({
     components: {
-        TooltipHeading,
-        TooltipMeta,
+        PeerStake,
+        PeerCount,
+        ValidatorStats,
     },
 })
 export default class Metadata extends Vue {
-    toggle = 'active' // active | pending
+    versions: null | IVersion[] = null
+    loading = false
 
-    typeChange(val: string) {
-        this.toggle = val ? 'pending' : 'active'
-        this.$emit('toggle', this.toggle)
+    created() {
+        this.getData()
     }
 
-    get totalStake() {
-        const valBig =
-            this.toggle === 'active'
-                ? this.$store.getters['Platform/totalStake']
-                : this.$store.getters['Platform/totalPendingStake']
-        return valBig.div(Math.pow(10, 9)).toLocaleString()
-    }
+    async getData(): Promise<void> {
+        this.loading = true
 
-    get totalValidatorsCount() {
-        return this.toggle === 'active'
-            ? this.$store.getters['Platform/totalValidators']
-            : this.$store.getters['Platform/totalPendingValidators']
-    }
+        const url = 'https://explorerapi.avax.network/validators'
+        const info = (await fetch(url).then((response) =>
+            response.text()
+        )) as string
 
-    get imgColor(): string {
-        return DEFAULT_NETWORK_ID === 1 ? 'testnet' : 'testnet'
+        function removePrefix(s: string): string {
+            return s.includes('avalanche/') ? s.split('avalanche/')[1] : s
+        }
+
+        let peerInfo: IVersion[] = info
+            .split('peerinfo')
+            .filter((x) => !!x)
+            .map((y) => {
+                return y
+                    .slice(1, -1)
+                    .split(',')
+                    .reduce((acc, curr) => {
+                        return {
+                            ...acc,
+                            [curr.split('=')[0]]: curr.split('=')[1],
+                        }
+                    }, {})
+            })
+            .map((z: any) => {
+                return {
+                    version: removePrefix(z.version.slice(1, -1)),
+                    nodeCount: parseInt(z.nodeCount),
+                    stakeAmount: toAVAX(z.stakeAmount),
+                }
+            })
+
+        const offline = peerInfo.find(
+            (i) => i.version === 'offline'
+        ) as IVersion
+
+        peerInfo = peerInfo
+            .filter((i) => i.version !== 'offline')
+            .sort((a, b) =>
+                a.version.localeCompare(b.version, undefined, { numeric: true })
+            )
+            .reverse()
+        peerInfo.push(offline)
+
+        this.versions = peerInfo
+        this.loading = false
     }
 }
 </script>
 
 <style scoped lang="scss">
+.staking_info {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 15px;
+    padding: 0;
+    width: 100%;
+    background: transparent;
+    overflow: visible;
+
+    > div {
+        padding: 24px 0;
+        overflow: auto;
+    }
+}
+
+.peerinfo_cont {
+    position: relative;
+}
+
+.loading_cont {
+    position: absolute;
+    background-color: $white;
+    margin-top: 40px;
+    top: -5px;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 40px);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@include lgOnly {
+    .staking_info {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@include smOnly {
+    .staking_info {
+        grid-template-columns: 1fr;
+        grid-template-rows: max-content max-content max-content;
+        padding: 0;
+
+        > div {
+            margin-bottom: 15px;
+        }
+
+        > div:last-of-type {
+            margin-bottom: 0;
+        }
+    }
+}
+
+@include xsOnly {
+    .staking_info {
+        grid-template-columns: 1fr;
+
+        > div {
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+    }
+}
+
 .meta_data {
     margin-bottom: 30px;
 
@@ -104,163 +196,8 @@ export default class Metadata extends Vue {
     }
 }
 
-.stats {
+.meta_content {
     display: grid;
-    width: 100%;
-    grid-template-columns: 1fr 1fr max-content;
-
-    > article {
-        padding: 30px 15px 0;
-        text-align: left;
-        line-height: 1.4em;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
-
-    img {
-        object-fit: contain;
-        width: 40px;
-        margin-right: 20px;
-    }
-
-    .stat {
-        display: flex;
-        flex-direction: column;
-
-        p {
-            font-weight: 400; /* 700 */
-        }
-
-        .label {
-            text-transform: capitalize;
-            color: $primary-color;
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-
-        .meta_val {
-            font-size: 32px;
-            line-height: 1em;
-
-            .unit {
-                font-size: 14px;
-                opacity: 0.7;
-            }
-        }
-    }
-}
-
-@include smOnly {
-    .stats {
-        grid-template-columns: 50% 50%;
-        grid-template-rows: max-content;
-
-        > div {
-            padding: 30px 0 0;
-        }
-
-        img {
-            width: 24px;
-        }
-
-        .stat {
-            .label {
-                font-size: 13px;
-            }
-
-            .meta_val {
-                font-size: 20px;
-
-                .unit {
-                    font-size: 14px;
-                }
-            }
-        }
-    }
-}
-
-@include xsOnly {
-    .meta_data {
-        margin-bottom: 10px;
-    }
-
-    .stats {
-        grid-template-columns: none;
-
-        > article {
-            padding: 15px 0 0;
-        }
-
-        img {
-            display: none;
-        }
-    }
-}
-
-.tabs {
-    flex-direction: row-reverse;
-    display: inline-block;
-    width: max-content;
-    flex-grow: 0;
-}
-
-.v-tab {
-    color: $primary-color !important;
-    background-color: transparent;
-    font-size: 13px;
-    font-weight: 400;
-    letter-spacing: 0;
-    margin: 0;
-    text-transform: none;
-}
-
-.tab_active {
-    border-bottom: 4px solid $secondary-color;
-}
-
-@include smOnly {
-    .header {
-        flex-direction: column;
-    }
-
-    .tabs {
-        margin-top: 20px;
-        width: 100%;
-    }
-
-    .v-tab {
-        flex-grow: 1;
-    }
-
-    .meta_data {
-        grid-template-columns: none;
-        grid-template-rows: max-content max-content max-content;
-
-        > div {
-            text-align: left;
-            padding: 0;
-        }
-    }
-}
-</style>
-<style lang="scss">
-#validators_meta {
-    .v-tab.v-tab {
-        font-family: 'Rubik', sans-serif;
-        text-transform: uppercase;
-        font-weight: 500;
-    }
-
-    .v-application .primary--text {
-        color: $primary-color !important;
-        caret-color: $primary-color !important;
-    }
-
-    .v-tabs-slider-wrapper {
-        color: $secondary-color;
-        caret-color: $secondary-color;
-    }
+    grid-template-columns: 1fr 1fr 1fr;
 }
 </style>
