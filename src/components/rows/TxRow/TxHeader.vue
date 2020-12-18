@@ -43,4 +43,10 @@ export default class TxHeader extends Vue {}
         font-size: 12px;
     }
 }
+
+@include xsOnly {
+    .table_headers {
+        display: none;
+    }
+}
 </style>

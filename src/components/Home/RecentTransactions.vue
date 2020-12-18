@@ -76,10 +76,26 @@ export default class RecentTransactions extends Vue {
 
     created() {
         this.poller = window.setInterval(() => this.pollForTxUpdates(), 5000)
+        /**
+         * In case you need to kill the interval while developing, to apply styles live or whatever
+         * window.dispatchEvent(new CustomEvent('TRANSACTION_POLLING:KILL'))
+         */
+        window.addEventListener(
+            'TRANSACTION_POLLING:KILL',
+            this.killPollingInterval.bind(this)
+        )
+    }
+
+    private killPollingInterval() {
+        window.clearInterval(this.poller)
     }
 
     destroyed() {
-        window.clearInterval(this.poller)
+        this.killPollingInterval()
+        window.removeEventListener(
+            'TRANSACTION_POLLING:KILL',
+            this.killPollingInterval.bind(this)
+        )
     }
 
     get assetsLoaded(): boolean {
@@ -170,6 +186,10 @@ export default class RecentTransactions extends Vue {
 
     .header {
         padding-bottom: 0;
+
+        .right {
+            display: none;
+        }
     }
 
     .list {

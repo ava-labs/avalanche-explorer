@@ -10,7 +10,11 @@ function stringToBig(raw: string, denomination = 0): Big {
     return Big(raw).div(Math.pow(10, denomination))
 }
 
-function toAVAX(nAVAX: string | number): number {
+/**
+ * Convert nAvax to Avax
+ * @param nAVAX nAvax amount
+ */
+function nAvaxToAVAX(nAVAX: string | number): number {
     return typeof nAVAX === 'string'
         ? parseInt(nAVAX) / Math.pow(10, 9)
         : nAVAX / Math.pow(10, 9)
@@ -102,7 +106,7 @@ function trimmedLocaleString(
 }
 
 export {
-    toAVAX,
+    nAvaxToAVAX as toAVAX,
     stringToBig,
     bigToDenomBig,
     bnToBig,
