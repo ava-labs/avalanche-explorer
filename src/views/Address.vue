@@ -123,7 +123,7 @@
 
 <script lang="ts">
 import 'reflect-metadata'
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+import { Vue, Component, Watch } from 'vue-property-decorator'
 import Loader from '@/components/misc/Loader.vue'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import Metadata from '@/components/Address/Metadata.vue'
@@ -131,17 +131,13 @@ import TxHeader from '@/components/rows/TxRow/TxHeader.vue'
 import TxRow from '@/components/rows/TxRow/TxRow.vue'
 import PaginationControls from '@/components/misc/PaginationControls.vue'
 import api from '../axios'
-import Big from 'big.js'
-import { stringToBig, blockchainMap, trimmedLocaleString } from '@/helper'
 import AddressDict from '@/known_addresses'
 import Address from '@/js/Address'
 import { Transaction } from '@/js/Transaction'
 import {
     IBalance_X,
-    IAddress,
     IAddressData,
     IBalance_P_Data,
-    IBalance_P,
     IStake_P_Data,
 } from '@/js/IAddress'
 import avalanche_go_api from '@/avalanche_go_api'
@@ -203,17 +199,17 @@ export default class AddressPage extends Vue {
     }
 
     @Watch('address')
-    onAddressChanged(val: string) {
+    onAddressChanged() {
         this.updateData()
     }
 
     @Watch('assetsLoaded')
-    onAssetsLoaded(val: boolean) {
+    onAssetsLoaded() {
         this.updateData()
     }
 
     @Watch('$route')
-    onRouteChanged(val: string) {
+    onRouteChanged() {
         this.updateData()
     }
 

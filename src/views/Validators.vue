@@ -1,16 +1,10 @@
 <template>
-    <div class="blockchain">
-        <Metadata @toggle="handleToggle"></Metadata>
+    <div class="">
+        <metadata></metadata>
         <div class="validators card">
-            <div class="header">
-                <h2>Staking Distribution</h2>
-            </div>
+            <StakingMetadata @toggle="handleToggle"></StakingMetadata>
             <div class="controls">
                 <div class="filter_count">
-                    <p v-show="search.length === 0">
-                        {{ totalValidatorsCount.toLocaleString() }}
-                        {{ toggle }} validators
-                    </p>
                     <p v-show="search.length > 0 && matchedValidators">
                         {{
                             matchedValidators.length.toLocaleString()
@@ -90,6 +84,7 @@ import ValidatorPaginationControls from '@/components/misc/ValidatorPaginationCo
 import { AVALANCHE_SUBNET_ID } from '@/store/modules/platform/platform'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import Metadata from '@/components/Validators/Metadata.vue'
+import StakingMetadata from '@/components/Validators/StakingMetadata.vue'
 import { IValidator } from '@/store/modules/platform/IValidator'
 
 @Component({
@@ -98,6 +93,7 @@ import { IValidator } from '@/store/modules/platform/IValidator'
         ValidatorRow,
         ValidatorPaginationControls,
         Metadata,
+        StakingMetadata,
     },
     filters: {
         pluralize(val: number): string {
