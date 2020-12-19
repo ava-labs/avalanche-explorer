@@ -35,11 +35,15 @@ export interface ITransactionOutputData {
     addresses: string[]
     amount: string
     assetID: string
+    chainID: string
+    groupID: number
     id: string
     locktime: number
     outputIndex: number
     outputType: number
+    payload: string
     redeemingTransactionID: string
+    stakeLocktime: number
     threshold: number
     timestamp: string
     transactionID: string

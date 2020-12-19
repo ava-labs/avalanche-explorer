@@ -103,6 +103,7 @@
                     <p>Lock Time</p>
                     <p>Threshold</p>
                     <p>From</p>
+                    <p>Type</p>
                     <p class="amount">Amount</p>
                 </div>
                 <utxo-row
@@ -129,6 +130,7 @@
                     <p>Lock Time</p>
                     <p>Threshold</p>
                     <p>To</p>
+                    <p class="type">Type</p>
                     <p class="amount">Amount</p>
                 </div>
                 <utxo-row
