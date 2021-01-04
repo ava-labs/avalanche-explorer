@@ -390,22 +390,6 @@ p {
     text-overflow: ellipsis;
 }
 
-.utxo_headers,
-.io_item {
-    grid-template-columns: 120px 80px 80px 80px 1fr 1fr;
-}
-
-.utxo_headers {
-    display: grid;
-    grid-gap: 10px;
-    font-size: 12px;
-
-    p {
-        font-weight: 400; /* 700 */
-        opacity: 0.7;
-    }
-}
-
 .amount {
     text-align: right;
 }
@@ -423,31 +407,6 @@ p {
 
 .outputs {
     overflow: auto;
-}
-
-@include smOnly {
-    .meta_row {
-        padding: 16px 0;
-        grid-template-columns: none;
-        grid-template-rows: max-content 1fr;
-
-        .label {
-            font-weight: 400; /* 700 */
-            margin-bottom: 8px;
-            margin-right: 0;
-            opacity: 0.7;
-        }
-    }
-
-    .io {
-        grid-template-columns: none;
-        grid-template-rows: max-content max-content;
-    }
-
-    .utxo_headers,
-    .io_item {
-        grid-template-columns: 70px 70px 70px 100px 1fr;
-    }
 }
 
 @include xsOnly {
