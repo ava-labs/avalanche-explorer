@@ -1,9 +1,9 @@
 <template>
     <div class="utxo_row">
         <!-- Tx -->
-        <router-link v-if="txId !== '-'" :to="`/tx/${txId}`">{{
-            txId
-        }}</router-link>
+        <span v-if="txId !== '-'" class="force-ellipsis">
+            <router-link :to="`/tx/${txId}`">{{ txId }}</router-link>
+        </span>
         <p v-else>-</p>
         <!-- Metrics -->
         <p class="redeemed">
@@ -12,13 +12,16 @@
         <p>{{ utxo.locktime }}</p>
         <p>{{ utxo.threshold }}</p>
         <!-- From/To -->
-        <div>
+        <span class="force-ellipsis">
             <router-link
                 v-for="(addr, i) in utxo.addresses"
                 :key="i"
                 :to="`/address/X-${addr}`"
                 >{{ addr | address }}</router-link
             >
+        </span>
+        <div class="type">
+            {{ utxo.outputType | getOutputType }}
         </div>
         <!-- Amount -->
         <div class="col_amount">
@@ -36,12 +39,14 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 import { addressMap } from '../../helper'
 import { ITransactionOutput } from '../../js/ITransaction'
 import { Asset } from '@/js/Asset'
+import { getOutputType } from '@/services/transactions'
 
 @Component({
     filters: {
         address(val: string): string {
             return addressMap(val)
         },
+        getOutputType,
     },
 })
 export default class UtxoRow extends Vue {
@@ -99,13 +104,6 @@ export default class UtxoRow extends Vue {
     }
 }
 
-a {
-    word-break: keep-all;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
 .redeemed {
     color: $green;
 }
@@ -122,5 +120,9 @@ a {
     color: $secondary-color;
     padding: 4px 8px;
     border-radius: 3px;
+}
+
+.type {
+    color: var(--grey-300);
 }
 </style>
