@@ -37,6 +37,9 @@ export const txTypeMap = new Map<string, string>([
     ['import', 'Import'],
     ['pvm_export', 'PVM Export'],
     ['pvm_import', 'PVM Import'],
+    /**
+     * @link https://docs.avax.network/build/references/avm-transaction-serialization#operations
+     */
     ['operation', 'Operation'],
     ['advance_time', 'Advance Time'],
     ['reward_validator', 'Reward Validator'],
