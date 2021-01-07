@@ -6,7 +6,7 @@ import {
     ITransactionOutput,
     ITransactionOutputData,
 } from '@/js/ITransaction'
-import { stringToBig } from '@/helper'
+import { CChainInfo, PChainInfo, XChainInfo, stringToBig } from '@/helper'
 
 function getOutput(output: ITransactionOutputData): ITransactionOutput {
     return {
@@ -23,22 +23,72 @@ function getOutput(output: ITransactionOutputData): ITransactionOutput {
         transactionID: output.transactionID,
     }
 }
-
+/**
+ * These types come from here @link https://github.com/ava-labs/ortelius/blob/643f71c5531cfd3d76fbf4c0e31b80e00d672f94/services/indexes/models/types.go#L62
+ */
 export const txTypeMap = new Map<string, string>([
     ['add_delegator', 'Add Delegator'],
     ['add_subnet_validator', 'Add Subnet Validator'],
     ['base', 'Base'],
     ['create_asset', 'Create Asset'],
     ['create_subnet', 'Create Subnet'],
+    ['create_chain', 'Create Chain'],
     ['export', 'Export'],
+    ['import', 'Import'],
     ['pvm_export', 'PVM Export'],
     ['pvm_import', 'PVM Import'],
+    ['operation', 'Operation'],
+    ['advance_time', 'Advance Time'],
+    ['reward_validator', 'Reward Validator'],
+])
+
+export const txChainTypeMap = new Map<string, typeof CChainInfo>([
+    [CChainInfo.id, CChainInfo],
+    [PChainInfo.id, PChainInfo],
+    [XChainInfo.id, XChainInfo],
 ])
 
 export function getMappingForType(type: string) {
-    return txTypeMap.get(type) || 'No type provided'
+    return txTypeMap.get(type) || 'Unknown'
 }
 
+export function getTransactionChainType(chainID: string) {
+    return txChainTypeMap.get(chainID)
+}
+
+export function getTransactionOutputs(
+    outputs: ITransactionOutput[],
+    chainID: string
+) {
+    return outputs.map((output) => {
+        const chainType = getTransactionChainType(chainID)
+        return {
+            ...output,
+            addresses: output.addresses.map(
+                (address) =>
+                    ({
+                        address,
+                        displayText: `${chainType?.code}-${address}`,
+                    } as DisplayAddress)
+            ),
+        }
+    })
+}
+
+export function getTransactionInputs(
+    inputs: ITransactionInput[],
+    chainId: string
+) {
+    return getTransactionOutputs(
+        inputs.map((input) => input.output),
+        chainId
+    )
+}
+
+export interface DisplayAddress {
+    address: string
+    displayText: string
+}
 export class Transaction implements ITransaction {
     id: string
     inputs: ITransactionInput[]

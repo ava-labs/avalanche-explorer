@@ -1,5 +1,4 @@
 import Big from 'big.js'
-import AddressDict from './known_addresses'
 import SubnetDict from './known_subnets'
 import BlockchainDict from './known_blockchains'
 import VMDict from './known_vms'
@@ -26,15 +25,6 @@ function bigToDenomBig(val: Big, denomination = 0): Big {
 
 function bnToBig(val: BN, denomination = 0): Big {
     return new Big(val.toString()).div(Math.pow(10, denomination))
-}
-
-// TODO: support for multiple chains. add a chain param
-function addressMap(addr: string): string {
-    if (AddressDict[addr]) {
-        return AddressDict[addr]
-    } else {
-        return 'X-' + addr
-    }
 }
 
 function subnetMap(id: string): string {
@@ -105,12 +95,43 @@ function trimmedLocaleString(
         : amount.div(Math.pow(10, denomination)).toLocaleString(decimalPlaces)
 }
 
+const DEFAULT_NETWORK_ID = parseInt(
+    process.env.VUE_APP_DEFAULT_NETWORKID || '4'
+)
+
+export function isMainnetNetwork() {
+    return DEFAULT_NETWORK_ID === 1
+}
+
+export const XChainInfo = {
+    id: (isMainnetNetwork()
+        ? process.env.VUE_APP_XCHAINID
+        : process.env.VUE_APP_TEST_XCHAINID) as string,
+    name: 'X Chain',
+    code: 'X',
+}
+
+export const PChainInfo = {
+    id: (isMainnetNetwork()
+        ? process.env.VUE_APP_PCHAINID
+        : process.env.VUE_APP_TEST_PCHAINID) as string,
+    name: 'P Chain',
+    code: 'P',
+}
+
+export const CChainInfo = {
+    id: (isMainnetNetwork()
+        ? process.env.VUE_APP_CCHAINID
+        : process.env.VUE_APP_TEST_CCHAINID) as string,
+    name: 'C Chain',
+    code: 'C',
+}
+
 export {
     nAvaxToAVAX as toAVAX,
     stringToBig,
     bigToDenomBig,
     bnToBig,
-    addressMap,
     subnetMap,
     blockchainMap,
     VMMap,

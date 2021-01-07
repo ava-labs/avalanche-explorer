@@ -56,7 +56,12 @@ import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import UtxoInput from '@/components/rows/TxRow/InputUtxo.vue'
 import OutputUtxo from '@/components/rows/TxRow/OutputUtxo.vue'
-import { getMappingForType, Transaction } from '@/js/Transaction'
+import {
+    getMappingForType,
+    Transaction,
+    getTransactionOutputs,
+    getTransactionInputs,
+} from '@/js/Transaction'
 import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
 
 @Component({
@@ -80,68 +85,31 @@ export default class TxRow extends Vue {
     }
 
     get inputs() {
-        const addedAddr: string[] = []
-        const ins = this.transaction.inputs || []
+        const addresses = getTransactionInputs(
+            this.transaction.inputs,
+            this.transaction.chainID
+        ).flatMap((output) => output.addresses)
 
-        const res = ins.filter((val) => {
-            const addrs = val.output.addresses
-            let flag = false
-            addrs.forEach((addr) => {
-                if (addedAddr.includes(addr)) {
-                    flag = true
-                } else {
-                    addedAddr.push(addr)
-                }
-            })
-            if (flag) return false
-            return true
+        /**
+         * This is just making sure that the addresses is a unique set with no repeats
+         */
+        return Array.from(
+            new Set(addresses.map((address) => address.address))
+        ).map((address) => {
+            return {
+                address,
+                ...addresses.find((a) => a.address === address),
+            }
         })
-
-        return res
     }
 
     get outputs() {
         // INPUT UTXOS
-        const ins = this.inputs
-        const senders: string[] = []
-
-        // INPUT ADDRESSES
-        for (let i = 0; i < ins.length; i++) {
-            const input = ins[i]
-            const addrs = input.output.addresses
-            // addrs.forEach(addr => console.log("                  ", addr.substring(6, 11)));
-            senders.push(...addrs)
-        }
-
-        // OUTPUT UTXOS
-        const outputUTXOs = this.transaction.outputs
-        let recipients = outputUTXOs
-
-        if (outputUTXOs) {
-            // TODO: reinstate filter when Tx Types are supported
-            // Hide change UTXO for multiple outputs
-            // output UTXO addresses
-            // if (outputUTXOs.length > 1) {
-            //     recipients = outputUTXOs.filter((UTXO, i) => {
-            //         let flag = false;
-            //         UTXO.addresses.forEach(addr => console.log("                  ", addr.substring(6, 11), "                ", i) );
-            //         UTXO.addresses.forEach(addr => {
-            //             if (senders.includes(addr)) {
-            //                 flag = true;
-            //             }
-            //         });
-            //         return flag ? false : true;
-            //     });
-            // }
-            // Hide nothing
-            // else {
-            //     recipients = outputUTXOs;
-            // }
-            // console.log("%c  tos         ", 'background: #FFF; color: #bada55', recipients.map(utxo => utxo.addresses));
-            recipients = outputUTXOs
-        }
-
-        return recipients
+        return getTransactionOutputs(
+            this.transaction.outputs,
+            this.transaction.chainID
+        )
+        //.flatMap((output) => output.addresses)
     }
 }
 </script>

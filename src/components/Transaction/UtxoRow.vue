@@ -14,10 +14,10 @@
         <!-- From/To -->
         <span class="force-ellipsis">
             <router-link
-                v-for="(addr, i) in utxo.addresses"
+                v-for="({ address, displayText }, i) in utxo.addresses"
                 :key="i"
-                :to="`/address/X-${addr}`"
-                >{{ addr | address }}</router-link
+                :to="`/address/X-${address}`"
+                >{{ displayText }}</router-link
             >
         </span>
         <div class="type">
@@ -36,16 +36,12 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { addressMap } from '../../helper'
 import { ITransactionOutput } from '../../js/ITransaction'
 import { Asset } from '@/js/Asset'
 import { getOutputType } from '@/services/transactions'
 
 @Component({
     filters: {
-        address(val: string): string {
-            return addressMap(val)
-        },
         getOutputType,
     },
 })

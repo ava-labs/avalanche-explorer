@@ -134,7 +134,7 @@
                     <p class="amount">Amount</p>
                 </div>
                 <utxo-row
-                    v-for="(output, i) in tx.outputs"
+                    v-for="(output, i) in outputs"
                     :key="i"
                     class="io_item"
                     :utxo="output"
@@ -153,7 +153,12 @@ import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import CopyText from '@/components/misc/CopyText.vue'
 import UtxoRow from '@/components/Transaction/UtxoRow.vue'
-import { getMappingForType, Transaction } from '../js/Transaction'
+import {
+    getMappingForType,
+    Transaction,
+    getTransactionOutputs,
+    getTransactionInputs,
+} from '../js/Transaction'
 import {
     ITransactionOutput,
     OutputValuesDict,
@@ -186,6 +191,10 @@ export default class TransactionDetailCard extends Vue {
             result += hex.length === 2 ? hex : '0' + hex
         }
         return result.toUpperCase()
+    }
+
+    get outputs() {
+        return getTransactionOutputs(this.tx.outputs, this.tx.chainID)
     }
 
     b64EncodeUnicode(str: string): string {
@@ -226,16 +235,8 @@ export default class TransactionDetailCard extends Vue {
         return this.tx.memo === '' || null ? false : true
     }
 
-    get inputs(): ITransactionOutput[] {
-        const res: ITransactionOutput[] = []
-        const ins = this.tx.inputs
-
-        if (!ins) return res
-
-        for (let i = 0; i < ins.length; i++) {
-            res.push(ins[i].output)
-        }
-        return res
+    get inputs() {
+        return getTransactionInputs(this.tx.inputs, this.tx.chainID)
     }
 
     get isAssetGenesis(): boolean {

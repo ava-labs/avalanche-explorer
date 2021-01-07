@@ -5,8 +5,8 @@
                 <span v-if="$vuetify.breakpoint.smAndDown" class="label"
                     >To</span
                 >
-                <router-link class="addr" :to="`/address/X-` + addr">{{
-                    addr | address
+                <router-link class="addr" :to="`/address/X-` + addr.address">{{
+                    addr.displayText
                 }}</router-link>
             </div>
         </div>
@@ -46,21 +46,13 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { addressMap, trimmedLocaleString } from '@/helper'
+import { trimmedLocaleString } from '@/helper'
 import { ITransactionOutput } from '@/js/ITransaction'
 import { Asset } from '@/js/Asset'
 import Big from 'big.js'
 
 @Component({
-    filters: {
-        address(val: string) {
-            let value = val
-            if (value.indexOf('-') === 1) {
-                value = value.substring(2, value.length)
-            }
-            return addressMap(value)
-        },
-    },
+    filters: {},
 })
 export default class OutputUtxo extends Vue {
     @Prop() output!: ITransactionOutput

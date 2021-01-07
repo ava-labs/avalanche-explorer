@@ -1,9 +1,9 @@
 <template>
     <div>
-        <div v-for="addr in addresses" :key="addr" class="from">
+        <div class="from">
             <span v-if="$vuetify.breakpoint.smAndDown" class="label">From</span>
-            <router-link class="addr" :to="`/address/X-${addr}`">{{
-                addr | address
+            <router-link class="addr" :to="`/address/X-${input.address}`">{{
+                input.displayText
             }}</router-link>
         </div>
     </div>
@@ -12,22 +12,13 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { addressMap } from '@/helper'
-import { ITransactionInput } from '@/js/ITransaction'
+import { DisplayAddress } from '@/js/Transaction'
 
 @Component({
-    filters: {
-        address(val: string): string {
-            return addressMap(val)
-        },
-    },
+    filters: {},
 })
 export default class InputUTXO extends Vue {
-    @Prop() input!: ITransactionInput
-
-    get addresses(): string[] {
-        return this.input.output.addresses
-    }
+    @Prop() input!: DisplayAddress[]
 }
 </script>
 
