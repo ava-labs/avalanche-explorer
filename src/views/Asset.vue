@@ -186,7 +186,7 @@ export default class AssetPage extends Vue {
                 sort: this.sort,
                 offset: this.offset,
                 limit: this.limit,
-                disableCount: 1
+                disableCount: 1,
             }).then((res) => {
                 this.txloading = false
                 this.transactions = res.data.transactions
@@ -204,7 +204,7 @@ export default class AssetPage extends Vue {
             sort: this.sort,
             offset: this.offset,
             limit: this.limit,
-            disableCount: 1
+            disableCount: 1,
         }).then((res) => {
             this.txloading = false
             this.transactions = res.data.transactions
