@@ -17,6 +17,7 @@ import {
 } from '@/js/IAsset'
 import { X_CHAIN_ID } from '@/store/modules/platform/platform'
 import { ITransaction, ITransactionData } from '@/js/ITransaction'
+import { getTransaction } from '@/services/transactions'
 
 Vue.use(Vuex)
 
@@ -100,11 +101,14 @@ export default new Vuex.Store({
             store.commit('addCollisionMap', collisionMap)
         },
 
-        async getRecentTransactions(store, txNum: number) {
-            const txRes = await api.get(
-                `/x/transactions?sort=timestamp-desc&limit=${txNum}`
-            )
-            store.commit('addRecentTransactions', txRes.data.transactions)
+        getRecentTransactions(store, txNum: number) {
+            getTransaction(null, {
+                sort: 'timestamp-desc',
+                limit: txNum,
+                disableCount: 1,
+            }).then((res) => {
+                store.commit('addRecentTransactions', res.transactions)
+            })
         },
 
         // Adds an unknown asset id to the assets dictionary
@@ -259,6 +263,7 @@ export default new Vuex.Store({
             }
             return res
         },
+        // TODO: disable-count
         totalTransactions(state: IRootState): number {
             let totalTransactions = 0
             for (const asset in state.assets) {

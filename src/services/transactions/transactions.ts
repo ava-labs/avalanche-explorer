@@ -8,6 +8,7 @@ export interface ITransactionParams {
     sort?: string
     offset?: number
     limit?: number
+    disableCount?: number
 }
 
 /**
