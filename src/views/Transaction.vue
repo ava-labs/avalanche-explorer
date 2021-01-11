@@ -18,9 +18,7 @@
                 <CopyText :value="`${txId}`" class="copy_but"></CopyText>
             </p>
             <p>
-                <a
-                    href="https://github.com/ava-labs/ortelius/issues"
-                    target="_blank"
+                <a href="https://chat.avalabs.org" target="_blank"
                     >Submit Issue</a
                 >
             </p>
