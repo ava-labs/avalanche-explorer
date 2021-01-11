@@ -11,9 +11,7 @@
             <h2>There was an error fetching address details.</h2>
             <p>Status {{ requestErrorStatus }} - {{ requestErrorMessage }}</p>
             <p>
-                <a
-                    href="https://github.com/ava-labs/avalanche-explorer/issues"
-                    target="_blank"
+                <a href="https://chat.avalabs.org" target="_blank"
                     >Submit Issue</a
                 >
             </p>
