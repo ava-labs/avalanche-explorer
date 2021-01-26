@@ -139,6 +139,11 @@ import {
     IStake_P_Data,
 } from '@/js/IAddress'
 import avalanche_go_api from '@/avalanche_go_api'
+import { getAddressChains } from '@/services/addresses/addressChains.service'
+import {
+    getAddressDetails_P,
+    getStake_P,
+} from '@/services/addresses/addresses.service'
 
 @Component({
     components: {
@@ -192,13 +197,19 @@ export default class AddressPage extends Vue {
     offset = 0
     sort = 'timestamp-desc'
 
-    created() {
+    async created() {
+        const addressChains = await getAddressChains(this.addressID)
+        console.log('addressChains', addressChains)
+        const addressPInfo = await getAddressDetails_P(this.addressID)
+        console.log('addressPInfo', addressPInfo)
         this.updateData()
     }
 
     @Watch('address')
     onAddressChanged() {
         this.updateData()
+        const addressChains = getAddressChains(this.addressID)
+        console.log('addressChains', addressChains)
     }
 
     @Watch('assetsLoaded')
@@ -269,17 +280,7 @@ export default class AddressPage extends Vue {
 
     async getStake_P() {
         this.stakeloading_P = true
-        const req = {
-            jsonrpc: '2.0',
-            method: 'platform.getStake',
-            params: {
-                address: `P-${this.addressID}`,
-            },
-            id: 1,
-        }
-
-        const res = await avalanche_go_api.post('', req)
-        const result: IStake_P_Data = res.data.result
+        const result = await getStake_P(this.addressID)
 
         if (this.metadata) {
             this.metadata.set_AVAX_staked_P(result)
@@ -290,17 +291,7 @@ export default class AddressPage extends Vue {
 
     async getAddressDetails_P() {
         this.loading_P = true
-        const req = {
-            jsonrpc: '2.0',
-            method: 'platform.getBalance',
-            params: {
-                address: `P-${this.addressID}`,
-            },
-            id: 1,
-        }
-
-        const res = await avalanche_go_api.post('', req)
-        const result: IBalance_P_Data = res.data.result
+        const result = await getAddressDetails_P(this.addressID)
 
         if (this.metadata) {
             this.metadata.set_AVAX_balance_P(result)

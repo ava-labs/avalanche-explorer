@@ -71,20 +71,20 @@ export default class AVAXBalanceTableDetail extends Vue {
             chain: 'Exchange',
             balance: this.X_locked,
         },
-        {
-            name: 'Total Balance',
-            chain: '',
-            balance: this.totalAVAX,
-        },
+        // {
+        //     name: 'Total Balance',
+        //     chain: '',
+        //     balance: this.totalAVAX,
+        // },
     ]
 
-    get totalAVAX(): Big {
-        return this.P_unlocked.plus(this.P_lockedStakeable)
-            .plus(this.P_lockedNotStakeable)
-            .plus(this.P_staked)
-            .plus(this.X_unlocked)
-            .plus(this.X_locked)
-    }
+    // get totalAVAX(): Big {
+    //     return this.P_unlocked.plus(this.P_lockedStakeable)
+    //         .plus(this.P_lockedNotStakeable)
+    //         .plus(this.P_staked)
+    //         .plus(this.X_unlocked)
+    //         .plus(this.X_locked)
+    // }
 }
 </script>
 

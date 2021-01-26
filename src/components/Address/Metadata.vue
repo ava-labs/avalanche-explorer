@@ -49,16 +49,6 @@
                             </v-tab-item>
                         </v-tabs>
                     </div>
-                    <!-- <v-alert
-                        class="info_alert"
-                        v-if="isManhattan"
-                        dense
-                        type="info"
-                        color="info"
-                    >
-                <p class="title"><b>THIS PAGE DISPLAYS ONLY YOUR UNLOCKED AVAX TOKENS.</b></p>
-                     <p class="description">To view your full AVAX wallet balance, please visit the <a class="info_link" href="https://wallet.avax.network">Avalanche Wallet</a> and select the "Manhattan Testnet" network endpoint.</p>
-                </v-alert> -->
                 </div>
             </div>
         </article>
@@ -79,7 +69,6 @@ import AVAXBalanceTableDetail from '@/components/Address/AVAXBalanceTableDetail.
 import { IAddress, IBalance_X } from '@/js/IAddress'
 import Big from 'big.js'
 import { AVAX_ID } from '@/store/index'
-import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
 
 @Component({
     components: {
@@ -98,10 +87,6 @@ export default class Metadata extends Vue {
     @Prop() assets!: IBalance_X[]
     @Prop() prefix!: string
 
-    get isManhattan(): boolean {
-        return DEFAULT_NETWORK_ID === 1 ? true : false
-    }
-
     get AVAX(): string {
         return AVAX_ID
     }
@@ -112,27 +97,48 @@ export default class Metadata extends Vue {
 
     // P-Chain AVAX balance
     get P_unlocked(): Big {
+        console.log(
+            'this.metaData.P_unlocked',
+            this.metaData.P_unlocked.toString()
+        )
         return this.metaData.P_unlocked
     }
 
     get P_lockedStakeable(): Big {
+        console.log(
+            'this.metaData.P_lockedStakeable',
+            this.metaData.P_lockedStakeable.toString()
+        )
         return this.metaData.P_lockedStakeable
     }
 
     get P_lockedNotStakeable(): Big {
+        console.log(
+            'this.metaData.P_lockedNotStakeable',
+            this.metaData.P_lockedNotStakeable.toString()
+        )
         return this.metaData.P_lockedNotStakeable
     }
 
     get P_staked(): Big {
+        console.log('this.metaData.P_staked', this.metaData.P_staked.toString())
         return this.metaData.P_staked
     }
 
     // X-Chain AVAX balance
     get X_unlocked(): Big {
+        console.log(
+            'this.metaData.X_unlocked',
+            this.metaData.X_unlocked.toString()
+        )
         return this.metaData.X_unlocked
     }
 
     get X_locked(): Big {
+        console.log(
+            'this.metaData.X_unlocked',
+            this.metaData.X_unlocked.toString()
+        )
         return this.metaData.X_locked
     }
 }
@@ -152,10 +158,6 @@ export default class Metadata extends Vue {
         padding: 4px 8px;
         margin: 0px 30px;
     }
-}
-
-.avax_balance_container {
-    /* display: flex; */
 }
 </style>
 
