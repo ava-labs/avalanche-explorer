@@ -11,6 +11,16 @@ export interface ITransactionParams {
     disableCount?: number
 }
 
+// export interface IAddressesParams {
+//     chainID?: string[]
+
+//     sort?: string
+//     offset?: number
+//     limit?: number
+// }
+
+// export type Combo = ITransactionParams & IAddressesParams
+
 /**
  *
  * @param params api release
