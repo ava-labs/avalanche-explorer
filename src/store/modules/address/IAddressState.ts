@@ -1,4 +1,4 @@
-import { IAddress } from '@/js/IAddress'
+import { IAddress } from '@/services/addresses/models'
 
 export interface IAddressState {
     addresses: {

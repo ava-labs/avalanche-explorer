@@ -133,6 +133,7 @@ import AddressDict from '@/known_addresses'
 import { Transaction } from '@/js/Transaction'
 import { IBalance_X, IAddress } from '@/services/addresses/models'
 import { getAddress } from '@/services/addresses/addresses.service'
+import Big from 'big.js'
 
 @Component({
     components: {

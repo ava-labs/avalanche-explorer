@@ -66,7 +66,7 @@ import CopyText from '@/components/misc/CopyText.vue'
 import BalanceTable from '@/components/Address/BalanceTable.vue'
 import AVAXBalanceTableSummary from '@/components/Address/AVAXBalanceTableSummary.vue'
 import AVAXBalanceTableDetail from '@/components/Address/AVAXBalanceTableDetail.vue'
-import { IAddress, IBalance_X } from '@/js/IAddress'
+import { IAddress, IBalance_X } from '@/services/addresses/models'
 import Big from 'big.js'
 import { AVAX_ID } from '@/store/index'
 

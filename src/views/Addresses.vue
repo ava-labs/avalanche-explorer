@@ -34,8 +34,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import api from '@/axios'
-import Address from '@/js/Address'
-import { IAddress, IAddressData, IBalance_X } from '@/js/IAddress'
+import { IAddress, IAddressData } from '@/services/addresses/models'
 import Big from 'big.js'
 import AddressDataTable from '@/components/Address/AddressDataTable.vue'
 
@@ -60,22 +59,9 @@ export default class Addresses extends Vue {
         api.get('/x/addresses').then((res) => {
             this.totalAddresses = res.data.count
             const addresses: IAddressData = res.data.addresses
-
-            // TODO: unique addresses or sort in API
-            // let addressesMap: {[key:string]: IAddressData} = {};
-            // for (let i = 0; i < addresses.length; i++) {
-            //     let addressID = addresses[i].address;
-            //     if (addressesMap[addressID]) {
-            //         console.log("redundant Address", addressID);
-            //     } else {
-            //         addressesMap[addressID] = addresses[i];
-            //     }
-            // }
-            // let sorted = Object.values(addressesMap).map((addressData: IAddressData) => {
-
             const sorted = Object.values(addresses).map(
                 (addressData: IAddressData) => {
-                    let address: IAddress = {
+                    const address: IAddress = {
                         address: addressData.address,
                         publicKey: addressData.publicKey,
                         // P-Chain AVAX balance
@@ -92,10 +78,6 @@ export default class Addresses extends Vue {
                         totalTransactionCount: 0,
                         totalUtxoCount: 0,
                         assets: [],
-                    }
-
-                    if (this.assetsMap) {
-                        address = new Address(addressData, this.assetsMap)
                     }
 
                     return address

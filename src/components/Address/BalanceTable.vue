@@ -51,7 +51,7 @@ import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import BalanceRow from '@/components/Address/BalanceRow.vue'
-import { IBalance_X } from '@/js/IAddress'
+import { IBalance_X } from '@/services/addresses/models'
 
 @Component({
     components: {
