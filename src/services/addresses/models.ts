@@ -1,3 +1,4 @@
+import { Asset } from '@/js/Asset'
 import Big from 'big.js'
 
 export interface IAddress {
@@ -85,4 +86,8 @@ export interface IBalance_P_Data {
 
 export interface IStake_P_Data {
     staked: string
+}
+
+export interface IAssetsMap {
+    [key: string]: Asset
 }
