@@ -51,7 +51,7 @@
                         </v-tooltip>
                     </p>
                 </div>
-                <template v-if="txloading && !assetsLoaded">
+                <template v-if="txLoading && !assetsLoaded">
                     <v-progress-circular
                         key="1"
                         :size="16"
@@ -82,7 +82,7 @@
                 </template>
             </header>
             <TxHeader></TxHeader>
-            <div v-show="txloading">
+            <div v-show="txLoading">
                 <v-progress-circular
                     key="1"
                     :size="16"
@@ -91,7 +91,7 @@
                     indeterminate
                 ></v-progress-circular>
             </div>
-            <div v-show="!txloading">
+            <div v-show="!txLoading">
                 <div class="rows">
                     <transition-group name="fade">
                         <tx-row
@@ -116,6 +116,20 @@
                 </div>
             </div>
         </section>
+        <div
+            v-if="!txLoading && txRequestError"
+            class="card address_details_error tx_error"
+        >
+            <h2>There was an error fetching address transactions.</h2>
+            <p>
+                Status {{ txRequestErrorStatus }} - {{ txRequestErrorMessage }}
+            </p>
+            <p>
+                <a href="https://chat.avalabs.org" target="_blank"
+                    >Submit Issue</a
+                >
+            </p>
+        </div>
     </div>
 </template>
 
@@ -175,8 +189,10 @@ export default class AddressPage extends Vue {
     requestErrorMessage: string | null = null
     metadata: IAddress | null = null
     // txs
-    txloading = false
+    txLoading = false
     txRequestError = false
+    txRequestErrorStatus: number | null = null
+    txRequestErrorMessage: string | null = null
     transactions: Transaction[] = []
     // tx pagination
     totalTx = 0
@@ -232,10 +248,6 @@ export default class AddressPage extends Vue {
         return address.substring(0, 1)
     }
 
-    get txCount(): number {
-        return this.metadata ? this.metadata.totalTransactionCount : 0
-    }
-
     get totalTransactionCount(): number {
         return this.metadata ? this.metadata.totalTransactionCount : 0
     }
@@ -247,7 +259,7 @@ export default class AddressPage extends Vue {
     // get address details and txs
     async updateData() {
         this.loading = true
-        this.txloading = true
+        this.txLoading = true
 
         if (this.assetsLoaded) {
             this.getTx()
@@ -296,7 +308,7 @@ export default class AddressPage extends Vue {
     }
 
     getTx() {
-        this.txloading = true
+        this.txLoading = true
 
         // Get txs by address
         // TODO: support service for multiple chains
@@ -304,14 +316,16 @@ export default class AddressPage extends Vue {
 
         api.get(url)
             .then((res) => {
-                this.txloading = false
+                this.txLoading = false
                 this.transactions = res.data.transactions
             })
             .catch((err) => {
-                this.txloading = false
+                this.txLoading = false
                 if (err.response) {
                     console.log(err.response)
                     this.txRequestError = true
+                    this.txRequestErrorStatus = err.response.status
+                    this.txRequestErrorMessage = err.response.data.message
                 }
             })
     }
@@ -394,6 +408,10 @@ export default class AddressPage extends Vue {
     padding-top: 30px;
     display: flex;
     justify-content: flex-end;
+}
+
+.tx_error {
+    margin-top: 30px;
 }
 
 @include smOnly {
