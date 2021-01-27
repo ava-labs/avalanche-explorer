@@ -51,7 +51,7 @@ import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import BalanceRow from '@/components/Address/BalanceRow.vue'
-import { IBalance_X } from '@/services/addresses/models'
+import { IBalanceX } from '@/services/addresses/models'
 
 @Component({
     components: {
@@ -69,7 +69,7 @@ import { IBalance_X } from '@/services/addresses/models'
     },
 })
 export default class BalanceTable extends Vue {
-    @Prop() assets!: IBalance_X[]
+    @Prop() assets!: IBalanceX[]
 }
 </script>
 

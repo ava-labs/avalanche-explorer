@@ -17,10 +17,10 @@ export interface IAddress {
     // X-Chain Assets
     totalTransactionCount: number
     totalUtxoCount: number
-    assets: IBalance_X[]
+    assets: IBalanceX[]
 }
 
-export interface IBalance_X {
+export interface IBalanceX {
     // asset metadata for convenience
     id: string
     name: string
@@ -36,7 +36,7 @@ export interface IBalance_X {
     utxoCount: number
 }
 
-export interface IBalance_P {
+export interface IBalanceP {
     balance: Big
     unlocked: Big
     lockedStakeable: Big
@@ -53,14 +53,14 @@ export interface IBalance_P {
 export interface IAddressData {
     address: string
     publicKey: string
-    assets: IBalance_X_Data
+    assets: IBalanceXData
 }
 
-export interface IBalance_X_Data {
-    [key: string]: IBalance_X_Datum
+export interface IBalanceXData {
+    [key: string]: IBalanceXDatum
 }
 
-export interface IBalance_X_Datum {
+export interface IBalanceXDatum {
     id: string
     transactionCount: number
     utxoCount: number
@@ -76,7 +76,7 @@ export interface IBalance_X_Datum {
         - staked P-Chain AVAX
    ========================================== */
 
-export interface IBalance_P_Data {
+export interface IBalancePData {
     balance: string
     unlocked: string // unlocked tokens. stake/move (no denom)
     lockedStakeable: string // vesting tokens. stake/!move (no denom)
@@ -84,7 +84,7 @@ export interface IBalance_P_Data {
     utxoIDs: string[] | null
 }
 
-export interface IStake_P_Data {
+export interface IStakePData {
     staked: string
 }
 

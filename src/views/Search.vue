@@ -35,7 +35,6 @@ import 'reflect-metadata'
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import api from '@/axios'
 import ResultRow from '@/components/Search/ResultRow.vue'
-import AddressRow from '@/components/rows/AddressRow.vue'
 import Loader from '@/components/misc/Loader.vue'
 
 @Component({
@@ -69,11 +68,7 @@ export default class Search extends Vue {
         api.get('/x/search?query=' + this.query).then((res) => {
             this.loading = false
             const data = res.data
-            if (data === null) {
-                this.results = []
-            } else {
-                this.results = data.results
-            }
+            this.results = data === null ? [] : data.results
         })
     }
 }

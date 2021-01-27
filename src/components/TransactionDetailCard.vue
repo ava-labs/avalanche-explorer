@@ -159,11 +159,7 @@ import {
     getTransactionOutputs,
     getTransactionInputs,
 } from '../js/Transaction'
-import {
-    ITransactionOutput,
-    OutputValuesDict,
-    IOutValuesDenominated,
-} from '../js/ITransaction'
+import { OutputValuesDict, IOutValuesDenominated } from '../js/ITransaction'
 import { stringToBig, toAVAX } from '../helper'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import { getAssetType } from '@/services/assets'

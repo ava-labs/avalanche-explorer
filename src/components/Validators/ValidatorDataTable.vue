@@ -265,7 +265,7 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { subnetMap, toAVAX } from '@/helper'
+import { toAVAX } from '@/helper'
 import moment from 'moment'
 import Subnet from '@/js/Subnet'
 import { AVALANCHE_SUBNET_ID } from '@/store/modules/platform/platform'

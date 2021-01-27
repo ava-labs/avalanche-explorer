@@ -108,7 +108,6 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import Big from 'big.js'
 import { Asset } from '@/js/Asset'
 import { blockchainMap } from '../../helper'
 import TooltipMeta from '../../components/misc/TooltipMeta.vue'

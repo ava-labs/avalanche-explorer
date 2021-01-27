@@ -19,14 +19,8 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-
-import axios from '@/axios'
-import { stringToBig } from '@/helper'
 import TooltipHeading from '../../misc/TooltipHeading.vue'
 import TooltipMeta from '../TopInfo/TooltipMeta.vue'
-import { AVAX_ID } from '@/store/index'
-import { Asset } from '@/js/Asset'
-import Big from 'big.js'
 
 @Component({
     components: {

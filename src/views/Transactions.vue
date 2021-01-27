@@ -126,17 +126,16 @@ export default class Transactions extends Vue {
     }
 
     getTx(): void {
-        const parent = this
-        parent.loading = true
+        this.loading = true
         const sort = 'timestamp-desc'
         // TODO: support service for multiple chains
         const url = `/x/transactions?sort=${sort}&offset=${this.offset}&limit=${this.limit}`
 
         if (this.assetsLoaded) {
             api.get(url).then((res) => {
-                parent.txs = res.data.transactions
-                parent.totalTx = res.data.count
-                parent.loading = false
+                this.txs = res.data.transactions
+                this.totalTx = res.data.count
+                this.loading = false
             })
         }
     }

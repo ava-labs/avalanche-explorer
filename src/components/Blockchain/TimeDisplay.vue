@@ -4,7 +4,7 @@
             class="fill"
             :style="{
                 width: `${filledPerc * 100}%`,
-                backgroundColor: color_fill,
+                backgroundColor: colorFill,
             }"
         ></div>
     </div>
@@ -20,7 +20,7 @@ export default {
             type: Date,
             required: true,
         },
-        color_fill: {
+        colorFill: {
             type: String,
             default: '#ddd',
         },

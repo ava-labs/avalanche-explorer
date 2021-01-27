@@ -86,7 +86,6 @@ export default {
             // console.log(this.explorer_api);
         },
         checkUrl() {
-            const err = ''
             let url = this.url
             // protect against homograph attack: https://hethical.io/homograph-attack-using-internationalized-domain-name/
             url = punycode.toASCII(url)

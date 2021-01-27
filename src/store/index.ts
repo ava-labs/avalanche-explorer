@@ -11,8 +11,8 @@ import Network from './modules/network/network'
 import Notifications from './modules/notifications/notifications'
 import { avm } from '@/avalanche'
 import {
-    IAssetData_Ortelius,
-    IAssetData_Avalanche_Go,
+    IAssetDataOrtelius,
+    IAssetDataAvalancheGo,
     ICollisionMap,
 } from '@/js/IAsset'
 import { X_CHAIN_ID } from '@/store/modules/platform/platform'
@@ -113,10 +113,10 @@ export default new Vuex.Store({
 
         // Adds an unknown asset id to the assets dictionary
         async addUnknownAsset({ commit }, assetId: string) {
-            const desc: IAssetData_Avalanche_Go = await avm.getAssetDescription(
+            const desc: IAssetDataAvalancheGo = await avm.getAssetDescription(
                 assetId
             )
-            const newAssetData: IAssetData_Ortelius = {
+            const newAssetData: IAssetDataOrtelius = {
                 alias: '',
                 chainID: X_CHAIN_ID,
                 currentSupply: '0',

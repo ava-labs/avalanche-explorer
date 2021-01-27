@@ -131,7 +131,7 @@ import PaginationControls from '@/components/misc/PaginationControls.vue'
 import api from '../axios'
 import AddressDict from '@/known_addresses'
 import { Transaction } from '@/js/Transaction'
-import { IBalance_X, IAddress } from '@/services/addresses/models'
+import { IBalanceX, IAddress } from '@/services/addresses/models'
 import { getAddress } from '@/services/addresses/addresses.service'
 import Big from 'big.js'
 
@@ -211,7 +211,7 @@ export default class AddressPage extends Vue {
         return AddressDict[this.addressID] ? AddressDict[this.addressID] : ''
     }
 
-    get assets(): IBalance_X[] {
+    get assets(): IBalanceX[] {
         return this.metadata ? this.metadata.assets : []
     }
 

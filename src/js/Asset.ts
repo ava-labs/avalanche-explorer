@@ -1,5 +1,5 @@
 import api from '@/axios'
-import { IAssetData_Ortelius } from './IAsset'
+import { IAssetDataOrtelius } from './IAsset'
 import { profanities } from '@/js/Profanities'
 import Big from 'big.js'
 import { stringToBig } from '@/helper'
@@ -22,7 +22,7 @@ class Asset {
     // not in indexer
     isUnknown: boolean
 
-    constructor(assetData: IAssetData_Ortelius, isUnknown: boolean) {
+    constructor(assetData: IAssetDataOrtelius, isUnknown: boolean) {
         this.id = assetData.id
         this.alias = assetData.alias
         this.chainID = assetData.chainID

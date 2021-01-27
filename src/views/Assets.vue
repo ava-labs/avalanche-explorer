@@ -98,8 +98,6 @@ import AssetsDataTable from '@/components/Assets/AssetsDataTable.vue'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import TooltipHeading from '@/components/misc/TooltipHeading.vue'
 import { Asset } from '@/js/Asset'
-import axios from '@/axios'
-import { IAssetData_Ortelius } from '../js/IAsset'
 //@ts-ignore
 import wordcloud from 'vue-wordcloud'
 import { AVAX_ID } from '@/store/index'
