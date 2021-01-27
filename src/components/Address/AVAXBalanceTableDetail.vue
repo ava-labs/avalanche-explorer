@@ -32,59 +32,59 @@ import Big from 'big.js'
     components: {},
 })
 export default class AVAXBalanceTableDetail extends Vue {
-    @Prop() unlockedX!: Big
-    @Prop() P_unlocked!: Big
-    @Prop() P_lockedStakeable!: Big
-    @Prop() P_lockedNotStakeable!: Big
-    @Prop() P_staked!: Big
-    @Prop() X_unlocked!: Big
-    @Prop() X_locked!: Big
+    @Prop() pUnlocked!: Big
+    @Prop() pLockedStakeable!: Big
+    @Prop() pLockedNotStakeable!: Big
+    @Prop() pStaked!: Big
+    @Prop() xUnlocked!: Big
+    @Prop() xLocked!: Big
 
     balances: any[] = [
         {
             name: 'Unlocked',
             chain: 'Platform',
-            balance: this.P_unlocked,
+            balance: this.pUnlocked,
         },
         {
             name: 'Locked (Stakeable)',
             chain: 'Platform',
-            balance: this.P_lockedStakeable,
+            balance: this.pLockedStakeable,
         },
         {
             name: 'Locked (Not-Stakeable)',
             chain: 'Platform',
-            balance: this.P_lockedNotStakeable,
+            balance: this.pLockedNotStakeable,
         },
         {
             name: 'Staked',
             chain: 'Platform',
-            balance: this.P_staked,
+            balance: this.pStaked,
         },
         {
             name: 'Unlocked',
             chain: 'Exchange',
-            balance: this.X_unlocked,
+            balance: this.xUnlocked,
         },
         {
             name: 'Locked',
             chain: 'Exchange',
-            balance: this.X_locked,
+            balance: this.xLocked,
         },
-        // {
-        //     name: 'Total Balance',
-        //     chain: '',
-        //     balance: this.totalAVAX,
-        // },
+        {
+            name: 'Total Balance',
+            chain: '',
+            balance: this.totalAVAX,
+        },
     ]
 
-    // get totalAVAX(): Big {
-    //     return this.P_unlocked.plus(this.P_lockedStakeable)
-    //         .plus(this.P_lockedNotStakeable)
-    //         .plus(this.P_staked)
-    //         .plus(this.X_unlocked)
-    //         .plus(this.X_locked)
-    // }
+    get totalAVAX(): Big {
+        return this.pUnlocked
+            .plus(this.pLockedStakeable)
+            .plus(this.pLockedNotStakeable)
+            .plus(this.pStaked)
+            .plus(this.xUnlocked)
+            .plus(this.xLocked)
+    }
 }
 </script>
 

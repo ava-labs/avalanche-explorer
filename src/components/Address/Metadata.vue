@@ -97,48 +97,27 @@ export default class Metadata extends Vue {
 
     // P-Chain AVAX balance
     get P_unlocked(): Big {
-        console.log(
-            'this.metaData.P_unlocked',
-            this.metaData.P_unlocked.toString()
-        )
         return this.metaData.P_unlocked
     }
 
     get P_lockedStakeable(): Big {
-        console.log(
-            'this.metaData.P_lockedStakeable',
-            this.metaData.P_lockedStakeable.toString()
-        )
         return this.metaData.P_lockedStakeable
     }
 
     get P_lockedNotStakeable(): Big {
-        console.log(
-            'this.metaData.P_lockedNotStakeable',
-            this.metaData.P_lockedNotStakeable.toString()
-        )
         return this.metaData.P_lockedNotStakeable
     }
 
     get P_staked(): Big {
-        console.log('this.metaData.P_staked', this.metaData.P_staked.toString())
         return this.metaData.P_staked
     }
 
     // X-Chain AVAX balance
     get X_unlocked(): Big {
-        console.log(
-            'this.metaData.X_unlocked',
-            this.metaData.X_unlocked.toString()
-        )
         return this.metaData.X_unlocked
     }
 
     get X_locked(): Big {
-        console.log(
-            'this.metaData.X_unlocked',
-            this.metaData.X_unlocked.toString()
-        )
         return this.metaData.X_locked
     }
 }
