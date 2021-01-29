@@ -9,11 +9,12 @@
         <!-- Address Details -->
         <HTTPError
             v-if="!loading && requestError"
+            :id="addressID"
+            :title="'There was an error fetching address details.'"
             :status="requestErrorStatus"
             :message="requestErrorMessage"
             :support-u-r-l="'https://chat.avalabs.org'"
-            :isMargin="false"
-            >There was an error fetching address details.
+        >
         </HTTPError>
         <Metadata
             v-if="metadata && !requestError && assetsLoaded === true"
@@ -28,11 +29,13 @@
         <!-- Address Txs -->
         <HTTPError
             v-if="!txLoading && txRequestError"
+            :id="addressID"
+            :title="'There was an error fetching address transactions.'"
             :status="txRequestErrorStatus"
             :message="txRequestErrorMessage"
             :support-u-r-l="'https://chat.avalabs.org'"
-            :isMargin="true"
-            >There was an error fetching address transactions.
+            :is-margin="true"
+        >
         </HTTPError>
         <section v-if="!loading && !txRequestError" class="card transactions">
             <header class="header">

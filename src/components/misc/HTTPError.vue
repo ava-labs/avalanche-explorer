@@ -1,7 +1,18 @@
 <template>
     <div class="card request_error" :margin="isMargin">
-        <h2><slot></slot></h2>
-        <p>Status {{ status }} - {{ message }}</p>
+        <h2>{{ title }}</h2>
+        <p class="message">
+            <template v-if="status">
+                Status {{ status }} - {{ message }}
+            </template>
+            <template v-else>
+                {{ message }}
+            </template>
+        </p>
+        <p class="copy_id">
+            {{ id }}
+            <CopyText :value="`${id}`" class="copy_but"></CopyText>
+        </p>
         <p>
             <a :href="supportURL" target="_blank">Submit Issue</a>
         </p>
@@ -11,13 +22,18 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
+import CopyText from '@/components/misc/CopyText.vue'
 
-@Component({})
+@Component({
+    components: { CopyText },
+})
 export default class HTTPError extends Vue {
-    @Prop() status!: number
-    @Prop() message!: string
+    @Prop() title!: string
+    @Prop() status?: number
+    @Prop() message?: string
+    @Prop() id!: string
     @Prop() supportURL!: string
-    @Prop() isMargin!: boolean
+    @Prop() isMargin?: boolean
 }
 </script>
 
@@ -27,8 +43,24 @@ export default class HTTPError extends Vue {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
     text-align: center;
+
+    h2 {
+        font-weight: 400;
+        font-size: 36px;
+        line-height: 1.25em;
+    }
+
+    .message {
+        margin: 0 0 2em;
+        font-size: 16px;
+        color: $primary-color;
+    }
+
+    .copy_id {
+        font-size: 16px;
+        color: $primary-color-light;
+    }
 
     a {
         display: block;

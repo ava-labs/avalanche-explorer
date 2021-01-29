@@ -1,32 +1,26 @@
 <template>
     <div class="detail">
         <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
-        <template v-if="txloading">
+        <template v-if="loading">
             <Loader
                 :content-id="txId"
                 :message="'Fetching Transaction Details'"
             ></Loader>
         </template>
-        <div v-if="!tx && !txloading" class="card tx_details_error">
-            <h2>Transaction Details Not Found</h2>
-            <p class="message">
-                A record for this transaction ID was not found in the Avalanche
-                Explorer
-            </p>
-            <p class="content_id">
-                {{ txId }}
-                <CopyText :value="`${txId}`" class="copy_but"></CopyText>
-            </p>
-            <p>
-                <a href="https://chat.avalabs.org" target="_blank"
-                    >Submit Issue</a
-                >
-            </p>
-        </div>
         <template v-else>
-            <TransactionDetailCard :tx="tx"
-                >Transaction Details</TransactionDetailCard
+            <HTTPError
+                v-if="!tx"
+                :id="txId"
+                :title="'Transaction Details Not Found'"
+                :message="'A record for this transaction ID was not found in the Avalanche Explorer'"
+                :support-u-r-l="'https://chat.avalabs.org'"
             >
+            </HTTPError>
+            <template v-else>
+                <TransactionDetailCard :tx="tx">
+                    Transaction Details
+                </TransactionDetailCard>
+            </template>
         </template>
     </div>
 </template>
@@ -34,21 +28,21 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Watch } from 'vue-property-decorator'
-import CopyText from '@/components/misc/CopyText.vue'
 import Loader from '@/components/misc/Loader.vue'
 import TransactionDetailCard from '@/components/TransactionDetailCard.vue'
+import HTTPError from '@/components/misc/HTTPError.vue'
 import { Transaction } from '../js/Transaction'
 import api from '../axios'
 
 @Component({
     components: {
         Loader,
-        CopyText,
         TransactionDetailCard,
+        HTTPError,
     },
 })
 export default class TransactionPage extends Vue {
-    txloading = false
+    loading = false
     tx: Transaction | null = null
     breadcrumbs: any = [
         {
@@ -86,14 +80,14 @@ export default class TransactionPage extends Vue {
     }
 
     getData(): void {
-        this.txloading = true
+        this.loading = true
 
         // TODO: support service for multiple chains
         const url = `/x/transactions/${this.txId}`
         if (this.assetsLoaded) {
             api.get(url)
                 .then((res) => {
-                    this.txloading = false
+                    this.loading = false
                     if (res.data) {
                         // tx in Ortelius
                         this.tx = new Transaction(res.data)
