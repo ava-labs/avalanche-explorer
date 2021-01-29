@@ -2,16 +2,13 @@
     <section class="card meta">
         <header class="header">
             <h2 v-if="alias">{{ alias }}</h2>
-            <h2 v-else>{{ prefix }}-{{ addressID }}</h2>
+            <h2 v-else>{{ addressID }}</h2>
         </header>
         <article class="meta_row">
             <p class="label">Address</p>
             <p class="addr">
-                <span>{{ prefix }}-{{ addressID }}</span>
-                <CopyText
-                    :value="`${prefix}-${addressID}`"
-                    class="copy_but"
-                ></CopyText>
+                <span>{{ addressID }}</span>
+                <CopyText :value="`${addressID}`" class="copy_but"></CopyText>
                 <span v-if="alias" class="alias">{{ alias }}</span>
             </p>
         </article>

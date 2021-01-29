@@ -7,15 +7,14 @@
             :message="'Fetching Address Details'"
         ></Loader>
         <!-- Address Details -->
-        <div v-if="!loading && requestError" class="card address_details_error">
-            <h2>There was an error fetching address details.</h2>
-            <p>Status {{ requestErrorStatus }} - {{ requestErrorMessage }}</p>
-            <p>
-                <a href="https://chat.avalabs.org" target="_blank"
-                    >Submit Issue</a
-                >
-            </p>
-        </div>
+        <HTTPError
+            v-if="!loading && requestError"
+            :status="requestErrorStatus"
+            :message="requestErrorMessage"
+            :support-u-r-l="'https://chat.avalabs.org'"
+            :isMargin="false"
+            >There was an error fetching address details.
+        </HTTPError>
         <Metadata
             v-if="metadata && !requestError && assetsLoaded === true"
             :meta-data="metadata"
@@ -27,6 +26,14 @@
             :prefix="prefix"
         ></Metadata>
         <!-- Address Txs -->
+        <HTTPError
+            v-if="!txLoading && txRequestError"
+            :status="txRequestErrorStatus"
+            :message="txRequestErrorMessage"
+            :support-u-r-l="'https://chat.avalabs.org'"
+            :isMargin="true"
+            >There was an error fetching address transactions.
+        </HTTPError>
         <section v-if="!loading && !txRequestError" class="card transactions">
             <header class="header">
                 <div class="tx_chain_header">
@@ -116,20 +123,6 @@
                 </div>
             </div>
         </section>
-        <div
-            v-if="!txLoading && txRequestError"
-            class="card address_details_error tx_error"
-        >
-            <h2>There was an error fetching address transactions.</h2>
-            <p>
-                Status {{ txRequestErrorStatus }} - {{ txRequestErrorMessage }}
-            </p>
-            <p>
-                <a href="https://chat.avalabs.org" target="_blank"
-                    >Submit Issue</a
-                >
-            </p>
-        </div>
     </div>
 </template>
 
@@ -148,11 +141,13 @@ import { Transaction } from '@/js/Transaction'
 import { IBalanceX, IAddress } from '@/services/addresses/models'
 import { getAddress } from '@/services/addresses/addresses.service'
 import Big from 'big.js'
+import HTTPError from '@/components/misc/HTTPError.vue'
 
 @Component({
     components: {
         Loader,
         Tooltip,
+        HTTPError,
         Metadata,
         TxHeader,
         TxRow,
@@ -344,42 +339,6 @@ export default class AddressPage extends Vue {
 
 <style scoped lang="scss">
 /* ==========================================
-   details
-   ========================================== */
-
-.address_details_error {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
-
-    a {
-        display: block;
-        width: max-content;
-        text-decoration: none !important;
-        margin-top: 30px;
-        transition: opacity 0.3s;
-
-        background-color: transparent !important;
-        color: $secondary-color !important;
-        padding: 10px 24px;
-
-        border-radius: 6px;
-        font-family: 'DM Sans', sans-serif;
-        font-weight: 700;
-        letter-spacing: 0.5px;
-        text-transform: uppercase !important;
-        font-size: 14px;
-
-        &:hover {
-            opacity: 0.9;
-        }
-    }
-}
-
-/* ==========================================
    transactions
    ========================================== */
 
@@ -408,10 +367,6 @@ export default class AddressPage extends Vue {
     padding-top: 30px;
     display: flex;
     justify-content: flex-end;
-}
-
-.tx_error {
-    margin-top: 30px;
 }
 
 @include smOnly {
