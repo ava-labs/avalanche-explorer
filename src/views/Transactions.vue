@@ -1,30 +1,10 @@
 <template>
     <div class="transactions">
         <div class="card">
+            <!-- HEADER -->
             <div class="header">
-                <div class="tx_chain_header">
-                    <h2>Transactions</h2>
-                    <p
-                        v-if="$vuetify.breakpoint.smAndUp"
-                        class="chain right"
-                        bottom
-                    >
-                        <span class="label"
-                            >You are viewing transactions for</span
-                        >
-                        <v-tooltip>
-                            <template v-slot:activator="{ on }">
-                                <span class="tag" v-on="on">X-Chain</span>
-                            </template>
-                            <span
-                                >The X-Chain acts as a decentralized platform
-                                for creating and trading smart digital assets.
-                                (Think X for eXchanging assets.)</span
-                            >
-                        </v-tooltip>
-                    </p>
-                </div>
-
+                <TransactionsHeader></TransactionsHeader>
+                <!-- COUNT/PAGINATION -->
                 <template v-show="!loading && assetsLoaded">
                     <div class="bar">
                         <p class="count">
@@ -40,6 +20,8 @@
                     </div>
                 </template>
             </div>
+
+            <!-- LOAD -->
             <template v-if="loading && !assetsLoaded">
                 <v-progress-circular
                     key="1"
@@ -49,8 +31,10 @@
                     indeterminate
                 ></v-progress-circular>
             </template>
+
+            <!-- TBODY -->
             <template v-else>
-                <TxHeader></TxHeader>
+                <TxTableHead></TxTableHead>
                 <div class="rows">
                     <transition-group name="fade" mode="out-in">
                         <tx-row
@@ -75,20 +59,23 @@
 </template>
 
 <script lang="ts">
+import 'reflect-metadata'
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import api from '@/axios'
+import { Transaction } from '@/js/Transaction'
 import Tooltip from '@/components/rows/Tooltip.vue'
-import TxHeader from '@/components/rows/TxRow/TxHeader.vue'
+import TxTableHead from '@/components/rows/TxRow/TxTableHead.vue'
 import TxRow from '@/components/rows/TxRow/TxRow.vue'
 import PaginationControls from '@/components/misc/PaginationControls.vue'
-import { Transaction } from '@/js/Transaction'
+import TransactionsHeader from '@/components/Transaction/TxHeader.vue'
 
 @Component({
     components: {
         Tooltip,
-        TxHeader,
+        TxTableHead,
         TxRow,
         PaginationControls,
+        TransactionsHeader,
     },
 })
 export default class Transactions extends Vue {

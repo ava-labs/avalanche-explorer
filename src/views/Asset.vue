@@ -1,10 +1,12 @@
 <template>
     <div class="detail">
         <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
-        <Metadata :asset="asset"></Metadata>
+        <Metadata v-if="asset" :asset="asset"></Metadata>
         <section v-if="!txloading" class="card transactions">
+            <!-- HEADER -->
             <header class="header">
-                <h2>Recent Transactions</h2>
+                <TxHeader></TxHeader>
+                <!-- LOAD COUNT/PAGINATION -->
                 <template v-if="txloading && !assetsLoaded">
                     <v-progress-circular
                         key="1"
@@ -28,7 +30,8 @@
                     </div>
                 </template> -->
             </header>
-            <TxHeader></TxHeader>
+            <!-- TBODY -->
+            <TxTableHead></TxTableHead>
             <template v-if="txloading">
                 <v-progress-circular
                     key="1"
@@ -76,12 +79,13 @@ import Metadata from '@/components/Asset/Metadata.vue'
 import TransactionDetailCard from '@/components/TransactionDetailCard.vue'
 import PaginationControls from '@/components/misc/PaginationControls.vue'
 import Tooltip from '@/components/rows/Tooltip.vue'
-import TxHeader from '@/components/rows/TxRow/TxHeader.vue'
+import TxTableHead from '@/components/rows/TxRow/TxTableHead.vue'
 import TxRow from '@/components/rows/TxRow/TxRow.vue'
 import { Transaction } from '../js/Transaction'
 import { Asset } from '@/js/Asset'
 import { getTransaction } from '@/services/transactions'
 import { getAssetInfo } from '@/services/assets'
+import TxHeader from '@/components/Transaction/TxHeader.vue'
 
 @Component({
     components: {
@@ -90,8 +94,9 @@ import { getAssetInfo } from '@/services/assets'
         PaginationControls,
         TransactionDetailCard,
         Tooltip,
-        TxHeader,
+        TxTableHead,
         TxRow,
+        TxHeader,
     },
 })
 export default class AssetPage extends Vue {
@@ -189,7 +194,7 @@ export default class AssetPage extends Vue {
                 disableCount: 1,
             }).then((res) => {
                 this.txloading = false
-                this.transactions = res.data.transactions
+                this.transactions = res.transactions
             })
         }
     }
