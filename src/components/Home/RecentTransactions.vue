@@ -48,8 +48,9 @@ import RecentTxHeader from '@/components/Transaction/RecentTxHeader.vue'
 })
 export default class RecentTransactions extends Vue {
     loading = false
-    txNum = 25
+    limit = 25
     poller = 0
+    sort = 'timestamp-desc'
 
     created() {
         this.poller = window.setInterval(() => this.pollForTxUpdates(), 5000)
@@ -87,13 +88,27 @@ export default class RecentTransactions extends Vue {
         this.loading = true
         if (this.assetsLoaded) {
             // TODO: support service for multiple chains
-            await this.$store.dispatch('getRecentTransactions', this.txNum)
+            await this.$store.dispatch('getTransactions', {
+                mutation: 'addRecentTransactions',
+                id: null,
+                params: {
+                    sort: this.sort,
+                    limit: this.limit,
+                },
+            })
             this.loading = false
         }
     }
 
     pollForTxUpdates(): void {
-        this.$store.dispatch('getRecentTransactions', this.txNum)
+        this.$store.dispatch('getTransactions', {
+            mutation: 'addRecentTransactions',
+            id: null,
+            params: {
+                sort: this.sort,
+                limit: this.limit,
+            },
+        })
     }
 }
 </script>

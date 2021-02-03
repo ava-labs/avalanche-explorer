@@ -61,8 +61,6 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Watch } from 'vue-property-decorator'
-import api from '@/axios'
-import { Transaction } from '@/js/Transaction'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import TxTableHead from '@/components/rows/TxRow/TxTableHead.vue'
 import TxRow from '@/components/rows/TxRow/TxRow.vue'
@@ -83,14 +81,14 @@ export default class Transactions extends Vue {
     totalTx = 0
     limit = 25 // how many to display
     offset = 0
-    txs: Transaction[] = []
+    sort = 'timestamp-desc'
 
     created() {
         this.getTx()
     }
 
     get transactions() {
-        return this.txs
+        return this.$store.state.transactions
     }
 
     get assetsLoaded() {
@@ -114,16 +112,19 @@ export default class Transactions extends Vue {
 
     getTx(): void {
         this.loading = true
-        const sort = 'timestamp-desc'
-        // TODO: support service for multiple chains
-        const url = `/x/transactions?sort=${sort}&offset=${this.offset}&limit=${this.limit}`
 
+        // TODO: support service for multiple chains
         if (this.assetsLoaded) {
-            api.get(url).then((res) => {
-                this.txs = res.data.transactions
-                this.totalTx = res.data.count
-                this.loading = false
-            })
+            this.$store
+                .dispatch('getTransactions', {
+                    mutation: 'addTransactions',
+                    id: null,
+                    params: {
+                        sort: this.sort,
+                        limit: this.limit,
+                    },
+                })
+                .then(() => (this.loading = false))
         }
     }
 }

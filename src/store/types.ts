@@ -9,7 +9,10 @@ export interface IRootState {
     assetsLoaded: boolean
     assetAggregatesLoaded: boolean
     chainId: string
+    transactions: ITransaction[]
     recentTransactions: ITransaction[]
+    assetTransactions: ITransaction[]
+    addressTransactions: ITransaction[]
     known_addresses: {
         [key: string]: string
     }

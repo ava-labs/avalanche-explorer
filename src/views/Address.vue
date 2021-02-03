@@ -127,14 +127,13 @@ import Metadata from '@/components/Address/Metadata.vue'
 import TxTableHead from '@/components/rows/TxRow/TxTableHead.vue'
 import TxRow from '@/components/rows/TxRow/TxRow.vue'
 import PaginationControls from '@/components/misc/PaginationControls.vue'
-import api from '../axios'
 import AddressDict from '@/known_addresses'
-import { Transaction } from '@/js/Transaction'
 import { IBalanceX, IAddress } from '@/services/addresses/models'
 import { getAddress } from '@/services/addresses/addresses.service'
 import Big from 'big.js'
 import HTTPError from '@/components/misc/HTTPError.vue'
 import TxHeader from '@/components/Transaction/TxHeader.vue'
+import { ITransaction } from '@/js/ITransaction'
 
 @Component({
     components: {
@@ -182,7 +181,6 @@ export default class AddressPage extends Vue {
     txRequestError = false
     txRequestErrorStatus: number | null = null
     txRequestErrorMessage: string | null = null
-    transactions: Transaction[] = []
     // tx pagination
     totalTx = 0
     limit = 25 // how many to display
@@ -245,6 +243,10 @@ export default class AddressPage extends Vue {
         return this.metadata ? this.metadata.totalUtxoCount : 0
     }
 
+    get transactions(): ITransaction {
+        return this.$store.state.addressTransactions
+    }
+
     // get address details and txs
     async updateData() {
         this.loading = true
@@ -298,16 +300,19 @@ export default class AddressPage extends Vue {
 
     getTx() {
         this.txLoading = true
-
-        // Get txs by address
         // TODO: support service for multiple chains
-        const url = `/x/transactions?address=${this.addressID}&sort=${this.sort}&offset=${this.offset}&limit=${this.limit}`
-
-        api.get(url)
-            .then((res) => {
-                this.txLoading = false
-                this.transactions = res.data.transactions
+        this.$store
+            .dispatch('getTransactions', {
+                mutation: 'addAddressTransactions',
+                id: null,
+                params: {
+                    address: this.addressID,
+                    sort: this.sort,
+                    offset: this.offset,
+                    limit: this.limit,
+                },
             })
+            .then(() => (this.txLoading = false))
             .catch((err) => {
                 this.txLoading = false
                 if (err.response) {

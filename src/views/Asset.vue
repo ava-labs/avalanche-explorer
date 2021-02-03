@@ -86,6 +86,7 @@ import { Asset } from '@/js/Asset'
 import { getTransaction } from '@/services/transactions'
 import { getAssetInfo } from '@/services/assets'
 import TxHeader from '@/components/Transaction/TxHeader.vue'
+import { ITransaction } from '@/js/ITransaction'
 
 @Component({
     components: {
@@ -106,7 +107,6 @@ export default class AssetPage extends Vue {
     limit = 10 // how many to display
     offset = 0
     sort = 'timestamp-desc'
-    transactions: Transaction[] = []
 
     created() {
         this.getData()
@@ -164,6 +164,10 @@ export default class AssetPage extends Vue {
         return this.$route.params.id
     }
 
+    get transactions(): ITransaction[] {
+        return this.$store.state.assetTransactions
+    }
+
     getData(): void {
         this.txloading = true
 
@@ -186,34 +190,37 @@ export default class AssetPage extends Vue {
 
             // Get txs
             // TODO: support service for multiple chains
-            getTransaction(null, {
-                assetID: this.assetID,
-                sort: this.sort,
-                offset: this.offset,
-                limit: this.limit,
-                disableCount: 1,
-            }).then((res) => {
-                this.txloading = false
-                this.transactions = res.transactions
-            })
+            this.$store
+                .dispatch('getTransactions', {
+                    mutation: 'addAssetTransactions',
+                    id: null,
+                    params: {
+                        assetID: this.assetID,
+                        sort: this.sort,
+                        offset: this.offset,
+                        limit: this.limit,
+                    },
+                })
+                .then(() => (this.txloading = false))
         }
     }
 
-    getTx() {
+    async getTx() {
         this.txloading = true
 
-        // Get txs by address
         // TODO: support service for multiple chains
-        getTransaction(null, {
-            assetID: this.assetID,
-            sort: this.sort,
-            offset: this.offset,
-            limit: this.limit,
-            disableCount: 1,
-        }).then((res) => {
-            this.txloading = false
-            this.transactions = res.data.transactions
-        })
+        this.$store
+            .dispatch('getTransactions', {
+                mutation: 'addAssetTransactions',
+                id: null,
+                params: {
+                    assetID: this.assetID,
+                    sort: this.sort,
+                    offset: this.offset,
+                    limit: this.limit,
+                },
+            })
+            .then(() => (this.txloading = false))
     }
 
     page_change(val: number) {
