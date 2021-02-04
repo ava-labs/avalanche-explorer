@@ -28,6 +28,38 @@ export interface IAddressesParams {
     limit?: number
 }
 
+/*
+TODO
+USE THIS
+v2/addresses?addressId=
+{
+  "addresses": [
+    {
+      "address": "avax1y8cyrzn2kg4udccs5d625gkac7a99pe452cy5u",
+      "publicKey": null,
+      "chainID": X          // X
+      "assets": {
+        "FvwEAhmxKfeiG8SnEvq42hc6whRyY3EFYAvebMqDNDGCgxN5Z": {
+          ...
+        }
+      }
+    },
+    {
+      "address": "avax1y8cyrzn2kg4udccs5d625gkac7a99pe452cy5u",
+      "publicKey": null,
+      "chainID": P          // P
+      "assets": {
+        "FvwEAhmxKfeiG8SnEvq42hc6whRyY3EFYAvebMqDNDGCgxN5Z": {
+          ...
+        }
+      }
+    }
+  ]
+}
+
+DON'T USE v2/addresses/{addressId}
+
+*/
 // export type Combo = ITransactionParams & IAddressesParams
 
 export function getAddressFromOrtelius(id: string, params?: IAddressesParams) {
