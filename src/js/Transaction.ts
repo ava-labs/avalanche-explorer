@@ -5,6 +5,8 @@ import {
     ITransactionInput,
     ITransactionOutput,
     ITransactionOutputData,
+    IInputTotal,
+    IOutputTotal,
 } from '@/js/ITransaction'
 import { CChainInfo, PChainInfo, XChainInfo, stringToBig } from '@/helper'
 
@@ -94,15 +96,30 @@ export interface DisplayAddress {
 }
 export class Transaction implements ITransaction {
     id: string
+    chainID: string
+    type: string
     inputs: ITransactionInput[]
     outputs: ITransactionOutput[]
-    timestamp: string
-    type: string
-    chainID: string
     memo: string
+    inputTotals: IInputTotal // TODO new stuff
+    outputTotals: IOutputTotal // TODO new stuff
+    reusedAddressTotals?: string | null // TODO new stuff
+    timestamp: string
     txFee: number
+    genesis: boolean
+    rewarded: boolean
+    rewardedTime: string | null
+    epoch: number
+    vertexId: string
+    validatorNodeID: string
+    validatorStart: number
+    validatorEnd: number
+    txBlockId: string
 
     constructor(data: ITransactionData) {
+        this.id = data.id
+        this.chainID = data.chainID
+        this.type = data.type
         this.inputs =
             data.inputs === null || data.inputs.length === 0
                 ? []
@@ -118,13 +135,21 @@ export class Transaction implements ITransaction {
                 : data.outputs.map((output: ITransactionOutputData) =>
                       getOutput(output)
                   )
-        this.id = data.id
-        this.timestamp = data.timestamp
-        this.type = data.type
-        this.chainID = data.chainID
-        this.id = data.id
         this.memo = data.memo
+        this.inputTotals = data.inputTotals
+        this.outputTotals = data.outputTotals
+        this.reusedAddressTotals = data.reusedAddressTotals
+        this.timestamp = data.timestamp
         this.txFee = data.txFee
+        this.genesis = data.genesis
+        this.rewarded = data.rewarded
+        this.rewardedTime = data.rewardedTime
+        this.epoch = data.epoch
+        this.vertexId = data.vertexId
+        this.validatorNodeID = data.validatorNodeID
+        this.validatorStart = data.validatorStart
+        this.validatorEnd = data.validatorEnd
+        this.txBlockId = data.txBlockId
     }
 
     getInputAddresses(): string[] {

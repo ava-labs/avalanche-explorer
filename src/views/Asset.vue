@@ -165,7 +165,7 @@ export default class AssetPage extends Vue {
     }
 
     get transactions(): ITransaction[] {
-        return this.$store.state.assetTransactions
+        return this.$store.state.assetTxRes.transactions
     }
 
     getData(): void {

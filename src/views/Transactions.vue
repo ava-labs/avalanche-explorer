@@ -88,7 +88,7 @@ export default class Transactions extends Vue {
     }
 
     get transactions() {
-        return this.$store.state.transactions
+        return this.$store.state.txRes.transactions
     }
 
     get assetsLoaded() {

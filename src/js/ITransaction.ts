@@ -1,26 +1,53 @@
 import { ICredentialData } from './ICredential'
 import Big from 'big.js'
 
+export interface ITransactionDataResponse {
+    startTime: string
+    endTime: string
+    next: string
+    transactions: ITransactionData[]
+}
+
 // The main Transaction type of the API
 export interface ITransactionData {
     id: string
     chainID: string
     type: string
+
     inputs: ITransactionInputData[]
     outputs: ITransactionOutputData[]
-    inputTotals?: IInputTotal // TODO new stuff
-    outputTotals?: IOutputTotal // TODO new stuff
-    reusedAddressTotals?: string // TODO new stuff
+
     memo: string // base64
+
+    inputTotals: IInputTotal
+    outputTotals: IOutputTotal
+    reusedAddressTotals: string | null
+
     timestamp: string
+
     txFee: number
+
+    genesis: boolean
+
+    rewarded: boolean
+    rewardedTime: string | null
+
+    epoch: number
+
+    vertexId: string
+
+    validatorNodeID: string
+    validatorStart: number
+    validatorEnd: number
+
+    txBlockId: string
 }
 
-interface IInputTotal {
+export interface IInputTotal {
     [key: string]: number
 }
 
-interface IOutputTotal {
+export interface IOutputTotal {
     [key: string]: number
 }
 
@@ -50,14 +77,37 @@ export interface ITransactionOutputData {
 }
 
 export interface ITransaction {
+    id: string
+    chainID: string
+    type: string
+
     inputs: ITransactionInput[]
     outputs: ITransactionOutput[]
-    id: string
-    timestamp: string
-    type: string
-    chainID: string
+
     memo: string // base64
+
+    inputTotals: IInputTotal
+    outputTotals: IOutputTotal
+    reusedAddressTotals?: string | null
+
+    timestamp: string
+
     txFee: number
+
+    genesis: boolean
+
+    rewarded: boolean
+    rewardedTime: string | null
+
+    epoch: number
+
+    vertexId: string
+
+    validatorNodeID: string
+    validatorStart: number
+    validatorEnd: number
+
+    txBlockId: string
 }
 
 export interface ITransactionInput {

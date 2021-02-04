@@ -81,7 +81,7 @@ export default class RecentTransactions extends Vue {
     }
 
     get transactions(): ITransaction[] {
-        return this.$store.state.recentTransactions
+        return this.$store.state.recentTxRes.transactions
     }
 
     async updateTx(): Promise<void> {

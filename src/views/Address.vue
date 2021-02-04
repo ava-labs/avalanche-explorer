@@ -244,7 +244,7 @@ export default class AddressPage extends Vue {
     }
 
     get transactions(): ITransaction {
-        return this.$store.state.addressTransactions
+        return this.$store.state.addressTxRes.transactions
     }
 
     // get address details and txs

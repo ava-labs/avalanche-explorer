@@ -16,7 +16,12 @@ import {
     ICollisionMap,
 } from '@/js/IAsset'
 import { X_CHAIN_ID } from '@/store/modules/platform/platform'
-import { ITransaction, ITransactionData } from '@/js/ITransaction'
+import {
+    ITransaction,
+    ITransactionData,
+    ITransactionDataResponse,
+    ITransactionsData,
+} from '@/js/ITransaction'
 import { ITransactionPayload } from '@/services/transactions'
 import { getTransaction } from '@/services/transactions'
 
@@ -37,10 +42,10 @@ export default new Vuex.Store({
         assetAggregatesLoaded: false,
         known_addresses: AddressDict,
         chainId: 'X',
-        transactions: [] as ITransaction[],
-        recentTransactions: [] as ITransaction[],
-        assetTransactions: [] as ITransaction[],
-        addressTransactions: [] as ITransaction[],
+        txRes: {},
+        recentTxRes: {},
+        assetTxRes: {},
+        addressTxRes: {},
         assetsSubsetForAggregations: {}, // TODO: remove eventually
         // this is a bandaid until the API precomputes aggregate data for assets
         // it holds a subset of the assets and checks if they have aggregation data
@@ -113,8 +118,12 @@ export default new Vuex.Store({
         },
 
         async getTransactions(store, payload: ITransactionPayload) {
-            const txRes = await getTransaction(payload.id, payload.params)
-            store.commit(payload.mutation, txRes.transactions)
+            const txRes: ITransactionsData = await getTransaction(
+                payload.id,
+                payload.params
+            )
+            console.log(txRes)
+            store.commit(payload.mutation, txRes)
         },
 
         // Adds an unknown asset id to the assets dictionary
@@ -219,17 +228,17 @@ export default new Vuex.Store({
         finishAggregatesLoading(state) {
             state.assetAggregatesLoaded = true
         },
-        addTransactions(state, transactions: ITransaction[]) {
-            state.transactions = transactions
+        addTransactions(state, txRes: ITransactionDataResponse) {
+            state.txRes = txRes
         },
-        addRecentTransactions(state, transactions: ITransaction[]) {
-            state.recentTransactions = transactions
+        addRecentTransactions(state, txRes: ITransactionDataResponse) {
+            state.recentTxRes = txRes
         },
-        addAssetTransactions(state, transactions: ITransaction[]) {
-            state.assetTransactions = transactions
+        addAssetTransactions(state, txRes: ITransactionDataResponse) {
+            state.assetTxRes = txRes
         },
-        addAddressTransactions(state, transactions: ITransaction[]) {
-            state.addressTransactions = transactions
+        addAddressTransactions(state, txRes: ITransactionDataResponse) {
+            state.addressTxRes = txRes
         },
         updateAssetWithAggregationData(state, assetID: string) {
             //@ts-ignore

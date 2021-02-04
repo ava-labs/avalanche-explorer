@@ -1,4 +1,4 @@
-import { ITransaction } from '@/js/ITransaction'
+import { ITransactionDataResponse } from '@/js/ITransaction'
 import { Asset } from '@/js/Asset'
 import { ICollisionMap } from '@/js/IAsset'
 
@@ -9,10 +9,10 @@ export interface IRootState {
     assetsLoaded: boolean
     assetAggregatesLoaded: boolean
     chainId: string
-    transactions: ITransaction[]
-    recentTransactions: ITransaction[]
-    assetTransactions: ITransaction[]
-    addressTransactions: ITransaction[]
+    txRes: ITransactionDataResponse
+    recentTxRes: ITransactionDataResponse
+    assetTxRes: ITransactionDataResponse
+    addressTxRes: ITransactionDataResponse
     known_addresses: {
         [key: string]: string
     }
