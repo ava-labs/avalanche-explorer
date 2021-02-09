@@ -7,16 +7,47 @@
                 <!-- COUNT/PAGINATION -->
                 <template v-show="!loading && assetsLoaded">
                     <div class="bar">
-                        <p class="count">
-                            {{ totalTx.toLocaleString() }} transactions found
-                        </p>
-                        <pagination-controls
+                        <p class="count"></p>
+                        <!-- <TxPaginationControls
                             v-show="assetsLoaded"
                             ref="paginationTop"
                             :total="totalTx"
                             :limit="limit"
                             @change="page_change"
-                        ></pagination-controls>
+                        ></TxPaginationControls> -->
+                    </div>
+                    <div class="bar">
+                        <div class="sort_container">
+                            <v-select
+                                v-model="sort"
+                                :items="sorts"
+                                item-text="label"
+                                item-value="query"
+                                label="Sort by"
+                                dense
+                                color="#4c2e56"
+                            ></v-select>
+                        </div>
+                        <DateForm
+                            :class="sort === 'timestamp-desc' ? 'reverse' : ''"
+                            @change_start="setStart"
+                            @change_end="setEnd"
+                        ></DateForm>
+                        <div class="limit_container">
+                            <v-select
+                                v-model="limit"
+                                :items="limits"
+                                label="Results"
+                                dense
+                                color="#4c2e56"
+                            ></v-select>
+                        </div>
+                        <v-btn
+                            class="search_tx_btn ava_btn"
+                            text
+                            @click="submit"
+                            >Search</v-btn
+                        >
                     </div>
                 </template>
             </div>
@@ -46,12 +77,12 @@
                     </transition-group>
                 </div>
                 <div class="bar-table">
-                    <pagination-controls
+                    <!-- <TxPaginationControls
                         ref="paginationBottom"
                         :total="totalTx"
                         :limit="limit"
                         @change="page_change"
-                    ></pagination-controls>
+                    ></TxPaginationControls> -->
                 </div>
             </template>
         </div>
@@ -64,31 +95,47 @@ import { Vue, Component, Watch } from 'vue-property-decorator'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import TxTableHead from '@/components/rows/TxRow/TxTableHead.vue'
 import TxRow from '@/components/rows/TxRow/TxRow.vue'
-import PaginationControls from '@/components/misc/PaginationControls.vue'
+import TxPaginationControls from '@/components/Transaction/TxPaginationControls.vue'
 import TransactionsHeader from '@/components/Transaction/TxHeader.vue'
+import DateForm from '@/components/misc/DateForm.vue'
+import { ITransactionParams } from '@/services/transactions'
 
 @Component({
     components: {
         Tooltip,
         TxTableHead,
         TxRow,
-        PaginationControls,
+        TxPaginationControls,
         TransactionsHeader,
+        DateForm,
     },
 })
 export default class Transactions extends Vue {
     loading = true
     totalTx = 0
-    limit = 25 // how many to display
-    offset = 0
+
+    startDate: string = new Date().toISOString()
+    endDate: string = new Date().toISOString()
+    // Sort
     sort = 'timestamp-desc'
+    sorts = [
+        {
+            label: 'Most Recent',
+            query: 'timestamp-desc',
+        },
+        {
+            label: 'Oldest',
+            query: 'timestamp-asc',
+        },
+    ]
+    // Limits
+    limit = 25
+    limits = [10, 25, 100, 1000, 5000]
+
+    offset = 0
 
     created() {
         this.getTx()
-    }
-
-    get transactions() {
-        return this.$store.state.txRes.transactions
     }
 
     get assetsLoaded() {
@@ -100,6 +147,34 @@ export default class Transactions extends Vue {
         this.getTx()
     }
 
+    setStart(val: string) {
+        this.startDate = val
+    }
+
+    setEnd(val: string) {
+        this.endDate = val
+    }
+
+    get transactions() {
+        return this.$store.state.txRes.transactions || []
+    }
+
+    get firstEndTime(): number {
+        return new Date(this.$store.state.txRes.endTime).getTime() / 1000
+    }
+
+    get prevEndTime(): number | null {
+        return this.$store.state.txRes.endTime
+            ? new Date(this.$store.state.txRes.endTime).getTime() / 1000
+            : null
+    }
+
+    get lastEndTime(): number | null {
+        return this.$store.state.txRes.endTime
+            ? new Date(this.$store.state.txRes.endTime).getTime() / 1000
+            : null
+    }
+
     page_change(val: number) {
         this.offset = val
         this.getTx()
@@ -108,6 +183,48 @@ export default class Transactions extends Vue {
         this.$refs.paginationTop.setPage(pgNum)
         // @ts-ignore
         this.$refs.paginationBottom.setPage(pgNum)
+    }
+
+    submit() {
+        this.loading = true
+
+        // startTime: "0001-01-01T00:00:00Z"
+        // endTime: "2021-02-04T02:53:30Z"
+        // next: "endTime=1612407093&limit=25&sort=timestamp-desc"
+        // 1612407210
+
+        if (this.assetsLoaded) {
+            let params: ITransactionParams = {
+                sort: this.sort,
+                limit: this.limit,
+            }
+
+            if (this.sort === 'timestamp-desc') {
+                params = {
+                    endTime: Math.round(
+                        new Date(this.endDate).getTime() / 1000
+                    ),
+                    ...params,
+                }
+                console.log('params', params)
+            } else {
+                params = {
+                    startTime: Math.round(
+                        new Date(this.startDate).getTime() / 1000
+                    ),
+                    ...params,
+                }
+                console.log('params', params)
+            }
+
+            this.$store
+                .dispatch('getTransactions', {
+                    mutation: 'addTransactions',
+                    id: null,
+                    params,
+                })
+                .then(() => (this.loading = false))
+        }
     }
 
     getTx(): void {
@@ -150,6 +267,22 @@ export default class Transactions extends Vue {
     > p {
         flex-grow: 1;
     }
+}
+
+.request {
+    border-bottom: 1px solid $gray;
+}
+
+.sort_container {
+    width: 150px;
+    padding-top: 20px;
+    padding-right: 15px;
+}
+
+.limit_container {
+    width: 100px;
+    padding-top: 20px;
+    padding-right: 15px;
 }
 
 .tx_item {

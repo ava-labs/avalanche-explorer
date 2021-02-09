@@ -590,6 +590,11 @@ tbody {
     }
 }
 
+.theme--light.v-input input,
+.theme--light.v-input textarea {
+    border: none;
+}
+
 .v-toolbar--dense .v-toolbar__content,
 .v-toolbar--dense .v-toolbar__extension {
     padding: 0;

@@ -16,12 +16,7 @@ import {
     ICollisionMap,
 } from '@/js/IAsset'
 import { X_CHAIN_ID } from '@/store/modules/platform/platform'
-import {
-    ITransaction,
-    ITransactionData,
-    ITransactionDataResponse,
-    ITransactionsData,
-} from '@/js/ITransaction'
+import { ITransactionData, ITransactionDataResponse } from '@/js/ITransaction'
 import { ITransactionPayload } from '@/services/transactions'
 import { getTransaction } from '@/services/transactions'
 
@@ -118,11 +113,10 @@ export default new Vuex.Store({
         },
 
         async getTransactions(store, payload: ITransactionPayload) {
-            const txRes: ITransactionsData = await getTransaction(
+            const txRes: ITransactionDataResponse = await getTransaction(
                 payload.id,
                 payload.params
             )
-            console.log(txRes)
             store.commit(payload.mutation, txRes)
         },
 

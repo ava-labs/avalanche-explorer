@@ -1,40 +1,19 @@
 <template>
     <div class="pagination_control">
-        <button
-            :class="{
-                disabled: page == 1,
-            }"
-            @click="page = 1"
-        >
+        <button :class="{ disabled: cursor === 'first' }" @click="first()">
             First
         </button>
         <button
-            :class="{
-                disabled: page == 1,
-            }"
-            @click="pageDown"
+            :class="{ disabled: cursor === 'first' || adjCursor === 'first' }"
+            @click="next()"
         >
-            &#60;
+            <fa icon="angle-left"></fa>
         </button>
-        <p class="pages">
-            Page
-            <span>{{ page }}</span> of
-            <span>{{ totalPages }}</span>
-        </p>
-        <button
-            :class="{
-                disabled: page == totalPages,
-            }"
-            @click="pageUp"
-        >
-            &#62;
+        <p class="pages"></p>
+        <button :class="{ disabled: cursor === 'last' }" @click="prev()">
+            <fa icon="angle-right"></fa>
         </button>
-        <button
-            :class="{
-                disabled: page == totalPages,
-            }"
-            @click="page = totalPages"
-        >
+        <button :class="{ disabled: cursor === 'last' }" @click="last()">
             Last
         </button>
     </div>
@@ -42,39 +21,35 @@
 
 <script lang="ts">
 import 'reflect-metadata'
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+import { Vue, Component } from 'vue-property-decorator'
 
 @Component({})
 export default class TxPaginationControls extends Vue {
-    @Prop() total!: number
-    @Prop() limit!: number
+    cursor = 'first'
+    adjCursor = 'first'
 
-    page = 1
-
-    @Watch('page')
-    onPageChanged(val: number) {
-        const offset = (val - 1) * this.limit
-        this.$emit('change', offset)
+    first() {
+        this.cursor = 'first'
+        this.$emit('first')
     }
 
-    get totalPages(): number {
-        return Math.ceil(this.total / this.limit)
+    prev() {
+        this.cursor = 'prev'
+        if (this.adjCursor !== 'first') {
+            this.adjCursor = ''
+        }
+        this.$emit('prev')
     }
 
-    pageUp(): void {
-        const page = this.page + 1
-        if (page > this.totalPages) return
-        this.page = page
+    next() {
+        this.cursor = 'next'
+        this.$emit('next')
     }
 
-    pageDown(): void {
-        const page = this.page - 1
-        if (page < 1) return
-        this.page = page
-    }
-
-    setPage(page: number): void {
-        this.page = page
+    last() {
+        this.cursor = 'last'
+        this.adjCursor = 'last'
+        this.$emit('last')
     }
 }
 </script>
@@ -109,6 +84,7 @@ button {
 .pages {
     color: $black;
     cursor: default;
+    width: 100px;
 
     &:hover {
         opacity: 1;
