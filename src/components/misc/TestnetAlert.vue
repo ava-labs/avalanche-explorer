@@ -1,17 +1,13 @@
 <template>
     <div>
         <template v-if="networkID === 1">
-            <v-alert
+            <!-- <v-alert
                 class="testnet_alert mainnet_announcement"
                 text
                 rounded="0"
             >
-                <p class="description">
-                    Notice: Due to very high network load, the Explorer is
-                    currently experiencing difficulties.
-                </p>
-                <!-- <p class="description">Per consensum ad astra</p> -->
-            </v-alert>
+                <p class="description">Per consensum ad astra</p>
+            </v-alert> -->
         </template>
         <template v-else>
             <v-alert class="testnet_alert" text type="info" rounded="0">
@@ -59,16 +55,15 @@ export default class TestnetAlert extends Vue {
         to left,
         #ff8080,
         #f6a06a,
-        #debf6f
+        #debf6f,
+        #c2da8f,
+        #a9efbf
     ) !important;
 
     .description {
         text-align: center;
-        font-weight: bold;
     }
 }
-// #c2da8f
-// #a9efbf
 
 @if $VUE_APP_DEFAULT_NETWORKID == 1 {
     .v-alert--text:before {
