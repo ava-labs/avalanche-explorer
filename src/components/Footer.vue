@@ -10,6 +10,14 @@
                 search the Avalanche blockchain for transactions, addresses, and
                 other platform activities.
             </p>
+            <p class="avalanche_desc tos">
+                By using this application you agree to the
+                <a
+                    href="/Avalanche (BVI) Inc. Explorer Terms of Use.pdf"
+                    target="_blank"
+                    >Terms of Use</a
+                >.
+            </p>
             <img class="yeti" src="@/assets/yeti_footer.png" />
         </div>
         <div class="list">
@@ -82,13 +90,22 @@ export default {}
 
     p {
         margin: 24px 0px;
-        font-size: 13px;
-        font-weight: lighter;
+        font-size: 14px;
     }
 
     img.yeti {
         width: 60%;
         max-width: 240px;
+    }
+
+    .tos {
+        margin-top: 0;
+        margin-bottom: 48px;
+
+        a {
+            color: $white !important;
+            text-decoration: underline;
+        }
     }
 }
 
@@ -112,7 +129,6 @@ export default {}
     }
 
     a {
-        font-weight: lighter;
         color: $white !important;
         margin-bottom: 14px;
         text-decoration: none;
