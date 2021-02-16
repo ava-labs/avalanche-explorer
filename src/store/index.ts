@@ -207,6 +207,10 @@ export default new Vuex.Store({
         // TODO: move cache here
     },
     mutations: {
+        finishLoading(state) {
+            state.assetsLoaded = true
+        },
+        // ASSETS
         addAsset(state, asset) {
             Vue.set(state.assets, asset.id, asset)
         },
@@ -216,12 +220,14 @@ export default new Vuex.Store({
         updateAssetInSubsetForAggregation(state, assetID: string) {
             Vue.set(state.assetsSubsetForAggregations, assetID, true)
         },
-        finishLoading(state) {
-            state.assetsLoaded = true
+        updateAssetWithAggregationData(state, assetID: string) {
+            //@ts-ignore
+            state.assets[assetID].updateVolumeHistory()
         },
         finishAggregatesLoading(state) {
             state.assetAggregatesLoaded = true
         },
+        // TRANSACTIONS
         addTransactions(state, txRes: ITransactionDataResponse) {
             state.txRes = txRes
         },
@@ -233,10 +239,6 @@ export default new Vuex.Store({
         },
         addAddressTransactions(state, txRes: ITransactionDataResponse) {
             state.addressTxRes = txRes
-        },
-        updateAssetWithAggregationData(state, assetID: string) {
-            //@ts-ignore
-            state.assets[assetID].updateVolumeHistory()
         },
         addCollisionMap(state, collisionMap: ICollisionMap) {
             state.collisionMap = collisionMap

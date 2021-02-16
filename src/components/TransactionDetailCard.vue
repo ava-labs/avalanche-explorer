@@ -190,7 +190,11 @@ export default class TransactionDetailCard extends Vue {
     }
 
     get outputs() {
-        return getTransactionOutputs(this.tx.outputs, this.tx.chainID)
+        return getTransactionOutputs(
+            this.tx.outputs,
+            this.tx.chainID,
+            this.tx.type
+        )
     }
 
     b64EncodeUnicode(str: string): string {
@@ -232,7 +236,11 @@ export default class TransactionDetailCard extends Vue {
     }
 
     get inputs() {
-        return getTransactionInputs(this.tx.inputs, this.tx.chainID)
+        return getTransactionInputs(
+            this.tx.inputs,
+            this.tx.chainID,
+            this.tx.type
+        )
     }
 
     get isAssetGenesis(): boolean {

@@ -12,39 +12,59 @@ import { CChainInfo, PChainInfo, XChainInfo, stringToBig } from '@/helper'
 
 function getOutput(output: ITransactionOutputData): ITransactionOutput {
     return {
-        addresses: output.addresses,
-        amount: stringToBig(output.amount), // TODO: this Big conversion is not denominated bc of dependency on asset lookup
-        assetID: output.assetID,
         id: output.id,
-        locktime: output.locktime,
-        outputIndex: output.outputIndex,
-        outputType: output.outputType,
-        redeemingTransactionID: output.redeemingTransactionID,
-        threshold: output.threshold,
-        timestamp: new Date(output.timestamp),
         transactionID: output.transactionID,
+        outputIndex: output.outputIndex,
+        assetID: output.assetID,
+
+        stake: output.stake,
+        frozen: output.frozen,
+        stakeableout: output.stakeableout,
+        genesisutxo: output.genesisutxo,
+
+        outputType: output.outputType,
+        amount: stringToBig(output.amount), // TODO: this Big conversion is not denominated bc of dependency on asset lookup
+        locktime: output.locktime,
+        stakeLocktime: output.stakeLocktime,
+        threshold: output.threshold,
+
+        addresses: output.addresses,
+        caddresses: output.caddresses,
+
+        timestamp: new Date(output.timestamp),
+        redeemingTransactionID: output.redeemingTransactionID,
+
+        chainID: output.chainID,
+        groupID: output.groupID,
+        payload: output.payload,
+
+        block: output.block,
+        nonce: output.nonce,
     }
 }
 /**
- * These types come from here @link https://github.com/ava-labs/ortelius/blob/643f71c5531cfd3d76fbf4c0e31b80e00d672f94/services/indexes/models/types.go#L62
+ * These types come from here @link https://github.com/ava-labs/ortelius/blob/ec567c97630383d1a4ef468cf1bcf35d5d1eb3d2/services/indexes/models/types.go#L56
  */
 export const txTypeMap = new Map<string, string>([
-    ['add_delegator', 'Add Delegator'],
-    ['add_subnet_validator', 'Add Subnet Validator'],
     ['base', 'Base'],
-    ['create_asset', 'Create Asset'],
-    ['create_subnet', 'Create Subnet'],
-    ['create_chain', 'Create Chain'],
-    ['export', 'Export'],
-    ['import', 'Import'],
-    ['pvm_export', 'PVM Export'],
-    ['pvm_import', 'PVM Import'],
+    ['create_asset', 'Create Asset'], // X
     /**
      * @link https://docs.avax.network/build/references/avm-transaction-serialization#operations
      */
-    ['operation', 'Operation'],
-    ['advance_time', 'Advance Time'],
-    ['reward_validator', 'Reward Validator'],
+    ['operation', 'Operation'], // X
+    ['import', 'Import'], // X
+    ['export', 'Export'], // X
+    ['atomic_import_tx', 'Atomic Import'], // C
+    ['atomic_export_tx', 'Atomic Export'], // C
+    ['add_validator', 'Add Validator'], // P
+    ['add_subnet_validator', 'Add Subnet Validator'], // P
+    ['add_delegator', 'Add Delegator'], // P
+    ['create_subnet', 'Create Subnet'], // P
+    ['create_chain', 'Create Chain'], // P
+    ['pvm_export', 'PVM Export'], // P
+    ['pvm_import', 'PVM Import'], // P
+    ['advance_time', 'Advance Time'], // P
+    ['reward_validator', 'Reward Validator'], // P
 ])
 
 export const txChainTypeMap = new Map<string, typeof CChainInfo>([
@@ -63,17 +83,24 @@ export function getTransactionChainType(chainID: string) {
 
 export function getTransactionOutputs(
     outputs: ITransactionOutput[],
-    chainID: string
+    chainID: string,
+    txType: string
 ) {
     return outputs.map((output) => {
         const chainType = getTransactionChainType(chainID)
+        const addresses =
+            output.addresses !== null ? output.addresses : output.caddresses
+        let prefix = output.addresses !== null ? `${chainType?.code}-` : ``
+        if (prefix === 'C-') {
+            prefix = 'X-'
+        }
         return {
             ...output,
-            addresses: output.addresses.map(
+            addresses: addresses.map(
                 (address) =>
                     ({
                         address,
-                        displayText: `${chainType?.code}-${address}`,
+                        displayText: `${prefix}${address}`,
                     } as DisplayAddress)
             ),
         }
@@ -82,11 +109,13 @@ export function getTransactionOutputs(
 
 export function getTransactionInputs(
     inputs: ITransactionInput[],
-    chainId: string
+    chainId: string,
+    txType: string
 ) {
     return getTransactionOutputs(
         inputs.map((input) => input.output),
-        chainId
+        chainId,
+        txType
     )
 }
 

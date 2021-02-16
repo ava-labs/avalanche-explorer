@@ -110,25 +110,35 @@ export interface ITransactionInputData {
 
 // Transaction Output type
 export interface ITransactionOutputData {
-    addresses: string[] // X/P addresses
-    amount: string
-    assetID: string
-    chainID: string
-    groupID: number
     id: string
-    locktime: number
+    transactionID: string
     outputIndex: number
+    assetID: string
+
+    stake: boolean
+    frozen: boolean
+    stakeableout: boolean
+    genesisutxo: boolean
+
     outputType: number
-    payload: string
-    redeemingTransactionID: string
+    amount: string
+    locktime: number
     stakeLocktime: number
     threshold: number
+
+    addresses: string[] // X/P addresses
+    caddresses: string[] // C addresses
+
     timestamp: string
-    transactionID: string
+    redeemingTransactionID: string
+    chainID: string
+    groupID: number
+    payload: string | null // TODO confirm
 
     // notice the output UTXO address is blank. build an exception for c-chain
     // https://cchain.explorer.avax.network/blocks/33726/transactions - broken block/tx
     block: string
+    nonce: number
     /*        
     X > SHARED DB > P/C
         1. EXPORT = move UTXO from X to SHARED DB (https://explorerapi.avax.network/v2/transactions/wQwXqfXKyoHSMCP4QVrfZgU9V7cBShJGgkZmGvkLQbHTRjhAS)
@@ -187,17 +197,35 @@ export interface ITransactionInput {
 }
 
 export interface ITransactionOutput {
-    addresses: string[]
-    amount: Big
-    assetID: string
     id: string
-    locktime: number
-    outputIndex: number
-    outputType: number
-    redeemingTransactionID: string
-    threshold: number
-    timestamp: Date
     transactionID: string
+    outputIndex: number
+    assetID: string
+
+    stake: boolean // TODO
+    frozen: boolean // TODO
+    stakeableout: boolean // TODO
+    genesisutxo: boolean // TODO
+
+    outputType: number
+    amount: Big
+
+    locktime: number
+    stakeLocktime: number // TODO
+
+    threshold: number
+
+    addresses: string[]
+    caddresses: string[]
+
+    timestamp: Date
+    redeemingTransactionID: string
+
+    chainID: string
+    groupID: number
+    payload: string | null // TODO confirm
+    block: string // TODO
+    nonce: number // TODO
 }
 
 export interface OutputValuesDict {
