@@ -156,21 +156,24 @@ export default class Transactions extends Vue {
     }
 
     get transactions() {
-        return this.$store.state.txRes.transactions || []
+        return this.$store.state.Transactions.txRes.transactions || []
     }
 
     get firstEndTime(): number {
-        return new Date(this.$store.state.txRes.endTime).getTime() / 1000
+        return (
+            new Date(this.$store.state.Transactions.txRes.endTime).getTime() /
+            1000
+        )
     }
 
     get prevEndTime(): number | null {
-        return this.$store.state.txRes.endTime
+        return this.$store.state.Transactions.txRes.endTime
             ? new Date(this.$store.state.txRes.endTime).getTime() / 1000
             : null
     }
 
     get lastEndTime(): number | null {
-        return this.$store.state.txRes.endTime
+        return this.$store.state.Transactions.txRes.endTime
             ? new Date(this.$store.state.txRes.endTime).getTime() / 1000
             : null
     }
@@ -218,8 +221,7 @@ export default class Transactions extends Vue {
             }
 
             this.$store
-                .dispatch('getTransactions', {
-                    mutation: 'addTransactions',
+                .dispatch('Transactions/getTxs', {
                     id: null,
                     params,
                 })
@@ -233,8 +235,7 @@ export default class Transactions extends Vue {
         // TODO: support service for multiple chains
         if (this.assetsLoaded) {
             this.$store
-                .dispatch('getTransactions', {
-                    mutation: 'addTransactions',
+                .dispatch('Transactions/getTxs', {
                     id: null,
                     params: {
                         sort: this.sort,

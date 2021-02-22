@@ -35,7 +35,7 @@ import { Vue, Component } from 'vue-property-decorator'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import TxTableHead from '@/components/rows/TxRow/TxTableHead.vue'
 import TxRow from '@/components/rows/TxRow/TxRow.vue'
-import { ITransaction } from '@/services/transactions/models.ts'
+import { ITransaction } from '@/store/modules/transactions/models.ts'
 import RecentTxHeader from '@/components/Transaction/RecentTxHeader.vue'
 
 @Component({
@@ -88,8 +88,7 @@ export default class RecentTransactions extends Vue {
         this.loading = true
         if (this.assetsLoaded) {
             // TODO: support service for multiple chains
-            await this.$store.dispatch('getTransactions', {
-                mutation: 'addRecentTransactions',
+            await this.$store.dispatch('getRecentTransactions', {
                 id: null,
                 params: {
                     sort: this.sort,
@@ -101,8 +100,7 @@ export default class RecentTransactions extends Vue {
     }
 
     pollForTxUpdates(): void {
-        this.$store.dispatch('getTransactions', {
-            mutation: 'addRecentTransactions',
+        this.$store.dispatch('getRecentTransactions', {
             id: null,
             params: {
                 sort: this.sort,

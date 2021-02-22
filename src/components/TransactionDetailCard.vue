@@ -162,7 +162,7 @@ import {
 import {
     OutputValuesDict,
     IOutValuesDenominated,
-} from '@/services/transactions/models.ts'
+} from '@/store/modules/transactions/models.ts'
 import { stringToBig, toAVAX } from '../helper'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import { getAssetType } from '@/services/assets'

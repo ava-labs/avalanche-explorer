@@ -9,6 +9,7 @@ import Platform from './modules/platform/platform'
 import Address from './modules/address/address'
 import Network from './modules/network/network'
 import Notifications from './modules/notifications/notifications'
+import Transactions from './modules/transactions/transactions'
 import { avm } from '@/avalanche'
 import {
     IAssetDataOrtelius,
@@ -19,7 +20,7 @@ import { X_CHAIN_ID } from '@/store/modules/platform/platform'
 import {
     ITransactionData,
     ITransactionDataResponse,
-} from '@/services/transactions/models.ts'
+} from '@/store/modules/transactions/models'
 import { ITransactionPayload } from '@/services/transactions'
 import { getTransaction } from '@/services/transactions'
 
@@ -33,6 +34,7 @@ export default new Vuex.Store({
         Address,
         Notifications,
         Network,
+        Transactions,
     },
     state: {
         assets: {},
@@ -40,10 +42,7 @@ export default new Vuex.Store({
         assetAggregatesLoaded: false,
         known_addresses: AddressDict,
         chainId: 'X',
-        txRes: {},
         recentTxRes: {},
-        assetTxRes: {},
-        addressTxRes: {},
         assetsSubsetForAggregations: {}, // TODO: remove eventually
         // this is a bandaid until the API precomputes aggregate data for assets
         // it holds a subset of the assets and checks if they have aggregation data
@@ -90,8 +89,7 @@ export default new Vuex.Store({
             /* ==========================================
                 Once we have assets, next get recent transactions
                ========================================== */
-            store.dispatch('getTransactions', {
-                mutation: 'addRecentTransactions',
+            store.dispatch('getRecentTransactions', {
                 id: null,
                 params: {
                     sort: 'timestamp-desc',
@@ -115,12 +113,12 @@ export default new Vuex.Store({
             store.commit('addCollisionMap', collisionMap)
         },
 
-        async getTransactions(store, payload: ITransactionPayload) {
+        async getRecentTransactions(store, payload: ITransactionPayload) {
             const txRes: ITransactionDataResponse = await getTransaction(
                 payload.id,
                 payload.params
             )
-            store.commit(payload.mutation, txRes)
+            store.commit('addRecentTransactions', txRes)
         },
 
         // Adds an unknown asset id to the assets dictionary
@@ -231,17 +229,8 @@ export default new Vuex.Store({
             state.assetAggregatesLoaded = true
         },
         // TRANSACTIONS
-        addTransactions(state, txRes: ITransactionDataResponse) {
-            state.txRes = txRes
-        },
         addRecentTransactions(state, txRes: ITransactionDataResponse) {
             state.recentTxRes = txRes
-        },
-        addAssetTransactions(state, txRes: ITransactionDataResponse) {
-            state.assetTxRes = txRes
-        },
-        addAddressTransactions(state, txRes: ITransactionDataResponse) {
-            state.addressTxRes = txRes
         },
         addCollisionMap(state, collisionMap: ICollisionMap) {
             state.collisionMap = collisionMap

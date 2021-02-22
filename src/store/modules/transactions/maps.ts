@@ -1,4 +1,4 @@
-import { ITransactionOutputData } from '@/services/transactions/models.ts'
+import { ITransactionOutputData } from '@/store/modules/transactions/models'
 import { OutputType, BlockType } from './models'
 
 /**

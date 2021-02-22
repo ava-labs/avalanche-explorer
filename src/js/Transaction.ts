@@ -7,9 +7,9 @@ import {
     ITransactionOutputData,
     IInputTotal,
     IOutputTotal,
-} from '@/services/transactions/models.ts'
+} from '@/store/modules/transactions/models'
 import { CChainInfo, PChainInfo, XChainInfo, stringToBig } from '@/helper'
-import { txTypeMap } from '@/services/transactions/transaction'
+import { txTypeMap } from '@/store/modules/transactions/maps'
 
 function getOutput(output: ITransactionOutputData): ITransactionOutput {
     return {

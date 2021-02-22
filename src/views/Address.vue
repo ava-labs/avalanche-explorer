@@ -133,7 +133,7 @@ import { getAddress } from '@/services/addresses/addresses.service'
 import Big from 'big.js'
 import HTTPError from '@/components/misc/HTTPError.vue'
 import TxHeader from '@/components/Transaction/TxHeader.vue'
-import { ITransaction } from '@/services/transactions/models.ts'
+import { ITransaction } from '@/store/modules/transactions/models.ts'
 
 @Component({
     components: {
@@ -244,7 +244,7 @@ export default class AddressPage extends Vue {
     }
 
     get transactions(): ITransaction {
-        return this.$store.state.addressTxRes.transactions
+        return this.$store.state.Transactions.addressTxRes.transactions
     }
 
     // get address details and txs
@@ -302,8 +302,7 @@ export default class AddressPage extends Vue {
         this.txLoading = true
         // TODO: support service for multiple chains
         this.$store
-            .dispatch('getTransactions', {
-                mutation: 'addAddressTransactions',
+            .dispatch('Transactions/getTxsByAddress', {
                 id: null,
                 params: {
                     address: this.addressID,

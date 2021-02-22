@@ -1,5 +1,12 @@
 import Big from 'big.js'
 
+export interface TransactionsState {
+    txRes: ITransactionDataResponse
+    recentTxRes: ITransactionDataResponse
+    assetTxRes: ITransactionDataResponse
+    addressTxRes: ITransactionDataResponse
+}
+
 /* ==========================================
    Transactions (API)
    ========================================== */
@@ -144,37 +151,37 @@ export interface ITransactionInputData {
     output: ITransactionOutputData
 }
 export interface ITransactionOutputData {
-    id:                     string
-    transactionID:          string  // Inputs - the prev tx that generated this input UTXO. Outputs - this tx that generated this output UTXO.
-    redeemingTransactionID: string  // Inputs - this tx. Outputs - "" if UTXO is unspent or the tx that has spent this UTXO
-    outputIndex:            number  // inputs reference the UTXO index from the generating (prev) tx
-    chainID:                string
-    assetID:                string
-    timestamp:              string  // time of ingestion by Ortelius
-    amount:                 string  // 0 in the case of NFTs
+    id: string
+    transactionID: string // Inputs - the prev tx that generated this input UTXO. Outputs - this tx that generated this output UTXO.
+    redeemingTransactionID: string // Inputs - this tx. Outputs - "" if UTXO is unspent or the tx that has spent this UTXO
+    outputIndex: number // inputs reference the UTXO index from the generating (prev) tx
+    chainID: string
+    assetID: string
+    timestamp: string // time of ingestion by Ortelius
+    amount: string // 0 in the case of NFTs
 
-    outputType:             number
-    groupID:                number
-    
+    outputType: number
+    groupID: number
+
     // RELEVANT TO P-CHAIN
-    stake:                  boolean // tells us the output was in the staking output set
-    frozen:                 boolean
-    stakeableout:           boolean // additional layer on top of secp transfer output - connected to stakeLocktime
-    stakeLocktime:          number  // relevant to 'Add Validator' and 'Add Delegator' txs
-    
+    stake: boolean // tells us the output was in the staking output set
+    frozen: boolean
+    stakeableout: boolean // additional layer on top of secp transfer output - connected to stakeLocktime
+    stakeLocktime: number // relevant to 'Add Validator' and 'Add Delegator' txs
+
     // RELEVANT TO X-CHAIN
-    genesisutxo:            boolean
-    locktime:               number
-    threshold:              number
-    payload:                string | null // relevant to NFTs
+    genesisutxo: boolean
+    locktime: number
+    threshold: number
+    payload: string | null // relevant to NFTs
 
     // RELEVANT TO P-CHAIN & X-CHAIN
-    addresses:              string[] // notice the output UTXO address is blank. build an exception for c-chain
-    
+    addresses: string[] // notice the output UTXO address is blank. build an exception for c-chain
+
     // RELEVANT TO C-CHAIN
-    caddresses:             string[]
-    block:                  string   // https://cchain.explorer.avax.network/blocks/33726/transactions - broken block/tx
-    nonce:                  number
+    caddresses: string[]
+    block: string // https://cchain.explorer.avax.network/blocks/33726/transactions - broken block/tx
+    nonce: number
     /*        
     X > SHARED DB > P/C
         1. EXPORT = move UTXO from X to SHARED DB (https://explorerapi.avax.network/v2/transactions/wQwXqfXKyoHSMCP4QVrfZgU9V7cBShJGgkZmGvkLQbHTRjhAS)
