@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+// doing this to skirt the ts errors since vuex has no def for this
+const createLogger: any = require('vuex/dist/logger')
 import api from '../axios'
 import { Asset } from '@/js/Asset'
 import { IRootState } from '@/store/types'

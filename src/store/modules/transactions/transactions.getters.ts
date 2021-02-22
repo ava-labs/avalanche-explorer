@@ -1,5 +1,9 @@
 import store from '@/store'
 
+export function getTx() {
+    return store.state.Transactions.tx
+}
+
 export function getTxs() {
     return store.state.Transactions.txRes.transactions
 }

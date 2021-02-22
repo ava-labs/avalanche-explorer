@@ -27,12 +27,12 @@
 
 <script lang="ts">
 import 'reflect-metadata'
-import { Vue, Component, Watch } from 'vue-property-decorator'
+import { Component, Watch, Mixins } from 'vue-property-decorator'
 import Loader from '@/components/misc/Loader.vue'
 import TransactionDetailCard from '@/components/TransactionDetailCard.vue'
 import HTTPError from '@/components/misc/HTTPError.vue'
 import { Transaction } from '../js/Transaction'
-import api from '../axios'
+import { TransactionsGettersMixin } from '@/store/modules/transactions/transactions.mixins'
 
 @Component({
     components: {
@@ -41,9 +41,8 @@ import api from '../axios'
         HTTPError,
     },
 })
-export default class TransactionPage extends Vue {
+export default class TransactionPage extends Mixins(TransactionsGettersMixin) {
     loading = false
-    tx: Transaction | null = null
     breadcrumbs: any = [
         {
             text: 'Home',
@@ -79,19 +78,19 @@ export default class TransactionPage extends Vue {
         return this.$route.params.id
     }
 
+    get tx() {
+        return this.getTx()
+    }
+
     getData(): void {
         this.loading = true
-
-        // TODO: support service for multiple chains
-        const url = `/x/transactions/${this.txId}`
         if (this.assetsLoaded) {
-            api.get(url)
+            this.$store
+                .dispatch('Transactions/getTx', {
+                    id: this.txId,
+                })
                 .then((res) => {
                     this.loading = false
-                    if (res.data) {
-                        // tx in Ortelius
-                        this.tx = new Transaction(res.data)
-                    }
                 })
                 .catch((err) => {
                     console.log(err)

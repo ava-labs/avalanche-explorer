@@ -1,6 +1,8 @@
+import { Transaction } from '@/js/Transaction'
 import Big from 'big.js'
 
 export interface TransactionsState {
+    tx: Transaction | null
     txRes: ITransactionDataResponse
     recentTxRes: ITransactionDataResponse
     assetTxRes: ITransactionDataResponse

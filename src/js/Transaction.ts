@@ -15,30 +15,33 @@ function getOutput(output: ITransactionOutputData): ITransactionOutput {
     return {
         id: output.id,
         transactionID: output.transactionID,
+        redeemingTransactionID: output.redeemingTransactionID,
         outputIndex: output.outputIndex,
+        chainID: output.chainID,
         assetID: output.assetID,
+        timestamp: new Date(output.timestamp),
+        amount: stringToBig(output.amount), // TODO: this Big conversion is not denominated bc of dependency on asset lookup
 
+        outputType: output.outputType,
+        groupID: output.groupID,
+
+        // RELEVANT TO P-CHAIN
         stake: output.stake,
         frozen: output.frozen,
         stakeableout: output.stakeableout,
         genesisutxo: output.genesisutxo,
 
-        outputType: output.outputType,
-        amount: stringToBig(output.amount), // TODO: this Big conversion is not denominated bc of dependency on asset lookup
+        // RELEVANT TO X-CHAIN
         locktime: output.locktime,
         stakeLocktime: output.stakeLocktime,
         threshold: output.threshold,
-
-        addresses: output.addresses,
-        caddresses: output.caddresses,
-
-        timestamp: new Date(output.timestamp),
-        redeemingTransactionID: output.redeemingTransactionID,
-
-        chainID: output.chainID,
-        groupID: output.groupID,
         payload: output.payload,
 
+        // RELEVANT TO P-CHAIN & X-CHAIN
+        addresses: output.addresses,
+
+        // RELEVANT TO C-CHAIN
+        caddresses: output.caddresses,
         block: output.block,
         nonce: output.nonce,
     }
@@ -109,7 +112,7 @@ export class Transaction implements ITransaction {
     memo: string
     inputTotals: IInputTotal // TODO new stuff
     outputTotals: IOutputTotal // TODO new stuff
-    reusedAddressTotals?: string | null // TODO new stuff
+    reusedAddressTotals?: string | null
     timestamp: string
     txFee: number
     genesis: boolean

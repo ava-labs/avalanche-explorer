@@ -1,5 +1,6 @@
 import { Vue, Component } from 'vue-property-decorator'
 import {
+    getTx,
     getTxs,
     getRecentTxs,
     getTxsByAsset,
@@ -8,6 +9,10 @@ import {
 
 @Component
 export class TransactionsGettersMixin extends Vue {
+    getTx() {
+        return getTx()
+    }
+
     getTxs() {
         return getTxs()
     }
