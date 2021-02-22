@@ -86,7 +86,7 @@ import { Asset } from '@/js/Asset'
 import { getTransaction } from '@/services/transactions'
 import { getAssetInfo } from '@/services/assets'
 import TxHeader from '@/components/Transaction/TxHeader.vue'
-import { ITransaction } from '@/js/ITransaction'
+import { ITransaction } from '@/services/transactions/models.ts'
 
 @Component({
     components: {

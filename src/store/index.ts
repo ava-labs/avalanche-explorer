@@ -16,7 +16,10 @@ import {
     ICollisionMap,
 } from '@/js/IAsset'
 import { X_CHAIN_ID } from '@/store/modules/platform/platform'
-import { ITransactionData, ITransactionDataResponse } from '@/js/ITransaction'
+import {
+    ITransactionData,
+    ITransactionDataResponse,
+} from '@/services/transactions/models.ts'
 import { ITransactionPayload } from '@/services/transactions'
 import { getTransaction } from '@/services/transactions'
 

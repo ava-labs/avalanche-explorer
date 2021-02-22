@@ -1,4 +1,4 @@
-import { ITransactionDataResponse } from '@/js/ITransaction'
+import { ITransactionDataResponse } from '@/services/transactions/models.ts'
 import { Asset } from '@/js/Asset'
 import { ICollisionMap } from '@/js/IAsset'
 

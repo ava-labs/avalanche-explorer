@@ -36,7 +36,7 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { ITransactionOutput } from '../../js/ITransaction'
+import { ITransactionOutput } from '@/services/transactions/models.ts'
 import { Asset } from '@/js/Asset'
 import { getOutputType } from '@/services/transactions'
 

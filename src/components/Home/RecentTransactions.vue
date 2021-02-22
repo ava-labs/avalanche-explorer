@@ -35,7 +35,7 @@ import { Vue, Component } from 'vue-property-decorator'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import TxTableHead from '@/components/rows/TxRow/TxTableHead.vue'
 import TxRow from '@/components/rows/TxRow/TxRow.vue'
-import { ITransaction } from '@/js/ITransaction'
+import { ITransaction } from '@/services/transactions/models.ts'
 import RecentTxHeader from '@/components/Transaction/RecentTxHeader.vue'
 
 @Component({

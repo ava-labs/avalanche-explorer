@@ -7,8 +7,9 @@ import {
     ITransactionOutputData,
     IInputTotal,
     IOutputTotal,
-} from '@/js/ITransaction'
+} from '@/services/transactions/models.ts'
 import { CChainInfo, PChainInfo, XChainInfo, stringToBig } from '@/helper'
+import { txTypeMap } from '@/services/transactions/transaction'
 
 function getOutput(output: ITransactionOutputData): ITransactionOutput {
     return {
@@ -42,30 +43,6 @@ function getOutput(output: ITransactionOutputData): ITransactionOutput {
         nonce: output.nonce,
     }
 }
-/**
- * These types come from here @link https://github.com/ava-labs/ortelius/blob/ec567c97630383d1a4ef468cf1bcf35d5d1eb3d2/services/indexes/models/types.go#L56
- */
-export const txTypeMap = new Map<string, string>([
-    ['base', 'Base'],
-    ['create_asset', 'Create Asset'], // X
-    /**
-     * @link https://docs.avax.network/build/references/avm-transaction-serialization#operations
-     */
-    ['operation', 'Operation'], // X
-    ['import', 'Import'], // X
-    ['export', 'Export'], // X
-    ['atomic_import_tx', 'Atomic Import'], // C
-    ['atomic_export_tx', 'Atomic Export'], // C
-    ['add_validator', 'Add Validator'], // P
-    ['add_subnet_validator', 'Add Subnet Validator'], // P
-    ['add_delegator', 'Add Delegator'], // P
-    ['create_subnet', 'Create Subnet'], // P
-    ['create_chain', 'Create Chain'], // P
-    ['pvm_export', 'PVM Export'], // P
-    ['pvm_import', 'PVM Import'], // P
-    ['advance_time', 'Advance Time'], // P
-    ['reward_validator', 'Reward Validator'], // P
-])
 
 export const txChainTypeMap = new Map<string, typeof CChainInfo>([
     [CChainInfo.id, CChainInfo],

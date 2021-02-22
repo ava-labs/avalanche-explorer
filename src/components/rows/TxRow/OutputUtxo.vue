@@ -47,7 +47,7 @@
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { trimmedLocaleString } from '@/helper'
-import { ITransactionOutput } from '@/js/ITransaction'
+import { ITransactionOutput } from '@/services/transactions/models.ts'
 import { Asset } from '@/js/Asset'
 import Big from 'big.js'
 
