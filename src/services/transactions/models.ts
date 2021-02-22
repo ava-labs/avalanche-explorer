@@ -1,5 +1,9 @@
 import Big from 'big.js'
 
+/* ==========================================
+   Transactions (API)
+   ========================================== */
+
 export interface ITransactionDataResponse {
     startTime: string
     endTime: string
@@ -7,7 +11,6 @@ export interface ITransactionDataResponse {
     transactions: ITransactionData[]
 }
 
-// The main Transaction type of the API
 export interface ITransactionData {
     id: string
     chainID: string
@@ -96,69 +99,9 @@ export interface ITransactionData {
     */
 }
 
-export interface IInputTotal {
-    [key: string]: number
-}
-
-export interface IOutputTotal {
-    [key: string]: number
-}
-
-// Transaction Input type
-export interface ITransactionInputData {
-    credentials: ICredentialData
-    output: ITransactionOutputData
-}
-
-// Transaction Output type
-export interface ITransactionOutputData {
-    id: string
-    transactionID: string
-    outputIndex: number
-    assetID: string
-
-    stake: boolean
-    frozen: boolean
-    stakeableout: boolean
-    genesisutxo: boolean
-
-    outputType: number
-    amount: string
-    locktime: number
-    stakeLocktime: number
-    threshold: number
-
-    addresses: string[] // X/P addresses
-    caddresses: string[] // C addresses
-
-    timestamp: string
-    redeemingTransactionID: string
-    chainID: string
-    groupID: number
-    payload: string | null // TODO confirm
-
-    // notice the output UTXO address is blank. build an exception for c-chain
-    // https://cchain.explorer.avax.network/blocks/33726/transactions - broken block/tx
-    block: string
-    nonce: number
-    /*        
-    X > SHARED DB > P/C
-        1. EXPORT = move UTXO from X to SHARED DB (https://explorerapi.avax.network/v2/transactions/wQwXqfXKyoHSMCP4QVrfZgU9V7cBShJGgkZmGvkLQbHTRjhAS)
-        2. ATOMIC_IMPORT = move UTXO from SHARED DB to P/C (https://explorerapi.avax.network/v2/transactions/9TMCg4ZRfa91NHJE7LgMFK6UHKP83uopHBFL3zyDc55acfMUF)
-            - normally, we'd see an output UTXO, but in lieu of output UTXO, we see a C-address
-                - inputs.addresses = [avax...]
-                - outputs.address  = null
-                - outputs.caddress = [0x..]
-            - if you have hex C-addresses, then the output represented as atomic import address, you will see the actual block that wrapped that atomic import/export tx
-    
-    P/C > SHARED DB > X
-        1. ATOMIC_EXPORT = move UTXO from P/C to SHARED DB 
-        2. IMPORT = move UTXO from SHARED DB to X                                                    
-    
-    note: "chainID": "2q9e4r6Mu3U68nU1fYjgbR6JvwrRx36CohpAX5UQxse55x1Q5", is messed up    
-    */
-}
-
+/* ==========================================
+   Transactions (JS)
+   ========================================== */
 export interface ITransaction {
     id: string
     chainID: string
@@ -193,6 +136,72 @@ export interface ITransaction {
     txBlockId: string
 }
 
+/* ==========================================
+   UTXOs (API)
+   ========================================== */
+export interface ITransactionInputData {
+    credentials: ICredentialData
+    output: ITransactionOutputData
+}
+export interface ITransactionOutputData {
+    id:                     string
+    transactionID:          string  // Inputs - the prev tx that generated this input UTXO. Outputs - this tx that generated this output UTXO.
+    redeemingTransactionID: string  // Inputs - this tx. Outputs - "" if UTXO is unspent or the tx that has spent this UTXO
+    outputIndex:            number  // inputs reference the UTXO index from the generating (prev) tx
+    chainID:                string
+    assetID:                string
+    timestamp:              string  // time of ingestion by Ortelius
+    amount:                 string  // 0 in the case of NFTs
+
+    outputType:             number
+    groupID:                number
+    
+    // RELEVANT TO P-CHAIN
+    stake:                  boolean // tells us the output was in the staking output set
+    frozen:                 boolean
+    stakeableout:           boolean // additional layer on top of secp transfer output - connected to stakeLocktime
+    stakeLocktime:          number  // relevant to 'Add Validator' and 'Add Delegator' txs
+    
+    // RELEVANT TO X-CHAIN
+    genesisutxo:            boolean
+    locktime:               number
+    threshold:              number
+    payload:                string | null // relevant to NFTs
+
+    // RELEVANT TO P-CHAIN & X-CHAIN
+    addresses:              string[] // notice the output UTXO address is blank. build an exception for c-chain
+    
+    // RELEVANT TO C-CHAIN
+    caddresses:             string[]
+    block:                  string   // https://cchain.explorer.avax.network/blocks/33726/transactions - broken block/tx
+    nonce:                  number
+    /*        
+    X > SHARED DB > P/C
+        1. EXPORT = move UTXO from X to SHARED DB (https://explorerapi.avax.network/v2/transactions/wQwXqfXKyoHSMCP4QVrfZgU9V7cBShJGgkZmGvkLQbHTRjhAS)
+        2. ATOMIC_IMPORT = move UTXO from SHARED DB to P/C (https://explorerapi.avax.network/v2/transactions/9TMCg4ZRfa91NHJE7LgMFK6UHKP83uopHBFL3zyDc55acfMUF)
+            - normally, we'd see an output UTXO, but in lieu of output UTXO, we see a C-address
+                - inputs.addresses = [avax...]
+                - outputs.address  = null
+                - outputs.caddress = [0x..]
+            - if you have hex C-addresses, then the output represented as atomic import address, you will see the actual block that wrapped that atomic import/export tx
+    
+    P/C > SHARED DB > X
+        1. ATOMIC_EXPORT = move UTXO from P/C to SHARED DB 
+        2. IMPORT = move UTXO from SHARED DB to X                                                    
+    
+    note: "chainID": "2q9e4r6Mu3U68nU1fYjgbR6JvwrRx36CohpAX5UQxse55x1Q5", is messed up    
+    */
+}
+
+export interface ICredentialData {
+    signature: string
+    public_key: string
+    address: string
+}
+
+/* ==========================================
+   UTXOs (JS)
+   ========================================== */
 export interface ITransactionInput {
     credentials: ICredentialData
     output: ITransactionOutput
@@ -230,6 +239,14 @@ export interface ITransactionOutput {
     nonce: number // TODO
 }
 
+export interface IInputTotal {
+    [key: string]: number
+}
+
+export interface IOutputTotal {
+    [key: string]: number
+}
+
 export interface OutputValuesDict {
     [key: string]: {
         symbol: string
@@ -243,12 +260,6 @@ export interface IOutValuesDenominated {
         amount: string
         symbol: string
     }
-}
-
-export interface ICredentialData {
-    signature: string
-    public_key: string
-    address: string
 }
 
 export enum OutputType {
