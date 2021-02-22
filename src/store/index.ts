@@ -28,7 +28,7 @@ Vue.use(Vuex)
 
 export const AVAX_ID = AssetDict['AVAX'] as string
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
     modules: {
         Platform,
         Address,
@@ -285,3 +285,4 @@ export default new Vuex.Store({
         },
     },
 })
+export default store

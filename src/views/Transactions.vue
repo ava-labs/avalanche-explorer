@@ -91,7 +91,7 @@
 
 <script lang="ts">
 import 'reflect-metadata'
-import { Vue, Component, Watch } from 'vue-property-decorator'
+import { Vue, Component, Watch, Mixins } from 'vue-property-decorator'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import TxTableHead from '@/components/rows/TxRow/TxTableHead.vue'
 import TxRow from '@/components/rows/TxRow/TxRow.vue'
@@ -99,6 +99,7 @@ import TxPaginationControls from '@/components/Transaction/TxPaginationControls.
 import TransactionsHeader from '@/components/Transaction/TxHeader.vue'
 import DateForm from '@/components/misc/DateForm.vue'
 import { ITransactionParams } from '@/services/transactions'
+import { TransactionsGettersMixin } from '@/store/modules/transactions/transactions.mixins'
 
 @Component({
     components: {
@@ -110,7 +111,7 @@ import { ITransactionParams } from '@/services/transactions'
         DateForm,
     },
 })
-export default class Transactions extends Vue {
+export default class Transactions extends Mixins(TransactionsGettersMixin) {
     loading = true
     totalTx = 0
 
@@ -156,7 +157,7 @@ export default class Transactions extends Vue {
     }
 
     get transactions() {
-        return this.$store.state.Transactions.txRes.transactions || []
+        return this.getTxs()
     }
 
     get firstEndTime(): number {
