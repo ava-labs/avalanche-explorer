@@ -136,7 +136,7 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
     offset = 0
 
     created() {
-        this.getTx()
+        this.fetchTx()
     }
 
     get assetsLoaded() {
@@ -230,7 +230,7 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
         }
     }
 
-    getTx(): void {
+    fetchTx(): void {
         this.loading = true
 
         // TODO: support service for multiple chains

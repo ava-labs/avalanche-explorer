@@ -18,8 +18,9 @@
             </HTTPError>
             <template v-else>
                 <TransactionDetailCard :tx="tx">
-                    Transaction Details
+                    Summary
                 </TransactionDetailCard>
+                <TransactionUTXO :tx="tx"></TransactionUTXO>
             </template>
         </template>
     </div>
@@ -30,14 +31,16 @@ import 'reflect-metadata'
 import { Component, Watch, Mixins } from 'vue-property-decorator'
 import Loader from '@/components/misc/Loader.vue'
 import TransactionDetailCard from '@/components/TransactionDetailCard.vue'
+import TransactionUTXO from '@/components/TransactionUTXO.vue'
 import HTTPError from '@/components/misc/HTTPError.vue'
-import { Transaction } from '../js/Transaction'
 import { TransactionsGettersMixin } from '@/store/modules/transactions/transactions.mixins'
+import { Transaction } from '@/js/Transaction'
 
 @Component({
     components: {
         Loader,
         TransactionDetailCard,
+        TransactionUTXO,
         HTTPError,
     },
 })
@@ -89,7 +92,7 @@ export default class TransactionPage extends Mixins(TransactionsGettersMixin) {
                 .dispatch('Transactions/getTx', {
                     id: this.txId,
                 })
-                .then((res) => {
+                .then(() => {
                     this.loading = false
                 })
                 .catch((err) => {
