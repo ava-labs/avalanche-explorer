@@ -84,6 +84,9 @@ export default class TxRow extends Vue {
         return this.transaction.id === genesisTxID ? true : false
     }
 
+    /**
+     * Returns a list of unique addresses found in Input UTXOs
+     */
     get inputs() {
         const addresses = getTransactionInputs(
             this.transaction.inputs,
@@ -111,7 +114,6 @@ export default class TxRow extends Vue {
             this.transaction.chainID,
             this.transaction.type
         )
-        //.flatMap((output) => output.addresses)
     }
 }
 </script>

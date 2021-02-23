@@ -6,8 +6,44 @@
                 <TransactionsHeader></TransactionsHeader>
                 <!-- COUNT/PAGINATION -->
                 <template v-show="!loading && assetsLoaded">
-                    <div class="bar">
-                        <p class="count"></p>
+                    <!-- REQUEST PARAMS -->
+                    <div>
+                        <h4>Search</h4>
+                        <div class="bar">
+                            <div class="sort_container">
+                                <v-select
+                                    v-model="sort"
+                                    :items="sorts"
+                                    item-text="label"
+                                    item-value="query"
+                                    label="Sort by"
+                                    dense
+                                    color="#4c2e56"
+                                ></v-select>
+                            </div>
+                            <DateForm
+                                :class="
+                                    sort === 'timestamp-desc' ? 'reverse' : ''
+                                "
+                                @change_start="setStart"
+                                @change_end="setEnd"
+                            ></DateForm>
+                            <div class="limit_container">
+                                <v-select
+                                    v-model="limit"
+                                    :items="limits"
+                                    label="Results"
+                                    dense
+                                    color="#4c2e56"
+                                ></v-select>
+                            </div>
+                            <v-btn
+                                class="search_tx_btn ava_btn"
+                                text
+                                @click="submit"
+                                >Search</v-btn
+                            >
+                        </div>
                         <!-- <TxPaginationControls
                             v-show="assetsLoaded"
                             ref="paginationTop"
@@ -16,38 +52,27 @@
                             @change="page_change"
                         ></TxPaginationControls> -->
                     </div>
-                    <div class="bar">
-                        <div class="sort_container">
-                            <v-select
-                                v-model="sort"
-                                :items="sorts"
-                                item-text="label"
-                                item-value="query"
-                                label="Sort by"
-                                dense
-                                color="#4c2e56"
-                            ></v-select>
+                    <!-- FILTER PARAMS -->
+                    <div>
+                        <h4>Filter Results</h4>
+                        <!-- <div class="bar">
+                            {{ filteredTransactions.length }} transactions found
+                        </div> -->
+                        <div class="bar">
+                            <div>
+                                <h5>Filter by Chain and Tx Type</h5>
+                                <v-treeview
+                                    v-model="selection"
+                                    selectable
+                                    :selection-type="'leaf'"
+                                    selected-color="#e84970"
+                                    item-disabled="locked"
+                                    :items="items"
+                                    return-object
+                                    open-all
+                                ></v-treeview>
+                            </div>
                         </div>
-                        <DateForm
-                            :class="sort === 'timestamp-desc' ? 'reverse' : ''"
-                            @change_start="setStart"
-                            @change_end="setEnd"
-                        ></DateForm>
-                        <div class="limit_container">
-                            <v-select
-                                v-model="limit"
-                                :items="limits"
-                                label="Results"
-                                dense
-                                color="#4c2e56"
-                            ></v-select>
-                        </div>
-                        <v-btn
-                            class="search_tx_btn ava_btn"
-                            text
-                            @click="submit"
-                            >Search</v-btn
-                        >
                     </div>
                 </template>
             </div>
@@ -69,7 +94,7 @@
                 <div class="rows">
                     <transition-group name="fade" mode="out-in">
                         <tx-row
-                            v-for="tx in transactions"
+                            v-for="tx in filteredTransactions"
                             :key="tx.id"
                             class="tx_item"
                             :transaction="tx"
@@ -100,6 +125,7 @@ import TransactionsHeader from '@/components/Transaction/TxHeader.vue'
 import DateForm from '@/components/misc/DateForm.vue'
 import { ITransactionParams } from '@/services/transactions'
 import { TransactionsGettersMixin } from '@/store/modules/transactions/transactions.mixins'
+import { txChainTypeMap } from '@/store/modules/transactions/maps'
 
 @Component({
     components: {
@@ -114,10 +140,9 @@ import { TransactionsGettersMixin } from '@/store/modules/transactions/transacti
 export default class Transactions extends Mixins(TransactionsGettersMixin) {
     loading = true
     totalTx = 0
-
+    // Query Params
     startDate: string = new Date().toISOString()
     endDate: string = new Date().toISOString()
-    // Sort
     sort = 'timestamp-desc'
     sorts = [
         {
@@ -129,9 +154,45 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
             query: 'timestamp-asc',
         },
     ]
-    // Limits
     limit = 25
     limits = [10, 25, 100, 1000, 5000]
+
+    // Filter Params
+    items = [
+        {
+            id: '11111111111111111111111111111111LpoYY',
+            name: 'P-Chain (Platform):',
+            children: [
+                { id: 'add_validator', name: 'Add Validator' },
+                { id: 'add_subnet_validator', name: 'Add Subnet Validator' },
+                { id: 'add_delegator', name: 'Add Delegator' },
+                { id: 'create_subnet', name: 'Create Subnet' },
+                { id: 'create_chain', name: 'Create Chain' },
+                { id: 'pvm_export', name: 'PVM Export' },
+                { id: 'pvm_import', name: 'PVM Import' },
+            ],
+        },
+        {
+            id: '2oYMBNV4eNHyqk2fjjV5nVQLDbtmNJzq5s3qs3Lo6ftnC6FByM',
+            name: 'X-Chain (Exchange):',
+            children: [
+                { id: 'base', name: 'Base', locked: false },
+                { id: 'create_asset', name: 'Create Asset', locked: false },
+                { id: 'operation', name: 'Operation', locked: false },
+                { id: 'import', name: 'Import', locked: false },
+                { id: 'export', name: 'Export', locked: false },
+            ],
+        },
+        {
+            id: '2q9e4r6Mu3U68nU1fYjgbR6JvwrRx36CohpAX5UQxse55x1Q5',
+            name: 'C-Chain (Contract):',
+            children: [
+                { id: 'atomic_import_tx', name: 'Atomic Import' },
+                { id: 'atomic_export_tx', name: 'Atomic Export' },
+            ],
+        },
+    ]
+    selection = this.items.flatMap((item) => item.children)
 
     offset = 0
 
@@ -157,8 +218,14 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
     }
 
     get transactions() {
-        console.log('this.getTxs', this.getTxs())
         return this.getTxs()
+    }
+
+    get filteredTransactions() {
+        const filters = this.selection.map((val) => val.id)
+        return this.transactions.filter((tx) => {
+            return filters.some((val) => val === tx.type)
+        })
     }
 
     get firstEndTime(): number {
@@ -192,11 +259,7 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
 
     submit() {
         this.loading = true
-
-        // startTime: "0001-01-01T00:00:00Z"
-        // endTime: "2021-02-04T02:53:30Z"
         // next: "endTime=1612407093&limit=25&sort=timestamp-desc"
-        // 1612407210
 
         if (this.assetsLoaded) {
             let params: ITransactionParams = {
@@ -211,7 +274,6 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
                     ),
                     ...params,
                 }
-                console.log('params', params)
             } else {
                 params = {
                     startTime: Math.round(
@@ -219,7 +281,6 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
                     ),
                     ...params,
                 }
-                console.log('params', params)
             }
 
             this.$store
@@ -233,10 +294,6 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
 
     fetchTx(): void {
         this.loading = true
-
-        console.log('called')
-
-        // TODO: support service for multiple chains
         if (this.assetsLoaded) {
             this.$store
                 .dispatch('Transactions/getTxs', {
@@ -280,13 +337,13 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
 
 .sort_container {
     width: 150px;
-    padding-top: 20px;
+    padding-top: 19px;
     padding-right: 15px;
 }
 
 .limit_container {
     width: 100px;
-    padding-top: 20px;
+    padding-top: 19px;
     padding-right: 15px;
 }
 

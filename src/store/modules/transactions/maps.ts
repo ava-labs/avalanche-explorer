@@ -1,5 +1,6 @@
 import { ITransactionOutputData } from '@/store/modules/transactions/models'
 import { OutputType, BlockType } from './models'
+import { CChainInfo, PChainInfo, XChainInfo } from '@/helper'
 
 /**
  * These types come from here @link https://github.com/ava-labs/ortelius/blob/ec567c97630383d1a4ef468cf1bcf35d5d1eb3d2/services/indexes/models/types.go#L56
@@ -52,4 +53,14 @@ const blockTypes = new Map([
 
 export function getBlockType(type: number) {
     return blockTypes.get(type)
+}
+
+export const txChainTypeMap = new Map<string, typeof CChainInfo>([
+    [CChainInfo.id, CChainInfo],
+    [PChainInfo.id, PChainInfo],
+    [XChainInfo.id, XChainInfo],
+])
+
+export function getTxChainType(type: string) {
+    return txChainTypeMap.get(type)
 }

@@ -8,8 +8,8 @@ import {
     IInputTotal,
     IOutputTotal,
 } from '@/store/modules/transactions/models'
-import { CChainInfo, PChainInfo, XChainInfo, stringToBig } from '@/helper'
-import { txTypeMap } from '@/store/modules/transactions/maps'
+import { stringToBig } from '@/helper'
+import { txTypeMap, txChainTypeMap } from '@/store/modules/transactions/maps'
 
 function getOutput(output: ITransactionOutputData): ITransactionOutput {
     return {
@@ -46,12 +46,6 @@ function getOutput(output: ITransactionOutputData): ITransactionOutput {
         nonce: output.nonce,
     }
 }
-
-export const txChainTypeMap = new Map<string, typeof CChainInfo>([
-    [CChainInfo.id, CChainInfo],
-    [PChainInfo.id, PChainInfo],
-    [XChainInfo.id, XChainInfo],
-])
 
 export function getMappingForType(type: string) {
     return txTypeMap.get(type) || 'Unknown'
@@ -92,7 +86,6 @@ export function getTransactionInputs(
     chainId: string,
     txType: string
 ) {
-    console.log('inputs', inputs)
     return getTransactionOutputs(
         inputs.map((input) => input.output),
         chainId,
