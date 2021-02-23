@@ -7,7 +7,7 @@
                 <!-- COUNT/PAGINATION -->
                 <template v-show="!loading && assetsLoaded">
                     <!-- REQUEST PARAMS -->
-                    <div>
+                    <div class="params">
                         <h4>Search</h4>
                         <div class="bar">
                             <div class="sort_container">
@@ -52,64 +52,67 @@
                             @change="page_change"
                         ></TxPaginationControls> -->
                     </div>
-                    <!-- FILTER PARAMS -->
-                    <div>
-                        <h4>Filter Results</h4>
-                        <!-- <div class="bar">
-                            {{ filteredTransactions.length }} transactions found
-                        </div> -->
-                        <div class="bar">
-                            <div>
-                                <h5>Filter by Chain and Tx Type</h5>
-                                <v-treeview
-                                    v-model="selection"
-                                    selectable
-                                    :selection-type="'leaf'"
-                                    selected-color="#e84970"
-                                    item-disabled="locked"
-                                    :items="items"
-                                    return-object
-                                    open-all
-                                ></v-treeview>
-                            </div>
-                        </div>
-                    </div>
                 </template>
             </div>
-
-            <!-- LOAD -->
-            <template v-if="loading && !assetsLoaded">
-                <v-progress-circular
-                    key="1"
-                    :size="16"
-                    :width="2"
-                    color="#E84970"
-                    indeterminate
-                ></v-progress-circular>
-            </template>
-
-            <!-- TBODY -->
-            <template v-else>
-                <TxTableHead></TxTableHead>
-                <div class="rows">
-                    <transition-group name="fade" mode="out-in">
-                        <tx-row
-                            v-for="tx in filteredTransactions"
-                            :key="tx.id"
-                            class="tx_item"
-                            :transaction="tx"
-                        ></tx-row>
-                    </transition-group>
+            <div class="two-col">
+                <!-- FILTER PARAMS -->
+                <div class="left">
+                    <h4>Filter Results</h4>
+                    <!-- <div class="bar">
+                            {{ filteredTransactions.length }} transactions found
+                        </div> -->
+                    <div>
+                        <div>
+                            <h5>Filter by Chain and Tx Type</h5>
+                            <v-treeview
+                                v-model="selection"
+                                selectable
+                                :selection-type="'leaf'"
+                                selected-color="#e84970"
+                                item-disabled="locked"
+                                :items="items"
+                                return-object
+                                open-all
+                            ></v-treeview>
+                        </div>
+                    </div>
                 </div>
-                <div class="bar-table">
-                    <!-- <TxPaginationControls
+                <div class="right">
+                    <!-- LOAD -->
+                    <template v-if="loading && !assetsLoaded">
+                        <v-progress-circular
+                            key="1"
+                            :size="16"
+                            :width="2"
+                            color="#E84970"
+                            indeterminate
+                        ></v-progress-circular>
+                    </template>
+
+                    <!-- TBODY -->
+                    <template v-else>
+                        <TxTableHead></TxTableHead>
+                        <div class="rows">
+                            <transition-group name="fade" mode="out-in">
+                                <tx-row
+                                    v-for="tx in filteredTransactions"
+                                    :key="tx.id"
+                                    class="tx_item"
+                                    :transaction="tx"
+                                ></tx-row>
+                            </transition-group>
+                        </div>
+                        <div class="bar-table">
+                            <!-- <TxPaginationControls
                         ref="paginationBottom"
                         :total="totalTx"
                         :limit="limit"
                         @change="page_change"
                     ></TxPaginationControls> -->
+                        </div>
+                    </template>
                 </div>
-            </template>
+            </div>
         </div>
     </div>
 </template>
@@ -161,7 +164,7 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
     items = [
         {
             id: '11111111111111111111111111111111LpoYY',
-            name: 'P-Chain (Platform):',
+            name: 'P-Chain (Platform)',
             children: [
                 { id: 'add_validator', name: 'Add Validator' },
                 { id: 'add_subnet_validator', name: 'Add Subnet Validator' },
@@ -174,7 +177,7 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
         },
         {
             id: '2oYMBNV4eNHyqk2fjjV5nVQLDbtmNJzq5s3qs3Lo6ftnC6FByM',
-            name: 'X-Chain (Exchange):',
+            name: 'X-Chain (Exchange)',
             children: [
                 { id: 'base', name: 'Base', locked: false },
                 { id: 'create_asset', name: 'Create Asset', locked: false },
@@ -185,7 +188,7 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
         },
         {
             id: '2q9e4r6Mu3U68nU1fYjgbR6JvwrRx36CohpAX5UQxse55x1Q5',
-            name: 'C-Chain (Contract):',
+            name: 'C-Chain (Contract)',
             children: [
                 { id: 'atomic_import_tx', name: 'Atomic Import' },
                 { id: 'atomic_export_tx', name: 'Atomic Export' },
@@ -323,6 +326,13 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
     }
 }
 
+.params {
+    h4 {
+        margin-top: 30px;
+        margin-bottom: 0;
+    }
+}
+
 .bar {
     display: flex;
     align-items: center;
@@ -359,6 +369,23 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
     padding-top: 30px;
     display: flex;
     justify-content: flex-end;
+}
+
+.two-col {
+    display: flex;
+    flex-direction: row;
+
+    .left {
+        h4 {
+            margin-top: 0;
+        }
+        flex-basis: 0 0 300px;
+        margin-right: 60px;
+    }
+
+    .right {
+        flex: 1;
+    }
 }
 
 @include smOnly {
