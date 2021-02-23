@@ -121,11 +121,11 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
     sort = 'timestamp-desc'
     sorts = [
         {
-            label: 'Most Recent',
+            label: 'New to Old',
             query: 'timestamp-desc',
         },
         {
-            label: 'Oldest',
+            label: 'Old to New',
             query: 'timestamp-asc',
         },
     ]
@@ -145,7 +145,7 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
 
     @Watch('assetsLoaded')
     onAssetsLoadedChanged() {
-        this.getTx()
+        this.fetchTx()
     }
 
     setStart(val: string) {
@@ -157,6 +157,7 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
     }
 
     get transactions() {
+        console.log('this.getTxs', this.getTxs())
         return this.getTxs()
     }
 
@@ -232,6 +233,8 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
 
     fetchTx(): void {
         this.loading = true
+
+        console.log('called')
 
         // TODO: support service for multiple chains
         if (this.assetsLoaded) {

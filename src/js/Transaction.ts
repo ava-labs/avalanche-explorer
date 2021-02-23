@@ -92,6 +92,7 @@ export function getTransactionInputs(
     chainId: string,
     txType: string
 ) {
+    console.log('inputs', inputs)
     return getTransactionOutputs(
         inputs.map((input) => input.output),
         chainId,

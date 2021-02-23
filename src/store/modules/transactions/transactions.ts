@@ -46,6 +46,7 @@ const transactions_module: Module<TransactionsState, IRootState> = {
         },
         addTxs(state, txRes: ITransactionDataResponse) {
             state.txRes = txRes
+            console.log('state.txRes', state.txRes)
         },
         addRecentTxs(state, txRes: ITransactionDataResponse) {
             state.recentTxRes = txRes
@@ -67,6 +68,7 @@ const transactions_module: Module<TransactionsState, IRootState> = {
                 payload.id,
                 payload.params
             )
+            console.log('txRes', txRes)
             store.commit('addTxs', txRes)
         },
         async getRecentTxs(store, payload: ITransactionPayload) {
