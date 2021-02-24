@@ -14,6 +14,18 @@
                         eXchanging assets.)</span
                     >
                 </v-tooltip>
+                <v-tooltip>
+                    <template v-slot:activator="{ on }">
+                        <span class="tag margin-left" v-on="on">P-Chain</span>
+                    </template>
+                    <span></span>
+                </v-tooltip>
+                <v-tooltip>
+                    <template v-slot:activator="{ on }">
+                        <span class="tag margin-left" v-on="on">C-Chain</span>
+                    </template>
+                    <span></span>
+                </v-tooltip>
             </p>
         </div>
         <div v-if="$vuetify.breakpoint.smAndUp" class="right" bottom>
@@ -49,6 +61,10 @@ export default class RecentTxHeader extends Vue {
 }
 </script>
 <style scoped lang="scss">
+.margin-left {
+    margin-left: 10px;
+}
+
 .refresh {
     margin-left: 16px;
 }
