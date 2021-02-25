@@ -2,19 +2,27 @@
     <div class="utxo_container">
         <!-- TX LINK -->
         <div class="tx_link">
-            <span class="force-ellipsis">
-                <!-- CONDITIONAL FOR C-CHAIN -->
-                <router-link v-if="txId !== '-'" :to="`/tx/${txId}`">
-                    <fa icon="arrow-left"></fa
-                ></router-link>
-            </span>
+            <!-- CONDITIONAL FOR C-CHAIN -->
+            <router-link v-if="txId !== '-'" :to="`/tx/${txId}`">
+                <v-tooltip right>
+                    <template v-slot:activator="{ on }">
+                        <fa v-on="on" icon="arrow-left" color="#2196f3"></fa>
+                    </template>
+                    <div>
+                        <p>Input UTXO generated in TX ID:</p>
+                        <p>{{ txId }}</p>
+                    </div>
+                </v-tooltip>
+            </router-link>
         </div>
         <!-- CONTENT -->
         <div class="utxo_new_col">
-            <div class="utxo_new_row utxo_col">
-                <div class="index type">
-                    <span>#{{ $vnode.key }} - </span>
-                    <span>{{ utxo.outputType | getOutputType }}</span>
+            <div class="utxo_col">
+                <div class="utxo_label">
+                    <span class="index">#{{ $vnode.key }} - </span>
+                    <span class="type">{{
+                        utxo.outputType | getOutputType
+                    }}</span>
                 </div>
                 <div>
                     <span class="amount monospace">{{ amount }}</span>
@@ -32,7 +40,7 @@
                         ) in utxo.addresses"
                         :key="i"
                         :to="`/address/X-${address}`"
-                        class="monospace"
+                        class="address monospace"
                         >{{ displayAddress }}</router-link
                     >
                 </div>
@@ -74,21 +82,6 @@ export default class UtxoRowInput extends Vue {
     @Prop() utxo!: ITransactionOutput
     @Prop() type!: string
 
-    get asset(): Asset {
-        return this.$store.state.assets[this.utxo.assetID]
-    }
-
-    get symbol(): string {
-        return this.asset ? this.asset.symbol : this.utxo.assetID
-    }
-
-    get amount(): string {
-        const denomination = this.asset ? this.asset.denomination : 0
-        return this.utxo.amount
-            .div(Math.pow(10, denomination))
-            .toLocaleString(denomination)
-    }
-
     get txId(): string {
         const redeemingID = this.utxo.redeemingTransactionID
 
@@ -101,16 +94,19 @@ export default class UtxoRowInput extends Vue {
             : this.utxo.transactionID
     }
 
-    get redeemed(): boolean {
-        const redeemingID = this.utxo.redeemingTransactionID
+    get amount(): string {
+        const denomination = this.asset ? this.asset.denomination : 0
+        return this.utxo.amount
+            .div(Math.pow(10, denomination))
+            .toLocaleString(denomination)
+    }
 
-        return this.type === 'output'
-            ? redeemingID === null || redeemingID === ''
-                ? false
-                : true
-            : redeemingID === null || redeemingID === ''
-            ? false
-            : false
+    get asset(): Asset {
+        return this.$store.state.assets[this.utxo.assetID]
+    }
+
+    get symbol(): string {
+        return this.asset ? this.asset.symbol : this.utxo.assetID
     }
 }
 </script>

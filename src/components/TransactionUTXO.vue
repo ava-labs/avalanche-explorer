@@ -1,7 +1,7 @@
 <template>
     <section v-if="tx" class="utxo">
         <article v-if="!isAssetGenesis" class="card meta">
-            <h3 class="label">Inputs</h3>
+            <h3 class="label">Inputs ({{ inputs.length }})</h3>
             <div v-if="inputs.length > 0">
                 <UtxoRowInput
                     v-for="(input, i) in inputs"
@@ -18,7 +18,7 @@
             </div>
         </article>
         <article class="card meta">
-            <h3 class="label">Outputs</h3>
+            <h3 class="label">Outputs ({{ outputs.length }})</h3>
             <div v-if="tx.outputs.length > 0">
                 <UtxoRowOutput
                     v-for="(output, i) in outputs"

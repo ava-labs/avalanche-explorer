@@ -1,27 +1,6 @@
-.utxo_headers,
-.io_item {
-    grid-template-columns: 120px 80px 80px 80px 1fr 1fr;
-}
+$icon_dimension: 20px;
+$padding: 8px;
 
-.utxo_headers {
-    display: grid;
-    grid-gap: 10px;
-    font-size: 12px;
-
-    p {
-        font-weight: 400; /* 700 */
-        opacity: 0.7;
-    }
-}
-
-.utxo_headers,
-.utxo_row {
-    .type {
-        display: none;
-    }
-}
-
-// UTXOs
 h3.label {
     margin-top: 0;
     font-weight: 400;
@@ -29,66 +8,71 @@ h3.label {
 
 .utxo_container {
     display: grid;
-    grid-template-columns: 20px 1fr;
-    column-gap: 10px;
+    grid-template-columns: $icon_dimension 1fr;
+    column-gap: $padding;
 
-    background-color: $secondary-color-xlight;
-    margin-bottom: 15px;
+    border: 1px solid $primary-color-xlight;
+    border-radius: 4px;
+    padding: $padding;
+    margin-bottom: 16px;
 }
 
 .utxo_new_col {
     display: flex;
     flex-direction: column;
-
     font-size: 12px;
 
     > * {
         flex-grow: 1;
-        margin-bottom: 15px;
+        margin-bottom: $padding;
     }
 }
 
 .utxo_new_row {
 }
 
-// Redeems
-.redeemed {
-    color: $green;
-}
-
 .utxo_label {
-    font-size: 11px;
-    color: var(--grey-500);
+    font-size: 10px;
     text-transform: uppercase;
-}
-
-// INDEX - TYPE - AMOUNT
-.index {
-    color: var(--grey-700);
-}
-
-.type {
-    color: var(--grey-700);
 }
 
 .utxo_col {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+    height: $icon_dimension;
+    margin-bottom: 16px;
+
+    // INDEX & TYPE
+    .index,
+    .type {
+        font-size: 12px;
+    }
+
+    // AMOUNT
+    .amount {
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    .symbol {
+        font-size: 16px;
+        white-space: nowrap;
+        width: max-content;
+        padding-left: 8px;
+    }
 }
 
-.col_amount {
-    display: flex;
-    flex-direction: row-reverse;
+.v-application a.address {
+    color: $blue !important;
+    font-size: 14px;
+    font-weight: 400;
 }
 
-.amount_symbol {
-    white-space: nowrap;
-    width: max-content;
-    background-color: $secondary-color-xlight;
-    color: $secondary-color;
-    padding: 4px 8px;
-    border-radius: 3px;
+// Redeems
+.redeemed {
+    color: $green;
 }
 
 @include smOnly {
@@ -104,28 +88,7 @@ h3.label {
             opacity: 0.7;
         }
     }
-
-    .io {
-        grid-template-columns: none;
-        grid-template-rows: max-content max-content;
-    }
-
-    .utxo_headers,
-    .io_item {
-        grid-template-columns: 70px 70px 70px 100px 1fr;
-    }
 }
 
 @include mdOrBigger {
-    .utxo_headers,
-    .utxo_row {
-        .type {
-            display: initial;
-        }
-    }
-
-    .utxo_headers,
-    .io_item {
-        grid-template-columns: 120px 80px 80px 80px 1fr 80px 1fr;
-    }
 }
