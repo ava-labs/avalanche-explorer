@@ -107,7 +107,6 @@ import {
     getMappingForType,
     Transaction,
     getTransactionOutputs,
-    getTransactionInputs,
 } from '../js/Transaction'
 import {
     OutputValuesDict,
@@ -186,14 +185,6 @@ export default class TransactionDetailCard extends Vue {
 
     get isText(): boolean {
         return this.tx.memo === '' || null ? false : true
-    }
-
-    get inputs() {
-        return getTransactionInputs(
-            this.tx.inputs,
-            this.tx.chainID,
-            this.tx.type
-        )
     }
 
     get isAssetGenesis(): boolean {

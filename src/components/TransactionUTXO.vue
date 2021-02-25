@@ -46,11 +46,7 @@ import {
     getTransactionOutputs,
     getTransactionInputs,
 } from '../js/Transaction'
-import {
-    OutputValuesDict,
-    IOutValuesDenominated,
-} from '@/store/modules/transactions/models.ts'
-import { stringToBig, toAVAX } from '../helper'
+import { toAVAX } from '../helper'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import { getAssetType } from '@/services/assets'
 
@@ -70,14 +66,12 @@ import { getAssetType } from '@/services/assets'
 export default class TransactionUTXO extends Vue {
     @Prop() tx!: Transaction
 
-    b64DecodeHex(str: string): string {
-        const raw = atob(str)
-        let result = ''
-        for (let i = 0; i < raw.length; i++) {
-            const hex = raw.charCodeAt(i).toString(16)
-            result += hex.length === 2 ? hex : '0' + hex
-        }
-        return result.toUpperCase()
+    get inputs() {
+        return getTransactionInputs(
+            this.tx.inputs,
+            this.tx.chainID,
+            this.tx.type
+        )
     }
 
     get outputs() {
@@ -88,108 +82,12 @@ export default class TransactionUTXO extends Vue {
         )
     }
 
-    b64EncodeUnicode(str: string): string {
-        // first we use encodeURIComponent to get percent-encoded UTF-8,
-        // then we convert the percent encodings into raw bytes which
-        // can be fed into btoa.
-        return btoa(
-            encodeURIComponent(str).replace(
-                /%([0-9A-F]{2})/g,
-                function toSolidBytes(match, p1) {
-                    return String.fromCharCode(parseInt('0x' + p1))
-                }
-            )
-        )
-    }
-
-    b64DecodeUnicode(str: string): string {
-        // Going backwards: from bytestream, to percent-encoding, to original string.
-        return decodeURIComponent(
-            atob(str)
-                .split('')
-                .map(function (c) {
-                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-                })
-                .join('')
-        )
-    }
-
-    get text_hex(): string {
-        return this.b64DecodeHex(this.tx.memo)
-    }
-
-    get text_utf8(): string {
-        return this.b64DecodeUnicode(this.tx.memo)
-    }
-
-    get isText(): boolean {
-        return this.tx.memo === '' || null ? false : true
-    }
-
-    get inputs() {
-        return getTransactionInputs(
-            this.tx.inputs,
-            this.tx.chainID,
-            this.tx.type
-        )
-    }
-
-    get isAssetGenesis(): boolean {
-        return this.tx.type === 'create_asset'
-    }
-
-    get date(): Date {
-        return new Date(this.tx.timestamp)
-    }
-
     get assets(): any {
         return this.$store.state.assets
     }
 
-    get outValues(): OutputValuesDict {
-        const dict: OutputValuesDict = {}
-        const outs = this.tx.outputs
-
-        outs.forEach((out) => {
-            const assetID = out.assetID
-            const amount = out.amount
-            const asset = this.assets[assetID]
-            let denomination = 0
-            let symbol = assetID
-            if (asset) {
-                denomination = asset.denomination
-                symbol = asset.symbol
-            } else {
-                this.$store.dispatch('addUnknownAsset', assetID)
-            }
-            if (dict[assetID]) {
-                const valNow = dict[assetID].amount
-                dict[assetID].amount = valNow.plus(amount)
-            } else {
-                dict[assetID] = {
-                    symbol,
-                    amount,
-                    denomination,
-                }
-            }
-        })
-        return dict
-    }
-
-    get outValuesDenominated() {
-        const outValuesDenominated: IOutValuesDenominated = {}
-        for (const assetId in this.outValues) {
-            const val = this.outValues[assetId]
-            const res = stringToBig(
-                val.amount.toString(),
-                val.denomination
-            ).toLocaleString(val.denomination)
-            outValuesDenominated[assetId] = {
-                amount: res,
-                symbol: val.symbol,
-            }
-        }
-        return outValuesDenominated
+    get isAssetGenesis(): boolean {
+        return this.tx.type === 'create_asset'
     }
 }
 </script>
