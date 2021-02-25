@@ -179,11 +179,11 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
             id: '2oYMBNV4eNHyqk2fjjV5nVQLDbtmNJzq5s3qs3Lo6ftnC6FByM',
             name: 'X-Chain (Exchange)',
             children: [
-                { id: 'base', name: 'Base', locked: false },
-                { id: 'create_asset', name: 'Create Asset', locked: false },
-                { id: 'operation', name: 'Operation', locked: false },
-                { id: 'import', name: 'Import', locked: false },
-                { id: 'export', name: 'Export', locked: false },
+                { id: 'base', name: 'Base' },
+                { id: 'create_asset', name: 'Create Asset' },
+                { id: 'operation', name: 'Operation' },
+                { id: 'import', name: 'Import' },
+                { id: 'export', name: 'Export' },
             ],
         },
         {
@@ -224,10 +224,13 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
         return this.getTxs()
     }
 
+    get filters() {
+        return this.selection.map((val) => val.id)
+    }
+
     get filteredTransactions() {
-        const filters = this.selection.map((val) => val.id)
         return this.transactions.filter((tx) => {
-            return filters.some((val) => val === tx.type)
+            return this.filters.some((val) => val === tx.type)
         })
     }
 

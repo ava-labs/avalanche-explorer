@@ -6,7 +6,7 @@
                     >To</span
                 >
                 <router-link class="addr" :to="`/address/X-` + addr.address">{{
-                    addr.displayText
+                    addr.displayAddress
                 }}</router-link>
             </div>
         </div>

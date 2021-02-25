@@ -1,35 +1,41 @@
 <template>
-    <div class="utxo_row">
-        <!-- Tx -->
-        <span v-if="txId !== '-'" class="force-ellipsis">
-            <router-link :to="`/tx/${txId}`">{{ txId }}</router-link>
-        </span>
-        <p v-else>-</p>
-        <!-- Metrics -->
-        <p class="redeemed">
-            <fa v-if="redeemed" icon="check-circle"></fa>
-        </p>
-        <p>{{ utxo.locktime }}</p>
-        <p>{{ utxo.threshold }}</p>
-        <!-- From/To -->
+    <div class="utxo_new_row">
+        <!-- ADDRESS -->
         <span class="force-ellipsis">
             <router-link
                 v-for="({ address, displayAddress }, i) in utxo.addresses"
                 :key="i"
                 :to="`/address/X-${address}`"
+                class="monospace"
                 >{{ displayAddress }}</router-link
             >
         </span>
+
+        <!-- TYPE -->
         <div class="type">
             {{ utxo.outputType | getOutputType }}
         </div>
-        <!-- Amount -->
-        <div class="col_amount">
-            <p class="amount_symbol">
-                {{ amount }}
+
+        <!-- AMOUNT -->
+        <div>
+            <p>
+                <span class="monospace">{{ amount }}</span>
                 <b>{{ symbol }}</b>
             </p>
         </div>
+
+        <!-- REDEEMING TX LINK -->
+        <span>
+            <template v-if="redeemed">
+                <!-- ADD CONDITIONAL -->
+                <router-link :to="`/tx/${txId}`"
+                    ><fa icon="check-circle" class="redeemed"></fa
+                ></router-link>
+            </template>
+            <template v-else>
+                <fa icon="check-circle"></fa>
+            </template>
+        </span>
     </div>
 </template>
 
@@ -45,7 +51,7 @@ import { getOutputType } from '@/services/transactions'
         getOutputType,
     },
 })
-export default class UtxoRow extends Vue {
+export default class UtxoRowOutput extends Vue {
     @Prop() utxo!: ITransactionOutput
     @Prop() type!: string
 
@@ -91,33 +97,6 @@ export default class UtxoRow extends Vue {
 </script>
 
 <style scoped lang="scss">
-.utxo_row {
-    display: grid;
-    grid-gap: 10px;
-
-    > * {
-        align-self: center;
-    }
-}
-
-.redeemed {
-    color: $green;
-}
-
-.col_amount {
-    display: flex;
-    flex-direction: row-reverse;
-}
-
-.amount_symbol {
-    white-space: nowrap;
-    width: max-content;
-    background-color: $secondary-color-xlight;
-    color: $secondary-color;
-    padding: 4px 8px;
-    border-radius: 3px;
-}
-
 .type {
     color: var(--grey-300);
 }

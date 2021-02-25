@@ -1,24 +1,14 @@
 <template>
-    <section v-if="tx" class="card meta utxo">
-        <article v-if="!isAssetGenesis" class="meta_row">
-            <p class="label">Input UTXOs</p>
+    <section v-if="tx" class="utxo">
+        <article v-if="!isAssetGenesis" class="card meta">
+            <h3 class="label">Inputs</h3>
             <div v-if="inputs.length > 0">
-                <div class="utxo_headers">
-                    <p>Tx</p>
-                    <p></p>
-                    <p>Lock Time</p>
-                    <p>Threshold</p>
-                    <p>From</p>
-                    <p>Type</p>
-                    <p class="amount">Amount</p>
-                </div>
-                <utxo-row
+                <UtxoRowInput
                     v-for="(input, i) in inputs"
                     :key="i"
-                    class="io_item"
                     :utxo="input"
                     type="input"
-                ></utxo-row>
+                ></UtxoRowInput>
             </div>
             <div v-else>
                 <p>
@@ -27,25 +17,15 @@
                 </p>
             </div>
         </article>
-        <article class="meta_row">
-            <p class="label">Output UTXOs</p>
+        <article class="card meta">
+            <h3 class="label">Outputs</h3>
             <div v-if="tx.outputs.length > 0">
-                <div class="utxo_headers">
-                    <p>Tx</p>
-                    <p></p>
-                    <p>Lock Time</p>
-                    <p>Threshold</p>
-                    <p>To</p>
-                    <p class="type">Type</p>
-                    <p class="amount">Amount</p>
-                </div>
-                <utxo-row
+                <UtxoRowOutput
                     v-for="(output, i) in outputs"
                     :key="i"
-                    class="io_item"
                     :utxo="output"
                     type="output"
-                ></utxo-row>
+                ></UtxoRowOutput>
             </div>
             <div v-else>
                 <p>No output utxos found for this transaction.</p>
@@ -58,7 +38,8 @@
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import CopyText from '@/components/misc/CopyText.vue'
-import UtxoRow from '@/components/Transaction/UtxoRow.vue'
+import UtxoRowInput from '@/components/Transaction/UtxoRowInput.vue'
+import UtxoRowOutput from '@/components/Transaction/UtxoRowOutput.vue'
 import {
     getMappingForType,
     Transaction,
@@ -75,7 +56,8 @@ import { getAssetType } from '@/services/assets'
 
 @Component({
     components: {
-        UtxoRow,
+        UtxoRowInput,
+        UtxoRowOutput,
         Tooltip,
         CopyText,
     },
@@ -214,6 +196,9 @@ export default class TransactionUTXO extends Vue {
 
 <style scoped lang="scss">
 .utxo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 30px;
     margin-top: 30px;
 }
 

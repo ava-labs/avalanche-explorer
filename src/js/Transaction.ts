@@ -74,7 +74,7 @@ export function getTransactionOutputs(
                 (address) =>
                     ({
                         address,
-                        displayText: `${prefix}${address}`,
+                        displayAddress: `${prefix}${address}`,
                     } as DisplayAddress)
             ),
         }
@@ -95,7 +95,7 @@ export function getTransactionInputs(
 
 export interface DisplayAddress {
     address: string
-    displayText: string
+    displayAddress: string
 }
 export class Transaction implements ITransaction {
     id: string

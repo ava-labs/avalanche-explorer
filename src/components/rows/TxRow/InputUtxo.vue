@@ -3,7 +3,7 @@
         <div class="from">
             <span v-if="$vuetify.breakpoint.smAndDown" class="label">From</span>
             <router-link class="addr" :to="`/address/X-${input.address}`">{{
-                input.displayText
+                input.displayAddress
             }}</router-link>
         </div>
     </div>

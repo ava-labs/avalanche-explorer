@@ -209,7 +209,7 @@ export default Vue.extend({
 </style>
 
 <style lang="scss">
-@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@1,400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap');
@@ -224,6 +224,10 @@ body {
     color: $primary-color;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+.monospace {
+    font-family: 'Roboto Mono', monospace;
 }
 
 button {
