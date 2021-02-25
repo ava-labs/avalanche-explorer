@@ -2,7 +2,11 @@
     <section v-if="tx" class="utxo">
         <article v-if="!isAssetGenesis" class="card meta">
             <h3 class="label">
-                {{ inputs.length | pluralize('Input') | qualifyInput(tx.type) }}
+                {{
+                    inputs.length
+                        | pluralizeWithoutCount('Input')
+                        | qualifyInput(tx.type)
+                }}
                 <span class="utxo_count">{{ inputs.length }}</span>
             </h3>
             <div v-if="inputs.length > 0">
@@ -23,7 +27,7 @@
             <h3 class="label">
                 {{
                     outputs.length
-                        | pluralize('Output')
+                        | pluralizeWithoutCount('Output')
                         | qualifyOutput(tx.type)
                 }}
                 <span class="utxo_count">{{ outputs.length }}</span>
@@ -70,9 +74,6 @@ import { getAssetType } from '@/services/assets'
         getType: getMappingForType,
         toAVAX,
         getAssetType,
-        pluralize(val: number, unit: string): string {
-            return val === 0 ? `${unit}s` : val > 1 ? `${unit}s` : `${unit}`
-        },
         qualifyInput(unit: string, type: string): string {
             switch (type) {
                 case 'atomic_import_tx':

@@ -95,7 +95,7 @@
                         </p>
                         <p class="meta_annotation">
                             {{ minimalTransferrableUnit }} ({{
-                                asset.denomination | pluralize
+                                asset.denomination | pluralizeDenomination
                             }})
                         </p>
                     </div>
@@ -124,7 +124,7 @@ import TooltipMeta from '../../components/misc/TooltipMeta.vue'
         blockchain(val: string): string {
             return blockchainMap(val)
         },
-        pluralize(val: number): string {
+        pluralizeDenomination(val: number): string {
             return val === 0
                 ? `no fractional units`
                 : val > 1

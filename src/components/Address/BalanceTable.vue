@@ -2,7 +2,7 @@
     <div class="balances_container">
         <div class="bar">
             <p class="count">
-                {{ Object.keys(assets).length | pluralize }} found
+                {{ Object.keys(assets).length | pluralize('asset') }} found
             </p>
         </div>
         <div v-if="assets.length > 0" class="grid_headers balance_row">
@@ -57,15 +57,6 @@ import { IBalanceX } from '@/services/addresses/models'
     components: {
         Tooltip,
         BalanceRow,
-    },
-    filters: {
-        pluralize(val: number): string {
-            return val === 0
-                ? `${val} assets`
-                : val > 1
-                ? `${val} assets`
-                : `${val} asset`
-        },
     },
 })
 export default class BalanceTable extends Vue {

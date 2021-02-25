@@ -7,7 +7,7 @@
                     <div class="bar">
                         <p class="count">
                             {{ totalAddresses.toLocaleString() }}
-                            {{ totalAddresses | pluralize }} found
+                            {{ totalAddresses | pluralize('address') }} found
                         </p>
                     </div>
                 </template>
@@ -41,11 +41,6 @@ import AddressDataTable from '@/components/Address/AddressDataTable.vue'
 @Component({
     components: {
         AddressDataTable,
-    },
-    filters: {
-        pluralize(val: number): string {
-            return val === 0 ? `addresses` : val > 1 ? `addresses` : `address`
-        },
     },
 })
 export default class Addresses extends Vue {

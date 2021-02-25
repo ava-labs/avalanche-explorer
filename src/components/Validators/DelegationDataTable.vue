@@ -10,7 +10,10 @@
                 <div class="controls">
                     <div class="filter_count">
                         <p v-show="search.length === 0">
-                            {{ validators.length.toLocaleString() | pluralize }}
+                            {{
+                                validators.length.toLocaleString()
+                                    | pluralize('result')
+                            }}
                             found
                         </p>
                         <p v-show="search.length > 0">...filtering results</p>
@@ -152,13 +155,6 @@ import { scaleLinear } from 'd3-scale'
         },
         time(val: number) {
             return moment(val).format('h:mm:ss A')
-        },
-        pluralize(val: number): string {
-            return val === 0
-                ? `${val} results`
-                : val > 1
-                ? `${val} results`
-                : `${val} result`
         },
     },
 })
