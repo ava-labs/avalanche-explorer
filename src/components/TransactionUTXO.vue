@@ -1,7 +1,10 @@
 <template>
     <section v-if="tx" class="utxo">
         <article v-if="!isAssetGenesis" class="card meta">
-            <h3 class="label">Inputs ({{ inputs.length }})</h3>
+            <h3 class="label">
+                {{ inputs.length | pluralize('Input') | qualifyInput(tx.type) }}
+                <span class="utxo_count">{{ inputs.length }}</span>
+            </h3>
             <div v-if="inputs.length > 0">
                 <UtxoRowInput
                     v-for="(input, i) in inputs"
@@ -17,7 +20,14 @@
             </div>
         </article>
         <article class="card meta">
-            <h3 class="label">Outputs ({{ outputs.length }})</h3>
+            <h3 class="label">
+                {{
+                    outputs.length
+                        | pluralize('Output')
+                        | qualifyOutput(tx.type)
+                }}
+                <span class="utxo_count">{{ outputs.length }}</span>
+            </h3>
             <div v-if="tx.outputs.length > 0">
                 <UtxoRowOutput
                     v-for="(output, i) in outputs"
@@ -60,6 +70,25 @@ import { getAssetType } from '@/services/assets'
         getType: getMappingForType,
         toAVAX,
         getAssetType,
+        pluralize(val: number, unit: string): string {
+            return val === 0 ? `${unit}s` : val > 1 ? `${unit}s` : `${unit}`
+        },
+        qualifyInput(unit: string, type: string): string {
+            switch (type) {
+                case 'atomic_import_tx':
+                    return 'Imported ' + unit
+                default:
+                    return unit
+            }
+        },
+        qualifyOutput(unit: string, type: string): string {
+            switch (type) {
+                case 'atomic_export_tx':
+                    return 'Exported ' + unit
+                default:
+                    return unit
+            }
+        },
     },
 })
 export default class TransactionUTXO extends Vue {

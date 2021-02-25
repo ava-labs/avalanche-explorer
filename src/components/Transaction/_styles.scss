@@ -1,6 +1,11 @@
 $icon_dimension: 20px;
 $padding: 8px;
 
+.utxo_count {
+    margin-left: $padding;
+    font-size: 0.75em;
+}
+
 h3.label {
     margin-top: 0;
     font-weight: 400;
