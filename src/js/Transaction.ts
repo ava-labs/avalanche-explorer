@@ -64,10 +64,7 @@ export function getTransactionOutputs(
         const chainType = getTransactionChainType(chainID)
         const addresses =
             output.addresses !== null ? output.addresses : output.caddresses
-        let prefix = output.addresses !== null ? `${chainType?.code}-` : ``
-        if (prefix === 'C-') {
-            prefix = 'X-'
-        }
+        const prefix = output.addresses !== null ? `${chainType?.code}-` : ``
         return {
             ...output,
             addresses: addresses.map(

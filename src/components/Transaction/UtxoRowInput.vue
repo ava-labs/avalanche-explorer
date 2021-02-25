@@ -1,19 +1,12 @@
 <template>
     <div class="utxo_container">
-        <!-- TX LINK -->
         <div class="tx_link">
-            <!-- CONDITIONAL FOR C-CHAIN -->
-            <router-link v-if="txId !== '-'" :to="`/tx/${txId}`">
-                <v-tooltip right>
-                    <template v-slot:activator="{ on }">
-                        <fa v-on="on" icon="arrow-left" color="#2196f3"></fa>
-                    </template>
-                    <div>
-                        <p>Input UTXO generated in TX ID:</p>
-                        <p>{{ txId }}</p>
-                    </div>
-                </v-tooltip>
-            </router-link>
+            <UtxoTxLinkInput
+                :txID="utxo.transactionID"
+                :chainID="utxo.chainID"
+                :timestamp="utxo.timestamp"
+            >
+            </UtxoTxLinkInput>
         </div>
         <!-- CONTENT -->
         <div class="utxo_new_col">
@@ -29,7 +22,7 @@
                     <span class="symbol">{{ symbol }}</span>
                 </div>
             </div>
-            <!-- ADDRESS(-ES) -->
+            <!-- ADDRESSES -->
             <div>
                 <div class="utxo_label">From</div>
                 <div>
@@ -45,7 +38,7 @@
                     >
                 </div>
             </div>
-            <!-- CREDENTIAL(-S) -->
+            <!-- CREDENTIALS -->
             <div>
                 <div class="utxo_label">Signature</div>
                 <div>
@@ -57,11 +50,15 @@
                     >
                 </div>
             </div>
-
-            <!-- EXTRA ROW IF NECESSARY -->
-            <!-- SIGNATURE GOES HERE -->
-            <!-- <p>{{ utxo.locktime }}</p> -->
-            <!-- <p>{{ utxo.threshold }}</p> -->
+            <!-- EXTRA INFO -->
+            <div v-if="utxo.locktime !== 0">
+                <div class="utxo_label">Signature</div>
+                <div>{{ utxo.locktime }}</div>
+            </div>
+            <div v-if="utxo.threshold > 1">
+                <div class="utxo_label">Threshold</div>
+                <div>{{ utxo.threshold }}</div>
+            </div>
         </div>
     </div>
 </template>
@@ -72,27 +69,18 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 import { ITransactionOutput } from '@/store/modules/transactions/models.ts'
 import { Asset } from '@/js/Asset'
 import { getOutputType } from '@/services/transactions'
+import UtxoTxLinkInput from '@/components/Transaction/UtxoTxLinkInput.vue'
 
 @Component({
+    components: {
+        UtxoTxLinkInput,
+    },
     filters: {
         getOutputType,
     },
 })
 export default class UtxoRowInput extends Vue {
     @Prop() utxo!: ITransactionOutput
-    @Prop() type!: string
-
-    get txId(): string {
-        const redeemingID = this.utxo.redeemingTransactionID
-
-        return this.type === 'output'
-            ? redeemingID === null || redeemingID === ''
-                ? '-'
-                : redeemingID
-            : redeemingID === null || redeemingID === ''
-            ? '-'
-            : this.utxo.transactionID
-    }
 
     get amount(): string {
         const denomination = this.asset ? this.asset.denomination : 0

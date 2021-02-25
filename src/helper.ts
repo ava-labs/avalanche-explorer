@@ -4,6 +4,7 @@ import BlockchainDict from './known_blockchains'
 import VMDict from './known_vms'
 import { Quote, quotes } from './quotes'
 import { BN } from 'avalanche/dist'
+import { chain } from 'cypress/types/lodash'
 
 function stringToBig(raw: string, denomination = 0): Big {
     return Big(raw).div(Math.pow(10, denomination))
@@ -107,7 +108,7 @@ export const XChainInfo = {
     id: (isMainnetNetwork()
         ? process.env.VUE_APP_XCHAINID
         : process.env.VUE_APP_TEST_XCHAINID) as string,
-    name: 'X Chain',
+    name: 'X-Chain',
     code: 'X',
 }
 
@@ -115,7 +116,7 @@ export const PChainInfo = {
     id: (isMainnetNetwork()
         ? process.env.VUE_APP_PCHAINID
         : process.env.VUE_APP_TEST_PCHAINID) as string,
-    name: 'P Chain',
+    name: 'P-Chain',
     code: 'P',
 }
 
@@ -123,7 +124,7 @@ export const CChainInfo = {
     id: (isMainnetNetwork()
         ? process.env.VUE_APP_CCHAINID
         : process.env.VUE_APP_TEST_CCHAINID) as string,
-    name: 'C Chain',
+    name: 'C-Chain',
     code: 'C',
 }
 

@@ -71,15 +71,9 @@ export default class UtxoRowOutput extends Vue {
     }
 
     get txId(): string {
+        // C-CHAIN CONDITIONAL
         const redeemingID = this.utxo.redeemingTransactionID
-
-        return this.type === 'output'
-            ? redeemingID === null || redeemingID === ''
-                ? '-'
-                : redeemingID
-            : redeemingID === null || redeemingID === ''
-            ? '-'
-            : this.utxo.transactionID
+        return redeemingID === null || redeemingID === '' ? '-' : redeemingID
     }
 
     get redeemed(): boolean {

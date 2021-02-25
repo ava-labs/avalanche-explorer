@@ -7,7 +7,6 @@
                     v-for="(input, i) in inputs"
                     :key="i"
                     :utxo="input"
-                    type="input"
                 ></UtxoRowInput>
             </div>
             <div v-else>
