@@ -45,7 +45,6 @@
                 :txID="utxo.redeemingTransactionID"
                 :chainID="utxo.chainID"
                 :timestamp="utxo.timestamp"
-                :redeemed="redeemed"
             >
             </UtxoTxLinkOutput>
         </div>
@@ -91,18 +90,6 @@ export default class UtxoRowOutput extends Vue {
         // C-CHAIN CONDITIONAL
         const redeemingID = this.utxo.redeemingTransactionID
         return redeemingID === null || redeemingID === '' ? '-' : redeemingID
-    }
-
-    get redeemed(): boolean {
-        const redeemingID = this.utxo.redeemingTransactionID
-
-        return this.type === 'output'
-            ? redeemingID === null || redeemingID === ''
-                ? false
-                : true
-            : redeemingID === null || redeemingID === ''
-            ? false
-            : false
     }
 }
 </script>

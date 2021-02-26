@@ -6,9 +6,14 @@
                     <fa v-on="on" icon="arrow-left" color="#2196f3"></fa>
                 </template>
                 <div>
-                    <p>Created on {{ chain }} {{ timestamp | fromNow }}</p>
                     <p>
-                        Tx ID: <span class="monospace">{{ txID }}</span>
+                        <span class="light">UTXO was created on</span>
+                        {{ chain }}
+                        {{ timestamp | fromNow }}
+                    </p>
+                    <p>
+                        <span class="light">Tx ID: </span>
+                        <span class="monospace">{{ txID }}</span>
                     </p>
                 </div>
             </v-tooltip>

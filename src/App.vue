@@ -551,6 +551,10 @@ input {
     font-size: 12px !important;
     line-height: 1.57em !important;
     padding: 8px 16px;
+
+    .light {
+        font-weight: 300;
+    }
 }
 
 tbody {

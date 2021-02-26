@@ -1,32 +1,62 @@
 <template>
     <div class="tx_link">
-        <router-link v-if="isXP" :to="xpURL">
-            <v-tooltip right>
+        <!-- SPENT -->
+        <template v-if="txID">
+            <!-- X/P (internal route) -->
+            <router-link v-if="isXP" :to="xpURL">
+                <v-tooltip left>
+                    <template v-slot:activator="{ on }">
+                        <fa v-on="on" icon="arrow-right" color="#2196f3"></fa>
+                    </template>
+                    <div>
+                        <p>
+                            <span class="light">UTXO was spent on</span>
+                            {{ chain }}
+                        </p>
+                        <p>
+                            <span class="light">Tx ID: </span>
+                            <span class="monospace">{{ txID }}</span>
+                        </p>
+                    </div>
+                </v-tooltip>
+            </router-link>
+            <!-- C (external route) -->
+            <a v-else :href="cURL">
+                <v-tooltip left>
+                    <template v-slot:activator="{ on }">
+                        <fa v-on="on" icon="arrow-right" color="#2196f3"></fa>
+                    </template>
+                    <div>
+                        <p>
+                            <span class="light">UTXO was spent on</span
+                            >{{ chain }}
+                        </p>
+                        <p>
+                            <span class="light">Tx ID: </span>
+                            <span class="monospace">{{ txID }}</span>
+                        </p>
+                    </div>
+                </v-tooltip>
+            </a>
+        </template>
+        <!-- SPENDABLE -->
+        <template v-else>
+            <v-tooltip left>
                 <template v-slot:activator="{ on }">
-                    <fa v-on="on" icon="arrow-right" color="#2196f3"></fa>
-                    <!-- ><fa icon="check-circle" class="redeemed"></fa -->
+                    <fa v-on="on" icon="info-circle" color="#867e89"></fa>
                 </template>
-                <div v-if="redeemed">
-                    <p>Redeemed on {{ chainID }} {{ timestamp | fromNow }}</p>
+                <div>
                     <p>
-                        Tx ID: <span class="monospace">{{ txID }}</span>
+                        <span class="light">UTXO can be spent on</span>
+                        {{ chain }}
+                    </p>
+                    <p>
+                        <span class="light">Tx ID: </span>
+                        <span class="monospace">{{ txID }}</span>
                     </p>
                 </div>
             </v-tooltip>
-        </router-link>
-        <a v-else :href="cURL">
-            <v-tooltip right>
-                <template v-slot:activator="{ on }">
-                    <fa v-on="on" icon="arrow-right" color="#2196f3"></fa>
-                </template>
-                <div v-if="redeemed">
-                    <p>Redeemed on {{ chainID }} {{ timestamp | fromNow }}</p>
-                    <p>
-                        Tx ID: <span class="monospace">{{ txID }}</span>
-                    </p>
-                </div>
-            </v-tooltip>
-        </a>
+        </template>
     </div>
 </template>
 
@@ -40,6 +70,7 @@ import {
     cChainExplorerURL,
     cChainExplorerURL_test,
 } from '@/store/modules/network/network'
+import { getTransactionChainType } from '@/js/Transaction'
 
 @Component({
     filters: {
@@ -50,12 +81,6 @@ export default class UtxoTxLinkOutput extends Vue {
     @Prop() txID!: string | null
     @Prop() chainID!: string
     @Prop() timestamp!: string
-    @Prop() redeemed!: boolean
-
-    created() {
-        console.log('redeemed', this.redeemed)
-        console.log('txID', this.txID)
-    }
 
     get isXP(): boolean {
         return this.chainID === XChainInfo.id || this.chainID === PChainInfo.id
@@ -71,6 +96,10 @@ export default class UtxoTxLinkOutput extends Vue {
                 ? cChainExplorerURL
                 : cChainExplorerURL_test
         }/tx/0x${this.txID}`
+    }
+
+    get chain(): string {
+        return getTransactionChainType(this.chainID)?.name || ''
     }
 }
 </script>
