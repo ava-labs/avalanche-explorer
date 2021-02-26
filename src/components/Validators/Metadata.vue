@@ -46,6 +46,11 @@ import PeerCount from '@/components/Validators/PeerCount.vue'
 import PeerStake from '@/components/Validators/PeerStake.vue'
 import ValidatorStats from '@/components/Validators/ValidatorStats.vue'
 import { toAVAX } from '@/helper'
+import {
+    DEFAULT_NETWORK_ID,
+    peerInfoURL,
+    peerInfoURL_test,
+} from '@/store/modules/network/network.ts'
 
 export interface IVersion {
     version: string
@@ -71,7 +76,7 @@ export default class Metadata extends Vue {
     async getData(): Promise<void> {
         this.loading = true
 
-        const url = 'https://explorerapi.avax.network/validators'
+        const url = DEFAULT_NETWORK_ID === 1 ? peerInfoURL : peerInfoURL_test
         const info = (await fetch(url).then((response) =>
             response.text()
         )) as string
