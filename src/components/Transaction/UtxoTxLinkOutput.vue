@@ -3,10 +3,11 @@
         <router-link v-if="isXP" :to="xpURL">
             <v-tooltip right>
                 <template v-slot:activator="{ on }">
-                    <fa v-on="on" icon="arrow-left" color="#2196f3"></fa>
+                    <fa v-on="on" icon="arrow-right" color="#2196f3"></fa>
+                    <!-- ><fa icon="check-circle" class="redeemed"></fa -->
                 </template>
-                <div>
-                    <p>Created on {{ chainID }} {{ timestamp | fromNow }}</p>
+                <div v-if="redeemed">
+                    <p>Redeemed on {{ chainID }} {{ timestamp | fromNow }}</p>
                     <p>
                         Tx ID: <span class="monospace">{{ txID }}</span>
                     </p>
@@ -16,10 +17,10 @@
         <a v-else :href="cURL">
             <v-tooltip right>
                 <template v-slot:activator="{ on }">
-                    <fa v-on="on" icon="arrow-left" color="#2196f3"></fa>
+                    <fa v-on="on" icon="arrow-right" color="#2196f3"></fa>
                 </template>
-                <div>
-                    <p>Created on {{ chainID }} {{ timestamp | fromNow }}</p>
+                <div v-if="redeemed">
+                    <p>Redeemed on {{ chainID }} {{ timestamp | fromNow }}</p>
                     <p>
                         Tx ID: <span class="monospace">{{ txID }}</span>
                     </p>
@@ -49,6 +50,12 @@ export default class UtxoTxLinkOutput extends Vue {
     @Prop() txID!: string | null
     @Prop() chainID!: string
     @Prop() timestamp!: string
+    @Prop() redeemed!: boolean
+
+    created() {
+        console.log('redeemed', this.redeemed)
+        console.log('txID', this.txID)
+    }
 
     get isXP(): boolean {
         return this.chainID === XChainInfo.id || this.chainID === PChainInfo.id

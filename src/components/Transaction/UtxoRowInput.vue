@@ -1,5 +1,5 @@
 <template>
-    <div class="utxo_container">
+    <div class="utxo_container input_container">
         <div class="tx_link">
             <UtxoTxLinkInput
                 :txID="utxo.transactionID"
@@ -8,8 +8,8 @@
             >
             </UtxoTxLinkInput>
         </div>
-        <!-- CONTENT -->
         <div class="utxo_new_col">
+            <!-- TYPE/AMOUNT -->
             <div class="utxo_col">
                 <div class="utxo_label">
                     <span class="index">#{{ $vnode.key }} - </span>

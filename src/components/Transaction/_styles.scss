@@ -13,13 +13,20 @@ h3.label {
 
 .utxo_container {
     display: grid;
-    grid-template-columns: $icon_dimension 1fr;
     column-gap: $padding;
 
     border: 1px solid $primary-color-xlight;
     border-radius: 4px;
     padding: $padding;
     margin-bottom: 16px;
+}
+
+.input_container {
+    grid-template-columns: $icon_dimension 1fr;
+}
+
+.output_container {
+    grid-template-columns: 1fr $icon_dimension;
 }
 
 .utxo_new_col {
