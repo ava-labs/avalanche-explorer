@@ -10,12 +10,13 @@
         </div>
         <div class="history_cont">
             <div class="chart_toggle_settings">
-                <button
+                <!-- API CANNOT HANDLE THIS QUERY -->
+                <!-- <button
                     :active="scope === options[0]"
                     @click="setScope(options[0])"
                 >
                     1 year
-                </button>
+                </button> -->
                 <button
                     :active="scope === options[1]"
                     @click="setScope(options[1])"
@@ -72,6 +73,7 @@ import axios from '@/axios'
 import Chart from 'chart.js'
 import moment from 'moment'
 import TransactionHistoryMeta from '@/components/Home/TopInfo/TransactionHistoryMeta'
+import { toAVAX } from '@/helper'
 
 export default {
     components: {
@@ -242,22 +244,22 @@ export default {
             let res = 1
             switch (this.scope) {
                 case 'year':
-                    res = 1000000
+                    res = 100000000000
                     break
                 case 'month':
-                    res = 100000
+                    res = 10000000000
                     break
                 case 'week':
-                    res = 100000
+                    res = 1000000000
                     break
                 case 'day':
-                    res = 10000
+                    res = 10000000
                     break
                 case 'hour':
-                    res = 1000
+                    res = 1000000
                     break
                 case 'minute':
-                    res = 1000
+                    res = 1000000
                     break
             }
             return res
@@ -282,7 +284,9 @@ export default {
         },
         // charted data
         valuesX() {
-            return this.dataX.map((d) => d.transactionCount)
+            return this.dataX.map((d) => {
+                return toAVAX(d.transactionVolume).toFixed(0)
+            })
         },
         // x-axis labels
         labelsX() {
@@ -311,7 +315,7 @@ export default {
                 ],
                 datasets: [
                     {
-                        label: 'Tx Volume',
+                        label: 'Volume (AVAX)',
                         backgroundColor: 'transparent',
                         borderColor: '#e84970',
                         pointBackgroundColor: 'transparent',
@@ -387,9 +391,21 @@ export default {
                                 autoSkip: true,
                                 precision: 0,
                                 min: 0,
-                                max: 100000,
+                                max: 1000000000000,
                                 callback: function (value) {
                                     switch (value) {
+                                        case 1000000000000:
+                                            return '1T'
+                                        case 100000000000:
+                                            return '100B'
+                                        case 10000000000:
+                                            return '10B'
+                                        case 1000000000:
+                                            return '1B'
+                                        case 100000000:
+                                            return '100M'
+                                        case 10000000:
+                                            return '10M'
                                         case 1000000:
                                             return '1M'
                                         case 100000:
