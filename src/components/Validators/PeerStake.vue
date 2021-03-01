@@ -14,7 +14,7 @@ import 'reflect-metadata'
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import Chart from 'chart.js'
 import chroma from 'chroma-js'
-import { IVersion } from './Metadata.vue'
+import { IVersion } from '@/services/peerinfo'
 
 @Component({
     components: {},

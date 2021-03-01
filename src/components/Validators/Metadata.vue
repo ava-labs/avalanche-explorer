@@ -14,11 +14,11 @@
                         indeterminate
                     ></v-progress-circular>
                 </div>
-                <peer-stake
+                <PeerStake
                     v-show="!loading"
                     :data="versions"
                     :metric="'stakeAmount'"
-                ></peer-stake>
+                ></PeerStake>
             </div>
             <div class="peerinfo_cont">
                 <div v-show="loading" class="loading_cont">
@@ -29,11 +29,11 @@
                         indeterminate
                     ></v-progress-circular>
                 </div>
-                <peer-count
+                <PeerCount
                     v-show="!loading"
                     :data="versions"
                     :metric="'nodeCount'"
-                ></peer-count>
+                ></PeerCount>
             </div>
         </div>
     </div>
@@ -45,18 +45,7 @@ import { Vue, Component } from 'vue-property-decorator'
 import PeerCount from '@/components/Validators/PeerCount.vue'
 import PeerStake from '@/components/Validators/PeerStake.vue'
 import ValidatorStats from '@/components/Validators/ValidatorStats.vue'
-import { toAVAX } from '@/helper'
-import {
-    DEFAULT_NETWORK_ID,
-    peerInfoURL,
-    peerInfoURL_test,
-} from '@/store/modules/network/network.ts'
-
-export interface IVersion {
-    version: string
-    nodeCount: number
-    stakeAmount: number
-}
+import { IVersion, getPeerInfo, getVersionMap } from '@/services/peerinfo'
 
 @Component({
     components: {
@@ -73,54 +62,12 @@ export default class Metadata extends Vue {
         this.getData()
     }
 
-    async getData(): Promise<void> {
+    async getData() {
         this.loading = true
-
-        const url = DEFAULT_NETWORK_ID === 1 ? peerInfoURL : peerInfoURL_test
-        const info = (await fetch(url).then((response) =>
-            response.text()
-        )) as string
-
-        function removePrefix(s: string): string {
-            return s.includes('avalanche/') ? s.split('avalanche/')[1] : s
-        }
-
-        let peerInfo: IVersion[] = info
-            .split('peerinfo')
-            .filter((x) => !!x)
-            .map((y) => {
-                return y
-                    .slice(1, -1)
-                    .split(',')
-                    .reduce((acc, curr) => {
-                        return {
-                            ...acc,
-                            [curr.split('=')[0]]: curr.split('=')[1],
-                        }
-                    }, {})
-            })
-            .map((z: any) => {
-                return {
-                    version: removePrefix(z.version.slice(1, -1)),
-                    nodeCount: parseInt(z.nodeCount),
-                    stakeAmount: toAVAX(z.stakeAmount),
-                }
-            })
-
-        const offline = peerInfo.find(
-            (i) => i.version === 'offline'
-        ) as IVersion
-
-        peerInfo = peerInfo
-            .filter((i) => i.version !== 'offline')
-            .sort((a, b) =>
-                a.version.localeCompare(b.version, undefined, { numeric: true })
-            )
-            .reverse()
-        peerInfo.push(offline)
-
-        this.versions = peerInfo
+        this.versions = await getPeerInfo()
         this.loading = false
+
+        getVersionMap(this.versions as IVersion[])
     }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
-    <div class="">
-        <metadata></metadata>
+    <div>
+        <Metadata></Metadata>
         <div class="validators card">
             <StakingMetadata @toggle="handleToggle"></StakingMetadata>
             <div class="controls">
