@@ -6,7 +6,6 @@ import {
 import { IVersion } from './models'
 import { toAVAX } from '@/helper'
 import { getTotalStake } from './peerinfo'
-import { bufferToPrivateKeyString } from 'avalanche/dist/utils'
 
 const PEER_INFO_URL = DEFAULT_NETWORK_ID === 1 ? peerInfoURL : peerInfoURL_test
 
@@ -19,7 +18,7 @@ function removePrefix(s: string): string {
  */
 export async function getPeerInfo() {
     // endpoint returns a string
-    let res = (await fetch(PEER_INFO_URL).then((response) =>
+    const res = (await fetch(PEER_INFO_URL).then((response) =>
         response.text()
     )) as string
 
@@ -50,7 +49,7 @@ export async function getPeerInfo() {
         )
         .reverse()
 
-    let totalStake = getTotalStake(peerInfo)
+    const totalStake = getTotalStake(peerInfo)
 
     peerInfo = peerInfo.map((peer) => {
         return {
