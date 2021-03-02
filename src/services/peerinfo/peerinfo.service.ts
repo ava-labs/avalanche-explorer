@@ -5,6 +5,8 @@ import {
 } from '@/store/modules/network/network.ts'
 import { IVersion } from './models'
 import { toAVAX } from '@/helper'
+import { getTotalStake } from './peerinfo'
+import { bufferToPrivateKeyString } from 'avalanche/dist/utils'
 
 const PEER_INFO_URL = DEFAULT_NETWORK_ID === 1 ? peerInfoURL : peerInfoURL_test
 
@@ -47,6 +49,15 @@ export async function getPeerInfo() {
             a.version.localeCompare(b.version, undefined, { numeric: true })
         )
         .reverse()
+
+    let totalStake = getTotalStake(peerInfo)
+
+    peerInfo = peerInfo.map((peer) => {
+        return {
+            stakePercent: Math.round((peer.stakeAmount / totalStake) * 100),
+            ...peer,
+        }
+    })
 
     // move 'offline' nodes to end of array
     const offline = peerInfo.shift() as IVersion

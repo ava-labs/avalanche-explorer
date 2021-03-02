@@ -13,7 +13,6 @@
 import 'reflect-metadata'
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import Chart from 'chart.js'
-import chroma from 'chroma-js'
 import { IVersion } from '@/services/peerinfo'
 
 @Component({
@@ -21,6 +20,7 @@ import { IVersion } from '@/services/peerinfo'
 })
 export default class PeerStake extends Vue {
     @Prop() data!: IVersion[]
+    @Prop() colorScale!: string[]
     @Prop() metric!: keyof IVersion
 
     context: null | RenderingContext = null
@@ -54,12 +54,26 @@ export default class PeerStake extends Vue {
             this.chart.data.labels = this.data.map((v) => v.version)
             this.chart.data.datasets = [
                 {
-                    backgroundColor: chroma
-                        .scale(['#4c2e56', '#ffe6e6'])
-                        .colors(this.data.length),
+                    backgroundColor: this.colorScale,
                     data: this.data.map((v) => v[this.metric]) as number[],
                 },
             ]
+            this.chart.options.tooltips = {
+                callbacks: {
+                    title: function (tooltipItem, data) {
+                        const index = tooltipItem[0].index as number
+                        const label = (data.labels as string[])[index]
+                        return `Version ${label}`
+                    },
+                    label: function (tooltipItem, data) {
+                        const index = tooltipItem.index as number
+                        //@ts-ignore
+                        const datum = (data.datasets[0]
+                            .data as Chart.ChartPoint[])[index]
+                        return ` ${datum}%`
+                    },
+                },
+            }
             this.chart.update()
         }
     }

@@ -17,7 +17,8 @@
                 <PeerStake
                     v-show="!loading"
                     :data="versions"
-                    :metric="'stakeAmount'"
+                    :color-scale="versionsOnlyColorScale"
+                    :metric="'stakePercent'"
                 ></PeerStake>
             </div>
             <div class="peerinfo_cont">
@@ -32,6 +33,7 @@
                 <PeerCount
                     v-show="!loading"
                     :data="versions"
+                    :color-scale="versionsColorScale"
                     :metric="'nodeCount'"
                 ></PeerCount>
             </div>
@@ -45,7 +47,14 @@ import { Vue, Component } from 'vue-property-decorator'
 import PeerCount from '@/components/Validators/PeerCount.vue'
 import PeerStake from '@/components/Validators/PeerStake.vue'
 import ValidatorStats from '@/components/Validators/ValidatorStats.vue'
-import { IVersion, getPeerInfo, getVersionMap } from '@/services/peerinfo'
+import {
+    IVersion,
+    getPeerInfo,
+    getVersionsOnly,
+    versionsOnlyMap,
+    getVersionsColorMap,
+    lower,
+} from '@/services/peerinfo'
 
 @Component({
     components: {
@@ -56,6 +65,10 @@ import { IVersion, getPeerInfo, getVersionMap } from '@/services/peerinfo'
 })
 export default class Metadata extends Vue {
     versions: null | IVersion[] = null
+    versionsColorScale: string[] = []
+    versionsOnly: null | IVersion[] = null
+    versionsOnlyColorScale: string[] = []
+
     loading = false
 
     created() {
@@ -65,9 +78,12 @@ export default class Metadata extends Vue {
     async getData() {
         this.loading = true
         this.versions = await getPeerInfo()
+        this.versionsOnly = getVersionsOnly(this.versions)
+        const map = versionsOnlyMap(this.versions)
+        this.versionsOnlyColorScale = getVersionsColorMap(map)
+        this.versionsColorScale = getVersionsColorMap(map)
+        this.versionsColorScale.push(lower)
         this.loading = false
-
-        getVersionMap(this.versions as IVersion[])
     }
 }
 </script>
