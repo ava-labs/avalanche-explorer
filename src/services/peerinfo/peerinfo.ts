@@ -45,11 +45,11 @@ export const brightnessFactor = 0.5
  */
 export function getVersionsColorMap(datamap: any) {
     const colors: string[] = []
-    const blah = []
+    const data = []
     for (const key in datamap) {
-        blah.push([key, datamap[key]])
+        data.push([key, datamap[key]])
     }
-    blah.forEach((item, i) => {
+    data.forEach((item, i) => {
         colors.push(categorical[i])
         for (let j = 1; j < item[1].length; j++) {
             colors.push(
