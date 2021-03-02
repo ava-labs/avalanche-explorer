@@ -17,7 +17,7 @@
                 <PeerStake
                     v-show="!loading"
                     :data="versions"
-                    :color-scale="versionsOnlyColorScale"
+                    :color-scale="versionsColorScale"
                     :metric="'stakePercent'"
                 ></PeerStake>
             </div>
@@ -32,8 +32,8 @@
                 </div>
                 <PeerCount
                     v-show="!loading"
-                    :data="versions"
-                    :color-scale="versionsColorScale"
+                    :data="versionsOnly"
+                    :color-scale="versionsOnlyColorScale"
                     :metric="'nodeCount'"
                 ></PeerCount>
             </div>
