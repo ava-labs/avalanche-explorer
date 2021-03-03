@@ -92,7 +92,7 @@ export default class TxRow extends Vue {
             this.transaction.inputs,
             this.transaction.chainID,
             this.transaction.type
-        ).flatMap((output) => output.addresses)
+        ).flatMap((output) => output.output.addresses)
 
         /**
          * This is just making sure that the addresses is a unique set with no repeats
