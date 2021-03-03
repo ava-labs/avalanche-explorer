@@ -2,9 +2,9 @@
     <div class="utxo_container input_container">
         <div class="tx_link">
             <UtxoTxLinkInput
-                :txID="utxo.transactionID"
-                :chainID="utxo.chainID"
-                :timestamp="utxo.timestamp"
+                :txID="utxo.output.transactionID"
+                :chainID="utxo.output.chainID"
+                :timestamp="utxo.output.timestamp"
             >
             </UtxoTxLinkInput>
         </div>
@@ -14,7 +14,7 @@
                 <div class="utxo_label">
                     <span class="index">#{{ $vnode.key }} - </span>
                     <span class="type">{{
-                        utxo.outputType | getOutputType
+                        utxo.output.outputType | getOutputType
                     }}</span>
                 </div>
                 <div>
@@ -28,9 +28,8 @@
                 <div>
                     <!-- CONDITIONAL FOR C-CHAIN -->
                     <router-link
-                        v-for="(
-                            { address, displayAddress }, i
-                        ) in utxo.addresses"
+                        v-for="({ address, displayAddress }, i) in utxo.output
+                            .addresses"
                         :key="i"
                         :to="`/address/X-${address}`"
                         class="address monospace"
@@ -41,23 +40,22 @@
             <!-- CREDENTIALS -->
             <div>
                 <div class="utxo_label">Signature</div>
-                <div>
-                    <router-link
-                        v-for="(credential, i) in utxo.credentials"
-                        :key="i"
-                        class="monospace"
-                        >{{ credential.signature }}</router-link
-                    >
-                </div>
+                <p
+                    v-for="(credential, i) in utxo.credentials"
+                    :key="i"
+                    class="monospace signature"
+                >
+                    {{ credential.signature }}>
+                </p>
             </div>
             <!-- EXTRA INFO -->
-            <div v-if="utxo.locktime !== 0">
-                <div class="utxo_label">Signature</div>
-                <div>{{ utxo.locktime }}</div>
+            <div v-if="utxo.output.locktime !== 0">
+                <div class="utxo_label">Lock Time</div>
+                <div>{{ utxo.output.locktime }}</div>
             </div>
-            <div v-if="utxo.threshold > 1">
+            <div v-if="utxo.output.threshold > 1">
                 <div class="utxo_label">Threshold</div>
-                <div>{{ utxo.threshold }}</div>
+                <div>{{ utxo.output.threshold }}</div>
             </div>
         </div>
     </div>
@@ -66,7 +64,7 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { ITransactionOutput } from '@/store/modules/transactions/models.ts'
+import { ITransactionInput } from '@/store/modules/transactions/models.ts'
 import { Asset } from '@/js/Asset'
 import { getOutputType } from '@/services/transactions'
 import UtxoTxLinkInput from '@/components/Transaction/UtxoTxLinkInput.vue'
@@ -80,21 +78,21 @@ import UtxoTxLinkInput from '@/components/Transaction/UtxoTxLinkInput.vue'
     },
 })
 export default class UtxoRowInput extends Vue {
-    @Prop() utxo!: ITransactionOutput
+    @Prop() utxo!: ITransactionInput
 
     get amount(): string {
         const denomination = this.asset ? this.asset.denomination : 0
-        return this.utxo.amount
+        return this.utxo.output.amount
             .div(Math.pow(10, denomination))
             .toLocaleString(denomination)
     }
 
     get asset(): Asset {
-        return this.$store.state.assets[this.utxo.assetID]
+        return this.$store.state.assets[this.utxo.output.assetID]
     }
 
     get symbol(): string {
-        return this.asset ? this.asset.symbol : this.utxo.assetID
+        return this.asset ? this.asset.symbol : this.utxo.output.assetID
     }
 }
 </script>

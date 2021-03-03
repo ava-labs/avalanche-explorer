@@ -83,11 +83,10 @@ export function getTransactionInputs(
     chainId: string,
     txType: string
 ) {
-    return getTransactionOutputs(
-        inputs.map((input) => input.output),
-        chainId,
-        txType
-    )
+    return inputs.map((input) => ({
+        credentials: input.credentials,
+        output: getTransactionOutputs([input.output], chainId, txType)[0],
+    }))
 }
 
 export interface DisplayAddress {

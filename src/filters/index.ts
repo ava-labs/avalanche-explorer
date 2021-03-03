@@ -22,3 +22,21 @@ Vue.filter(
         return num === 0 ? `${unit}s` : num > 1 ? `${unit}s` : `${unit}`
     }
 )
+
+Vue.filter('qualifyInput', function (unit: string, type: string): string {
+    switch (type) {
+        case 'atomic_import_tx':
+            return 'Imported ' + unit
+        default:
+            return unit
+    }
+})
+
+Vue.filter('qualifyOutput', function (unit: string, type: string): string {
+    switch (type) {
+        case 'atomic_export_tx':
+            return 'Exported ' + unit
+        default:
+            return unit
+    }
+})

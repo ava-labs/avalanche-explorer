@@ -74,22 +74,6 @@ import { getAssetType } from '@/services/assets'
         getType: getMappingForType,
         toAVAX,
         getAssetType,
-        qualifyInput(unit: string, type: string): string {
-            switch (type) {
-                case 'atomic_import_tx':
-                    return 'Imported ' + unit
-                default:
-                    return unit
-            }
-        },
-        qualifyOutput(unit: string, type: string): string {
-            switch (type) {
-                case 'atomic_export_tx':
-                    return 'Exported ' + unit
-                default:
-                    return unit
-            }
-        },
     },
 })
 export default class TransactionUTXO extends Vue {
