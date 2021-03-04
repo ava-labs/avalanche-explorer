@@ -49,13 +49,43 @@
                 </p>
             </div>
             <!-- EXTRA INFO -->
-            <div v-if="utxo.output.locktime !== 0">
-                <div class="utxo_label">Lock Time</div>
-                <div>{{ utxo.output.locktime }}</div>
-            </div>
+            <UtxoLockTime :time="utxo.output.locktime"></UtxoLockTime>
             <div v-if="utxo.output.threshold > 1">
                 <div class="utxo_label">Threshold</div>
                 <div>{{ utxo.output.threshold }}</div>
+            </div>
+            <!-- P-CHAIN EXTRA INFO -->
+            <div v-if="utxo.output.stake === true">
+                <div>UTXO was in the staking output set</div>
+            </div>
+            <div v-if="utxo.output.frozen === true">
+                <div>UTXO is frozen</div>
+            </div>
+            <div v-if="utxo.output.stakeableout === true">
+                <div>UTXO is Stakeable</div>
+                <!-- additional layer on top of secp transfer output - connected to stakeLocktime -->
+            </div>
+            <div v-if="utxo.output.stakeLocktime > 0">
+                <!-- relevant to 'Add Validator' and 'Add Delegator' txs -->
+                <div>Convert this to time: {{ utxo.output.stakeLocktime }}</div>
+            </div>
+            <!-- X-CHAIN EXTRA INFO -->
+            <div v-if="utxo.output.genesisutxo === true">
+                <div>UTXO is from genesis</div>
+            </div>
+            <div>
+                <!-- ADD WALLET UTXO COMPONENT -->
+                <!-- payload: string | null // relevant to NFTs -->
+            </div>
+            <!-- C-CHAIN EXTRA INFO -->
+            <div v-if="utxo.output.block">
+                <div class="utxo_label">Block</div>
+                <div>{{ utxo.output.block }}</div>
+                <!-- block: string // https://cchain.explorer.avax.network/blocks/33726/transactions - broken block/tx -->
+            </div>
+            <div v-if="utxo.output.nonce > 0">
+                <div class="utxo_label">Nonce</div>
+                <div>nonce: {{ utxo.output.nonce }}</div>
             </div>
         </div>
     </div>
@@ -68,10 +98,12 @@ import { Input } from '@/store/modules/transactions/models'
 import { Asset } from '@/js/Asset'
 import { getOutputType } from '@/services/transactions'
 import UtxoTxLinkInput from '@/components/Transaction/UtxoTxLinkInput.vue'
+import UtxoLockTime from '@/components/Transaction/UtxoLockTime.vue'
 
 @Component({
     components: {
         UtxoTxLinkInput,
+        UtxoLockTime,
     },
     filters: {
         getOutputType,

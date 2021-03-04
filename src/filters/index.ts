@@ -6,6 +6,11 @@ Vue.filter('fromNow', function (time: string) {
     return moment(time).fromNow()
 })
 
+Vue.filter('toNow', function (time: string) {
+    if (!time) return ''
+    return moment(time).toNow()
+})
+
 Vue.filter('pluralize', function (val: number | string, unit: string) {
     const num = typeof val === 'string' ? parseInt(val) : val
     return num === 0

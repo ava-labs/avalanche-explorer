@@ -31,13 +31,43 @@
                 </div>
             </div>
             <!-- EXTRA INFO -->
-            <div v-if="utxo.locktime !== 0">
-                <div class="utxo_label">Signature</div>
-                <div>{{ utxo.locktime }}</div>
-            </div>
+            <UtxoLockTime :time="utxo.locktime"></UtxoLockTime>
             <div v-if="utxo.threshold > 1">
                 <div class="utxo_label">Threshold</div>
                 <div>{{ utxo.threshold }}</div>
+            </div>
+            <!-- P-CHAIN EXTRA INFO -->
+            <div v-if="utxo.stake === true">
+                <div>UTXO was in the staking output set</div>
+            </div>
+            <div v-if="utxo.frozen === true">
+                <div>UTXO is frozen</div>
+            </div>
+            <div v-if="utxo.stakeableout === true">
+                <div>UTXO is Stakeable</div>
+                <!-- additional layer on top of secp transfer output - connected to stakeLocktime -->
+            </div>
+            <div v-if="utxo.stakeLocktime > 0">
+                <!-- relevant to 'Add Validator' and 'Add Delegator' txs -->
+                <div>Convert this to time: {{ utxo.stakeLocktime }}</div>
+            </div>
+            <!-- X-CHAIN EXTRA INFO -->
+            <div v-if="utxo.genesisutxo === true">
+                <div>UTXO is from genesis</div>
+            </div>
+            <div>
+                <!-- ADD WALLET UTXO COMPONENT -->
+                <!-- payload: string | null // relevant to NFTs -->
+            </div>
+            <!-- C-CHAIN EXTRA INFO -->
+            <div v-if="utxo.block">
+                <div class="utxo_label">Block</div>
+                <div>{{ utxo.block }}</div>
+                <!-- block: string // https://cchain.explorer.avax.network/blocks/33726/transactions - broken block/tx -->
+            </div>
+            <div v-if="utxo.nonce > 0">
+                <div class="utxo_label">Nonce</div>
+                <div>nonce: {{ utxo.nonce }}</div>
             </div>
         </div>
         <div class="tx_link">
@@ -58,10 +88,12 @@ import { Output } from '@/store/modules/transactions/models'
 import { Asset } from '@/js/Asset'
 import { getOutputType } from '@/services/transactions'
 import UtxoTxLinkOutput from '@/components/Transaction/UtxoTxLinkOutput.vue'
+import UtxoLockTime from '@/components/Transaction/UtxoLockTime.vue'
 
 @Component({
     components: {
         UtxoTxLinkOutput,
+        UtxoLockTime,
     },
     filters: {
         getOutputType,

@@ -47,12 +47,8 @@
                 </template>
                 <div>
                     <p>
-                        <span class="light">UTXO can be spent on</span>
+                        <span class="light">Unspent UTXO on</span>
                         {{ chain }}
-                    </p>
-                    <p>
-                        <span class="light">Tx ID: </span>
-                        <span class="monospace">{{ txID }}</span>
                     </p>
                 </div>
             </v-tooltip>
