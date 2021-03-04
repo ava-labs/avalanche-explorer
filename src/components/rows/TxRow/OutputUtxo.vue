@@ -47,7 +47,7 @@
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { trimmedLocaleString } from '@/helper'
-import { Output } from '@/store/modules/transactions/models.ts'
+import { Output } from '@/store/modules/transactions/models'
 import { Asset } from '@/js/Asset'
 import Big from 'big.js'
 

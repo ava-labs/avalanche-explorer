@@ -54,7 +54,7 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { Output } from '@/store/modules/transactions/models.ts'
+import { Output } from '@/store/modules/transactions/models'
 import { Asset } from '@/js/Asset'
 import { getOutputType } from '@/services/transactions'
 import UtxoTxLinkOutput from '@/components/Transaction/UtxoTxLinkOutput.vue'

@@ -4,7 +4,6 @@ import BlockchainDict from './known_blockchains'
 import VMDict from './known_vms'
 import { Quote, quotes } from './quotes'
 import { BN } from 'avalanche/dist'
-import { chain } from 'cypress/types/lodash'
 
 function stringToBig(raw: string, denomination = 0): Big {
     return Big(raw).div(Math.pow(10, denomination))

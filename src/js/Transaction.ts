@@ -13,37 +13,9 @@ import { txTypeMap, txChainTypeMap } from '@/store/modules/transactions/maps'
 
 function getOutput(output: OutputResponse): Output {
     return {
-        id: output.id,
-        transactionID: output.transactionID,
-        redeemingTransactionID: output.redeemingTransactionID,
-        outputIndex: output.outputIndex,
-        chainID: output.chainID,
-        assetID: output.assetID,
+        ...output,
         timestamp: new Date(output.timestamp),
         amount: stringToBig(output.amount), // TODO: this Big conversion is not denominated bc of dependency on asset lookup
-
-        outputType: output.outputType,
-        groupID: output.groupID,
-
-        // RELEVANT TO P-CHAIN
-        stake: output.stake,
-        frozen: output.frozen,
-        stakeableout: output.stakeableout,
-        genesisutxo: output.genesisutxo,
-
-        // RELEVANT TO X-CHAIN
-        locktime: output.locktime,
-        stakeLocktime: output.stakeLocktime,
-        threshold: output.threshold,
-        payload: output.payload,
-
-        // RELEVANT TO P-CHAIN & X-CHAIN
-        addresses: output.addresses,
-
-        // RELEVANT TO C-CHAIN
-        caddresses: output.caddresses,
-        block: output.block,
-        nonce: output.nonce,
     }
 }
 

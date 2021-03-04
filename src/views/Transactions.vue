@@ -119,7 +119,7 @@
 
 <script lang="ts">
 import 'reflect-metadata'
-import { Vue, Component, Watch, Mixins } from 'vue-property-decorator'
+import { Component, Watch, Mixins } from 'vue-property-decorator'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import TxTableHead from '@/components/rows/TxRow/TxTableHead.vue'
 import TxRow from '@/components/rows/TxRow/TxRow.vue'
@@ -128,7 +128,6 @@ import TransactionsHeader from '@/components/Transaction/TxHeader.vue'
 import DateForm from '@/components/misc/DateForm.vue'
 import { ITransactionParams } from '@/services/transactions'
 import { TransactionsGettersMixin } from '@/store/modules/transactions/transactions.mixins'
-import { txChainTypeMap } from '@/store/modules/transactions/maps'
 
 @Component({
     components: {

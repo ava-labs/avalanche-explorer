@@ -133,7 +133,7 @@ import { getAddress } from '@/services/addresses/addresses.service'
 import Big from 'big.js'
 import HTTPError from '@/components/misc/HTTPError.vue'
 import TxHeader from '@/components/Transaction/TxHeader.vue'
-import { ITransaction } from '@/store/modules/transactions/models.ts'
+import { ITransaction } from '@/store/modules/transactions/models'
 
 @Component({
     components: {

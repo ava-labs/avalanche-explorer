@@ -6,7 +6,7 @@
             <router-link v-if="isXP" :to="xpURL">
                 <v-tooltip left>
                     <template v-slot:activator="{ on }">
-                        <fa v-on="on" icon="arrow-right" color="#2196f3"></fa>
+                        <fa icon="arrow-right" color="#2196f3" v-on="on"></fa>
                     </template>
                     <div>
                         <p>
@@ -24,7 +24,7 @@
             <a v-else :href="cURL">
                 <v-tooltip left>
                     <template v-slot:activator="{ on }">
-                        <fa v-on="on" icon="arrow-right" color="#2196f3"></fa>
+                        <fa icon="arrow-right" color="#2196f3" v-on="on"></fa>
                     </template>
                     <div>
                         <p>
@@ -43,7 +43,7 @@
         <template v-else>
             <v-tooltip left>
                 <template v-slot:activator="{ on }">
-                    <fa v-on="on" icon="info-circle" color="#867e89"></fa>
+                    <fa icon="info-circle" color="#867e89" v-on="on"></fa>
                 </template>
                 <div>
                     <p>
