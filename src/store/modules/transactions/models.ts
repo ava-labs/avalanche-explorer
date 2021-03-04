@@ -3,35 +3,35 @@ import Big from 'big.js'
 
 export interface TransactionsState {
     tx: Transaction | null
-    txRes: ITransactionDataResponse
-    recentTxRes: ITransactionDataResponse
-    assetTxRes: ITransactionDataResponse
-    addressTxRes: ITransactionDataResponse
+    txRes: TransactionQueryResponse
+    recentTxRes: TransactionQueryResponse
+    assetTxRes: TransactionQueryResponse
+    addressTxRes: TransactionQueryResponse
 }
 
 /* ==========================================
    Transactions (API)
    ========================================== */
 
-export interface ITransactionDataResponse {
+export interface TransactionQueryResponse {
     startTime: string
     endTime: string
     next: string
-    transactions: ITransactionData[]
+    transactions: TransactionResponse[]
 }
 
-export interface ITransactionData {
+export interface TransactionResponse {
     id: string
     chainID: string
     type: string
 
-    inputs: ITransactionInputData[]
-    outputs: ITransactionOutputData[]
+    inputs: InputResponse[]
+    outputs: OutputResponse[]
 
     memo: string // base64
 
-    inputTotals: IInputTotal
-    outputTotals: IOutputTotal
+    inputTotals: InputTotal
+    outputTotals: OutputTotal
     reusedAddressTotals: string | null
 
     timestamp: string
@@ -111,48 +111,20 @@ export interface ITransactionData {
 /* ==========================================
    Transactions (JS)
    ========================================== */
-export interface ITransaction {
-    id: string
-    chainID: string
-    type: string
-
-    inputs: ITransactionInput[]
-    outputs: ITransactionOutput[]
-
-    memo: string // base64
-
-    inputTotals: IInputTotal
-    outputTotals: IOutputTotal
-    reusedAddressTotals?: string | null
-
-    timestamp: string
-
-    txFee: number
-
-    genesis: boolean
-
-    rewarded: boolean
-    rewardedTime: string | null
-
-    epoch: number
-
-    vertexId: string
-
-    validatorNodeID: string
-    validatorStart: number
-    validatorEnd: number
-
-    txBlockId: string
+export interface ITransaction
+    extends Omit<TransactionResponse, 'inputs' | 'outputs'> {
+    inputs: Input[]
+    outputs: Output[]
 }
 
 /* ==========================================
    UTXOs (API)
    ========================================== */
-export interface ITransactionInputData {
-    credentials: ICredentialData
-    output: ITransactionOutputData
+export interface InputResponse {
+    credentials: CredentialResponse
+    output: OutputResponse
 }
-export interface ITransactionOutputData {
+export interface OutputResponse {
     id: string
     transactionID: string // Inputs - the prev tx that generated this input UTXO. Outputs - this tx that generated this output UTXO.
     redeemingTransactionID: string // Inputs - this tx. Outputs - "" if UTXO is unspent or the tx that has spent this UTXO
@@ -202,7 +174,7 @@ export interface ITransactionOutputData {
     */
 }
 
-export interface ICredentialData {
+export interface CredentialResponse {
     signature: string
     public_key: string
     address: string
@@ -211,48 +183,21 @@ export interface ICredentialData {
 /* ==========================================
    UTXOs (JS)
    ========================================== */
-export interface ITransactionInput {
-    credentials: ICredentialData
-    output: ITransactionOutput
+export interface Input {
+    credentials: CredentialResponse
+    output: Output
 }
 
-export interface ITransactionOutput {
-    id: string
-    transactionID: string
-    outputIndex: number
-    assetID: string
-
-    stake: boolean // TODO
-    frozen: boolean // TODO
-    stakeableout: boolean // TODO
-    genesisutxo: boolean // TODO
-
-    outputType: number
-    amount: Big
-
-    locktime: number
-    stakeLocktime: number // TODO
-
-    threshold: number
-
-    addresses: string[]
-    caddresses: string[]
-
+export interface Output extends Omit<OutputResponse, 'timestamp' | 'amount'> {
     timestamp: Date
-    redeemingTransactionID: string
-
-    chainID: string
-    groupID: number
-    payload: string | null // TODO confirm
-    block: string // TODO
-    nonce: number // TODO
+    amount: Big
 }
 
-export interface IInputTotal {
+export interface InputTotal {
     [key: string]: number
 }
 
-export interface IOutputTotal {
+export interface OutputTotal {
     [key: string]: number
 }
 
@@ -264,7 +209,7 @@ export interface OutputValuesDict {
     }
 }
 
-export interface IOutValuesDenominated {
+export interface OutValuesDenominated {
     [assetId: string]: {
         amount: string
         symbol: string

@@ -1,8 +1,8 @@
 import { Module } from 'vuex'
 import { IRootState } from '@/store/types'
 import {
-    ITransactionData,
-    ITransactionDataResponse,
+    TransactionResponse,
+    TransactionQueryResponse,
     TransactionsState,
 } from './models'
 import { getTransaction, ITransactionPayload } from '@/services/transactions'
@@ -44,47 +44,47 @@ const transactions_module: Module<TransactionsState, IRootState> = {
         addTx(state, tx: Transaction) {
             state.tx = tx
         },
-        addTxs(state, txRes: ITransactionDataResponse) {
+        addTxs(state, txRes: TransactionQueryResponse) {
             state.txRes = txRes
         },
-        addRecentTxs(state, txRes: ITransactionDataResponse) {
+        addRecentTxs(state, txRes: TransactionQueryResponse) {
             state.recentTxRes = txRes
         },
-        addAssetTxs(state, txRes: ITransactionDataResponse) {
+        addAssetTxs(state, txRes: TransactionQueryResponse) {
             state.assetTxRes = txRes
         },
-        addAddressTxs(state, txRes: ITransactionDataResponse) {
+        addAddressTxs(state, txRes: TransactionQueryResponse) {
             state.addressTxRes = txRes
         },
     },
     actions: {
         async getTx(store, payload: ITransactionPayload) {
-            const txRes: ITransactionData = await getTransaction(payload.id)
+            const txRes: TransactionResponse = await getTransaction(payload.id)
             if (txRes) store.commit('addTx', new Transaction(txRes))
         },
         async getTxs(store, payload: ITransactionPayload) {
-            const txRes: ITransactionDataResponse = await getTransaction(
+            const txRes: TransactionQueryResponse = await getTransaction(
                 payload.id,
                 payload.params
             )
             store.commit('addTxs', txRes)
         },
         async getRecentTxs(store, payload: ITransactionPayload) {
-            const txRes: ITransactionDataResponse = await getTransaction(
+            const txRes: TransactionQueryResponse = await getTransaction(
                 payload.id,
                 payload.params
             )
             store.commit('addRecentTxs', txRes)
         },
         async getTxsByAsset(store, payload: ITransactionPayload) {
-            const txRes: ITransactionDataResponse = await getTransaction(
+            const txRes: TransactionQueryResponse = await getTransaction(
                 payload.id,
                 payload.params
             )
             store.commit('addAssetTxs', txRes)
         },
         async getTxsByAddress(store, payload: ITransactionPayload) {
-            const txRes: ITransactionDataResponse = await getTransaction(
+            const txRes: TransactionQueryResponse = await getTransaction(
                 payload.id,
                 payload.params
             )

@@ -20,8 +20,8 @@ import {
 } from '@/js/IAsset'
 import { X_CHAIN_ID } from '@/store/modules/platform/platform'
 import {
-    ITransactionData,
-    ITransactionDataResponse,
+    TransactionResponse,
+    TransactionQueryResponse,
 } from '@/store/modules/transactions/models'
 import { ITransactionPayload } from '@/services/transactions'
 import { getTransaction } from '@/services/transactions'
@@ -116,7 +116,7 @@ const store = new Vuex.Store({
         },
 
         async getRecentTransactions(store, payload: ITransactionPayload) {
-            const txRes: ITransactionDataResponse = await getTransaction(
+            const txRes: TransactionQueryResponse = await getTransaction(
                 payload.id,
                 payload.params
             )
@@ -158,7 +158,7 @@ const store = new Vuex.Store({
             )
             const duplicates: string[] = []
             // find assetIDs in the txs using the inputTotals/outputTotals fields
-            txRes.data.transactions.forEach((tx: ITransactionData) => {
+            txRes.data.transactions.forEach((tx: TransactionResponse) => {
                 for (const inputAddress in tx.inputTotals) {
                     duplicates.push(inputAddress)
                 }
@@ -231,7 +231,7 @@ const store = new Vuex.Store({
             state.assetAggregatesLoaded = true
         },
         // TRANSACTIONS
-        addRecentTransactions(state, txRes: ITransactionDataResponse) {
+        addRecentTransactions(state, txRes: TransactionQueryResponse) {
             state.recentTxRes = txRes
         },
         addCollisionMap(state, collisionMap: ICollisionMap) {

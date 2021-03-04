@@ -1,4 +1,4 @@
-import { ITransactionOutputData } from '@/store/modules/transactions/models'
+import { OutputResponse } from '@/store/modules/transactions/models'
 import { OutputType, BlockType } from './models'
 import { CChainInfo, PChainInfo, XChainInfo } from '@/helper'
 
@@ -39,7 +39,7 @@ const outputTypes = new Map([
     [4294967282, OutputType.ATOMIC_EXPORT_TX],
 ])
 
-export function getOutputType(type: ITransactionOutputData['outputType']) {
+export function getOutputType(type: OutputResponse['outputType']) {
     return outputTypes.get(type)
 }
 

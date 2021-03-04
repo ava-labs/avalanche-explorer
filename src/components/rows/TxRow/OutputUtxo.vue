@@ -47,7 +47,7 @@
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { trimmedLocaleString } from '@/helper'
-import { ITransactionOutput } from '@/store/modules/transactions/models.ts'
+import { Output } from '@/store/modules/transactions/models.ts'
 import { Asset } from '@/js/Asset'
 import Big from 'big.js'
 
@@ -55,7 +55,7 @@ import Big from 'big.js'
     filters: {},
 })
 export default class OutputUtxo extends Vue {
-    @Prop() output!: ITransactionOutput
+    @Prop() output!: Output
 
     get asset(): Asset {
         if (this.$store.state.assets[this.output.assetID]) {

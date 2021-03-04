@@ -42,8 +42,8 @@
         </div>
         <div class="tx_link">
             <UtxoTxLinkOutput
-                :txID="utxo.redeemingTransactionID"
-                :chainID="utxo.chainID"
+                :tx-i-d="utxo.redeemingTransactionID"
+                :chain-i-d="utxo.chainID"
                 :timestamp="utxo.timestamp"
             >
             </UtxoTxLinkOutput>
@@ -54,7 +54,7 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { ITransactionOutput } from '@/store/modules/transactions/models.ts'
+import { Output } from '@/store/modules/transactions/models.ts'
 import { Asset } from '@/js/Asset'
 import { getOutputType } from '@/services/transactions'
 import UtxoTxLinkOutput from '@/components/Transaction/UtxoTxLinkOutput.vue'
@@ -68,7 +68,7 @@ import UtxoTxLinkOutput from '@/components/Transaction/UtxoTxLinkOutput.vue'
     },
 })
 export default class UtxoRowOutput extends Vue {
-    @Prop() utxo!: ITransactionOutput
+    @Prop() utxo!: Output
     @Prop() type!: string
 
     get amount(): string {

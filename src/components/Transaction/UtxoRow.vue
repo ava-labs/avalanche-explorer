@@ -36,7 +36,7 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { ITransactionOutput } from '@/store/modules/transactions/models.ts'
+import { Output } from '@/store/modules/transactions/models.ts'
 import { Asset } from '@/js/Asset'
 import { getOutputType } from '@/services/transactions'
 
@@ -46,7 +46,7 @@ import { getOutputType } from '@/services/transactions'
     },
 })
 export default class UtxoRow extends Vue {
-    @Prop() utxo!: ITransactionOutput
+    @Prop() utxo!: Output
     @Prop() type!: string
 
     get asset(): Asset {

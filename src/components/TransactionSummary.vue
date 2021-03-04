@@ -110,7 +110,7 @@ import {
 } from '../js/Transaction'
 import {
     OutputValuesDict,
-    IOutValuesDenominated,
+    OutValuesDenominated,
 } from '@/store/modules/transactions/models.ts'
 import { stringToBig, toAVAX } from '../helper'
 import Tooltip from '@/components/rows/Tooltip.vue'
@@ -142,11 +142,7 @@ export default class TransactionDetailCard extends Vue {
     }
 
     get outputs() {
-        return getTransactionOutputs(
-            this.tx.outputs,
-            this.tx.chainID,
-            this.tx.type
-        )
+        return getTransactionOutputs(this.tx.outputs, this.tx.chainID)
     }
 
     b64EncodeUnicode(str: string): string {
@@ -230,7 +226,7 @@ export default class TransactionDetailCard extends Vue {
     }
 
     get outValuesDenominated() {
-        const outValuesDenominated: IOutValuesDenominated = {}
+        const outValuesDenominated: OutValuesDenominated = {}
         for (const assetId in this.outValues) {
             const val = this.outValues[assetId]
             const res = stringToBig(

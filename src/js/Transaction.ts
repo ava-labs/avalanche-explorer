@@ -1,17 +1,17 @@
 import {
     ITransaction,
-    ITransactionData,
-    ITransactionInputData,
-    ITransactionInput,
-    ITransactionOutput,
-    ITransactionOutputData,
-    IInputTotal,
-    IOutputTotal,
+    TransactionResponse,
+    InputResponse,
+    Input,
+    Output,
+    OutputResponse,
+    InputTotal,
+    OutputTotal,
 } from '@/store/modules/transactions/models'
 import { stringToBig } from '@/helper'
 import { txTypeMap, txChainTypeMap } from '@/store/modules/transactions/maps'
 
-function getOutput(output: ITransactionOutputData): ITransactionOutput {
+function getOutput(output: OutputResponse): Output {
     return {
         id: output.id,
         transactionID: output.transactionID,
@@ -55,11 +55,7 @@ export function getTransactionChainType(chainID: string) {
     return txChainTypeMap.get(chainID)
 }
 
-export function getTransactionOutputs(
-    outputs: ITransactionOutput[],
-    chainID: string,
-    txType: string
-) {
+export function getTransactionOutputs(outputs: Output[], chainID: string) {
     return outputs.map((output) => {
         const chainType = getTransactionChainType(chainID)
         const addresses =
@@ -78,14 +74,10 @@ export function getTransactionOutputs(
     })
 }
 
-export function getTransactionInputs(
-    inputs: ITransactionInput[],
-    chainId: string,
-    txType: string
-) {
+export function getTransactionInputs(inputs: Input[], chainId: string) {
     return inputs.map((input) => ({
         credentials: input.credentials,
-        output: getTransactionOutputs([input.output], chainId, txType)[0],
+        output: getTransactionOutputs([input.output], chainId)[0],
     }))
 }
 
@@ -93,16 +85,17 @@ export interface DisplayAddress {
     address: string
     displayAddress: string
 }
+
 export class Transaction implements ITransaction {
     id: string
     chainID: string
     type: string
-    inputs: ITransactionInput[]
-    outputs: ITransactionOutput[]
+    inputs: Input[]
+    outputs: Output[]
     memo: string
-    inputTotals: IInputTotal // TODO new stuff
-    outputTotals: IOutputTotal // TODO new stuff
-    reusedAddressTotals?: string | null
+    inputTotals: InputTotal
+    outputTotals: OutputTotal
+    reusedAddressTotals: string | null
     timestamp: string
     txFee: number
     genesis: boolean
@@ -115,14 +108,14 @@ export class Transaction implements ITransaction {
     validatorEnd: number
     txBlockId: string
 
-    constructor(data: ITransactionData) {
+    constructor(data: TransactionResponse) {
         this.id = data.id
         this.chainID = data.chainID
         this.type = data.type
         this.inputs =
             data.inputs === null || data.inputs.length === 0
                 ? []
-                : data.inputs.map((input: ITransactionInputData) => {
+                : data.inputs.map((input: InputResponse) => {
                       return {
                           credentials: input.credentials,
                           output: getOutput(input.output),
@@ -131,7 +124,7 @@ export class Transaction implements ITransaction {
         this.outputs =
             data.outputs === null || data.outputs.length === 0
                 ? []
-                : data.outputs.map((output: ITransactionOutputData) =>
+                : data.outputs.map((output: OutputResponse) =>
                       getOutput(output)
                   )
         this.memo = data.memo

@@ -90,8 +90,7 @@ export default class TxRow extends Vue {
     get inputs() {
         const addresses = getTransactionInputs(
             this.transaction.inputs,
-            this.transaction.chainID,
-            this.transaction.type
+            this.transaction.chainID
         ).flatMap((output) => output.output.addresses)
 
         /**
@@ -108,11 +107,9 @@ export default class TxRow extends Vue {
     }
 
     get outputs() {
-        // INPUT UTXOS
         return getTransactionOutputs(
             this.transaction.outputs,
-            this.transaction.chainID,
-            this.transaction.type
+            this.transaction.chainID
         )
     }
 }
