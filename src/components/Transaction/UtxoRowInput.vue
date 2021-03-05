@@ -22,21 +22,7 @@
                     <span class="symbol">{{ symbol }}</span>
                 </div>
             </div>
-            <!-- ADDRESSES -->
-            <div>
-                <div class="utxo_label">From</div>
-                <div>
-                    <!-- CONDITIONAL FOR C-CHAIN -->
-                    <router-link
-                        v-for="({ address, displayAddress }, i) in utxo.output
-                            .addresses"
-                        :key="i"
-                        :to="`/address/X-${address}`"
-                        class="address monospace"
-                        >{{ displayAddress }}</router-link
-                    >
-                </div>
-            </div>
+            <UtxoAddresses :addresses="utxo.output.addresses"></UtxoAddresses>
             <!-- CREDENTIALS -->
             <div>
                 <div class="utxo_label">Signature</div>
@@ -100,12 +86,14 @@ import { getOutputType } from '@/services/transactions'
 import UtxoTxLinkInput from '@/components/Transaction/UtxoTxLinkInput.vue'
 import UtxoLockTime from '@/components/Transaction/UtxoLockTime.vue'
 import UtxoThreshold from '@/components/Transaction/UtxoThreshold.vue'
+import UtxoAddresses from '@/components/Transaction/UtxoAddresses.vue'
 
 @Component({
     components: {
         UtxoTxLinkInput,
         UtxoLockTime,
         UtxoThreshold,
+        UtxoAddresses,
     },
     filters: {
         getOutputType,

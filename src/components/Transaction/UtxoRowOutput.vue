@@ -15,21 +15,7 @@
                 </div>
             </div>
             <!-- ADDRESSES -->
-            <div>
-                <div class="utxo_label">To</div>
-                <div>
-                    <!-- CONDITIONAL FOR C-CHAIN -->
-                    <router-link
-                        v-for="(
-                            { address, displayAddress }, i
-                        ) in utxo.addresses"
-                        :key="i"
-                        :to="`/address/X-${address}`"
-                        class="address monospace"
-                        >{{ displayAddress }}</router-link
-                    >
-                </div>
-            </div>
+            <UtxoAddresses :addresses="utxo.addresses"></UtxoAddresses>
             <!-- EXTRA INFO -->
             <UtxoLockTime :time="utxo.locktime"></UtxoLockTime>
             <UtxoThreshold
@@ -37,12 +23,15 @@
                 :addresses="utxo.addresses"
             ></UtxoThreshold>
             <!-- P-CHAIN EXTRA INFO -->
+            <div v-if="utxo.frozen === true">
+                <!-- TODO: Apricot -->
+                <div>UTXO is frozen</div>
+            </div>
+
             <div v-if="utxo.stake === true">
                 <div>UTXO was in the staking output set</div>
             </div>
-            <div v-if="utxo.frozen === true">
-                <div>UTXO is frozen</div>
-            </div>
+
             <div v-if="utxo.stakeableout === true">
                 <div>UTXO is Stakeable</div>
                 <!-- additional layer on top of secp transfer output - connected to stakeLocktime -->
@@ -51,6 +40,7 @@
                 <!-- relevant to 'Add Validator' and 'Add Delegator' txs -->
                 <div>Convert this to time: {{ utxo.stakeLocktime }}</div>
             </div>
+
             <!-- X-CHAIN EXTRA INFO -->
             <div v-if="utxo.genesisutxo === true">
                 <div>UTXO is from genesis</div>
@@ -90,12 +80,14 @@ import { getOutputType } from '@/services/transactions'
 import UtxoTxLinkOutput from '@/components/Transaction/UtxoTxLinkOutput.vue'
 import UtxoLockTime from '@/components/Transaction/UtxoLockTime.vue'
 import UtxoThreshold from '@/components/Transaction/UtxoThreshold.vue'
+import UtxoAddresses from '@/components/Transaction/UtxoAddresses.vue'
 
 @Component({
     components: {
         UtxoTxLinkOutput,
         UtxoLockTime,
         UtxoThreshold,
+        UtxoAddresses,
     },
     filters: {
         getOutputType,

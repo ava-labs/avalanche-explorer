@@ -51,7 +51,7 @@ export interface TransactionResponse {
             - Input UTXOs
                 - UTXOs for staking transfer custody to the protocol (they disappear)
             - Output UTXOs
-                - none for staking
+                - none for staking (output.stake boolean)
                 - change UTXOs only
         - you will become a validator/delegator at the startTime
     2. endTime arrives
@@ -92,7 +92,7 @@ export interface TransactionResponse {
     validatorEnd: number
 
     // p-chain event. you can tie transactions together (double decision block)
-    txBlockId: string // p-chain hash
+    txBlockId: string // p-chain hash (might be useful to lookup)
 
     /*
     TODOS: exception booleans
@@ -139,12 +139,14 @@ export interface OutputResponse {
 
     // RELEVANT TO P-CHAIN
     stake: boolean // tells us the output was in the staking output set
-    frozen: boolean
-    stakeableout: boolean // additional layer on top of secp transfer output - connected to stakeLocktime
-    stakeLocktime: number // relevant to 'Add Validator' and 'Add Delegator' txs
+    // inputs/outputs /stakes (like outputs)
+    stakeableout: boolean // additional layer on top of secp transfer output - connected to stakeLocktime, if an output has this prop, it is/was subject to vesting.
+    stakeLocktime: number // before stakeLockTime elapses, the utxo can only be used to stake
+    // relevant vesting/initial lockup. relevant to 'Add Validator' and 'Add Delegator' txs
 
     // RELEVANT TO X-CHAIN
     genesisutxo: boolean
+    frozen: boolean // Apricot - relevant to x-chain
     locktime: number
     threshold: number
     payload: string | null // relevant to NFTs
