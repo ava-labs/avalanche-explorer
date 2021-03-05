@@ -41,11 +41,9 @@
                 :addresses="utxo.output.addresses"
             ></UtxoThreshold>
             <!-- P-CHAIN EXTRA INFO -->
+            <UtxoStake :isStake="utxo.stake"></UtxoStake>
             <div v-if="utxo.output.stake === true">
                 <div>UTXO was in the staking output set</div>
-            </div>
-            <div v-if="utxo.output.frozen === true">
-                <div>UTXO is frozen</div>
             </div>
             <div v-if="utxo.output.stakeableout === true">
                 <div>UTXO is Stakeable</div>
@@ -87,6 +85,7 @@ import UtxoTxLinkInput from '@/components/Transaction/UtxoTxLinkInput.vue'
 import UtxoLockTime from '@/components/Transaction/UtxoLockTime.vue'
 import UtxoThreshold from '@/components/Transaction/UtxoThreshold.vue'
 import UtxoAddresses from '@/components/Transaction/UtxoAddresses.vue'
+import UtxoStake from '@/components/Transaction/UtxoStake.vue'
 
 @Component({
     components: {
@@ -94,6 +93,7 @@ import UtxoAddresses from '@/components/Transaction/UtxoAddresses.vue'
         UtxoLockTime,
         UtxoThreshold,
         UtxoAddresses,
+        UtxoStake,
     },
     filters: {
         getOutputType,

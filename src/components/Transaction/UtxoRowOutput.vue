@@ -23,15 +23,7 @@
                 :addresses="utxo.addresses"
             ></UtxoThreshold>
             <!-- P-CHAIN EXTRA INFO -->
-            <div v-if="utxo.frozen === true">
-                <!-- TODO: Apricot -->
-                <div>UTXO is frozen</div>
-            </div>
-
-            <div v-if="utxo.stake === true">
-                <div>UTXO was in the staking output set</div>
-            </div>
-
+            <UtxoStake :isStake="utxo.stake"></UtxoStake>
             <div v-if="utxo.stakeableout === true">
                 <div>UTXO is Stakeable</div>
                 <!-- additional layer on top of secp transfer output - connected to stakeLocktime -->
@@ -81,6 +73,7 @@ import UtxoTxLinkOutput from '@/components/Transaction/UtxoTxLinkOutput.vue'
 import UtxoLockTime from '@/components/Transaction/UtxoLockTime.vue'
 import UtxoThreshold from '@/components/Transaction/UtxoThreshold.vue'
 import UtxoAddresses from '@/components/Transaction/UtxoAddresses.vue'
+import UtxoStake from '@/components/Transaction/UtxoStake.vue'
 
 @Component({
     components: {
@@ -88,6 +81,7 @@ import UtxoAddresses from '@/components/Transaction/UtxoAddresses.vue'
         UtxoLockTime,
         UtxoThreshold,
         UtxoAddresses,
+        UtxoStake,
     },
     filters: {
         getOutputType,
