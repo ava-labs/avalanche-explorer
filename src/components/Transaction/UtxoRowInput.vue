@@ -50,10 +50,10 @@
             </div>
             <!-- EXTRA INFO -->
             <UtxoLockTime :time="utxo.output.locktime"></UtxoLockTime>
-            <div v-if="utxo.output.threshold > 1">
-                <div class="utxo_label">Threshold</div>
-                <div>{{ utxo.output.threshold }}</div>
-            </div>
+            <UtxoThreshold
+                :threshold="utxo.output.threshold"
+                :addresses="utxo.output.addresses"
+            ></UtxoThreshold>
             <!-- P-CHAIN EXTRA INFO -->
             <div v-if="utxo.output.stake === true">
                 <div>UTXO was in the staking output set</div>
@@ -99,11 +99,13 @@ import { Asset } from '@/js/Asset'
 import { getOutputType } from '@/services/transactions'
 import UtxoTxLinkInput from '@/components/Transaction/UtxoTxLinkInput.vue'
 import UtxoLockTime from '@/components/Transaction/UtxoLockTime.vue'
+import UtxoThreshold from '@/components/Transaction/UtxoThreshold.vue'
 
 @Component({
     components: {
         UtxoTxLinkInput,
         UtxoLockTime,
+        UtxoThreshold,
     },
     filters: {
         getOutputType,
