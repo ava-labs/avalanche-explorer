@@ -15,7 +15,10 @@
                 </div>
             </div>
             <!-- ADDRESSES -->
-            <UtxoAddresses :addresses="utxo.addresses"></UtxoAddresses>
+            <UtxoAddresses
+                :addresses="utxo.addresses"
+                :type="'output'"
+            ></UtxoAddresses>
             <!-- EXTRA INFO -->
             <UtxoLockTime :time="utxo.locktime"></UtxoLockTime>
             <UtxoThreshold

@@ -102,8 +102,7 @@ export interface TransactionResponse {
         - stakable
             - stakeLockTime
         - stakableLockedOutput (wraps transfer)
-            - stakeLockTime - vesting avax. we needed a way for ppl to stake but otherwise not spend it for any other purpose
-                - can only use it as input UTXO for addValidator/addDelegator tx
+            - stakeLockTime - vesting avax. we needed a way for ppl to stake but otherwise not spend it for any other purpose                
             - lockTime
     */
 }
@@ -138,18 +137,16 @@ export interface OutputResponse {
     groupID: number
 
     // RELEVANT TO P-CHAIN
-    stake: boolean // tells us the output was in the staking output set
-    // inputs/outputs /stakes (like outputs)
-    stakeableout: boolean // additional layer on top of secp transfer output - connected to stakeLocktime, if an output has this prop, it is/was subject to vesting.
-    stakeLocktime: number // before stakeLockTime elapses, the utxo can only be used to stake
-    // relevant vesting/initial lockup. relevant to 'Add Validator' and 'Add Delegator' txs
+    stake: boolean // if true, UTXO was in the staking output set (ins/outs/staking)
+    stakeableout: boolean // if true, UTXO is/was subject to vesting. connected to stakeLocktime
+    stakeLocktime: number // if before stakeLockTime, UTXO is vesting (locked), and can only used as input UTXO to stake in addValidator/addDelegator tx
 
     // RELEVANT TO X-CHAIN
     genesisutxo: boolean
-    frozen: boolean // Apricot - relevant to x-chain
+    frozen: boolean // TODO: Apricot
     locktime: number
     threshold: number
-    payload: string | null // relevant to NFTs
+    payload: string | null // NFTs
 
     // RELEVANT TO P-CHAIN & X-CHAIN
     addresses: string[] // notice the output UTXO address is blank. build an exception for c-chain

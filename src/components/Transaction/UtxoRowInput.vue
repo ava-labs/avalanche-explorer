@@ -22,7 +22,10 @@
                     <span class="symbol">{{ symbol }}</span>
                 </div>
             </div>
-            <UtxoAddresses :addresses="utxo.output.addresses"></UtxoAddresses>
+            <UtxoAddresses
+                :addresses="utxo.output.addresses"
+                :type="'input'"
+            ></UtxoAddresses>
             <!-- CREDENTIALS -->
             <div>
                 <div class="utxo_label">Signature</div>

@@ -30,6 +30,13 @@ Vue.filter(
 
 Vue.filter('qualifyInput', function (unit: string, type: string): string {
     switch (type) {
+        // X <- shared
+        case 'import':
+            return 'Imported ' + unit
+        // P <- shared
+        case 'pvm_import':
+            return 'Imported ' + unit
+        // C <- shared
         case 'atomic_import_tx':
             return 'Imported ' + unit
         default:
@@ -39,6 +46,13 @@ Vue.filter('qualifyInput', function (unit: string, type: string): string {
 
 Vue.filter('qualifyOutput', function (unit: string, type: string): string {
     switch (type) {
+        // X -> shared
+        case 'export':
+            return 'Exported ' + unit
+        // P -> shared
+        case 'pvm_export':
+            return 'Exported ' + unit
+        // C -> shared
         case 'atomic_export_tx':
             return 'Exported ' + unit
         default:
