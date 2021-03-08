@@ -1,14 +1,18 @@
 <template>
-    <div v-if="time !== 0">
-        <div class="utxo_label">Lock Time</div>
+    <div v-if="isStakeableout">
         <div v-if="isUnlocked">
-            Unlocked since
-            {{ date.toLocaleString() }} ({{ (time * 1000) | fromNow }})
+            <div class="utxo_label">Vested UTXO</div>
+            <div>
+                Unlocked since
+                {{ date.toLocaleString() }} ({{ (time * 1000) | fromNow }})
+            </div>
         </div>
         <div v-else>
-            Output can be spent {{ (time * 1000) | fromNow }} ({{
-                date.toLocaleString()
-            }})
+            <div class="utxo_label">Vesting UTXO</div>
+            <div>
+                Output can be spent
+                {{ (time * 1000) | fromNow }} ({{ date.toLocaleString() }})
+            </div>
         </div>
     </div>
 </template>
@@ -18,7 +22,8 @@ import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 
 @Component({})
-export default class UtxoLockTime extends Vue {
+export default class UtxoStakeable extends Vue {
+    @Prop() isStakeableout!: boolean
     @Prop() time!: number
 
     get isUnlocked(): boolean {

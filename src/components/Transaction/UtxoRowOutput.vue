@@ -27,14 +27,10 @@
             ></UtxoThreshold>
             <!-- P-CHAIN EXTRA INFO -->
             <UtxoStake :isStake="utxo.stake"></UtxoStake>
-            <div v-if="utxo.stakeableout === true">
-                <div>UTXO is Stakeable</div>
-                <!-- additional layer on top of secp transfer output - connected to stakeLocktime -->
-            </div>
-            <div v-if="utxo.stakeLocktime > 0">
-                <!-- relevant to 'Add Validator' and 'Add Delegator' txs -->
-                <div>Convert this to time: {{ utxo.stakeLocktime }}</div>
-            </div>
+            <UtxoStakeable
+                :isStakeableout="utxo.stakeableout"
+                :time="utxo.stakeLocktime"
+            ></UtxoStakeable>
 
             <!-- X-CHAIN EXTRA INFO -->
             <div v-if="utxo.genesisutxo === true">
@@ -77,6 +73,7 @@ import UtxoLockTime from '@/components/Transaction/UtxoLockTime.vue'
 import UtxoThreshold from '@/components/Transaction/UtxoThreshold.vue'
 import UtxoAddresses from '@/components/Transaction/UtxoAddresses.vue'
 import UtxoStake from '@/components/Transaction/UtxoStake.vue'
+import UtxoStakeable from '@/components/Transaction/UtxoStakeable.vue'
 
 @Component({
     components: {
@@ -85,6 +82,7 @@ import UtxoStake from '@/components/Transaction/UtxoStake.vue'
         UtxoThreshold,
         UtxoAddresses,
         UtxoStake,
+        UtxoStakeable,
     },
     filters: {
         getOutputType,
