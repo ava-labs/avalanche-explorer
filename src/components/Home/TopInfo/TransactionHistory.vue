@@ -456,14 +456,9 @@ export default {
                     this.loading = false
                     this.history = res.data
                     this.aggregates = res.data.aggregates
-
-                    console.log('this.history', this.history)
-
                     this.maxValue = max(this.history.intervals, (d) =>
                         toAVAX(d.transactionVolume)
                     )
-                    console.log('maxValue', this.maxValue)
-
                     this.draw()
                 })
         },
