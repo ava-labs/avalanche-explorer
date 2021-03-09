@@ -26,18 +26,7 @@
                 :addresses="utxo.output.addresses"
                 :type="'input'"
             ></UtxoAddresses>
-            <!-- CREDENTIALS -->
-            <div v-if="utxo.credentials">
-                <div class="utxo_label">Signature</div>
-                <p
-                    v-for="(credential, i) in utxo.credentials"
-                    :key="i"
-                    class="monospace signature"
-                >
-                    {{ credential.signature }}>
-                </p>
-            </div>
-            <!-- EXTRA INFO -->
+            <UtxoCredentials :credentials="utxo.credentials"> </UtxoCredentials>
             <UtxoLockTime :time="utxo.output.locktime"></UtxoLockTime>
             <UtxoThreshold
                 :threshold="utxo.output.threshold"
@@ -81,6 +70,7 @@ import UtxoStake from '@/components/Transaction/UtxoStake.vue'
 import UtxoStakeable from '@/components/Transaction/UtxoStakeable.vue'
 import UtxoBlock from '@/components/Transaction/UtxoBlock.vue'
 import UtxoNFTPayload from '@/components/Transaction/UtxoNFTPayload.vue'
+import UtxoCredentials from '@/components/Transaction/UtxoCredentials.vue'
 
 @Component({
     components: {
@@ -92,6 +82,7 @@ import UtxoNFTPayload from '@/components/Transaction/UtxoNFTPayload.vue'
         UtxoStakeable,
         UtxoBlock,
         UtxoNFTPayload,
+        UtxoCredentials,
     },
     filters: {
         getOutputType,
