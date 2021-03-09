@@ -23,7 +23,7 @@
         "@fortawesome/vue-fontawesome": "0.1.9",
         "@types/chart.js": "^2.9.29",
         "@types/chroma-js": "^2.1.2",
-        "avalanche": "^3.0.6",
+        "avalanche": "3.1.0",
         "axios": "0.19.2",
         "bn.js": "5.1.1",
         "body-parser": "1.19.0",

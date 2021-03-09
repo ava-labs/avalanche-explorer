@@ -31,12 +31,12 @@
                 :is-stakeableout="utxo.stakeableout"
                 :time="utxo.stakeLocktime"
             ></UtxoStakeable>
-
             <!-- X-CHAIN EXTRA INFO -->
             <div v-if="utxo.genesisutxo === true">
                 <div>UTXO is from genesis</div>
             </div>
-            <div>
+            <div v-if="payload">
+                <div class="utxo_label">Payload</div>
                 <NftPayloadView
                     :payload="payload"
                     :small="true"
@@ -71,7 +71,7 @@ import UtxoStake from '@/components/Transaction/UtxoStake.vue'
 import UtxoStakeable from '@/components/Transaction/UtxoStakeable.vue'
 import UtxoBlock from '@/components/Transaction/UtxoBlock.vue'
 import NftPayloadView from '@/components/misc/NftPayloadView/NftPayloadView.vue'
-import { getPayloadFromUTXO, pushPayload } from '@/helper'
+import { pushPayload } from '@/helper'
 
 @Component({
     components: {
@@ -107,22 +107,14 @@ export default class UtxoRowOutput extends Vue {
         return this.asset ? this.asset.symbol : this.utxo.assetID
     }
 
-    get txId(): string {
-        // C-CHAIN CONDITIONAL
-        const redeemingID = this.utxo.redeemingTransactionID
-        return redeemingID === null || redeemingID === '' ? '-' : redeemingID
-    }
-
     get payload() {
-        let payload = pushPayload(
+        if (!this.utxo.payload) return undefined
+        const payload = pushPayload(
             this.utxo.payload as string,
             this.utxo.assetID,
             this.utxo.groupID
         )
-        console.log('payload', payload)
-        // return payload
-        return payload
-        // return getPayloadFromUTXO(payload)
+        return (payload as any)[this.utxo.groupID][0]
     }
 }
 </script>

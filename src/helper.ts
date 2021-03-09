@@ -3,7 +3,9 @@ import SubnetDict from './known_subnets'
 import BlockchainDict from './known_blockchains'
 import VMDict from './known_vms'
 import { Quote, quotes } from './quotes'
-import { BN } from 'avalanche/dist'
+import { BN, Buffer } from 'avalanche/dist'
+import { NFTTransferOutput, UTXO } from 'avalanche/dist/apis/avm'
+import { PayloadBase, PayloadTypes } from 'avalanche/dist/utils'
 
 function stringToBig(raw: string, denomination = 0): Big {
     return Big(raw).div(Math.pow(10, denomination))
@@ -127,6 +129,46 @@ export const CChainInfo = {
     code: 'C',
 }
 
+const payloadtypes = PayloadTypes.getInstance()
+
+function getPayloadFromUTXO(utxo: UTXO): PayloadBase {
+    const out = utxo.getOutput() as NFTTransferOutput
+    const payload = out.getPayloadBuffer()
+    const typeId = payloadtypes.getTypeID(payload)
+    const pl = payloadtypes.getContent(payload)
+    const payloadbase: PayloadBase = payloadtypes.select(typeId, pl)
+    return payloadbase
+}
+
+const res: { [key in string]: { [key in string]: PayloadBase[] } } = {}
+
+function pushPayload(rawPayload: string, assetID: string, groupID: number) {
+    let payload = Buffer.from(rawPayload, 'base64')
+    payload = Buffer.concat([new Buffer(4).fill(payload.length), payload])
+
+    try {
+        const typeId = payloadtypes.getTypeID(payload)
+        const pl = payloadtypes.getContent(payload)
+        const payloadbase: PayloadBase = payloadtypes.select(typeId, pl)
+
+        if (res[assetID]) {
+            if (res[assetID][groupID]) {
+                return res[assetID][groupID].push(payloadbase)
+            } else {
+                return (res[assetID] = {
+                    [groupID]: [payloadbase],
+                })
+            }
+        } else {
+            return (res[assetID] = {
+                [groupID]: [payloadbase],
+            })
+        }
+    } catch (e) {
+        // console.error(e)
+    }
+}
+
 export {
     nAvaxToAVAX as toAVAX,
     stringToBig,
@@ -138,4 +180,6 @@ export {
     VMDocumentationMap,
     getRandomQuote,
     trimmedLocaleString,
+    getPayloadFromUTXO,
+    pushPayload,
 }
