@@ -59,18 +59,16 @@ export default class UtfPayloadView extends Vue {
 </script>
 <style scoped lang="scss">
 .generic_payload_view {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
 }
 .generic_view {
-    position: relative;
     width: 100%;
     height: 100%;
     max-height: 100%;
-    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 p {
     font-size: 13px;
@@ -84,9 +82,8 @@ img {
     display: block;
     object-fit: cover;
     object-position: center;
-    // width: 100%;
-    // height: 100%;
-    position: absolute;
+    width: 100%;
+    height: 100%;
 }
 
 .nft_title {

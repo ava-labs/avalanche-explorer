@@ -31,8 +31,8 @@ export const txTypeMap = new Map<string, string>([
  * Info can be found here @link https://docs.avax.network/build/references/avm-transaction-serialization
  */
 const outputTypes = new Map([
-    [7, OutputType.TRANSFERABLE],
     [6, OutputType.MINT],
+    [7, OutputType.TRANSFERABLE],
     [10, OutputType.NFT_MINT],
     [11, OutputType.NFT_TRANSFERABLE],
     [4294967281, OutputType.ATOMIC_EXPORT_TX],

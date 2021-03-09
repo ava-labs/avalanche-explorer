@@ -216,12 +216,12 @@ export interface OutValuesDenominated {
 }
 
 export enum OutputType {
-    TRANSFERABLE = 'Transferable',
-    NFT_TRANSFERABLE = 'NFT Transferable',
+    TRANSFERABLE = '',
+    NFT_TRANSFERABLE = 'NFT',
     MINT = 'Mint',
-    NFT_MINT = 'NFT Mint',
-    ATOMIC_EXPORT_TX = 'Atomic Export Tx',
-    ATOMIC_IMPORT_TX = 'Atomic Import Tx',
+    NFT_MINT = 'NFT Minting Rights',
+    ATOMIC_EXPORT_TX = 'Atomic Export',
+    ATOMIC_IMPORT_TX = 'Atomic Import',
 }
 
 export enum BlockType {

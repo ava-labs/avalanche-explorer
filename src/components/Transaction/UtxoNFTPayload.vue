@@ -1,9 +1,8 @@
 <template>
     <div v-if="payload">
-        <div class="utxo_label">
-            {{ payloadBase.typeID() | getType }} Payload
-        </div>
+        <div class="utxo_label">Group ID: {{ groupID }}</div>
         <NftPayloadView :payload="payloadBase" :small="true"></NftPayloadView>
+        {{ payloadBase.typeID() | getType }} Payload
     </div>
 </template>
 

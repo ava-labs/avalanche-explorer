@@ -3,7 +3,7 @@
         <router-link :to="URL">
             <v-tooltip right>
                 <template v-slot:activator="{ on }">
-                    <fa icon="arrow-left" color="#2196f3" v-on="on"></fa>
+                    <fa icon="arrow-left" color="#867e89" v-on="on"></fa>
                 </template>
                 <div>
                     <p>

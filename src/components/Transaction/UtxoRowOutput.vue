@@ -1,25 +1,11 @@
 <template>
     <div class="utxo_container output_container">
         <div class="utxo_new_col">
-            <!-- TYPE/AMOUNT -->
-            <div class="utxo_col">
-                <div class="utxo_label">
-                    <span class="index">#{{ $vnode.key }} - </span>
-                    <span class="type">{{
-                        utxo.outputType | getOutputType
-                    }}</span>
-                </div>
-                <div>
-                    <span class="amount monospace">{{ amount }}</span>
-                    <span class="symbol">{{ symbol }}</span>
-                </div>
-            </div>
-            <!-- ADDRESSES -->
+            <UtxoSummary :index="$vnode.key" :utxo="utxo"></UtxoSummary>
             <UtxoAddresses
                 :addresses="utxo.addresses"
                 :type="'output'"
             ></UtxoAddresses>
-            <!-- EXTRA INFO -->
             <UtxoLockTime :time="utxo.locktime"></UtxoLockTime>
             <UtxoThreshold
                 :threshold="utxo.threshold"
@@ -59,7 +45,6 @@ import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { Output } from '@/store/modules/transactions/models'
 import { Asset } from '@/js/Asset'
-import { getOutputType } from '@/services/transactions'
 import UtxoTxLinkOutput from '@/components/Transaction/UtxoTxLinkOutput.vue'
 import UtxoLockTime from '@/components/Transaction/UtxoLockTime.vue'
 import UtxoThreshold from '@/components/Transaction/UtxoThreshold.vue'
@@ -68,6 +53,7 @@ import UtxoStake from '@/components/Transaction/UtxoStake.vue'
 import UtxoStakeable from '@/components/Transaction/UtxoStakeable.vue'
 import UtxoBlock from '@/components/Transaction/UtxoBlock.vue'
 import UtxoNFTPayload from '@/components/Transaction/UtxoNFTPayload.vue'
+import UtxoSummary from '@/components/Transaction/UtxoSummary.vue'
 
 @Component({
     components: {
@@ -79,9 +65,7 @@ import UtxoNFTPayload from '@/components/Transaction/UtxoNFTPayload.vue'
         UtxoStakeable,
         UtxoBlock,
         UtxoNFTPayload,
-    },
-    filters: {
-        getOutputType,
+        UtxoSummary,
     },
 })
 export default class UtxoRowOutput extends Vue {

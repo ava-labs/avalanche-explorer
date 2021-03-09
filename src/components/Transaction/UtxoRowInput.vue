@@ -10,18 +10,7 @@
         </div>
         <div class="utxo_new_col">
             <!-- TYPE/AMOUNT -->
-            <div class="utxo_col">
-                <div class="utxo_label">
-                    <span class="index">#{{ $vnode.key }} - </span>
-                    <span class="type">{{
-                        utxo.output.outputType | getOutputType
-                    }}</span>
-                </div>
-                <div>
-                    <span class="amount monospace">{{ amount }}</span>
-                    <span class="symbol">{{ symbol }}</span>
-                </div>
-            </div>
+            <UtxoSummary :index="$vnode.key" :utxo="utxo.output"></UtxoSummary>
             <UtxoAddresses
                 :addresses="utxo.output.addresses"
                 :type="'input'"
@@ -60,7 +49,6 @@
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { Input } from '@/store/modules/transactions/models'
-import { Asset } from '@/js/Asset'
 import { getOutputType } from '@/services/transactions'
 import UtxoTxLinkInput from '@/components/Transaction/UtxoTxLinkInput.vue'
 import UtxoLockTime from '@/components/Transaction/UtxoLockTime.vue'
@@ -71,6 +59,7 @@ import UtxoStakeable from '@/components/Transaction/UtxoStakeable.vue'
 import UtxoBlock from '@/components/Transaction/UtxoBlock.vue'
 import UtxoNFTPayload from '@/components/Transaction/UtxoNFTPayload.vue'
 import UtxoCredentials from '@/components/Transaction/UtxoCredentials.vue'
+import UtxoSummary from '@/components/Transaction/UtxoSummary.vue'
 
 @Component({
     components: {
@@ -83,6 +72,7 @@ import UtxoCredentials from '@/components/Transaction/UtxoCredentials.vue'
         UtxoBlock,
         UtxoNFTPayload,
         UtxoCredentials,
+        UtxoSummary,
     },
     filters: {
         getOutputType,
@@ -90,21 +80,6 @@ import UtxoCredentials from '@/components/Transaction/UtxoCredentials.vue'
 })
 export default class UtxoRowInput extends Vue {
     @Prop() utxo!: Input
-
-    get amount(): string {
-        const denomination = this.asset ? this.asset.denomination : 0
-        return this.utxo.output.amount
-            .div(Math.pow(10, denomination))
-            .toLocaleString(denomination)
-    }
-
-    get asset(): Asset {
-        return this.$store.state.assets[this.utxo.output.assetID]
-    }
-
-    get symbol(): string {
-        return this.asset ? this.asset.symbol : this.utxo.output.assetID
-    }
 }
 </script>
 
