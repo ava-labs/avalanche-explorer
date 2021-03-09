@@ -44,9 +44,9 @@
                 :addresses="utxo.output.addresses"
             ></UtxoThreshold>
             <!-- P-CHAIN EXTRA INFO -->
-            <UtxoStake :isStake="utxo.output.stake"></UtxoStake>
+            <UtxoStake :is-stake="utxo.output.stake"></UtxoStake>
             <UtxoStakeable
-                :isStakeableout="utxo.output.stakeableout"
+                :is-stakeableout="utxo.output.stakeableout"
                 :time="utxo.output.stakeLocktime"
             ></UtxoStakeable>
             <!-- X-CHAIN EXTRA INFO -->
@@ -58,15 +58,10 @@
                 <!-- payload: string | null // relevant to NFTs -->
             </div>
             <!-- C-CHAIN EXTRA INFO -->
-            <div v-if="utxo.output.block">
-                <div class="utxo_label">Block</div>
-                <div>{{ utxo.output.block }}</div>
-                <!-- block: string // https://cchain.explorer.avax.network/blocks/33726/transactions - broken block/tx -->
-            </div>
-            <div v-if="utxo.output.nonce > 0">
-                <div class="utxo_label">Nonce</div>
-                <div>nonce: {{ utxo.output.nonce }}</div>
-            </div>
+            <UtxoBlock
+                :block="utxo.output.block"
+                :nonce="utxo.output.nonce"
+            ></UtxoBlock>
         </div>
     </div>
 </template>
@@ -83,6 +78,7 @@ import UtxoThreshold from '@/components/Transaction/UtxoThreshold.vue'
 import UtxoAddresses from '@/components/Transaction/UtxoAddresses.vue'
 import UtxoStake from '@/components/Transaction/UtxoStake.vue'
 import UtxoStakeable from '@/components/Transaction/UtxoStakeable.vue'
+import UtxoBlock from '@/components/Transaction/UtxoBlock.vue'
 
 @Component({
     components: {
@@ -92,6 +88,7 @@ import UtxoStakeable from '@/components/Transaction/UtxoStakeable.vue'
         UtxoAddresses,
         UtxoStake,
         UtxoStakeable,
+        UtxoBlock,
     },
     filters: {
         getOutputType,

@@ -26,9 +26,9 @@
                 :addresses="utxo.addresses"
             ></UtxoThreshold>
             <!-- P-CHAIN EXTRA INFO -->
-            <UtxoStake :isStake="utxo.stake"></UtxoStake>
+            <UtxoStake :is-stake="utxo.stake"></UtxoStake>
             <UtxoStakeable
-                :isStakeableout="utxo.stakeableout"
+                :is-stakeableout="utxo.stakeableout"
                 :time="utxo.stakeLocktime"
             ></UtxoStakeable>
 
@@ -37,19 +37,14 @@
                 <div>UTXO is from genesis</div>
             </div>
             <div>
-                <!-- ADD WALLET UTXO COMPONENT -->
-                <!-- payload: string | null // relevant to NFTs -->
+                <NftPayloadView
+                    :payload="payload"
+                    :small="true"
+                ></NftPayloadView>
+                {{ payload }}
             </div>
             <!-- C-CHAIN EXTRA INFO -->
-            <div v-if="utxo.block">
-                <div class="utxo_label">Block</div>
-                <div>{{ utxo.block }}</div>
-                <!-- block: string // https://cchain.explorer.avax.network/blocks/33726/transactions - broken block/tx -->
-            </div>
-            <div v-if="utxo.nonce > 0">
-                <div class="utxo_label">Nonce</div>
-                <div>nonce: {{ utxo.nonce }}</div>
-            </div>
+            <UtxoBlock :block="utxo.block" :nonce="utxo.nonce"></UtxoBlock>
         </div>
         <div class="tx_link">
             <UtxoTxLinkOutput
@@ -74,6 +69,9 @@ import UtxoThreshold from '@/components/Transaction/UtxoThreshold.vue'
 import UtxoAddresses from '@/components/Transaction/UtxoAddresses.vue'
 import UtxoStake from '@/components/Transaction/UtxoStake.vue'
 import UtxoStakeable from '@/components/Transaction/UtxoStakeable.vue'
+import UtxoBlock from '@/components/Transaction/UtxoBlock.vue'
+import NftPayloadView from '@/components/misc/NftPayloadView/NftPayloadView.vue'
+import { getPayloadFromUTXO, pushPayload } from '@/helper'
 
 @Component({
     components: {
@@ -83,6 +81,8 @@ import UtxoStakeable from '@/components/Transaction/UtxoStakeable.vue'
         UtxoAddresses,
         UtxoStake,
         UtxoStakeable,
+        UtxoBlock,
+        NftPayloadView,
     },
     filters: {
         getOutputType,
@@ -111,6 +111,18 @@ export default class UtxoRowOutput extends Vue {
         // C-CHAIN CONDITIONAL
         const redeemingID = this.utxo.redeemingTransactionID
         return redeemingID === null || redeemingID === '' ? '-' : redeemingID
+    }
+
+    get payload() {
+        let payload = pushPayload(
+            this.utxo.payload as string,
+            this.utxo.assetID,
+            this.utxo.groupID
+        )
+        console.log('payload', payload)
+        // return payload
+        return payload
+        // return getPayloadFromUTXO(payload)
     }
 }
 </script>
