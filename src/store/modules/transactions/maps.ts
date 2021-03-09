@@ -6,7 +6,7 @@ import { CChainInfo, PChainInfo, XChainInfo } from '@/helper'
  * These types come from here @link https://github.com/ava-labs/ortelius/blob/ec567c97630383d1a4ef468cf1bcf35d5d1eb3d2/services/indexes/models/types.go#L56
  */
 export const txTypeMap = new Map<string, string>([
-    ['base', 'Base'],
+    ['base', ''],
     ['create_asset', 'Create Asset'], // X
     /**
      * @link https://docs.avax.network/build/references/avm-transaction-serialization#operations
@@ -63,4 +63,14 @@ export const txChainTypeMap = new Map<string, typeof CChainInfo>([
 
 export function getTxChainType(type: string) {
     return txChainTypeMap.get(type)
+}
+
+export const NFTTypes = new Map([
+    [1, 'UTF-8'],
+    [24, 'JSON'],
+    [27, 'URL'],
+])
+
+export function getNFTType(type: number) {
+    return NFTTypes.get(type)
 }

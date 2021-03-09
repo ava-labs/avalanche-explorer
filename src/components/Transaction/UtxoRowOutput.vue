@@ -35,14 +35,11 @@
             <div v-if="utxo.genesisutxo === true">
                 <div>UTXO is from genesis</div>
             </div>
-            <div v-if="payload">
-                <div class="utxo_label">Payload</div>
-                <NftPayloadView
-                    :payload="payload"
-                    :small="true"
-                ></NftPayloadView>
-                {{ payload }}
-            </div>
+            <UtxoNFTPayload
+                :payload="utxo.payload"
+                :asset-i-d="utxo.assetID"
+                :group-i-d="utxo.groupID"
+            ></UtxoNFTPayload>
             <!-- C-CHAIN EXTRA INFO -->
             <UtxoBlock :block="utxo.block" :nonce="utxo.nonce"></UtxoBlock>
         </div>
@@ -70,8 +67,7 @@ import UtxoAddresses from '@/components/Transaction/UtxoAddresses.vue'
 import UtxoStake from '@/components/Transaction/UtxoStake.vue'
 import UtxoStakeable from '@/components/Transaction/UtxoStakeable.vue'
 import UtxoBlock from '@/components/Transaction/UtxoBlock.vue'
-import NftPayloadView from '@/components/misc/NftPayloadView/NftPayloadView.vue'
-import { pushPayload } from '@/helper'
+import UtxoNFTPayload from '@/components/Transaction/UtxoNFTPayload.vue'
 
 @Component({
     components: {
@@ -82,7 +78,7 @@ import { pushPayload } from '@/helper'
         UtxoStake,
         UtxoStakeable,
         UtxoBlock,
-        NftPayloadView,
+        UtxoNFTPayload,
     },
     filters: {
         getOutputType,
@@ -105,16 +101,6 @@ export default class UtxoRowOutput extends Vue {
 
     get symbol(): string {
         return this.asset ? this.asset.symbol : this.utxo.assetID
-    }
-
-    get payload() {
-        if (!this.utxo.payload) return undefined
-        const payload = pushPayload(
-            this.utxo.payload as string,
-            this.utxo.assetID,
-            this.utxo.groupID
-        )
-        return (payload as any)[this.utxo.groupID][0]
     }
 }
 </script>

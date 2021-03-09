@@ -39,8 +39,7 @@ export default class NftPayloadView extends Vue {
     @Prop({ default: false }) small!: boolean
 
     get viewer() {
-        const typeID = this.payload.typeID()
-        switch (typeID) {
+        switch (this.payload.typeID()) {
             // UTF 8
             case 1:
                 return UtfPayloadView
@@ -56,8 +55,7 @@ export default class NftPayloadView extends Vue {
     }
 
     get viewerSmall() {
-        const typeID = this.payload.typeID()
-        switch (typeID) {
+        switch (this.payload.typeID()) {
             // UTF 8
             case 1:
                 return UtfPayloadViewSmall

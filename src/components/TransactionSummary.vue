@@ -128,7 +128,7 @@ import { getAssetType } from '@/services/assets'
         getAssetType,
     },
 })
-export default class TransactionDetailCard extends Vue {
+export default class TransactionSummary extends Vue {
     @Prop() tx!: Transaction
 
     b64DecodeHex(str: string): string {

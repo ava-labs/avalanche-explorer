@@ -2,7 +2,11 @@
     <div class="url_payload_view">
         <img v-if="img_types.includes(fileType)" :src="url" />
         <div v-else class="unknown">
-            <p><fa icon="link"></fa></p>
+            <p>
+                <span>URL</span>
+            </p>
+            <a :href="url" target="_blank">{{ url }}</a>
+            <p class="warn">Do NOT click links you do not trust.</p>
         </div>
     </div>
 </template>
@@ -32,16 +36,12 @@ export default class UrlPayloadView extends Vue {
     }
 
     get fileType(): string | null {
-        const url = this.url
-
-        const split = url.split('.')
-
-        // Couldn't find extension
-        if (split.length === 1) return null
+        const split = this.url.split('.')
+        if (split.length === 1) return null // Couldn't find extension
 
         const extension: string = split[split.length - 1]
+        if (!this.valid_types.includes(extension)) return null // invalid
 
-        if (!this.valid_types.includes(extension)) return null
         return extension
     }
 }
@@ -50,25 +50,37 @@ export default class UrlPayloadView extends Vue {
 .url_payload_view {
     height: 100%;
     width: 100%;
+    max-width: 300px;
+    padding-top: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-    //border-radius: 14px;
-    //overflow: hidden;
 }
 
 img {
-    // width: 100%;
-    // height: 100%;
+    width: 100%;
+    height: 100%;
     display: block;
     object-fit: cover;
 }
 
-.unknown {
+.unknown,
+.warn {
     background-color: var(--bg-light);
     text-align: center;
+    padding: 12px 8px;
+    word-break: break-all;
+    font-size: 13px;
+    span {
+        color: var(--primary-color-light);
+        font-size: 13px;
+    }
+}
+
+.warn {
+    color: var(--error);
+    word-break: normal;
+    font-size: 11px;
+    opacity: 0.6;
 }
 </style>

@@ -27,7 +27,7 @@
                 :type="'input'"
             ></UtxoAddresses>
             <!-- CREDENTIALS -->
-            <div>
+            <div v-if="utxo.credentials">
                 <div class="utxo_label">Signature</div>
                 <p
                     v-for="(credential, i) in utxo.credentials"
@@ -53,10 +53,11 @@
             <div v-if="utxo.output.genesisutxo === true">
                 <div>UTXO is from genesis</div>
             </div>
-            <div>
-                <!-- ADD WALLET UTXO COMPONENT -->
-                <!-- payload: string | null // relevant to NFTs -->
-            </div>
+            <UtxoNFTPayload
+                :payload="utxo.output.payload"
+                :asset-i-d="utxo.output.assetID"
+                :group-i-d="utxo.output.groupID"
+            ></UtxoNFTPayload>
             <!-- C-CHAIN EXTRA INFO -->
             <UtxoBlock
                 :block="utxo.output.block"
@@ -79,6 +80,7 @@ import UtxoAddresses from '@/components/Transaction/UtxoAddresses.vue'
 import UtxoStake from '@/components/Transaction/UtxoStake.vue'
 import UtxoStakeable from '@/components/Transaction/UtxoStakeable.vue'
 import UtxoBlock from '@/components/Transaction/UtxoBlock.vue'
+import UtxoNFTPayload from '@/components/Transaction/UtxoNFTPayload.vue'
 
 @Component({
     components: {
@@ -89,6 +91,7 @@ import UtxoBlock from '@/components/Transaction/UtxoBlock.vue'
         UtxoStake,
         UtxoStakeable,
         UtxoBlock,
+        UtxoNFTPayload,
     },
     filters: {
         getOutputType,

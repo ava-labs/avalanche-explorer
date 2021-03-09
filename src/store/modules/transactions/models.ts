@@ -125,9 +125,9 @@ export interface InputResponse {
 }
 export interface OutputResponse {
     id: string
-    transactionID: string // Inputs - the prev tx that generated this input UTXO. Outputs - this tx that generated this output UTXO.
-    redeemingTransactionID: string // Inputs - this tx. Outputs - "" if UTXO is unspent or the tx that has spent this UTXO
-    outputIndex: number // inputs reference the UTXO index from the generating (prev) tx
+    transactionID: string // INPUTS - the prev tx that generated this input UTXO. OUTPUTS - this tx
+    redeemingTransactionID: string // INPUTS - this tx. OUTPUTS - "" if unspent, or the txID that spent this UTXO
+    outputIndex: number // INPUTS - reference the UTXO index from the prev tx that generated this UTXO.
     chainID: string
     assetID: string
     timestamp: string // time of ingestion by Ortelius

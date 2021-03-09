@@ -17,9 +17,9 @@
             >
             </HTTPError>
             <template v-else>
-                <TransactionDetailCard :tx="tx">
-                    Summary
-                </TransactionDetailCard>
+                <TransactionSummary :tx="tx">
+                    {{ tx.type | getType }} Transaction
+                </TransactionSummary>
                 <TransactionUTXO :tx="tx"></TransactionUTXO>
             </template>
         </template>
@@ -30,17 +30,21 @@
 import 'reflect-metadata'
 import { Component, Watch, Mixins } from 'vue-property-decorator'
 import Loader from '@/components/misc/Loader.vue'
-import TransactionDetailCard from '@/components/TransactionSummary.vue'
+import TransactionSummary from '@/components/TransactionSummary.vue'
 import TransactionUTXO from '@/components/TransactionUTXO.vue'
 import HTTPError from '@/components/misc/HTTPError.vue'
 import { TransactionsGettersMixin } from '@/store/modules/transactions/transactions.mixins'
+import { getMappingForType } from '../js/Transaction'
 
 @Component({
     components: {
         Loader,
-        TransactionDetailCard,
+        TransactionSummary,
         TransactionUTXO,
         HTTPError,
+    },
+    filters: {
+        getType: getMappingForType,
     },
 })
 export default class TransactionPage extends Mixins(TransactionsGettersMixin) {
@@ -82,6 +86,10 @@ export default class TransactionPage extends Mixins(TransactionsGettersMixin) {
 
     get tx() {
         return this.getTx()
+    }
+
+    get title() {
+        return 'boy'
     }
 
     getData(): void {

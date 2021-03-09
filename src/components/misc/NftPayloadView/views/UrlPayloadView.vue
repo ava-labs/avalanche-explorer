@@ -36,28 +36,24 @@ export default class UrlPayloadView extends Vue {
     }
 
     get fileType(): string | null {
-        const url = this.url
-
-        const split = url.split('.')
-
-        // Couldn't find extension
-        if (split.length === 1) return null
+        const split = this.url.split('.')
+        if (split.length === 1) return null // Couldn't find extension
 
         const extension: string = split[split.length - 1]
+        if (!this.valid_types.includes(extension)) return null // invalid
 
-        if (!this.valid_types.includes(extension)) return null
         return extension
     }
 }
 </script>
 <style scoped lang="scss">
 .url_payload_view {
-    //border-radius: 14px;
-    //overflow: hidden;
+    padding-top: 10px;
 }
+
 img {
-    // width: 100%;
-    // height: 100%;
+    width: 100%;
+    height: 100%;
     display: block;
     object-fit: cover;
 }
@@ -68,6 +64,7 @@ img {
     flex-direction: column;
     justify-content: center;
 }
+
 .unknown,
 .warn {
     background-color: var(--bg-light);
