@@ -66,15 +66,14 @@ h3.label {
 
     .type {
         margin-left: 8px;
-        font-size: 16px !important;
-        font-weight: bold;
-        color: $secondary-color;
+        font-size: 24px !important;
+        font-weight: 300;
     }
 
     // AMOUNT
     .amount {
-        font-size: 16px;
-        font-weight: 700;
+        font-size: 24px;
+        font-weight: 300;
     }
 
     .symbol {
@@ -86,18 +85,27 @@ h3.label {
 }
 
 .v-application a.address {
-    // color: $blue !important;
     font-size: 14px;
     font-weight: 400;
+
+    &:hover {
+        text-decoration: underline;
+    }
 }
 
 .signature {
     color: $purple-light;
 }
 
-// Redeems
 .redeemed {
     color: $green;
+}
+
+.compound_interest {
+    background: -webkit-linear-gradient(top left, $blue, $red, $orange, $green);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 @include smOnly {

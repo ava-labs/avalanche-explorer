@@ -6,11 +6,14 @@
             <router-link
                 v-if="isXP(displayAddress)"
                 :to="xpURL(address)"
-                class="address monospace"
+                class="address monospace compound_interest"
                 >{{ displayAddress }}</router-link
             >
             <!-- C (external route) -->
-            <a v-else :href="`${cURL(address)}`" class="address monospace"
+            <a
+                v-else
+                :href="`${cURL(address)}`"
+                class="address monospace compound_interest"
                 >{{ displayAddress }}
             </a>
         </div>

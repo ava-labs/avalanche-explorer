@@ -74,5 +74,6 @@ export default class NftPayloadView extends Vue {
 <style scoped>
 .nft_payload_view {
     overflow: auto;
+    padding: 20px 0;
 }
 </style>

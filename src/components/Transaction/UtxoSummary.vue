@@ -54,15 +54,4 @@ export default class UtxoSummary extends Vue {
     justify-content: flex-start;
     align-items: center;
 }
-
-.index {
-    color: $primary-color-light;
-}
-
-.type {
-    margin-left: 8px;
-    font-size: 16px !important;
-    font-weight: bold;
-    color: $red;
-}
 </style>

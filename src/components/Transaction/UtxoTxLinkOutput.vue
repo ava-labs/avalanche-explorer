@@ -43,7 +43,7 @@
         <template v-else>
             <v-tooltip left>
                 <template v-slot:activator="{ on }">
-                    <fa icon="info-circle" color="#e6f5ff" v-on="on"></fa>
+                    <fa icon="info-circle" color="#867e89" v-on="on"></fa>
                 </template>
                 <div>
                     <p>

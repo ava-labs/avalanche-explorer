@@ -6,7 +6,7 @@ import { CChainInfo, PChainInfo, XChainInfo } from '@/helper'
  * These types come from here @link https://github.com/ava-labs/ortelius/blob/ec567c97630383d1a4ef468cf1bcf35d5d1eb3d2/services/indexes/models/types.go#L56
  */
 export const txTypeMap = new Map<string, string>([
-    ['base', ''],
+    ['base', 'Base'],
     ['create_asset', 'Create Asset'], // X
     /**
      * @link https://docs.avax.network/build/references/avm-transaction-serialization#operations
