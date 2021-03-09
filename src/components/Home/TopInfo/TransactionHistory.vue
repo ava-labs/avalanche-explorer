@@ -10,13 +10,7 @@
         </div>
         <div class="history_cont">
             <div class="chart_toggle_settings">
-                <!-- API CANNOT HANDLE THIS QUERY -->
-                <!-- <button
-                    :active="scope === options[0]"
-                    @click="setScope(options[0])"
-                >
-                    1 year
-                </button> -->
+                <!-- API DB CANNOT HANDLE 1YR options[0] -->
                 <button
                     :active="scope === options[1]"
                     @click="setScope(options[1])"
@@ -74,6 +68,7 @@ import Chart from 'chart.js'
 import moment from 'moment'
 import TransactionHistoryMeta from '@/components/Home/TopInfo/TransactionHistoryMeta'
 import { toAVAX } from '@/helper'
+import { max } from 'd3-array'
 
 export default {
     components: {
@@ -89,6 +84,7 @@ export default {
             chart: null,
             loading: false,
             aggregates: null,
+            maxValue: null,
         }
     },
     computed: {
@@ -247,10 +243,10 @@ export default {
                     res = 100000000000
                     break
                 case 'month':
-                    res = 10000000000
+                    res = 100000000000
                     break
                 case 'week':
-                    res = 1000000000
+                    res = 20000000000
                     break
                 case 'day':
                     res = 10000000
@@ -268,7 +264,7 @@ export default {
         dataX() {
             const rawData = !this.history ? [] : this.history.intervals
             // the last item in the data series will not constitute a full time intergral
-            // replace its data with a projection based on the series avg, if necessary ("sad")
+            // replace its data with a projection based on the series avg, if necessary
             if (rawData.length > 0) {
                 const average = (
                     rawData
@@ -460,6 +456,14 @@ export default {
                     this.loading = false
                     this.history = res.data
                     this.aggregates = res.data.aggregates
+
+                    console.log('this.history', this.history)
+
+                    this.maxValue = max(this.history.intervals, (d) =>
+                        toAVAX(d.transactionVolume)
+                    )
+                    console.log('maxValue', this.maxValue)
+
                     this.draw()
                 })
         },
@@ -506,6 +510,7 @@ export default {
             this.clearChart()
             // bind data to chart
             this.chart.options.scales.xAxes[0].ticks.maxTicksLimit = this.maxTicksLimit
+
             this.valuesX.forEach((d, i) => {
                 const label = this.labelsX[i]
                 this.chart.data.labels.push(label)
@@ -513,19 +518,40 @@ export default {
                     dataset.data.push(d)
                 })
             })
+
             this.chart.update()
         },
         clearChart() {
             // clear labels
             this.chart.data.labels = []
+
             // clear data
             this.chart.data.datasets.forEach((dataset) => {
                 dataset.data = []
             })
+
             // reset y-axis
-            this.chart.options.scales.yAxes[0].ticks.max = this.yAxesTicksMax
+            this.chart.options.scales.yAxes[0].ticks.max =
+                this.maxValue > this.yAxesTicksMax
+                    ? this.findLocalLogMax(this.maxValue)
+                    : this.yAxesTicksMax
+
             // update
             this.chart.update()
+        },
+        findLocalLogMax(x) {
+            // largest power of 10 smaller than x
+            let i = 1
+            while (i * 10 < x) i *= 10
+
+            const difference = this.maxValue - i
+
+            // largest power of 10 smaller than diff
+            let j = i
+            while (j / 10 > difference) j /= 10
+
+            const newMax = i + j
+            return newMax
         },
     },
 }
