@@ -1,41 +1,38 @@
 <template>
     <div class="utxo_container output_container">
         <div class="utxo_new_col">
-            <UtxoSummary :index="$vnode.key" :utxo="utxo"></UtxoSummary>
-            <UtxoAddresses
-                :addresses="utxo.addresses"
-                :type="'output'"
-            ></UtxoAddresses>
-            <UtxoLockTime :time="utxo.locktime"></UtxoLockTime>
-            <UtxoThreshold
+            <Summary :index="$vnode.key" :utxo="utxo"></Summary>
+            <Addresses :addresses="utxo.addresses" :type="'output'"></Addresses>
+            <LockTime :time="utxo.locktime"></LockTime>
+            <Threshold
                 :threshold="utxo.threshold"
                 :addresses="utxo.addresses"
-            ></UtxoThreshold>
-            <!-- P-CHAIN EXTRA INFO -->
-            <UtxoStake :is-stake="utxo.stake"></UtxoStake>
-            <UtxoStakeable
+            ></Threshold>
+            <!-- P-CHAIN -->
+            <Stake :is-stake="utxo.stake"></Stake>
+            <Stakeable
                 :is-stakeableout="utxo.stakeableout"
                 :time="utxo.stakeLocktime"
-            ></UtxoStakeable>
-            <!-- X-CHAIN EXTRA INFO -->
+            ></Stakeable>
+            <!-- X-CHAIN -->
             <div v-if="utxo.genesisutxo === true">
                 <div>UTXO is from genesis</div>
             </div>
-            <UtxoNFTPayload
+            <NFTPayload
                 :payload="utxo.payload"
                 :asset-i-d="utxo.assetID"
                 :group-i-d="utxo.groupID"
-            ></UtxoNFTPayload>
-            <!-- C-CHAIN EXTRA INFO -->
-            <UtxoBlock :block="utxo.block" :nonce="utxo.nonce"></UtxoBlock>
+            ></NFTPayload>
+            <!-- C-CHAIN -->
+            <Block :block="utxo.block" :nonce="utxo.nonce"></Block>
         </div>
         <div class="tx_link">
-            <UtxoTxLinkOutput
+            <TxLinkOutput
                 :tx-i-d="utxo.redeemingTransactionID"
                 :chain-i-d="utxo.chainID"
                 :timestamp="utxo.timestamp"
             >
-            </UtxoTxLinkOutput>
+            </TxLinkOutput>
         </div>
     </div>
 </template>
@@ -45,27 +42,27 @@ import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { Output } from '@/store/modules/transactions/models'
 import { Asset } from '@/js/Asset'
-import UtxoTxLinkOutput from '@/components/Transaction/UtxoTxLinkOutput.vue'
-import UtxoLockTime from '@/components/Transaction/UtxoLockTime.vue'
-import UtxoThreshold from '@/components/Transaction/UtxoThreshold.vue'
-import UtxoAddresses from '@/components/Transaction/UtxoAddresses.vue'
-import UtxoStake from '@/components/Transaction/UtxoStake.vue'
-import UtxoStakeable from '@/components/Transaction/UtxoStakeable.vue'
-import UtxoBlock from '@/components/Transaction/UtxoBlock.vue'
-import UtxoNFTPayload from '@/components/Transaction/UtxoNFTPayload.vue'
-import UtxoSummary from '@/components/Transaction/UtxoSummary.vue'
+import TxLinkOutput from '@/components/Transaction/UtxoTxLinkOutput.vue'
+import LockTime from '@/components/Transaction/UtxoLockTime.vue'
+import Threshold from '@/components/Transaction/UtxoThreshold.vue'
+import Addresses from '@/components/Transaction/UtxoAddresses.vue'
+import Stake from '@/components/Transaction/UtxoStake.vue'
+import Stakeable from '@/components/Transaction/UtxoStakeable.vue'
+import Block from '@/components/Transaction/UtxoBlock.vue'
+import NFTPayload from '@/components/Transaction/UtxoNFTPayload.vue'
+import Summary from '@/components/Transaction/UtxoSummary.vue'
 
 @Component({
     components: {
-        UtxoTxLinkOutput,
-        UtxoLockTime,
-        UtxoThreshold,
-        UtxoAddresses,
-        UtxoStake,
-        UtxoStakeable,
-        UtxoBlock,
-        UtxoNFTPayload,
-        UtxoSummary,
+        TxLinkOutput,
+        LockTime,
+        Threshold,
+        Addresses,
+        Stake,
+        Stakeable,
+        Block,
+        NFTPayload,
+        Summary,
     },
 })
 export default class UtxoRowOutput extends Vue {

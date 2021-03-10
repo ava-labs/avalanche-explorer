@@ -108,7 +108,13 @@ h3.label {
 }
 
 .compound_interest {
-    background: -webkit-linear-gradient(top left, $blue, $red, $orange, $green);
+    background: -webkit-linear-gradient(
+        top left,
+        $pink-light,
+        $blue,
+        $red,
+        $pink
+    );
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;

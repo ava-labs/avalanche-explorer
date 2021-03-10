@@ -52,7 +52,7 @@ export default class UtfPayloadView extends Vue {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 0;
+    margin: 10px 0;
     cursor: pointer;
 
     &:hover {
