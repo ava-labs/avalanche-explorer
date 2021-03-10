@@ -21,6 +21,12 @@ h3.label {
     margin-bottom: 16px;
 }
 
+@if $VUE_APP_DEFAULT_NETWORKID == 5 {
+    .utxo_container {
+        background-color: $purple-xlight;
+    }
+}
+
 .input_container {
     grid-template-columns: $icon_dimension 1fr;
 }
@@ -106,6 +112,16 @@ h3.label {
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+.two_col {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    > div {
+        flex-grow: 1;
+    }
 }
 
 @include smOnly {

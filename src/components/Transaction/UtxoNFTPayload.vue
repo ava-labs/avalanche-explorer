@@ -1,7 +1,7 @@
 <template>
     <div v-if="payload">
         <NftPayloadView :payload="payloadBase" :small="true"></NftPayloadView>
-        <div>
+        <div class="two_col">
             <div>
                 <div class="utxo_label">Group ID</div>
                 <div>{{ groupID }}</div>

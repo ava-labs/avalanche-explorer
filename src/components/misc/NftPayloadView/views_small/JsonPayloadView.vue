@@ -55,7 +55,6 @@ export default class JsonPayloadView extends Vue {
         } catch (e) {
             return false
         }
-        return false
     }
 
     @Watch('payload')

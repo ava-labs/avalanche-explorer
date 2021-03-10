@@ -1,12 +1,12 @@
 <template>
     <Component
-        :is="viewer"
-        v-if="!small"
+        :is="viewerSmall"
+        v-if="small"
         :payload="payload"
         class="nft_payload_view"
     ></Component>
     <Component
-        :is="viewerSmall"
+        :is="viewer"
         v-else
         :payload="payload"
         class="nft_payload_view"

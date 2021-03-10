@@ -37,14 +37,4 @@ export default class UtxoBlock extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
-.two_col {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
-    > div {
-        flex-grow: 1;
-    }
-}
-</style>
+<style scoped lang="scss"></style>
