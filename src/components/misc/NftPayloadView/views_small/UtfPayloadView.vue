@@ -19,9 +19,10 @@ export default class UtfPayloadView extends Vue {
     isText = false
 
     $refs!: {
-        text: HTMLElement
         view: HTMLElement
+        text: HTMLElement
     }
+
     mouseEnter() {
         this.showText()
     }
@@ -51,6 +52,7 @@ export default class UtfPayloadView extends Vue {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 10px 0;
     cursor: pointer;
 
     &:hover {
@@ -59,6 +61,7 @@ export default class UtfPayloadView extends Vue {
         }
     }
 }
+
 p {
     font-size: 13px;
     color: var(--primary-color) !important;

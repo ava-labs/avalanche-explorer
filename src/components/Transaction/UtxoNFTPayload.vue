@@ -6,11 +6,11 @@
                 <div class="utxo_label">Group ID</div>
                 <div>{{ groupID }}</div>
             </div>
-            <div>
+            <div class="payload">
                 <div class="utxo_label">
                     {{ payloadBase.typeID() | getType }} Payload
                 </div>
-                <div>{{ groupID }}</div>
+                <div>{{ text }}</div>
             </div>
         </div>
     </div>
@@ -45,7 +45,15 @@ export default class UtxoNFTPayload extends Vue {
         )
         return (payload as any)[this.groupID][0]
     }
+
+    get text(): string {
+        return this.payloadBase.getContent().toString()
+    }
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.payload {
+    overflow: scroll;
+}
+</style>

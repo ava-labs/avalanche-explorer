@@ -35,6 +35,7 @@ export default class JsonPayloadView extends Vue {
             return data
         }
     }
+
     get text(): string {
         return this.payload.getContent().toString()
     }
@@ -69,6 +70,7 @@ export default class JsonPayloadView extends Vue {
 </script>
 <style scoped lang="scss">
 .json_payload_view {
+    margin: 10px 0;
     color: #0f0 !important;
     background-color: #000 !important;
     height: 100%;
