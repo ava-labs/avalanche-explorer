@@ -128,6 +128,12 @@ h3.label {
     color: $green;
 }
 
+.tag {
+    font-weight: bold;
+    font-size: 12px;
+    text-transform: none;
+}
+
 @if $VUE_APP_DEFAULT_NETWORKID == 5 {
     .utxo_container {
         background-color: $purple-xlight;

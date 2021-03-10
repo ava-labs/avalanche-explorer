@@ -27,9 +27,9 @@ export function getTransactionChainType(chainID: string) {
     return txChainTypeMap.get(chainID)
 }
 
-export function getTransactionOutputs(outputs: Output[], chainID: string) {
+export function getTransactionOutputs(outputs: Output[]) {
     return outputs.map((output) => {
-        const chainType = getTransactionChainType(chainID)
+        const chainType = getTransactionChainType(output.chainID)
         const addresses =
             output.addresses !== null ? output.addresses : output.caddresses
         const prefix = output.addresses !== null ? `${chainType?.code}-` : ``
@@ -46,10 +46,10 @@ export function getTransactionOutputs(outputs: Output[], chainID: string) {
     })
 }
 
-export function getTransactionInputs(inputs: Input[], chainId: string) {
+export function getTransactionInputs(inputs: Input[]) {
     return inputs.map((input) => ({
         credentials: input.credentials,
-        output: getTransactionOutputs([input.output], chainId)[0],
+        output: getTransactionOutputs([input.output])[0],
     }))
 }
 

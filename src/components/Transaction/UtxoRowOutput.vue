@@ -5,6 +5,7 @@
                 :index="$vnode.key"
                 :utxo="utxo"
                 :isMint="isMint"
+                :isExport="isExport"
             ></Summary>
             <Addresses :addresses="utxo.addresses" :type="'output'"></Addresses>
             <LockTime :time="utxo.locktime"></LockTime>
@@ -56,6 +57,7 @@ import Block from '@/components/Transaction/UtxoBlock.vue'
 import NFTPayload from '@/components/Transaction/UtxoNFTPayload.vue'
 import Summary from '@/components/Transaction/UtxoSummary.vue'
 import { AVAX_ID } from '@/known_assets'
+import { XCHAINID } from '@/known_blockchains'
 
 @Component({
     components: {
@@ -92,6 +94,12 @@ export default class UtxoRowOutput extends Vue {
 
     get isMint() {
         return this.txtype === 'create_asset' && this.utxo.assetID !== AVAX_ID
+            ? true
+            : false
+    }
+
+    get isExport() {
+        return this.txtype === 'export' && this.utxo.chainID !== XCHAINID
             ? true
             : false
     }

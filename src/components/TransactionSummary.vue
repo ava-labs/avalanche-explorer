@@ -142,7 +142,7 @@ export default class TransactionSummary extends Vue {
     }
 
     get outputs() {
-        return getTransactionOutputs(this.tx.outputs, this.tx.chainID)
+        return getTransactionOutputs(this.tx.outputs)
     }
 
     b64EncodeUnicode(str: string): string {

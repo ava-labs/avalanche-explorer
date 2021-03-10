@@ -88,10 +88,9 @@ export default class TxRow extends Vue {
      * Returns a list of unique addresses found in Input UTXOs
      */
     get inputs() {
-        const addresses = getTransactionInputs(
-            this.transaction.inputs,
-            this.transaction.chainID
-        ).flatMap((output) => output.output.addresses)
+        const addresses = getTransactionInputs(this.transaction.inputs).flatMap(
+            (output) => output.output.addresses
+        )
 
         /**
          * This is just making sure that the addresses is a unique set with no repeats
@@ -107,10 +106,7 @@ export default class TxRow extends Vue {
     }
 
     get outputs() {
-        return getTransactionOutputs(
-            this.transaction.outputs,
-            this.transaction.chainID
-        )
+        return getTransactionOutputs(this.transaction.outputs)
     }
 }
 </script>

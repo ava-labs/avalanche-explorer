@@ -4,6 +4,7 @@
             <span class="index">#{{ index }} </span>
             <span class="type">{{ utxo.outputType | getOutputType }}</span>
             <span v-if="isMint" class="type minted">Minted</span>
+            <span v-if="isExport" class="tag">Exported to {{ chain }}</span>
         </div>
         <div>
             <span v-if="amount" class="amount monospace">{{ amount }}</span>
@@ -18,6 +19,7 @@ import { Asset } from '@/js/Asset'
 import { getOutputType } from '@/services/transactions'
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
+import { getTxChainType } from '@/store/modules/transactions/maps'
 
 @Component({
     filters: {
@@ -28,6 +30,7 @@ export default class UtxoSummary extends Vue {
     @Prop() index!: number
     @Prop() utxo!: Output
     @Prop() isMint?: boolean
+    @Prop() isExport?: boolean
 
     get amount(): string | null {
         if (this.utxo.outputType === 10 || this.utxo.outputType === 11)
@@ -45,6 +48,10 @@ export default class UtxoSummary extends Vue {
 
     get symbol(): string {
         return this.asset ? this.asset.symbol : this.utxo.assetID
+    }
+
+    get chain(): string {
+        return getTxChainType(this.utxo.chainID)!.name
     }
 }
 </script>

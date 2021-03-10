@@ -81,11 +81,11 @@ export default class TransactionUTXO extends Vue {
     @Prop() tx!: Transaction
 
     get inputs() {
-        return getTransactionInputs(this.tx.inputs, this.tx.chainID)
+        return getTransactionInputs(this.tx.inputs)
     }
 
     get outputs() {
-        return getTransactionOutputs(this.tx.outputs, this.tx.chainID)
+        return getTransactionOutputs(this.tx.outputs)
     }
 
     get assets(): any {
