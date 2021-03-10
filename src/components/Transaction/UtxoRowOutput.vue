@@ -1,7 +1,11 @@
 <template>
     <div class="utxo_container output_container">
         <div class="utxo_new_col">
-            <Summary :index="$vnode.key" :utxo="utxo"></Summary>
+            <Summary
+                :index="$vnode.key"
+                :utxo="utxo"
+                :isMint="isMint"
+            ></Summary>
             <Addresses :addresses="utxo.addresses" :type="'output'"></Addresses>
             <LockTime :time="utxo.locktime"></LockTime>
             <Threshold
@@ -51,6 +55,7 @@ import Stakeable from '@/components/Transaction/UtxoStakeable.vue'
 import Block from '@/components/Transaction/UtxoBlock.vue'
 import NFTPayload from '@/components/Transaction/UtxoNFTPayload.vue'
 import Summary from '@/components/Transaction/UtxoSummary.vue'
+import { AVAX_ID } from '@/known_assets'
 
 @Component({
     components: {
@@ -68,6 +73,7 @@ import Summary from '@/components/Transaction/UtxoSummary.vue'
 export default class UtxoRowOutput extends Vue {
     @Prop() utxo!: Output
     @Prop() type!: string
+    @Prop() txtype!: string
 
     get amount(): string {
         const denomination = this.asset ? this.asset.denomination : 0
@@ -82,6 +88,12 @@ export default class UtxoRowOutput extends Vue {
 
     get symbol(): string {
         return this.asset ? this.asset.symbol : this.utxo.assetID
+    }
+
+    get isMint() {
+        return this.txtype === 'create_asset' && this.utxo.assetID !== AVAX_ID
+            ? true
+            : false
     }
 }
 </script>

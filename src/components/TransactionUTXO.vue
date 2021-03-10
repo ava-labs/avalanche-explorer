@@ -1,6 +1,6 @@
 <template>
     <section v-if="tx" class="utxo">
-        <article v-if="!isAssetGenesis" class="card meta">
+        <article class="card meta">
             <h3 class="label">
                 {{
                     inputs.length
@@ -37,6 +37,7 @@
                     v-for="(output, i) in outputs"
                     :key="i"
                     :utxo="output"
+                    :txtype="tx.type"
                     type="output"
                 ></UtxoRowOutput>
             </div>

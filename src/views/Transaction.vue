@@ -88,10 +88,6 @@ export default class TransactionPage extends Mixins(TransactionsGettersMixin) {
         return this.getTx()
     }
 
-    get title() {
-        return 'boy'
-    }
-
     getData(): void {
         this.loading = true
         if (this.assetsLoaded) {

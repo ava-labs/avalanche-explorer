@@ -140,9 +140,8 @@ function getPayloadFromUTXO(utxo: UTXO): PayloadBase {
     return payloadbase
 }
 
-const res: { [key in string]: { [key in string]: PayloadBase[] } } = {}
-
 function pushPayload(rawPayload: string, assetID: string, groupID: number) {
+    const res: { [key in string]: { [key in string]: PayloadBase[] } } = {}
     let payload = Buffer.from(rawPayload, 'base64')
     payload = Buffer.concat([new Buffer(4).fill(payload.length), payload])
 
@@ -165,7 +164,7 @@ function pushPayload(rawPayload: string, assetID: string, groupID: number) {
             })
         }
     } catch (e) {
-        // console.error(e)
+        console.error(e)
     }
 }
 

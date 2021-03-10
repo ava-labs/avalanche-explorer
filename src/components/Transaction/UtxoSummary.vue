@@ -3,6 +3,7 @@
         <div class="utxo_label">
             <span class="index">#{{ index }} </span>
             <span class="type">{{ utxo.outputType | getOutputType }}</span>
+            <span v-if="isMint" class="type minted">Minted</span>
         </div>
         <div>
             <span v-if="amount" class="amount monospace">{{ amount }}</span>
@@ -26,6 +27,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 export default class UtxoSummary extends Vue {
     @Prop() index!: number
     @Prop() utxo!: Output
+    @Prop() isMint?: boolean
 
     get amount(): string | null {
         if (this.utxo.outputType === 10 || this.utxo.outputType === 11)
