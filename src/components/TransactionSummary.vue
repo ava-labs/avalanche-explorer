@@ -106,6 +106,18 @@
                 <p>{{ tx | getAssetType }}</p>
             </div>
         </article>
+        <!-- P-CHAIN -->
+        <article v-if="isPChain" class="meta_row">
+            <p class="label">
+                P-Chain Block ID
+                <Tooltip
+                    content="The P-Chain block containing this transaction"
+                ></Tooltip>
+            </p>
+            <div>
+                <p>{{ tx.txBlockId }}</p>
+            </div>
+        </article>
     </section>
 </template>
 
@@ -127,6 +139,7 @@ import { stringToBig, toAVAX } from '../helper'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import { getAssetType } from '@/services/assets'
 import { getTxChainType } from '@/services/transactions'
+import { PCHAINID } from '@/known_blockchains'
 
 @Component({
     components: {
@@ -255,6 +268,10 @@ export default class TransactionSummary extends Vue {
             }
         }
         return outValuesDenominated
+    }
+
+    get isPChain() {
+        return this.tx.chainID === PCHAINID ? true : false
     }
 }
 </script>
