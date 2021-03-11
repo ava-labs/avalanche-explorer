@@ -31,6 +31,17 @@
         </article>
         <article class="meta_row">
             <p class="label">
+                Issued On
+                <Tooltip
+                    content="Blockchain on which transaction was issued"
+                ></Tooltip>
+            </p>
+            <p class="values">
+                {{ chain }}
+            </p>
+        </article>
+        <article class="meta_row">
+            <p class="label">
                 Timestamp
                 <Tooltip
                     content="Date and time when the transaction was processed"
@@ -115,6 +126,7 @@ import {
 import { stringToBig, toAVAX } from '../helper'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import { getAssetType } from '@/services/assets'
+import { getTxChainType } from '@/services/transactions'
 
 @Component({
     components: {
@@ -189,6 +201,10 @@ export default class TransactionSummary extends Vue {
 
     get date(): Date {
         return new Date(this.tx.timestamp)
+    }
+
+    get chain(): string {
+        return getTxChainType(this.tx.chainID)!.name
     }
 
     get assets(): any {
