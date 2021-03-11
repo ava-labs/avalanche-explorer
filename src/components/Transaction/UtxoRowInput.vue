@@ -9,7 +9,13 @@
             </TxLinkInput>
         </div>
         <div class="utxo_new_col">
-            <Summary :index="$vnode.key" :utxo="utxo.output"></Summary>
+            <Summary
+                :index="$vnode.key"
+                :utxo="utxo.output"
+                :is-p-v-m-import="isPVMImport"
+                :is-import="isImport"
+                :is-atomic-import="isAtomicImport"
+            ></Summary>
             <Addresses
                 :addresses="utxo.output.addresses"
                 :type="'input'"
@@ -75,6 +81,22 @@ import Summary from '@/components/Transaction/UtxoSummary.vue'
 })
 export default class UtxoRowInput extends Vue {
     @Prop() utxo!: Input
+    @Prop() txtype!: string
+
+    // Importing UTXO from Atomic DB to P
+    get isPVMImport() {
+        return this.txtype === 'pvm_import' ? true : false
+    }
+
+    // Importing UTXO from Atomic DB to X
+    get isImport() {
+        return this.txtype === 'import' ? true : false
+    }
+
+    // Importing UTXO from Atomic DB to C
+    get isAtomicImport() {
+        return this.txtype === 'atomic_import_tx' ? true : false
+    }
 }
 </script>
 

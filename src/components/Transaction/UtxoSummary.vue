@@ -4,7 +4,12 @@
             <span class="index">#{{ index }} </span>
             <span class="type">{{ utxo.outputType | getOutputType }}</span>
             <span v-if="isMint" class="type minted">Minted</span>
-            <span v-if="isExport" class="tag">Exported to {{ chain }}</span>
+            <span v-if="isPVMExport || isExport || isAtomicExport" class="tag"
+                >Exported to Atomic DB</span
+            >
+            <span v-if="isPVMImport || isImport || isAtomicImport" class="tag"
+                >Imported from Atomic DB</span
+            >
         </div>
         <div>
             <span v-if="amount" class="amount monospace">{{ amount }}</span>
@@ -30,7 +35,12 @@ export default class UtxoSummary extends Vue {
     @Prop() index!: number
     @Prop() utxo!: Output
     @Prop() isMint?: boolean
+    @Prop() isPVMImport?: boolean
+    @Prop() isImport?: boolean
+    @Prop() isAtomicImport?: boolean
+    @Prop() isPVMExport?: boolean
     @Prop() isExport?: boolean
+    @Prop() isAtomicExport?: boolean
 
     get amount(): string | null {
         if (this.utxo.outputType === 10 || this.utxo.outputType === 11)

@@ -13,6 +13,7 @@
                 <UtxoRowInput
                     v-for="(input, i) in inputs"
                     :key="i"
+                    :txtype="tx.type"
                     :utxo="input"
                 ></UtxoRowInput>
             </div>

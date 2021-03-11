@@ -4,8 +4,10 @@
             <Summary
                 :index="$vnode.key"
                 :utxo="utxo"
-                :isMint="isMint"
-                :isExport="isExport"
+                :is-mint="isMint"
+                :is-p-v-m-export="isPVMExport"
+                :is-export="isExport"
+                :is-atomic-export="isAtomicExport"
             ></Summary>
             <Addresses :addresses="utxo.addresses" :type="'output'"></Addresses>
             <LockTime :time="utxo.locktime"></LockTime>
@@ -57,7 +59,7 @@ import Block from '@/components/Transaction/UtxoBlock.vue'
 import NFTPayload from '@/components/Transaction/UtxoNFTPayload.vue'
 import Summary from '@/components/Transaction/UtxoSummary.vue'
 import { AVAX_ID } from '@/known_assets'
-import { XCHAINID } from '@/known_blockchains'
+import { XCHAINID, PCHAINID, CCHAINID } from '@/known_blockchains'
 
 @Component({
     components: {
@@ -98,8 +100,24 @@ export default class UtxoRowOutput extends Vue {
             : false
     }
 
+    // Exporting UTXO from P to Atomic DB
+    get isPVMExport() {
+        return this.txtype === 'pvm_export' && this.utxo.chainID !== PCHAINID
+            ? true
+            : false
+    }
+
+    // Exporting UTXO from X to Atomic DB
     get isExport() {
         return this.txtype === 'export' && this.utxo.chainID !== XCHAINID
+            ? true
+            : false
+    }
+
+    // Exporting UTXO from C to Atomic DB
+    get isAtomicExport() {
+        return this.txtype === 'atomic_export_tx' &&
+            this.utxo.chainID !== CCHAINID
             ? true
             : false
     }
