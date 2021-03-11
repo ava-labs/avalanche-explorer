@@ -3,7 +3,7 @@ import {
     peerInfoURL,
     peerInfoURL_test,
 } from '@/store/modules/network/network.ts'
-import { IVersion } from './models'
+import { IVersion, IVersionRes } from './models'
 import { toAVAX } from '@/helper'
 import { getTotalStake } from './peerinfo'
 
@@ -17,47 +17,34 @@ function removePrefix(s: string): string {
  * get a list of peers, ordered by latest version
  */
 export async function getPeerInfo() {
-    // endpoint returns a string
-    const res = (await fetch(PEER_INFO_URL).then((response) =>
-        response.text()
-    )) as string
+    const res: IVersionRes[] = await fetch(PEER_INFO_URL, {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then((response) => response.json())
+        .then((data) => data.stakeInfo)
 
-    // convert string to structured data
-    const peerMap: any = {}
-    res.split('peerinfo_')
-        .filter((x) => !!x)
-        .map((y) => y.split('{version="'))
-        .forEach((peer) => {
-            const datum = removePrefix(peer[1])
-                .replace(/(\r\n|\n|\r)/gm, '')
-                .split(`"} `)
-            if (peer[0] === 'nodecount') {
-                peerMap[datum[0]] = {
-                    version: datum[0],
-                    nodeCount: parseInt(datum[1]),
-                }
-            } else {
-                peerMap[datum[0]].stakeAmount = toAVAX(datum[1])
-            }
-        })
-
-    // create list for charts
-    let peerInfo: IVersion[] = []
-    for (const peer in peerMap) {
-        peerInfo.push(peerMap[peer])
-    }
+    let peerInfo: IVersion[] = res.map((peer) => {
+        return {
+            version: peer.version,
+            nodeCount: peer.nodeCount,
+            stakeAmount: toAVAX(peer.stakeAmount),
+        }
+    })
 
     const totalStake = getTotalStake(peerInfo)
 
-    peerInfo = peerInfo
+    peerInfo = res
         .sort((a, b) =>
             a.version.localeCompare(b.version, undefined, { numeric: true })
         )
         .reverse()
         .map((peer) => {
             return {
-                stakePercent: Math.round((peer.stakeAmount / totalStake) * 100),
                 ...peer,
+                version: removePrefix(peer.version),
+                stakePercent: Math.round((peer.stakeAmount / totalStake) * 100),
             }
         })
 
