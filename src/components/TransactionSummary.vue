@@ -9,6 +9,7 @@
                 ID
                 <Tooltip
                     content="Unique character string generated when a transaction is executed"
+                    color="#867e89"
                 ></Tooltip>
             </p>
             <div class="genesis_tx">
@@ -22,7 +23,10 @@
         <article class="meta_row">
             <p class="label">
                 Status
-                <Tooltip content="Status of the transaction"></Tooltip>
+                <Tooltip
+                    content="Status of the transaction"
+                    color="#867e89"
+                ></Tooltip>
             </p>
             <div>
                 <p class="status">Success</p>
@@ -34,6 +38,7 @@
                 Issued On
                 <Tooltip
                     content="Blockchain on which transaction was issued"
+                    color="#867e89"
                 ></Tooltip>
             </p>
             <p class="values">
@@ -45,6 +50,7 @@
                 Timestamp
                 <Tooltip
                     content="Date and time when the transaction was processed"
+                    color="#867e89"
                 ></Tooltip>
             </p>
             <p class="date">
@@ -57,6 +63,7 @@
                 Value
                 <Tooltip
                     content="Total economic value transferred in this transaction"
+                    color="#867e89"
                 ></Tooltip>
             </p>
             <p class="values">
@@ -68,7 +75,10 @@
         <article class="meta_row">
             <p class="label">
                 Type
-                <Tooltip content="The transaction type"></Tooltip>
+                <Tooltip
+                    content="The transaction type"
+                    color="#867e89"
+                ></Tooltip>
             </p>
             <p class="values">
                 {{ tx.type | getType }}
@@ -79,6 +89,7 @@
                 Transaction Fee
                 <Tooltip
                     content="Amount paid to validators for processing the transaction"
+                    color="#867e89"
                 ></Tooltip>
             </p>
             <p>{{ tx.txFee | toAVAX }} AVAX</p>
@@ -88,6 +99,7 @@
                 Text
                 <Tooltip
                     content="A 256-byte text field for encoding arbitrary data"
+                    color="#867e89"
                 ></Tooltip>
             </p>
             <div>
@@ -100,6 +112,7 @@
                 Asset Type
                 <Tooltip
                     content="The type of asset (NFT, variable or fixed cap)"
+                    color="#867e89"
                 ></Tooltip>
             </p>
             <div>
@@ -112,10 +125,35 @@
                 P-Chain Block ID
                 <Tooltip
                     content="The P-Chain block containing this transaction"
+                    color="#867e89"
                 ></Tooltip>
             </p>
             <div>
                 <p>{{ tx.txBlockId }}</p>
+            </div>
+        </article>
+        <article v-if="isPChain" class="meta_row">
+            <p class="label">
+                Staking Rewards
+                <Tooltip content="Validator Rewards" color="#867e89"></Tooltip>
+            </p>
+            <div>
+                <p v-if="tx.rewarded">
+                    <span class="status">Rewarded</span>{{ tx.rewardedTime }}
+                </p>
+                <div>
+                    <div class="summary_label">Validator Node ID</div>
+                    <div>{{ tx.validatorNodeID }}</div>
+                </div>
+                <StakingTimeline
+                    :start-time="tx.validatorStart"
+                    :end-time="tx.validatorEnd"
+                    :current-time="currentTime"
+                ></StakingTimeline>
+                <div>
+                    <div class="summary_label">Elapsed</div>
+                    <div>{{ elapsed }}%</div>
+                </div>
             </div>
         </article>
     </section>
@@ -126,6 +164,7 @@ import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import CopyText from '@/components/misc/CopyText.vue'
 import UtxoRow from '@/components/Transaction/UtxoRow.vue'
+import StakingTimeline from '@/components/Transaction/StakingTimeline.vue'
 import {
     getMappingForType,
     Transaction,
@@ -146,6 +185,7 @@ import { PCHAINID } from '@/known_blockchains'
         UtxoRow,
         Tooltip,
         CopyText,
+        StakingTimeline,
     },
     filters: {
         getType: getMappingForType,
@@ -155,6 +195,8 @@ import { PCHAINID } from '@/known_blockchains'
 })
 export default class TransactionSummary extends Vue {
     @Prop() tx!: Transaction
+
+    currentTime: number = Math.round(new Date().getTime() / 1000)
 
     b64DecodeHex(str: string): string {
         const raw = atob(str)
@@ -216,6 +258,10 @@ export default class TransactionSummary extends Vue {
         return new Date(this.tx.timestamp)
     }
 
+    get rewardedDate() {
+        return this.tx.rewardedTime
+    }
+
     get chain(): string {
         return getTxChainType(this.tx.chainID)!.name
     }
@@ -272,6 +318,13 @@ export default class TransactionSummary extends Vue {
 
     get isPChain() {
         return this.tx.chainID === PCHAINID ? true : false
+    }
+
+    get elapsed() {
+        const numerator = this.currentTime - this.tx.validatorStart
+        const denominator = this.tx.validatorEnd - this.tx.validatorStart
+        const percent = Math.round((numerator / denominator) * 100)
+        return percent > 100 ? 100 : percent
     }
 }
 </script>
