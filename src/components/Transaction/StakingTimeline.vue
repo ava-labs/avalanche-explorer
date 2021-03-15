@@ -1,26 +1,34 @@
 <template>
-    <div>
-        <div class="diagram-container">
-            <div class="diagram">
-                <div
-                    class="chartbar"
-                    :style="{
-                        left: `${start}px`,
-                        width: `${stakingDuration}px`,
-                    }"
-                ></div>
-                <div
-                    class="chartbar_complete"
-                    :style="{
-                        left: `${start}px`,
-                        width: `${elapsedDuration}px`,
-                    }"
-                ></div>
-                <div class="now" :style="{ left: `${current}px` }"></div>
+    <div class="diagram-container">
+        <div class="diagram">
+            <div
+                class="chartbar"
+                :style="{
+                    left: `${start}px`,
+                    width: `${stakingDuration}px`,
+                }"
+            ></div>
+            <div
+                class="chartbar_complete"
+                :style="{
+                    left: `${start}px`,
+                    width: `${elapsedDuration}px`,
+                }"
+            ></div>
+            <div class="now" :style="{ left: `${current}px` }"></div>
+        </div>
+        <div class="labels">
+            <div>
+                <div class="diagram_label">Start</div>
+                <div class="diagram_label">
+                    {{ (startTime * 1000) | date }}
+                </div>
             </div>
-            <div class="labels">
-                <div></div>
-                <div></div>
+            <div class="right">
+                <div class="diagram_label">End</div>
+                <div class="diagram_label">
+                    {{ (endTime * 1000) | date }}
+                </div>
             </div>
         </div>
     </div>
@@ -30,22 +38,21 @@
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { scaleLinear } from 'd3-scale'
+import moment from 'moment'
 
-@Component({})
+@Component({
+    filters: {
+        date(val: number) {
+            return moment(val).format('M/D/YYYY')
+        },
+    },
+})
 export default class StakingTimeline extends Vue {
     @Prop() startTime!: number
     @Prop() endTime!: number
     @Prop() currentTime!: number
 
-    diagramWidth = 125
-
-    get startDate() {
-        return new Date(this.startTime * 1000)
-    }
-
-    get endDate() {
-        return new Date(this.endTime * 1000)
-    }
+    diagramWidth = 250
 
     get start() {
         return this.scale(this.startTime)
@@ -58,7 +65,6 @@ export default class StakingTimeline extends Vue {
     }
 
     get stakingDuration() {
-        console.log(this.scale(this.endTime) - this.scale(this.startTime))
         return this.scale(this.endTime) - this.scale(this.startTime)
     }
 
@@ -79,8 +85,8 @@ export default class StakingTimeline extends Vue {
 
 <style scoped lang="scss">
 .diagram {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
     width: 100%;
     height: 20px;
     position: relative;
@@ -108,7 +114,7 @@ export default class StakingTimeline extends Vue {
 }
 
 .diagram-container {
-    width: 125px;
+    width: 250px;
 }
 
 .duration_text_container {
@@ -154,6 +160,15 @@ export default class StakingTimeline extends Vue {
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-items: space-between;
+    justify-content: space-between;
+
+    > .right {
+        text-align: right;
+    }
+}
+
+.diagram_label {
+    font-size: 10px;
+    color: $secondary-color;
 }
 </style>

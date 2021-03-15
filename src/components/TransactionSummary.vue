@@ -134,25 +134,45 @@
         </article>
         <article v-if="isPChain" class="meta_row">
             <p class="label">
-                Staking Rewards
+                Staking
                 <Tooltip content="Validator Rewards" color="#867e89"></Tooltip>
             </p>
             <div>
-                <p v-if="tx.rewarded">
-                    <span class="status">Rewarded</span>{{ tx.rewardedTime }}
-                </p>
-                <div>
-                    <div class="summary_label">Validator Node ID</div>
+                <div class="subsection">
+                    <div class="summary_label">Validator</div>
                     <div>{{ tx.validatorNodeID }}</div>
                 </div>
-                <StakingTimeline
-                    :start-time="tx.validatorStart"
-                    :end-time="tx.validatorEnd"
-                    :current-time="currentTime"
-                ></StakingTimeline>
-                <div>
-                    <div class="summary_label">Elapsed</div>
-                    <div>{{ elapsed }}%</div>
+                <div class="subsection">
+                    <div class="summary_label">Duration</div>
+                    <div>
+                        <div>{{ duration }} days ({{ elapsed }}% elapsed)</div>
+                        <StakingTimeline
+                            :start-time="tx.validatorStart"
+                            :end-time="tx.validatorEnd"
+                            :current-time="currentTime"
+                        ></StakingTimeline>
+                    </div>
+                </div>
+                <div class="subsection">
+                    <div v-if="tx.rewarded">
+                        <div class="summary_label">Status</div>
+                        <div>
+                            <p class="inline_status">
+                                <template v-if="rewardedDate">
+                                    <span class="status">Rewarded</span>
+                                    <span v-if="rewardedDate">
+                                        {{ rewardedDate | fromNow }} ({{
+                                            rewardedDate.toLocaleString()
+                                        }})
+                                    </span>
+                                </template>
+                                <template v-else>
+                                    <span class="status">Staking</span>
+                                </template>
+                            </p>
+                            <p></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </article>
@@ -179,6 +199,7 @@ import Tooltip from '@/components/rows/Tooltip.vue'
 import { getAssetType } from '@/services/assets'
 import { getTxChainType } from '@/services/transactions'
 import { PCHAINID } from '@/known_blockchains'
+import moment from 'moment'
 
 @Component({
     components: {
@@ -259,7 +280,7 @@ export default class TransactionSummary extends Vue {
     }
 
     get rewardedDate() {
-        return this.tx.rewardedTime
+        return this.tx.rewardedTime ? new Date(this.tx.rewardedTime) : null
     }
 
     get chain(): string {
@@ -326,6 +347,12 @@ export default class TransactionSummary extends Vue {
         const percent = Math.round((numerator / denominator) * 100)
         return percent > 100 ? 100 : percent
     }
+
+    get duration() {
+        const start = moment(this.tx.validatorStart * 1000)
+        const end = moment(this.tx.validatorEnd * 1000)
+        return Math.round(moment.duration(end.diff(start)).asDays())
+    }
 }
 </script>
 
@@ -335,5 +362,13 @@ export default class TransactionSummary extends Vue {
     color: $primary-color-light;
     width: 60px;
     font-size: 12px;
+}
+
+.subsection {
+    margin-bottom: 20px;
+}
+
+.inline_status {
+    margin-top: 8px;
 }
 </style>
