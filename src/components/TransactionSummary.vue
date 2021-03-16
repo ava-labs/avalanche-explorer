@@ -2,7 +2,7 @@
     <section v-if="tx" class="card meta">
         <header class="header">
             <h2>
-                <p class="tx_type_label monospace">
+                <p class="type_label monospace">
                     <slot></slot>
                 </p>
                 <v-tooltip bottom>
@@ -114,50 +114,13 @@
                 <p>{{ tx | getAssetType }}</p>
             </div>
         </article>
-        <!-- P-CHAIN -->
+        <!-- IF STAKING -->
         <article v-if="isStaking" class="meta_row">
             <p class="label">
                 Staking
                 <Tooltip content="Validator Rewards" color="#867e89"></Tooltip>
             </p>
-            <div>
-                <div class="subsection">
-                    <div class="summary_label">Validator</div>
-                    <div>{{ tx.validatorNodeID }}</div>
-                </div>
-                <div class="subsection">
-                    <div class="summary_label">Duration</div>
-                    <div>
-                        <div>{{ duration }} days ({{ elapsed }}% elapsed)</div>
-                        <StakingTimeline
-                            :start-time="tx.validatorStart"
-                            :end-time="tx.validatorEnd"
-                            :current-time="currentTime"
-                        ></StakingTimeline>
-                    </div>
-                </div>
-                <div class="subsection">
-                    <div v-if="tx.rewarded">
-                        <div class="summary_label">Status</div>
-                        <div>
-                            <p class="inline_status">
-                                <template v-if="rewardedDate">
-                                    <span class="status">Rewarded</span>
-                                    <span v-if="rewardedDate">
-                                        {{ rewardedDate | fromNow }} ({{
-                                            rewardedDate.toLocaleString()
-                                        }})
-                                    </span>
-                                </template>
-                                <template v-else>
-                                    <span class="status">Staking</span>
-                                </template>
-                            </p>
-                            <p></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <StakingSummary :tx="tx"></StakingSummary>
         </article>
     </section>
 </template>
@@ -360,13 +323,5 @@ export default class TransactionSummary extends Vue {
     color: $primary-color-light;
     width: 60px;
     font-size: 12px;
-}
-
-.subsection {
-    margin-bottom: 20px;
-}
-
-.inline_status {
-    margin-top: 8px;
 }
 </style>
