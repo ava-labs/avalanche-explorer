@@ -99,6 +99,7 @@
                 <p>{{ chain }}</p>
                 <div v-if="isPChain" style="margin-top: 10px">
                     <div class="summary_label">Block</div>
+                    <div>{{ tx.txBlockId }}</div>
                 </div>
             </div>
         </article>
