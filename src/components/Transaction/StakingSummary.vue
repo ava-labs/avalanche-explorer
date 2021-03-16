@@ -42,10 +42,35 @@
 import { Transaction } from '@/js/Transaction'
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
+import StakingTimeline from '@/components/Transaction/StakingTimeline.vue'
+import moment from 'moment'
 
-@Component({})
+@Component({
+    components: {
+        StakingTimeline,
+    },
+})
 export default class StakingSummary extends Vue {
     @Prop() tx!: Transaction
+
+    currentTime: number = Math.round(new Date().getTime() / 1000)
+
+    get rewardedDate() {
+        return this.tx.rewardedTime ? new Date(this.tx.rewardedTime) : null
+    }
+
+    get elapsed() {
+        const numerator = this.currentTime - this.tx.validatorStart
+        const denominator = this.tx.validatorEnd - this.tx.validatorStart
+        const percent = Math.round((numerator / denominator) * 100)
+        return percent > 100 ? 100 : percent
+    }
+
+    get duration() {
+        const start = moment(this.tx.validatorStart * 1000)
+        const end = moment(this.tx.validatorEnd * 1000)
+        return Math.round(moment.duration(end.diff(start)).asDays())
+    }
 }
 </script>
 

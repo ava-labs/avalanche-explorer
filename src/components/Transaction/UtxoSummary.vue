@@ -3,7 +3,7 @@
         <div class="utxo_label">
             <span class="index">#{{ index }} </span>
             <span class="type">{{ utxo.outputType | getOutputType }}</span>
-            <span v-if="isMint" class="type minted">Minted</span>
+            <span v-if="isMint" class="type tag minted">Minted</span>
             <span v-if="isPVMExport || isExport || isAtomicExport" class="tag"
                 >Exported to Atomic DB</span
             >

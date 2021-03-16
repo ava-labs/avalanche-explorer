@@ -130,7 +130,7 @@ import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import CopyText from '@/components/misc/CopyText.vue'
 import UtxoRow from '@/components/Transaction/UtxoRow.vue'
-import StakingTimeline from '@/components/Transaction/StakingTimeline.vue'
+import StakingSummary from '@/components/Transaction/StakingSummary.vue'
 import {
     getMappingForType,
     Transaction,
@@ -145,14 +145,13 @@ import Tooltip from '@/components/rows/Tooltip.vue'
 import { getAssetType } from '@/services/assets'
 import { getTxChainType } from '@/services/transactions'
 import { PCHAINID } from '@/known_blockchains'
-import moment from 'moment'
 
 @Component({
     components: {
         UtxoRow,
         Tooltip,
         CopyText,
-        StakingTimeline,
+        StakingSummary,
     },
     filters: {
         getType: getMappingForType,
@@ -162,8 +161,6 @@ import moment from 'moment'
 })
 export default class TransactionSummary extends Vue {
     @Prop() tx!: Transaction
-
-    currentTime: number = Math.round(new Date().getTime() / 1000)
 
     b64DecodeHex(str: string): string {
         const raw = atob(str)
@@ -223,10 +220,6 @@ export default class TransactionSummary extends Vue {
 
     get date(): Date {
         return new Date(this.tx.timestamp)
-    }
-
-    get rewardedDate() {
-        return this.tx.rewardedTime ? new Date(this.tx.rewardedTime) : null
     }
 
     get chain(): string {
@@ -292,19 +285,6 @@ export default class TransactionSummary extends Vue {
             this.tx.type === 'add_delegator'
             ? true
             : false
-    }
-
-    get elapsed() {
-        const numerator = this.currentTime - this.tx.validatorStart
-        const denominator = this.tx.validatorEnd - this.tx.validatorStart
-        const percent = Math.round((numerator / denominator) * 100)
-        return percent > 100 ? 100 : percent
-    }
-
-    get duration() {
-        const start = moment(this.tx.validatorStart * 1000)
-        const end = moment(this.tx.validatorEnd * 1000)
-        return Math.round(moment.duration(end.diff(start)).asDays())
     }
 
     copy() {

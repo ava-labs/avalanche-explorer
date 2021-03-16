@@ -93,9 +93,8 @@ h3.label {
     }
 
     .type {
+        text-transform: none;
         margin-left: 8px;
-        font-size: 24px !important;
-        font-weight: 300;
     }
 
     // AMOUNT
@@ -154,6 +153,7 @@ h3.label {
     font-weight: bold;
     font-size: 12px;
     text-transform: none;
+    color: #867e89;
 }
 
 @if $VUE_APP_DEFAULT_NETWORKID == 5 {
