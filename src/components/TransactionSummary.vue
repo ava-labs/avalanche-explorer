@@ -1,25 +1,27 @@
 <template>
     <section v-if="tx" class="card meta">
         <header class="header">
-            <h2><slot></slot></h2>
+            <h2>
+                <p class="tx_type_label monospace">
+                    <slot></slot>
+                </p>
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                        <p class="click_to_copy">
+                            <span
+                                class="tx_hash monospace"
+                                @click="copy"
+                                v-on="on"
+                            >
+                                {{ tx.id }}
+                            </span>
+                        </p>
+                    </template>
+                    <span>Click to copy</span>
+                </v-tooltip>
+            </h2>
         </header>
         <!-- SUMMARY -->
-        <article class="meta_row">
-            <p class="label">
-                ID
-                <Tooltip
-                    content="Unique character string generated when a transaction is executed"
-                    color="#867e89"
-                ></Tooltip>
-            </p>
-            <div class="genesis_tx">
-                <p>
-                    <b>{{ tx.id }}</b>
-                    <CopyText :value="`${tx.id}`" class="copy_but"></CopyText>
-                </p>
-                <p v-if="isAssetGenesis" class="genesis">Asset Genesis</p>
-            </div>
-        </article>
         <article class="meta_row">
             <p class="label">
                 Status
@@ -35,28 +37,18 @@
         </article>
         <article class="meta_row">
             <p class="label">
-                Issued On
+                Accepted
                 <Tooltip
-                    content="Blockchain on which transaction was issued"
+                    content="Date and time when transaction was accepted"
                     color="#867e89"
                 ></Tooltip>
             </p>
-            <p class="values">
-                {{ chain }}
-            </p>
-        </article>
-        <article class="meta_row">
-            <p class="label">
-                Timestamp
-                <Tooltip
-                    content="Date and time when the transaction was processed"
-                    color="#867e89"
-                ></Tooltip>
-            </p>
-            <p class="date">
-                <fa :icon="['far', 'clock']"></fa>
-                {{ date | fromNow }} ({{ date.toLocaleString() }})
-            </p>
+            <div class="values">
+                <p class="date">
+                    <fa :icon="['far', 'clock']" class="time_icon"></fa>
+                    {{ date | fromNow }} ({{ date.toLocaleString() }})
+                </p>
+            </div>
         </article>
         <article class="meta_row">
             <p class="label">
@@ -70,18 +62,6 @@
                 <span v-for="(val, id) in outValuesDenominated" :key="id"
                     >{{ val.amount }} <b>{{ val.symbol }}</b></span
                 >
-            </p>
-        </article>
-        <article class="meta_row">
-            <p class="label">
-                Type
-                <Tooltip
-                    content="The transaction type"
-                    color="#867e89"
-                ></Tooltip>
-            </p>
-            <p class="values">
-                {{ tx.type | getType }}
             </p>
         </article>
         <article class="meta_row">
@@ -109,6 +89,21 @@
         </article>
         <article class="meta_row">
             <p class="label">
+                Blockchain
+                <Tooltip
+                    content="Blockchain storing transaction"
+                    color="#867e89"
+                ></Tooltip>
+            </p>
+            <div>
+                <p>{{ chain }}</p>
+                <div v-if="isPChain" style="margin-top: 10px">
+                    <div class="summary_label">Block</div>
+                </div>
+            </div>
+        </article>
+        <article class="meta_row">
+            <p class="label">
                 Asset Type
                 <Tooltip
                     content="The type of asset (NFT, variable or fixed cap)"
@@ -120,19 +115,7 @@
             </div>
         </article>
         <!-- P-CHAIN -->
-        <article v-if="isPChain" class="meta_row">
-            <p class="label">
-                P-Chain Block ID
-                <Tooltip
-                    content="The P-Chain block containing this transaction"
-                    color="#867e89"
-                ></Tooltip>
-            </p>
-            <div>
-                <p>{{ tx.txBlockId }}</p>
-            </div>
-        </article>
-        <article v-if="isPChain" class="meta_row">
+        <article v-if="isStaking" class="meta_row">
             <p class="label">
                 Staking
                 <Tooltip content="Validator Rewards" color="#867e89"></Tooltip>
@@ -341,6 +324,13 @@ export default class TransactionSummary extends Vue {
         return this.tx.chainID === PCHAINID ? true : false
     }
 
+    get isStaking() {
+        return this.tx.type === 'add_validator' ||
+            this.tx.type === 'add_delegator'
+            ? true
+            : false
+    }
+
     get elapsed() {
         const numerator = this.currentTime - this.tx.validatorStart
         const denominator = this.tx.validatorEnd - this.tx.validatorStart
@@ -352,6 +342,14 @@ export default class TransactionSummary extends Vue {
         const start = moment(this.tx.validatorStart * 1000)
         const end = moment(this.tx.validatorEnd * 1000)
         return Math.round(moment.duration(end.diff(start)).asDays())
+    }
+
+    copy() {
+        navigator.clipboard.writeText(this.tx.id)
+        this.$store.dispatch('Notifications/add', {
+            title: 'Copied',
+            message: 'Copied to clipoard.',
+        })
     }
 }
 </script>

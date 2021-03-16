@@ -18,7 +18,7 @@
             </HTTPError>
             <template v-else>
                 <TransactionSummary :tx="tx">
-                    {{ tx.type | getType }} Transaction
+                    {{ tx.type | getType }}
                 </TransactionSummary>
                 <TransactionUTXO :tx="tx"></TransactionUTXO>
             </template>

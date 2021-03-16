@@ -1,6 +1,36 @@
 $icon_dimension: 20px;
 $padding: 8px;
 
+/* ==========================================
+   Tx Summary
+   ========================================== */
+
+.tx_type_label {
+    font-size: 12px;
+    font-weight: 700;
+    padding: 9px 10px 10px 10px;
+    width: max-content;
+    color: $primary-color;
+    border: 1px solid $primary-color-light;
+    margin-bottom: 20px;
+}
+
+.tx_hash {
+}
+
+.click_to_copy {
+    cursor: default;
+    display: inline-block;
+}
+
+.time_icon {
+    margin-right: 2px;
+}
+
+/* ==========================================
+   UTXOs
+   ========================================== */
+
 .utxo_count {
     margin-left: $padding;
     font-size: 0.75em;
@@ -103,13 +133,7 @@ h3.label {
 }
 
 .compound_interest {
-    background: -webkit-linear-gradient(
-        top left,
-        $pink-light,
-        $blue,
-        $red,
-        $pink
-    );
+    background: -webkit-linear-gradient(top left, $pink, $red, $pink);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
