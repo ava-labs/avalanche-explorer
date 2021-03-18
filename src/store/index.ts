@@ -19,12 +19,10 @@ import {
     ICollisionMap,
 } from '@/js/IAsset'
 import { X_CHAIN_ID } from '@/store/modules/platform/platform'
-import {
-    TransactionResponse,
-    TransactionQueryResponse,
-} from '@/store/modules/transactions/models'
+import { TransactionQueryResponse } from '@/store/modules/transactions/models'
 import { ITransactionPayload } from '@/services/transactions'
 import { getTransaction } from '@/services/transactions'
+import { getAssetAggregates, IAssetAggregate } from '@/services/aggregates'
 
 Vue.use(Vuex)
 
@@ -53,9 +51,30 @@ const store = new Vuex.Store({
     } as IRootState,
     actions: {
         async init(store) {
-            /* ==========================================
-                Get and set initial list of all indexed assets
-               ========================================== */
+            // Get and set initial list of all indexed assets
+            await store.dispatch('getAssets')
+
+            // Once we have assets, next get recent transactions
+            store.dispatch('getRecentTransactions', {
+                id: null,
+                params: {
+                    sort: 'timestamp-desc',
+                    limit: 10,
+                },
+            })
+
+            // Then get asset aggregation data
+            store.dispatch('getAssetAggregates')
+
+            // Uniqueify Symbols
+            const collisionMap = await store.dispatch('getCollisionMap')
+            store.commit('addCollisionMap', collisionMap)
+        },
+
+        /**
+         * Get and set initial list of all indexed assets
+         */
+        async getAssets(store) {
             // TODO: support service for multiple chains
             let isFinished = false
             let offset = 0
@@ -87,32 +106,17 @@ const store = new Vuex.Store({
                 store.commit('addAsset', new Asset(assetData, false))
             })
             store.commit('finishLoading')
+        },
 
-            /* ==========================================
-                Once we have assets, next get recent transactions
-               ========================================== */
-            store.dispatch('getRecentTransactions', {
-                id: null,
-                params: {
-                    sort: 'timestamp-desc',
-                    limit: 10,
-                },
+        async getAssetAggregates(store) {
+            const assetAggregates: IAssetAggregate[] = await getAssetAggregates()
+            assetAggregates.forEach((agg: IAssetAggregate) => {
+                // only request aggregates for assets that are in the Ortelius assets map
+                if (store.state.assets[agg.asset]) {
+                    store.commit('updateAssetWithAggregationData', agg)
+                }
             })
-
-            /* ==========================================
-                Then get asset aggregation data for assets appearing in recent Txs
-               ========================================== */
-            // TODO: top assets in background thread
-            store.dispatch('setAggregatesForAssetsInRecentTransactions')
-
-            // DISABLED: get aggregate data for all assets
-            // store.commit("updateAssetsWithAggregateData");
-
-            /* ==========================================
-                Uniqueify Symbols
-               ========================================== */
-            const collisionMap = await store.dispatch('getCollisionMap')
-            store.commit('addCollisionMap', collisionMap)
+            store.commit('finishAggregatesLoading')
         },
 
         async getRecentTransactions(store, payload: ITransactionPayload) {
@@ -138,58 +142,6 @@ const store = new Vuex.Store({
                 symbol: desc.symbol,
             }
             commit('addAsset', new Asset(newAssetData, true))
-        },
-
-        // DISABLED: Dispatched from Asset instance upon /aggregates response
-        // checkAssetAggregatesLoaded(store) {
-        //     let assetsArray = store.getters["assetsArray"];
-        //     let notLoaded = assetsArray.find((element: Asset) => element.isHistoryUpdated === false);
-        //     if (!notLoaded) {
-        //         store.commit("finishAggregatesLoading");
-        //         console.log("ALL ASSET AGGREGATES LOADED")
-        //     }
-        // },
-
-        // TODO: remove when API implements precomputed aggregates
-        async setAggregatesForAssetsInRecentTransactions(store) {
-            const txNum = 500
-            const txRes = await api.get(
-                `/x/transactions?sort=timestamp-desc&limit=${txNum}`
-            )
-            const duplicates: string[] = []
-            // find assetIDs in the txs using the inputTotals/outputTotals fields
-            txRes.data.transactions.forEach((tx: TransactionResponse) => {
-                for (const inputAddress in tx.inputTotals) {
-                    duplicates.push(inputAddress)
-                }
-                for (const outputAddress in tx.outputTotals) {
-                    duplicates.push(outputAddress)
-                }
-            })
-            const uniques = duplicates.filter(
-                (item, i, ar) => ar.indexOf(item) === i
-            )
-            uniques.forEach((assetID: string) => {
-                // only request aggregates for assets that are in the Ortelius assets map
-                if (store.state.assets[assetID]) {
-                    store.commit('addAssetToSubsetForAggregation', assetID) // initialize as [assetID]: false
-                    store.commit('updateAssetWithAggregationData', assetID)
-                }
-            })
-        },
-
-        // dispatched from Asset instance upon /aggregates response
-        // TODO: remove when API implements precomputed aggregates
-        checkAssetsSubsetAggregatesLoaded(store) {
-            const assetsSubsetForAggregationArray =
-                store.getters['assetsSubsetForAggregationArray']
-            const notLoaded = assetsSubsetForAggregationArray.find(
-                (value: boolean) => value === false
-            )
-            if (notLoaded === undefined) {
-                store.commit('finishAggregatesLoading')
-                console.log('ALL ASSET AGGREGATES LOADED')
-            }
         },
 
         getCollisionMap({ state }): ICollisionMap {
@@ -223,12 +175,13 @@ const store = new Vuex.Store({
         updateAssetInSubsetForAggregation(state, assetID: string) {
             Vue.set(state.assetsSubsetForAggregations, assetID, true)
         },
-        updateAssetWithAggregationData(state, assetID: string) {
+        updateAssetWithAggregationData(state, agg: IAssetAggregate) {
             //@ts-ignore
-            state.assets[assetID].updateVolumeHistory()
+            state.assets[agg.asset].updateAggregates(agg.aggregate.aggregates)
         },
         finishAggregatesLoading(state) {
             state.assetAggregatesLoaded = true
+            console.log('ALL ASSET AGGREGATES LOADED')
         },
         // TRANSACTIONS
         addRecentTransactions(state, txRes: TransactionQueryResponse) {
@@ -237,13 +190,6 @@ const store = new Vuex.Store({
         addCollisionMap(state, collisionMap: ICollisionMap) {
             state.collisionMap = collisionMap
         },
-        // DISABLED
-        // updateAssetsWithAggregateData(state) {
-        //     for (const assetID in state.assets) {
-        //         // @ts-ignore
-        //         state.assets[assetID].updateVolumeHistory();
-        //     }
-        // }
     },
     getters: {
         assetsArray(state: IRootState): Asset[] {

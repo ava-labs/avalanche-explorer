@@ -13,8 +13,8 @@ export function getAggregates(param: string) {
         .then(resolveResponseData)
 }
 
-export function getAssetAggregates(id: string) {
+export function getAssetAggregates() {
     return api
-        .get(`${ASSET_AGGREGATES_V2_API_BASE_URL}/${id}`)
+        .get(`${ASSET_AGGREGATES_V2_API_BASE_URL}`)
         .then(resolveResponseData)
 }

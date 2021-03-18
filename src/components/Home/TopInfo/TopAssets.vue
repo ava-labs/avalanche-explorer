@@ -53,7 +53,6 @@
                     <p class="metric metric_value">
                         {{ asset.txCount_day.toLocaleString() }}
                     </p>
-                    <!--TODO: normalize asset.volume_day -->
                 </div>
             </div>
             <div class="bottom">
@@ -61,8 +60,7 @@
                     >View All Assets</router-link
                 >
             </div>
-        </div>
-        <!-- Balance Table - vuetify data table -->
+        </div>        
     </div>
 </template>
 

@@ -4,6 +4,7 @@ import { profanities } from '@/js/Profanities'
 import Big from 'big.js'
 import { stringToBig } from '@/helper'
 import store from '../store'
+import { IAggregate } from '@/services/aggregates'
 
 class Asset {
     id: string
@@ -16,6 +17,8 @@ class Asset {
     // aggregate data
     volume_day: Big
     txCount_day: number
+    addressCount_day: number
+    outputCount_day: number
     isHistoryUpdated: boolean
     // FE metadata
     profane: boolean
@@ -33,9 +36,12 @@ class Asset {
         this.denomination = assetData.denomination
         this.name = assetData.name
         this.symbol = assetData.symbol
+        // aggregate data
         this.volume_day = Big(0)
         this.txCount_day = 0
-        // aggregate data
+        this.addressCount_day = 0
+        this.outputCount_day = 0
+
         this.isHistoryUpdated = false
         // not in indexer
         this.isUnknown = isUnknown
@@ -46,30 +52,17 @@ class Asset {
     }
 
     // Daily Volume
-    public updateVolumeHistory(): void {
+    public updateAggregates(assetAggregate: IAggregate): void {
         if (this.isUnknown === false) {
-            const endDate = new Date()
-            const startTime = Date.now() - 1000 * 60 * 60 * 24
-            const startDate = new Date(startTime)
-
-            // TODO: support service for multiple chains
-            // TODO: declare interface
-            api.get(
-                `/x/transactions/aggregates?startTime=${startDate.toISOString()}&endTime=${endDate.toISOString()}&assetID=${
-                    this.id
-                }`
-            ).then((res) => {
-                const txCount = res.data.aggregates.transactionCount || 0
-                const txVolume = res.data.aggregates.transactionVolume || '0'
-                this.volume_day = stringToBig(txVolume, this.denomination)
-                this.txCount_day = txCount
-                this.isHistoryUpdated = true
-                // TODO: remove when API implements precomputed aggregates
-                store.commit('updateAssetInSubsetForAggregation', this.id)
-                store.dispatch('checkAssetsSubsetAggregatesLoaded')
-                // DISABLE
-                // store.dispatch("checkAssetAggregatesLoaded");
-            })
+            this.volume_day = stringToBig(
+                assetAggregate.transactionVolume,
+                this.denomination
+            )
+            this.txCount_day = assetAggregate.transactionCount
+            this.addressCount_day = assetAggregate.addressCount
+            this.outputCount_day = assetAggregate.outputCount
+            this.isHistoryUpdated = true
+            store.commit('updateAssetInSubsetForAggregation', this.id)
         }
     }
 
