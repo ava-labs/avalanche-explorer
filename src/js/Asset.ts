@@ -1,4 +1,3 @@
-import api from '@/axios'
 import { IAssetDataOrtelius } from './IAsset'
 import { profanities } from '@/js/Profanities'
 import Big from 'big.js'
@@ -41,7 +40,6 @@ class Asset {
         this.txCount_day = 0
         this.addressCount_day = 0
         this.outputCount_day = 0
-
         this.isHistoryUpdated = false
         // not in indexer
         this.isUnknown = isUnknown

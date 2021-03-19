@@ -60,7 +60,7 @@
                     >View All Assets</router-link
                 >
             </div>
-        </div>        
+        </div>
     </div>
 </template>
 
