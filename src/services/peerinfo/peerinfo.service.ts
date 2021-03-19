@@ -24,26 +24,19 @@ export async function getPeerInfo() {
     })
         .then((response) => response.json())
         .then((data) => data.stakeInfo)
+     
+    const totalStake = getTotalStake(res)
 
-    let peerInfo: IVersion[] = res.map((peer) => {
-        return {
-            version: peer.version,
-            nodeCount: peer.nodeCount,
-            stakeAmount: toAVAX(peer.stakeAmount),
-        }
-    })
-
-    const totalStake = getTotalStake(peerInfo)
-
-    peerInfo = res
+    const peerInfo: IVersion[] = res
         .sort((a, b) =>
             a.version.localeCompare(b.version, undefined, { numeric: true })
         )
         .reverse()
         .map((peer) => {
             return {
-                ...peer,
                 version: removePrefix(peer.version),
+                nodeCount: peer.nodeCount,
+                stakeAmount: toAVAX(peer.stakeAmount),
                 stakePercent: Math.round((peer.stakeAmount / totalStake) * 100),
             }
         })
