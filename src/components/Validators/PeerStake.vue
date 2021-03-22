@@ -31,7 +31,7 @@ export default class PeerStake extends Vue {
         this.draw()
     }
 
-    async mounted() {
+    async mounted() {        
         const canvas = this.$refs.canv as HTMLCanvasElement
         this.context = canvas.getContext('2d') as CanvasRenderingContext2D
         this.chart = new Chart(this.context, {
@@ -66,7 +66,7 @@ export default class PeerStake extends Vue {
                         return `Version ${label}`
                     },
                     label: function (tooltipItem, data) {
-                        const index = tooltipItem.index as number
+                        const index = tooltipItem.index as number                        
                         //@ts-ignore
                         const datum = (data.datasets[0]
                             .data as Chart.ChartPoint[])[index]
