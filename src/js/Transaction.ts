@@ -96,9 +96,9 @@ export class Transaction implements ITransaction {
         this.outputs =
             data.outputs === null || data.outputs.length === 0
                 ? []
-                : data.outputs.map((output: OutputResponse) =>
-                      getOutput(output)
-                  )
+                : data.outputs
+                      .map((output: OutputResponse) => getOutput(output))
+                      .sort((a, b) => a.outputIndex - b.outputIndex)
         this.memo = data.memo
         this.inputTotals = data.inputTotals
         this.outputTotals = data.outputTotals
