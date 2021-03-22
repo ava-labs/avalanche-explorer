@@ -24,7 +24,7 @@ export async function getPeerInfo() {
     })
         .then((response) => response.json())
         .then((data) => data.stakeInfo)
-     
+
     const totalStake = getTotalStake(res)
 
     const peerInfo: IVersion[] = res

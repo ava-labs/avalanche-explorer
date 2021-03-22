@@ -63,7 +63,6 @@
 </template>
 <script>
 import TooltipHeading from '../../misc/TooltipHeading.vue'
-import axios from '@/axios'
 import Chart from 'chart.js'
 import moment from 'moment'
 import TransactionHistoryMeta from '@/components/Home/TopInfo/TransactionHistoryMeta'
