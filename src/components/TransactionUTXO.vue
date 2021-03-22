@@ -105,6 +105,10 @@ export default class TransactionUTXO extends Vue {
     grid-template-columns: 1fr 1fr;
     column-gap: 30px;
     margin-top: 30px;
+
+    .utxo_container:last-of-type {
+        margin-bottom: 0;
+    }
 }
 
 .decode {
@@ -112,5 +116,17 @@ export default class TransactionUTXO extends Vue {
     color: $primary-color-light;
     width: 60px;
     font-size: 12px;
+}
+
+@include smOnly {
+    .utxo {
+        grid-template-columns: 1fr;
+        column-gap: 0;
+        margin-top: 30px;
+
+        .card:last-of-type {
+            padding-top: 0;
+        }
+    }
 }
 </style>
