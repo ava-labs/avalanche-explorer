@@ -32,43 +32,44 @@ import Big from 'big.js'
     components: {},
 })
 export default class AVAXBalanceTableDetail extends Vue {
-    @Prop() pUnlocked!: Big
-    @Prop() pLockedStakeable!: Big
-    @Prop() pLockedNotStakeable!: Big
-    @Prop() pStaked!: Big
-    @Prop() xUnlocked!: Big
-    @Prop() xLocked!: Big
+    @Prop() unlockedX!: Big
+    @Prop() P_unlocked!: Big
+    @Prop() P_lockedStakeable!: Big
+    @Prop() P_lockedNotStakeable!: Big
+    @Prop() P_staked!: Big
+    @Prop() X_unlocked!: Big
+    @Prop() X_locked!: Big
 
     balances: any[] = [
         {
             name: 'Unlocked',
             chain: 'Platform',
-            balance: this.pUnlocked,
+            balance: this.P_unlocked,
         },
         {
             name: 'Locked (Stakeable)',
             chain: 'Platform',
-            balance: this.pLockedStakeable,
+            balance: this.P_lockedStakeable,
         },
         {
             name: 'Locked (Not-Stakeable)',
             chain: 'Platform',
-            balance: this.pLockedNotStakeable,
+            balance: this.P_lockedNotStakeable,
         },
         {
             name: 'Staked',
             chain: 'Platform',
-            balance: this.pStaked,
+            balance: this.P_staked,
         },
         {
             name: 'Unlocked',
             chain: 'Exchange',
-            balance: this.xUnlocked,
+            balance: this.X_unlocked,
         },
         {
             name: 'Locked',
             chain: 'Exchange',
-            balance: this.xLocked,
+            balance: this.X_locked,
         },
         {
             name: 'Total Balance',
@@ -78,12 +79,11 @@ export default class AVAXBalanceTableDetail extends Vue {
     ]
 
     get totalAVAX(): Big {
-        return this.pUnlocked
-            .plus(this.pLockedStakeable)
-            .plus(this.pLockedNotStakeable)
-            .plus(this.pStaked)
-            .plus(this.xUnlocked)
-            .plus(this.xLocked)
+        return this.P_unlocked.plus(this.P_lockedStakeable)
+            .plus(this.P_lockedNotStakeable)
+            .plus(this.P_staked)
+            .plus(this.X_unlocked)
+            .plus(this.X_locked)
     }
 }
 </script>

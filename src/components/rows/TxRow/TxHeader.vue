@@ -19,7 +19,6 @@
 </template>
 
 <script lang="ts">
-import 'reflect-metadata'
 import { Vue, Component } from 'vue-property-decorator'
 import Tooltip from '@/components/rows/Tooltip.vue'
 
@@ -28,7 +27,7 @@ import Tooltip from '@/components/rows/Tooltip.vue'
         Tooltip,
     },
 })
-export default class TxTableHead extends Vue {}
+export default class TxHeader extends Vue {}
 </script>
 
 <style scoped lang="scss">

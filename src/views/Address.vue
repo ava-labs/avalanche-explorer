@@ -7,15 +7,15 @@
             :message="'Fetching Address Details'"
         ></Loader>
         <!-- Address Details -->
-        <HTTPError
-            v-if="!loading && requestError"
-            :id="addressID"
-            :title="'There was an error fetching address details.'"
-            :status="requestErrorStatus"
-            :message="requestErrorMessage"
-            :support-u-r-l="'https://chat.avalabs.org'"
-        >
-        </HTTPError>
+        <div v-if="!loading && requestError" class="card address_details_error">
+            <h2>There was an error fetching address details.</h2>
+            <p>Status {{ requestErrorStatus }} - {{ requestErrorMessage }}</p>
+            <p>
+                <a href="https://chat.avalabs.org" target="_blank"
+                    >Submit Issue</a
+                >
+            </p>
+        </div>
         <Metadata
             v-if="metadata && !requestError && assetsLoaded === true"
             :meta-data="metadata"
@@ -26,26 +26,32 @@
             :assets="assets"
             :prefix="prefix"
         ></Metadata>
-
         <!-- Address Txs -->
-        <HTTPError
-            v-if="!txLoading && txRequestError"
-            :id="addressID"
-            :title="'There was an error fetching address transactions.'"
-            :status="txRequestErrorStatus"
-            :message="txRequestErrorMessage"
-            :support-u-r-l="'https://chat.avalabs.org'"
-            :is-margin="true"
-        >
-        </HTTPError>
-
-        <!-- TRANSACTIONS -->
         <section v-if="!loading && !txRequestError" class="card transactions">
-            <!-- HEADER -->
             <header class="header">
-                <TxHeader></TxHeader>
-                <!-- LOAD COUNT/PAGINATION -->
-                <template v-if="txLoading && !assetsLoaded">
+                <div class="tx_chain_header">
+                    <h2>Transactions</h2>
+                    <p
+                        v-if="$vuetify.breakpoint.smAndUp"
+                        class="chain right"
+                        bottom
+                    >
+                        <span class="label"
+                            >You are viewing transactions for</span
+                        >
+                        <v-tooltip>
+                            <template v-slot:activator="{ on }">
+                                <span class="tag" v-on="on">X-Chain</span>
+                            </template>
+                            <span
+                                >The X-Chain acts as a decentralized platform
+                                for creating and trading smart digital assets.
+                                (Think X for eXchanging assets.)</span
+                            >
+                        </v-tooltip>
+                    </p>
+                </div>
+                <template v-if="txloading && !assetsLoaded">
                     <v-progress-circular
                         key="1"
                         :size="16"
@@ -54,7 +60,6 @@
                         indeterminate
                     ></v-progress-circular>
                 </template>
-                <!-- COUNT/PAGINATION -->
                 <template v-else>
                     <div class="bar">
                         <p class="count">
@@ -76,11 +81,8 @@
                     </div>
                 </template>
             </header>
-
-            <!-- TABLE -->
-            <TxTableHead></TxTableHead>
-            <!-- TBODY LOAD -->
-            <div v-show="txLoading">
+            <TxHeader></TxHeader>
+            <div v-show="txloading">
                 <v-progress-circular
                     key="1"
                     :size="16"
@@ -89,8 +91,7 @@
                     indeterminate
                 ></v-progress-circular>
             </div>
-            <!-- TBODY -->
-            <div v-show="!txLoading">
+            <div v-show="!txloading">
                 <div class="rows">
                     <transition-group name="fade">
                         <tx-row
@@ -124,27 +125,29 @@ import { Vue, Component, Watch } from 'vue-property-decorator'
 import Loader from '@/components/misc/Loader.vue'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import Metadata from '@/components/Address/Metadata.vue'
-import TxTableHead from '@/components/rows/TxRow/TxTableHead.vue'
+import TxHeader from '@/components/rows/TxRow/TxHeader.vue'
 import TxRow from '@/components/rows/TxRow/TxRow.vue'
 import PaginationControls from '@/components/misc/PaginationControls.vue'
+import api from '../axios'
 import AddressDict from '@/known_addresses'
-import { IBalanceX, IAddress } from '@/services/addresses/models'
-import { getAddress } from '@/services/addresses/addresses.service'
-import Big from 'big.js'
-import HTTPError from '@/components/misc/HTTPError.vue'
-import TxHeader from '@/components/Transaction/TxHeader.vue'
-import { ITransaction } from '@/store/modules/transactions/models'
+import Address from '@/js/Address'
+import { Transaction } from '@/js/Transaction'
+import {
+    IBalance_X,
+    IAddressData,
+    IBalance_P_Data,
+    IStake_P_Data,
+} from '@/js/IAddress'
+import avalanche_go_api from '@/avalanche_go_api'
 
 @Component({
     components: {
         Loader,
         Tooltip,
-        HTTPError,
         Metadata,
-        TxTableHead,
+        TxHeader,
         TxRow,
         PaginationControls,
-        TxHeader,
     },
     filters: {
         pluralize(val: number) {
@@ -175,19 +178,21 @@ export default class AddressPage extends Vue {
     requestError = false
     requestErrorStatus: number | null = null
     requestErrorMessage: string | null = null
-    metadata: IAddress | null = null
+    metadata: Address | null = null
+    // P-Chain balances
+    loading_P = false
+    stakeloading_P = false
     // txs
-    txLoading = false
+    txloading = false
     txRequestError = false
-    txRequestErrorStatus: number | null = null
-    txRequestErrorMessage: string | null = null
+    transactions: Transaction[] = []
     // tx pagination
     totalTx = 0
     limit = 25 // how many to display
     offset = 0
     sort = 'timestamp-desc'
 
-    async created() {
+    created() {
         this.updateData()
     }
 
@@ -214,7 +219,7 @@ export default class AddressPage extends Vue {
         return AddressDict[this.addressID] ? AddressDict[this.addressID] : ''
     }
 
-    get assets(): IBalanceX[] {
+    get assets(): IBalance_X[] {
         return this.metadata ? this.metadata.assets : []
     }
 
@@ -235,6 +240,10 @@ export default class AddressPage extends Vue {
         return address.substring(0, 1)
     }
 
+    get txCount(): number {
+        return this.metadata ? this.metadata.totalTransactionCount : 0
+    }
+
     get totalTransactionCount(): number {
         return this.metadata ? this.metadata.totalTransactionCount : 0
     }
@@ -243,82 +252,115 @@ export default class AddressPage extends Vue {
         return this.metadata ? this.metadata.totalUtxoCount : 0
     }
 
-    get transactions(): ITransaction {
-        return this.$store.state.Transactions.addressTxRes.transactions
-    }
-
     // get address details and txs
     async updateData() {
         this.loading = true
-        this.txLoading = true
+        this.loading_P = true
+        this.stakeloading_P = true
+        this.txloading = true
 
         if (this.assetsLoaded) {
             this.getTx()
             await this.getAddressDetails_X()
+            this.getAddressDetails_P()
+            this.getStake_P()
         }
     }
 
-    async getAddressDetails_X() {
+    async getStake_P() {
+        this.stakeloading_P = true
+        const req = {
+            jsonrpc: '2.0',
+            method: 'platform.getStake',
+            params: {
+                address: `P-${this.addressID}`,
+            },
+            id: 1,
+        }
+
+        const res = await avalanche_go_api.post('', req)
+        const result: IStake_P_Data = res.data.result
+
+        if (this.metadata) {
+            this.metadata.set_AVAX_staked_P(result)
+        }
+
+        this.stakeloading_P = false
+    }
+
+    async getAddressDetails_P() {
+        this.loading_P = true
+        const req = {
+            jsonrpc: '2.0',
+            method: 'platform.getBalance',
+            params: {
+                address: `P-${this.addressID}`,
+            },
+            id: 1,
+        }
+
+        const res = await avalanche_go_api.post('', req)
+        const result: IBalance_P_Data = res.data.result
+
+        if (this.metadata) {
+            this.metadata.set_AVAX_balance_P(result)
+        }
+
+        this.loading_P = false
+    }
+
+    getAddressDetails_X() {
+        // TODO: support service for multiple chains
         if (this.assetsLoaded === true) {
-            try {
-                this.metadata = await getAddress(this.addressID, this.assetsMap)
-                this.loading = false
-                if (!this.metadata) {
-                    const nullData: IAddress = {
-                        address: this.addressID,
-                        publicKey: '',
-                        // P-Chain AVAX balance
-                        AVAX_balance: Big(0),
-                        P_unlocked: Big(0),
-                        P_lockedStakeable: Big(0),
-                        P_lockedNotStakeable: Big(0),
-                        P_staked: Big(0),
-                        P_utxoIDs: [],
-                        // X-Chain AVAX balance
-                        X_unlocked: Big(0),
-                        X_locked: Big(0),
-                        // X-Chain Assets
-                        totalTransactionCount: 0,
-                        totalUtxoCount: 0,
-                        assets: [],
+            const url = `/x/addresses/${this.addressID}`
+            api.get(url)
+                .then((res) => {
+                    this.loading = false
+
+                    if (res.data) {
+                        // address in Ortelius
+                        this.metadata = new Address(res.data, this.assetsMap)
+                    } else {
+                        // not in Ortelius
+                        const nullData: IAddressData = {
+                            address: this.addressID,
+                            publicKey: '',
+                            assets: {},
+                        }
+                        this.metadata = new Address(nullData, this.assetsMap)
                     }
-                    this.metadata = nullData
-                }
-            } catch (err) {
-                this.loading = false
-                if (err.response) {
-                    console.log(err.response)
-                    this.requestError = true
-                    this.requestErrorStatus = err.response.status
-                    this.requestErrorMessage = err.response.data.message
-                } else if (err.request) {
-                    console.log(err.request)
-                }
-            }
+                })
+                .catch((err) => {
+                    this.loading = false
+                    if (err.response) {
+                        console.log(err.response)
+                        this.requestError = true
+                        this.requestErrorStatus = err.response.status
+                        this.requestErrorMessage = err.response.data.message
+                    } else if (err.request) {
+                        console.log(err.request)
+                    }
+                })
         }
     }
 
     getTx() {
-        this.txLoading = true
+        this.txloading = true
+
+        // Get txs by address
         // TODO: support service for multiple chains
-        this.$store
-            .dispatch('Transactions/getTxsByAddress', {
-                id: null,
-                params: {
-                    address: this.addressID,
-                    sort: this.sort,
-                    offset: this.offset,
-                    limit: this.limit,
-                },
+        const url = `/x/transactions?address=${this.addressID}&sort=${this.sort}&offset=${this.offset}&limit=${this.limit}`
+
+        api.get(url)
+            .then((res) => {
+                this.txloading = false
+                this.transactions = res.data.transactions
             })
-            .then(() => (this.txLoading = false))
             .catch((err) => {
-                this.txLoading = false
+                this.txloading = false
                 if (err.response) {
                     console.log(err.response)
                     this.txRequestError = true
-                    this.txRequestErrorStatus = err.response.status
-                    this.txRequestErrorMessage = err.response.data.message
                 }
             })
     }
@@ -336,6 +378,42 @@ export default class AddressPage extends Vue {
 </script>
 
 <style scoped lang="scss">
+/* ==========================================
+   details
+   ========================================== */
+
+.address_details_error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    a {
+        display: block;
+        width: max-content;
+        text-decoration: none !important;
+        margin-top: 30px;
+        transition: opacity 0.3s;
+
+        background-color: transparent !important;
+        color: $secondary-color !important;
+        padding: 10px 24px;
+
+        border-radius: 6px;
+        font-family: 'DM Sans', sans-serif;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase !important;
+        font-size: 14px;
+
+        &:hover {
+            opacity: 0.9;
+        }
+    }
+}
+
 /* ==========================================
    transactions
    ========================================== */

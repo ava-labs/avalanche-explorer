@@ -2,7 +2,7 @@
     <div class="balances_container">
         <div class="bar">
             <p class="count">
-                {{ Object.keys(assets).length | pluralize('asset') }} found
+                {{ Object.keys(assets).length | pluralize }} found
             </p>
         </div>
         <div v-if="assets.length > 0" class="grid_headers balance_row">
@@ -51,16 +51,25 @@ import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import BalanceRow from '@/components/Address/BalanceRow.vue'
-import { IBalanceX } from '@/services/addresses/models'
+import { IBalance_X } from '@/js/IAddress'
 
 @Component({
     components: {
         Tooltip,
         BalanceRow,
     },
+    filters: {
+        pluralize(val: number): string {
+            return val === 0
+                ? `${val} assets`
+                : val > 1
+                ? `${val} assets`
+                : `${val} asset`
+        },
+    },
 })
 export default class BalanceTable extends Vue {
-    @Prop() assets!: IBalanceX[]
+    @Prop() assets!: IBalance_X[]
 }
 </script>
 

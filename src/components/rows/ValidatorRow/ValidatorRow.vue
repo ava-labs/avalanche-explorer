@@ -28,6 +28,7 @@
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import moment from 'moment'
+import Big from 'big.js'
 import { toAVAX } from '../../../helper'
 import CumulativeBar from './CumulativeBar.vue'
 import { IValidator } from '@/store/modules/platform/IValidator'
@@ -35,7 +36,9 @@ import { IValidator } from '@/store/modules/platform/IValidator'
 @Component({
     filters: {
         date(date: Date) {
-            return moment(date).fromNow()
+            const today = new Date()
+            const mom = moment(date).fromNow()
+            return mom
         },
     },
     components: {

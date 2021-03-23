@@ -50,6 +50,7 @@
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { subnetMap, VMMap, VMDocumentationMap } from '@/helper'
+import Subnet from '@/js/Subnet'
 import Blockchain from '@/js/Blockchain'
 import Indexed from '@/components/Blockchain/Indexed.vue'
 import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'

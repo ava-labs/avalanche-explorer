@@ -95,7 +95,7 @@
                         </p>
                         <p class="meta_annotation">
                             {{ minimalTransferrableUnit }} ({{
-                                asset.denomination | pluralizeDenomination
+                                asset.denomination | pluralize
                             }})
                         </p>
                     </div>
@@ -108,6 +108,7 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
+import Big from 'big.js'
 import { Asset } from '@/js/Asset'
 import { blockchainMap } from '../../helper'
 import TooltipMeta from '../../components/misc/TooltipMeta.vue'
@@ -124,7 +125,7 @@ import TooltipMeta from '../../components/misc/TooltipMeta.vue'
         blockchain(val: string): string {
             return blockchainMap(val)
         },
-        pluralizeDenomination(val: number): string {
+        pluralize(val: number): string {
             return val === 0
                 ? `no fractional units`
                 : val > 1

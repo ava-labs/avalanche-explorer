@@ -4,8 +4,8 @@
             <p class="symbol">Tx</p>
         </div>
         <div class="data">
-            <p class="id">{{ item.id }}</p>
-            <p class="ago">{{ item.timestamp | date }}</p>
+            <p class="id">{{ tx.id }}</p>
+            <p class="ago">{{ tx.timestamp | date }}</p>
         </div>
     </div>
 </template>
@@ -13,6 +13,7 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Transaction } from '@/js/Transaction'
 import moment from 'moment'
 
 @Component({
@@ -24,11 +25,22 @@ import moment from 'moment'
     },
 })
 export default class TransactionResult extends Vue {
+    tx: Transaction | null = null
+    addresses: string[] = []
+
     @Prop() item!: any
 
+    created() {
+        this.tx = new Transaction(this.item)
+        this.addresses = this.tx.getInputAddresses()
+    }
+
     select() {
-        this.$router.push(`/tx/${this.item.id}`)
-        this.$emit('select')
+        if (this.tx) {
+            const url = `/tx/${this.tx.id}`
+            this.$router.push(url)
+            this.$emit('select')
+        }
     }
 }
 </script>

@@ -22,6 +22,8 @@
     </div>
 </template>
 <script>
+import Big from 'big.js'
+
 export default {
     filters: {
         nameOrID(val) {

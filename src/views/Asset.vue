@@ -1,12 +1,10 @@
 <template>
     <div class="detail">
         <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
-        <Metadata v-if="asset" :asset="asset"></Metadata>
+        <Metadata :asset="asset"></Metadata>
         <section v-if="!txloading" class="card transactions">
-            <!-- HEADER -->
             <header class="header">
-                <TxHeader></TxHeader>
-                <!-- LOAD COUNT/PAGINATION -->
+                <h2>Recent Transactions</h2>
                 <template v-if="txloading && !assetsLoaded">
                     <v-progress-circular
                         key="1"
@@ -30,8 +28,7 @@
                     </div>
                 </template> -->
             </header>
-            <!-- TBODY -->
-            <TxTableHead></TxTableHead>
+            <TxHeader></TxHeader>
             <template v-if="txloading">
                 <v-progress-circular
                     key="1"
@@ -76,17 +73,15 @@ import 'reflect-metadata'
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import Loader from '@/components/misc/Loader.vue'
 import Metadata from '@/components/Asset/Metadata.vue'
-import TransactionDetailCard from '@/components/TransactionSummary.vue'
+import TransactionDetailCard from '@/components/TransactionDetailCard.vue'
 import PaginationControls from '@/components/misc/PaginationControls.vue'
 import Tooltip from '@/components/rows/Tooltip.vue'
-import TxTableHead from '@/components/rows/TxRow/TxTableHead.vue'
+import TxHeader from '@/components/rows/TxRow/TxHeader.vue'
 import TxRow from '@/components/rows/TxRow/TxRow.vue'
 import { Transaction } from '../js/Transaction'
 import { Asset } from '@/js/Asset'
 import { getTransaction } from '@/services/transactions'
 import { getAssetInfo } from '@/services/assets'
-import TxHeader from '@/components/Transaction/TxHeader.vue'
-import { ITransaction } from '@/store/modules/transactions/models'
 
 @Component({
     components: {
@@ -95,9 +90,8 @@ import { ITransaction } from '@/store/modules/transactions/models'
         PaginationControls,
         TransactionDetailCard,
         Tooltip,
-        TxTableHead,
-        TxRow,
         TxHeader,
+        TxRow,
     },
 })
 export default class AssetPage extends Vue {
@@ -107,6 +101,7 @@ export default class AssetPage extends Vue {
     limit = 10 // how many to display
     offset = 0
     sort = 'timestamp-desc'
+    transactions: Transaction[] = []
 
     created() {
         this.getData()
@@ -164,10 +159,6 @@ export default class AssetPage extends Vue {
         return this.$route.params.id
     }
 
-    get transactions(): ITransaction[] {
-        return this.$store.state.Transactions.assetTxRes.transactions
-    }
-
     getData(): void {
         this.txloading = true
 
@@ -190,35 +181,34 @@ export default class AssetPage extends Vue {
 
             // Get txs
             // TODO: support service for multiple chains
-            this.$store
-                .dispatch('Transactions/getTxsByAsset', {
-                    id: null,
-                    params: {
-                        assetID: this.assetID,
-                        sort: this.sort,
-                        offset: this.offset,
-                        limit: this.limit,
-                    },
-                })
-                .then(() => (this.txloading = false))
+            getTransaction(null, {
+                assetID: this.assetID,
+                sort: this.sort,
+                offset: this.offset,
+                limit: this.limit,
+                disableCount: 1,
+            }).then((res) => {
+                this.txloading = false
+                this.transactions = res.data.transactions
+            })
         }
     }
 
-    async getTx() {
+    getTx() {
         this.txloading = true
 
+        // Get txs by address
         // TODO: support service for multiple chains
-        this.$store
-            .dispatch('Transactions/getTxsByAsset', {
-                id: null,
-                params: {
-                    assetID: this.assetID,
-                    sort: this.sort,
-                    offset: this.offset,
-                    limit: this.limit,
-                },
-            })
-            .then(() => (this.txloading = false))
+        getTransaction(null, {
+            assetID: this.assetID,
+            sort: this.sort,
+            offset: this.offset,
+            limit: this.limit,
+            disableCount: 1,
+        }).then((res) => {
+            this.txloading = false
+            this.transactions = res.data.transactions
+        })
     }
 
     page_change(val: number) {

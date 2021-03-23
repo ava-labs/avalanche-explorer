@@ -1,5 +1,5 @@
 <template>
-    <section v-if="blockchain" class="card meta">
+    <section v-if="this.blockchain" class="card meta">
         <header class="header">
             <h2>{{ blockchain.name }} Details</h2>
         </header>
@@ -47,7 +47,7 @@
 
 <script lang="ts">
 import 'reflect-metadata'
-import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import Blockchain from '@/js/Blockchain'
 import Indexed from '@/components/Blockchain/Indexed.vue'
 

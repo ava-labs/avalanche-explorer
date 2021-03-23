@@ -4,26 +4,18 @@ import Vuetify from 'vuetify'
 // Font Awesome
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
-    faAngleDown,
-    faAngleLeft,
-    faAngleRight,
-    faArrowLeft,
-    faArrowRight,
-    faBars,
-    faCheck,
-    faCheckCircle,
-    faCog,
-    faCoins,
-    faCopy,
-    faExclamation,
-    faInfo,
-    faInfoCircle,
-    faFont,
-    faLink,
     faSearch,
     faSnowman,
     faSync,
+    faInfoCircle,
+    faBars,
     faTimes,
+    faCheck,
+    faCheckCircle,
+    faExclamation,
+    faCopy,
+    faCog,
+    faAngleDown,
 } from '@fortawesome/free-solid-svg-icons'
 
 import { faClock } from '@fortawesome/free-regular-svg-icons'
@@ -35,30 +27,22 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 library.add(
-    faAngleDown,
-    faAngleLeft,
-    faAngleRight,
-    faArrowLeft,
-    faArrowRight,
+    faSearch,
+    faTwitter,
+    faDiscord,
+    faReddit,
+    faSnowman,
+    faClock,
+    faSync,
+    faInfoCircle,
     faBars,
+    faTimes,
     faCheck,
     faCheckCircle,
-    faClock,
-    faCog,
-    faCoins,
-    faCopy,
-    faDiscord,
-    faFont,
     faExclamation,
-    faInfo,
-    faInfoCircle,
-    faLink,
-    faReddit,
-    faSearch,
-    faSnowman,
-    faSync,
-    faTimes,
-    faTwitter
+    faCopy,
+    faCog,
+    faAngleDown
 )
 Vue.component('fa', FontAwesomeIcon)
 

@@ -1,9 +1,9 @@
-import { IAssetDataOrtelius } from './IAsset'
+import api from '@/axios'
+import { IAssetData_Ortelius } from './IAsset'
 import { profanities } from '@/js/Profanities'
 import Big from 'big.js'
 import { stringToBig } from '@/helper'
 import store from '../store'
-import { IAggregate } from '@/services/aggregates'
 
 class Asset {
     id: string
@@ -16,15 +16,13 @@ class Asset {
     // aggregate data
     volume_day: Big
     txCount_day: number
-    addressCount_day: number
-    outputCount_day: number
     isHistoryUpdated: boolean
     // FE metadata
     profane: boolean
     // not in indexer
     isUnknown: boolean
 
-    constructor(assetData: IAssetDataOrtelius, isUnknown: boolean) {
+    constructor(assetData: IAssetData_Ortelius, isUnknown: boolean) {
         this.id = assetData.id
         this.alias = assetData.alias
         this.chainID = assetData.chainID
@@ -35,11 +33,9 @@ class Asset {
         this.denomination = assetData.denomination
         this.name = assetData.name
         this.symbol = assetData.symbol
-        // aggregate data
         this.volume_day = Big(0)
         this.txCount_day = 0
-        this.addressCount_day = 0
-        this.outputCount_day = 0
+        // aggregate data
         this.isHistoryUpdated = false
         // not in indexer
         this.isUnknown = isUnknown
@@ -50,17 +46,30 @@ class Asset {
     }
 
     // Daily Volume
-    public updateAggregates(assetAggregate: IAggregate): void {
+    public updateVolumeHistory(): void {
         if (this.isUnknown === false) {
-            this.volume_day = stringToBig(
-                assetAggregate.transactionVolume,
-                this.denomination
-            )
-            this.txCount_day = assetAggregate.transactionCount
-            this.addressCount_day = assetAggregate.addressCount
-            this.outputCount_day = assetAggregate.outputCount
-            this.isHistoryUpdated = true
-            store.commit('updateAssetInSubsetForAggregation', this.id)
+            const endDate = new Date()
+            const startTime = Date.now() - 1000 * 60 * 60 * 24
+            const startDate = new Date(startTime)
+
+            // TODO: support service for multiple chains
+            // TODO: declare interface
+            api.get(
+                `/x/transactions/aggregates?startTime=${startDate.toISOString()}&endTime=${endDate.toISOString()}&assetID=${
+                    this.id
+                }`
+            ).then((res) => {
+                const txCount = res.data.aggregates.transactionCount || 0
+                const txVolume = res.data.aggregates.transactionVolume || '0'
+                this.volume_day = stringToBig(txVolume, this.denomination)
+                this.txCount_day = txCount
+                this.isHistoryUpdated = true
+                // TODO: remove when API implements precomputed aggregates
+                store.commit('updateAssetInSubsetForAggregation', this.id)
+                store.dispatch('checkAssetsSubsetAggregatesLoaded')
+                // DISABLE
+                // store.dispatch("checkAssetAggregatesLoaded");
+            })
         }
     }
 
