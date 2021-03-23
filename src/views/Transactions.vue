@@ -4,7 +4,6 @@
             <!-- HEADER -->
             <div class="header">
                 <TransactionsHeader></TransactionsHeader>
-                <!-- COUNT/PAGINATION -->
                 <template v-show="!loading && assetsLoaded">
                     <!-- REQUEST PARAMS -->
                     <div class="params">
@@ -44,13 +43,6 @@
                                 >Search</v-btn
                             >
                         </div>
-                        <!-- <TxPaginationControls
-                            v-show="assetsLoaded"
-                            ref="paginationTop"
-                            :total="totalTx"
-                            :limit="limit"
-                            @change="page_change"
-                        ></TxPaginationControls> -->
                     </div>
                 </template>
             </div>
@@ -58,9 +50,6 @@
                 <!-- FILTER PARAMS -->
                 <div class="left">
                     <h4>Filter Results</h4>
-                    <!-- <div class="bar">
-                            {{ filteredTransactions.length }} transactions found
-                        </div> -->
                     <div>
                         <div>
                             <h5>Filter by Chain and Tx Type</h5>
@@ -88,7 +77,6 @@
                             indeterminate
                         ></v-progress-circular>
                     </template>
-
                     <!-- TBODY -->
                     <template v-else>
                         <TxTableHead></TxTableHead>
@@ -101,14 +89,6 @@
                                     :transaction="tx"
                                 ></tx-row>
                             </transition-group>
-                        </div>
-                        <div class="bar-table">
-                            <!-- <TxPaginationControls
-                        ref="paginationBottom"
-                        :total="totalTx"
-                        :limit="limit"
-                        @change="page_change"
-                    ></TxPaginationControls> -->
                         </div>
                     </template>
                 </div>
@@ -128,6 +108,7 @@ import TransactionsHeader from '@/components/Transaction/TxHeader.vue'
 import DateForm from '@/components/misc/DateForm.vue'
 import { ITransactionParams } from '@/services/transactions'
 import { TransactionsGettersMixin } from '@/store/modules/transactions/transactions.mixins'
+import { CCHAINID, PCHAINID, XCHAINID } from '@/known_blockchains'
 
 @Component({
     components: {
@@ -162,7 +143,7 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
     // Filter Params
     items = [
         {
-            id: '11111111111111111111111111111111LpoYY',
+            id: PCHAINID,
             name: 'P-Chain (Platform)',
             children: [
                 { id: 'add_validator', name: 'Add Validator' },
@@ -175,7 +156,7 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
             ],
         },
         {
-            id: '2oYMBNV4eNHyqk2fjjV5nVQLDbtmNJzq5s3qs3Lo6ftnC6FByM',
+            id: XCHAINID,
             name: 'X-Chain (Exchange)',
             children: [
                 { id: 'base', name: 'Base' },
@@ -186,7 +167,7 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
             ],
         },
         {
-            id: '2q9e4r6Mu3U68nU1fYjgbR6JvwrRx36CohpAX5UQxse55x1Q5',
+            id: CCHAINID,
             name: 'C-Chain (Contract)',
             children: [
                 { id: 'atomic_import_tx', name: 'Atomic Import' },
@@ -233,38 +214,8 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
         })
     }
 
-    get firstEndTime(): number {
-        return (
-            new Date(this.$store.state.Transactions.txRes.endTime).getTime() /
-            1000
-        )
-    }
-
-    get prevEndTime(): number | null {
-        return this.$store.state.Transactions.txRes.endTime
-            ? new Date(this.$store.state.txRes.endTime).getTime() / 1000
-            : null
-    }
-
-    get lastEndTime(): number | null {
-        return this.$store.state.Transactions.txRes.endTime
-            ? new Date(this.$store.state.txRes.endTime).getTime() / 1000
-            : null
-    }
-
-    page_change(val: number) {
-        this.offset = val
-        this.getTx()
-        const pgNum = Math.floor(this.offset / this.limit) + 1
-        // @ts-ignore
-        this.$refs.paginationTop.setPage(pgNum)
-        // @ts-ignore
-        this.$refs.paginationBottom.setPage(pgNum)
-    }
-
     submit() {
         this.loading = true
-        // next: "endTime=1612407093&limit=25&sort=timestamp-desc"
 
         if (this.assetsLoaded) {
             let params: ITransactionParams = {
