@@ -6,16 +6,7 @@
             :content-id="addressID"
             :message="'Fetching Address Details'"
         ></Loader>
-        <!-- Address Details -->
-        <HTTPError
-            v-if="!loading && requestError"
-            :id="addressID"
-            :title="'There was an error fetching address details.'"
-            :status="requestErrorStatus"
-            :message="requestErrorMessage"
-            :support-u-r-l="'https://chat.avalabs.org'"
-        >
-        </HTTPError>
+        <!-- ADDRESS SUMMARY -->
         <Metadata
             v-if="metadata && !requestError && assetsLoaded === true"
             :meta-data="metadata"
@@ -26,8 +17,118 @@
             :assets="assets"
             :prefix="prefix"
         ></Metadata>
+        <HTTPError
+            v-if="!loading && requestError"
+            :id="addressID"
+            :title="'There was an error fetching address details.'"
+            :status="requestErrorStatus"
+            :message="requestErrorMessage"
+            :support-u-r-l="'https://chat.avalabs.org'"
+        >
+        </HTTPError>
 
-        <!-- Address Txs -->
+        <!-- TRANSACTIONS -->
+        <section v-if="!loading && !txRequestError" class="card transactions">
+            <!-- HEADER -->
+            <div class="header">
+                <TransactionsHeader></TransactionsHeader>
+                <template v-show="!loading && assetsLoaded">
+                    <!-- REQUEST PARAMS -->
+                    <div class="params">
+                        <h4>Search</h4>
+                        <div class="bar">
+                            <div class="sort_container">
+                                <v-select
+                                    v-model="sort"
+                                    :items="sorts"
+                                    item-text="label"
+                                    item-value="query"
+                                    label="Sort by"
+                                    dense
+                                    color="#4c2e56"
+                                ></v-select>
+                            </div>
+                            <DateForm
+                                :class="
+                                    sort === 'timestamp-desc' ? 'reverse' : ''
+                                "
+                                @change_start="setStart"
+                                @change_end="setEnd"
+                            ></DateForm>
+                            <div class="limit_container">
+                                <v-select
+                                    v-model="limit"
+                                    :items="limits"
+                                    label="Results"
+                                    dense
+                                    color="#4c2e56"
+                                ></v-select>
+                            </div>
+                            <v-btn
+                                class="search_tx_btn ava_btn"
+                                text
+                                @click="submit"
+                                >Search</v-btn
+                            >
+                        </div>
+                    </div>
+                </template>
+            </div>
+            <div class="two-col">
+                <!-- FILTER PARAMS -->
+                <div class="left">
+                    <h4>Filter Results</h4>
+                    <div>
+                        <div>
+                            <h5>Filter by Chain and Tx Type</h5>
+                            <v-treeview
+                                v-model="selection"
+                                selectable
+                                :selection-type="'leaf'"
+                                selected-color="#e84970"
+                                item-disabled="locked"
+                                :items="items"
+                                return-object
+                                open-all
+                            ></v-treeview>
+                        </div>
+                    </div>
+                </div>
+                <div class="right">
+                    <!-- LOAD -->
+                    <template v-if="txloading && !assetsLoaded">
+                        <v-progress-circular
+                            key="1"
+                            :size="16"
+                            :width="2"
+                            color="#E84970"
+                            indeterminate
+                        ></v-progress-circular>
+                    </template>
+                    <!-- TBODY -->
+                    <template v-else>
+                        <TxTableHead></TxTableHead>
+                        <v-alert
+                            v-if="transactions.length === 0"
+                            color="#e6f5ff"
+                            dense
+                        >
+                            There are no matching entries
+                        </v-alert>
+                        <div v-else class="rows">
+                            <transition-group name="fade" mode="out-in">
+                                <tx-row
+                                    v-for="tx in filteredTransactions"
+                                    :key="tx.id"
+                                    class="tx_item"
+                                    :transaction="tx"
+                                ></tx-row>
+                            </transition-group>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </section>
         <HTTPError
             v-if="!txLoading && txRequestError"
             :id="addressID"
@@ -38,83 +139,6 @@
             :is-margin="true"
         >
         </HTTPError>
-
-        <!-- TRANSACTIONS -->
-        <section v-if="!loading && !txRequestError" class="card transactions">
-            <!-- HEADER -->
-            <header class="header">
-                <TxHeader></TxHeader>
-                <!-- LOAD COUNT/PAGINATION -->
-                <template v-if="txLoading && !assetsLoaded">
-                    <v-progress-circular
-                        key="1"
-                        :size="16"
-                        :width="2"
-                        color="#E84970"
-                        indeterminate
-                    ></v-progress-circular>
-                </template>
-                <!-- COUNT/PAGINATION -->
-                <template v-else>
-                    <div class="bar">
-                        <p class="count">
-                            <template v-if="!requestError"
-                                >{{
-                                    totalTransactionCount.toLocaleString()
-                                }}
-                                transactions found</template
-                            >
-                        </p>
-                        <div class="pagination-container">
-                            <pagination-controls
-                                ref="paginationTop"
-                                :total="totalTransactionCount"
-                                :limit="limit"
-                                @change="page_change"
-                            ></pagination-controls>
-                        </div>
-                    </div>
-                </template>
-            </header>
-
-            <!-- TABLE -->
-            <TxTableHead></TxTableHead>
-            <!-- TBODY LOAD -->
-            <div v-show="txLoading">
-                <v-progress-circular
-                    key="1"
-                    :size="16"
-                    :width="2"
-                    color="#E84970"
-                    indeterminate
-                ></v-progress-circular>
-            </div>
-            <!-- TBODY -->
-            <div v-show="!txLoading">
-                <div class="rows">
-                    <transition-group name="fade">
-                        <tx-row
-                            v-for="tx in transactions"
-                            :key="tx.id"
-                            class="tx_item"
-                            :transaction="tx"
-                        ></tx-row>
-                    </transition-group>
-                </div>
-                <v-alert v-if="transactions.length === 0" color="#e6f5ff" dense>
-                    There are no matching entries
-                </v-alert>
-                <div class="bar-table">
-                    <pagination-controls
-                        ref="paginationBottom"
-                        :total="totalTransactionCount"
-                        :limit="limit"
-                        @change="page_change"
-                    >
-                    </pagination-controls>
-                </div>
-            </div>
-        </section>
     </div>
 </template>
 
@@ -126,7 +150,6 @@ import Tooltip from '@/components/rows/Tooltip.vue'
 import Metadata from '@/components/Address/Metadata.vue'
 import TxTableHead from '@/components/rows/TxRow/TxTableHead.vue'
 import TxRow from '@/components/rows/TxRow/TxRow.vue'
-import PaginationControls from '@/components/misc/PaginationControls.vue'
 import AddressDict from '@/known_addresses'
 import { IBalanceX, IAddress } from '@/services/addresses/models'
 import { getAddress } from '@/services/addresses/addresses.service'
@@ -134,6 +157,9 @@ import Big from 'big.js'
 import HTTPError from '@/components/misc/HTTPError.vue'
 import TxHeader from '@/components/Transaction/TxHeader.vue'
 import { ITransaction } from '@/store/modules/transactions/models'
+import { CCHAINID, PCHAINID, XCHAINID } from '@/known_blockchains'
+import TransactionsHeader from '@/components/Transaction/TxHeader.vue'
+import DateForm from '@/components/misc/DateForm.vue'
 
 @Component({
     components: {
@@ -141,9 +167,10 @@ import { ITransaction } from '@/store/modules/transactions/models'
         Tooltip,
         HTTPError,
         Metadata,
+        TransactionsHeader,
+        DateForm,
         TxTableHead,
         TxRow,
-        PaginationControls,
         TxHeader,
     },
     filters: {
@@ -181,11 +208,61 @@ export default class AddressPage extends Vue {
     txRequestError = false
     txRequestErrorStatus: number | null = null
     txRequestErrorMessage: string | null = null
-    // tx pagination
     totalTx = 0
-    limit = 25 // how many to display
     offset = 0
+    // Query Params
+    startDate: string = new Date().toISOString()
+    endDate: string = new Date().toISOString()
     sort = 'timestamp-desc'
+    sorts = [
+        {
+            label: 'New to Old',
+            query: 'timestamp-desc',
+        },
+        {
+            label: 'Old to New',
+            query: 'timestamp-asc',
+        },
+    ]
+    limit = 25
+    limits = [10, 25, 100, 1000, 5000]
+
+    // Filter Params
+    items = [
+        {
+            id: PCHAINID,
+            name: 'P-Chain (Platform)',
+            children: [
+                { id: 'add_validator', name: 'Add Validator' },
+                { id: 'add_subnet_validator', name: 'Add Subnet Validator' },
+                { id: 'add_delegator', name: 'Add Delegator' },
+                { id: 'create_subnet', name: 'Create Subnet' },
+                { id: 'create_chain', name: 'Create Chain' },
+                { id: 'pvm_export', name: 'PVM Export' },
+                { id: 'pvm_import', name: 'PVM Import' },
+            ],
+        },
+        {
+            id: XCHAINID,
+            name: 'X-Chain (Exchange)',
+            children: [
+                { id: 'base', name: 'Base' },
+                { id: 'create_asset', name: 'Create Asset' },
+                { id: 'operation', name: 'Operation' },
+                { id: 'import', name: 'Import' },
+                { id: 'export', name: 'Export' },
+            ],
+        },
+        {
+            id: CCHAINID,
+            name: 'C-Chain (Contract)',
+            children: [
+                { id: 'atomic_import_tx', name: 'Atomic Import' },
+                { id: 'atomic_export_tx', name: 'Atomic Export' },
+            ],
+        },
+    ]
+    selection = this.items.flatMap((item) => item.children)
 
     async created() {
         this.updateData()
@@ -243,8 +320,26 @@ export default class AddressPage extends Vue {
         return this.metadata ? this.metadata.totalUtxoCount : 0
     }
 
-    get transactions(): ITransaction {
+    setStart(val: string) {
+        this.startDate = val
+    }
+
+    setEnd(val: string) {
+        this.endDate = val
+    }
+
+    get transactions(): ITransaction[] {
         return this.$store.state.Transactions.addressTxRes.transactions
+    }
+
+    get filters() {
+        return this.selection.map((val) => val.id)
+    }
+
+    get filteredTransactions() {
+        return this.transactions.filter((tx) => {
+            return this.filters.some((val) => val === tx.type)
+        })
     }
 
     // get address details and txs
@@ -322,35 +417,14 @@ export default class AddressPage extends Vue {
                 }
             })
     }
-
-    page_change(val: number) {
-        this.offset = val
-        this.getTx()
-        const pgNum = Math.floor(this.offset / this.limit) + 1
-        // @ts-ignore
-        this.$refs.paginationTop.setPage(pgNum)
-        // @ts-ignore
-        this.$refs.paginationBottom.setPage(pgNum)
-    }
 }
 </script>
 
 <style scoped lang="scss">
-/* ==========================================
-   transactions
-   ========================================== */
-
-.bar {
-    display: flex;
-    align-items: center;
-    > p {
-        flex-grow: 1;
-    }
-}
-
 .transactions {
     overflow: auto;
     margin-top: 30px;
+    font-size: 12px;
 
     .v-alert {
         margin: 16px;
@@ -360,11 +434,72 @@ export default class AddressPage extends Vue {
     }
 }
 
+.header {
+    padding-bottom: 20px;
+    margin-bottom: 10px;
+}
+
+.params {
+    h4 {
+        margin-top: 30px;
+        margin-bottom: 0;
+    }
+}
+
+.bar {
+    display: flex;
+    align-items: center;
+    > p {
+        flex-grow: 1;
+    }
+}
+
+.request {
+    border-bottom: 1px solid $gray;
+}
+
+.sort_container {
+    width: 150px;
+    padding-top: 19px;
+    padding-right: 15px;
+}
+
+.limit_container {
+    width: 100px;
+    padding-top: 19px;
+    padding-right: 15px;
+}
+
+.tx_item {
+    border-bottom: 1px solid #e7e7e7;
+
+    &:last-of-type {
+        border: none !important;
+    }
+}
+
 .bar-table {
     border-top: 1px solid #e7e7e7;
     padding-top: 30px;
     display: flex;
     justify-content: flex-end;
+}
+
+.two-col {
+    display: flex;
+    flex-direction: row;
+
+    .left {
+        h4 {
+            margin-top: 0;
+        }
+        flex-basis: 0 0 300px;
+        margin-right: 60px;
+    }
+
+    .right {
+        flex: 1;
+    }
 }
 
 @include smOnly {

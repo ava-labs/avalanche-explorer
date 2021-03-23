@@ -103,7 +103,6 @@ import { Component, Watch, Mixins } from 'vue-property-decorator'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import TxTableHead from '@/components/rows/TxRow/TxTableHead.vue'
 import TxRow from '@/components/rows/TxRow/TxRow.vue'
-import TxPaginationControls from '@/components/Transaction/TxPaginationControls.vue'
 import TransactionsHeader from '@/components/Transaction/TxHeader.vue'
 import DateForm from '@/components/misc/DateForm.vue'
 import { ITransactionParams } from '@/services/transactions'
@@ -115,7 +114,6 @@ import { CCHAINID, PCHAINID, XCHAINID } from '@/known_blockchains'
         Tooltip,
         TxTableHead,
         TxRow,
-        TxPaginationControls,
         TransactionsHeader,
         DateForm,
     },
