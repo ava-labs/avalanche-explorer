@@ -147,7 +147,7 @@ export default Vue.extend({
             }
             return res
         },
-        onSelectResult(item) {
+        onSelectResult() {
             this.closeSearch()
         },
         closeSearch() {

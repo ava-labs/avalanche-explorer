@@ -1,4 +1,4 @@
-export interface IAssetData_Ortelius {
+export interface IAssetDataOrtelius {
     id: string
     alias: string
     chainID: string
@@ -8,7 +8,7 @@ export interface IAssetData_Ortelius {
     symbol: string
 }
 
-export interface IAssetData_Avalanche_Go {
+export interface IAssetDataAvalancheGo {
     assetID: Uint8Array
     denomination: number
     name: string

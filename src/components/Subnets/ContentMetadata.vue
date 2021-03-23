@@ -50,20 +50,20 @@
         </div>
     </div>
 </template>
-<script>
-import Big from 'big.js'
-import TooltipMeta from '../../components/misc/TooltipMeta'
+<script lang="ts">
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import TooltipMeta from '../../components/misc/TooltipMeta.vue'
 
-export default {
+@Component({
     components: {
         TooltipMeta,
     },
-    props: {
-        totalBlockchains: Number,
-        totalValidators: Number,
-        totalPendingValidators: Number,
-        totalControlKeys: Number,
-    },
+})
+export default class ContentMetadata extends Vue {
+    @Prop() totalBlockchains!: number
+    @Prop() totalValidators!: number
+    @Prop() totalPendingValidators!: number
+    @Prop() totalControlKeys!: number
 }
 </script>
 <style scoped lang="scss">

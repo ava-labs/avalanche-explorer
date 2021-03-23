@@ -12,7 +12,7 @@
 </template>
 <script lang="ts">
 import 'reflect-metadata'
-import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Vue, Component } from 'vue-property-decorator'
 import Network from '@/js/Network'
 import NetworkRow from './NetworkRow.vue'
 

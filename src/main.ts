@@ -6,6 +6,9 @@ import vuetify from './plugins/vuetify'
 import Big from 'big.js'
 import VueAnalytics from 'vue-analytics'
 import './filters'
+//@ts-ignore
+import { Datetime } from 'vue-datetime'
+import 'vue-datetime/dist/vue-datetime.css'
 
 Vue.config.productionTip = false
 
@@ -13,6 +16,8 @@ Vue.use(VueAnalytics, {
     id: 'UA-126268251-7',
     router,
 })
+
+Vue.component('datetime', Datetime)
 
 new Vue({
     router,
@@ -27,6 +32,7 @@ declare module 'big.js' {
     }
 }
 
+// Extending Big.js with a helper function
 Big.prototype.toLocaleString = function (toFixed = 2) {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const value = this

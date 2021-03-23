@@ -30,14 +30,6 @@ import Big from 'big.js'
     components: {},
 })
 export default class AVAXBalanceTableSummary extends Vue {
-    @Prop() unlockedX!: Big
-    @Prop() P_unlocked!: Big
-    @Prop() P_lockedStakeable!: Big
-    @Prop() P_lockedNotStakeable!: Big
-    @Prop() P_staked!: Big
-    @Prop() X_unlocked!: Big
-    @Prop() X_locked!: Big
-
     balances: any[] = [
         {
             name: 'Locked',
@@ -57,26 +49,34 @@ export default class AVAXBalanceTableSummary extends Vue {
         },
     ]
 
+    @Prop() pUnlocked!: Big
+    @Prop() pLockedStakeable!: Big
+    @Prop() pLockedNotStakeable!: Big
+    @Prop() pStaked!: Big
+    @Prop() xUnlocked!: Big
+    @Prop() xLocked!: Big
+
     get totalAVAXStaked(): Big {
-        return this.P_staked
+        return this.pStaked
     }
 
     get totalAVAXLocked(): Big {
-        return this.P_lockedStakeable.plus(this.P_lockedNotStakeable).plus(
-            this.X_locked
-        )
+        return this.pLockedStakeable
+            .plus(this.pLockedNotStakeable)
+            .plus(this.xLocked)
     }
 
     get totalAVAXUnlocked(): Big {
-        return this.P_unlocked.plus(this.X_unlocked)
+        return this.pUnlocked.plus(this.xUnlocked)
     }
 
     get totalAVAX(): Big {
-        return this.P_unlocked.plus(this.P_lockedStakeable)
-            .plus(this.P_lockedNotStakeable)
-            .plus(this.P_staked)
-            .plus(this.X_unlocked)
-            .plus(this.X_locked)
+        return this.pUnlocked
+            .plus(this.pLockedStakeable)
+            .plus(this.pLockedNotStakeable)
+            .plus(this.pStaked)
+            .plus(this.xUnlocked)
+            .plus(this.xLocked)
     }
 }
 </script>

@@ -2,7 +2,7 @@
     <div class="tx_history card">
         <div class="header">
             <h2>
-                Transaction History
+                Transaction Volume
                 <TooltipHeading
                     content="Timeline of transactions on Avalanche"
                 ></TooltipHeading>
@@ -63,12 +63,12 @@
 </template>
 <script>
 import TooltipHeading from '../../misc/TooltipHeading.vue'
-import axios from '@/axios'
 import Chart from 'chart.js'
 import moment from 'moment'
 import TransactionHistoryMeta from '@/components/Home/TopInfo/TransactionHistoryMeta'
 import { toAVAX } from '@/helper'
 import { max } from 'd3-array'
+import { getAggregates } from '@/services/aggregates'
 
 export default {
     components: {
@@ -116,73 +116,42 @@ export default {
             let res = 'minute'
             switch (this.scope) {
                 case 'year':
-                    res = 'month'
+                    res = '12m'
                     break
                 case 'month':
-                    res = 'day'
+                    res = '30d'
                     break
                 case 'week':
-                    res = 'day'
+                    res = '7d'
                     break
                 case 'day':
-                    res = 'hour'
+                    res = '24h'
                     break
                 case 'hour':
-                    res = '5m'
+                    res = '1h'
                     break
                 case 'minute':
-                    res = '1s'
-                    break
-            }
-            return res
-        },
-        intervalSizeMs() {
-            let res = 0
-            switch (this.intervalSize) {
-                case 'month':
-                    res = 1000 * 60 * 60 * 24 * 30
-                    break
-                case 'day':
-                    res = 1000 * 60 * 60 * 24
-                    break
-                case 'hour':
-                    res = 1000 * 60 * 60
-                    break
-                case '5m':
-                    res = 1000 * 60 * 5
-                    break
-                case '1s':
-                    res = 1000
+                    res = '1m'
                     break
             }
             return res
         },
         intervalFormat() {
             let res = ''
-            const scope = this.scope
-
             switch (this.intervalSize) {
-                case 'month':
-                    res = 'MMM YYYY'
+                case '30d':
+                    res = 'MMM DD'
                     break
-
-                case 'day':
-                    if (scope === 'month') {
-                        res = 'MMM DD'
-                    } else {
-                        res = 'MMM D'
-                    }
+                case '7d':
+                    res = 'MMM DD'
                     break
-
-                case 'hour':
+                case '24h':
                     res = 'h:mm a'
                     break
-
-                case '5m':
+                case '1h':
                     res = 'h:mm a'
                     break
-
-                case '1s':
+                case '1m':
                     res = 'h:mm:ss a'
                     break
             }
@@ -434,38 +403,16 @@ export default {
             this.scope = val
             this.updateHistory()
         },
-        updateHistory() {
+        async updateHistory() {
             this.loading = true
-
-            const interval = this.intervalMs // our selected interval (startTime to endTime) in ms
-            const intervalSize = this.intervalSize // integral (granularity)
-
-            const now = Date.now()
-            const roundedNow = this.roundToNearestInterval(now) // round to nearest whole integral for cleaner time presentation
-
-            const endTime = new Date(roundedNow).toISOString()
-            const startTime = new Date(roundedNow - interval).toISOString()
-
-            // TODO: support service for multiple chains
-            // TODO: asset param when supported by API
-            axios
-                .get(
-                    `/x/transactions/aggregates?startTime=${startTime}&endTime=${endTime}&intervalSize=${intervalSize}`
-                )
-                .then((res) => {
-                    this.loading = false
-                    this.history = res.data
-                    this.aggregates = res.data.aggregates
-
-                    console.log('this.history', this.history)
-
-                    this.maxValue = max(this.history.intervals, (d) =>
-                        toAVAX(d.transactionVolume)
-                    )
-                    console.log('maxValue', this.maxValue)
-
-                    this.draw()
-                })
+            const res = await getAggregates(this.intervalSize)
+            this.history = res
+            this.aggregates = res.aggregates
+            this.maxValue = max(this.history.intervals, (d) =>
+                toAVAX(d.transactionVolume)
+            )
+            this.loading = false
+            this.draw()
         },
         roundToNearestInterval(now) {
             let res = 0

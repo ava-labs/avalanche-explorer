@@ -17,7 +17,6 @@ module.exports = {
     },
     rules: {
         'no-console': 'off',
-        // 'no-unused-vars': 'off',
         'vue/no-unused-components': 'off',
         'no-unreachable': 'off',
         'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
@@ -28,7 +27,8 @@ module.exports = {
         '@typescript-eslint/ban-ts-ignore': 'off',
         '@typescript-eslint/member-delimiter-style': 'off',
         '@typescript-eslint/interface-name-prefix': 'off',
-        '@typescript-eslint/no-this-alias': 'warn',
+        '@typescript-eslint/no-this-alias': 'off',
         '@typescript-eslint/class-name-casing': 'warn',
+        '@typescript-eslint/no-non-null-assertion': 'off',
     },
 }

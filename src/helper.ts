@@ -1,10 +1,11 @@
 import Big from 'big.js'
-import AddressDict from './known_addresses'
 import SubnetDict from './known_subnets'
 import BlockchainDict from './known_blockchains'
 import VMDict from './known_vms'
 import { Quote, quotes } from './quotes'
-import { BN } from 'avalanche/dist'
+import { BN, Buffer } from 'avalanche/dist'
+import { NFTTransferOutput, UTXO } from 'avalanche/dist/apis/avm'
+import { PayloadBase, PayloadTypes } from 'avalanche/dist/utils'
 
 function stringToBig(raw: string, denomination = 0): Big {
     return Big(raw).div(Math.pow(10, denomination))
@@ -26,15 +27,6 @@ function bigToDenomBig(val: Big, denomination = 0): Big {
 
 function bnToBig(val: BN, denomination = 0): Big {
     return new Big(val.toString()).div(Math.pow(10, denomination))
-}
-
-// TODO: support for multiple chains. add a chain param
-function addressMap(addr: string): string {
-    if (AddressDict[addr]) {
-        return AddressDict[addr]
-    } else {
-        return 'X-' + addr
-    }
 }
 
 function subnetMap(id: string): string {
@@ -105,16 +97,88 @@ function trimmedLocaleString(
         : amount.div(Math.pow(10, denomination)).toLocaleString(decimalPlaces)
 }
 
+const DEFAULT_NETWORK_ID = parseInt(
+    process.env.VUE_APP_DEFAULT_NETWORKID || '4'
+)
+
+export function isMainnetNetwork() {
+    return DEFAULT_NETWORK_ID === 1
+}
+
+export const XChainInfo = {
+    id: (isMainnetNetwork()
+        ? process.env.VUE_APP_XCHAINID
+        : process.env.VUE_APP_TEST_XCHAINID) as string,
+    name: 'X-Chain',
+    code: 'X',
+}
+
+export const PChainInfo = {
+    id: (isMainnetNetwork()
+        ? process.env.VUE_APP_PCHAINID
+        : process.env.VUE_APP_TEST_PCHAINID) as string,
+    name: 'P-Chain',
+    code: 'P',
+}
+
+export const CChainInfo = {
+    id: (isMainnetNetwork()
+        ? process.env.VUE_APP_CCHAINID
+        : process.env.VUE_APP_TEST_CCHAINID) as string,
+    name: 'C-Chain',
+    code: 'C',
+}
+
+const payloadtypes = PayloadTypes.getInstance()
+
+function getPayloadFromUTXO(utxo: UTXO): PayloadBase {
+    const out = utxo.getOutput() as NFTTransferOutput
+    const payload = out.getPayloadBuffer()
+    const typeId = payloadtypes.getTypeID(payload)
+    const pl = payloadtypes.getContent(payload)
+    const payloadbase: PayloadBase = payloadtypes.select(typeId, pl)
+    return payloadbase
+}
+
+function pushPayload(rawPayload: string, assetID: string, groupID: number) {
+    const res: { [key in string]: { [key in string]: PayloadBase[] } } = {}
+    let payload = Buffer.from(rawPayload, 'base64')
+    payload = Buffer.concat([new Buffer(4).fill(payload.length), payload])
+
+    try {
+        const typeId = payloadtypes.getTypeID(payload)
+        const pl = payloadtypes.getContent(payload)
+        const payloadbase: PayloadBase = payloadtypes.select(typeId, pl)
+
+        if (res[assetID]) {
+            if (res[assetID][groupID]) {
+                return res[assetID][groupID].push(payloadbase)
+            } else {
+                return (res[assetID] = {
+                    [groupID]: [payloadbase],
+                })
+            }
+        } else {
+            return (res[assetID] = {
+                [groupID]: [payloadbase],
+            })
+        }
+    } catch (e) {
+        console.error(e)
+    }
+}
+
 export {
     nAvaxToAVAX as toAVAX,
     stringToBig,
     bigToDenomBig,
     bnToBig,
-    addressMap,
     subnetMap,
     blockchainMap,
     VMMap,
     VMDocumentationMap,
     getRandomQuote,
     trimmedLocaleString,
+    getPayloadFromUTXO,
+    pushPayload,
 }
