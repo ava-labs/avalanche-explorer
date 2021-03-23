@@ -77,7 +77,7 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { blockchainMap } from '@/helper'
+import { stringToBig, blockchainMap } from '@/helper'
 import { Asset } from '@/js/Asset'
 import { ICollisionMap } from '@/js/IAsset'
 import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'

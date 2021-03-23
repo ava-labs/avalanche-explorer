@@ -1,4 +1,3 @@
-import { Asset } from '@/js/Asset'
 import Big from 'big.js'
 
 export interface IAddress {
@@ -17,10 +16,10 @@ export interface IAddress {
     // X-Chain Assets
     totalTransactionCount: number
     totalUtxoCount: number
-    assets: IBalanceX[]
+    assets: IBalance_X[]
 }
 
-export interface IBalanceX {
+export interface IBalance_X {
     // asset metadata for convenience
     id: string
     name: string
@@ -36,7 +35,7 @@ export interface IBalanceX {
     utxoCount: number
 }
 
-export interface IBalanceP {
+export interface IBalance_P {
     balance: Big
     unlocked: Big
     lockedStakeable: Big
@@ -53,14 +52,14 @@ export interface IBalanceP {
 export interface IAddressData {
     address: string
     publicKey: string
-    assets: IBalanceXData
+    assets: IBalance_X_Data
 }
 
-export interface IBalanceXData {
-    [key: string]: IBalanceXDatum
+export interface IBalance_X_Data {
+    [key: string]: IBalance_X_Datum
 }
 
-export interface IBalanceXDatum {
+export interface IBalance_X_Datum {
     id: string
     transactionCount: number
     utxoCount: number
@@ -76,7 +75,7 @@ export interface IBalanceXDatum {
         - staked P-Chain AVAX
    ========================================== */
 
-export interface IBalancePData {
+export interface IBalance_P_Data {
     balance: string
     unlocked: string // unlocked tokens. stake/move (no denom)
     lockedStakeable: string // vesting tokens. stake/!move (no denom)
@@ -84,10 +83,6 @@ export interface IBalancePData {
     utxoIDs: string[] | null
 }
 
-export interface IStakePData {
+export interface IStake_P_Data {
     staked: string
-}
-
-export interface IAssetsMap {
-    [key: string]: Asset
 }

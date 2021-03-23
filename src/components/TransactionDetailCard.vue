@@ -1,34 +1,27 @@
 <template>
     <section v-if="tx" class="card meta">
         <header class="header">
-            <h2>
-                <p class="type_label monospace">
-                    <slot></slot>
-                </p>
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                        <p class="click_to_copy">
-                            <span
-                                class="tx_hash monospace"
-                                @click="copy"
-                                v-on="on"
-                            >
-                                {{ tx.id }}
-                            </span>
-                        </p>
-                    </template>
-                    <span>Click to copy</span>
-                </v-tooltip>
-            </h2>
+            <h2><slot></slot></h2>
         </header>
-        <!-- SUMMARY -->
+        <article class="meta_row">
+            <p class="label">
+                ID
+                <Tooltip
+                    content="Unique character string generated when a transaction is executed"
+                ></Tooltip>
+            </p>
+            <div class="genesis_tx">
+                <p>
+                    <b>{{ tx.id }}</b>
+                    <CopyText :value="`${tx.id}`" class="copy_but"></CopyText>
+                </p>
+                <p v-if="isAssetGenesis" class="genesis">Asset Genesis</p>
+            </div>
+        </article>
         <article class="meta_row">
             <p class="label">
                 Status
-                <Tooltip
-                    content="Status of the transaction"
-                    color="#867e89"
-                ></Tooltip>
+                <Tooltip content="Status of the transaction"></Tooltip>
             </p>
             <div>
                 <p class="status">Success</p>
@@ -37,25 +30,21 @@
         </article>
         <article class="meta_row">
             <p class="label">
-                Accepted
+                Timestamp
                 <Tooltip
-                    content="Date and time when transaction was accepted"
-                    color="#867e89"
+                    content="Date and time when the transaction was processed"
                 ></Tooltip>
             </p>
-            <div class="values">
-                <p class="date">
-                    <fa :icon="['far', 'clock']" class="time_icon"></fa>
-                    {{ date | fromNow }} ({{ date.toLocaleString() }})
-                </p>
-            </div>
+            <p class="date">
+                <fa :icon="['far', 'clock']"></fa>
+                {{ date | fromNow }} ({{ date.toLocaleString() }})
+            </p>
         </article>
         <article class="meta_row">
             <p class="label">
                 Value
                 <Tooltip
                     content="Total economic value transferred in this transaction"
-                    color="#867e89"
                 ></Tooltip>
             </p>
             <p class="values">
@@ -66,10 +55,18 @@
         </article>
         <article class="meta_row">
             <p class="label">
+                Type
+                <Tooltip content="The transaction type"></Tooltip>
+            </p>
+            <p class="values">
+                {{ tx.type | getType }}
+            </p>
+        </article>
+        <article class="meta_row">
+            <p class="label">
                 Transaction Fee
                 <Tooltip
                     content="Amount paid to validators for processing the transaction"
-                    color="#867e89"
                 ></Tooltip>
             </p>
             <p>{{ tx.txFee | toAVAX }} AVAX</p>
@@ -79,7 +76,6 @@
                 Text
                 <Tooltip
                     content="A 256-byte text field for encoding arbitrary data"
-                    color="#867e89"
                 ></Tooltip>
             </p>
             <div>
@@ -89,39 +85,65 @@
         </article>
         <article class="meta_row">
             <p class="label">
-                Blockchain
-                <Tooltip
-                    content="Blockchain storing transaction"
-                    color="#867e89"
-                ></Tooltip>
-            </p>
-            <div>
-                <p>{{ chain }}</p>
-                <div v-if="isPChain" style="margin-top: 10px">
-                    <div class="summary_label">Block</div>
-                    <div>{{ tx.txBlockId }}</div>
-                </div>
-            </div>
-        </article>
-        <article class="meta_row">
-            <p class="label">
                 Asset Type
                 <Tooltip
                     content="The type of asset (NFT, variable or fixed cap)"
-                    color="#867e89"
                 ></Tooltip>
             </p>
             <div>
                 <p>{{ tx | getAssetType }}</p>
             </div>
         </article>
-        <!-- IF STAKING -->
-        <article v-if="isStaking" class="meta_row">
-            <p class="label">
-                Staking
-                <Tooltip content="Validator Rewards" color="#867e89"></Tooltip>
-            </p>
-            <StakingSummary :tx="tx"></StakingSummary>
+        <article v-if="!isAssetGenesis" class="meta_row">
+            <p class="label">Input UTXOs</p>
+            <div v-if="inputs.length > 0">
+                <div class="utxo_headers">
+                    <p>Tx</p>
+                    <p></p>
+                    <p>Lock Time</p>
+                    <p>Threshold</p>
+                    <p>From</p>
+                    <p>Type</p>
+                    <p class="amount">Amount</p>
+                </div>
+                <utxo-row
+                    v-for="(input, i) in inputs"
+                    :key="i"
+                    class="io_item"
+                    :utxo="input"
+                    type="input"
+                ></utxo-row>
+            </div>
+            <div v-else>
+                <p>
+                    No input UTXOs found for this transaction on the Avalanche
+                    Explorer.
+                </p>
+            </div>
+        </article>
+        <article class="meta_row">
+            <p class="label">Output UTXOs</p>
+            <div v-if="tx.outputs.length > 0">
+                <div class="utxo_headers">
+                    <p>Tx</p>
+                    <p></p>
+                    <p>Lock Time</p>
+                    <p>Threshold</p>
+                    <p>To</p>
+                    <p class="type">Type</p>
+                    <p class="amount">Amount</p>
+                </div>
+                <utxo-row
+                    v-for="(output, i) in tx.outputs"
+                    :key="i"
+                    class="io_item"
+                    :utxo="output"
+                    type="output"
+                ></utxo-row>
+            </div>
+            <div v-else>
+                <p>No output utxos found for this transaction.</p>
+            </div>
         </article>
     </section>
 </template>
@@ -131,28 +153,21 @@ import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import CopyText from '@/components/misc/CopyText.vue'
 import UtxoRow from '@/components/Transaction/UtxoRow.vue'
-import StakingSummary from '@/components/Transaction/StakingSummary.vue'
+import { getMappingForType, Transaction } from '../js/Transaction'
 import {
-    getMappingForType,
-    Transaction,
-    getTransactionOutputs,
-} from '../js/Transaction'
-import {
+    ITransactionOutput,
     OutputValuesDict,
-    OutValuesDenominated,
-} from '@/store/modules/transactions/models'
+    IOutValuesDenominated,
+} from '../js/ITransaction'
 import { stringToBig, toAVAX } from '../helper'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import { getAssetType } from '@/services/assets'
-import { getTxChainType } from '@/services/transactions'
-import { PCHAINID } from '@/known_blockchains'
 
 @Component({
     components: {
         UtxoRow,
         Tooltip,
         CopyText,
-        StakingSummary,
     },
     filters: {
         getType: getMappingForType,
@@ -160,7 +175,7 @@ import { PCHAINID } from '@/known_blockchains'
         getAssetType,
     },
 })
-export default class TransactionSummary extends Vue {
+export default class TransactionDetailCard extends Vue {
     @Prop() tx!: Transaction
 
     b64DecodeHex(str: string): string {
@@ -171,10 +186,6 @@ export default class TransactionSummary extends Vue {
             result += hex.length === 2 ? hex : '0' + hex
         }
         return result.toUpperCase()
-    }
-
-    get outputs() {
-        return getTransactionOutputs(this.tx.outputs)
     }
 
     b64EncodeUnicode(str: string): string {
@@ -215,16 +226,24 @@ export default class TransactionSummary extends Vue {
         return this.tx.memo === '' || null ? false : true
     }
 
+    get inputs(): ITransactionOutput[] {
+        const res: ITransactionOutput[] = []
+        const ins = this.tx.inputs
+
+        if (!ins) return res
+
+        for (let i = 0; i < ins.length; i++) {
+            res.push(ins[i].output)
+        }
+        return res
+    }
+
     get isAssetGenesis(): boolean {
         return this.tx.type === 'create_asset'
     }
 
     get date(): Date {
         return new Date(this.tx.timestamp)
-    }
-
-    get chain(): string {
-        return getTxChainType(this.tx.chainID)!.name
     }
 
     get assets(): any {
@@ -262,7 +281,7 @@ export default class TransactionSummary extends Vue {
     }
 
     get outValuesDenominated() {
-        const outValuesDenominated: OutValuesDenominated = {}
+        const outValuesDenominated: IOutValuesDenominated = {}
         for (const assetId in this.outValues) {
             const val = this.outValues[assetId]
             const res = stringToBig(
@@ -275,25 +294,6 @@ export default class TransactionSummary extends Vue {
             }
         }
         return outValuesDenominated
-    }
-
-    get isPChain() {
-        return this.tx.chainID === PCHAINID ? true : false
-    }
-
-    get isStaking() {
-        return this.tx.type === 'add_validator' ||
-            this.tx.type === 'add_delegator'
-            ? true
-            : false
-    }
-
-    copy() {
-        navigator.clipboard.writeText(this.tx.id)
-        this.$store.dispatch('Notifications/add', {
-            title: 'Copied',
-            message: 'Copied to clipoard.',
-        })
     }
 }
 </script>

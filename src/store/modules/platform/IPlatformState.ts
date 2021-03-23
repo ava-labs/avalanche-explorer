@@ -1,5 +1,6 @@
 import Subnet from '@/js/Subnet'
 import Blockchain from '@/js/Blockchain'
+import Big from 'big.js'
 import { BN } from 'avalanche'
 
 export interface IPlatformState {

@@ -10,10 +10,7 @@
                 <div class="controls">
                     <div class="filter_count">
                         <p v-show="search.length === 0">
-                            {{
-                                validators.length.toLocaleString()
-                                    | pluralize('result')
-                            }}
+                            {{ validators.length.toLocaleString() | pluralize }}
                             found
                         </p>
                         <p v-show="search.length > 0">...filtering results</p>
@@ -131,7 +128,7 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { toAVAX } from '@/helper'
+import { subnetMap, toAVAX } from '@/helper'
 import moment from 'moment'
 import Subnet from '@/js/Subnet'
 import { AVALANCHE_SUBNET_ID } from '@/store/modules/platform/platform'
@@ -155,6 +152,13 @@ import { scaleLinear } from 'd3-scale'
         },
         time(val: number) {
             return moment(val).format('h:mm:ss A')
+        },
+        pluralize(val: number): string {
+            return val === 0
+                ? `${val} results`
+                : val > 1
+                ? `${val} results`
+                : `${val} result`
         },
     },
 })

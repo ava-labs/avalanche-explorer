@@ -1,7 +1,4 @@
-import {
-    TransactionQueryResponse,
-    TransactionsState,
-} from '@/store/modules/transactions/models'
+import { ITransaction } from '@/js/ITransaction'
 import { Asset } from '@/js/Asset'
 import { ICollisionMap } from '@/js/IAsset'
 
@@ -12,7 +9,7 @@ export interface IRootState {
     assetsLoaded: boolean
     assetAggregatesLoaded: boolean
     chainId: string
-    recentTxRes: TransactionQueryResponse
+    recentTransactions: ITransaction[]
     known_addresses: {
         [key: string]: string
     }
@@ -20,5 +17,4 @@ export interface IRootState {
         [key: string]: boolean
     }
     collisionMap: ICollisionMap
-    Transactions: TransactionsState
 }

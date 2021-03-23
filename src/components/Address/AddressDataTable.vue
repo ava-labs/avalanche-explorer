@@ -27,13 +27,16 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { IAddress } from '@/services/addresses/models'
+import { VMMap, VMDocumentationMap, trimmedLocaleString } from '@/helper'
+import { IAddress, IBalance_X } from '@/js/IAddress'
+import Address from '@/js/Address'
+import { Asset } from '@/js/Asset'
 
 @Component({
     components: {},
 })
 export default class AddressDataTable extends Vue {
-    @Prop() addresses!: IAddress[]
+    @Prop() addresses!: Address[]
     @Prop() links?: boolean
     @Prop() title?: string
 

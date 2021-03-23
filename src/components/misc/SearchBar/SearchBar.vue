@@ -142,7 +142,7 @@ export default Vue.extend({
             }
             return res
         },
-        onSelectResult() {
+        onSelectResult(item) {
             this.showResults = false
             this.searchValue = ''
         },

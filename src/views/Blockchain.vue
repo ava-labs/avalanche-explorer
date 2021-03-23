@@ -20,8 +20,9 @@
 
 <script lang="ts">
 import 'reflect-metadata'
-import { Vue, Component, Watch } from 'vue-property-decorator'
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import Loader from '@/components/misc/Loader.vue'
+import api from '../axios'
 import Blockchain from '@/js/Blockchain'
 import BlockchainDetailCard from '@/components/Blockchain/BlockchainDetailCard.vue'
 import RecentTransactions from '@/components/Home/RecentTransactions.vue'

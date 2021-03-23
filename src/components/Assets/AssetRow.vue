@@ -36,8 +36,9 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { blockchainMap } from '@/helper'
+import { stringToBig, blockchainMap } from '@/helper'
 import { Asset } from '@/js/Asset'
+import Big from 'big.js'
 
 @Component({
     filters: {

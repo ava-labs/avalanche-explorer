@@ -65,6 +65,7 @@ export default {
             this.explorer_api = url
         },
         checkUrl() {
+            const err = ''
             let url = this.url
             // protect against homograph attack: https://hethical.io/homograph-attack-using-internationalized-domain-name/
 
