@@ -84,4 +84,8 @@ export default class TxFilter extends Vue {
 .transactions-filter {
     font-size: 12px;
 }
+
+h4 {
+    margin-top: 0;
+}
 </style>
