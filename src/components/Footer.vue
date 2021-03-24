@@ -120,7 +120,7 @@ export default {}
     flex-direction: column;
     padding-bottom: 30px;
     font-size: 14px;
-    flex-grow: 150px;
+    width: 150px;
 
     &:first-of-type {
         margin-right: 70px;
@@ -154,6 +154,19 @@ export default {}
         flex-direction: column;
         justify-content: flex-start;
     }
+
+    .lists {
+        width: 100%;
+    }
+
+    .list {
+        width: unset;
+        flex-basis: 1;
+    }
+
+    .list:first-of-type {
+        margin-right: 30px;
+    }
 }
 
 @include xsOnly {
@@ -167,6 +180,7 @@ export default {}
     }
 
     .list {
+        width: unset;
         flex-grow: 1;
     }
 
