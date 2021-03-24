@@ -47,25 +47,7 @@
                 </template>
             </div>
             <div class="two-col">
-                <!-- FILTER PARAMS -->
-                <div class="left">
-                    <h4>Filter Results</h4>
-                    <div>
-                        <div>
-                            <h5>Filter by Chain and Tx Type</h5>
-                            <v-treeview
-                                v-model="selection"
-                                selectable
-                                :selection-type="'leaf'"
-                                selected-color="#e84970"
-                                item-disabled="locked"
-                                :items="items"
-                                return-object
-                                open-all
-                            ></v-treeview>
-                        </div>
-                    </div>
-                </div>
+                <TxFilter @change="setFilter"></TxFilter>
                 <div class="right">
                     <!-- LOAD -->
                     <template v-if="loading && !assetsLoaded">
@@ -104,6 +86,7 @@ import Tooltip from '@/components/rows/Tooltip.vue'
 import TxTableHead from '@/components/rows/TxRow/TxTableHead.vue'
 import TxRow from '@/components/rows/TxRow/TxRow.vue'
 import TransactionsHeader from '@/components/Transaction/TxHeader.vue'
+import TxFilter from '@/components/Transaction/TxFilter.vue'
 import DateForm from '@/components/misc/DateForm.vue'
 import { ITransactionParams } from '@/services/transactions'
 import { TransactionsGettersMixin } from '@/store/modules/transactions/transactions.mixins'
@@ -116,6 +99,7 @@ import { CCHAINID, PCHAINID, XCHAINID } from '@/known_blockchains'
         TxRow,
         TransactionsHeader,
         DateForm,
+        TxFilter,
     },
 })
 export default class Transactions extends Mixins(TransactionsGettersMixin) {
@@ -139,43 +123,7 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
     limits = [10, 25, 100, 1000, 5000]
 
     // Filter Params
-    items = [
-        {
-            id: PCHAINID,
-            name: 'P-Chain (Platform)',
-            children: [
-                { id: 'add_validator', name: 'Add Validator' },
-                { id: 'add_subnet_validator', name: 'Add Subnet Validator' },
-                { id: 'add_delegator', name: 'Add Delegator' },
-                { id: 'create_subnet', name: 'Create Subnet' },
-                { id: 'create_chain', name: 'Create Chain' },
-                { id: 'pvm_export', name: 'PVM Export' },
-                { id: 'pvm_import', name: 'PVM Import' },
-            ],
-        },
-        {
-            id: XCHAINID,
-            name: 'X-Chain (Exchange)',
-            children: [
-                { id: 'base', name: 'Base' },
-                { id: 'create_asset', name: 'Create Asset' },
-                { id: 'operation', name: 'Operation' },
-                { id: 'import', name: 'Import' },
-                { id: 'export', name: 'Export' },
-            ],
-        },
-        {
-            id: CCHAINID,
-            name: 'C-Chain (Contract)',
-            children: [
-                { id: 'atomic_import_tx', name: 'Atomic Import' },
-                { id: 'atomic_export_tx', name: 'Atomic Export' },
-            ],
-        },
-    ]
-    selection = this.items.flatMap((item) => item.children)
-
-    offset = 0
+    filters: any[] = []
 
     created() {
         this.fetchTx()
@@ -202,8 +150,8 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
         return this.getTxs()
     }
 
-    get filters() {
-        return this.selection.map((val) => val.id)
+    setFilter(val: any[]) {
+        this.filters = val
     }
 
     get filteredTransactions() {
@@ -271,10 +219,6 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
 .header {
     padding-bottom: 20px;
     margin-bottom: 10px;
-
-    .count {
-        color: #808080;
-    }
 }
 
 .params {
