@@ -523,7 +523,7 @@ export default class NetworkActivity extends Vue {
             line-height: 1em;
 
             .unit {
-                font-family: 'Rubik', sans-serif;
+                font-family: 'Inter', sans-serif;
                 font-size: 12px;
                 opacity: 0.7;
             }

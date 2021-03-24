@@ -113,7 +113,7 @@ hr {
         grid-gap: 30px;
 
         a {
-            font-family: 'DM Sans', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-weight: 700 !important;
             letter-spacing: 0.5px;
             text-transform: uppercase !important;

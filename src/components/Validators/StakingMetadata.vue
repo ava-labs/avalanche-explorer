@@ -230,7 +230,7 @@ export default class Metadata extends Vue {
 <style lang="scss">
 #validators_meta {
     .v-tab.v-tab {
-        font-family: 'Rubik', sans-serif;
+        font-family: 'Inter', sans-serif;
         text-transform: uppercase;
         font-weight: 500;
     }

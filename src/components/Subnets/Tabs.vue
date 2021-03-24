@@ -87,7 +87,7 @@ export default class SubnetTabs extends Vue {
     }
 
     .v-tab.v-tab {
-        font-family: 'Rubik', sans-serif;
+        font-family: 'Inter', sans-serif;
         text-transform: uppercase;
         font-weight: 500;
     }

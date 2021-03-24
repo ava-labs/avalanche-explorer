@@ -175,7 +175,7 @@ input {
     outline: none;
     border: none;
     font-size: 14px;
-    font-family: 'Rubik', sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 .v-btn {

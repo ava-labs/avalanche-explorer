@@ -210,15 +210,13 @@ export default Vue.extend({
 
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;200;300;400;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@1,400&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;700&display=swap');
 
 /* ==========================================
    typography
    ========================================== */
 body {
-    font-family: 'Rubik', sans-serif;
+    font-family: 'Inter', sans-serif;
     margin: 0;
     background-color: $white !important;
     color: $primary-color;
@@ -231,7 +229,7 @@ body {
 }
 
 button {
-    font-family: 'Rubik', sans-serif;
+    font-family: 'Inter', sans-serif;
     outline: none !important;
     border: none;
     cursor: pointer;
@@ -426,7 +424,7 @@ p {
    UI
    ========================================== */
 input {
-    font-family: 'Rubik', sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 .view_all {
@@ -438,7 +436,7 @@ input {
     background-color: transparent !important;
     border-radius: 6px;
     padding: 10px 24px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 700 !important;
     letter-spacing: 0.5px;
     text-transform: uppercase !important;
@@ -521,7 +519,7 @@ input {
     background-color: transparent !important;
     border-radius: 6px;
     padding: 10px 24px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 700 !important;
     letter-spacing: 0.5px;
     text-transform: uppercase !important;
