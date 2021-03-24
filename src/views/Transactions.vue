@@ -1,67 +1,22 @@
 <template>
     <div class="transactions">
         <div class="card">
-            <!-- HEADER -->
             <div class="header">
                 <TransactionsHeader></TransactionsHeader>
-                <template v-show="!loading && assetsLoaded">
-                    <!-- REQUEST PARAMS -->
-                    <div class="params">
-                        <h4>Search</h4>
-                        <div class="bar">
-                            <div class="sort_container">
-                                <v-select
-                                    v-model="sort"
-                                    :items="sorts"
-                                    item-text="label"
-                                    item-value="query"
-                                    label="Sort by"
-                                    dense
-                                    color="#4c2e56"
-                                ></v-select>
-                            </div>
-                            <DateForm
-                                :class="
-                                    sort === 'timestamp-desc' ? 'reverse' : ''
-                                "
-                                @change_start="setStart"
-                                @change_end="setEnd"
-                            ></DateForm>
-                            <div class="limit_container">
-                                <v-select
-                                    v-model="limit"
-                                    :items="limits"
-                                    label="Results"
-                                    dense
-                                    color="#4c2e56"
-                                ></v-select>
-                            </div>
-                            <v-btn
-                                class="search_tx_btn ava_btn"
-                                text
-                                @click="submit"
-                                >Search</v-btn
-                            >
-                        </div>
-                    </div>
-                </template>
+                <TxParams @change="fetchTx"></TxParams>
             </div>
             <div class="two-col">
                 <TxFilter @change="setFilter"></TxFilter>
                 <div class="right">
-                    <!-- LOAD -->
-                    <template v-if="loading && !assetsLoaded">
-                        <v-progress-circular
-                            key="1"
-                            :size="16"
-                            :width="2"
-                            color="#E84970"
-                            indeterminate
-                        ></v-progress-circular>
-                    </template>
-                    <!-- TBODY -->
-                    <template v-else>
+                    <template v-if="!loading && assetsLoaded">
                         <TxTableHead></TxTableHead>
+                        <v-alert
+                            v-if="filteredTransactions.length === 0"
+                            color="#e6f5ff"
+                            dense
+                        >
+                            There are no matching entries
+                        </v-alert>
                         <div class="rows">
                             <transition-group name="fade" mode="out-in">
                                 <tx-row
@@ -73,6 +28,14 @@
                             </transition-group>
                         </div>
                     </template>
+                    <v-progress-circular
+                        v-else
+                        key="1"
+                        :size="16"
+                        :width="2"
+                        color="#E84970"
+                        indeterminate
+                    ></v-progress-circular>
                 </div>
             </div>
         </div>
@@ -87,10 +50,10 @@ import TxTableHead from '@/components/rows/TxRow/TxTableHead.vue'
 import TxRow from '@/components/rows/TxRow/TxRow.vue'
 import TransactionsHeader from '@/components/Transaction/TxHeader.vue'
 import TxFilter from '@/components/Transaction/TxFilter.vue'
+import TxParams from '@/components/Transaction/TxParams.vue'
 import DateForm from '@/components/misc/DateForm.vue'
 import { ITransactionParams } from '@/services/transactions'
 import { TransactionsGettersMixin } from '@/store/modules/transactions/transactions.mixins'
-import { CCHAINID, PCHAINID, XCHAINID } from '@/known_blockchains'
 
 @Component({
     components: {
@@ -100,33 +63,18 @@ import { CCHAINID, PCHAINID, XCHAINID } from '@/known_blockchains'
         TransactionsHeader,
         DateForm,
         TxFilter,
+        TxParams,
     },
 })
 export default class Transactions extends Mixins(TransactionsGettersMixin) {
     loading = true
-    totalTx = 0
-    // Query Params
-    startDate: string = new Date().toISOString()
-    endDate: string = new Date().toISOString()
-    sort = 'timestamp-desc'
-    sorts = [
-        {
-            label: 'New to Old',
-            query: 'timestamp-desc',
-        },
-        {
-            label: 'Old to New',
-            query: 'timestamp-asc',
-        },
-    ]
-    limit = 25
-    limits = [10, 25, 100, 1000, 5000]
-
-    // Filter Params
-    filters: any[] = []
+    filters: string[] = []
 
     created() {
-        this.fetchTx()
+        this.fetchTx({
+            sort: 'timestamp-desc',
+            limit: 25,
+        })
     }
 
     get assetsLoaded() {
@@ -135,23 +83,18 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
 
     @Watch('assetsLoaded')
     onAssetsLoadedChanged() {
-        this.fetchTx()
+        this.fetchTx({
+            sort: 'timestamp-desc',
+            limit: 25,
+        })
     }
 
-    setStart(val: string) {
-        this.startDate = val
-    }
-
-    setEnd(val: string) {
-        this.endDate = val
+    setFilter(val: string[]) {
+        this.filters = val
     }
 
     get transactions() {
         return this.getTxs()
-    }
-
-    setFilter(val: any[]) {
-        this.filters = val
     }
 
     get filteredTransactions() {
@@ -160,50 +103,13 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
         })
     }
 
-    submit() {
+    fetchTx(params: ITransactionParams): void {
         this.loading = true
-
         if (this.assetsLoaded) {
-            let params: ITransactionParams = {
-                sort: this.sort,
-                limit: this.limit,
-            }
-
-            if (this.sort === 'timestamp-desc') {
-                params = {
-                    endTime: Math.round(
-                        new Date(this.endDate).getTime() / 1000
-                    ),
-                    ...params,
-                }
-            } else {
-                params = {
-                    startTime: Math.round(
-                        new Date(this.startDate).getTime() / 1000
-                    ),
-                    ...params,
-                }
-            }
-
             this.$store
                 .dispatch('Transactions/getTxs', {
                     id: null,
                     params,
-                })
-                .then(() => (this.loading = false))
-        }
-    }
-
-    fetchTx(): void {
-        this.loading = true
-        if (this.assetsLoaded) {
-            this.$store
-                .dispatch('Transactions/getTxs', {
-                    id: null,
-                    params: {
-                        sort: this.sort,
-                        limit: this.limit,
-                    },
                 })
                 .then(() => (this.loading = false))
         }
@@ -219,37 +125,6 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
 .header {
     padding-bottom: 20px;
     margin-bottom: 10px;
-}
-
-.params {
-    h4 {
-        margin-top: 30px;
-        margin-bottom: 0;
-    }
-}
-
-.bar {
-    display: flex;
-    align-items: center;
-    > p {
-        flex-grow: 1;
-    }
-}
-
-.request {
-    border-bottom: 1px solid $gray;
-}
-
-.sort_container {
-    width: 150px;
-    padding-top: 19px;
-    padding-right: 15px;
-}
-
-.limit_container {
-    width: 100px;
-    padding-top: 19px;
-    padding-right: 15px;
 }
 
 .tx_item {

@@ -61,15 +61,21 @@ export default class TxFilter extends Vue {
         },
     ]
 
-    selection = this.items.flatMap((item) => item.children).map((val) => val.id)
+    selection = this.items.flatMap((item) => item.children)
 
     created() {
-        this.$emit('change', this.selection)
+        this.$emit(
+            'change',
+            this.selection.map((val) => val.id)
+        )
     }
 
     @Watch('selection')
     onSelectionChanged() {
-        this.$emit('change', this.selection)
+        this.$emit(
+            'change',
+            this.selection.map((val) => val.id)
+        )
     }
 }
 </script>

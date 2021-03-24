@@ -26,90 +26,20 @@
             :support-u-r-l="'https://chat.avalabs.org'"
         >
         </HTTPError>
-
         <!-- TRANSACTIONS -->
         <section v-if="!loading && !txRequestError" class="card transactions">
-            <!-- HEADER -->
             <div class="header">
                 <TransactionsHeader></TransactionsHeader>
-                <template v-show="!loading && assetsLoaded">
-                    <!-- REQUEST PARAMS -->
-                    <div class="params">
-                        <h4>Search</h4>
-                        <div class="bar">
-                            <div class="sort_container">
-                                <v-select
-                                    v-model="sort"
-                                    :items="sorts"
-                                    item-text="label"
-                                    item-value="query"
-                                    label="Sort by"
-                                    dense
-                                    color="#4c2e56"
-                                ></v-select>
-                            </div>
-                            <DateForm
-                                :class="
-                                    sort === 'timestamp-desc' ? 'reverse' : ''
-                                "
-                                @change_start="setStart"
-                                @change_end="setEnd"
-                            ></DateForm>
-                            <div class="limit_container">
-                                <v-select
-                                    v-model="limit"
-                                    :items="limits"
-                                    label="Results"
-                                    dense
-                                    color="#4c2e56"
-                                ></v-select>
-                            </div>
-                            <v-btn
-                                class="search_tx_btn ava_btn"
-                                text
-                                @click="submit"
-                                >Search</v-btn
-                            >
-                        </div>
-                    </div>
-                </template>
+                <TxParams @change="fetchTx"></TxParams>
             </div>
             <div class="two-col">
-                <!-- FILTER PARAMS -->
-                <div class="left">
-                    <h4>Filter Results</h4>
-                    <div>
-                        <div>
-                            <h5>Filter by Chain and Tx Type</h5>
-                            <v-treeview
-                                v-model="selection"
-                                selectable
-                                :selection-type="'leaf'"
-                                selected-color="#e84970"
-                                item-disabled="locked"
-                                :items="items"
-                                return-object
-                                open-all
-                            ></v-treeview>
-                        </div>
-                    </div>
-                </div>
+                <TxFilter @change="setFilter"></TxFilter>
                 <div class="right">
                     <!-- LOAD -->
-                    <template v-if="txloading && !assetsLoaded">
-                        <v-progress-circular
-                            key="1"
-                            :size="16"
-                            :width="2"
-                            color="#E84970"
-                            indeterminate
-                        ></v-progress-circular>
-                    </template>
-                    <!-- TBODY -->
-                    <template v-else>
+                    <template v-if="!txLoading && assetsLoaded">
                         <TxTableHead></TxTableHead>
                         <v-alert
-                            v-if="transactions.length === 0"
+                            v-if="filteredTransactions.length === 0"
                             color="#e6f5ff"
                             dense
                         >
@@ -126,6 +56,14 @@
                             </transition-group>
                         </div>
                     </template>
+                    <v-progress-circular
+                        v-else
+                        key="1"
+                        :size="16"
+                        :width="2"
+                        color="#E84970"
+                        indeterminate
+                    ></v-progress-circular>
                 </div>
             </div>
         </section>
@@ -144,7 +82,7 @@
 
 <script lang="ts">
 import 'reflect-metadata'
-import { Vue, Component, Watch } from 'vue-property-decorator'
+import { Component, Watch, Mixins } from 'vue-property-decorator'
 import Loader from '@/components/misc/Loader.vue'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import Metadata from '@/components/Address/Metadata.vue'
@@ -156,10 +94,12 @@ import { getAddress } from '@/services/addresses/addresses.service'
 import Big from 'big.js'
 import HTTPError from '@/components/misc/HTTPError.vue'
 import TxHeader from '@/components/Transaction/TxHeader.vue'
-import { ITransaction } from '@/store/modules/transactions/models'
-import { CCHAINID, PCHAINID, XCHAINID } from '@/known_blockchains'
 import TransactionsHeader from '@/components/Transaction/TxHeader.vue'
 import DateForm from '@/components/misc/DateForm.vue'
+import { ITransactionParams } from '@/services/transactions'
+import TxFilter from '@/components/Transaction/TxFilter.vue'
+import TxParams from '@/components/Transaction/TxParams.vue'
+import { TransactionsGettersMixin } from '@/store/modules/transactions/transactions.mixins'
 
 @Component({
     components: {
@@ -172,6 +112,8 @@ import DateForm from '@/components/misc/DateForm.vue'
         TxTableHead,
         TxRow,
         TxHeader,
+        TxFilter,
+        TxParams,
     },
     filters: {
         pluralize(val: number) {
@@ -183,7 +125,7 @@ import DateForm from '@/components/misc/DateForm.vue'
         },
     },
 })
-export default class AddressPage extends Vue {
+export default class AddressPage extends Mixins(TransactionsGettersMixin) {
     // navigation
     breadcrumbs: any[] = [
         {
@@ -208,79 +150,31 @@ export default class AddressPage extends Vue {
     txRequestError = false
     txRequestErrorStatus: number | null = null
     txRequestErrorMessage: string | null = null
-    totalTx = 0
-    offset = 0
-    // Query Params
-    startDate: string = new Date().toISOString()
-    endDate: string = new Date().toISOString()
-    sort = 'timestamp-desc'
-    sorts = [
-        {
-            label: 'New to Old',
-            query: 'timestamp-desc',
-        },
-        {
-            label: 'Old to New',
-            query: 'timestamp-asc',
-        },
-    ]
-    limit = 25
-    limits = [10, 25, 100, 1000, 5000]
 
-    // Filter Params
-    items = [
-        {
-            id: PCHAINID,
-            name: 'P-Chain (Platform)',
-            children: [
-                { id: 'add_validator', name: 'Add Validator' },
-                { id: 'add_subnet_validator', name: 'Add Subnet Validator' },
-                { id: 'add_delegator', name: 'Add Delegator' },
-                { id: 'create_subnet', name: 'Create Subnet' },
-                { id: 'create_chain', name: 'Create Chain' },
-                { id: 'pvm_export', name: 'PVM Export' },
-                { id: 'pvm_import', name: 'PVM Import' },
-            ],
-        },
-        {
-            id: XCHAINID,
-            name: 'X-Chain (Exchange)',
-            children: [
-                { id: 'base', name: 'Base' },
-                { id: 'create_asset', name: 'Create Asset' },
-                { id: 'operation', name: 'Operation' },
-                { id: 'import', name: 'Import' },
-                { id: 'export', name: 'Export' },
-            ],
-        },
-        {
-            id: CCHAINID,
-            name: 'C-Chain (Contract)',
-            children: [
-                { id: 'atomic_import_tx', name: 'Atomic Import' },
-                { id: 'atomic_export_tx', name: 'Atomic Export' },
-            ],
-        },
-    ]
-    selection = this.items.flatMap((item) => item.children)
+    filters: string[] = []
+
+    initialParams = {
+        sort: 'timestamp-desc',
+        limit: 25,
+    }
 
     async created() {
-        this.updateData()
+        this.updateData(this.initialParams)
     }
 
     @Watch('address')
     onAddressChanged() {
-        this.updateData()
+        this.updateData(this.initialParams)
     }
 
     @Watch('assetsLoaded')
     onAssetsLoaded() {
-        this.updateData()
+        this.updateData(this.initialParams)
     }
 
     @Watch('$route')
     onRouteChanged() {
-        this.updateData()
+        this.updateData(this.initialParams)
     }
 
     get assetsLoaded(): boolean {
@@ -320,20 +214,12 @@ export default class AddressPage extends Vue {
         return this.metadata ? this.metadata.totalUtxoCount : 0
     }
 
-    setStart(val: string) {
-        this.startDate = val
+    setFilter(val: string[]) {
+        this.filters = val
     }
 
-    setEnd(val: string) {
-        this.endDate = val
-    }
-
-    get transactions(): ITransaction[] {
-        return this.$store.state.Transactions.addressTxRes.transactions
-    }
-
-    get filters() {
-        return this.selection.map((val) => val.id)
+    get transactions() {
+        return this.getTxsByAddress()
     }
 
     get filteredTransactions() {
@@ -343,12 +229,12 @@ export default class AddressPage extends Vue {
     }
 
     // get address details and txs
-    async updateData() {
+    async updateData(params: ITransactionParams) {
         this.loading = true
         this.txLoading = true
 
         if (this.assetsLoaded) {
-            this.getTx()
+            this.fetchTx(params)
             await this.getAddressDetails_X()
         }
     }
@@ -393,17 +279,14 @@ export default class AddressPage extends Vue {
         }
     }
 
-    getTx() {
+    fetchTx(params: ITransactionParams) {
         this.txLoading = true
-        // TODO: support service for multiple chains
         this.$store
             .dispatch('Transactions/getTxsByAddress', {
                 id: null,
                 params: {
                     address: this.addressID,
-                    sort: this.sort,
-                    offset: this.offset,
-                    limit: this.limit,
+                    ...params,
                 },
             })
             .then(() => (this.txLoading = false))
@@ -439,37 +322,6 @@ export default class AddressPage extends Vue {
     margin-bottom: 10px;
 }
 
-.params {
-    h4 {
-        margin-top: 30px;
-        margin-bottom: 0;
-    }
-}
-
-.bar {
-    display: flex;
-    align-items: center;
-    > p {
-        flex-grow: 1;
-    }
-}
-
-.request {
-    border-bottom: 1px solid $gray;
-}
-
-.sort_container {
-    width: 150px;
-    padding-top: 19px;
-    padding-right: 15px;
-}
-
-.limit_container {
-    width: 100px;
-    padding-top: 19px;
-    padding-right: 15px;
-}
-
 .tx_item {
     border-bottom: 1px solid #e7e7e7;
 
@@ -503,18 +355,6 @@ export default class AddressPage extends Vue {
 }
 
 @include smOnly {
-    .bar {
-        flex-direction: column;
-        align-items: stretch;
-
-        .pagination-container {
-            padding-top: 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-    }
-
     .bar-table {
         justify-content: center;
     }
