@@ -1,8 +1,8 @@
 <template>
-    <v-footer color="#000">
+    <v-footer color="#FFF">
         <div class="powered_by">
             <div class="header">
-                <img src="@/assets/ava_logo_white.png" />
+                <img src="@/assets/ava_logo_black.png" />
                 <h4>Avalanche Explorer</h4>
             </div>
             <p class="avalanche_desc">
@@ -18,30 +18,30 @@
                     >Terms of Use</a
                 >.
             </p>
-            <img class="yeti" src="@/assets/yeti_footer.png" />
         </div>
-        <div class="list">
-            <h4>Menu</h4>
-            <router-link to="/">Home</router-link>
-            <router-link to="/subnets">Subnets</router-link>
-            <router-link to="/validators">Validators</router-link>
-            <router-link to="/assets">Assets</router-link>
-            <!-- <router-link to="/addresses">Addresses</router-link> -->
-            <router-link to="/blockchains">Blockchains</router-link>
-            <a href="https://cchain.explorer.avax.network/">C-Chain</a>
-            <router-link to="/resources">Resources</router-link>
-        </div>
-        <div class="list">
-            <h4>Social</h4>
-            <a href="https://twitter.com/avalancheavax" target="_blank">
-                <fa :icon="['fab', 'twitter']"></fa>Twitter
-            </a>
-            <a href="https://chat.avax.network" target="_blank">
-                <fa :icon="['fab', 'discord']"></fa>Discord
-            </a>
-            <a href="https://reddit.com/r/avax" target="_blank">
-                <fa :icon="['fab', 'reddit']"></fa>Reddit
-            </a>
+        <div class="lists">
+            <div class="list">
+                <h4>Menu</h4>
+                <router-link to="/">Home</router-link>
+                <router-link to="/subnets">Subnets</router-link>
+                <router-link to="/validators">Validators</router-link>
+                <router-link to="/assets">Assets</router-link>
+                <router-link to="/blockchains">Blockchains</router-link>
+                <a href="https://cchain.explorer.avax.network/">C-Chain</a>
+                <router-link to="/resources">Resources</router-link>
+            </div>
+            <div class="list">
+                <h4>Social</h4>
+                <a href="https://twitter.com/avalancheavax" target="_blank">
+                    <fa :icon="['fab', 'twitter']"></fa>Twitter
+                </a>
+                <a href="https://chat.avax.network" target="_blank">
+                    <fa :icon="['fab', 'discord']"></fa>Discord
+                </a>
+                <a href="https://reddit.com/r/avax" target="_blank">
+                    <fa :icon="['fab', 'reddit']"></fa>Reddit
+                </a>
+            </div>
         </div>
     </v-footer>
 </template>
@@ -53,23 +53,25 @@ export default {}
 <style scoped lang="scss">
 .v-footer {
     margin: 60px 0 -1px 0;
-    padding-top: 60px !important;
+    padding-top: 40px !important;
     padding-bottom: 0px !important;
-    color: $white !important;
+    color: $black !important;
+    font-weight: 500;
     align-items: flex-start;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    column-gap: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 
     h4 {
         margin-top: 12px;
     }
 }
+
 .powered_by {
-    height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
+    max-width: 415px;
 
     .header {
         display: flex;
@@ -93,17 +95,12 @@ export default {}
         font-size: 14px;
     }
 
-    img.yeti {
-        width: 60%;
-        max-width: 240px;
-    }
-
     .tos {
         margin-top: 0;
         margin-bottom: 48px;
 
         a {
-            color: $white !important;
+            color: $black !important;
             text-decoration: underline;
         }
     }
@@ -113,24 +110,36 @@ export default {}
     line-height: 1.5em;
 }
 
+.lists {
+    display: flex;
+    flex-direction: row;
+}
+
 .list {
     display: flex;
     flex-direction: column;
     padding-bottom: 30px;
     font-size: 14px;
+    flex-grow: 150px;
+
+    &:first-of-type {
+        margin-right: 70px;
+    }
 
     &:last-of-type {
         margin: 0;
     }
 
     h4 {
+        padding-top: 0;
         padding-bottom: 8px;
-        border-bottom: 1px solid #fff7;
+        border-bottom: 2px solid $black;
+        margin-bottom: 30px;
     }
 
     a {
-        color: $white !important;
-        margin-bottom: 14px;
+        color: $black !important;
+        margin-bottom: 21px;
         text-decoration: none;
 
         svg {
@@ -142,39 +151,27 @@ export default {}
 
 @include smOnly {
     .v-footer {
-        grid-template-columns: none;
-        grid-template-rows: max-content max-content max-content;
-        padding: 20px 30px;
-        padding-bottom: 0;
-        flex-direction: column-reverse;
-        justify-content: center;
-    }
-
-    .list {
-        width: 100%;
-    }
-
-    .powered_by {
-        grid-row: 3;
+        flex-direction: column;
+        justify-content: flex-start;
     }
 }
 
 @include xsOnly {
     .v-footer {
-        grid-template-columns: none;
-        grid-template-rows: max-content max-content max-content;
-        padding: 20px 30px;
-        padding-bottom: 0;
-        flex-direction: column-reverse;
-        justify-content: center;
+        flex-direction: column;
+        justify-content: flex-start;
     }
 
-    .list {
+    .lists {
         width: 100%;
     }
 
-    .powered_by {
-        grid-row: 3;
+    .list {
+        flex-grow: 1;
+    }
+
+    .list:first-of-type {
+        margin-right: 30px;
     }
 }
 </style>

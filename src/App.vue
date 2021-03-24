@@ -182,6 +182,10 @@ export default Vue.extend({
         padding: $container_padding_sm;
         padding-top: 0 !important;
     }
+
+    .footer {
+        padding-top: 40px !important;
+    }
     .content {
         padding-top: 0 !important;
 
@@ -196,6 +200,10 @@ export default Vue.extend({
     .footer {
         padding: $container_padding_xs;
         padding-top: 0 !important;
+    }
+
+    .footer {
+        padding-top: 40px !important;
     }
 
     .content {
