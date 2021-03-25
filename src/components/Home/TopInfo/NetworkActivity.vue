@@ -448,7 +448,6 @@ export default class NetworkActivity extends Vue {
     row-gap: 30px;
     margin-bottom: 25px;
     padding-bottom: 15px !important;
-    border-bottom: 1px solid $primary-color-xlight;
 
     .meta {
         .meta_val {

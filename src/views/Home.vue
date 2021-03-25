@@ -32,6 +32,7 @@ export default class Home extends Vue {}
     width: 100%;
     margin-top: 15px;
     box-sizing: border-box;
+    border: none !important;
 }
 
 .tables {

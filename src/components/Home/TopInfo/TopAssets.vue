@@ -87,7 +87,7 @@ export default class TopAssets extends Vue {
         res = res.filter((asset: Asset) => asset.id !== AVAX_ID)
         res.sort((a: Asset, b: Asset) => b.txCount_day - a.txCount_day)
         res.unshift(avax)
-        return res.slice(0, 10)
+        return res.slice(0, 7)
     }
 
     get assetAggregatesLoaded(): boolean {
@@ -144,10 +144,10 @@ export default class TopAssets extends Vue {
     font-size: 12px;
     overflow: auto;
 
-    &:nth-child(6),
-    &:nth-child(11) {
-        border-bottom: 1px solid $gray-light;
-    }
+    // &:nth-child(6),
+    // &:nth-child(11) {
+    //     border-bottom: 1px solid $gray-light;
+    // }
 
     > * {
         align-self: center;
