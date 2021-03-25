@@ -1,26 +1,173 @@
-.utxo_headers,
-.io_item {
-    grid-template-columns: 120px 80px 80px 80px 1fr 1fr;
+$icon_dimension: 20px;
+$padding: 8px;
+
+/* ==========================================
+   Tx Summary
+   ========================================== */
+
+.type_label {
+    font-size: 12px;
+    font-weight: 700;
+    padding: 9px 10px 10px 10px;
+    width: max-content;
+    color: $primary-color;
+    border: 1px solid $primary-color-light;
+    margin-bottom: 20px;
 }
 
-.utxo_headers {
+.click_to_copy {
+    cursor: default;
+    display: inline-block;
+}
+
+.time_icon {
+    margin-right: 2px;
+}
+
+/* ==========================================
+   UTXOs
+   ========================================== */
+
+.utxo_count {
+    margin-left: $padding;
+    font-size: 0.75em;
+}
+
+h3.label {
+    margin-top: 0;
+    font-weight: 400;
+}
+
+.utxo_container {
     display: grid;
-    grid-gap: 10px;
+    column-gap: $padding;
+
+    background-color: $primary-color-xlight;
+    border-radius: 4px;
+    padding: $padding;
+    margin-bottom: 16px;
+}
+
+.input_container {
+    grid-template-columns: $icon_dimension 1fr;
+}
+
+.output_container {
+    grid-template-columns: 1fr $icon_dimension;
+}
+
+.utxo_new_col {
+    display: flex;
+    flex-direction: column;
     font-size: 12px;
 
-    p {
-        font-weight: 400; /* 700 */
-        opacity: 0.7;
+    > * {
+        flex-grow: 1;
+        margin-bottom: $padding;
     }
 }
 
-.utxo_headers,
-.utxo_row {
+.summary_label,
+.utxo_label {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: $primary-color-light;
+}
+
+.utxo_col {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: $icon_dimension;
+    margin-bottom: 16px;
+
+    // INDEX & TYPE
+    .index,
     .type {
-        display: none;
+        font-size: 12px;
+    }
+
+    .index {
+        color: $primary-color-light;
+    }
+
+    .type {
+        text-transform: none;
+        margin-left: 8px;
+    }
+
+    // AMOUNT
+    .amount {
+        font-size: 24px;
+        font-weight: 300;
+    }
+
+    .symbol {
+        font-size: 16px;
+        white-space: nowrap;
+        width: max-content;
+        padding-left: 8px;
     }
 }
 
+.v-application a.address {
+    font-size: 14px;
+    font-weight: 400;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.signature {
+    color: $purple-light;
+}
+
+.redeemed {
+    color: $green;
+}
+
+.compound_interest {
+    background: -webkit-linear-gradient(top left, $pink, $red, $pink);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.two_col {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    > div {
+        flex: 1;
+    }
+}
+
+.minted {
+    color: $green;
+}
+
+.tag {
+    font-weight: bold;
+    font-size: 12px;
+    text-transform: none;
+    color: #867e89;
+}
+
+@if $VUE_APP_DEFAULT_NETWORKID == 5 {
+    .utxo_container {
+        background-color: $purple-xlight;
+    }
+
+    .compound_interest {
+        background: -webkit-linear-gradient(top left, $blue $pink);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+}
 @include smOnly {
     .meta_row {
         padding: 16px 0;
@@ -34,28 +181,7 @@
             opacity: 0.7;
         }
     }
-
-    .io {
-        grid-template-columns: none;
-        grid-template-rows: max-content max-content;
-    }
-
-    .utxo_headers,
-    .io_item {
-        grid-template-columns: 70px 70px 70px 100px 1fr;
-    }
 }
 
 @include mdOrBigger {
-    .utxo_headers,
-    .utxo_row {
-        .type {
-            display: initial;
-        }
-    }
-
-    .utxo_headers,
-    .io_item {
-        grid-template-columns: 120px 80px 80px 80px 1fr 80px 1fr;
-    }
 }

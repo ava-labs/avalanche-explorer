@@ -3,7 +3,6 @@ import { Module } from 'vuex'
 import api from '@/axios'
 import { IRootState } from '@/store/types'
 import { IAddressState } from './IAddressState'
-// import { IAddress } from '@/js/IAddress';
 
 const address_module: Module<IAddressState, IRootState> = {
     namespaced: true,

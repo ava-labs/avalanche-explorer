@@ -19,6 +19,8 @@ ${colors.green('.Env configs are:')}
     Avalanche GO url: ${colors.magenta(process.env.VUE_APP_AVALANCHE_GO_URL)}
     Fuji url: ${colors.magenta(process.env.VUE_APP_AVALANCHE_JS_IP)}
     C-Chain url: ${colors.magenta(process.env.VUE_APP_CCHAIN_EXPLORER_URL)}
+
+    HTTP PORT: ${colors.magenta(process.env.VUE_APP_HTTP_PORT)}
 `)
 
 module.exports = {

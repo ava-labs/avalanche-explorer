@@ -86,7 +86,7 @@ const network_module: Module<INetworkState, IRootState> = {
                     (network: Network) =>
                         network.networkId === DEFAULT_NETWORK_ID
                 )
-                const res = await dispatch('setNetwork', defaultNetwork)
+                await dispatch('setNetwork', defaultNetwork)
                 return true
             } catch (e) {
                 console.log(e)

@@ -1,14 +1,24 @@
 import api from '@/axios'
 import { resolveResponseData } from '@/services/helpers'
 
-const TRANSACTIONS_API_BASE_URL = process.env.VUE_APP_TRANSACTIONS_API_BASE_URL
+const TRANSACTIONS_API_BASE_URL =
+    process.env.VUE_APP_TRANSACTIONS_V2_API_BASE_URL
+
+export interface ITransactionPayload {
+    id?: string | null
+    params?: ITransactionParams
+}
 
 export interface ITransactionParams {
+    chainID?: string
     assetID?: string
+    address?: string
+    disableGenesis?: boolean
     sort?: string
     offset?: number
     limit?: number
-    disableCount?: number
+    startTime?: number
+    endTime?: number
 }
 
 /**

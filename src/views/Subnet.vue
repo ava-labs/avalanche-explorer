@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import 'reflect-metadata'
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+import { Vue, Component, Watch } from 'vue-property-decorator'
 import Loader from '@/components/misc/Loader.vue'
 import { ISubnets } from '@/store/modules/platform/IPlatformState'
 import Subnet from '@/js/Subnet'

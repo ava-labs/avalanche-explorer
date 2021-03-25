@@ -53,7 +53,6 @@
                     <p class="metric metric_value">
                         {{ asset.txCount_day.toLocaleString() }}
                     </p>
-                    <!--TODO: normalize asset.volume_day -->
                 </div>
             </div>
             <div class="bottom">
@@ -62,7 +61,6 @@
                 >
             </div>
         </div>
-        <!-- Balance Table - vuetify data table -->
     </div>
 </template>
 
@@ -71,7 +69,6 @@ import 'reflect-metadata'
 import { Vue, Component } from 'vue-property-decorator'
 import Tooltip from '../../../components/rows/Tooltip.vue'
 import TooltipHeading from '../../../components/misc/TooltipHeading.vue'
-import axios from '@/axios'
 import { Asset } from '@/js/Asset'
 import { AVAX_ID } from '@/store/index'
 import { ICollisionMap } from '@/js/IAsset'
@@ -84,10 +81,6 @@ import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
     },
 })
 export default class TopAssets extends Vue {
-    created() {
-        const parent = this
-    }
-
     get assets(): Asset[] {
         let res = this.$store.getters.assetsArrayNonProfane
         const avax = res.find((asset: Asset) => asset.id === AVAX_ID)

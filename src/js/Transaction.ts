@@ -1,59 +1,93 @@
 import {
     ITransaction,
-    ITransactionData,
-    ITransactionInputData,
-    ITransactionInput,
-    ITransactionOutput,
-    ITransactionOutputData,
-} from '@/js/ITransaction'
+    TransactionResponse,
+    InputResponse,
+    Input,
+    Output,
+    OutputResponse,
+    InputTotal,
+    OutputTotal,
+} from '@/store/modules/transactions/models'
 import { stringToBig } from '@/helper'
+import { txTypeMap, txChainTypeMap } from '@/store/modules/transactions/maps'
 
-function getOutput(output: ITransactionOutputData): ITransactionOutput {
+function getOutput(output: OutputResponse): Output {
     return {
-        addresses: output.addresses,
-        amount: stringToBig(output.amount), // TODO: this Big conversion is not denominated bc of dependency on asset lookup
-        assetID: output.assetID,
-        id: output.id,
-        locktime: output.locktime,
-        outputIndex: output.outputIndex,
-        outputType: output.outputType,
-        redeemingTransactionID: output.redeemingTransactionID,
-        threshold: output.threshold,
+        ...output,
         timestamp: new Date(output.timestamp),
-        transactionID: output.transactionID,
+        amount: stringToBig(output.amount), // TODO: this Big conversion is not denominated bc of dependency on asset lookup
     }
 }
 
-export const txTypeMap = new Map<string, string>([
-    ['add_delegator', 'Add Delegator'],
-    ['add_subnet_validator', 'Add Subnet Validator'],
-    ['base', 'Base'],
-    ['create_asset', 'Create Asset'],
-    ['create_subnet', 'Create Subnet'],
-    ['export', 'Export'],
-    ['pvm_export', 'PVM Export'],
-    ['pvm_import', 'PVM Import'],
-])
-
 export function getMappingForType(type: string) {
-    return txTypeMap.get(type) || 'No type provided'
+    return txTypeMap.get(type) || 'Unknown'
+}
+
+export function getTransactionChainType(chainID: string) {
+    return txChainTypeMap.get(chainID)
+}
+
+export function getTransactionOutputs(outputs: Output[]) {
+    return outputs.map((output) => {
+        const chainType = getTransactionChainType(output.chainID)
+        const addresses =
+            output.addresses !== null ? output.addresses : output.caddresses
+        const prefix = output.addresses !== null ? `${chainType?.code}-` : ``
+        return {
+            ...output,
+            addresses: addresses.map(
+                (address) =>
+                    ({
+                        address,
+                        displayAddress: `${prefix}${address}`,
+                    } as DisplayAddress)
+            ),
+        }
+    })
+}
+
+export function getTransactionInputs(inputs: Input[]) {
+    return inputs.map((input) => ({
+        credentials: input.credentials,
+        output: getTransactionOutputs([input.output])[0],
+    }))
+}
+
+export interface DisplayAddress {
+    address: string
+    displayAddress: string
 }
 
 export class Transaction implements ITransaction {
     id: string
-    inputs: ITransactionInput[]
-    outputs: ITransactionOutput[]
-    timestamp: string
-    type: string
     chainID: string
+    type: string
+    inputs: Input[]
+    outputs: Output[]
     memo: string
+    inputTotals: InputTotal
+    outputTotals: OutputTotal
+    reusedAddressTotals: string | null
+    timestamp: string
     txFee: number
+    genesis: boolean
+    rewarded: boolean
+    rewardedTime: string | null
+    epoch: number
+    vertexId: string
+    validatorNodeID: string
+    validatorStart: number
+    validatorEnd: number
+    txBlockId: string
 
-    constructor(data: ITransactionData) {
+    constructor(data: TransactionResponse) {
+        this.id = data.id
+        this.chainID = data.chainID
+        this.type = data.type
         this.inputs =
             data.inputs === null || data.inputs.length === 0
                 ? []
-                : data.inputs.map((input: ITransactionInputData) => {
+                : data.inputs.map((input: InputResponse) => {
                       return {
                           credentials: input.credentials,
                           output: getOutput(input.output),
@@ -62,16 +96,24 @@ export class Transaction implements ITransaction {
         this.outputs =
             data.outputs === null || data.outputs.length === 0
                 ? []
-                : data.outputs.map((output: ITransactionOutputData) =>
-                      getOutput(output)
-                  )
-        this.id = data.id
-        this.timestamp = data.timestamp
-        this.type = data.type
-        this.chainID = data.chainID
-        this.id = data.id
+                : data.outputs
+                      .map((output: OutputResponse) => getOutput(output))
+                      .sort((a, b) => a.outputIndex - b.outputIndex)
         this.memo = data.memo
+        this.inputTotals = data.inputTotals
+        this.outputTotals = data.outputTotals
+        this.reusedAddressTotals = data.reusedAddressTotals
+        this.timestamp = data.timestamp
         this.txFee = data.txFee
+        this.genesis = data.genesis
+        this.rewarded = data.rewarded
+        this.rewardedTime = data.rewardedTime
+        this.epoch = data.epoch
+        this.vertexId = data.vertexId
+        this.validatorNodeID = data.validatorNodeID
+        this.validatorStart = data.validatorStart
+        this.validatorEnd = data.validatorEnd
+        this.txBlockId = data.txBlockId
     }
 
     getInputAddresses(): string[] {

@@ -8,7 +8,7 @@
                     <p v-show="search.length > 0 && matchedValidators">
                         {{
                             matchedValidators.length.toLocaleString()
-                                | pluralize
+                                | pluralize('result')
                         }}
                         found
                     </p>
@@ -94,15 +94,6 @@ import { IValidator } from '@/store/modules/platform/IValidator'
         ValidatorPaginationControls,
         Metadata,
         StakingMetadata,
-    },
-    filters: {
-        pluralize(val: number): string {
-            return val === 0
-                ? `${val} results`
-                : val > 1
-                ? `${val} results`
-                : `${val} result`
-        },
     },
 })
 export default class Validators extends Vue {

@@ -2,108 +2,79 @@
     <div class="transactions">
         <div class="card">
             <div class="header">
-                <div class="tx_chain_header">
-                    <h2>Transactions</h2>
-                    <p
-                        v-if="$vuetify.breakpoint.smAndUp"
-                        class="chain right"
-                        bottom
-                    >
-                        <span class="label"
-                            >You are viewing transactions for</span
-                        >
-                        <v-tooltip>
-                            <template v-slot:activator="{ on }">
-                                <span class="tag" v-on="on">X-Chain</span>
-                            </template>
-                            <span
-                                >The X-Chain acts as a decentralized platform
-                                for creating and trading smart digital assets.
-                                (Think X for eXchanging assets.)</span
-                            >
-                        </v-tooltip>
-                    </p>
-                </div>
-
-                <template v-show="!loading && assetsLoaded">
-                    <div class="bar">
-                        <p class="count">
-                            {{ totalTx.toLocaleString() }} transactions found
-                        </p>
-                        <pagination-controls
-                            v-show="assetsLoaded"
-                            ref="paginationTop"
-                            :total="totalTx"
-                            :limit="limit"
-                            @change="page_change"
-                        ></pagination-controls>
-                    </div>
-                </template>
+                <TransactionsHeader></TransactionsHeader>
+                <TxParams @change="fetchTx"></TxParams>
             </div>
-            <template v-if="loading && !assetsLoaded">
-                <v-progress-circular
-                    key="1"
-                    :size="16"
-                    :width="2"
-                    color="#E84970"
-                    indeterminate
-                ></v-progress-circular>
-            </template>
-            <template v-else>
-                <TxHeader></TxHeader>
-                <div class="rows">
-                    <transition-group name="fade" mode="out-in">
-                        <tx-row
-                            v-for="tx in transactions"
-                            :key="tx.id"
-                            class="tx_item"
-                            :transaction="tx"
-                        ></tx-row>
-                    </transition-group>
+            <div class="two-col">
+                <TxFilter @change="setFilter"></TxFilter>
+                <div class="right">
+                    <template v-if="!loading && assetsLoaded">
+                        <TxTableHead></TxTableHead>
+                        <v-alert
+                            v-if="filteredTransactions.length === 0"
+                            color="#e6f5ff"
+                            dense
+                        >
+                            There are no matching entries
+                        </v-alert>
+                        <div class="rows">
+                            <transition-group name="fade" mode="out-in">
+                                <tx-row
+                                    v-for="tx in filteredTransactions"
+                                    :key="tx.id"
+                                    class="tx_item"
+                                    :transaction="tx"
+                                ></tx-row>
+                            </transition-group>
+                        </div>
+                    </template>
+                    <v-progress-circular
+                        v-else
+                        key="1"
+                        :size="16"
+                        :width="2"
+                        color="#E84970"
+                        indeterminate
+                    ></v-progress-circular>
                 </div>
-                <div class="bar-table">
-                    <pagination-controls
-                        ref="paginationBottom"
-                        :total="totalTx"
-                        :limit="limit"
-                        @change="page_change"
-                    ></pagination-controls>
-                </div>
-            </template>
+            </div>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch } from 'vue-property-decorator'
-import api from '@/axios'
+import 'reflect-metadata'
+import { Component, Watch, Mixins } from 'vue-property-decorator'
 import Tooltip from '@/components/rows/Tooltip.vue'
-import TxHeader from '@/components/rows/TxRow/TxHeader.vue'
+import TxTableHead from '@/components/rows/TxRow/TxTableHead.vue'
 import TxRow from '@/components/rows/TxRow/TxRow.vue'
-import PaginationControls from '@/components/misc/PaginationControls.vue'
-import { Transaction } from '@/js/Transaction'
+import TransactionsHeader from '@/components/Transaction/TxHeader.vue'
+import TxFilter from '@/components/Transaction/TxFilter.vue'
+import TxParams from '@/components/Transaction/TxParams.vue'
+import DateForm from '@/components/misc/DateForm.vue'
+import { ITransactionParams } from '@/services/transactions'
+import { TransactionsGettersMixin } from '@/store/modules/transactions/transactions.mixins'
 
 @Component({
     components: {
         Tooltip,
-        TxHeader,
+        TxTableHead,
         TxRow,
-        PaginationControls,
+        TransactionsHeader,
+        DateForm,
+        TxFilter,
+        TxParams,
     },
 })
-export default class Transactions extends Vue {
+export default class Transactions extends Mixins(TransactionsGettersMixin) {
     loading = true
-    totalTx = 0
-    limit = 25 // how many to display
-    offset = 0
-    txs: Transaction[] = []
+    filters: string[] = []
 
     created() {
-        this.getTx()
-    }
-
-    get transactions() {
-        return this.txs
+        this.fetchTx({
+            sort: 'timestamp-desc',
+            limit: 25,
+        })
     }
 
     get assetsLoaded() {
@@ -112,32 +83,35 @@ export default class Transactions extends Vue {
 
     @Watch('assetsLoaded')
     onAssetsLoadedChanged() {
-        this.getTx()
+        this.fetchTx({
+            sort: 'timestamp-desc',
+            limit: 25,
+        })
     }
 
-    page_change(val: number) {
-        this.offset = val
-        this.getTx()
-        const pgNum = Math.floor(this.offset / this.limit) + 1
-        // @ts-ignore
-        this.$refs.paginationTop.setPage(pgNum)
-        // @ts-ignore
-        this.$refs.paginationBottom.setPage(pgNum)
+    setFilter(val: string[]) {
+        this.filters = val
     }
 
-    getTx(): void {
-        const parent = this
-        parent.loading = true
-        const sort = 'timestamp-desc'
-        // TODO: support service for multiple chains
-        const url = `/x/transactions?sort=${sort}&offset=${this.offset}&limit=${this.limit}`
+    get transactions() {
+        return this.getTxs()
+    }
 
+    get filteredTransactions() {
+        return this.transactions.filter((tx) => {
+            return this.filters.some((val) => val === tx.type)
+        })
+    }
+
+    fetchTx(params: ITransactionParams): void {
+        this.loading = true
         if (this.assetsLoaded) {
-            api.get(url).then((res) => {
-                parent.txs = res.data.transactions
-                parent.totalTx = res.data.count
-                parent.loading = false
-            })
+            this.$store
+                .dispatch('Transactions/getTxs', {
+                    id: null,
+                    params,
+                })
+                .then(() => (this.loading = false))
         }
     }
 }
@@ -151,18 +125,6 @@ export default class Transactions extends Vue {
 .header {
     padding-bottom: 20px;
     margin-bottom: 10px;
-
-    .count {
-        color: #808080;
-    }
-}
-
-.bar {
-    display: flex;
-    align-items: center;
-    > p {
-        flex-grow: 1;
-    }
 }
 
 .tx_item {
@@ -177,6 +139,23 @@ export default class Transactions extends Vue {
     padding-top: 30px;
     display: flex;
     justify-content: flex-end;
+}
+
+.two-col {
+    display: flex;
+    flex-direction: row;
+
+    .left {
+        h4 {
+            margin-top: 0;
+        }
+        flex-basis: 0 0 300px;
+        margin-right: 60px;
+    }
+
+    .right {
+        flex: 1;
+    }
 }
 
 @include smOnly {

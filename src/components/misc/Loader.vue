@@ -29,8 +29,14 @@ import { getRandomQuote } from '../../helper'
 
 export default {
     props: {
-        contentId: String,
-        message: String,
+        contentId: {
+            type: String,
+            required: true,
+        },
+        message: {
+            type: String,
+            required: true,
+        },
     },
     data() {
         return {

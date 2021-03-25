@@ -18,7 +18,10 @@
                 <template v-if="assetsLoaded">
                     <div class="bar">
                         <p class="count">
-                            {{ Object.keys(assets).length | pluralize }} found
+                            {{
+                                Object.keys(assets).length | pluralize('asset')
+                            }}
+                            found
                         </p>
                     </div>
                 </template>
@@ -98,8 +101,6 @@ import AssetsDataTable from '@/components/Assets/AssetsDataTable.vue'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import TooltipHeading from '@/components/misc/TooltipHeading.vue'
 import { Asset } from '@/js/Asset'
-import axios from '@/axios'
-import { IAssetData_Ortelius } from '../js/IAsset'
 //@ts-ignore
 import wordcloud from 'vue-wordcloud'
 import { AVAX_ID } from '@/store/index'
@@ -111,15 +112,6 @@ import { AVAX_ID } from '@/store/index'
         AssetRow,
         AssetsDataTable,
         wordcloud,
-    },
-    filters: {
-        pluralize(val: number) {
-            return val === 0
-                ? `${val} assets`
-                : val > 1
-                ? `${val.toLocaleString()} assets`
-                : `${val} asset`
-        },
     },
 })
 export default class AssetsPage extends Vue {
