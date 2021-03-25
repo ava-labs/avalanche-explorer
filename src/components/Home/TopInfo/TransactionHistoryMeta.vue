@@ -34,7 +34,7 @@ export default class NetworkActivity extends Vue {
 </script>
 <style scoped lang="scss">
 #tx_history_statistics {
-    margin-top: 30px;
+    margin-top: 10px;
 }
 
 .stats {
@@ -42,25 +42,23 @@ export default class NetworkActivity extends Vue {
     grid-template-columns: 1fr 1fr;
     row-gap: 45px;
     column-gap: 30px;
-    padding: 4px 0 0;
+    padding: 4px 0 30px;
     flex-wrap: wrap;
     overflow: auto;
     width: 100%;
 
     .meta {
         display: flex;
-        flex-direction: column-reverse;
+        flex-direction: column;
         flex-wrap: wrap;
         justify-content: flex-start;
         flex-grow: 1;
-        text-align: center;
         font-size: 12px;
         font-weight: 700;
 
         p {
             padding: 2px 4px;
-            font-weight: 400;
-            text-align: center;
+            font-weight: 500;
             width: 100%;
         }
 
@@ -74,7 +72,6 @@ export default class NetworkActivity extends Vue {
         .meta_val {
             font-size: 24px;
             line-height: 1em;
-            font-weight: 300;
 
             .unit {
                 font-size: 12px;

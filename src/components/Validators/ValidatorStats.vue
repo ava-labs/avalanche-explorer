@@ -248,7 +248,6 @@ h3 {
 
         .meta_val {
             font-size: 36px;
-            font-weight: 300;
             line-height: 1em;
 
             .unit {

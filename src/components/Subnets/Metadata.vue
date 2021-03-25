@@ -152,7 +152,6 @@ export default class Metadata extends Vue {
         .meta_val {
             font-size: 36px;
             line-height: 1em;
-            font-weight: 300;
 
             .unit {
                 font-size: 20px;

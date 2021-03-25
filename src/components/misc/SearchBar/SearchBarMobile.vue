@@ -214,7 +214,7 @@ input {
     align-items: center;
 
     .icon {
-        font-size: 26px;
+        font-size: 22px;
         margin-right: 15px;
         opacity: 0.4;
     }

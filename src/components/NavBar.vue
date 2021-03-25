@@ -70,7 +70,7 @@ export default Vue.extend({
             return this.$router.currentRoute.name === 'Home' ? false : true
         },
         navColor() {
-            return DEFAULT_NETWORK_ID === 1 ? '#fff' : '#2196f3'
+            return DEFAULT_NETWORK_ID === 1 ? '#FAFAFA' : '#2196f3'
         },
         logoColor() {
             return DEFAULT_NETWORK_ID === 1 ? 'light' : 'white'

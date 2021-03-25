@@ -23,7 +23,7 @@ export default {
 .top_info {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    column-gap: 15px;
+    column-gap: 20px;
     padding: 0;
     width: 100%;
     background: transparent;

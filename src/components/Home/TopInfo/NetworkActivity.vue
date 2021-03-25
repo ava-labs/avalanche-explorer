@@ -510,16 +510,13 @@ export default class NetworkActivity extends Vue {
 
         .label {
             text-transform: capitalize;
-            /* color: $blue; */
             font-size: 12px;
-            font-weight: 700;
             margin-bottom: 6px;
             padding-left: 3px;
         }
 
         .meta_val {
             font-weight: 300;
-            /* color: $blue; */
             line-height: 1em;
 
             .unit {

@@ -84,7 +84,7 @@ export default Vue.extend({
 
 <style scoped lang="scss">
 .v-application {
-    background-color: $gray-xlight !important;
+    background-color: $white !important;
     min-height: 100vh;
 }
 
@@ -272,7 +272,8 @@ p {
 .card {
     background-color: $white;
     padding: 30px;
-    border-radius: 6px;
+    border-radius: 20px;
+    border: 1px solid $gray-light;
 }
 
 @if $VUE_APP_DEFAULT_NETWORKID == 5 {
@@ -283,9 +284,9 @@ p {
 
 .header {
     h2 {
-        font-size: 26px;
+        font-size: 22px;
         margin: 0;
-        font-weight: 400;
+        font-weight: 500;
         color: $primary-color;
     }
 }
@@ -293,7 +294,7 @@ p {
 @include smOnly {
     .header {
         h2 {
-            font-size: 26px;
+            font-size: 22px;
             margin: 0;
         }
     }
@@ -302,6 +303,7 @@ p {
 @include xsOnly {
     .card {
         border-radius: 0;
+        border: none;
     }
 
     .header {

@@ -105,7 +105,6 @@ export default class ContentMetadata extends Vue {
     .meta_val {
         font-size: 36px;
         line-height: 1em;
-        font-weight: 300;
         color: $primary-color;
     }
 }

@@ -8,6 +8,11 @@
                 ></TooltipHeading>
             </h2>
         </div>
+        <template v-if="aggregates && !loading">
+            <TransactionHistoryMeta
+                :aggregates="aggregates"
+            ></TransactionHistoryMeta>
+        </template>
         <div class="history_cont">
             <div class="chart_toggle_settings">
                 <!-- API DB CANNOT HANDLE 1YR options[0] -->
@@ -54,11 +59,6 @@
                 <canvas ref="canv"></canvas>
             </div>
         </div>
-        <template v-if="aggregates && !loading">
-            <TransactionHistoryMeta
-                :aggregates="aggregates"
-            ></TransactionHistoryMeta>
-        </template>
     </div>
 </template>
 <script>
@@ -510,7 +510,7 @@ export default {
 }
 
 .header {
-    padding-bottom: 30px;
+    padding-bottom: 15px;
 }
 
 .history_cont {
