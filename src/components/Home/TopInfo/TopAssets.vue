@@ -144,11 +144,6 @@ export default class TopAssets extends Vue {
     font-size: 12px;
     overflow: auto;
 
-    // &:nth-child(6),
-    // &:nth-child(11) {
-    //     border-bottom: 1px solid $gray-light;
-    // }
-
     > * {
         align-self: center;
     }

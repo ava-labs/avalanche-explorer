@@ -30,7 +30,7 @@ export default {
     overflow: visible;
 
     > div {
-        padding: 24px;
+        padding: 30px;
         overflow: auto;
     }
 
