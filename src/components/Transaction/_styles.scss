@@ -50,10 +50,12 @@ h3.label {
 
 .input_container {
     grid-template-columns: $icon_dimension 1fr;
+    padding-right: 28px !important;
 }
 
 .output_container {
     grid-template-columns: 1fr $icon_dimension;
+    padding-left: 28px !important;
 }
 
 .utxo_new_col {
