@@ -134,7 +134,7 @@ export default class NetworkMenu extends Vue {
     }
 
     get networkColor(): string {
-        return DEFAULT_NETWORK_ID === 1 ? 'primary' : 'white'
+        return DEFAULT_NETWORK_ID === 1 ? 'black' : 'white'
     }
 }
 </script>

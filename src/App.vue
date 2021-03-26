@@ -613,6 +613,7 @@ tbody {
 .v-toolbar--dense .v-toolbar__content,
 .v-toolbar--dense .v-toolbar__extension {
     padding: 0;
+    flex-direction: column;
 }
 
 @include xlOnly {

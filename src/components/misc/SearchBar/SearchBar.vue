@@ -160,8 +160,11 @@ export default Vue.extend({
     width: 100%;
     padding: 5px;
     background-color: $bg-light;
-    border-radius: 4px;
     display: flex;
+
+    border: 1px solid $primary-color;
+    box-sizing: border-box;
+    border-radius: 50px;
 }
 
 .search_bar {
@@ -189,6 +192,7 @@ input {
     padding: 0 !important;
     min-width: 38px;
     border-radius: 4px;
+    background-color: transparent !important;
 }
 
 .search_results {

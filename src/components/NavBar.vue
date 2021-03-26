@@ -5,24 +5,25 @@
         dark
         flat
         dense
-        :height="100"
+        :height="140"
         :style="{ backgroundColor: navColor }"
     >
-        <div class="logo">
-            <router-link to="/">
-                <img
-                    style="width: 200px"
-                    :src="require(`@/assets/explorer_logo_${logoColor}.png`)"
-                />
-                <h1>
-                    <span class="hide">Avalanche Explorer</span>
-                </h1>
-            </router-link>
-            <NetworkMenu></NetworkMenu>
-        </div>
-        <v-spacer class="spacer_mid"></v-spacer>
-        <div class="rightside">
-            <div class="row" style="display: flex">
+        <div class="top">
+            <div class="logo">
+                <router-link to="/">
+                    <img
+                        style="height: 23px"
+                        :src="
+                            require(`@/assets/explorer_logo_${logoColor}.png`)
+                        "
+                    />
+                    <h1>
+                        <span class="hide">Avalanche Explorer</span>
+                    </h1>
+                </router-link>
+            </div>
+            <v-spacer class="spacer_mid"></v-spacer>
+            <div class="links">
                 <div class="routes">
                     <router-link to="/">Home</router-link>
                     <router-link to="/subnets">Subnets</router-link>
@@ -33,19 +34,34 @@
                     <router-link to="/resources">Resources</router-link>
                 </div>
             </div>
-            <div class="row">
-                <search-bar
+            <v-spacer class="spacer_mid"></v-spacer>
+            <NetworkMenu></NetworkMenu>
+        </div>
+        <div class="bottom">
+            <div class="prices">
+                <div class="price_pair">
+                    <span class="label">AVAX</span>
+                    <span class="value">$-.--</span>
+                </div>
+                <div class="price_pair">
+                    <span class="label">Market Cap</span>
+                    <span class="value">$-</span>
+                </div>
+            </div>
+            <div>
+                <SearchBar
                     class="search_bar"
                     placeholder="Search by Address / TxId / Asset"
                     @search="onsearch"
-                ></search-bar>
+                ></SearchBar>
             </div>
         </div>
     </v-app-bar>
 </template>
 
 <script>
-import Vue from 'vue'
+import 'reflect-metadata'
+import { Vue, Component } from 'vue-property-decorator'
 import SearchBar from '@/components/misc/SearchBar/SearchBar'
 import NetworkMenu from './NetworkSettings/NetworkMenu.vue'
 import {
@@ -54,45 +70,46 @@ import {
     cChainExplorerURL_test,
 } from '@/store/modules/network/network'
 
-export default Vue.extend({
+@Component({
     components: {
         SearchBar,
         NetworkMenu,
     },
-    computed: {
-        themeType() {
-            return this.$vuetify.theme.dark ? 'dark' : 'light'
-        },
-        theme() {
-            return this.$vuetify.theme.themes[this.themeType]
-        },
-        showSearch() {
-            return this.$router.currentRoute.name === 'Home' ? false : true
-        },
-        navColor() {
-            return DEFAULT_NETWORK_ID === 1 ? '#FAFAFA' : '#2196f3'
-        },
-        logoColor() {
-            return DEFAULT_NETWORK_ID === 1 ? 'light' : 'white'
-        },
-        cChainURL() {
-            return DEFAULT_NETWORK_ID === 1
-                ? cChainExplorerURL
-                : cChainExplorerURL_test
-        },
-    },
-    methods: {
-        onsearch(val) {
-            this.$router
-                .push({ path: '/search', query: { query: val } })
-                .catch((error) => {
-                    if (error.name != 'NavigationDuplicated') {
-                        throw error
-                    }
-                })
-        },
-    },
 })
+export default class Navbar extends Vue {
+    currencies = ['USD', 'AVAX']
+
+    get themeType() {
+        return this.$vuetify.theme.dark ? 'dark' : 'light'
+    }
+    get theme() {
+        return this.$vuetify.theme.themes[this.themeType]
+    }
+    get showSearch() {
+        return this.$router.currentRoute.name === 'Home' ? false : true
+    }
+    get navColor() {
+        return DEFAULT_NETWORK_ID === 1 ? '#FFF' : '#2196f3'
+    }
+    get logoColor() {
+        return DEFAULT_NETWORK_ID === 1 ? 'black' : 'white'
+    }
+    get cChainURL() {
+        return DEFAULT_NETWORK_ID === 1
+            ? cChainExplorerURL
+            : cChainExplorerURL_test
+    }
+
+    onsearch(val) {
+        this.$router
+            .push({ path: '/search', query: { query: val } })
+            .catch((error) => {
+                if (error.name != 'NavigationDuplicated') {
+                    throw error
+                }
+            })
+    }
+}
 </script>
 
 <style scoped lang="scss">
@@ -100,12 +117,22 @@ export default Vue.extend({
     z-index: 10 !important;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
+    border-bottom: 1px solid $primary-color-xlight;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 30px;
 }
 
 .logo {
     display: flex;
     flex-direction: row;
-    height: 100%;
     padding: 15px 0px;
     white-space: nowrap;
     box-sizing: border-box;
@@ -115,8 +142,12 @@ export default Vue.extend({
         align-items: center;
         flex-direction: row;
         height: 100%;
-        color: #000 !important;
+        color: $primary-color !important;
         text-decoration: none !important;
+
+        img {
+            height: 23px;
+        }
     }
 
     h1 {
@@ -148,12 +179,45 @@ export default Vue.extend({
             display: inline-block;
         }
     }
-    img {
-        max-height: calc(100% - 15px);
-    }
 }
+
 .network_menu {
     margin-left: 20px !important;
+}
+
+.bottom {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+.prices {
+    display: flex;
+    flex-direction: row;
+
+    .price_pair {
+        display: flex;
+        align-items: baseline;
+
+        &:first-of-type {
+            margin-right: 20px;
+        }
+
+        .label {
+            font-size: 18px;
+            color: $primary-color-light !important;
+            margin-right: 5px;
+        }
+
+        .value {
+            font-weight: 500;
+            font-size: 26px;
+            line-height: 140%;
+            color: $primary-color !important;
+        }
+    }
 }
 
 .search_bar {
@@ -161,11 +225,11 @@ export default Vue.extend({
     width: 100%;
 }
 
-.rightside {
-    justify-content: end;
+.links {
+    justify-content: space-between;
 
     > div {
-        justify-content: flex-end;
+        justify-content: center;
         margin: 8px 0px;
         white-space: nowrap;
         flex-wrap: nowrap;
@@ -179,12 +243,13 @@ export default Vue.extend({
 }
 
 .routes a {
-    color: $primary-color-light !important;
-    font-size: 14px;
-    padding-right: 20px;
+    color: $primary-color !important;
+    font-size: 13px;
+    padding-right: 30px;
 
     &.router-link-exact-active {
         color: $primary-color !important;
+        font-weight: 700;
     }
 
     &:hover {
@@ -238,7 +303,7 @@ export default Vue.extend({
         }
     }
 
-    .rightside {
+    .links {
         width: 100%;
         overflow: auto;
     }
