@@ -10,7 +10,7 @@
                 <div class="utxo_label">
                     {{ payloadBase.typeID() | getType }} Payload
                 </div>
-                <div>{{ text }}</div>
+                <div class="monospace code">{{ text }}</div>
             </div>
         </div>
     </div>
@@ -55,5 +55,9 @@ export default class UtxoNFTPayload extends Vue {
 <style scoped lang="scss">
 .payload {
     overflow: scroll;
+}
+
+.code {
+    font-size: 10px;
 }
 </style>

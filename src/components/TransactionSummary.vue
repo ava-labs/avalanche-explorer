@@ -27,7 +27,7 @@
                 Status
                 <Tooltip
                     content="Status of the transaction"
-                    color="#867e89"
+                    color="#c4c4c4"
                 ></Tooltip>
             </p>
             <div>
@@ -40,7 +40,7 @@
                 Accepted
                 <Tooltip
                     content="Date and time when transaction was accepted"
-                    color="#867e89"
+                    color="#c4c4c4"
                 ></Tooltip>
             </p>
             <div class="values">
@@ -55,7 +55,7 @@
                 Value
                 <Tooltip
                     content="Total economic value transferred in this transaction"
-                    color="#867e89"
+                    color="#c4c4c4"
                 ></Tooltip>
             </p>
             <p class="values">
@@ -69,7 +69,7 @@
                 Transaction Fee
                 <Tooltip
                     content="Amount paid to validators for processing the transaction"
-                    color="#867e89"
+                    color="#c4c4c4"
                 ></Tooltip>
             </p>
             <p>{{ tx.txFee | toAVAX }} AVAX</p>
@@ -79,7 +79,7 @@
                 Text
                 <Tooltip
                     content="A 256-byte text field for encoding arbitrary data"
-                    color="#867e89"
+                    color="#c4c4c4"
                 ></Tooltip>
             </p>
             <div>
@@ -92,7 +92,7 @@
                 Blockchain
                 <Tooltip
                     content="Blockchain storing transaction"
-                    color="#867e89"
+                    color="#c4c4c4"
                 ></Tooltip>
             </p>
             <div>
@@ -108,7 +108,7 @@
                 Asset Type
                 <Tooltip
                     content="The type of asset (NFT, variable or fixed cap)"
-                    color="#867e89"
+                    color="#c4c4c4"
                 ></Tooltip>
             </p>
             <div>
@@ -119,7 +119,7 @@
         <article v-if="isStaking" class="meta_row">
             <p class="label">
                 Staking
-                <Tooltip content="Validator Rewards" color="#867e89"></Tooltip>
+                <Tooltip content="Validator Rewards" color="#c4c4c4"></Tooltip>
             </p>
             <StakingSummary :tx="tx"></StakingSummary>
         </article>
