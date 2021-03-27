@@ -5,9 +5,11 @@
                 <span v-if="$vuetify.breakpoint.smAndDown" class="label"
                     >To</span
                 >
-                <router-link class="addr" :to="`/address/X-` + addr.address">{{
-                    addr.displayAddress
-                }}</router-link>
+                <router-link
+                    class="addr monospace"
+                    :to="`/address/X-` + addr.address"
+                    >{{ addr.displayAddress }}</router-link
+                >
             </div>
         </div>
         <div class="info_col" style="padding-right: 0">
@@ -92,59 +94,25 @@ export default class OutputUtxo extends Vue {
     grid-template-columns: 1fr max-content;
 }
 
-.info_col {
-    padding: 0px 10px;
-    overflow: auto;
-}
-
 .to {
     display: grid;
     grid-template-columns: max-content 1fr max-content;
     white-space: nowrap;
     overflow: hidden;
-
-    .label {
-        font-weight: 400; /* 700 */
-        width: 25px;
-        padding: 6px 6px 4px 10px;
-        opacity: 0.5;
-        font-size: 10px;
-        text-align: right;
-    }
-
-    .addr {
-        text-overflow: ellipsis;
-        overflow: hidden;
-        padding-left: 0;
-        text-decoration: none;
-        max-width: 250px;
-        height: 100%;
-
-        &:hover {
-            text-decoration: underline;
-        }
-    }
-
-    p,
-    a {
-        padding: 4px 12px;
-    }
 }
 
 .amount_col {
     display: flex;
     flex-direction: column-reverse;
     height: 100%;
-    background-color: $secondary-color-xlight;
     border-radius: 4px;
     justify-content: center;
     align-items: center;
 }
 .amount {
-    color: $secondary-color;
-    font-weight: 400;
-    letter-spacing: 0.1em;
-    font-size: 16px;
+    // font-weight: 400;
+    // letter-spacing: 0.1em;
+    // font-size: 16px;
 
     span {
         font-size: 12px;

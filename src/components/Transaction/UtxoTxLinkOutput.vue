@@ -24,7 +24,7 @@
             <a v-else :href="cURL">
                 <v-tooltip left>
                     <template v-slot:activator="{ on }">
-                        <fa icon="arrow-right" color="#867e89" v-on="on"></fa>
+                        <fa icon="arrow-right" color="#w" v-on="on"></fa>
                     </template>
                     <div>
                         <p>

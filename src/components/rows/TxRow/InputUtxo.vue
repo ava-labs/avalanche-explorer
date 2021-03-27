@@ -2,9 +2,11 @@
     <div>
         <div class="from">
             <span v-if="$vuetify.breakpoint.smAndDown" class="label">From</span>
-            <router-link class="addr" :to="`/address/X-${input.address}`">{{
-                input.displayAddress
-            }}</router-link>
+            <router-link
+                class="addr monospace"
+                :to="`/address/X-${input.address}`"
+                >{{ input.displayAddress }}</router-link
+            >
         </div>
     </div>
 </template>
@@ -29,6 +31,8 @@ export default class InputUTXO extends Vue {
     white-space: nowrap;
     overflow: hidden;
     margin-bottom: 5px;
+    background-color: #f8f8f8;
+    padding: 4px 12px;
 
     .label {
         font-weight: 400; /* 700 */
@@ -46,6 +50,11 @@ export default class InputUTXO extends Vue {
         text-decoration: none;
         max-width: 250px;
         word-break: break-all;
+
+        font-weight: 300;
+        font-size: 10px;
+        line-height: 140%;
+        color: #000000;
 
         &:hover {
             text-decoration: underline;

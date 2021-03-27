@@ -1,10 +1,10 @@
 <template>
     <div class="tx_row">
         <div class="avatar">
-            <p>Tx</p>
+            <p>{{ chainCode }}</p>
         </div>
         <div class="info_col id_col">
-            <router-link :to="`/tx/${transaction.id}`" class="id"
+            <router-link :to="`/tx/${transaction.id}`" class="id monospace"
                 >{{ transaction.id }}...</router-link
             >
             <p class="time">{{ transaction.timestamp | fromNow }}</p>
@@ -21,11 +21,11 @@
                 </div>
             </template>
             <template v-else>
-                <utxo-input
+                <InputUTXO
                     v-for="(input, i) in inputs"
                     :key="i"
                     :input="input"
-                ></utxo-input>
+                ></InputUTXO>
             </template>
         </div>
         <div v-if="isGenesisVertex" class="to_amount">
@@ -42,20 +42,20 @@
                 </div>
             </template>
             <template> </template>
-            <output-utxo
+            <OutputUTXO
                 v-for="(output, i) in outputs"
                 :key="i"
                 class="utxo_out"
                 :output="output"
-            ></output-utxo>
+            ></OutputUTXO>
         </div>
     </div>
 </template>
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import UtxoInput from '@/components/rows/TxRow/InputUtxo.vue'
-import OutputUtxo from '@/components/rows/TxRow/OutputUtxo.vue'
+import InputUTXO from '@/components/rows/TxRow/InputUtxo.vue'
+import OutputUTXO from '@/components/rows/TxRow/OutputUtxo.vue'
 import {
     getMappingForType,
     Transaction,
@@ -63,11 +63,12 @@ import {
     getTransactionInputs,
 } from '@/js/Transaction'
 import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
+import { getTxChainType } from '@/services/transactions'
 
 @Component({
     components: {
-        UtxoInput,
-        OutputUtxo,
+        InputUTXO,
+        OutputUTXO,
     },
     filters: {
         getType: getMappingForType,
@@ -82,6 +83,10 @@ export default class TxRow extends Vue {
                 ? process.env.VUE_APP_AVAXID
                 : process.env.VUE_APP_TEST_AVAXID
         return this.transaction.id === genesisTxID ? true : false
+    }
+
+    get chainCode() {
+        return getTxChainType(this.transaction.chainID)!.code
     }
 
     /**
@@ -127,13 +132,13 @@ export default class TxRow extends Vue {
     border-radius: 35px;
     line-height: 35px;
     text-align: center;
-    background-color: $white;
-    border: 2px solid $primary-color;
+    background-color: $secondary-color-xlight;
 
     p {
         width: 100%;
         font-weight: 500;
         color: $primary-color;
+        font-size: 16px;
     }
 }
 
@@ -198,7 +203,7 @@ export default class TxRow extends Vue {
     padding-bottom: 6px;
 }
 
-@include smOnly {
+@include smOrSmaller {
     .tx_row {
         padding: 8px;
         grid-template-columns: none;
@@ -229,35 +234,6 @@ export default class TxRow extends Vue {
 }
 
 @include xsOnly {
-    .tx_row {
-        padding: 8px;
-        grid-template-columns: none;
-        grid-template-rows: max-content max-content max-content max-content max-content;
-    }
-
-    .avatar {
-        display: none;
-    }
-
-    .id_col {
-        display: flex;
-        align-items: baseline;
-        height: 50px;
-
-        a {
-            flex-grow: 1;
-        }
-    }
-
-    .time {
-        line-height: 11px;
-    }
-
-    .type {
-        padding-top: 4px;
-        padding-bottom: 4px;
-    }
-
     .id {
         margin-bottom: 4px;
     }
