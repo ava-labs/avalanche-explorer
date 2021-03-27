@@ -109,16 +109,6 @@ export default class OutputUtxo extends Vue {
     justify-content: center;
     align-items: center;
 }
-.amount {
-    // font-weight: 400;
-    // letter-spacing: 0.1em;
-    // font-size: 16px;
-
-    span {
-        font-size: 12px;
-        font-weight: 700;
-    }
-}
 
 @include xsOnly {
     .info_col {

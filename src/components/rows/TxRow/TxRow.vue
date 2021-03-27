@@ -9,7 +9,6 @@
             >
             <p class="time">{{ transaction.timestamp | fromNow }}</p>
             <span class="type">
-                <span class="label">TYPE:</span>
                 <span class="value"> {{ transaction.type | getType }}</span>
             </span>
         </div>
@@ -132,40 +131,35 @@ export default class TxRow extends Vue {
     border-radius: 35px;
     line-height: 35px;
     text-align: center;
-    background-color: $secondary-color-xlight;
+    background-color: $primary-color-xlight;
 
     p {
         width: 100%;
-        font-weight: 500;
+        font-weight: 400;
         color: $primary-color;
         font-size: 16px;
     }
 }
 
 .id {
-    color: $primary-color-light !important;
     text-decoration: none;
-    font-weight: 400; /* 700 */
+    font-weight: 400;
     display: block;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: $black !important;
 }
 
 .time {
-    font-weight: 400;
+    line-height: 140%;
+    color: #000000;
     font-size: 10px;
-    color: $primary-color-light;
     word-break: keep-all;
     white-space: nowrap;
-    line-height: 21px;
 }
 
 .type {
     font-size: 10px;
-    .label {
-        font-size: 8px;
-        color: #bdbdbd;
-    }
     .value {
         color: $secondary-color;
     }
@@ -173,7 +167,7 @@ export default class TxRow extends Vue {
 
 .label {
     font-size: 12px;
-    font-weight: 400; /* 700 */
+    font-weight: 400;
     overflow: hidden;
 }
 .data {
