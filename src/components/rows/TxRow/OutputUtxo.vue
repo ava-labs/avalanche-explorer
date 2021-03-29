@@ -18,27 +18,6 @@
                     {{ amount }}
                     <span>{{ asset.symbol }}</span>
                 </p>
-                <!-- <div class="value">
-                    <span class="amount">
-                        <span class="chunk">
-                            <span class="digit">0</span>
-                            <span class="digit decimal">.</span>
-                            <span class="digit decimal">0</span>
-                            <span class="digit decimal">0</span>
-                            <span class="digit decimal">0</span>
-                        </span>
-                        <span class="chunk small">
-                            <span class="digit decimal">0</span>
-                            <span class="digit decimal">3</span>
-                            <span class="digit decimal">3</span>
-                        </span>
-                        <span class="chunk small">
-                            <span class="digit decimal">5</span>
-                            <span class="digit decimal">6</span>
-                        </span>
-                    </span>
-                    <span class="currency">bch</span>
-                </div> -->
             </div>
         </div>
     </div>
