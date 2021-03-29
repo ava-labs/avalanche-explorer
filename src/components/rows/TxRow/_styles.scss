@@ -3,18 +3,31 @@
     position: relative;
     display: grid;
     grid-template-columns: 40px 0.62fr 0.9fr 1.5fr;
+    column-gap: 10px;
     flex-direction: row;
     align-items: center;
     font-size: 12px;
 }
 
+.info_col {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    overflow: auto;
+}
+
+.utxo_in,
+.utxo_out {
+    // border: 1px solid red;
+    padding: 0px 10px;
+}
+
 .from,
-.to_amount {
-    display: grid;
+.to {
     padding: 0;
 
     .label {
-        font-weight: 400; /* 700 */
+        font-weight: 400;
         width: 25px;
         padding: 6px 6px 4px 10px;
         opacity: 0.5;
@@ -27,76 +40,48 @@
         overflow: hidden;
         padding-left: 0;
         text-decoration: none;
+        word-break: break-all;
+        display: inline-block;
         max-width: 250px;
-
-        font-size: 12px;
-        line-height: 140%;
+        line-height: 1em;
 
         &:hover {
             text-decoration: underline;
         }
     }
-
-    p,
-    a {
-        padding: 4px 12px;
-    }
 }
 
 .from {
-    grid-template-columns: max-content 1fr max-content;
+    display: grid;
+    grid-template-columns: max-content;
     white-space: nowrap;
     overflow: hidden;
-    margin-bottom: 5px;
-
-    .addr {
-        word-break: break-all;
-    }
 }
 
-.to_amount {
-    .to {
-        display: grid;
-        grid-template-columns: 1fr max-content;
-        white-space: nowrap;
-        overflow: hidden;
-        margin-bottom: 5px;
+.to {
+    display: grid;
+    grid-template-columns: 1fr max-content;
+    column-gap: 10px;
+    white-space: nowrap;
+    overflow: hidden;
 
-        .addr {
-            height: 100%;
+    .addresses {
+        display: flex;
+        flex-direction: column;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    .amount {
+        // color: #000000;
+        // font-weight: 300;
+        // text-align: right;
+
+        span {
+            letter-spacing: 0.01em;
         }
     }
 }
-
-.info_col {
-    display: flex;
-    flex-direction: column;
-    justify-items: center;
-    padding: 0px 10px;
-    overflow: auto;
-}
-
-.amount_col {
-    display: flex;
-    flex-direction: column-reverse;
-    height: 100%;
-    justify-content: center;
-    align-items: center;
-}
-
-.amount {
-    color: #000000;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 140%;
-
-    span {
-        font-size: 10px;
-        line-height: 140%;
-        letter-spacing: 0.01em;
-    }
-}
-
 @include smOrSmaller {
     .tx_row {
         padding: 8px;

@@ -1,13 +1,11 @@
 <template>
-    <div>
-        <div class="from">
-            <span v-if="$vuetify.breakpoint.smAndDown" class="label">From</span>
-            <router-link
-                class="addr monospace"
-                :to="`/address/X-${input.address}`"
-                >{{ input.displayAddress }}</router-link
-            >
-        </div>
+    <div class="from">
+        <span v-if="$vuetify.breakpoint.smAndDown" class="label">From</span>
+        <router-link
+            class="addr monospace"
+            :to="`/address/X-${input.address}`"
+            >{{ input.displayAddress }}</router-link
+        >
     </div>
 </template>
 
@@ -16,13 +14,10 @@ import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { DisplayAddress } from '@/js/Transaction'
 
-@Component({
-    filters: {},
-})
+@Component({})
 export default class InputUTXO extends Vue {
     @Prop() input!: DisplayAddress[]
 }
 </script>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

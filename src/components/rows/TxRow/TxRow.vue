@@ -21,6 +21,7 @@
                 <InputUTXO
                     v-for="(input, i) in inputs"
                     :key="i"
+                    class="utxo_in"
                     :input="input"
                 ></InputUTXO>
             </template>
@@ -153,14 +154,9 @@ export default class TxRow extends Vue {
     font-weight: 400;
     overflow: hidden;
 }
+
 .data {
     display: flex;
-}
-
-.utxo_out {
-    padding-left: 10px;
-    padding-right: 10px;
-    margin-bottom: 6px;
 }
 
 .tx_type_label {

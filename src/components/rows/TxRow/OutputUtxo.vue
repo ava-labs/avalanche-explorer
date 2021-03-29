@@ -1,7 +1,7 @@
 <template>
-    <div class="to_amount">
-        <div>
-            <div v-for="(addr, i) in addresses" :key="i" class="to">
+    <div class="to">
+        <div class="addresses">
+            <div v-for="(addr, i) in addresses" :key="i">
                 <span v-if="$vuetify.breakpoint.smAndDown" class="label"
                     >To</span
                 >
@@ -12,13 +12,9 @@
                 >
             </div>
         </div>
-        <div class="info_col" style="padding-right: 0">
-            <div class="amount_col to">
-                <p class="amount">
-                    {{ amount }}
-                    <span>{{ asset.symbol }}</span>
-                </p>
-            </div>
+        <div class="amount">
+            {{ amount }}
+            <span>{{ asset.symbol }}</span>
         </div>
     </div>
 </template>
@@ -65,26 +61,4 @@ export default class OutputUtxo extends Vue {
     }
 }
 </script>
-
-<style scoped lang="scss">
-.to_amount {
-    display: grid;
-    grid-template-columns: 1fr max-content;
-}
-
-.to {
-    display: grid;
-    grid-template-columns: max-content 1fr max-content;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-.amount_col {
-    display: flex;
-    flex-direction: column-reverse;
-    height: 100%;
-    border-radius: 4px;
-    justify-content: center;
-    align-items: center;
-}
-</style>
+<style scoped lang="scss"></style>
