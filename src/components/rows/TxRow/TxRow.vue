@@ -1,8 +1,10 @@
 <template>
     <div class="tx_row">
+        <!-- CHAIN -->
         <div class="avatar">
             <p>{{ chainCode }}</p>
         </div>
+        <!-- DETAILS -->
         <div class="info_col id_col">
             <router-link :to="`/tx/${transaction.id}`" class="id monospace"
                 >{{ transaction.id }}...</router-link
@@ -12,13 +14,9 @@
                 <span class="value"> {{ transaction.type | getType }}</span>
             </span>
         </div>
+        <!-- FROM -->
         <div class="info_col">
             <span v-if="$vuetify.breakpoint.smAndDown" class="label"></span>
-            <template v-if="transaction.type === 'import'">
-                <div class="tx_type_label import_tx">
-                    imported from other Chain
-                </div>
-            </template>
             <template v-else>
                 <InputUTXO
                     v-for="(input, i) in inputs"
@@ -27,26 +25,21 @@
                 ></InputUTXO>
             </template>
         </div>
-        <div v-if="isGenesisVertex" class="to_amount">
-            <div class="info_col">
+        <!-- TO -->
+        <div class="info_col">
+            <template v-if="isGenesisVertex">
                 <router-link :to="`/tx/${tx_id}`" class="view_all"
                     >Explore Genesis Vertex</router-link
                 >
-            </div>
-        </div>
-        <div v-else class="to_amount">
-            <template v-if="transaction.type === 'export'">
-                <div class="info_col tx_type_label export_tx">
-                    exported to other Chain
-                </div>
             </template>
-            <template> </template>
-            <OutputUTXO
-                v-for="(output, i) in outputs"
-                :key="i"
-                class="utxo_out"
-                :output="output"
-            ></OutputUTXO>
+            <template v-else>
+                <OutputUTXO
+                    v-for="(output, i) in outputs"
+                    :key="i"
+                    class="utxo_out"
+                    :output="output"
+                ></OutputUTXO>
+            </template>
         </div>
     </div>
 </template>
@@ -115,16 +108,6 @@ export default class TxRow extends Vue {
 }
 </script>
 <style scoped lang="scss">
-.tx_row {
-    padding: 12px 0px;
-    position: relative;
-    display: grid;
-    grid-template-columns: 40px 0.62fr 0.9fr 1.5fr;
-    flex-direction: row;
-    align-items: center;
-    font-size: 12px;
-}
-
 .avatar {
     width: 35px;
     height: 35px;
@@ -174,15 +157,9 @@ export default class TxRow extends Vue {
     display: flex;
 }
 
-.info_col {
-    display: flex;
-    flex-direction: column;
-    justify-items: center;
-    padding: 0px 10px;
-    overflow: auto;
-}
-
 .utxo_out {
+    padding-left: 10px;
+    padding-right: 10px;
     margin-bottom: 6px;
 }
 
@@ -195,57 +172,5 @@ export default class TxRow extends Vue {
     align-items: flex-start;
     padding-top: 6px;
     padding-bottom: 6px;
-}
-
-@include smOrSmaller {
-    .tx_row {
-        padding: 8px;
-        grid-template-columns: none;
-        grid-template-rows: max-content max-content max-content max-content max-content;
-    }
-
-    .avatar {
-        display: none;
-    }
-
-    .id_col {
-        display: flex;
-        align-items: baseline;
-        height: 50px;
-        a {
-            flex-grow: 1;
-        }
-    }
-
-    .type {
-        padding-top: 4px;
-        padding-bottom: 4px;
-    }
-
-    .time {
-        line-height: 11px;
-    }
-}
-
-@include xsOnly {
-    .id {
-        margin-bottom: 4px;
-    }
-
-    .tx_row {
-        padding: 8px 0;
-    }
-
-    .info_col {
-        padding: 0 10px 0 0;
-    }
-
-    .utxo_out {
-        margin-bottom: 2px;
-    }
-
-    .tx_type_label {
-        padding-left: 42px;
-    }
 }
 </style>

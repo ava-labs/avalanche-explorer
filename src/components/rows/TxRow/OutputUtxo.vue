@@ -1,6 +1,6 @@
 <template>
     <div class="to_amount">
-        <div class="info_col">
+        <div>
             <div v-for="(addr, i) in addresses" :key="i" class="to">
                 <span v-if="$vuetify.breakpoint.smAndDown" class="label"
                     >To</span
@@ -18,7 +18,6 @@
                     {{ amount }}
                     <span>{{ asset.symbol }}</span>
                 </p>
-
                 <!-- <div class="value">
                     <span class="amount">
                         <span class="chunk">
@@ -108,20 +107,5 @@ export default class OutputUtxo extends Vue {
     border-radius: 4px;
     justify-content: center;
     align-items: center;
-}
-
-@include xsOnly {
-    .info_col {
-        padding: 0 10px 0 0;
-    }
-
-    .amount {
-        font-size: 12px;
-
-        span {
-            font-size: 12px;
-            font-weight: 700;
-        }
-    }
 }
 </style>
