@@ -1,6 +1,6 @@
 .table_headers {
     display: grid;
-    grid-template-columns: 35px 0.62fr 0.9fr 1.5fr;
+    grid-template-columns: 35px 1fr 270px 1.5fr;
     column-gap: 20px;
     padding-bottom: 7px;
     border-bottom: 1px solid #e7e7e7;
@@ -15,11 +15,11 @@
     padding: 12px 0px;
     position: relative;
     display: grid;
-    grid-template-columns: 35px 0.62fr 0.9fr 1.5fr;
+    grid-template-columns: 35px 1fr 270px 1.5fr;
     column-gap: 20px;
     flex-direction: row;
     align-items: center;
-    font-size: 12px;
+    font-size: 16px;
 }
 
 .info_col {
@@ -29,7 +29,12 @@
     overflow: auto;
 }
 
+.id {
+    max-width: 250px;
+}
+
 .utxo_list {
+    border: 1px solid $primary-color-light;
     border-radius: 5px;
 }
 
@@ -87,6 +92,7 @@
     .addr_container {
         display: flex;
         flex-direction: column;
+        align-items: flex-start;
     }
 
     .addr {
@@ -122,7 +128,8 @@
         .value {
             line-height: 1em;
             padding-bottom: 2px;
-            font-weight: 700;
+            font-weight: 500;
+            font-size: 20px;
         }
 
         .symbol {
