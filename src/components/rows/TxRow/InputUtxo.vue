@@ -2,11 +2,7 @@
     <div class="from">
         <div class="addr_container">
             <span v-if="$vuetify.breakpoint.smAndDown" class="label">From</span>
-            <router-link
-                class="addr monospace"
-                :to="`/address/X-${input.address}`"
-                >{{ input.displayAddress }}</router-link
-            >
+            <AddressLink :address="input.displayAddress"></AddressLink>
         </div>
     </div>
 </template>
@@ -14,11 +10,16 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { DisplayAddress } from '@/js/Transaction'
+import AddressLink from '@/components/rows/TxRow/AddressLink.vue'
+import { Input } from '@/store/modules/transactions'
 
-@Component({})
+@Component({
+    components: {
+        AddressLink,
+    },
+})
 export default class InputUTXO extends Vue {
-    @Prop() input!: DisplayAddress[]
+    @Prop() input!: Input
 }
 </script>
 <style scoped lang="scss"></style>

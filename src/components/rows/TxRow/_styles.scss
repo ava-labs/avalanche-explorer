@@ -19,7 +19,7 @@
     column-gap: 20px;
     flex-direction: row;
     align-items: center;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .info_col {
@@ -88,6 +88,8 @@
     grid-template-columns: auto;
     white-space: nowrap;
     overflow: hidden;
+    padding-top: 12px;
+    padding-bottom: 12px;
 
     .addr_container {
         display: flex;

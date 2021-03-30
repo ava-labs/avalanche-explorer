@@ -5,11 +5,7 @@
                 <span v-if="$vuetify.breakpoint.smAndDown" class="label"
                     >To</span
                 >
-                <router-link
-                    class="addr monospace"
-                    :to="`/address/X-` + addr.address"
-                    >{{ addr.displayAddress }}</router-link
-                >
+                <AddressLink :address="addr.displayAddress"></AddressLink>
             </div>
         </div>
         <div class="amount">
@@ -23,12 +19,15 @@
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { trimmedLocaleString } from '@/helper'
+import AddressLink from '@/components/rows/TxRow/AddressLink.vue'
 import { Output } from '@/store/modules/transactions/models'
 import { Asset } from '@/js/Asset'
 import Big from 'big.js'
 
 @Component({
-    filters: {},
+    components: {
+        AddressLink,
+    },
 })
 export default class OutputUtxo extends Vue {
     @Prop() output!: Output
