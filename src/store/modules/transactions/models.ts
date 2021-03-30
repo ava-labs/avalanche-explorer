@@ -3,10 +3,10 @@ import Big from 'big.js'
 
 export interface TransactionsState {
     tx: Transaction | null
-    txRes: TransactionQueryResponse
-    recentTxRes: TransactionQueryResponse
-    assetTxRes: TransactionQueryResponse
-    addressTxRes: TransactionQueryResponse
+    txRes: TransactionQuery
+    recentTxRes: TransactionQuery
+    assetTxRes: TransactionQuery
+    addressTxRes: TransactionQuery
 }
 
 /* ==========================================
@@ -18,6 +18,13 @@ export interface TransactionQueryResponse {
     endTime: string
     next: string
     transactions: TransactionResponse[]
+}
+
+export interface TransactionQuery {
+    startTime: string
+    endTime: string
+    next: string
+    transactions: Transaction[]
 }
 
 export interface TransactionResponse {

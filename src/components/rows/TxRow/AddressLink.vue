@@ -27,10 +27,6 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 export default class AddressLink extends Vue {
     @Prop() address!: string
 
-    created() {
-        console.log(this.address)
-    }
-
     isXP(id: string) {
         const prefix = id.substring(0, 2)
         return prefix !== '0x' ? true : false
