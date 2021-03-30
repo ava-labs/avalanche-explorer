@@ -1,11 +1,13 @@
 <template>
     <div class="from">
-        <span v-if="$vuetify.breakpoint.smAndDown" class="label">From</span>
-        <router-link
-            class="addr monospace"
-            :to="`/address/X-${input.address}`"
-            >{{ input.displayAddress }}</router-link
-        >
+        <div class="addr_container">
+            <span v-if="$vuetify.breakpoint.smAndDown" class="label">From</span>
+            <router-link
+                class="addr monospace"
+                :to="`/address/X-${input.address}`"
+                >{{ input.displayAddress }}</router-link
+            >
+        </div>
     </div>
 </template>
 
@@ -19,5 +21,4 @@ export default class InputUTXO extends Vue {
     @Prop() input!: DisplayAddress[]
 }
 </script>
-
 <style scoped lang="scss"></style>

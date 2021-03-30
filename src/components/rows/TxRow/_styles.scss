@@ -1,9 +1,22 @@
+.table_headers {
+    display: grid;
+    grid-template-columns: 35px 0.62fr 0.9fr 1.5fr;
+    column-gap: 20px;
+    padding-bottom: 7px;
+    border-bottom: 1px solid #e7e7e7;
+
+    p {
+        font-weight: 700;
+        font-size: 12px;
+    }
+}
+
 .tx_row {
     padding: 12px 0px;
     position: relative;
     display: grid;
-    grid-template-columns: 40px 0.62fr 0.9fr 1.5fr;
-    column-gap: 10px;
+    grid-template-columns: 35px 0.62fr 0.9fr 1.5fr;
+    column-gap: 20px;
     flex-direction: row;
     align-items: center;
     font-size: 12px;
@@ -16,15 +29,16 @@
     overflow: auto;
 }
 
-.utxo_in,
-.utxo_out {
-    // border: 1px solid red;
-    padding: 0px 10px;
+.utxo_list {
+    border-radius: 5px;
 }
 
 .from,
 .to {
     padding: 0;
+    background: $primary-color-xlight;
+    padding: 10px;
+    border-bottom: 2px solid $white;
 
     .label {
         font-weight: 400;
@@ -35,27 +49,52 @@
         text-align: right;
     }
 
-    .addr {
-        text-overflow: ellipsis;
-        overflow: hidden;
-        padding-left: 0;
-        text-decoration: none;
-        word-break: break-all;
-        display: inline-block;
-        max-width: 250px;
-        line-height: 1em;
+    .addr_container {
+        line-height: 1.1em;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 6px;
 
-        &:hover {
-            text-decoration: underline;
+        &:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .addr {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            padding-left: 0;
+            text-decoration: none;
+            word-break: break-all;
+            display: block;
+            max-width: 250px;
+
+            color: $black !important;
+
+            &:hover {
+                text-decoration: underline !important;
+            }
         }
     }
 }
 
 .from {
     display: grid;
-    grid-template-columns: max-content;
+    grid-template-columns: auto;
     white-space: nowrap;
     overflow: hidden;
+
+    .addr_container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .addr {
+        flex: 1; /* consumes all free space (taking full height) */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
 }
 
 .to {
@@ -68,16 +107,26 @@
     .addresses {
         display: flex;
         flex-direction: column;
+        justify-content: center;
         text-overflow: ellipsis;
         overflow: hidden;
+        line-height: 1em;
+        box-sizing: content-box;
     }
 
     .amount {
-        // color: #000000;
-        // font-weight: 300;
-        // text-align: right;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
 
-        span {
+        .value {
+            line-height: 1em;
+            padding-bottom: 2px;
+            font-weight: 700;
+        }
+
+        .symbol {
+            margin-left: 3px;
             letter-spacing: 0.01em;
         }
     }
@@ -113,6 +162,10 @@
 }
 
 @include xsOnly {
+    .table_headers {
+        display: none;
+    }
+
     .id {
         margin-bottom: 4px;
     }

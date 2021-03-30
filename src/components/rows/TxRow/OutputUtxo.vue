@@ -1,7 +1,7 @@
 <template>
     <div class="to">
         <div class="addresses">
-            <div v-for="(addr, i) in addresses" :key="i">
+            <div v-for="(addr, i) in addresses" :key="i" class="addr_container">
                 <span v-if="$vuetify.breakpoint.smAndDown" class="label"
                     >To</span
                 >
@@ -13,8 +13,8 @@
             </div>
         </div>
         <div class="amount">
-            {{ amount }}
-            <span>{{ asset.symbol }}</span>
+            <div class="value monospace">{{ amount }}</div>
+            <div class="symbol">{{ asset.symbol }}</div>
         </div>
     </div>
 </template>

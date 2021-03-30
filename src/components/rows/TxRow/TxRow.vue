@@ -15,19 +15,18 @@
             </span>
         </div>
         <!-- FROM -->
-        <div class="info_col">
+        <div class="info_col utxo_list">
             <span v-if="$vuetify.breakpoint.smAndDown" class="label"></span>
             <template v-else>
                 <InputUTXO
                     v-for="(input, i) in inputs"
                     :key="i"
-                    class="utxo_in"
                     :input="input"
                 ></InputUTXO>
             </template>
         </div>
         <!-- TO -->
-        <div class="info_col">
+        <div class="info_col utxo_list">
             <template v-if="isGenesisVertex">
                 <router-link :to="`/tx/${tx_id}`" class="view_all"
                     >Explore Genesis Vertex</router-link
@@ -37,7 +36,6 @@
                 <OutputUTXO
                     v-for="(output, i) in outputs"
                     :key="i"
-                    class="utxo_out"
                     :output="output"
                 ></OutputUTXO>
             </template>
