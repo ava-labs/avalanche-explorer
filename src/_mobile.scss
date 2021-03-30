@@ -40,3 +40,10 @@
         @content;
     }
 }
+
+// --------------------------------------------- equal to or smaller than 960px
+@mixin smOrSmaller {
+    @media only screen and (max-width: $width_sm) {
+        @content;
+    }
+}

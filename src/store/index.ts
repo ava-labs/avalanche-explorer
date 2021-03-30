@@ -19,10 +19,14 @@ import {
     ICollisionMap,
 } from '@/js/IAsset'
 import { X_CHAIN_ID } from '@/store/modules/platform/platform'
-import { TransactionQueryResponse } from '@/store/modules/transactions/models'
+import {
+    TransactionQuery,
+    TransactionQueryResponse,
+} from '@/store/modules/transactions/models'
 import { ITransactionPayload } from '@/services/transactions'
 import { getTransaction } from '@/services/transactions'
 import { getAssetAggregates, IAssetAggregate } from '@/services/aggregates'
+import { parseTxs } from './modules/transactions/helpers'
 
 Vue.use(Vuex)
 
@@ -124,7 +128,7 @@ const store = new Vuex.Store({
                 payload.id,
                 payload.params
             )
-            store.commit('addRecentTransactions', txRes)
+            store.commit('addRecentTransactions', parseTxs(txRes))
         },
 
         // Adds an unknown asset id to the assets dictionary
@@ -184,7 +188,7 @@ const store = new Vuex.Store({
             console.log('ALL ASSET AGGREGATES LOADED')
         },
         // TRANSACTIONS
-        addRecentTransactions(state, txRes: TransactionQueryResponse) {
+        addRecentTransactions(state, txRes: TransactionQuery) {
             state.recentTxRes = txRes
         },
         addCollisionMap(state, collisionMap: ICollisionMap) {

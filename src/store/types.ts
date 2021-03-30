@@ -1,5 +1,5 @@
 import {
-    TransactionQueryResponse,
+    TransactionQuery,
     TransactionsState,
 } from '@/store/modules/transactions/models'
 import { Asset } from '@/js/Asset'
@@ -12,7 +12,7 @@ export interface IRootState {
     assetsLoaded: boolean
     assetAggregatesLoaded: boolean
     chainId: string
-    recentTxRes: TransactionQueryResponse
+    recentTxRes: TransactionQuery
     known_addresses: {
         [key: string]: string
     }
