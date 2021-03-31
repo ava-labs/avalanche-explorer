@@ -76,6 +76,7 @@ import {
 import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
 import { getTxChainType } from '@/known_blockchains'
 import { getMappingForType } from '@/store/modules/transactions/maps'
+
 @Component({
     components: {
         InputUTXO,

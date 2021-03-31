@@ -122,7 +122,7 @@ export const txTypeMap = new Map<string, TxType>([
         'reward_validator',
         {
             long: 'Reward Validator',
-            short: 'Reward Validator',
+            short: 'Reward',
         },
     ],
 ])
