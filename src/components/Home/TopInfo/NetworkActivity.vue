@@ -512,10 +512,11 @@ export default class NetworkActivity extends Vue {
             font-size: 12px;
             margin-bottom: 6px;
             padding-left: 3px;
+            color: #707070;
         }
 
         .meta_val {
-            font-weight: 300;
+            font-weight: 500;
             line-height: 1em;
 
             .unit {

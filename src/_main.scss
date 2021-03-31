@@ -29,6 +29,8 @@ $secondary-color-light: $red-light;
 $secondary-color-xlight: $red-xlight;
 
 $background-color: $dark-white;
+$button: $button-gray;
+
 @if $VUE_APP_DEFAULT_NETWORKID == 5 {
     $secondary-color: $blue;
     $secondary-color-light: $blue-light;

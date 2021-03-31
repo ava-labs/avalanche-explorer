@@ -131,7 +131,7 @@ export default class TopAssets extends Vue {
 
 .column_headers {
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 500;
     color: $primary-color;
     border-bottom: 1px solid $gray-light;
 }

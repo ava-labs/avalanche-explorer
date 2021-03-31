@@ -225,6 +225,7 @@ export default Vue.extend({
    ========================================== */
 body {
     font-family: 'Inter', sans-serif;
+    letter-spacing: 0.01em;
     margin: 0;
     background-color: $white !important;
     color: $primary-color;
@@ -630,21 +631,21 @@ tbody {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     margin: 2px 0 20px;
 
     button {
-        flex-grow: 1;
         font-size: 9px;
         background-color: transparent;
-        color: $primary-color;
+        color: $button;
         height: 24px;
-        width: 28px;
+        width: 50px;
         border: none;
         margin-left: 3px;
         outline: none;
-        border-radius: 2px;
-        padding: 1px 3px;
+        border: 1px solid $button-dark-gray;
+        border-radius: 12px;
+        padding: 4px 3px;
         font-weight: 700;
         text-transform: uppercase;
         cursor: pointer;
@@ -655,7 +656,8 @@ tbody {
 
         &[active] {
             color: $white;
-            background-color: $primary-color;
+            background-color: $button;
+            border: 1px solid $button;
         }
     }
 }
