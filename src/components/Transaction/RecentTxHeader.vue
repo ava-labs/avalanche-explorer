@@ -8,11 +8,11 @@
                     <template v-slot:activator="{ on }">
                         <span
                             class="tag"
-                            v-on="on"
-                            v-bind:style="{
+                            :style="{
                                 color: pChain.color,
                                 borderColor: pChain.color,
                             }"
+                            v-on="on"
                             >{{ pChain.name }}</span
                         >
                     </template>
@@ -22,11 +22,11 @@
                     <template v-slot:activator="{ on }">
                         <span
                             class="tag margin-left"
-                            v-on="on"
-                            v-bind:style="{
+                            :style="{
                                 color: xChain.color,
                                 borderColor: xChain.color,
                             }"
+                            v-on="on"
                             >{{ xChain.name }}</span
                         >
                     </template>
@@ -40,11 +40,11 @@
                     <template v-slot:activator="{ on }">
                         <span
                             class="tag margin-left"
-                            v-on="on"
-                            v-bind:style="{
+                            :style="{
                                 color: cChain.color,
                                 borderColor: cChain.color,
                             }"
+                            v-on="on"
                             >{{ cChain.name }}</span
                         >
                     </template>
