@@ -60,7 +60,7 @@
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { getOutputType } from '@/services/transactions'
-import { PChainInfo, XChainInfo } from '@/helper'
+import { P, X } from '@/known_blockchains'
 import {
     DEFAULT_NETWORK_ID,
     cChainExplorerURL,
@@ -79,7 +79,7 @@ export default class UtxoTxLinkOutput extends Vue {
     @Prop() timestamp!: string
 
     get isXP(): boolean {
-        return this.chainID === XChainInfo.id || this.chainID === PChainInfo.id
+        return this.chainID === X.id || this.chainID === P.id
     }
 
     get xpURL(): string {

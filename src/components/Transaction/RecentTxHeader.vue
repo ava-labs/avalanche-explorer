@@ -72,7 +72,7 @@
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { getTxChainType } from '@/services/transactions'
-import { PChainInfo, XChainInfo, CChainInfo } from '@/helper'
+import { P, X, C } from '@/known_blockchains'
 
 @Component({
     components: {},
@@ -86,15 +86,15 @@ export default class RecentTxHeader extends Vue {
     }
 
     get xChain() {
-        return getTxChainType(XChainInfo.id)
+        return getTxChainType(X.id)
     }
 
     get pChain() {
-        return getTxChainType(PChainInfo.id)
+        return getTxChainType(P.id)
     }
 
     get cChain() {
-        return getTxChainType(CChainInfo.id)
+        return getTxChainType(C.id)
     }
 }
 </script>

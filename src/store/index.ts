@@ -18,7 +18,6 @@ import {
     IAssetDataAvalancheGo,
     ICollisionMap,
 } from '@/js/IAsset'
-import { X_CHAIN_ID } from '@/store/modules/platform/platform'
 import {
     TransactionQuery,
     TransactionQueryResponse,
@@ -27,6 +26,7 @@ import { ITransactionPayload } from '@/services/transactions'
 import { getTransaction } from '@/services/transactions'
 import { getAssetAggregates, IAssetAggregate } from '@/services/aggregates'
 import { parseTxs } from './modules/transactions/helpers'
+import { X } from '@/known_blockchains'
 
 Vue.use(Vuex)
 
@@ -138,7 +138,7 @@ const store = new Vuex.Store({
             )
             const newAssetData: IAssetDataOrtelius = {
                 alias: '',
-                chainID: X_CHAIN_ID,
+                chainID: X.id,
                 currentSupply: '0',
                 denomination: desc.denomination,
                 id: assetId,

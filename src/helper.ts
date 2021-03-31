@@ -39,7 +39,7 @@ function subnetMap(id: string): string {
 
 function blockchainMap(id: string): string {
     if (BlockchainDict[id]) {
-        return BlockchainDict[id]
+        return BlockchainDict[id].name
     } else {
         return id
     }
@@ -95,41 +95,6 @@ function trimmedLocaleString(
     return scientific
         ? amount.div(Math.pow(10, denomination)).toFixed(denomination)
         : amount.div(Math.pow(10, denomination)).toLocaleString(decimalPlaces)
-}
-
-const DEFAULT_NETWORK_ID = parseInt(
-    process.env.VUE_APP_DEFAULT_NETWORKID || '4'
-)
-
-export function isMainnetNetwork() {
-    return DEFAULT_NETWORK_ID === 1
-}
-
-export const XChainInfo = {
-    id: (isMainnetNetwork()
-        ? process.env.VUE_APP_XCHAINID
-        : process.env.VUE_APP_TEST_XCHAINID) as string,
-    name: 'X-Chain',
-    code: 'X',
-    color: '#367FFF',
-}
-
-export const PChainInfo = {
-    id: (isMainnetNetwork()
-        ? process.env.VUE_APP_PCHAINID
-        : process.env.VUE_APP_TEST_PCHAINID) as string,
-    name: 'P-Chain',
-    code: 'P',
-    color: '#3DEE64',
-}
-
-export const CChainInfo = {
-    id: (isMainnetNetwork()
-        ? process.env.VUE_APP_CCHAINID
-        : process.env.VUE_APP_TEST_CCHAINID) as string,
-    name: 'C-Chain',
-    code: 'C',
-    color: '#FFB547',
 }
 
 const payloadtypes = PayloadTypes.getInstance()

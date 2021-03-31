@@ -8,7 +8,7 @@
                     v-model="selection"
                     selectable
                     :selection-type="'leaf'"
-                    selected-color="#e84970"
+                    selected-color="#000"
                     item-disabled="locked"
                     :items="items"
                     return-object
@@ -22,42 +22,25 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Watch } from 'vue-property-decorator'
-import { CCHAINID, PCHAINID, XCHAINID } from '@/known_blockchains'
+import { C, P, X } from '@/known_blockchains'
 
 @Component({})
 export default class TxFilter extends Vue {
     items = [
         {
-            id: PCHAINID,
-            name: 'P-Chain (Platform)',
-            children: [
-                { id: 'add_validator', name: 'Add Validator' },
-                { id: 'add_subnet_validator', name: 'Add Subnet Validator' },
-                { id: 'add_delegator', name: 'Add Delegator' },
-                { id: 'create_subnet', name: 'Create Subnet' },
-                { id: 'create_chain', name: 'Create Chain' },
-                { id: 'pvm_export', name: 'PVM Export' },
-                { id: 'pvm_import', name: 'PVM Import' },
-            ],
+            id: P.id,
+            name: `${P.name} (${P.fullname})`,
+            children: P.txTypes,
         },
         {
-            id: XCHAINID,
-            name: 'X-Chain (Exchange)',
-            children: [
-                { id: 'base', name: 'Base' },
-                { id: 'create_asset', name: 'Create Asset' },
-                { id: 'operation', name: 'Operation' },
-                { id: 'import', name: 'Import' },
-                { id: 'export', name: 'Export' },
-            ],
+            id: X.id,
+            name: `${X.name} (${X.fullname})`,
+            children: X.txTypes,
         },
         {
-            id: CCHAINID,
-            name: 'C-Chain (Contract)',
-            children: [
-                { id: 'atomic_import_tx', name: 'Atomic Import' },
-                { id: 'atomic_export_tx', name: 'Atomic Export' },
-            ],
+            id: C.id,
+            name: `${C.name} (${C.fullname})`,
+            children: C.txTypes,
         },
     ]
 

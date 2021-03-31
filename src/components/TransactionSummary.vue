@@ -145,7 +145,7 @@ import { stringToBig, toAVAX } from '../helper'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import { getAssetType } from '@/services/assets'
 import { getTxChainType } from '@/services/transactions'
-import { PCHAINID } from '@/known_blockchains'
+import { P } from '@/known_blockchains'
 
 @Component({
     components: {
@@ -278,7 +278,7 @@ export default class TransactionSummary extends Vue {
     }
 
     get isPChain() {
-        return this.tx.chainID === PCHAINID ? true : false
+        return this.tx.chainID === P.id ? true : false
     }
 
     get isStaking() {

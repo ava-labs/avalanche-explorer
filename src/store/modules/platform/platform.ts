@@ -7,17 +7,11 @@ import { IPlatformState } from './IPlatformState'
 import { platform } from '@/avalanche'
 import Subnet from '@/js/Subnet'
 import { ISubnetData } from './ISubnet'
-import SubnetDict from '@/known_subnets'
 import { IBlockchainData } from './IBlockchain'
-import BlockchainDict from '@/known_blockchains'
 import Blockchain from '@/js/Blockchain'
+import { P } from '@/known_blockchains'
 
-export const AVALANCHE_SUBNET_ID = Object.keys(SubnetDict).find(
-    (key) => SubnetDict[key] === 'Primary Network'
-) as string
-export const X_CHAIN_ID = Object.keys(BlockchainDict).find(
-    (key) => BlockchainDict[key] === 'X-Chain'
-) as string
+export const AVALANCHE_SUBNET_ID = P.id
 export const TOTAL_AVAX_SUPPLY = Big(360000000)
 
 const platform_module: Module<IPlatformState, IRootState> = {
@@ -63,7 +57,7 @@ const platform_module: Module<IPlatformState, IRootState> = {
 
             // Add P-Chain manually
             const pChain = new Blockchain({
-                name: BlockchainDict[AVALANCHE_SUBNET_ID],
+                name: P.name,
                 id: AVALANCHE_SUBNET_ID,
                 subnetID: AVALANCHE_SUBNET_ID,
                 vmID: '',
