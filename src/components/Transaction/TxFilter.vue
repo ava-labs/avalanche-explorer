@@ -22,7 +22,7 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Watch } from 'vue-property-decorator'
-import { C, P, X } from '@/known_blockchains'
+import { P, X, C } from '@/known_blockchains'
 
 @Component({})
 export default class TxFilter extends Vue {
@@ -30,17 +30,26 @@ export default class TxFilter extends Vue {
         {
             id: P.id,
             name: `${P.name} (${P.fullname})`,
-            children: P.txTypes,
+            children: P.txTypes.map((type) => ({
+                id: type[0],
+                name: type[1].long,
+            })),
         },
         {
             id: X.id,
             name: `${X.name} (${X.fullname})`,
-            children: X.txTypes,
+            children: X.txTypes.map((type) => ({
+                id: type[0],
+                name: type[1].long,
+            })),
         },
         {
             id: C.id,
             name: `${C.name} (${C.fullname})`,
-            children: C.txTypes,
+            children: C.txTypes.map((type) => ({
+                id: type[0],
+                name: type[1].long,
+            })),
         },
     ]
 

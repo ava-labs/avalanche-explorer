@@ -9,7 +9,7 @@ import {
     OutputTotal,
 } from '@/store/modules/transactions/models'
 import { stringToBig } from '@/helper'
-import { txTypeMap, txChainTypeMap } from '@/store/modules/transactions/maps'
+import { txChainTypeMap } from '@/known_blockchains'
 
 function getOutput(output: OutputResponse): Output {
     return {
@@ -17,10 +17,6 @@ function getOutput(output: OutputResponse): Output {
         timestamp: new Date(output.timestamp),
         amount: stringToBig(output.amount), // TODO: this Big conversion is not denominated bc of dependency on asset lookup
     }
-}
-
-export function getMappingForType(type: string) {
-    return txTypeMap.get(type) || ''
 }
 
 export function getTransactionChainType(chainID: string) {

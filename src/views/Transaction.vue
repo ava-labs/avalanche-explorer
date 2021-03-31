@@ -34,7 +34,7 @@ import TransactionSummary from '@/components/TransactionSummary.vue'
 import TransactionUTXO from '@/components/TransactionUTXO.vue'
 import HTTPError from '@/components/misc/HTTPError.vue'
 import { TransactionsGettersMixin } from '@/store/modules/transactions/transactions.mixins'
-import { getMappingForType } from '../js/Transaction'
+import { getMappingForType } from '@/store/modules/transactions/maps'
 
 @Component({
     components: {

@@ -69,14 +69,13 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 import InputUTXO from '@/components/rows/TxRow/InputUtxo.vue'
 import OutputUTXO from '@/components/rows/TxRow/OutputUtxo.vue'
 import {
-    getMappingForType,
     Transaction,
     getTransactionOutputs,
     getTransactionInputs,
 } from '@/js/Transaction'
 import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
-import { getTxChainType } from '@/services/transactions'
-
+import { getTxChainType } from '@/known_blockchains'
+import { getMappingForType } from '@/store/modules/transactions/maps'
 @Component({
     components: {
         InputUTXO,

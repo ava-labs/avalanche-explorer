@@ -56,7 +56,6 @@ import CopyText from '@/components/misc/CopyText.vue'
 import UtxoRowInput from '@/components/Transaction/UtxoRowInput.vue'
 import UtxoRowOutput from '@/components/Transaction/UtxoRowOutput.vue'
 import {
-    getMappingForType,
     Transaction,
     getTransactionOutputs,
     getTransactionInputs,
@@ -64,6 +63,7 @@ import {
 import { toAVAX } from '../helper'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import { getAssetType } from '@/services/assets'
+import { getMappingForType } from '@/store/modules/transactions/maps'
 
 @Component({
     components: {

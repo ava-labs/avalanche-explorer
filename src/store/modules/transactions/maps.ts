@@ -1,31 +1,135 @@
 import { OutputResponse } from '@/store/modules/transactions/models'
 import { OutputType, BlockType } from './models'
-import { C, P, X } from '@/known_blockchains'
+
+export interface TxType {
+    long: string
+    short: string
+}
 
 /**
  * These types come from here @link https://github.com/ava-labs/ortelius/blob/ec567c97630383d1a4ef468cf1bcf35d5d1eb3d2/services/indexes/models/types.go#L56
  */
-export const txTypeMap = new Map<string, string>([
-    ['base', ''],
-    ['create_asset', 'Create Asset'], // X
+export const txTypeMap = new Map<string, TxType>([
+    [
+        'base',
+        {
+            long: 'Base',
+            short: '',
+        },
+    ],
+    [
+        'create_asset',
+        {
+            long: 'Create Asset',
+            short: 'Asset',
+        },
+    ],
     /**
      * @link https://docs.avax.network/build/references/avm-transaction-serialization#operations
      */
-    ['operation', 'NFT'], // X
-    ['import', 'Import'], // X
-    ['export', 'Export'], // X
-    ['atomic_import_tx', 'Import'], // C
-    ['atomic_export_tx', 'Export'], // C
-    ['add_validator', 'Add Validator'], // P
-    ['add_subnet_validator', 'Add Subnet Validator'], // P
-    ['add_delegator', 'Add Delegator'], // P
-    ['create_subnet', 'Create Subnet'], // P
-    ['create_chain', 'Create Chain'], // P
-    ['pvm_export', 'Export'], // P
-    ['pvm_import', 'Import'], // P
-    ['advance_time', 'Advance Time'], // P
-    ['reward_validator', 'Reward Validator'], // P
+    [
+        'operation',
+        {
+            long: 'Operation',
+            short: 'NFT',
+        },
+    ],
+    [
+        'import',
+        {
+            long: 'Import',
+            short: 'Import',
+        },
+    ],
+    [
+        'export',
+        {
+            long: 'Export',
+            short: 'Export',
+        },
+    ],
+    [
+        'atomic_import_tx',
+        {
+            long: 'Atomic Import',
+            short: 'Import',
+        },
+    ],
+    [
+        'atomic_export_tx',
+        {
+            long: 'Atomic Export',
+            short: 'Export',
+        },
+    ],
+    [
+        'add_validator',
+        {
+            long: 'Add Validator',
+            short: 'Validators',
+        },
+    ],
+    [
+        'add_subnet_validator',
+        {
+            long: 'Add Subnet Validator',
+            short: 'Subnet Validator',
+        },
+    ],
+    [
+        'add_delegator',
+        {
+            long: 'Add Delegator',
+            short: 'Delegator',
+        },
+    ],
+    [
+        'create_subnet',
+        {
+            long: 'Create Subnet',
+            short: 'Subnet',
+        },
+    ],
+    [
+        'create_chain',
+        {
+            long: 'Create Chain',
+            short: 'Chain',
+        },
+    ],
+    [
+        'pvm_export',
+        {
+            long: 'PVM Export',
+            short: 'Export',
+        },
+    ],
+    [
+        'pvm_import',
+        {
+            long: 'PVM Import',
+            short: 'Import',
+        },
+    ],
+    [
+        'advance_time',
+        {
+            long: 'Advance Time',
+            short: 'Advance Time',
+        },
+    ],
+    [
+        'reward_validator',
+        {
+            long: 'Reward Validator',
+            short: 'Reward Validator',
+        },
+    ],
 ])
+
+export function getMappingForType(type: string) {
+    return txTypeMap.get(type)!.short || ''
+}
 
 /**
  * Info can be found here @link https://docs.avax.network/build/references/avm-transaction-serialization
@@ -53,16 +157,6 @@ const blockTypes = new Map([
 
 export function getBlockType(type: number) {
     return blockTypes.get(type)
-}
-
-export const txChainTypeMap = new Map<string, typeof C>([
-    [C.id, C],
-    [P.id, P],
-    [X.id, X],
-])
-
-export function getTxChainType(type: string) {
-    return txChainTypeMap.get(type)
 }
 
 export const NFTTypes = new Map([

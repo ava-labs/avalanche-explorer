@@ -24,7 +24,7 @@ import { Asset } from '@/js/Asset'
 import { getOutputType } from '@/services/transactions'
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { getTxChainType } from '@/store/modules/transactions/maps'
+import { getTxChainType } from '@/known_blockchains'
 
 @Component({
     filters: {

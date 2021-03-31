@@ -71,8 +71,7 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { getTxChainType } from '@/services/transactions'
-import { P, X, C } from '@/known_blockchains'
+import { P, X, C, getTxChainType } from '@/known_blockchains'
 
 @Component({
     components: {},

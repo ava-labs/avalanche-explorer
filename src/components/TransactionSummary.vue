@@ -132,11 +132,8 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 import CopyText from '@/components/misc/CopyText.vue'
 import UtxoRow from '@/components/Transaction/UtxoRow.vue'
 import StakingSummary from '@/components/Transaction/StakingSummary.vue'
-import {
-    getMappingForType,
-    Transaction,
-    getTransactionOutputs,
-} from '../js/Transaction'
+import { Transaction, getTransactionOutputs } from '../js/Transaction'
+import { getMappingForType } from '@/store/modules/transactions/maps'
 import {
     OutputValuesDict,
     OutValuesDenominated,
@@ -144,7 +141,7 @@ import {
 import { stringToBig, toAVAX } from '../helper'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import { getAssetType } from '@/services/assets'
-import { getTxChainType } from '@/services/transactions'
+import { getTxChainType } from '@/known_blockchains'
 import { P } from '@/known_blockchains'
 
 @Component({
