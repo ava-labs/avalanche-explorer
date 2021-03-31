@@ -13,6 +13,10 @@ class Asset {
     denomination: number
     name: string
     symbol: string
+    timestamp: string
+    variableCap: number
+    nft: number
+    aggregates: IAggregate | null
     // aggregate data
     volume_day: Big
     txCount_day: number
@@ -35,6 +39,10 @@ class Asset {
         this.denomination = assetData.denomination
         this.name = assetData.name
         this.symbol = assetData.symbol
+        this.timestamp = assetData.timestamp
+        this.variableCap = assetData.variableCap
+        this.nft = assetData.nft
+        this.aggregates = assetData.aggregates
         // aggregate data
         this.volume_day = Big(0)
         this.txCount_day = 0
