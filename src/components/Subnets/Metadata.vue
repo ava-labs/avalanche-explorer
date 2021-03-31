@@ -11,7 +11,6 @@
             </div>
             <section class="stats">
                 <article>
-                    <img :src="require(`@/assets/subnet-${imgColor}.png`)" />
                     <div class="stat">
                         <p class="label">
                             Subnets
@@ -25,9 +24,6 @@
                     </div>
                 </article>
                 <article>
-                    <img
-                        :src="require(`@/assets/blockchain-${imgColor}.png`)"
-                    />
                     <div class="stat">
                         <p class="label">
                             Blockchains
@@ -41,9 +37,6 @@
                     </div>
                 </article>
                 <article>
-                    <img
-                        :src="require(`@/assets/validators-${imgColor}.png`)"
-                    />
                     <div class="stat">
                         <p class="label">
                             Validators
@@ -57,7 +50,6 @@
                     </div>
                 </article>
                 <article>
-                    <img :src="require(`@/assets/ava_price-${imgColor}.png`)" />
                     <div class="stat">
                         <p class="label">
                             Total Stake Amount
@@ -125,12 +117,6 @@ export default class Metadata extends Vue {
         flex-direction: row;
         align-items: center;
         flex-wrap: wrap;
-    }
-
-    img {
-        object-fit: contain;
-        width: 40px;
-        margin-right: 20px;
     }
 
     .stat {
