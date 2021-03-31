@@ -1,10 +1,7 @@
 <template>
     <div class="table_headers">
         <p></p>
-        <p>
-            Type
-            <Tooltip content="Type of Transaction"></Tooltip>
-        </p>
+        <p></p>
         <p>
             ID
             <Tooltip

@@ -505,9 +505,10 @@ input {
 
     .tag {
         padding: 4px 12px;
-        border-radius: 4px;
-        color: $secondary-color;
-        background-color: $secondary-color-xlight;
+        border-radius: 12px;
+        border: 1px solid $primary-color;
+        color: $primary-color;
+        background-color: $white;
         min-height: 1em;
         line-height: 2em;
         word-break: keep-all;

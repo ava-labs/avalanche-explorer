@@ -6,7 +6,29 @@
                 <span class="label">You are viewing transactions for</span>
                 <v-tooltip>
                     <template v-slot:activator="{ on }">
-                        <span class="tag" v-on="on">X-Chain</span>
+                        <span
+                            class="tag"
+                            v-on="on"
+                            v-bind:style="{
+                                color: pChain.color,
+                                borderColor: pChain.color,
+                            }"
+                            >{{ pChain.name }}</span
+                        >
+                    </template>
+                    <span></span>
+                </v-tooltip>
+                <v-tooltip>
+                    <template v-slot:activator="{ on }">
+                        <span
+                            class="tag margin-left"
+                            v-on="on"
+                            v-bind:style="{
+                                color: xChain.color,
+                                borderColor: xChain.color,
+                            }"
+                            >{{ xChain.name }}</span
+                        >
                     </template>
                     <span
                         >The X-Chain acts as a decentralized platform for
@@ -16,13 +38,15 @@
                 </v-tooltip>
                 <v-tooltip>
                     <template v-slot:activator="{ on }">
-                        <span class="tag margin-left" v-on="on">P-Chain</span>
-                    </template>
-                    <span></span>
-                </v-tooltip>
-                <v-tooltip>
-                    <template v-slot:activator="{ on }">
-                        <span class="tag margin-left" v-on="on">C-Chain</span>
+                        <span
+                            class="tag margin-left"
+                            v-on="on"
+                            v-bind:style="{
+                                color: cChain.color,
+                                borderColor: cChain.color,
+                            }"
+                            >{{ cChain.name }}</span
+                        >
                     </template>
                     <span></span>
                 </v-tooltip>
@@ -47,6 +71,8 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
+import { getTxChainType } from '@/services/transactions'
+import { PChainInfo, XChainInfo, CChainInfo } from '@/helper'
 
 @Component({
     components: {},
@@ -57,6 +83,18 @@ export default class RecentTxHeader extends Vue {
 
     updateTx() {
         this.$emit('update')
+    }
+
+    get xChain() {
+        return getTxChainType(XChainInfo.id)
+    }
+
+    get pChain() {
+        return getTxChainType(PChainInfo.id)
+    }
+
+    get cChain() {
+        return getTxChainType(CChainInfo.id)
     }
 }
 </script>

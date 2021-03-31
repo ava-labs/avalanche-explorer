@@ -1,16 +1,33 @@
 <template>
     <div class="tx_row">
         <!-- CHAIN -->
-        <div class="avatar">
-            <p>{{ chainCode }}</p>
+        <div
+            class="avatar"
+            v-bind:style="{
+                borderColor: chainColor,
+            }"
+        >
+            <p
+                v-bind:style="{
+                    color: chainColor,
+                }"
+            >
+                {{ chainCode }}
+            </p>
         </div>
         <!-- TYPE -->
         <div>
             <span class="type">
-                <span class="value"> {{ transaction.type | getType }}</span>
+                <span
+                    class="value"
+                    v-bind:style="{
+                        color: chainColor,
+                    }"
+                >
+                    {{ transaction.type | getType }}</span
+                >
             </span>
         </div>
-
         <!-- DETAILS -->
         <div class="info_col id_col">
             <router-link :to="`/tx/${transaction.id}`" class="id monospace"
@@ -84,6 +101,10 @@ export default class TxRow extends Vue {
         return getTxChainType(this.transaction.chainID)!.code
     }
 
+    get chainColor() {
+        return getTxChainType(this.transaction.chainID)!.color
+    }
+
     /**
      * Returns a list of unique addresses found in Input UTXOs
      */
@@ -110,65 +131,4 @@ export default class TxRow extends Vue {
     }
 }
 </script>
-<style scoped lang="scss">
-.avatar {
-    width: 35px;
-    height: 35px;
-    border-radius: 35px;
-    line-height: 35px;
-    text-align: center;
-    background-color: $background-color;
-
-    p {
-        width: 100%;
-        font-weight: 400;
-        color: $primary-color;
-        font-size: 16px;
-    }
-}
-
-.id {
-    text-decoration: none;
-    font-weight: 400;
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: $black !important;
-}
-
-.time {
-    line-height: 140%;
-    color: $black;
-    font-size: 10px;
-    word-break: keep-all;
-    white-space: nowrap;
-}
-
-.type {
-    font-size: 10px;
-    .value {
-        color: $secondary-color;
-    }
-}
-
-.label {
-    font-size: 12px;
-    font-weight: 400;
-    overflow: hidden;
-}
-
-.data {
-    display: flex;
-}
-
-.tx_type_label {
-    color: $primary-color-light;
-    font-style: italic;
-    font-size: 0.875em;
-    min-height: 16px;
-    display: flex;
-    align-items: flex-start;
-    padding-top: 6px;
-    padding-bottom: 6px;
-}
-</style>
+<style scoped lang="scss"></style>

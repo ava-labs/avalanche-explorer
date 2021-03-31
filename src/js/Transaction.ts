@@ -20,7 +20,7 @@ function getOutput(output: OutputResponse): Output {
 }
 
 export function getMappingForType(type: string) {
-    return txTypeMap.get(type) || 'Unknown'
+    return txTypeMap.get(type) || ''
 }
 
 export function getTransactionChainType(chainID: string) {

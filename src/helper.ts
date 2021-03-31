@@ -111,6 +111,7 @@ export const XChainInfo = {
         : process.env.VUE_APP_TEST_XCHAINID) as string,
     name: 'X-Chain',
     code: 'X',
+    color: '#367FFF',
 }
 
 export const PChainInfo = {
@@ -119,6 +120,7 @@ export const PChainInfo = {
         : process.env.VUE_APP_TEST_PCHAINID) as string,
     name: 'P-Chain',
     code: 'P',
+    color: '#3DEE64',
 }
 
 export const CChainInfo = {
@@ -127,6 +129,7 @@ export const CChainInfo = {
         : process.env.VUE_APP_TEST_CCHAINID) as string,
     name: 'C-Chain',
     code: 'C',
+    color: '#FFB547',
 }
 
 const payloadtypes = PayloadTypes.getInstance()
