@@ -4,15 +4,19 @@
         <div class="avatar">
             <p>{{ chainCode }}</p>
         </div>
+        <!-- CHAIN -->
+        <div>
+            <span class="type">
+                <span class="value"> {{ transaction.type | getType }}</span>
+            </span>
+        </div>
+
         <!-- DETAILS -->
         <div class="info_col id_col">
             <router-link :to="`/tx/${transaction.id}`" class="id monospace"
                 >{{ transaction.id }}...</router-link
             >
             <p class="time">{{ transaction.timestamp | fromNow }}</p>
-            <span class="type">
-                <span class="value"> {{ transaction.type | getType }}</span>
-            </span>
         </div>
         <!-- FROM -->
         <div class="info_col utxo_list">
@@ -113,7 +117,7 @@ export default class TxRow extends Vue {
     border-radius: 35px;
     line-height: 35px;
     text-align: center;
-    background-color: $primary-color-xlight;
+    background-color: $background-color;
 
     p {
         width: 100%;
@@ -134,7 +138,7 @@ export default class TxRow extends Vue {
 
 .time {
     line-height: 140%;
-    color: #000000;
+    color: $black;
     font-size: 10px;
     word-break: keep-all;
     white-space: nowrap;

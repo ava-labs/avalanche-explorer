@@ -2,6 +2,10 @@
     <div class="table_headers">
         <p></p>
         <p>
+            Type
+            <Tooltip content="Type of Transaction"></Tooltip>
+        </p>
+        <p>
             ID
             <Tooltip
                 content="Unique character string generated when a transaction is executed"

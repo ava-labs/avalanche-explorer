@@ -1,6 +1,6 @@
 .table_headers {
     display: grid;
-    grid-template-columns: 35px 1fr 270px 1.5fr;
+    grid-template-columns: 35px 75px 1fr 270px 1.5fr;
     column-gap: 20px;
     padding-bottom: 7px;
     border-bottom: 1px solid #e7e7e7;
@@ -15,7 +15,7 @@
     padding: 12px 0px;
     position: relative;
     display: grid;
-    grid-template-columns: 35px 1fr 270px 1.5fr;
+    grid-template-columns: 35px 75px 1fr 270px 1.5fr;
     column-gap: 20px;
     flex-direction: row;
     align-items: center;
@@ -34,15 +34,14 @@
 }
 
 .utxo_list {
-    border: 1px solid $primary-color-light;
     border-radius: 5px;
 }
 
 .from,
 .to {
     padding: 0;
-    background: $primary-color-xlight;
-    padding: 10px;
+    background: $background-color;
+    padding: 12px;
     border-bottom: 2px solid $white;
 
     .label {
@@ -131,7 +130,7 @@
             line-height: 1em;
             padding-bottom: 2px;
             font-weight: 500;
-            font-size: 20px;
+            font-size: 19.2px;
         }
 
         .symbol {
