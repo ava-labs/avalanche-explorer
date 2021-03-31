@@ -476,8 +476,8 @@ input {
 .table_image {
     height: 20px;
     display: inline-block;
-    margin-top: -4px;
-    margin-right: 8px;
+    margin-top: -1px;
+    margin-right: 14px;
     vertical-align: middle;
 }
 

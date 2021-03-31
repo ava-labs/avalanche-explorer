@@ -6,7 +6,7 @@
         </v-card-title>
         <v-data-table :items="blockchains" :headers="headers" multi-sort>
             <template #item.name="{ item }">
-                <div>
+                <div class="chain_logo_name">
                     <img
                         class="table_image"
                         :src="require(`@/assets/blockchain-${imgColor}.png`)"
@@ -121,6 +121,10 @@ export default class BlockchainDataTable extends Vue {
 </style>
 
 <style lang="scss">
+.chain_logo_name {
+    display: flex;
+    flex-direction: row;
+}
 #blockchain_data_table {
     .v-data-footer__icons-before > button,
     .v-data-footer__icons-after > button {
