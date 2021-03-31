@@ -1,12 +1,7 @@
 <template>
     <v-tooltip v-if="$vuetify.breakpoint.smAndUp" bottom>
         <template v-slot:activator="{ on }">
-            <fa
-                icon="info-circle"
-                transform="shrink-6"
-                :style="{ color: 'fillColor' }"
-                v-on="on"
-            ></fa>
+            <img v-on="on" :src="require(`@/assets/tooltip.svg`)" />
         </template>
         <span>{{ content }}</span>
     </v-tooltip>
@@ -26,3 +21,12 @@ export default class Tooltip extends Vue {
     }
 }
 </script>
+<style>
+img {
+    max-height: 24px;
+    height: 0.75em;
+    object-fit: contain;
+    margin-left: 2px;
+    margin-right: 5px;
+}
+</style>

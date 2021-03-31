@@ -4,7 +4,7 @@
         <div class="avatar">
             <p>{{ chainCode }}</p>
         </div>
-        <!-- CHAIN -->
+        <!-- TYPE -->
         <div>
             <span class="type">
                 <span class="value"> {{ transaction.type | getType }}</span>
