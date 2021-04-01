@@ -70,6 +70,11 @@
                     {{ item.chainID | blockchain }}
                 </p>
             </template>
+            <template #item.nft="{ item }">
+                <p v-if="$vuetify.breakpoint.smAndUp" class="nft">
+                    {{ type(item) }}
+                </p>
+            </template>
         </v-data-table>
     </div>
 </template>
@@ -105,7 +110,13 @@ export default class AssetsDataTable extends Vue {
             { text: '24h Volume', value: 'volume_day', width: 250 },
             { text: '24h Tx', value: 'txCount_day', width: 100 },
             { text: 'Supply', value: 'currentSupply', width: 250 },
-            { text: 'Issuance', value: 'chainID', width: 60, sortable: false },
+            { text: 'Issuance', value: 'chainID', width: 80, sortable: false },
+            {
+                text: 'Type',
+                value: 'nft',
+                width: 120,
+                sortable: false,
+            },
         ]
     }
 
@@ -121,6 +132,14 @@ export default class AssetsDataTable extends Vue {
 
     get hexColor(): string {
         return DEFAULT_NETWORK_ID === 1 ? 'mainnet' : 'testnet'
+    }
+
+    type(asset: Asset): string {
+        return asset.nft === 1
+            ? 'NFT'
+            : asset.variableCap === 1
+            ? 'Variable Cap'
+            : 'Fixed Cap'
     }
 }
 </script>
@@ -165,6 +184,11 @@ export default class AssetsDataTable extends Vue {
     :hover {
         text-decoration: none !important;
     }
+}
+
+.ft {
+    font-size: 12px;
+    color: $primary-color-light;
 }
 
 @include smOnly {

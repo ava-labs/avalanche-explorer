@@ -494,7 +494,6 @@ input {
 .chain {
     font-size: 12px;
     color: $primary-color-light;
-    text-align: right;
     flex-grow: 1;
 
     .label {

@@ -30,6 +30,7 @@
                 v-if="assetsLoaded && $vuetify.breakpoint.smAndDown"
                 class="asset_list"
             >
+                <!-- SIMPLE TABLE FOR SMALL SCREENSIZES -->
                 <div class="grid_headers asset_row">
                     <p v-if="$vuetify.breakpoint.smAndUp">
                         Symbol
@@ -77,6 +78,7 @@
                     :asset="asset"
                 ></asset-row>
             </div>
+            <!-- DATA TABLE FOR MEDIUM SCREENSIZES -->
             <div v-if="$vuetify.breakpoint.smAndUp">
                 <AssetsDataTable :assets="assets"></AssetsDataTable>
             </div>
