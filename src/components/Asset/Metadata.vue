@@ -13,7 +13,6 @@
             </div>
             <section class="stats">
                 <article>
-                    <img src="@/assets/ava_price-purple.png" />
                     <div class="stat">
                         <p class="label">
                             24h Volume
@@ -36,7 +35,6 @@
                     </div>
                 </article>
                 <article>
-                    <img src="@/assets/ava_transactions-purple.png" />
                     <div class="stat">
                         <p class="label">
                             24h Transactions
@@ -54,7 +52,6 @@
                     </div>
                 </article>
                 <article>
-                    <img src="@/assets/blockchain-purple.png" />
                     <div class="stat">
                         <p class="label">
                             Minted On
@@ -70,7 +67,6 @@
                     </div>
                 </article>
                 <article>
-                    <img src="@/assets/stake_amount-purple.png" />
                     <div class="stat">
                         <p class="label">
                             Initial Supply
@@ -195,12 +191,6 @@ export default class Metadata extends Vue {
         flex-wrap: wrap;
     }
 
-    img {
-        object-fit: contain;
-        width: 24px;
-        margin: 0 14px 0 0;
-    }
-
     .stat {
         display: flex;
         flex-direction: column;
@@ -236,10 +226,6 @@ export default class Metadata extends Vue {
 
 @include mdOnly {
     .stats {
-        img {
-            width: 24px;
-        }
-
         .stat {
             .label {
                 font-size: 13px;
@@ -282,10 +268,6 @@ export default class Metadata extends Vue {
 
         > article {
             padding: 30px 0 0;
-        }
-
-        img {
-            display: none;
         }
     }
 }
