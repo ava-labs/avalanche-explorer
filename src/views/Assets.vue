@@ -1,14 +1,5 @@
 <template>
     <div class="assets">
-        <!-- <wordcloud
-            v-if="assetsLoaded"
-            :data="assetNames"
-            nameKey="name"
-            valueKey="value"
-            :color="myColors"
-            :showTooltip="true"
-            :wordClick="wordClickHandler">
-        </wordcloud> -->
         <div class="card">
             <div class="header">
                 <h2>
@@ -101,8 +92,6 @@ import AssetsDataTable from '@/components/Assets/AssetsDataTable.vue'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import TooltipHeading from '@/components/misc/TooltipHeading.vue'
 import { Asset } from '@/js/Asset'
-//@ts-ignore
-import wordcloud from 'vue-wordcloud'
 import { AVAX_ID } from '@/store/index'
 
 @Component({
@@ -111,15 +100,11 @@ import { AVAX_ID } from '@/store/index'
         TooltipHeading,
         AssetRow,
         AssetsDataTable,
-        wordcloud,
     },
 })
 export default class AssetsPage extends Vue {
-    myColors: string[] = ['#1f77b4', '#629fc9', '#94bedb', '#c9e0ef']
-
-    //@ts-ignore
-    wordClickHandler(name, value, vm) {
-        console.log('wordClickHandler', name, value, vm)
+    get assetsLoaded(): boolean {
+        return this.$store.state.assetsLoaded
     }
 
     get assets(): Asset[] {
@@ -133,16 +118,11 @@ export default class AssetsPage extends Vue {
         return res
     }
 
-    get assetsLoaded(): boolean {
-        return this.$store.state.assetsLoaded
-    }
-
     get assetNames(): any[] {
         return this.assets.map((asset: Asset) => {
             return {
                 name: asset.name,
                 value: 1,
-                // value: asset.currentSupply.toFixed(0)
             }
         })
     }

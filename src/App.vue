@@ -593,8 +593,8 @@ tbody {
         max-width: 320px;
 
         .filter {
-            border: 2px solid $bg-light;
-            background-color: $bg-light;
+            border: 2px solid $background-color;
+            background-color: $background-color;
             height: 36px;
             width: 320px;
             box-sizing: content-box;
