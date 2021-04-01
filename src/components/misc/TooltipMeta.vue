@@ -1,7 +1,7 @@
 <template>
     <v-tooltip v-if="$vuetify.breakpoint.smAndUp" bottom>
         <template v-slot:activator="{ on }">
-            <img v-on="on" :src="require(`@/assets/tooltip.svg`)" />
+            <img :src="require(`@/assets/tooltip.svg`)" v-on="on" />
         </template>
         <span>{{ content }}</span>
     </v-tooltip>

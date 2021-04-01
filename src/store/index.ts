@@ -144,6 +144,10 @@ const store = new Vuex.Store({
                 id: assetId,
                 name: desc.name,
                 symbol: desc.symbol,
+                timestamp: '',
+                variableCap: 0,
+                nft: 0,
+                aggregates: null,
             }
             commit('addAsset', new Asset(newAssetData, true))
         },

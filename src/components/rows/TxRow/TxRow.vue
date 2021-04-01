@@ -3,12 +3,12 @@
         <!-- CHAIN -->
         <div
             class="avatar"
-            v-bind:style="{
+            :style="{
                 borderColor: chainColor,
             }"
         >
             <p
-                v-bind:style="{
+                :style="{
                     color: chainColor,
                 }"
             >
@@ -20,7 +20,7 @@
             <span class="type">
                 <span
                     class="value"
-                    v-bind:style="{
+                    :style="{
                         color: chainColor,
                     }"
                 >
