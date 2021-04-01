@@ -3,7 +3,7 @@ import api from '@/axios'
 import { bigToDenomBig, stringToBig } from '@/helper'
 import { Asset } from '@/js/Asset'
 import { resolveResponseData } from '@/services/helpers'
-import { AVAX_ID } from '@/store'
+import { AVAX_ID } from '@/known_assets'
 import {
     IAddress,
     IAssetsMap,

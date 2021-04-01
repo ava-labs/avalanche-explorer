@@ -34,11 +34,7 @@
             <template #item.name="{ item }">
                 <router-link class="name_id" :to="`/asset/${item.id}`">
                     <div>
-                        <img
-                            class="table_image"
-                            :src="require(`@/assets/hex_ava_${hexColor}.svg`)"
-                            alt
-                        />
+                        <AssetLogoRenderer :asset="item"></AssetLogoRenderer>
                         <span class="name">{{ item | nameOrID }} </span>
                         <span class="collision">{{ collisionHash(item) }}</span>
                     </div>
@@ -85,10 +81,12 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 import { blockchainMap } from '@/helper'
 import { Asset } from '@/js/Asset'
 import { ICollisionMap } from '@/js/IAsset'
-import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
+import AssetLogoRenderer from '@/components/Assets/AssetLogoRenderer.vue'
 
 @Component({
-    components: {},
+    components: {
+        AssetLogoRenderer,
+    },
     filters: {
         blockchain(val: string): string {
             return blockchainMap(val)
@@ -128,10 +126,6 @@ export default class AssetsDataTable extends Vue {
 
     get collisionMap(): ICollisionMap {
         return this.$store.state.collisionMap
-    }
-
-    get hexColor(): string {
-        return DEFAULT_NETWORK_ID === 1 ? 'mainnet' : 'testnet'
     }
 
     type(asset: Asset): string {

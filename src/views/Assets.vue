@@ -94,7 +94,7 @@ import AssetsDataTable from '@/components/Assets/AssetsDataTable.vue'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import TooltipHeading from '@/components/misc/TooltipHeading.vue'
 import { Asset } from '@/js/Asset'
-import { AVAX_ID } from '@/store/index'
+import { AVAX_ID } from '@/known_assets'
 
 @Component({
     components: {

@@ -67,10 +67,10 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component } from 'vue-property-decorator'
-import Tooltip from '../../../components/rows/Tooltip.vue'
-import TooltipHeading from '../../../components/misc/TooltipHeading.vue'
+import Tooltip from '@/components/rows/Tooltip.vue'
+import TooltipHeading from '@/components/misc/TooltipHeading.vue'
 import { Asset } from '@/js/Asset'
-import { AVAX_ID } from '@/store/index'
+import { AVAX_ID } from '@/known_assets'
 import { ICollisionMap } from '@/js/IAsset'
 import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
 

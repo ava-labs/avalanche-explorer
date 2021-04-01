@@ -8,11 +8,15 @@ export const AVAX_ID =
         : (process.env.VUE_APP_TEST_AVAXID as string)
 
 interface AssetDict {
-    [key: string]: string
+    [key: string]: {
+        logo: string
+    }
 }
 
-const dict: AssetDict = {
-    AVAX: AVAX_ID,
+const dict: AssetDict = {}
+
+dict[AVAX_ID] = {
+    logo: '/og-image-avalanche.png',
 }
 
 export default dict

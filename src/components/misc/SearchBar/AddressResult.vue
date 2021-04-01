@@ -19,7 +19,7 @@
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { stringToBig } from '@/helper'
-import { AVAX_ID } from '@/store/index'
+import { AVAX_ID } from '@/known_assets'
 
 @Component({})
 export default class AddressResult extends Vue {

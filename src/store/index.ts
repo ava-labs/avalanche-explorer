@@ -6,7 +6,6 @@ import api from '../axios'
 import { Asset } from '@/js/Asset'
 import { IRootState } from '@/store/types'
 import AddressDict from '@/known_addresses'
-import AssetDict from '@/known_assets'
 import Platform from './modules/platform/platform'
 import Address from './modules/address/address'
 import Network from './modules/network/network'
@@ -29,8 +28,6 @@ import { parseTxs } from './modules/transactions/helpers'
 import { X } from '@/known_blockchains'
 
 Vue.use(Vuex)
-
-export const AVAX_ID = AssetDict['AVAX'] as string
 
 const store = new Vuex.Store({
     modules: {

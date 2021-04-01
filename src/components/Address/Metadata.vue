@@ -65,7 +65,7 @@ import AVAXBalanceTableSummary from '@/components/Address/AVAXBalanceTableSummar
 import AVAXBalanceTableDetail from '@/components/Address/AVAXBalanceTableDetail.vue'
 import { IAddress, IBalanceX } from '@/services/addresses/models'
 import Big from 'big.js'
-import { AVAX_ID } from '@/store/index'
+import { AVAX_ID } from '@/known_assets'
 
 @Component({
     components: {
