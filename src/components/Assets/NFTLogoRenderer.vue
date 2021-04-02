@@ -2,9 +2,9 @@
     <div class="nft_container">
         <NFTPayload
             v-if="payloads || payloads.length > 0"
-            :payload="payload"
+            :payload="payloads[0][0]"
             :asset-i-d="asset.id"
-            :group-i-d="utxo.groupID"
+            :group-i-d="payloads[0][1]"
         ></NFTPayload>
         <img v-else class="table_image" :src="logo" alt />
     </div>
