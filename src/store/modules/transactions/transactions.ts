@@ -92,6 +92,28 @@ const transactions_module: Module<TransactionsState, IRootState> = {
             )
             store.commit('addAddressTxs', parseTxs(txRes))
         },
+        async getNFTPayloads(store, payload: ITransactionPayload) {
+            // get the asset creation tx
+            const txRes: TransactionResponse = await getTransaction(payload.id)
+            // find the NFT Minting Right UTXO
+            const NFTMintUTXO = txRes.outputs.find(
+                (utxo) => utxo.outputType === 10
+            )
+            // the redeemedTx of the NFT Minting Right UTXO has the payloads
+            const txResNFT: TransactionResponse = await getTransaction(
+                NFTMintUTXO?.redeemingTransactionID
+            )
+            // get a list of payloads
+            // remove empty strings and duplicates
+            const payloads = txResNFT.outputs
+                .map((utxo) => utxo.payload)
+                .filter((payload: string | null) => {
+                    if (payload) return payload.length !== 0
+                })
+                .filter((value, index, self) => self.indexOf(value) === index)
+            console.log('payloads', payloads)
+            return payloads
+        },
     },
 }
 export default transactions_module

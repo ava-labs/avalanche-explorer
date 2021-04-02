@@ -1,5 +1,5 @@
 <template>
-    <img class="table_image" :src="src" alt />
+    <img class="table_image" :src="logo" alt />
 </template>
 
 <script lang="ts">
@@ -15,28 +15,14 @@ import dict from '@/known_assets'
 export default class AssetLogoRenderer extends Vue {
     @Prop() asset!: Asset
 
+    get logo(): string {
+        return dict[this.asset.id]
+            ? dict[this.asset.id].logo
+            : `/hex_ava_${this.hexColor}.svg`
+    }
+
     get hexColor(): string {
         return DEFAULT_NETWORK_ID === 1 ? 'mainnet' : 'testnet'
-    }
-
-    get type(): string {
-        return this.asset.nft === 1
-            ? 'NFT'
-            : this.asset.variableCap === 1
-            ? 'Variable Cap'
-            : 'Fixed Cap'
-    }
-
-    get src(): string {
-        let src = ''
-        if (this.type === 'Fixed Cap' || this.type === 'Variable Cap') {
-            src = this.getLogo(this.asset.id)
-        }
-        return src
-    }
-
-    getLogo(id: string) {
-        return dict[id] ? dict[id].logo : `/hex_ava_${this.hexColor}.svg`
     }
 }
 </script>

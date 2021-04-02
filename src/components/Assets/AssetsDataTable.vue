@@ -34,7 +34,19 @@
             <template #item.name="{ item }">
                 <router-link class="name_id" :to="`/asset/${item.id}`">
                     <div>
-                        <AssetLogoRenderer :asset="item"></AssetLogoRenderer>
+                        <template>
+                            <AssetLogoRenderer
+                                v-if="
+                                    type(item) === 'Fixed Cap' ||
+                                    type(item) === 'Variable Cap'
+                                "
+                                :asset="item"
+                            ></AssetLogoRenderer>
+                            <NFTLogoRenderer
+                                v-else
+                                :asset="item"
+                            ></NFTLogoRenderer>
+                        </template>
                         <span class="name">{{ item | nameOrID }} </span>
                         <span class="collision">{{ collisionHash(item) }}</span>
                     </div>
@@ -82,10 +94,12 @@ import { blockchainMap } from '@/helper'
 import { Asset } from '@/js/Asset'
 import { ICollisionMap } from '@/js/IAsset'
 import AssetLogoRenderer from '@/components/Assets/AssetLogoRenderer.vue'
+import NFTLogoRenderer from '@/components/Assets/NFTLogoRenderer.vue'
 
 @Component({
     components: {
         AssetLogoRenderer,
+        NFTLogoRenderer,
     },
     filters: {
         blockchain(val: string): string {
