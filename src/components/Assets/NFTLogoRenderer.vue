@@ -1,11 +1,11 @@
 <template>
     <div class="nft_container">
-        <NFTPayload
+        <NFTLogoPayload
             v-if="payloads || payloads.length > 0"
             :payload="payloads[0][0]"
             :asset-i-d="asset.id"
             :group-i-d="payloads[0][1]"
-        ></NFTPayload>
+        ></NFTLogoPayload>
         <img v-else class="table_image" :src="logo" alt />
     </div>
 </template>
@@ -15,11 +15,11 @@ import { Asset } from '@/js/Asset'
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
-import NFTPayload from '@/components/Transaction/UtxoNFTPayload.vue'
+import NFTLogoPayload from '@/components/Assets/NFTLogoPayload.vue'
 
 @Component({
     components: {
-        NFTPayload,
+        NFTLogoPayload,
     },
 })
 export default class NFTLogoRenderer extends Vue {

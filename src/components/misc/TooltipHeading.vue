@@ -21,7 +21,7 @@ export default class TooltipHeading extends Vue {
     }
 }
 </script>
-<style>
+<style scoped lang="scss">
 img {
     max-height: 24px;
     height: 0.5em;

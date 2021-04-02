@@ -21,7 +21,7 @@ export default class TooltipMeta extends Vue {
     }
 }
 </script>
-<style lang="scss">
+<style scoped lang="scss">
 img {
     max-height: 24px;
     height: 0.75em;
