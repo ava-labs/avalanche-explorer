@@ -1,6 +1,12 @@
 <template>
-    <div>
-        <img class="table_image" :src="logo" alt />
+    <div class="nft_container">
+        <NFTPayload
+            v-if="payloads || payloads.length > 0"
+            :payload="payload"
+            :asset-i-d="asset.id"
+            :group-i-d="utxo.groupID"
+        ></NFTPayload>
+        <img v-else class="table_image" :src="logo" alt />
     </div>
 </template>
 
@@ -9,13 +15,17 @@ import { Asset } from '@/js/Asset'
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
+import NFTPayload from '@/components/Transaction/UtxoNFTPayload.vue'
 
 @Component({
-    components: {},
+    components: {
+        NFTPayload,
+    },
 })
 export default class NFTLogoRenderer extends Vue {
     @Prop() asset!: Asset
-    loading: boolean = true
+    loading = true
+    payloads: (string | number)[] | null = null
 
     created() {
         this.getPayloads()
@@ -29,6 +39,7 @@ export default class NFTLogoRenderer extends Vue {
             })
             .then((payloads) => {
                 console.log('payloads', payloads)
+                this.payloads = payloads
                 this.loading = false
             })
             .catch((err) => {
@@ -47,6 +58,10 @@ export default class NFTLogoRenderer extends Vue {
 </script>
 
 <style scoped lang="scss">
+.nft_container {
+    display: inline-block;
+}
+
 .table_image {
     height: 20px;
     display: inline-block;

@@ -103,15 +103,14 @@ const transactions_module: Module<TransactionsState, IRootState> = {
             const txResNFT: TransactionResponse = await getTransaction(
                 NFTMintUTXO?.redeemingTransactionID
             )
-            // get a list of payloads
+            // get a list of payload tuples [payload, groupID]
             // remove empty strings and duplicates
             const payloads = txResNFT.outputs
-                .map((utxo) => utxo.payload)
-                .filter((payload: string | null) => {
-                    if (payload) return payload.length !== 0
+                .map((utxo) => [utxo.payload, utxo.groupID])
+                .filter((payload: (string | number | null)[]) => {
+                    if (payload[0]) return (payload[0] as string).length !== 0
                 })
                 .filter((value, index, self) => self.indexOf(value) === index)
-            console.log('payloads', payloads)
             return payloads
         },
     },
