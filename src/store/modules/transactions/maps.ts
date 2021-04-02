@@ -21,7 +21,7 @@ export const txTypeMap = new Map<string, TxType>([
         'create_asset',
         {
             long: 'Create Asset',
-            short: 'Asset',
+            short: 'Mint',
         },
     ],
     /**
