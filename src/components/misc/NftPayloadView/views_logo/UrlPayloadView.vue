@@ -5,8 +5,6 @@
             <p>
                 <span>URL</span>
             </p>
-            <a :href="url" target="_blank">{{ url }}</a>
-            <p class="warn">Do NOT click links you do not trust.</p>
         </div>
     </div>
 </template>
@@ -48,8 +46,8 @@ export default class UrlPayloadView extends Vue {
 </script>
 <style scoped lang="scss">
 .url_payload_view {
-    height: 100%;
-    width: 100%;
+    height: 40px;
+    width: 40px;
     margin: 10px 0;
     display: flex;
     align-items: center;
@@ -57,8 +55,8 @@ export default class UrlPayloadView extends Vue {
 }
 
 img {
-    width: 100%;
-    height: 100%;
+    width: 40px;
+    width: 40px;
     display: block;
     object-fit: cover;
 }

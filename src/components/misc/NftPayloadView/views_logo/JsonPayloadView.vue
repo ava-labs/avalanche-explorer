@@ -11,7 +11,7 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import { JSONPayload } from 'avalanche/dist/utils'
 
-import GenericPayloadViewSmall from '@/components/misc/NftPayloadView/views_small/GenericPayloadView.vue'
+import GenericPayloadViewSmall from '@/components/misc/NftPayloadView/views_logo/GenericPayloadView.vue'
 
 @Component({
     components: {

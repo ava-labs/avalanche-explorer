@@ -47,8 +47,8 @@ export default class UtfPayloadView extends Vue {
 </script>
 <style scoped lang="scss">
 .utf_payload_view {
-    height: 100%;
-    width: 100%;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;

@@ -22,7 +22,6 @@ import Json from '@/components/misc/NftPayloadView/views_logo/JsonPayloadView.vu
 })
 export default class NftLogoPayloadView extends Vue {
     @Prop() payload!: PayloadBase
-    @Prop({ default: false }) small!: boolean
 
     get viewer() {
         switch (this.payload.typeID()) {
@@ -41,6 +40,6 @@ export default class NftLogoPayloadView extends Vue {
 <style scoped>
 .nft_payload_view {
     overflow: auto;
-    padding: 20px 0;
+    padding: 0;
 }
 </style>
