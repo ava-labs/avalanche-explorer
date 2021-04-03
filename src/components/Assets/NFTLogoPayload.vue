@@ -1,6 +1,9 @@
 <template>
     <div v-if="payload">
-        <NftPayloadView :payload="payloadBase" :small="true"></NftPayloadView>
+        <NftLogoPayloadView
+            :payload="payloadBase"
+            :size="logo"
+        ></NftLogoPayloadView>
     </div>
 </template>
 
@@ -9,14 +12,10 @@ import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { pushPayload } from '@/helper'
 import NftPayloadView from '@/components/misc/NftPayloadView/NftPayloadView.vue'
-import { getNFTType } from '@/services/transactions'
 
 @Component({
     components: {
         NftPayloadView,
-    },
-    filters: {
-        getType: getNFTType,
     },
 })
 export default class NFTLogoPayload extends Vue {

@@ -26,6 +26,7 @@ export default class NFTLogoRenderer extends Vue {
     @Prop() asset!: Asset
     loading = true
     payloads: (string | number)[] | null = null
+    payload: string | null = null
 
     created() {
         this.getPayloads()
