@@ -16,7 +16,7 @@ interface AssetDict {
 const dict: AssetDict = {}
 
 dict[AVAX_ID] = {
-    logo: '/og-image-avalanche.png',
+    logo: 'img/avax_icon_circle.png',
 }
 
 export default dict
