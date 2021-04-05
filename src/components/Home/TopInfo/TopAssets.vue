@@ -83,7 +83,6 @@ import TooltipHeading from '@/components/misc/TooltipHeading.vue'
 import { Asset } from '@/js/Asset'
 import { AVAX_ID } from '@/known_assets'
 import { ICollisionMap } from '@/js/IAsset'
-import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
 import AssetLogoRenderer from '@/components/Assets/AssetLogoRenderer.vue'
 import NFTLogoRenderer from '@/components/Assets/NFTLogoRenderer.vue'
 

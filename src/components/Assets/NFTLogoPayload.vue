@@ -8,7 +8,7 @@
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { pushPayload } from '@/helper'
-import NFTLogoPayloadView from '@/components/Assets/NFTLogoPayloadView.vue'
+import NFTLogoPayloadView from '@/components/Assets/LogoPayloadView.vue'
 
 @Component({
     components: {
