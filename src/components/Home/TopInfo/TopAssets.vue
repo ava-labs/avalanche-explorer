@@ -36,19 +36,30 @@
                         <span class="symbol">{{ asset.symbol }}</span>
                     </div>
                     <div class="name name_value">
-                        <img
-                            class="table_image"
-                            :src="require(`@/assets/hex_ava_${hexColor}.svg`)"
-                            alt
-                        />
                         <router-link
                             :to="`/asset/${asset.id}`"
-                            class="asset_name"
-                            >{{ asset.name }}</router-link
+                            class="asset_name logo_name_id"
                         >
-                        <span class="collision">{{
-                            collisionHash(asset)
-                        }}</span>
+                            <div class="logo_container">
+                                <AssetLogoRenderer
+                                    v-if="
+                                        type(asset) === 'Fixed Cap' ||
+                                        type(asset) === 'Variable Cap'
+                                    "
+                                    :asset="asset"
+                                ></AssetLogoRenderer>
+                                <NFTLogoRenderer
+                                    v-else
+                                    :asset="asset"
+                                ></NFTLogoRenderer>
+                            </div>
+                            <div class="name_id">
+                                <span class="name">{{ asset.name }}</span>
+                                <span class="collision">{{
+                                    collisionHash(asset)
+                                }}</span>
+                            </div>
+                        </router-link>
                     </div>
                     <p class="metric metric_value">
                         {{ asset.txCount_day.toLocaleString() }}
@@ -73,11 +84,15 @@ import { Asset } from '@/js/Asset'
 import { AVAX_ID } from '@/known_assets'
 import { ICollisionMap } from '@/js/IAsset'
 import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
+import AssetLogoRenderer from '@/components/Assets/AssetLogoRenderer.vue'
+import NFTLogoRenderer from '@/components/Assets/NFTLogoRenderer.vue'
 
 @Component({
     components: {
         Tooltip,
         TooltipHeading,
+        AssetLogoRenderer,
+        NFTLogoRenderer,
     },
 })
 export default class TopAssets extends Vue {
@@ -108,8 +123,12 @@ export default class TopAssets extends Vue {
         return this.$store.state.collisionMap
     }
 
-    get hexColor(): string {
-        return DEFAULT_NETWORK_ID === 1 ? 'mainnet' : 'testnet'
+    type(asset: Asset): string {
+        return asset.nft === 1
+            ? 'NFT'
+            : asset.variableCap === 1
+            ? 'Variable Cap'
+            : 'Fixed Cap'
     }
 }
 </script>
@@ -152,6 +171,26 @@ export default class TopAssets extends Vue {
         white-space: nowrap;
         padding: 6px 0;
         border-radius: 2px;
+    }
+
+    .logo_name_id {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 14px;
+        font-weight: 400; /* 700 */
+        text-decoration: none;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .name_id {
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
     }
 
     .name {
