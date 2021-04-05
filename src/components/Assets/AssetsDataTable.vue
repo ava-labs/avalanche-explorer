@@ -32,9 +32,9 @@
                 ></p>
             </template>
             <template #item.name="{ item }">
-                <router-link class="name_id" :to="`/asset/${item.id}`">
-                    <div>
-                        <template>
+                <router-link :to="`/asset/${item.id}`">
+                    <div class="logo_name_id">
+                        <div class="logo_container">
                             <AssetLogoRenderer
                                 v-if="
                                     type(item) === 'Fixed Cap' ||
@@ -46,9 +46,13 @@
                                 v-else
                                 :asset="item"
                             ></NFTLogoRenderer>
-                        </template>
-                        <span class="name">{{ item | nameOrID }} </span>
-                        <span class="collision">{{ collisionHash(item) }}</span>
+                        </div>
+                        <div class="name_id">
+                            <span class="name">{{ item | nameOrID }} </span>
+                            <span class="collision">{{
+                                collisionHash(item)
+                            }}</span>
+                        </div>
                     </div>
                 </router-link>
             </template>
@@ -170,7 +174,7 @@ export default class AssetsDataTable extends Vue {
     text-align: center;
     border-radius: 4px;
     min-height: 1em;
-    font-weight: 400; /* 700 */
+    font-weight: 400;
     width: 40px;
 }
 
@@ -182,6 +186,26 @@ export default class AssetsDataTable extends Vue {
         text-align: left;
         padding-left: 4px;
     }
+}
+
+.logo_name_id {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 14px;
+    font-weight: 400; /* 700 */
+    text-decoration: none;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.name_id {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
 }
 
 .collision {

@@ -1,5 +1,5 @@
 <template>
-    <img class="table_image" :src="logo" alt />
+    <img class="logo_image" :src="logo" alt />
 </template>
 
 <script lang="ts">
@@ -27,12 +27,4 @@ export default class AssetLogoRenderer extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
-.table_image {
-    height: 20px;
-    display: inline-block;
-    margin-top: -1px;
-    margin-right: 14px;
-    vertical-align: middle;
-}
-</style>
+<style scoped lang="scss"></style>

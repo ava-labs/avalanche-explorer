@@ -1,7 +1,5 @@
 <template>
-    <div v-if="!isGeneric" class="json_payload_view">
-        <p>{ }</p>
-    </div>
+    <LogoFallback v-if="!isGeneric"></LogoFallback>
     <GenericPayloadViewSmall
         v-else
         :payload="payload"
@@ -10,12 +8,13 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import { JSONPayload } from 'avalanche/dist/utils'
-
+import LogoFallback from '@/components/Assets/LogoFallback.vue'
 import GenericPayloadViewSmall from '@/components/misc/NftPayloadView/views_logo/GenericPayloadView.vue'
 
 @Component({
     components: {
         GenericPayloadViewSmall,
+        LogoFallback,
     },
 })
 export default class JsonPayloadView extends Vue {
@@ -68,22 +67,4 @@ export default class JsonPayloadView extends Vue {
     }
 }
 </script>
-<style scoped lang="scss">
-.json_payload_view {
-    margin: 10px 0;
-    color: #0f0 !important;
-    background-color: #000 !important;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    p {
-        color: #0f0 !important;
-        font-size: 16px;
-        word-break: break-word;
-        font-weight: bold;
-    }
-}
-</style>
+<style scoped lang="scss"></style>

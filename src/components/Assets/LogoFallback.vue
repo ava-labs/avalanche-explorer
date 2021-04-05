@@ -19,12 +19,4 @@ export default class LogoFallback extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
-.logo_image {
-    height: 20px;
-    display: inline-block;
-    margin-top: -1px;
-    margin-right: 14px;
-    vertical-align: middle;
-}
-</style>
+<style scoped lang="scss"></style>

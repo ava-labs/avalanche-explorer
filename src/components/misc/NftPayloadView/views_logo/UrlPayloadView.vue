@@ -1,12 +1,6 @@
 <template>
-    <div class="url_payload_view">
-        <img v-if="img_types.includes(fileType)" :src="url" />
-        <div v-else class="unknown">
-            <p>
-                <span>URL</span>
-            </p>
-        </div>
-    </div>
+    <img v-if="img_types.includes(fileType)" :src="url" />
+    <LogoFallback v-else></LogoFallback>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
@@ -45,39 +39,10 @@ export default class UrlPayloadView extends Vue {
 }
 </script>
 <style scoped lang="scss">
-.url_payload_view {
-    height: 40px;
-    width: 40px;
-    margin: 10px 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 img {
-    width: 40px;
-    width: 40px;
+    width: 20px;
+    width: 20px;
     display: block;
     object-fit: cover;
-}
-
-.unknown,
-.warn {
-    background-color: var(--bg-light);
-    text-align: center;
-    padding: 12px 8px;
-    word-break: break-all;
-    font-size: 13px;
-    span {
-        color: var(--primary-color-light);
-        font-size: 13px;
-    }
-}
-
-.warn {
-    color: var(--error);
-    word-break: normal;
-    font-size: 11px;
-    opacity: 0.6;
 }
 </style>

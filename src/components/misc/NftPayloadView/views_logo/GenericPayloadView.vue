@@ -1,23 +1,19 @@
 <!--Used inside the JsonPayload.vue component-->
-
 <template>
-    <div class="generic_payload_view">
-        <template v-if="!isError">
-            <div class="generic_view">
-                <img :src="img" />
-            </div>
-        </template>
-        <template v-else>
-            <p>Failed to load generic collectible payload.</p>
-        </template>
-    </div>
+    <img v-if="!isError" :src="img" />
+    <LogoFallback v-else></LogoFallback>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import { JSONPayload } from 'avalanche/dist/utils'
 import { IGenericNft } from '@/js/NFT'
+import LogoFallback from '@/components/Assets/LogoFallback.vue'
 
-@Component
+@Component({
+    components: {
+        LogoFallback,
+    },
+})
 export default class UtfPayloadView extends Vue {
     @Prop() payload!: JSONPayload
     isError = false
@@ -27,16 +23,8 @@ export default class UtfPayloadView extends Vue {
         return this.payload.getContent().toString()
     }
 
-    get desc() {
-        return this.jsonData?.desc
-    }
-
     get img() {
         return this.jsonData?.img
-    }
-
-    get title() {
-        return this.jsonData?.title
     }
 
     mounted() {
@@ -58,64 +46,11 @@ export default class UtfPayloadView extends Vue {
 }
 </script>
 <style scoped lang="scss">
-.generic_payload_view {
-    width: 40px;
-    height: 40px;
-}
-.generic_view {
-    width: 40px;
-    height: 40px;
-    max-height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-p {
-    font-size: 13px;
-    word-break: break-word;
-    overflow: scroll;
-    background-color: var(--bg-light);
-    color: var(--primary-color);
-}
-
 img {
     display: block;
     object-fit: cover;
     object-position: center;
-    width: 40px;
-    height: 40px;
-}
-
-.nft_title {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    font-size: 13px;
-    background-color: #000000aa;
-    color: #fff;
-    transition-duration: 0.2s;
-}
-
-.generic_view:hover {
-    .desc {
-        opacity: 1;
-    }
-    .nft_title {
-        opacity: 0;
-    }
-}
-.desc {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    opacity: 0;
-    font-size: 13px;
-    transition-duration: 0.2s;
-    color: #fff;
-    text-align: center;
-    padding: 14px;
-    background-color: #000000bb;
+    width: 20px;
+    height: 20px;
 }
 </style>

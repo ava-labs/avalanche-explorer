@@ -2,11 +2,11 @@
     <wordcloud
         v-if="assetsLoaded"
         :data="assetNames"
-        nameKey="name"
-        valueKey="value"
+        name-key="name"
+        value-key="value"
         :color="myColors"
-        :showTooltip="true"
-        :wordClick="wordClickHandler"
+        :show-tooltip="true"
+        :word-click="wordClickHandler"
     >
     </wordcloud>
 </template>
