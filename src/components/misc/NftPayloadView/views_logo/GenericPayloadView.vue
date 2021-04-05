@@ -50,7 +50,7 @@ img {
     display: block;
     object-fit: cover;
     object-position: center;
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
 }
 </style>
