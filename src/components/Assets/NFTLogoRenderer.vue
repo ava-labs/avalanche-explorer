@@ -6,7 +6,7 @@
             :asset-i-d="asset.id"
             :group-i-d="payloads[0][1]"
         ></NFTLogoPayload>
-        <img v-else class="table_image" :src="logo" alt />
+        <LogoFallback v-else></LogoFallback>
     </div>
 </template>
 
@@ -14,12 +14,13 @@
 import { Asset } from '@/js/Asset'
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
 import NFTLogoPayload from '@/components/Assets/NFTLogoPayload.vue'
+import LogoFallback from '@/components/Assets/LogoFallback.vue'
 
 @Component({
     components: {
         NFTLogoPayload,
+        LogoFallback,
     },
 })
 export default class NFTLogoRenderer extends Vue {
@@ -47,27 +48,11 @@ export default class NFTLogoRenderer extends Vue {
                 console.log(err)
             })
     }
-
-    get logo(): string {
-        return `/hex_ava_${this.hexColor}.svg`
-    }
-
-    get hexColor(): string {
-        return DEFAULT_NETWORK_ID === 1 ? 'mainnet' : 'testnet'
-    }
 }
 </script>
 
 <style scoped lang="scss">
 .nft_container {
     display: inline-block;
-}
-
-.table_image {
-    height: 20px;
-    display: inline-block;
-    margin-top: -1px;
-    margin-right: 14px;
-    vertical-align: middle;
 }
 </style>

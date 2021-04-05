@@ -20,7 +20,7 @@ import Json from '@/components/misc/NftPayloadView/views_logo/JsonPayloadView.vu
         Json,
     },
 })
-export default class NftLogoPayloadView extends Vue {
+export default class NFTLogoPayloadView extends Vue {
     @Prop() payload!: PayloadBase
 
     get viewer() {
