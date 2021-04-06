@@ -8,24 +8,26 @@
         <!-- TABLE -->
         <div class="list">
             <TxTableHead></TxTableHead>
-            <transition-group v-if="transactions.length > 0" name="fade">
-                <tx-row
-                    v-for="tx in transactions"
-                    :key="tx.id"
-                    class="recent_tx_rows"
-                    :transaction="tx"
-                ></tx-row>
-            </transition-group>
-            <!-- LOAD -->
-            <div v-if="transactions.length === 0">
-                <v-progress-circular
-                    key="1"
-                    :size="16"
-                    :width="2"
-                    color="#E84970"
-                    indeterminate
-                ></v-progress-circular>
-            </div>
+            <template v-if="transactions">
+                <transition-group v-if="transactions.length > 0" name="fade">
+                    <tx-row
+                        v-for="tx in transactions"
+                        :key="tx.id"
+                        class="recent_tx_rows"
+                        :transaction="tx"
+                    ></tx-row>
+                </transition-group>
+                <!-- LOAD -->
+                <div v-if="transactions.length === 0">
+                    <v-progress-circular
+                        key="1"
+                        :size="16"
+                        :width="2"
+                        color="#E84970"
+                        indeterminate
+                    ></v-progress-circular>
+                </div>
+            </template>
         </div>
     </div>
 </template>

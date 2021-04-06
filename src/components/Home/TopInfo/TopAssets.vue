@@ -172,11 +172,16 @@ export default class TopAssets extends Vue {
         border-radius: 2px;
     }
 
+    .logo_container {
+        width: 20px;
+        height: 20px;
+    }
+
     .logo_name_id {
         overflow: hidden;
         text-overflow: ellipsis;
         font-size: 14px;
-        font-weight: 400; /* 700 */
+        font-weight: 400;
         text-decoration: none;
 
         display: flex;
