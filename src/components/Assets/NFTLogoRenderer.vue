@@ -1,11 +1,14 @@
 <template>
     <div class="nft_container">
-        <NFTLogoPayload
-            v-if="payloads || payloads.length > 0"
-            :payload="payloads[0][0]"
-            :asset-i-d="asset.id"
-            :group-i-d="payloads[0][1]"
-        ></NFTLogoPayload>
+        <template v-if="payloads">
+            <NFTLogoPayload
+                v-if="payloads.length > 0"
+                :payload="payloads[0][0]"
+                :asset-i-d="asset.id"
+                :group-i-d="payloads[0][1]"
+            ></NFTLogoPayload>
+            <LogoFallback v-else></LogoFallback>
+        </template>
         <LogoFallback v-else></LogoFallback>
     </div>
 </template>
@@ -54,5 +57,7 @@ export default class NFTLogoRenderer extends Vue {
 <style scoped lang="scss">
 .nft_container {
     display: inline-block;
+    width: 25px;
+    height: 25px;
 }
 </style>
