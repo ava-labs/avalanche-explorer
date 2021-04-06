@@ -66,35 +66,35 @@ export const txTypeMap = new Map<string, TxType>([
         'add_validator',
         {
             long: 'Add Validator',
-            short: 'Validators',
+            short: 'Validate',
         },
     ],
     [
         'add_subnet_validator',
         {
             long: 'Add Subnet Validator',
-            short: 'Subnet Validator',
+            short: 'Validate Subnet',
         },
     ],
     [
         'add_delegator',
         {
             long: 'Add Delegator',
-            short: 'Delegator',
+            short: 'Delegate',
         },
     ],
     [
         'create_subnet',
         {
             long: 'Create Subnet',
-            short: 'Subnet',
+            short: 'Create Subnet',
         },
     ],
     [
         'create_chain',
         {
             long: 'Create Chain',
-            short: 'Chain',
+            short: 'Create Chain',
         },
     ],
     [
