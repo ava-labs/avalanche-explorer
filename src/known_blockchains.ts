@@ -5,6 +5,7 @@ interface ChainMap {
     fullname: string
     code: string
     color: string
+    darkColor: string
     txTypes: [string, TxType][]
 }
 
@@ -27,7 +28,8 @@ export const P: ChainMap = {
     name: 'P-Chain',
     fullname: 'Platform',
     code: 'P',
-    color: '#3DEE64',
+    color: '#FFB547',
+    darkColor: '#7E5517',
     txTypes: [
         ['add_validator', txTypeMap.get('add_validator')!],
         ['add_subnet_validator', txTypeMap.get('add_subnet_validator')!],
@@ -39,18 +41,6 @@ export const P: ChainMap = {
     ],
 }
 
-/*
-txTypes: [
-    { id: 'add_validator', name: 'Add Validator' },
-    { id: 'add_subnet_validator', name: 'Add Subnet Validator' },
-    { id: 'add_delegator', name: 'Add Delegator' },
-    { id: 'create_subnet', name: 'Create Subnet' },
-    { id: 'create_chain', name: 'Create Chain' },
-    { id: 'pvm_export', name: 'PVM Export' },
-    { id: 'pvm_import', name: 'PVM Import' },
-],
- */
-
 export const X: ChainMap = {
     id: (isMainnetNetwork()
         ? process.env.VUE_APP_XCHAINID
@@ -59,6 +49,7 @@ export const X: ChainMap = {
     fullname: 'Exchange',
     code: 'X',
     color: '#367FFF',
+    darkColor: '#083482',
     txTypes: [
         ['base', txTypeMap.get('base')!],
         ['create_asset', txTypeMap.get('create_asset')!],
@@ -75,19 +66,13 @@ export const C: ChainMap = {
     name: 'C-Chain',
     fullname: 'Contract',
     code: 'C',
-    color: '#FFB547',
+    color: '#3DEE64',
+    darkColor: '#088223',
     txTypes: [
         ['atomic_import_tx', txTypeMap.get('atomic_import_tx')!],
         ['atomic_export_tx', txTypeMap.get('atomic_export_tx')!],
     ],
 }
-
-/*
- txTypes: [
-        { id: 'atomic_import_tx', name: 'Atomic Import' },
-        { id: 'atomic_export_tx', name: 'Atomic Export' },
-    ],
-*/
 
 const dict: BlockchainDict = {}
 

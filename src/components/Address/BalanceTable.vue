@@ -73,7 +73,7 @@ export default class BalanceTable extends Vue {
     }
 
     .grid_headers {
-        font-weight: 700;
+        font-weight: 500;
         font-size: 12px;
     }
 

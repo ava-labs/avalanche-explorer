@@ -20,7 +20,6 @@
         <div v-else>
             <div class="table">
                 <div class="asset column_headers">
-                    <p v-if="$vuetify.breakpoint.smAndUp"></p>
                     <p class="name">
                         Name <Tooltip content="Name for the asset"></Tooltip>
                     </p>
@@ -32,9 +31,6 @@
                     </p>
                 </div>
                 <div v-for="asset in assets" :key="asset.id" class="asset">
-                    <div v-if="$vuetify.breakpoint.smAndUp">
-                        <span class="symbol">{{ asset.symbol }}</span>
-                    </div>
                     <div class="name name_value">
                         <router-link
                             :to="`/asset/${asset.id}`"
@@ -156,7 +152,7 @@ export default class TopAssets extends Vue {
 
 .asset {
     display: grid;
-    grid-template-columns: 46px 1fr 100px;
+    grid-template-columns: 1fr 100px;
     column-gap: 10px;
     padding: 4px 0 4px;
     font-size: 12px;
