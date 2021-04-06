@@ -10,7 +10,7 @@
                             class="tag"
                             :style="{
                                 color: pChain.color,
-                                borderColor: pChain.color,
+                                backgroundColor: pChain.darkColor,
                             }"
                             v-on="on"
                             >{{ pChain.name }}</span
@@ -24,7 +24,7 @@
                             class="tag margin-left"
                             :style="{
                                 color: xChain.color,
-                                borderColor: xChain.color,
+                                backgroundColor: xChain.darkColor,
                             }"
                             v-on="on"
                             >{{ xChain.name }}</span
@@ -42,7 +42,7 @@
                             class="tag margin-left"
                             :style="{
                                 color: cChain.color,
-                                borderColor: cChain.color,
+                                backgroundColor: cChain.darkColor,
                             }"
                             v-on="on"
                             >{{ cChain.name }}</span

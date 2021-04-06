@@ -505,7 +505,6 @@ input {
     .tag {
         padding: 4px 12px;
         border-radius: 12px;
-        border: 1px solid $primary-color;
         color: $primary-color;
         background-color: $white;
         min-height: 1em;

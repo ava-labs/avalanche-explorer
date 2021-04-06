@@ -4,7 +4,7 @@
         <div
             class="avatar"
             :style="{
-                borderColor: chainColor,
+                backgroundColor: chainDarkColor,
             }"
         >
             <p
@@ -21,7 +21,7 @@
                 <span
                     class="value"
                     :style="{
-                        color: chainColor,
+                        color: chainDarkColor,
                     }"
                 >
                     {{ transaction.type | getType }}</span
@@ -103,6 +103,10 @@ export default class TxRow extends Vue {
 
     get chainColor() {
         return getTxChainType(this.transaction.chainID)!.color
+    }
+
+    get chainDarkColor() {
+        return getTxChainType(this.transaction.chainID)!.darkColor
     }
 
     /**
