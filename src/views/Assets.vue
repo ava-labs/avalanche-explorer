@@ -15,6 +15,12 @@
                             found
                         </p>
                     </div>
+                    <div class="bar">
+                        <p class="count">
+                            Assets are updated on 5-min intervals. Please
+                            refresh to view new listings.
+                        </p>
+                    </div>
                 </template>
             </div>
             <div v-if="!assetsLoaded">
