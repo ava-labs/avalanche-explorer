@@ -1,111 +1,78 @@
 <template>
-    <div class="metadata">
-        <div class="card">
-            <div class="header">
-                <h2>
-                    {{ asset | name }}
-                    <span class="symbol">{{ asset.symbol }}</span>
-                    <p v-if="asset.alias" class="alias">
-                        <span>Alias</span> {{ asset.alias }}
-                    </p>
-                    <p class="alias"><span>ID</span> {{ asset.id }}</p>
-                </h2>
+    <section class="stats">
+        <article>
+            <div class="stat">
+                <p class="label">
+                    24h Volume
+                    <TooltipMeta
+                        :content="
+                            'Total value of ' +
+                            asset.symbol +
+                            ' transferred on Avalanche in the past 24 hours'
+                        "
+                    ></TooltipMeta>
+                </p>
+                <p class="meta_val">
+                    {{ parseInt(asset.volume_day.toFixed(0)).toLocaleString() }}
+                    <span class="unit">{{ asset.symbol }}</span>
+                </p>
             </div>
-            <div class="two_column">
-                <section class="stats">
-                    <article>
-                        <div class="stat">
-                            <p class="label">
-                                24h Volume
-                                <TooltipMeta
-                                    :content="
-                                        'Total value of ' +
-                                        asset.symbol +
-                                        ' transferred on Avalanche in the past 24 hours'
-                                    "
-                                ></TooltipMeta>
-                            </p>
-                            <p class="meta_val">
-                                {{
-                                    parseInt(
-                                        asset.volume_day.toFixed(0)
-                                    ).toLocaleString()
-                                }}
-                                <span class="unit">{{ asset.symbol }}</span>
-                            </p>
-                        </div>
-                    </article>
-                    <article>
-                        <div class="stat">
-                            <p class="label">
-                                24h Transactions
-                                <TooltipMeta
-                                    :content="
-                                        'Total number of state queries or modifications of blockchains involving ' +
-                                        asset.symbol +
-                                        ' in the past 24 hours'
-                                    "
-                                ></TooltipMeta>
-                            </p>
-                            <p class="meta_val">
-                                {{ asset.txCount_day.toLocaleString() }}
-                            </p>
-                        </div>
-                    </article>
-                    <article>
-                        <div class="stat">
-                            <p class="label">
-                                Minted On
-                                <TooltipMeta
-                                    :content="
-                                        'Blockchain where ' +
-                                        asset.symbol +
-                                        ' was minted'
-                                    "
-                                ></TooltipMeta>
-                            </p>
-                            <p class="meta_val">
-                                {{ asset.chainID | blockchain }}
-                            </p>
-                        </div>
-                    </article>
-                    <article>
-                        <div class="stat">
-                            <p class="label">
-                                Initial Supply
-                                <TooltipMeta
-                                    :content="
-                                        'Initial value of ' +
-                                        asset.symbol +
-                                        ' minted'
-                                    "
-                                ></TooltipMeta>
-                            </p>
-                            <p class="meta_val">
-                                {{
-                                    asset.currentSupply.toLocaleString(
-                                        asset.denomination
-                                    )
-                                }}
-                                <span class="unit">{{ asset.symbol }}</span>
-                            </p>
-                            <p class="meta_annotation">
-                                Minimal Transferrable Unit:
-                            </p>
-                            <p class="meta_annotation">
-                                {{ minimalTransferrableUnit }} ({{
-                                    asset.denomination | pluralizeDenomination
-                                }})
-                            </p>
-                        </div>
-                    </article>
-                </section>
-                <section>
-                    <TransactionHistory></TransactionHistory>
-                </section>
+        </article>
+        <article>
+            <div class="stat">
+                <p class="label">
+                    24h Transactions
+                    <TooltipMeta
+                        :content="
+                            'Total number of state queries or modifications of blockchains involving ' +
+                            asset.symbol +
+                            ' in the past 24 hours'
+                        "
+                    ></TooltipMeta>
+                </p>
+                <p class="meta_val">
+                    {{ asset.txCount_day.toLocaleString() }}
+                </p>
             </div>
-        </div>
-    </div>
+        </article>
+        <article>
+            <div class="stat">
+                <p class="label">
+                    Minted On
+                    <TooltipMeta
+                        :content="
+                            'Blockchain where ' + asset.symbol + ' was minted'
+                        "
+                    ></TooltipMeta>
+                </p>
+                <p class="meta_val">
+                    {{ asset.chainID | blockchain }}
+                </p>
+            </div>
+        </article>
+        <article>
+            <div class="stat">
+                <p class="label">
+                    Initial Supply
+                    <TooltipMeta
+                        :content="
+                            'Initial value of ' + asset.symbol + ' minted'
+                        "
+                    ></TooltipMeta>
+                </p>
+                <p class="meta_val">
+                    {{ asset.currentSupply.toLocaleString(asset.denomination) }}
+                    <span class="unit">{{ asset.symbol }}</span>
+                </p>
+                <p class="meta_annotation">Minimal Transferrable Unit:</p>
+                <p class="meta_annotation">
+                    {{ minimalTransferrableUnit }} ({{
+                        asset.denomination | pluralizeDenomination
+                    }})
+                </p>
+            </div>
+        </article>
+    </section>
 </template>
 
 <script lang="ts">
@@ -123,9 +90,6 @@ import TransactionHistory from '@/components/Home/TopInfo/TransactionHistory.vue
     },
 
     filters: {
-        name(val: Asset): string {
-            return val.name ? val.name : val.id
-        },
         blockchain(val: string): string {
             return blockchainMap(val)
         },
@@ -149,55 +113,13 @@ export default class Metadata extends Vue {
 </script>
 
 <style scoped lang="scss">
-.metadata {
-    margin-bottom: 15px;
-
-    .header {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-
-        .alias {
-            margin-top: 0.5em;
-            font-size: 14px;
-        }
-    }
-
-    .symbol {
-        flex-shrink: 0;
-        color: $secondary-color;
-        background-color: $secondary-color-xlight;
-        min-height: 1em;
-        min-width: 20px;
-        text-align: center;
-        margin: 0px 10px 5px;
-        padding: 3px 4px;
-        font-size: 9px;
-        border-radius: 3px;
-        display: inline-block;
-        vertical-align: middle;
-    }
-}
-
-.alias {
-    span {
-        font-weight: 700;
-    }
-}
-
-.two_column {
-    display: grid;
-    width: 100%;
-    grid-template-columns: 1fr 1fr;
-}
-
 .stats {
     display: grid;
     width: 100%;
     grid-template-columns: 1fr;
 
     > article {
-        padding: 30px 15px 0;
+        padding: 30px 0;
         text-align: left;
         line-height: 1.4em;
         display: flex;
@@ -269,15 +191,6 @@ export default class Metadata extends Vue {
 }
 
 @include xsOnly {
-    .metadata {
-        margin-bottom: 10px;
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-        }
-    }
-
     .stats {
         grid-template-columns: none;
 
