@@ -56,8 +56,7 @@ export default class NFTRenderer extends Vue {
 
 <style scoped lang="scss">
 .nft_container {
-    display: inline-block;
-    width: 25px;
-    height: 25px;
+    width: 100%;
+    height: 100%;
 }
 </style>
