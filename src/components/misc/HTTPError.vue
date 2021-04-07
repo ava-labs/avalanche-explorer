@@ -87,6 +87,6 @@ export default class HTTPError extends Vue {
 }
 
 .request_error[margin] {
-    margin-top: 30px;
+    margin: 30px 0;
 }
 </style>

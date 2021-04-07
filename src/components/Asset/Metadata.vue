@@ -11,92 +11,99 @@
                     <p class="alias"><span>ID</span> {{ asset.id }}</p>
                 </h2>
             </div>
-            <section class="stats">
-                <article>
-                    <div class="stat">
-                        <p class="label">
-                            24h Volume
-                            <TooltipMeta
-                                :content="
-                                    'Total value of ' +
-                                    asset.symbol +
-                                    ' transferred on Avalanche in the past 24 hours'
-                                "
-                            ></TooltipMeta>
-                        </p>
-                        <p class="meta_val">
-                            {{
-                                parseInt(
-                                    asset.volume_day.toFixed(0)
-                                ).toLocaleString()
-                            }}
-                            <span class="unit">{{ asset.symbol }}</span>
-                        </p>
-                    </div>
-                </article>
-                <article>
-                    <div class="stat">
-                        <p class="label">
-                            24h Transactions
-                            <TooltipMeta
-                                :content="
-                                    'Total number of state queries or modifications of blockchains involving ' +
-                                    asset.symbol +
-                                    ' in the past 24 hours'
-                                "
-                            ></TooltipMeta>
-                        </p>
-                        <p class="meta_val">
-                            {{ asset.txCount_day.toLocaleString() }}
-                        </p>
-                    </div>
-                </article>
-                <article>
-                    <div class="stat">
-                        <p class="label">
-                            Minted On
-                            <TooltipMeta
-                                :content="
-                                    'Blockchain where ' +
-                                    asset.symbol +
-                                    ' was minted'
-                                "
-                            ></TooltipMeta>
-                        </p>
-                        <p class="meta_val">{{ asset.chainID | blockchain }}</p>
-                    </div>
-                </article>
-                <article>
-                    <div class="stat">
-                        <p class="label">
-                            Initial Supply
-                            <TooltipMeta
-                                :content="
-                                    'Initial value of ' +
-                                    asset.symbol +
-                                    ' minted'
-                                "
-                            ></TooltipMeta>
-                        </p>
-                        <p class="meta_val">
-                            {{
-                                asset.currentSupply.toLocaleString(
-                                    asset.denomination
-                                )
-                            }}
-                            <span class="unit">{{ asset.symbol }}</span>
-                        </p>
-                        <p class="meta_annotation">
-                            Minimal Transferrable Unit:
-                        </p>
-                        <p class="meta_annotation">
-                            {{ minimalTransferrableUnit }} ({{
-                                asset.denomination | pluralizeDenomination
-                            }})
-                        </p>
-                    </div>
-                </article>
-            </section>
+            <div class="two_column">
+                <section class="stats">
+                    <article>
+                        <div class="stat">
+                            <p class="label">
+                                24h Volume
+                                <TooltipMeta
+                                    :content="
+                                        'Total value of ' +
+                                        asset.symbol +
+                                        ' transferred on Avalanche in the past 24 hours'
+                                    "
+                                ></TooltipMeta>
+                            </p>
+                            <p class="meta_val">
+                                {{
+                                    parseInt(
+                                        asset.volume_day.toFixed(0)
+                                    ).toLocaleString()
+                                }}
+                                <span class="unit">{{ asset.symbol }}</span>
+                            </p>
+                        </div>
+                    </article>
+                    <article>
+                        <div class="stat">
+                            <p class="label">
+                                24h Transactions
+                                <TooltipMeta
+                                    :content="
+                                        'Total number of state queries or modifications of blockchains involving ' +
+                                        asset.symbol +
+                                        ' in the past 24 hours'
+                                    "
+                                ></TooltipMeta>
+                            </p>
+                            <p class="meta_val">
+                                {{ asset.txCount_day.toLocaleString() }}
+                            </p>
+                        </div>
+                    </article>
+                    <article>
+                        <div class="stat">
+                            <p class="label">
+                                Minted On
+                                <TooltipMeta
+                                    :content="
+                                        'Blockchain where ' +
+                                        asset.symbol +
+                                        ' was minted'
+                                    "
+                                ></TooltipMeta>
+                            </p>
+                            <p class="meta_val">
+                                {{ asset.chainID | blockchain }}
+                            </p>
+                        </div>
+                    </article>
+                    <article>
+                        <div class="stat">
+                            <p class="label">
+                                Initial Supply
+                                <TooltipMeta
+                                    :content="
+                                        'Initial value of ' +
+                                        asset.symbol +
+                                        ' minted'
+                                    "
+                                ></TooltipMeta>
+                            </p>
+                            <p class="meta_val">
+                                {{
+                                    asset.currentSupply.toLocaleString(
+                                        asset.denomination
+                                    )
+                                }}
+                                <span class="unit">{{ asset.symbol }}</span>
+                            </p>
+                            <p class="meta_annotation">
+                                Minimal Transferrable Unit:
+                            </p>
+                            <p class="meta_annotation">
+                                {{ minimalTransferrableUnit }} ({{
+                                    asset.denomination | pluralizeDenomination
+                                }})
+                            </p>
+                        </div>
+                    </article>
+                </section>
+                <section>
+                    <TransactionHistory></TransactionHistory>
+                </section>
+            </div>
         </div>
     </div>
 </template>
@@ -105,12 +112,14 @@
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { Asset } from '@/js/Asset'
-import { blockchainMap } from '../../helper'
-import TooltipMeta from '../../components/misc/TooltipMeta.vue'
+import { blockchainMap } from '@/helper'
+import TooltipMeta from '@/components/misc/TooltipMeta.vue'
+import TransactionHistory from '@/components/Home/TopInfo/TransactionHistory.vue'
 
 @Component({
     components: {
         TooltipMeta,
+        TransactionHistory,
     },
 
     filters: {
@@ -176,10 +185,16 @@ export default class Metadata extends Vue {
     }
 }
 
+.two_column {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+}
+
 .stats {
     display: grid;
     width: 100%;
-    grid-template-columns: 25% 25% 25% 25%;
+    grid-template-columns: 1fr;
 
     > article {
         padding: 30px 15px 0;

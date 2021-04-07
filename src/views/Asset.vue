@@ -88,6 +88,7 @@ import TxHeader from '@/components/Transaction/TxHeader.vue'
 import { TransactionsGettersMixin } from '@/store/modules/transactions/transactions.mixins'
 import TxFilter from '@/components/Transaction/TxFilter.vue'
 import TxParams from '@/components/Transaction/TxParams.vue'
+import HTTPError from '@/components/misc/HTTPError.vue'
 
 @Component({
     components: {
@@ -101,6 +102,7 @@ import TxParams from '@/components/Transaction/TxParams.vue'
         TxHeader,
         TxFilter,
         TxParams,
+        HTTPError,
     },
 })
 export default class AssetPage extends Mixins(TransactionsGettersMixin) {
