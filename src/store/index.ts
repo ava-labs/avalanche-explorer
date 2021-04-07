@@ -25,7 +25,8 @@ import { ITransactionPayload } from '@/services/transactions'
 import { getTransaction } from '@/services/transactions'
 import { getAssetAggregates, IAssetAggregate } from '@/services/aggregates'
 import { parseTxs } from './modules/transactions/helpers'
-import { X } from '@/known_blockchains'
+import { isMainnetNetwork, X } from '@/known_blockchains'
+import { getCacheAssets } from '@/services/assets'
 
 Vue.use(Vuex)
 
@@ -76,30 +77,36 @@ const store = new Vuex.Store({
          * Get and set initial list of all indexed assets
          */
         async getAssets(store) {
-            // TODO: support service for multiple chains
-            let isFinished = false
-            let offset = 0
-            const limit = 500
-            const res = await api.get(
-                `/x/assets?offset=${offset}&limit=${limit}`
-            )
-            const assetsData = res.data.assets
+            let assetsData = []
 
-            // keep getting asset data as necessary
-            async function checkForMoreAssets() {
-                offset += limit
+            if (isMainnetNetwork()) {
+                // TODO: support service for multiple chains
+                let isFinished = false
+                let offset = 0
+                const limit = 500
                 const res = await api.get(
                     `/x/assets?offset=${offset}&limit=${limit}`
                 )
-                const moreAssets = res.data.assets
-                if (moreAssets.length === 0) {
-                    isFinished = true
-                }
-                assetsData.push(...moreAssets)
-            }
+                assetsData = res.data.assets
 
-            while (isFinished === false) {
-                await checkForMoreAssets()
+                // keep getting asset data as necessary
+                async function checkForMoreAssets() {
+                    offset += limit
+                    const res = await api.get(
+                        `/x/assets?offset=${offset}&limit=${limit}`
+                    )
+                    const moreAssets = res.data.assets
+                    if (moreAssets.length === 0) {
+                        isFinished = true
+                    }
+                    assetsData.push(...moreAssets)
+                }
+
+                while (isFinished === false) {
+                    await checkForMoreAssets()
+                }
+            } else {
+                assetsData = await getCacheAssets()
             }
 
             // once we get all the data, instantiate assets and save them to the store
