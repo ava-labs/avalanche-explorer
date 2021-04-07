@@ -1,5 +1,6 @@
 import api from '@/axios'
 import { resolveResponseData } from '@/services/helpers'
+import qs from 'qs'
 
 const TRANSACTIONS_API_BASE_URL =
     process.env.VUE_APP_TRANSACTIONS_V2_API_BASE_URL
@@ -10,16 +11,25 @@ export interface ITransactionPayload {
 }
 
 export interface ITransactionParams {
-    chainID?: string
+    chainID?: string[]
     assetID?: string
     address?: string
     disableGenesis?: boolean
     sort?: string
-    offset?: number
     limit?: number
     startTime?: number
     endTime?: number
+    offset?: number // to be deprecated
 }
+
+/**
+    https://explorerapi.avax.network/v2/transactions
+        ?assetID=FvwEAhmxKfeiG8SnEvq42hc6whRyY3EFYAvebMqDNDGCgxN5Z
+        &sort=timestamp-desc
+        &limit=25
+        &chainID=2oYMBNV4eNHyqk2fjjV5nVQLDbtmNJzq5s3qs3Lo6ftnC6FByM
+        &chainID=11111111111111111111111111111111LpoYY
+ */
 
 /**
  *
@@ -35,7 +45,11 @@ export function getTransaction(
             id
                 ? `${TRANSACTIONS_API_BASE_URL}/${id}`
                 : TRANSACTIONS_API_BASE_URL,
-            { params }
+            {
+                params,
+                paramsSerializer: (params) =>
+                    qs.stringify(params, { arrayFormat: 'repeat' }),
+            }
         )
         .then(resolveResponseData)
 }

@@ -89,6 +89,7 @@ import { TransactionsGettersMixin } from '@/store/modules/transactions/transacti
 import TxFilter from '@/components/Transaction/TxFilter.vue'
 import TxParams from '@/components/Transaction/TxParams.vue'
 import HTTPError from '@/components/misc/HTTPError.vue'
+import { P, X, C } from '@/known_blockchains'
 
 @Component({
     components: {
@@ -220,6 +221,7 @@ export default class AssetPage extends Mixins(TransactionsGettersMixin) {
                 id: null,
                 params: {
                     assetID: this.assetID,
+                    chainID: [P.id, C.id, X.id],
                     ...params,
                 },
             })
