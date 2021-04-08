@@ -63,8 +63,8 @@
             ></Loader>
         </template>
         <template v-else>
-            <TransactionDetailCard :tx="genesisTx"
-                >Asset Genesis Details</TransactionDetailCard
+            <TransactionSummary :tx="genesisTx"
+                >Asset Genesis Details</TransactionSummary
             >
         </template>
     </div>
@@ -75,7 +75,7 @@ import 'reflect-metadata'
 import { Component, Watch, Mixins } from 'vue-property-decorator'
 import Loader from '@/components/misc/Loader.vue'
 import AssetSummary from '@/components/Asset/AssetSummary.vue'
-import TransactionDetailCard from '@/components/TransactionSummary.vue'
+import TransactionSummary from '@/components/Transaction/TransactionSummary.vue'
 import PaginationControls from '@/components/misc/PaginationControls.vue'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import TxTableHead from '@/components/rows/TxRow/TxTableHead.vue'
@@ -96,7 +96,7 @@ import { P, X, C } from '@/known_blockchains'
         Loader,
         AssetSummary,
         PaginationControls,
-        TransactionDetailCard,
+        TransactionSummary,
         Tooltip,
         TxTableHead,
         TxRow,

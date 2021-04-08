@@ -30,7 +30,7 @@
 import 'reflect-metadata'
 import { Component, Watch, Mixins } from 'vue-property-decorator'
 import Loader from '@/components/misc/Loader.vue'
-import TransactionSummary from '@/components/TransactionSummary.vue'
+import TransactionSummary from '@/components/Transaction/TransactionSummary.vue'
 import TransactionUTXO from '@/components/TransactionUTXO.vue'
 import HTTPError from '@/components/misc/HTTPError.vue'
 import { TransactionsGettersMixin } from '@/store/modules/transactions/transactions.mixins'

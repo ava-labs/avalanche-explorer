@@ -1,5 +1,5 @@
 <template>
-    <section v-if="tx" class="card meta">
+    <div v-if="tx" class="card meta">
         <header class="header">
             <h2>
                 <p class="type_label monospace">
@@ -21,109 +21,122 @@
                 </v-tooltip>
             </h2>
         </header>
-        <!-- SUMMARY -->
-        <article class="meta_row">
-            <p class="label">
-                Status
-                <Tooltip
-                    content="Status of the transaction"
-                    color="#c4c4c4"
-                ></Tooltip>
-            </p>
-            <div>
-                <p class="status">Success</p>
-                <p v-if="tx.type === 'assetCreation'" class="status">Success</p>
-            </div>
-        </article>
-        <article class="meta_row">
-            <p class="label">
-                Accepted
-                <Tooltip
-                    content="Date and time when transaction was accepted"
-                    color="#c4c4c4"
-                ></Tooltip>
-            </p>
-            <div class="values">
-                <p class="date">
-                    <fa :icon="['far', 'clock']" class="time_icon"></fa>
-                    {{ date | fromNow }} ({{ date.toLocaleString() }})
-                </p>
-            </div>
-        </article>
-        <article class="meta_row">
-            <p class="label">
-                Value
-                <Tooltip
-                    content="Total economic value transferred in this transaction"
-                    color="#c4c4c4"
-                ></Tooltip>
-            </p>
-            <p class="values">
-                <span v-for="(val, id) in outValuesDenominated" :key="id"
-                    >{{ val.amount }} <b>{{ val.symbol }}</b></span
-                >
-            </p>
-        </article>
-        <article class="meta_row">
-            <p class="label">
-                Transaction Fee
-                <Tooltip
-                    content="Amount paid to validators for processing the transaction"
-                    color="#c4c4c4"
-                ></Tooltip>
-            </p>
-            <p>{{ tx.txFee | toAVAX }} AVAX</p>
-        </article>
-        <article v-if="isText" class="meta_row">
-            <p class="label">
-                Text
-                <Tooltip
-                    content="A 256-byte text field for encoding arbitrary data"
-                    color="#c4c4c4"
-                ></Tooltip>
-            </p>
-            <div>
-                <p><span class="decode">hex</span> {{ text_hex }}</p>
-                <p><span class="decode">UTF-8</span> {{ text_utf8 }}</p>
-            </div>
-        </article>
-        <article class="meta_row">
-            <p class="label">
-                Blockchain
-                <Tooltip
-                    content="Blockchain storing transaction"
-                    color="#c4c4c4"
-                ></Tooltip>
-            </p>
-            <div>
-                <p>{{ chain }}</p>
-                <div v-if="isPChain" style="margin-top: 10px">
-                    <div class="summary_label">Block</div>
-                    <div>{{ tx.txBlockId }}</div>
-                </div>
-            </div>
-        </article>
-        <article class="meta_row">
-            <p class="label">
-                Asset Type
-                <Tooltip
-                    content="The type of asset (NFT, variable or fixed cap)"
-                    color="#c4c4c4"
-                ></Tooltip>
-            </p>
-            <div>
-                <p>{{ tx | getAssetType }}</p>
-            </div>
-        </article>
-        <!-- IF STAKING -->
-        <article v-if="isStaking" class="meta_row">
-            <p class="label">
-                Staking
-                <Tooltip content="Validator Rewards" color="#c4c4c4"></Tooltip>
-            </p>
-            <StakingSummary :tx="tx"></StakingSummary>
-        </article>
-    </section>
+        <div class="two_column">
+            <!-- SUMMARY -->
+            <section>
+                <article class="meta_row">
+                    <p class="label">
+                        Status
+                        <Tooltip
+                            content="Status of the transaction"
+                            color="#c4c4c4"
+                        ></Tooltip>
+                    </p>
+                    <div>
+                        <p class="status">Success</p>
+                        <p v-if="tx.type === 'assetCreation'" class="status">
+                            Success
+                        </p>
+                    </div>
+                </article>
+                <article class="meta_row">
+                    <p class="label">
+                        Accepted
+                        <Tooltip
+                            content="Date and time when transaction was accepted"
+                            color="#c4c4c4"
+                        ></Tooltip>
+                    </p>
+                    <div class="values">
+                        <p class="date">
+                            <fa :icon="['far', 'clock']" class="time_icon"></fa>
+                            {{ date | fromNow }} ({{ date.toLocaleString() }})
+                        </p>
+                    </div>
+                </article>
+                <article class="meta_row">
+                    <p class="label">
+                        Value
+                        <Tooltip
+                            content="Total economic value transferred in this transaction"
+                            color="#c4c4c4"
+                        ></Tooltip>
+                    </p>
+                    <p class="values">
+                        <span
+                            v-for="(val, id) in outValuesDenominated"
+                            :key="id"
+                            >{{ val.amount }} <b>{{ val.symbol }}</b></span
+                        >
+                    </p>
+                </article>
+                <article class="meta_row">
+                    <p class="label">
+                        Transaction Fee
+                        <Tooltip
+                            content="Amount paid to validators for processing the transaction"
+                            color="#c4c4c4"
+                        ></Tooltip>
+                    </p>
+                    <p>{{ tx.txFee | toAVAX }} AVAX</p>
+                </article>
+                <article class="meta_row">
+                    <p class="label">
+                        Blockchain
+                        <Tooltip
+                            content="Blockchain storing transaction"
+                            color="#c4c4c4"
+                        ></Tooltip>
+                    </p>
+                    <div>
+                        <p>{{ chain }}</p>
+                        <div v-if="isPChain" style="margin-top: 10px">
+                            <div class="summary_label">Block</div>
+                            <div>{{ tx.txBlockId }}</div>
+                        </div>
+                    </div>
+                </article>
+                <article class="meta_row">
+                    <p class="label">
+                        Asset Type
+                        <Tooltip
+                            content="The type of asset (NFT, variable or fixed cap)"
+                            color="#c4c4c4"
+                        ></Tooltip>
+                    </p>
+                    <div>
+                        <p>{{ tx | getAssetType }}</p>
+                    </div>
+                </article>
+            </section>
+            <!-- MEMO & STAKING -->
+            <section>
+                <article v-if="isText" class="meta_row">
+                    <p class="label">
+                        Text
+                        <Tooltip
+                            content="A 256-byte text field for encoding arbitrary data"
+                            color="#c4c4c4"
+                        ></Tooltip>
+                    </p>
+                    <div>
+                        <p><span class="decode">hex</span> {{ text_hex }}</p>
+                        <p><span class="decode">UTF-8</span> {{ text_utf8 }}</p>
+                    </div>
+                </article>
+                <article v-if="isStaking" class="meta_row">
+                    <p class="label">
+                        Staking
+                        <Tooltip
+                            content="Validator Rewards"
+                            color="#c4c4c4"
+                        ></Tooltip>
+                    </p>
+                    <StakingSummary :tx="tx"></StakingSummary>
+                </article>
+            </section>
+        </div>
+    </div>
 </template>
 
 <script lang="ts">
@@ -132,13 +145,13 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 import CopyText from '@/components/misc/CopyText.vue'
 import UtxoRow from '@/components/Transaction/UtxoRow.vue'
 import StakingSummary from '@/components/Transaction/StakingSummary.vue'
-import { Transaction, getTransactionOutputs } from '../js/Transaction'
+import { Transaction, getTransactionOutputs } from '../../js/Transaction'
 import { getMappingForType } from '@/store/modules/transactions/maps'
 import {
     OutputValuesDict,
     OutValuesDenominated,
 } from '@/store/modules/transactions/models'
-import { stringToBig, toAVAX } from '../helper'
+import { stringToBig, toAVAX } from '../../helper'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import { getAssetType } from '@/services/assets'
 import { getTxChainType } from '@/known_blockchains'
