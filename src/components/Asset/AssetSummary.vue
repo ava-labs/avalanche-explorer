@@ -44,7 +44,7 @@ import NFTRenderer from '@/components/Asset/NFTRenderer.vue'
         },
     },
 })
-export default class AssetHeader extends Vue {
+export default class AssetSummary extends Vue {
     @Prop() asset!: Asset
 
     get isAVAX() {

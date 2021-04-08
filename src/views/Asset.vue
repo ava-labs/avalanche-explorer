@@ -1,7 +1,7 @@
 <template>
     <div class="detail">
         <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
-        <AssetHeader v-if="asset" :asset="asset"></AssetHeader>
+        <AssetSummary v-if="asset" :asset="asset"></AssetSummary>
 
         <!-- TRANSACTIONS -->
         <section v-if="!txLoading && !txRequestError" class="card transactions">
@@ -74,7 +74,7 @@
 import 'reflect-metadata'
 import { Component, Watch, Mixins } from 'vue-property-decorator'
 import Loader from '@/components/misc/Loader.vue'
-import AssetHeader from '@/components/Asset/AssetHeader.vue'
+import AssetSummary from '@/components/Asset/AssetSummary.vue'
 import TransactionDetailCard from '@/components/TransactionSummary.vue'
 import PaginationControls from '@/components/misc/PaginationControls.vue'
 import Tooltip from '@/components/rows/Tooltip.vue'
@@ -94,7 +94,7 @@ import { P, X, C } from '@/known_blockchains'
 @Component({
     components: {
         Loader,
-        AssetHeader,
+        AssetSummary,
         PaginationControls,
         TransactionDetailCard,
         Tooltip,
