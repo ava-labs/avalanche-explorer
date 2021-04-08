@@ -47,6 +47,9 @@ export interface TransactionResponse {
 
     genesis: boolean
 
+    nft: number
+    variableCap: number
+
     /*
     REWARD PATTERNS - tx type: delgator/validator only
         

@@ -79,6 +79,8 @@ export class Transaction implements ITransaction {
     validatorStart: number
     validatorEnd: number
     txBlockId: string
+    nft: number
+    variableCap: number
 
     constructor(data: TransactionResponse) {
         this.id = data.id
@@ -114,6 +116,8 @@ export class Transaction implements ITransaction {
         this.validatorStart = data.validatorStart
         this.validatorEnd = data.validatorEnd
         this.txBlockId = data.txBlockId
+        this.nft = data.nft
+        this.variableCap = data.variableCap
     }
 
     getInputAddresses(): string[] {
