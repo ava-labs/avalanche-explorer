@@ -23,92 +23,7 @@
         </header>
         <div class="two_column">
             <!-- SUMMARY -->
-            <section>
-                <article class="meta_row">
-                    <p class="label">
-                        Status
-                        <Tooltip
-                            content="Status of the transaction"
-                            color="#c4c4c4"
-                        ></Tooltip>
-                    </p>
-                    <div>
-                        <p class="status">Success</p>
-                        <p v-if="tx.type === 'assetCreation'" class="status">
-                            Success
-                        </p>
-                    </div>
-                </article>
-                <article class="meta_row">
-                    <p class="label">
-                        Accepted
-                        <Tooltip
-                            content="Date and time when transaction was accepted"
-                            color="#c4c4c4"
-                        ></Tooltip>
-                    </p>
-                    <div class="values">
-                        <p class="date">
-                            <fa :icon="['far', 'clock']" class="time_icon"></fa>
-                            {{ date | fromNow }} ({{ date.toLocaleString() }})
-                        </p>
-                    </div>
-                </article>
-                <article class="meta_row">
-                    <p class="label">
-                        Value
-                        <Tooltip
-                            content="Total economic value transferred in this transaction"
-                            color="#c4c4c4"
-                        ></Tooltip>
-                    </p>
-                    <p class="values">
-                        <span
-                            v-for="(val, id) in outValuesDenominated"
-                            :key="id"
-                            >{{ val.amount }} <b>{{ val.symbol }}</b></span
-                        >
-                    </p>
-                </article>
-                <article class="meta_row">
-                    <p class="label">
-                        Transaction Fee
-                        <Tooltip
-                            content="Amount paid to validators for processing the transaction"
-                            color="#c4c4c4"
-                        ></Tooltip>
-                    </p>
-                    <p>{{ tx.txFee | toAVAX }} AVAX</p>
-                </article>
-                <article class="meta_row">
-                    <p class="label">
-                        Blockchain
-                        <Tooltip
-                            content="Blockchain storing transaction"
-                            color="#c4c4c4"
-                        ></Tooltip>
-                    </p>
-                    <div>
-                        <p>{{ chain }}</p>
-                        <div v-if="isPChain" style="margin-top: 10px">
-                            <div class="summary_label">Block</div>
-                            <div>{{ tx.txBlockId }}</div>
-                        </div>
-                    </div>
-                </article>
-                <article class="meta_row">
-                    <p class="label">
-                        Asset Type
-                        <Tooltip
-                            content="The type of asset (NFT, variable or fixed cap)"
-                            color="#c4c4c4"
-                        ></Tooltip>
-                    </p>
-                    <div>
-                        <p>{{ tx | getAssetType }}</p>
-                    </div>
-                </article>
-            </section>
+            <Metadata :tx="tx"></Metadata>
             <!-- MEMO & STAKING -->
             <section>
                 <article v-if="isText" class="meta_row">
@@ -147,15 +62,9 @@ import UtxoRow from '@/components/Transaction/UtxoRow.vue'
 import StakingSummary from '@/components/Transaction/StakingSummary.vue'
 import { Transaction, getTransactionOutputs } from '../../js/Transaction'
 import { getMappingForType } from '@/store/modules/transactions/maps'
-import {
-    OutputValuesDict,
-    OutValuesDenominated,
-} from '@/store/modules/transactions/models'
-import { stringToBig, toAVAX } from '../../helper'
+import { toAVAX } from '../../helper'
 import Tooltip from '@/components/rows/Tooltip.vue'
-import { getAssetType } from '@/services/assets'
-import { getTxChainType } from '@/known_blockchains'
-import { P } from '@/known_blockchains'
+import Metadata from '@/components/Transaction/Metadata.vue'
 
 @Component({
     components: {
@@ -163,11 +72,11 @@ import { P } from '@/known_blockchains'
         Tooltip,
         CopyText,
         StakingSummary,
+        Metadata,
     },
     filters: {
         getType: getMappingForType,
         toAVAX,
-        getAssetType,
     },
 })
 export default class TransactionSummary extends Vue {
@@ -227,75 +136,6 @@ export default class TransactionSummary extends Vue {
 
     get isAssetGenesis(): boolean {
         return this.tx.type === 'create_asset'
-    }
-
-    get date(): Date {
-        return new Date(this.tx.timestamp)
-    }
-
-    get chain(): string {
-        return getTxChainType(this.tx.chainID)!.name
-    }
-
-    get assets(): any {
-        return this.$store.state.assets
-    }
-
-    get outValues(): OutputValuesDict {
-        const dict: OutputValuesDict = {}
-        const outs = this.tx.outputs
-
-        outs.forEach((out) => {
-            const assetID = out.assetID
-            const amount = out.amount
-            const asset = this.assets[assetID]
-            let denomination = 0
-            let symbol = assetID
-            if (asset) {
-                denomination = asset.denomination
-                symbol = asset.symbol
-            } else {
-                this.$store.dispatch('addUnknownAsset', assetID)
-            }
-            if (dict[assetID]) {
-                const valNow = dict[assetID].amount
-                dict[assetID].amount = valNow.plus(amount)
-            } else {
-                dict[assetID] = {
-                    symbol,
-                    amount,
-                    denomination,
-                }
-            }
-        })
-        return dict
-    }
-
-    get outValuesDenominated() {
-        const outValuesDenominated: OutValuesDenominated = {}
-        for (const assetId in this.outValues) {
-            const val = this.outValues[assetId]
-            const res = stringToBig(
-                val.amount.toString(),
-                val.denomination
-            ).toLocaleString(val.denomination)
-            outValuesDenominated[assetId] = {
-                amount: res,
-                symbol: val.symbol,
-            }
-        }
-        return outValuesDenominated
-    }
-
-    get isPChain() {
-        return this.tx.chainID === P.id ? true : false
-    }
-
-    get isStaking() {
-        return this.tx.type === 'add_validator' ||
-            this.tx.type === 'add_delegator'
-            ? true
-            : false
     }
 
     copy() {
