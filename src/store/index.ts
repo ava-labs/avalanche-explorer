@@ -89,21 +89,19 @@ const store = new Vuex.Store({
                 )
                 assetsData = res.data.assets
 
-                // keep getting asset data as necessary
-                async function checkForMoreAssets() {
-                    offset += limit
-                    const res = await api.get(
-                        `/x/assets?offset=${offset}&limit=${limit}`
-                    )
-                    const moreAssets = res.data.assets
-                    if (moreAssets.length === 0) {
-                        isFinished = true
-                    }
-                    assetsData.push(...moreAssets)
-                }
-
                 while (isFinished === false) {
-                    await checkForMoreAssets()
+                    // keep getting asset data as necessary
+                    await (async function () {
+                        offset += limit
+                        const res = await api.get(
+                            `/x/assets?offset=${offset}&limit=${limit}`
+                        )
+                        const moreAssets = res.data.assets
+                        if (moreAssets.length === 0) {
+                            isFinished = true
+                        }
+                        assetsData.push(...moreAssets)
+                    })()
                 }
             } else {
                 assetsData = await getCacheAssets()
