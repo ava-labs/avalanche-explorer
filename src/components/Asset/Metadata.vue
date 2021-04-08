@@ -47,7 +47,7 @@
         <article>
             <div class="meta_row">
                 <p class="label">
-                    24h Transactions
+                    24h Tx
                     <TooltipMeta
                         :content="
                             'Total number of state queries or modifications of blockchains involving ' +
@@ -90,8 +90,17 @@
                     {{ asset.currentSupply.toLocaleString(asset.denomination) }}
                     <span class="unit">{{ asset.symbol }}</span>
                 </p>
-                <p class="meta_annotation">Minimal Transferrable Unit:</p>
-                <p class="meta_annotation">
+            </div>
+        </article>
+        <article>
+            <div class="meta_row">
+                <p class="label">
+                    Minimal Transferrable Unit
+                    <TooltipMeta
+                        :content="'determines how balances of this asset are displayed'"
+                    ></TooltipMeta>
+                </p>
+                <p class="meta_val">
                     {{ minimalTransferrableUnit }} ({{
                         asset.denomination | pluralizeDenomination
                     }})
@@ -138,91 +147,4 @@ export default class Metadata extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
-.stats {
-    display: grid;
-    width: 100%;
-    grid-template-columns: 1fr;
-
-    > article {
-        padding: 30px 0;
-        text-align: left;
-        line-height: 1.4em;
-        display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-        flex-wrap: wrap;
-    }
-
-    .stat {
-        display: flex;
-        flex-direction: column;
-
-        p {
-            font-weight: 400; /* 700 */
-        }
-
-        .label {
-            text-transform: capitalize;
-            color: $primary-color;
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 6px;
-        }
-
-        .meta_val {
-            font-size: 22px;
-            line-height: 1em;
-
-            .unit {
-                font-size: 14px;
-                opacity: 0.7;
-            }
-        }
-
-        .meta_annotation {
-            font-size: 12px;
-            opacity: 0.7;
-        }
-    }
-}
-
-@include mdOnly {
-    .stats {
-        .stat {
-            .label {
-                font-size: 13px;
-            }
-
-            .meta_val {
-                font-size: 20px;
-
-                .unit {
-                    font-size: 14px;
-                }
-            }
-        }
-    }
-}
-
-@include smOnly {
-    .stats {
-        grid-template-columns: 50% 50%;
-        grid-template-rows: max-content;
-
-        > article {
-            padding: 30px 0 0;
-        }
-    }
-}
-
-@include xsOnly {
-    .stats {
-        grid-template-columns: none;
-
-        > article {
-            padding: 30px 0 0;
-        }
-    }
-}
-</style>
+<style scoped lang="scss"></style>
