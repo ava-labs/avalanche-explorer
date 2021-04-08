@@ -5,10 +5,6 @@
                 <h2>
                     {{ asset | name }}
                     <span class="symbol">{{ asset.symbol }}</span>
-                    <p v-if="asset.alias" class="alias">
-                        <span>Alias</span> {{ asset.alias }}
-                    </p>
-                    <p class="alias"><span>ID</span> {{ asset.id }}</p>
                 </h2>
             </div>
             <div class="two_column">
@@ -65,11 +61,6 @@ export default class AssetSummary extends Vue {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-
-        .alias {
-            margin-top: 0.5em;
-            font-size: 14px;
-        }
     }
 
     .symbol {
@@ -85,12 +76,6 @@ export default class AssetSummary extends Vue {
         border-radius: 3px;
         display: inline-block;
         vertical-align: middle;
-    }
-}
-
-.alias {
-    span {
-        font-weight: 700;
     }
 }
 

@@ -92,7 +92,7 @@ import { getAssetType } from '@/services/assets'
 import { getTxChainType } from '@/known_blockchains'
 import { getMappingForType } from '@/store/modules/transactions/maps'
 import { stringToBig, toAVAX } from '../../helper'
-import { Transaction } from '@/js/Transaction'
+import { Transaction, getTransactionOutputs } from '@/js/Transaction'
 import { P } from '@/known_blockchains'
 import {
     OutputValuesDict,
@@ -135,6 +135,10 @@ export default class Metadata extends Vue {
 
     get assets(): any {
         return this.$store.state.assets
+    }
+
+    get outputs() {
+        return getTransactionOutputs(this.tx.outputs)
     }
 
     get outValues(): OutputValuesDict {
@@ -185,91 +189,4 @@ export default class Metadata extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
-.stats {
-    display: grid;
-    width: 100%;
-    grid-template-columns: 1fr;
-
-    > article {
-        padding: 30px 0;
-        text-align: left;
-        line-height: 1.4em;
-        display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-        flex-wrap: wrap;
-    }
-
-    .stat {
-        display: flex;
-        flex-direction: column;
-
-        p {
-            font-weight: 400; /* 700 */
-        }
-
-        .label {
-            text-transform: capitalize;
-            color: $primary-color;
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 6px;
-        }
-
-        .meta_val {
-            font-size: 22px;
-            line-height: 1em;
-
-            .unit {
-                font-size: 14px;
-                opacity: 0.7;
-            }
-        }
-
-        .meta_annotation {
-            font-size: 12px;
-            opacity: 0.7;
-        }
-    }
-}
-
-@include mdOnly {
-    .stats {
-        .stat {
-            .label {
-                font-size: 13px;
-            }
-
-            .meta_val {
-                font-size: 20px;
-
-                .unit {
-                    font-size: 14px;
-                }
-            }
-        }
-    }
-}
-
-@include smOnly {
-    .stats {
-        grid-template-columns: 50% 50%;
-        grid-template-rows: max-content;
-
-        > article {
-            padding: 30px 0 0;
-        }
-    }
-}
-
-@include xsOnly {
-    .stats {
-        grid-template-columns: none;
-
-        > article {
-            padding: 30px 0 0;
-        }
-    }
-}
-</style>
+<style scoped lang="scss"></style>

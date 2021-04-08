@@ -1,3 +1,81 @@
+// TRANSACTION
+.stats {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr;
+
+    .stat {
+        display: flex;
+        flex-direction: column;
+
+        p {
+            font-weight: 400; /* 700 */
+        }
+
+        .label {
+            text-transform: capitalize;
+            color: $primary-color;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .meta_val {
+            font-size: 22px;
+            line-height: 1em;
+
+            .unit {
+                font-size: 14px;
+                opacity: 0.7;
+            }
+        }
+
+        .meta_annotation {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+    }
+}
+
+@include mdOnly {
+    .stats {
+        .stat {
+            .label {
+                font-size: 13px;
+            }
+
+            .meta_val {
+                font-size: 20px;
+
+                .unit {
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}
+
+@include smOnly {
+    .stats {
+        grid-template-columns: 50% 50%;
+        grid-template-rows: max-content;
+
+        > article {
+            padding: 30px 0 0;
+        }
+    }
+}
+
+@include xsOnly {
+    .stats {
+        grid-template-columns: none;
+
+        > article {
+            padding: 30px 0 0;
+        }
+    }
+}
+
 /* ==========================================
    detail pages
    ========================================== */

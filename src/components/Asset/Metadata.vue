@@ -1,7 +1,33 @@
 <template>
     <section class="stats">
+        <article v-if="asset.alias">
+            <div class="meta_row">
+                <p class="label">
+                    Alias
+                    <TooltipMeta
+                        :content="'Alias of ' + asset.id"
+                    ></TooltipMeta>
+                </p>
+                <p class="meta_val">
+                    {{ asset.alias }}
+                </p>
+            </div>
+        </article>
+        <article v-if="asset.alias">
+            <div class="meta_row">
+                <p class="label">
+                    ID
+                    <TooltipMeta
+                        :content="'Unique identifier of token'"
+                    ></TooltipMeta>
+                </p>
+                <p class="meta_val">
+                    {{ asset.id }}
+                </p>
+            </div>
+        </article>
         <article>
-            <div class="stat">
+            <div class="meta_row">
                 <p class="label">
                     24h Volume
                     <TooltipMeta
@@ -19,7 +45,7 @@
             </div>
         </article>
         <article>
-            <div class="stat">
+            <div class="meta_row">
                 <p class="label">
                     24h Transactions
                     <TooltipMeta
@@ -36,7 +62,7 @@
             </div>
         </article>
         <article>
-            <div class="stat">
+            <div class="meta_row">
                 <p class="label">
                     Minted On
                     <TooltipMeta
@@ -51,7 +77,7 @@
             </div>
         </article>
         <article>
-            <div class="stat">
+            <div class="meta_row">
                 <p class="label">
                     Initial Supply
                     <TooltipMeta

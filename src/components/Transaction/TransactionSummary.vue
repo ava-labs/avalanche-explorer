@@ -60,7 +60,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 import CopyText from '@/components/misc/CopyText.vue'
 import UtxoRow from '@/components/Transaction/UtxoRow.vue'
 import StakingSummary from '@/components/Transaction/StakingSummary.vue'
-import { Transaction, getTransactionOutputs } from '../../js/Transaction'
+import { Transaction } from '../../js/Transaction'
 import { getMappingForType } from '@/store/modules/transactions/maps'
 import { toAVAX } from '../../helper'
 import Tooltip from '@/components/rows/Tooltip.vue'
@@ -90,10 +90,6 @@ export default class TransactionSummary extends Vue {
             result += hex.length === 2 ? hex : '0' + hex
         }
         return result.toUpperCase()
-    }
-
-    get outputs() {
-        return getTransactionOutputs(this.tx.outputs)
     }
 
     b64EncodeUnicode(str: string): string {
