@@ -2,7 +2,7 @@
     <div class="from">
         <div class="addr_container">
             <span v-if="$vuetify.breakpoint.smAndDown" class="label">From</span>
-            <AddressLink :address="input.displayAddress"></AddressLink>
+            <AddressLink :address="input.displayAddress" />
         </div>
     </div>
 </template>

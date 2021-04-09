@@ -41,11 +41,8 @@
                                     type(item) === 'Variable Cap'
                                 "
                                 :asset="item"
-                            ></AssetLogoRenderer>
-                            <NFTLogoRenderer
-                                v-else
-                                :asset="item"
-                            ></NFTLogoRenderer>
+                            />
+                            <NFTLogoRenderer v-else :asset="item" />
                         </div>
                         <div class="name_id">
                             <span class="name">{{ item | nameOrID }} </span>

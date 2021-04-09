@@ -58,9 +58,9 @@
                 </div>
                 <!-- MODAL CONTENT -->
                 <transition name="fade" mode="out-in">
-                    <ListPage v-if="page === 'list'"></ListPage>
-                    <!-- <CustomPage v-if="page==='custom'" @add="addCustomNetwork"></CustomPage> -->
-                    <!-- <EditPage v-if="page==='edit'" :net="editNetwork" ></EditPage> -->
+                    <ListPage v-if="page === 'list'" />
+                    <!-- <CustomPage v-if="page==='custom'" @add="addCustomNetwork"/> -->
+                    <!-- <EditPage v-if="page==='edit'" :net="editNetwork" /> -->
                 </transition>
             </div>
             <!-- BACKGROUND -->

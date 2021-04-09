@@ -72,12 +72,12 @@
                         />
                     </p>
                 </div>
-                <asset-row
+                <AssetRow
                     v-for="asset in assets"
                     :key="asset.id"
                     class="asset_row"
                     :asset="asset"
-                ></asset-row>
+                />
             </div>
             <!-- DATA TABLE FOR MEDIUM SCREENSIZES -->
             <div v-if="$vuetify.breakpoint.smAndUp">

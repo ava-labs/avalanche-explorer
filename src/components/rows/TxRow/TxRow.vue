@@ -43,7 +43,7 @@
                     v-for="(input, i) in inputs"
                     :key="i"
                     :input="input"
-                ></InputUTXO>
+                />
             </template>
         </div>
         <!-- TO -->
@@ -58,7 +58,7 @@
                     v-for="(output, i) in outputs"
                     :key="i"
                     :output="output"
-                ></OutputUTXO>
+                />
             </template>
         </div>
     </div>

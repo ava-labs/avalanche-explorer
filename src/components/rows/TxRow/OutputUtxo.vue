@@ -5,7 +5,7 @@
                 <span v-if="$vuetify.breakpoint.smAndDown" class="label"
                     >To</span
                 >
-                <AddressLink :address="addr.displayAddress"></AddressLink>
+                <AddressLink :address="addr.displayAddress" />
             </div>
         </div>
         <div class="amount">

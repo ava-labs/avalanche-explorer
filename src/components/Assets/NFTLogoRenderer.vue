@@ -6,10 +6,10 @@
                 :payload="payloads[0][0]"
                 :asset-i-d="asset.id"
                 :group-i-d="payloads[0][1]"
-            ></NFTLogoPayload>
-            <LogoFallback v-else></LogoFallback>
+            />
+            <LogoFallback v-else />
         </template>
-        <LogoFallback v-else></LogoFallback>
+        <LogoFallback v-else />
     </div>
 </template>
 

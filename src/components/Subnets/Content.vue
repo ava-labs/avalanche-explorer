@@ -11,7 +11,7 @@
                     :total-validators="subnet.validators.length"
                     :total-pending-validators="subnet.pendingValidators.length"
                     :total-control-keys="subnet.controlKeys.length"
-                ></ContentMetadata>
+                />
                 <v-tabs v-model="tab" show-arrows>
                     <v-tab href="#validators">Validators</v-tab>
                     <v-tab href="#pending-validators">Pending Validators</v-tab>
@@ -31,7 +31,7 @@
                                 :subnet="subnet"
                                 :title="'Validators'"
                                 class="table_margin"
-                            ></ValidatorDataTable>
+                            />
                         </template>
                     </v-tab-item>
                     <v-tab-item class="tab_content" value="pending-validators">
@@ -47,7 +47,7 @@
                                 :subnet="subnet"
                                 :title="'Pending Validators'"
                                 class="table_margin"
-                            ></ValidatorDataTable>
+                            />
                         </template>
                     </v-tab-item>
                     <v-tab-item class="tab_content" value="blockchains">
@@ -62,7 +62,7 @@
                                 :title="'Blockchains'"
                                 :links="true"
                                 class="table_margin"
-                            ></BlockchainDataTable>
+                            />
                         </template>
                     </v-tab-item>
                     <v-tab-item class="tab_content" value="control-keys">
@@ -76,7 +76,7 @@
                                 :subnet="subnet"
                                 :title="'Control Keys'"
                                 class="table_margin"
-                            ></ControlKeyTable>
+                            />
                         </template>
                     </v-tab-item>
                     <v-tab-item class="tab_content" value="delegations">
@@ -92,7 +92,7 @@
                                 :subnet="subnet"
                                 :title="'Delegations'"
                                 class="table_margin"
-                            ></DelegationDataTable>
+                            />
                         </template>
                     </v-tab-item>
                 </v-tabs>

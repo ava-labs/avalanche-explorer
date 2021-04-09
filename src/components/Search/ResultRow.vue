@@ -1,19 +1,19 @@
 <template>
-    <transaction-result
+    <TransactionResult
         v-if="type === `transaction`"
         class="search_result"
         :item="result.data"
-    ></transaction-result>
-    <address-result
+    />
+    <AddressResult
         v-else-if="type === `address`"
         class="search_result"
         :item="result.data"
-    ></address-result>
-    <asset-result
+    />
+    <AssetResult
         v-else-if="type === `asset`"
         class="search_result"
         :item="result.data"
-    ></asset-result>
+    />
 </template>
 
 <script lang="ts">

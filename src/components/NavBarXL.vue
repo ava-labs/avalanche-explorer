@@ -23,16 +23,16 @@
         <v-spacer class="spacer_mid"></v-spacer>
         <!-- MIDDLE -->
         <div class="row">
-            <search-bar
+            <SearchBar
                 class="search_bar"
                 placeholder="Search by Address / TxId / Asset"
                 @search="onsearch"
-            ></search-bar>
+            />
         </div>
         <v-spacer class="spacer_mid"></v-spacer>
         <!-- LEFT -->
         <div class="rightside">
-            <NetworkMenu></NetworkMenu>
+            <NetworkMenu />
         </div>
     </v-app-bar>
 </template>

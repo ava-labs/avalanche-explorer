@@ -17,7 +17,7 @@
                 :class="sort === 'timestamp-desc' ? 'reverse' : ''"
                 @change_start="setStart"
                 @change_end="setEnd"
-            ></DateForm>
+            />
             <div class="limit_container">
                 <v-select
                     v-model="limit"

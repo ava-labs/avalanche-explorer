@@ -8,7 +8,7 @@
             <p class="label">Address</p>
             <p class="addr">
                 <span>{{ addressID }}</span>
-                <CopyText :value="`${addressID}`" class="copy_but"></CopyText>
+                <CopyText :value="`${addressID}`" class="copy_but" />
                 <span v-if="alias" class="alias">{{ alias }}</span>
             </p>
         </article>
@@ -30,7 +30,7 @@
                                     :p-staked="P_staked"
                                     :x-unlocked="X_unlocked"
                                     :x-locked="X_locked"
-                                ></AVAXBalanceTableSummary>
+                                />
                             </v-tab-item>
                             <v-tab-item class="tab_content">
                                 <AVAXBalanceTableDetail
@@ -42,7 +42,7 @@
                                     :p-staked="P_staked"
                                     :x-unlocked="X_unlocked"
                                     :x-locked="X_locked"
-                                ></AVAXBalanceTableDetail>
+                                />
                             </v-tab-item>
                         </v-tabs>
                     </div>
@@ -51,7 +51,7 @@
         </article>
         <article class="meta_row">
             <p class="label">X-Chain Portfolio</p>
-            <BalanceTable :assets="assets"></BalanceTable>
+            <BalanceTable :assets="assets" />
         </article>
     </section>
 </template>

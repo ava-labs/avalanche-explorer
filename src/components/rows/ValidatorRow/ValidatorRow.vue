@@ -15,11 +15,11 @@
         </div>
         <div class="comm_col">
             <p>{{ cumulativePercText }}%</p>
-            <cumulative-bar
+            <CumulativeBar
                 :total="totalStake"
                 :amount="stakeAmount"
                 :accumulated="cumulativeStake"
-            ></cumulative-bar>
+            />
         </div>
     </div>
 </template>

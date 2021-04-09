@@ -1,7 +1,7 @@
 <template>
     <div class="home">
-        <top-info></top-info>
-        <recent-transactions class="card recent_tx"></recent-transactions>
+        <TopInfo />
+        <RecentTransactions class="card recent_tx" />
     </div>
 </template>
 

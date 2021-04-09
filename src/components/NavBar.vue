@@ -35,7 +35,7 @@
                 </div>
             </div>
             <v-spacer class="spacer_mid"></v-spacer>
-            <NetworkMenu></NetworkMenu>
+            <NetworkMenu />
         </div>
         <div class="bottom">
             <div class="prices">
@@ -53,7 +53,7 @@
                     class="search_bar"
                     placeholder="Search by Address / TxId / Asset"
                     @search="onsearch"
-                ></SearchBar>
+                />
             </div>
         </div>
     </v-app-bar>

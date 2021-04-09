@@ -1,6 +1,6 @@
 <template>
     <div v-if="payload">
-        <NFTLogoPayloadView :payload="payloadBase"></NFTLogoPayloadView>
+        <NFTLogoPayloadView :payload="payloadBase" />
     </div>
 </template>
 

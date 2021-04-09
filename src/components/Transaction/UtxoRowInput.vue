@@ -5,8 +5,7 @@
                 :tx-i-d="utxo.output.transactionID"
                 :chain-i-d="utxo.output.chainID"
                 :timestamp="utxo.output.timestamp"
-            >
-            </TxLinkInput>
+            />
         </div>
         <div class="utxo_new_col">
             <Summary
@@ -15,23 +14,20 @@
                 :is-p-v-m-import="isPVMImport"
                 :is-import="isImport"
                 :is-atomic-import="isAtomicImport"
-            ></Summary>
-            <Addresses
-                :addresses="utxo.output.addresses"
-                :type="'input'"
-            ></Addresses>
-            <Credentials :credentials="utxo.credentials"></Credentials>
-            <LockTime :time="utxo.output.locktime"></LockTime>
+            />
+            <Addresses :addresses="utxo.output.addresses" :type="'input'" />
+            <Credentials :credentials="utxo.credentials" />
+            <LockTime :time="utxo.output.locktime" />
             <Threshold
                 :threshold="utxo.output.threshold"
                 :addresses="utxo.output.addresses"
-            ></Threshold>
+            />
             <!-- P-CHAIN -->
-            <Stake :is-stake="utxo.output.stake"></Stake>
+            <Stake :is-stake="utxo.output.stake" />
             <Stakeable
                 :is-stakeableout="utxo.output.stakeableout"
                 :time="utxo.output.stakeLocktime"
-            ></Stakeable>
+            />
             <!-- X-CHAIN -->
             <div v-if="utxo.output.genesisutxo === true">
                 <div>UTXO is from genesis</div>
@@ -40,12 +36,9 @@
                 :payload="utxo.output.payload"
                 :asset-i-d="utxo.output.assetID"
                 :group-i-d="utxo.output.groupID"
-            ></NFTPayload>
+            />
             <!-- C-CHAIN -->
-            <Block
-                :block="utxo.output.block"
-                :nonce="utxo.output.nonce"
-            ></Block>
+            <Block :block="utxo.output.block" :nonce="utxo.output.nonce" />
         </div>
     </div>
 </template>

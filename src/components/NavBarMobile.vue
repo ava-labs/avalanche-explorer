@@ -12,7 +12,7 @@
                 </router-link>
             </div>
             <div class="buttons">
-                <NetworkMenu></NetworkMenu>
+                <NetworkMenu />
                 <v-btn icon class="search_btn" @click="isSearch = !isSearch">
                     <fa icon="search"></fa>
                 </v-btn>
@@ -55,12 +55,12 @@
         >
             <v-card>
                 <div v-if="isSearch" class="search_container">
-                    <search-bar-mobile
+                    <SearchBarMobile
                         class="search_bar"
                         placeholder="Search by Address / TxId / Asset"
                         @search="onsearch"
                         @change="closeSearch"
-                    ></search-bar-mobile>
+                    />
                 </div>
             </v-card>
         </v-dialog>

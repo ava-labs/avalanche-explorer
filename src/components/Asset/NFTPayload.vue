@@ -1,6 +1,6 @@
 <template>
     <div v-if="payload">
-        <NftPayloadView :payload="payloadBase" :small="false"></NftPayloadView>
+        <NftPayloadView :payload="payloadBase" :small="false" />
     </div>
 </template>
 

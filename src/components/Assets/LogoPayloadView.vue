@@ -1,9 +1,5 @@
 <template>
-    <Component
-        :is="viewer"
-        :payload="payload"
-        class="nft_payload_view"
-    ></Component>
+    <Component :is="viewer" :payload="payload" class="nft_payload_view" />
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'

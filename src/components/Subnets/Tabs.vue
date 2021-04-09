@@ -9,7 +9,7 @@
                 :key="s.id"
                 :vertical="true"
             >
-                <Content :subnet-i-d="subnetID" :subnet="s"></Content>
+                <Content :subnet-i-d="subnetID" :subnet="s" />
             </v-tab-item>
         </v-tabs>
     </div>

@@ -12,7 +12,7 @@
                     :start-time="tx.validatorStart"
                     :end-time="tx.validatorEnd"
                     :current-time="currentTime"
-                ></StakingTimeline>
+                />
             </div>
         </div>
         <div class="subsection">

@@ -6,10 +6,10 @@
                 :payload="payloads[0][0]"
                 :asset-i-d="asset.id"
                 :group-i-d="payloads[0][1]"
-            ></NFTPayload>
-            <NFTFallback v-else></NFTFallback>
+            />
+            <NFTFallback v-else />
         </template>
-        <NFTFallback v-else></NFTFallback>
+        <NFTFallback v-else />
     </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
     <div v-if="payload">
-        <NftPayloadView :payload="payloadBase" :small="true"></NftPayloadView>
+        <NftPayloadView :payload="payloadBase" :small="true" />
         <div class="two_col">
             <div>
                 <div class="utxo_label">Group ID</div>

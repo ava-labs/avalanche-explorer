@@ -1,13 +1,13 @@
 <template>
     <v-app>
         <!-- <nav-bar-XL class="navbar_xl" v-if="$vuetify.breakpoint.xlOnly"></nav-bar-XL>         -->
-        <nav-bar v-if="$vuetify.breakpoint.mdAndUp" class="navbar"></nav-bar>
-        <nav-bar-mobile
+        <NavBar v-if="$vuetify.breakpoint.mdAndUp" class="navbar" />
+        <NavBarMobile
             v-if="$vuetify.breakpoint.smAndDown"
             class="navbar_mobile"
-        ></nav-bar-mobile>
+        />
         <div>
-            <testnet-alert></testnet-alert>
+            <TestnetAlert />
             <div class="side_container">
                 <v-content class="content">
                     <router-view class="router_view"></router-view>
@@ -15,9 +15,9 @@
             </div>
         </div>
 
-        <Footer class="footer"></Footer>
-        <notifications></notifications>
-        <!-- <ResponsiveGuidelines></ResponsiveGuidelines> -->
+        <Footer class="footer" />
+        <Notifications />
+        <!-- <ResponsiveGuidelines /> -->
     </v-app>
 </template>
 

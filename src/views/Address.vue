@@ -29,7 +29,7 @@
         <section v-if="!loading && !txRequestError" class="card transactions">
             <div class="header">
                 <TransactionsHeader />
-                <TxParams @change="fetchTx"></TxParams>
+                <TxParams @change="fetchTx" />
             </div>
             <div class="two-col">
                 <TxFilter @change="setFilter" />

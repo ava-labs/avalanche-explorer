@@ -1,8 +1,8 @@
 <template>
     <div class="top_info">
-        <transaction-history></transaction-history>
-        <network-activity></network-activity>
-        <top-assets></top-assets>
+        <TransactionHistory />
+        <NetworkActivity />
+        <TopAssets />
     </div>
 </template>
 <script>

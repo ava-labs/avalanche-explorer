@@ -8,19 +8,19 @@
                 :is-p-v-m-export="isPVMExport"
                 :is-export="isExport"
                 :is-atomic-export="isAtomicExport"
-            ></Summary>
-            <Addresses :addresses="utxo.addresses" :type="'output'"></Addresses>
-            <LockTime :time="utxo.locktime"></LockTime>
+            />
+            <Addresses :addresses="utxo.addresses" :type="'output'" />
+            <LockTime :time="utxo.locktime" />
             <Threshold
                 :threshold="utxo.threshold"
                 :addresses="utxo.addresses"
-            ></Threshold>
+            />
             <!-- P-CHAIN -->
-            <Stake :is-stake="utxo.stake"></Stake>
+            <Stake :is-stake="utxo.stake" />
             <Stakeable
                 :is-stakeableout="utxo.stakeableout"
                 :time="utxo.stakeLocktime"
-            ></Stakeable>
+            />
             <!-- X-CHAIN -->
             <div v-if="utxo.genesisutxo === true">
                 <div>UTXO is from genesis</div>
@@ -29,17 +29,16 @@
                 :payload="utxo.payload"
                 :asset-i-d="utxo.assetID"
                 :group-i-d="utxo.groupID"
-            ></NFTPayload>
+            />
             <!-- C-CHAIN -->
-            <Block :block="utxo.block" :nonce="utxo.nonce"></Block>
+            <Block :block="utxo.block" :nonce="utxo.nonce" />
         </div>
         <div class="tx_link">
             <TxLinkOutput
                 :tx-i-d="utxo.redeemingTransactionID"
                 :chain-i-d="utxo.chainID"
                 :timestamp="utxo.timestamp"
-            >
-            </TxLinkOutput>
+            />
         </div>
     </div>
 </template>

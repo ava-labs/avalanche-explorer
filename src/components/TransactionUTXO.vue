@@ -15,7 +15,7 @@
                     :key="i"
                     :txtype="tx.type"
                     :utxo="input"
-                ></UtxoRowInput>
+                />
             </div>
             <div v-else>
                 <p>
@@ -40,7 +40,7 @@
                     :utxo="output"
                     :txtype="tx.type"
                     type="output"
-                ></UtxoRowOutput>
+                />
             </div>
             <div v-else>
                 <p>No output utxos found for this transaction.</p>
