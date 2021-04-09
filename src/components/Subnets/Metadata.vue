@@ -16,7 +16,7 @@
                             Subnets
                             <TooltipMeta
                                 content="Total number of subnets on Avalanche"
-                            ></TooltipMeta>
+                            />
                         </p>
                         <p class="meta_val">
                             {{ totalSubnets.toLocaleString() }}
@@ -29,7 +29,7 @@
                             Blockchains
                             <TooltipMeta
                                 content="Total number of blockchains on Avalanche"
-                            ></TooltipMeta>
+                            />
                         </p>
                         <p class="meta_val">
                             {{ totalBlockchains.toLocaleString() }}
@@ -42,7 +42,7 @@
                             Validators
                             <TooltipMeta
                                 content="Total number of nodes validating transactions on Avalanche"
-                            ></TooltipMeta>
+                            />
                         </p>
                         <p class="meta_val">
                             {{ totalValidators.toLocaleString() }}
@@ -55,7 +55,7 @@
                             Total Stake Amount
                             <TooltipMeta
                                 content="Total value of AVAX locked to secure Avalanche"
-                            ></TooltipMeta>
+                            />
                         </p>
                         <p class="meta_val">
                             {{ totalStake.toLocaleString() }}

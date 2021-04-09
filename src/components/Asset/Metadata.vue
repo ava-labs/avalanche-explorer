@@ -15,9 +15,7 @@
             <div class="meta_row">
                 <p class="label">
                     ID
-                    <TooltipMeta
-                        :content="'Unique identifier of token'"
-                    ></TooltipMeta>
+                    <TooltipMeta :content="'Unique identifier of token'" />
                 </p>
                 <p class="meta_val">
                     {{ asset.id }}
@@ -34,7 +32,7 @@
                             asset.symbol +
                             ' transferred on Avalanche in the past 24 hours'
                         "
-                    ></TooltipMeta>
+                    />
                 </p>
                 <p class="meta_val">
                     {{ parseInt(asset.volume_day.toFixed(0)).toLocaleString() }}
@@ -52,7 +50,7 @@
                             asset.symbol +
                             ' in the past 24 hours'
                         "
-                    ></TooltipMeta>
+                    />
                 </p>
                 <p class="meta_val">
                     {{ asset.txCount_day.toLocaleString() }}
@@ -67,7 +65,7 @@
                         :content="
                             'Blockchain where ' + asset.symbol + ' was minted'
                         "
-                    ></TooltipMeta>
+                    />
                 </p>
                 <p class="meta_val">
                     {{ asset.chainID | blockchain }}
@@ -82,7 +80,7 @@
                         :content="
                             'Initial value of ' + asset.symbol + ' minted'
                         "
-                    ></TooltipMeta>
+                    />
                 </p>
                 <p class="meta_val">
                     {{ asset.currentSupply.toLocaleString(asset.denomination) }}
@@ -96,7 +94,7 @@
                     Minimal Transferrable Unit
                     <TooltipMeta
                         :content="'determines how balances of this asset are displayed'"
-                    ></TooltipMeta>
+                    />
                 </p>
                 <p class="meta_val">
                     {{ minimalTransferrableUnit }} ({{

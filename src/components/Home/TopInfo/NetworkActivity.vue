@@ -14,7 +14,7 @@
                         <TooltipMeta
                             content="Total number of state queries or modifications of all blockchains on Avalanche in the past 24 hours"
                             :color="'#2196f3'"
-                        ></TooltipMeta>
+                        />
                     </p>
                     <div v-if="assetsLoaded">
                         <p class="meta_val">
@@ -34,7 +34,7 @@
                         <TooltipMeta
                             content="Total value of AVAX transferred on Avalanche in the past 24 hours"
                             :color="'#2196f3'"
-                        ></TooltipMeta>
+                        />
                     </p>
                     <div v-if="assetsLoaded">
                         <p class="meta_val">
@@ -62,7 +62,7 @@
                         <TooltipMeta
                             content="Total number of nodes validating transactions on Avalanche"
                             :color="'#2196f3'"
-                        ></TooltipMeta>
+                        />
                     </p>
                     <div v-if="subnetsLoaded">
                         <p class="meta_val">
@@ -87,7 +87,7 @@
                         <TooltipMeta
                             content="Total value of AVAX locked to secure Avalanche"
                             :color="'#2196f3'"
-                        ></TooltipMeta>
+                        />
                     </p>
                     <div v-if="subnetsLoaded">
                         <p class="meta_val">
@@ -113,7 +113,7 @@
                         <TooltipMeta
                             content="Total number of blockchains on Avalanche"
                             :color="'#2196f3'"
-                        ></TooltipMeta>
+                        />
                     </p>
                     <div v-if="subnetsLoaded">
                         <p class="meta_val">
@@ -138,7 +138,7 @@
                         <TooltipMeta
                             content="Total number of subnets on Avalanche"
                             :color="'#2196f3'"
-                        ></TooltipMeta>
+                        />
                     </p>
                     <div v-if="subnetsLoaded">
                         <p class="meta_val">
@@ -163,7 +163,7 @@
                         <TooltipMeta
                             content="Percentage of AVAX locked to secure Avalanche out of total AVAX supply (360m)"
                             :color="'#2196f3'"
-                        ></TooltipMeta>
+                        />
                     </p>
                     <div v-if="subnetsLoaded">
                         <p class="meta_val">{{ percentStaked }}%</p>

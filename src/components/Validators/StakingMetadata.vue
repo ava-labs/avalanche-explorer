@@ -21,7 +21,7 @@
                         Total {{ toggle }} Stake Amount
                         <TooltipMeta
                             content="Total value of AVAX locked to secure Avalanche"
-                        ></TooltipMeta>
+                        />
                     </p>
                     <p class="meta_val">
                         {{ totalStake }}
@@ -35,7 +35,7 @@
                         {{ toggle }} Validators
                         <TooltipMeta
                             content="Total number of nodes validating transactions on Avalanche"
-                        ></TooltipMeta>
+                        />
                     </p>
                     <p class="meta_val">
                         {{ totalValidatorsCount.toLocaleString() }}

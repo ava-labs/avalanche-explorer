@@ -10,7 +10,7 @@
                 <TooltipMeta
                     content="Total value of AVAX locked to secure Avalanche"
                     :color="'#2196f3'"
-                ></TooltipMeta>
+                />
             </p>
             <div v-if="subnetsLoaded">
                 <p class="meta_val">
@@ -34,7 +34,7 @@
                 <TooltipMeta
                     content="Percentage of AVAX locked to secure Avalanche out of total AVAX supply (360m)"
                     :color="'#2196f3'"
-                ></TooltipMeta>
+                />
             </p>
             <div v-if="subnetsLoaded">
                 <p class="meta_val">{{ percentStaked }}%</p>
