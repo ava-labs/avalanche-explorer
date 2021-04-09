@@ -25,7 +25,7 @@
                     :width="2"
                     color="#E84970"
                     indeterminate
-                ></v-progress-circular>
+                />
             </div>
         </article>
         <article class="meta">
@@ -46,7 +46,7 @@
                     :width="2"
                     color="#E84970"
                     indeterminate
-                ></v-progress-circular>
+                />
             </div>
         </article>
         <article class="meta">
@@ -63,7 +63,7 @@
                     :width="2"
                     color="#E84970"
                     indeterminate
-                ></v-progress-circular>
+                />
             </div>
         </article>
     </div>
@@ -71,34 +71,35 @@
 
 <script lang="ts">
 import 'reflect-metadata'
-import { Vue, Component } from 'vue-property-decorator'
+import { Mixins, Component } from 'vue-property-decorator'
 import TooltipMeta from '@/components/Home/TopInfo/TooltipMeta.vue'
-import { stringToBig, bigToDenomBig } from '@/helper'
+import { bigToDenomBig } from '@/helper'
 import Big from 'big.js'
 import { TOTAL_AVAX_SUPPLY } from '@/store/modules/platform/platform'
 import { avalanche } from '@/avalanche'
 import { Defaults, ONEAVAX } from 'avalanche/dist/utils'
 import { BN } from 'avalanche/dist'
+import { PlatformGettersMixin } from '@/store/modules/platform/platform.mixins'
 
 @Component({
     components: {
         TooltipMeta,
     },
 })
-export default class ValidatorStats extends Vue {
+export default class ValidatorStats extends Mixins(PlatformGettersMixin) {
     get subnetsLoaded(): boolean {
         return this.$store.state.Platform.subnetsLoaded
     }
 
     // Data from Avalanche-Go
     get totalStake(): string {
-        let res = this.$store.getters['Platform/totalStake']
-        res = stringToBig(res.toString(), 9).toFixed(0)
-        return parseInt(res).toLocaleString()
+        let totalStake = this.getTotalStake()
+        totalStake = bigToDenomBig(totalStake, 9)
+        return totalStake.toLocaleString(0)
     }
 
     get percentStaked(): string {
-        let totalStake = this.$store.getters['Platform/totalStake']
+        let totalStake = this.getTotalStake()
         totalStake = bigToDenomBig(totalStake, 9)
         const percentStaked = totalStake.div(TOTAL_AVAX_SUPPLY).times(100)
         return percentStaked.toFixed(2)

@@ -78,7 +78,7 @@
 </template>
 <script lang="ts">
 import 'reflect-metadata'
-import { Vue, Component } from 'vue-property-decorator'
+import { Mixins, Component } from 'vue-property-decorator'
 import ValidatorRow from '@/components/rows/ValidatorRow/ValidatorRow.vue'
 import ValidatorPaginationControls from '@/components/misc/ValidatorPaginationControls.vue'
 import { AVALANCHE_SUBNET_ID } from '@/store/modules/platform/platform'
@@ -86,6 +86,8 @@ import Tooltip from '@/components/rows/Tooltip.vue'
 import Metadata from '@/components/Validators/Metadata.vue'
 import StakingMetadata from '@/components/Validators/StakingMetadata.vue'
 import { IValidator } from '@/store/modules/platform/IValidator'
+import { PlatformGettersMixin } from '@/store/modules/platform/platform.mixins'
+import { bigToDenomBig } from '@/helper'
 
 @Component({
     components: {
@@ -96,7 +98,7 @@ import { IValidator } from '@/store/modules/platform/IValidator'
         StakingMetadata,
     },
 })
-export default class Validators extends Vue {
+export default class Validators extends Mixins(PlatformGettersMixin) {
     search = ''
     toggle = 'active' // active | pending
     limit = 25 // how many rows to display
@@ -122,17 +124,18 @@ export default class Validators extends Vue {
     }
 
     get totalStake() {
-        const valBig =
+        let valBig =
             this.toggle === 'active'
-                ? this.$store.getters['Platform/totalStake']
-                : this.$store.getters['Platform/totalPendingStake']
-        return valBig.div(Math.pow(10, 9)).toLocaleString()
+                ? this.getTotalStake()
+                : this.getTotalPendingStake()
+        valBig = bigToDenomBig(valBig, 9)
+        return valBig.toLocaleString(0)
     }
 
     get totalValidatorsCount() {
         return this.toggle === 'active'
-            ? this.$store.getters['Platform/totalValidators']
-            : this.$store.getters['Platform/totalPendingValidators']
+            ? this.getTotalValidators()
+            : this.getTotalPendingValidators()
     }
 
     get validators() {
@@ -174,8 +177,8 @@ export default class Validators extends Vue {
         ]
         if (defaultSubnet) {
             return this.toggle === 'active'
-                ? this.$store.getters['Platform/cumulativeStake']
-                : this.$store.getters['Platform/cumulativePendingStake']
+                ? this.getCumulativeStake()
+                : this.getCumulativePendingStake()
         }
         return []
     }

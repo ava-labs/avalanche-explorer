@@ -22,7 +22,7 @@
 import 'reflect-metadata'
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import Loader from '@/components/misc/Loader.vue'
-import { ISubnets } from '@/store/modules/platform/IPlatformState'
+import { ISubnets } from '@/store/modules/platform/models'
 import Subnet from '@/js/Subnet'
 import Content from '@/components/Subnets/Content.vue'
 

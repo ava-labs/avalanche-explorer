@@ -48,10 +48,12 @@
 
 <script lang="ts">
 import 'reflect-metadata'
-import { Vue, Component } from 'vue-property-decorator'
+import { Mixins, Component } from 'vue-property-decorator'
 import TooltipHeading from '@/components/misc/TooltipHeading.vue'
 import TooltipMeta from '@/components/misc/TooltipMeta.vue'
 import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
+import { PlatformGettersMixin } from '@/store/modules/platform/platform.mixins'
+import { bigToDenomBig } from '@/helper'
 
 @Component({
     components: {
@@ -59,7 +61,7 @@ import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
         TooltipMeta,
     },
 })
-export default class Metadata extends Vue {
+export default class Metadata extends Mixins(PlatformGettersMixin) {
     toggle = 'active' // active | pending
 
     typeChange(val: string) {
@@ -68,17 +70,18 @@ export default class Metadata extends Vue {
     }
 
     get totalStake() {
-        const valBig =
+        let valBig =
             this.toggle === 'active'
-                ? this.$store.getters['Platform/totalStake']
-                : this.$store.getters['Platform/totalPendingStake']
-        return valBig.div(Math.pow(10, 9)).toLocaleString()
+                ? this.getTotalStake()
+                : this.getTotalPendingStake()
+        valBig = bigToDenomBig(valBig)
+        return valBig.toLocaleString(0)
     }
 
     get totalValidatorsCount() {
         return this.toggle === 'active'
-            ? this.$store.getters['Platform/totalValidators']
-            : this.$store.getters['Platform/totalPendingValidators']
+            ? this.getTotalValidators()
+            : this.getTotalPendingValidators()
     }
 
     get imgColor(): string {

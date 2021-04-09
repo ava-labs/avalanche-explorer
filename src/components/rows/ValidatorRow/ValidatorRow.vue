@@ -26,11 +26,12 @@
 
 <script lang="ts">
 import 'reflect-metadata'
-import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Mixins, Component, Prop } from 'vue-property-decorator'
 import moment from 'moment'
 import { toAVAX } from '../../../helper'
 import CumulativeBar from './CumulativeBar.vue'
 import { IValidator } from '@/store/modules/platform/IValidator'
+import { PlatformGettersMixin } from '@/store/modules/platform/platform.mixins'
 
 @Component({
     filters: {
@@ -42,12 +43,12 @@ import { IValidator } from '@/store/modules/platform/IValidator'
         CumulativeBar,
     },
 })
-export default class ValidatorRow extends Vue {
+export default class ValidatorRow extends Mixins(PlatformGettersMixin) {
     @Prop() validator!: IValidator
     @Prop() cumulativeStake!: number
 
     get totalStake() {
-        const val = this.$store.getters['Platform/totalStake']
+        const val = this.getTotalStake()
         return toAVAX(parseInt(val.toString()))
     }
 
@@ -70,17 +71,13 @@ export default class ValidatorRow extends Vue {
     get stakePercText() {
         // redundant assignments bc referencing computed values affect performance
         const stakeAmount = toAVAX(this.validator.stakeAmount as number)
-        const totalStake = toAVAX(
-            parseInt(this.$store.getters['Platform/totalStake'].toString())
-        )
+        const totalStake = toAVAX(parseInt(this.getTotalStake().toString()))
         return ((stakeAmount / totalStake) * 100).toFixed(8)
     }
 
     get cumulativePercText() {
         const cumulativeStake = toAVAX(this.cumulativeStake)
-        const totalStake = toAVAX(
-            parseInt(this.$store.getters['Platform/totalStake'].toString())
-        )
+        const totalStake = toAVAX(parseInt(this.getTotalStake().toString()))
         return ((cumulativeStake / totalStake) * 100).toFixed(0)
     }
 

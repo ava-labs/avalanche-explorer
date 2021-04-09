@@ -14,13 +14,12 @@
                 :title="'Transaction Details Not Found'"
                 :message="'A record for this transaction ID was not found in the Avalanche Explorer'"
                 :support-u-r-l="'https://chat.avalabs.org'"
-            >
-            </HTTPError>
+            />
             <template v-else>
                 <TransactionSummary :tx="tx">
                     {{ tx.type | getType }}
                 </TransactionSummary>
-                <TransactionUTXO :tx="tx"></TransactionUTXO>
+                <TransactionUTXO :tx="tx" />
             </template>
         </template>
     </div>

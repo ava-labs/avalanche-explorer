@@ -33,15 +33,16 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
+import { Mixins, Component } from 'vue-property-decorator'
 import BlockchainDataTable from '@/components/Blockchain/BlockchainDataTable.vue'
+import { PlatformGettersMixin } from '@/store/modules/platform/platform.mixins'
 
 @Component({
     components: {
         BlockchainDataTable,
     },
 })
-export default class Blockchains extends Vue {
+export default class Blockchains extends Mixins(PlatformGettersMixin) {
     loading = true
 
     async created() {
@@ -57,7 +58,7 @@ export default class Blockchains extends Vue {
     }
 
     get totalBlockchains() {
-        return this.$store.getters['Platform/totalBlockchains']
+        return this.getTotalBlockchains()
     }
 }
 </script>

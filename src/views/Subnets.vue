@@ -34,7 +34,7 @@
 
 <script lang="ts">
 import 'reflect-metadata'
-import { Vue, Component } from 'vue-property-decorator'
+import { Mixins, Component } from 'vue-property-decorator'
 import { subnetMap } from '@/helper'
 import Metadata from '@/components/Subnets/Metadata.vue'
 import Tabs from '@/components/Subnets/Tabs.vue'
@@ -42,7 +42,8 @@ import Loader from '@/components/misc/Loader.vue'
 import Content from '@/components/Subnets/Content.vue'
 import { AVALANCHE_SUBNET_ID } from '@/store/modules/platform/platform'
 import Big from 'big.js'
-import { ISubnets } from '../store/modules/platform/IPlatformState'
+import { ISubnets } from '@/store/modules/platform/models'
+import { PlatformGettersMixin } from '@/store/modules/platform/platform.mixins'
 
 interface IMap {
     text: string
@@ -62,7 +63,7 @@ interface IMap {
         },
     },
 })
-export default class Subnets extends Vue {
+export default class Subnets extends Mixins(PlatformGettersMixin) {
     selection: string = AVALANCHE_SUBNET_ID
 
     get subnetsLoaded(): boolean {
@@ -79,15 +80,15 @@ export default class Subnets extends Vue {
     }
 
     get totalValidators(): number {
-        return this.$store.getters['Platform/totalValidators']
+        return this.getTotalValidators()
     }
 
     get totalBlockchains(): number {
-        return this.$store.getters['Platform/totalBlockchains']
+        return this.getTotalBlockchains()
     }
 
     get totalStake(): Big {
-        const valBig = this.$store.getters['Platform/totalStake']
+        const valBig = this.getTotalStake()
         const res = valBig.div(Math.pow(10, 9))
         return res
     }
@@ -121,12 +122,4 @@ export default class Subnets extends Vue {
         padding: 12px 15px;
     }
 }
-</style>
-
-<style lang="scss">
-/* #subnets {
-    .v-input__slot {
-        width: calc(100% - 24px) !important;
-    }
-} */
 </style>

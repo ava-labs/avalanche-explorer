@@ -203,8 +203,8 @@
 </template>
 <script lang="ts">
 import 'reflect-metadata'
-import { Vue, Component, Watch } from 'vue-property-decorator'
-import { stringToBig, bigToDenomBig } from '@/helper'
+import { Mixins, Component, Watch } from 'vue-property-decorator'
+import { bigToDenomBig } from '@/helper'
 import TooltipHeading from '@/components/misc/TooltipHeading.vue'
 import TooltipMeta from '@/components/Home/TopInfo/TooltipMeta.vue'
 import { AVAX_ID } from '@/known_assets'
@@ -214,6 +214,7 @@ import { TOTAL_AVAX_SUPPLY } from '@/store/modules/platform/platform'
 import { avalanche } from '@/avalanche'
 import { Defaults, ONEAVAX } from 'avalanche/dist/utils'
 import { BN } from 'avalanche/dist'
+import { PlatformGettersMixin } from '@/store/modules/platform/platform.mixins'
 
 @Component({
     components: {
@@ -221,7 +222,7 @@ import { BN } from 'avalanche/dist'
         TooltipMeta,
     },
 })
-export default class NetworkActivity extends Vue {
+export default class NetworkActivity extends Mixins(PlatformGettersMixin) {
     volumeCache: Big = Big(0)
     totalTransactionsCache = 0
 
@@ -330,17 +331,15 @@ export default class NetworkActivity extends Vue {
 
     // Data from Avalanche-Go
     get totalStake(): string {
-        let res = this.$store.getters['Platform/totalStake']
-        res = stringToBig(res.toString(), 9).toFixed(0)
-        return parseInt(res).toLocaleString()
+        return this.getTotalStake().div(Math.pow(10, 9)).toLocaleString(0)
     }
 
     get validatorCount(): number {
-        return this.$store.getters['Platform/totalValidators']
+        return this.getTotalValidators()
     }
 
     get totalBlockchains(): number {
-        return this.$store.getters['Platform/totalBlockchains']
+        return this.getTotalBlockchains()
     }
 
     get totalSubnets(): number {
@@ -348,7 +347,7 @@ export default class NetworkActivity extends Vue {
     }
 
     get percentStaked(): string {
-        let totalStake = this.$store.getters['Platform/totalStake']
+        let totalStake = this.getTotalStake()
         totalStake = bigToDenomBig(totalStake, 9)
         const percentStaked = totalStake.div(TOTAL_AVAX_SUPPLY).times(100)
         return percentStaked.toFixed(2)
