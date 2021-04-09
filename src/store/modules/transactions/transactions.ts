@@ -36,6 +36,12 @@ const defaultState = {
         next: '',
         transactions: [],
     },
+    blockchainTxRes: {
+        startTime: '',
+        endTime: '',
+        next: '',
+        transactions: [],
+    },
 }
 
 const transactions_module: Module<TransactionsState, IRootState> = {
@@ -58,6 +64,9 @@ const transactions_module: Module<TransactionsState, IRootState> = {
         addAddressTxs(state, txRes: TransactionQuery) {
             state.addressTxRes = txRes
         },
+        addBlockchainTxs(state, txRes: TransactionQuery) {
+            state.blockchainTxRes = txRes
+        },
     },
     actions: {
         async getTx(store, payload: ITransactionPayload) {
@@ -78,6 +87,13 @@ const transactions_module: Module<TransactionsState, IRootState> = {
             )
             store.commit('addRecentTxs', parseTxs(txRes))
         },
+        async getTxsByAddress(store, payload: ITransactionPayload) {
+            const txRes: TransactionQueryResponse = await getTransaction(
+                payload.id,
+                payload.params
+            )
+            store.commit('addAddressTxs', parseTxs(txRes))
+        },
         async getTxsByAsset(store, payload: ITransactionPayload) {
             const txRes: TransactionQueryResponse = await getTransaction(
                 payload.id,
@@ -85,12 +101,12 @@ const transactions_module: Module<TransactionsState, IRootState> = {
             )
             store.commit('addAssetTxs', parseTxs(txRes))
         },
-        async getTxsByAddress(store, payload: ITransactionPayload) {
+        async getTxsByBlockchain(store, payload: ITransactionPayload) {
             const txRes: TransactionQueryResponse = await getTransaction(
                 payload.id,
                 payload.params
             )
-            store.commit('addAddressTxs', parseTxs(txRes))
+            store.commit('addBlockchainTxs', parseTxs(txRes))
         },
         async getNFTPayloads(store, payload: ITransactionPayload) {
             // get the asset creation tx

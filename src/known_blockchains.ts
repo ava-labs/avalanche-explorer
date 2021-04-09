@@ -1,5 +1,5 @@
 import { txTypeMap, TxType } from '@/store/modules/transactions/maps'
-interface ChainMap {
+export interface ChainMap {
     id: string
     name: string
     fullname: string

@@ -7,6 +7,7 @@ export interface TransactionsState {
     recentTxRes: TransactionQuery
     assetTxRes: TransactionQuery
     addressTxRes: TransactionQuery
+    blockchainTxRes: TransactionQuery
 }
 
 /* ==========================================
