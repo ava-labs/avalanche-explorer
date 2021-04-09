@@ -4,9 +4,7 @@
             <div class="meta_row">
                 <p class="label">
                     Alias
-                    <TooltipMeta
-                        :content="'Alias of ' + asset.id"
-                    ></TooltipMeta>
+                    <TooltipMeta :content="'Alias of ' + asset.id" />
                 </p>
                 <p class="meta_val">
                     {{ asset.alias }}

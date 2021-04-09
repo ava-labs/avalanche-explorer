@@ -1,19 +1,17 @@
 <template>
     <div class="detail">
-        <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
-        <template v-if="loading && !subnetsLoaded">
-            <Loader
-                :content-id="blockchainId"
-                :message="'Fetching Blockchain Details'"
-            />
-        </template>
+        <v-breadcrumbs :items="breadcrumbs" />
+        <Loader
+            v-if="loading && !subnetsLoaded"
+            :content-id="blockchainId"
+            :message="'Fetching Blockchain Details'"
+        />
         <template v-else>
-            <BlockchainDetailCard :blockchain="blockchain" />
-            <template v-if="blockchain.indexed">
-                <recent-transactions
-                    class="card recent_tx"
-                ></recent-transactions>
-            </template>
+            <Metadata :blockchain="blockchain" />
+            <recent-transactions
+                v-if="blockchain.indexed"
+                class="card recent_tx"
+            />
         </template>
     </div>
 </template>
@@ -23,13 +21,13 @@ import 'reflect-metadata'
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import Loader from '@/components/misc/Loader.vue'
 import Blockchain from '@/js/Blockchain'
-import BlockchainDetailCard from '@/components/Blockchain/BlockchainDetailCard.vue'
+import Metadata from '@/components/Blockchain/Metadata.vue'
 import RecentTransactions from '@/components/Home/RecentTransactions.vue'
 
 @Component({
     components: {
         Loader,
-        BlockchainDetailCard,
+        Metadata,
         RecentTransactions,
     },
 })

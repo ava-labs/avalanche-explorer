@@ -56,7 +56,7 @@ import Indexed from '@/components/Blockchain/Indexed.vue'
         Indexed,
     },
 })
-export default class TransactionDetailCard extends Vue {
+export default class Metadata extends Vue {
     @Prop() blockchain!: Blockchain
 
     get validatorsCount() {
