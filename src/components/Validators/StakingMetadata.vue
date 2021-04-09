@@ -74,7 +74,7 @@ export default class Metadata extends Mixins(PlatformGettersMixin) {
             this.toggle === 'active'
                 ? this.getTotalStake()
                 : this.getTotalPendingStake()
-        valBig = bigToDenomBig(valBig)
+        valBig = bigToDenomBig(valBig, 9)
         return valBig.toLocaleString(0)
     }
 

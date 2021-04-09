@@ -113,15 +113,6 @@ import { TransactionsGettersMixin } from '@/store/modules/transactions/transacti
         TxFilter,
         TxParams,
     },
-    filters: {
-        pluralize(val: number) {
-            return val === 0
-                ? `${val} assets`
-                : val > 1
-                ? `${val} assets`
-                : `${val} asset`
-        },
-    },
 })
 export default class AddressPage extends Mixins(TransactionsGettersMixin) {
     // navigation

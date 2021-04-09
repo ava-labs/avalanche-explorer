@@ -34,11 +34,6 @@ import { IValidator } from '@/store/modules/platform/IValidator'
 import { PlatformGettersMixin } from '@/store/modules/platform/platform.mixins'
 
 @Component({
-    filters: {
-        date(date: Date) {
-            return moment(date).fromNow()
-        },
-    },
     components: {
         CumulativeBar,
     },

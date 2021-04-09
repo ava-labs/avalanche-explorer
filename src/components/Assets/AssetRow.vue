@@ -36,19 +36,9 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { blockchainMap } from '@/helper'
 import { Asset } from '@/js/Asset'
 
-@Component({
-    filters: {
-        blockchain(val: string): string {
-            return blockchainMap(val)
-        },
-        nameOrID(val: Asset): string {
-            return val.name ? val.name : val.id
-        },
-    },
-})
+@Component({})
 export default class AssetRow extends Vue {
     @Prop() asset!: Asset
 

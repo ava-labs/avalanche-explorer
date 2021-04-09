@@ -21,19 +21,14 @@
         <p class="utxos">{{ asset.utxoCount.toLocaleString() }}</p>
     </div>
 </template>
-<script>
-export default {
-    filters: {
-        nameOrID(val) {
-            return val.name ? val.name : val.id
-        },
-    },
-    props: {
-        asset: {
-            type: Object,
-            required: true,
-        },
-    },
+<script lang="ts">
+import { Asset } from '@/js/Asset'
+import 'reflect-metadata'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+
+@Component({})
+export default class BalanceRow extends Vue {
+    @Prop() asset!: Asset
 }
 </script>
 <style scoped lang="scss">

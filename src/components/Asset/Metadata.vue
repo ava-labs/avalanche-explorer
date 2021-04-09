@@ -110,7 +110,6 @@
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { Asset } from '@/js/Asset'
-import { blockchainMap } from '@/helper'
 import TooltipMeta from '@/components/misc/TooltipMeta.vue'
 import TransactionHistory from '@/components/Home/TopInfo/TransactionHistory.vue'
 
@@ -118,19 +117,6 @@ import TransactionHistory from '@/components/Home/TopInfo/TransactionHistory.vue
     components: {
         TooltipMeta,
         TransactionHistory,
-    },
-
-    filters: {
-        blockchain(val: string): string {
-            return blockchainMap(val)
-        },
-        pluralizeDenomination(val: number): string {
-            return val === 0
-                ? `no fractional units`
-                : val > 1
-                ? `${val} decimal digits`
-                : `${val} decimal digit`
-        },
     },
 })
 export default class Metadata extends Vue {

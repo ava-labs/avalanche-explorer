@@ -54,11 +54,6 @@ interface IMap {
         Content,
         Tabs,
     },
-    filters: {
-        subnet(val: string): string {
-            return subnetMap(val)
-        },
-    },
 })
 export default class Subnets extends Mixins(PlatformGettersMixin) {
     selection: string = AVALANCHE_SUBNET_ID

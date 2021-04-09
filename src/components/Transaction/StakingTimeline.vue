@@ -38,15 +38,8 @@
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { scaleLinear } from 'd3-scale'
-import moment from 'moment'
 
-@Component({
-    filters: {
-        date(val: number) {
-            return moment(val).format('M/D/YYYY')
-        },
-    },
-})
+@Component({})
 export default class StakingTimeline extends Vue {
     @Prop() startTime!: number
     @Prop() endTime!: number

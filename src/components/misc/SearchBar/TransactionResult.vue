@@ -5,7 +5,7 @@
         </div>
         <div class="data">
             <p class="id">{{ item.id }}</p>
-            <p class="ago">{{ item.timestamp | date }}</p>
+            <p class="ago">{{ new Date(item.timestamp) | fromNow }}</p>
         </div>
     </div>
 </template>
@@ -13,16 +13,8 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import moment from 'moment'
 
-@Component({
-    filters: {
-        date(val: string) {
-            const date = new Date(val)
-            return moment(date).fromNow()
-        },
-    },
-})
+@Component({})
 export default class TransactionResult extends Vue {
     @Prop() item!: any
 

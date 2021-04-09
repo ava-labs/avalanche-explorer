@@ -18,7 +18,6 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { subnetMap } from '@/helper'
 import Content from '@/components/Subnets/Content.vue'
 import Subnet from '@/js/Subnet'
 
@@ -29,11 +28,6 @@ interface Subnets {
 @Component({
     components: {
         Content,
-    },
-    filters: {
-        subnet(val: string): string {
-            return subnetMap(val)
-        },
     },
 })
 export default class SubnetTabs extends Vue {

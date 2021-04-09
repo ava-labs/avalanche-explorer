@@ -102,14 +102,6 @@ import NFTLogoRenderer from '@/components/Assets/NFTLogoRenderer.vue'
         AssetLogoRenderer,
         NFTLogoRenderer,
     },
-    filters: {
-        blockchain(val: string): string {
-            return blockchainMap(val)
-        },
-        nameOrID(val: Asset): string {
-            return val.name ? val.name : val.id
-        },
-    },
 })
 export default class AssetsDataTable extends Vue {
     search = ''

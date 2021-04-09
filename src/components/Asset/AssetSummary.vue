@@ -3,7 +3,7 @@
         <div class="card">
             <div class="header">
                 <h2>
-                    {{ asset | name }}
+                    {{ asset | nameOrID }}
                     <span class="symbol">{{ asset.symbol }}</span>
                 </h2>
             </div>
@@ -32,12 +32,6 @@ import NFTRenderer from '@/components/Asset/NFTRenderer.vue'
         Metadata,
         TransactionHistory,
         NFTRenderer,
-    },
-
-    filters: {
-        name(val: Asset): string {
-            return val.name ? val.name : val.id
-        },
     },
 })
 export default class AssetSummary extends Vue {

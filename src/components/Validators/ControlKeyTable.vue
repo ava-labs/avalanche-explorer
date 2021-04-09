@@ -43,15 +43,6 @@ import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
     components: {
         Indexed,
     },
-    filters: {
-        pluralizeThreshold(val: number) {
-            return val === 0
-                ? `${val} threshold signatures from addresses are`
-                : val > 1
-                ? `${val} threshold signatures from addresses are`
-                : `${val} threshold signature from address is`
-        },
-    },
 })
 export default class ControlKeyTable extends Vue {
     @Prop() subnet!: Subnet

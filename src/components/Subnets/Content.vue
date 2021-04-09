@@ -104,8 +104,6 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { subnetMap, toAVAX } from '@/helper'
-import moment from 'moment'
 import Subnet from '@/js/Subnet'
 import { AVALANCHE_SUBNET_ID } from '@/store/modules/platform/platform'
 import ContentMetadata from '@/components/Subnets/ContentMetadata.vue'
@@ -121,23 +119,6 @@ import ControlKeyTable from '@/components/Validators/ControlKeyTable.vue'
         BlockchainDataTable,
         ControlKeyTable,
         DelegationDataTable,
-    },
-    filters: {
-        subnet(val: string) {
-            return subnetMap(val)
-        },
-        AVAX(val: number) {
-            return toAVAX(val)
-        },
-        duration(val: number) {
-            return moment.duration(val).humanize()
-        },
-        date(val: number) {
-            return moment(val).format('D/M/YYYY')
-        },
-        time(val: number) {
-            return moment(val).format('h:mm:ss A')
-        },
     },
 })
 export default class Content extends Vue {

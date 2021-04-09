@@ -55,11 +55,6 @@ import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
     components: {
         Indexed,
     },
-    filters: {
-        subnet(val: string): string {
-            return subnetMap(val)
-        },
-    },
 })
 export default class BlockchainDataTable extends Vue {
     @Prop() blockchains!: Blockchain[]
