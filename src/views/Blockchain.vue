@@ -3,7 +3,7 @@
         <v-breadcrumbs :items="breadcrumbs" />
         <Loader
             v-if="loading && !subnetsLoaded"
-            :content-id="blockchainId"
+            :content-id="id"
             :message="'Fetching Blockchain Details'"
         />
         <template v-else>
@@ -57,7 +57,7 @@ export default class BlockchainPage extends Vue {
         this.getData()
     }
 
-    get blockchainId(): string {
+    get id(): string {
         return this.$route.params.id
     }
 
@@ -70,11 +70,9 @@ export default class BlockchainPage extends Vue {
     }
 
     getData(): void {
-        this.loading = false
         const blockchains = this.$store.state.Platform.blockchains
-        this.blockchain = blockchains.find(
-            (b: Blockchain) => b.id === this.blockchainId
-        )
+        this.blockchain = blockchains.find((b: Blockchain) => b.id === this.id)
+        this.loading = false
     }
 }
 </script>

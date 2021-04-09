@@ -30,10 +30,7 @@
                 </div>
             </template>
             <template #item.indexed="{ item }">
-                <Indexed
-                    :indexed="item.indexed"
-                    :not-indexed-label="false"
-                ></Indexed>
+                <Indexed :indexed="item.indexed" :not-indexed-label="false" />
             </template>
             <template #item.subnetID="{ item }">
                 <div>

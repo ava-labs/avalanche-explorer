@@ -4,10 +4,10 @@
             heading="Recent Transactions"
             :loading="loading"
             @update="updateTx"
-        ></RecentTxHeader>
+        />
         <!-- TABLE -->
         <div class="list">
-            <TxTableHead></TxTableHead>
+            <TxTableHead />
             <template v-if="transactions">
                 <transition-group v-if="transactions.length > 0" name="fade">
                     <tx-row
@@ -15,7 +15,7 @@
                         :key="tx.id"
                         class="recent_tx_rows"
                         :transaction="tx"
-                    ></tx-row>
+                    />
                 </transition-group>
                 <!-- LOAD -->
                 <div v-if="transactions.length === 0">
@@ -25,7 +25,7 @@
                         :width="2"
                         color="#E84970"
                         indeterminate
-                    ></v-progress-circular>
+                    />
                 </div>
             </template>
         </div>

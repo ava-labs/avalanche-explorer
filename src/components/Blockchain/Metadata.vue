@@ -39,7 +39,7 @@
                 <Indexed
                     :indexed="blockchain.indexed"
                     :not-indexed-label="true"
-                ></Indexed>
+                />
             </p>
         </article>
     </section>
