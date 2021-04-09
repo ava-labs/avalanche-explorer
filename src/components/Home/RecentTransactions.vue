@@ -10,7 +10,7 @@
             <TxTableHead />
             <template v-if="transactions">
                 <transition-group v-if="transactions.length > 0" name="fade">
-                    <tx-row
+                    <TxRow
                         v-for="tx in transactions"
                         :key="tx.id"
                         class="recent_tx_rows"

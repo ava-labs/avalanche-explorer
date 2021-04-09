@@ -4,7 +4,7 @@
             <h2>Validators</h2>
         </div>
         <div class="staking_info">
-            <validator-stats></validator-stats>
+            <ValidatorStats />
             <div class="peerinfo_cont">
                 <div v-show="loading" class="loading_cont">
                     <v-progress-circular
@@ -12,14 +12,14 @@
                         :width="2"
                         color="#E84970"
                         indeterminate
-                    ></v-progress-circular>
+                    />
                 </div>
                 <PeerStake
                     v-show="!loading"
                     :data="versions"
                     :color-scale="versionsColorScale"
                     :metric="'stakePercent'"
-                ></PeerStake>
+                />
             </div>
             <div class="peerinfo_cont">
                 <div v-show="loading" class="loading_cont">
@@ -28,14 +28,14 @@
                         :width="2"
                         color="#E84970"
                         indeterminate
-                    ></v-progress-circular>
+                    />
                 </div>
                 <PeerCount
                     v-show="!loading"
                     :data="versionsOnly"
                     :color-scale="versionsOnlyColorScale"
                     :metric="'nodeCount'"
-                ></PeerCount>
+                />
             </div>
         </div>
     </div>

@@ -1,11 +1,11 @@
 <template>
     <div class="detail">
-        <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
+        <v-breadcrumbs :items="breadcrumbs" />
         <template v-if="loading">
             <Loader
                 :content-id="txId"
                 :message="'Fetching Transaction Details'"
-            ></Loader>
+            />
         </template>
         <template v-else>
             <HTTPError

@@ -6,7 +6,7 @@
                     Subnet Stats
                     <TooltipHeading
                         content="A subnet is a dynamic set of validators working together to achieve consensus on the state of a set of blockchains"
-                    ></TooltipHeading>
+                    />
                 </h2>
             </div>
             <section class="stats">

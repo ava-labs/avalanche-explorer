@@ -4,7 +4,7 @@
             <div class="header">
                 <h2>
                     Assets
-                    <TooltipHeading content="A unit of value"></TooltipHeading>
+                    <TooltipHeading content="A unit of value" />
                 </h2>
                 <template v-if="assetsLoaded">
                     <div class="bar">
@@ -30,7 +30,7 @@
                     :width="2"
                     color="#E84970"
                     indeterminate
-                ></v-progress-circular>
+                />
             </div>
             <div
                 v-if="assetsLoaded && $vuetify.breakpoint.smAndDown"
@@ -42,39 +42,34 @@
                         Symbol
                         <Tooltip
                             content="An arrangement of letters representing an asset"
-                        ></Tooltip>
+                        />
                     </p>
                     <p>
                         Name
-                        <Tooltip content="Name for the asset"></Tooltip>
+                        <Tooltip content="Name for the asset" />
                     </p>
                     <p class="volume_day">
-                        <Tooltip content="Volume for the past 24h"></Tooltip>24h
-                        Volume
+                        <Tooltip content="Volume for the past 24h" />24h Volume
                     </p>
                     <p v-if="$vuetify.breakpoint.smAndUp" class="txCount_day">
                         <Tooltip
                             content="Number of transactions for the past 24h"
-                        ></Tooltip
+                        />
                         >24h Tx
                     </p>
                     <p v-if="$vuetify.breakpoint.smAndUp" class="avgTx_day">
-                        <Tooltip
-                            content="Average tx value over the past 24h"
-                        ></Tooltip
+                        <Tooltip content="Average tx value over the past 24h" />
                         >Avg Tx
                     </p>
                     <p v-if="$vuetify.breakpoint.smAndUp" class="supply">
-                        <Tooltip
-                            content="Total number of tokens minted"
-                        ></Tooltip
+                        <Tooltip content="Total number of tokens minted" />
                         >Supply
                     </p>
                     <p v-if="$vuetify.breakpoint.smAndUp" class="chain">
                         Issuance
                         <Tooltip
                             content="Blockchain where this asset was minted"
-                        ></Tooltip>
+                        />
                     </p>
                 </div>
                 <asset-row
@@ -86,7 +81,7 @@
             </div>
             <!-- DATA TABLE FOR MEDIUM SCREENSIZES -->
             <div v-if="$vuetify.breakpoint.smAndUp">
-                <AssetsDataTable :assets="assets"></AssetsDataTable>
+                <AssetsDataTable :assets="assets" />
             </div>
         </div>
     </div>

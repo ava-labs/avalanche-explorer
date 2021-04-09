@@ -8,10 +8,10 @@
                 </h2>
             </div>
             <div class="two_column">
-                <Metadata :asset="asset"></Metadata>
+                <Metadata :asset="asset" />
                 <section>
-                    <TransactionHistory v-if="isAVAX"></TransactionHistory>
-                    <NFTRenderer v-if="isNFT" :asset="asset"></NFTRenderer>
+                    <TransactionHistory v-if="isAVAX" />
+                    <NFTRenderer v-if="isNFT" :asset="asset" />
                 </section>
             </div>
         </div>

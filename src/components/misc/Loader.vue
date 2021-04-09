@@ -15,7 +15,7 @@
                 :width="2"
                 color="#E84970"
                 indeterminate
-            ></v-progress-circular>
+            />
             <div key="2" class="message">{{ message }}</div>
             <div v-if="contentId" key="3" class="content_id">
                 {{ contentId }}

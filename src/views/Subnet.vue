@@ -1,18 +1,15 @@
 <template>
     <div id="subnet_details" class="detail">
-        <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
+        <v-breadcrumbs :items="breadcrumbs" />
         <template v-if="!subnetsLoaded">
             <Loader
                 :content-id="subnetID"
                 :message="'Fetching Subnet Details'"
-            ></Loader>
+            />
         </template>
         <template v-else>
             <div class="card">
-                <Content
-                    :subnet-i-d="subnetID"
-                    :subnet="subnets[subnetID]"
-                ></Content>
+                <Content :subnet-i-d="subnetID" :subnet="subnets[subnetID]" />
             </div>
         </template>
     </div>

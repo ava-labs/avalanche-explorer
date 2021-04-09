@@ -1,7 +1,7 @@
 <template>
     <div id="subnets">
         <template v-if="!subnetsLoaded">
-            <Loader :message="'Fetching Subnets'"></Loader>
+            <Loader :message="'Fetching Subnets'" />
         </template>
         <template v-else>
             <Metadata
@@ -9,9 +9,9 @@
                 :total-validators="totalValidators"
                 :total-blockchains="totalBlockchains"
                 :total-stake="totalStake"
-            ></Metadata>
+            />
             <div v-if="this.$vuetify.breakpoint.mdAndUp" class="card">
-                <Tabs :subnets="subnets"></Tabs>
+                <Tabs :subnets="subnets" />
             </div>
             <div
                 v-if="this.$vuetify.breakpoint.smAndDown"
@@ -22,11 +22,8 @@
                     :items="subnetsByName"
                     label="Select Subnet"
                     outlined
-                ></v-select>
-                <Content
-                    :subnet-i-d="selection"
-                    :subnet="subnets[selection]"
-                ></Content>
+                />
+                <Content :subnet-i-d="selection" :subnet="subnets[selection]" />
             </div>
         </template>
     </div>

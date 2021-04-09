@@ -1,20 +1,20 @@
 <template>
     <div class="detail">
-        <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
-        <AssetSummary v-if="asset" :asset="asset"></AssetSummary>
+        <v-breadcrumbs :items="breadcrumbs" />
+        <AssetSummary v-if="asset" :asset="asset" />
 
         <!-- TRANSACTIONS -->
         <section v-if="!txLoading && !txRequestError" class="card transactions">
             <header class="header">
-                <TxHeader></TxHeader>
-                <TxParams @change="fetchTx"></TxParams>
+                <TxHeader />
+                <TxParams @change="fetchTx" />
             </header>
             <div class="two-col">
-                <TxFilter @change="setFilter"></TxFilter>
+                <TxFilter @change="setFilter" />
                 <div class="right">
                     <!-- LOAD -->
                     <template v-if="!txLoading && assetsLoaded">
-                        <TxTableHead></TxTableHead>
+                        <TxTableHead />
                         <v-alert
                             v-if="filteredTransactions.length === 0"
                             color="#e6f5ff"
@@ -24,12 +24,12 @@
                         </v-alert>
                         <div v-else class="rows">
                             <transition-group name="fade" mode="out-in">
-                                <tx-row
+                                <TxRow
                                     v-for="tx in filteredTransactions"
                                     :key="tx.id"
                                     class="tx_item"
                                     :transaction="tx"
-                                ></tx-row>
+                                />
                             </transition-group>
                         </div>
                     </template>
@@ -40,7 +40,7 @@
                         :width="2"
                         color="#E84970"
                         indeterminate
-                    ></v-progress-circular>
+                    />
                 </div>
             </div>
         </section>
@@ -52,15 +52,11 @@
             :message="txRequestErrorMessage"
             :support-u-r-l="'https://chat.avalabs.org'"
             :is-margin="true"
-        >
-        </HTTPError>
+        />
 
         <!-- TX GENESIS -->
         <template v-if="!genesisTx">
-            <Loader
-                :content-id="assetID"
-                :message="'Fetching Asset Details'"
-            ></Loader>
+            <Loader :content-id="assetID" :message="'Fetching Asset Details'" />
         </template>
         <template v-else>
             <TransactionSummary :tx="genesisTx"

@@ -2,14 +2,14 @@
     <div class="transactions">
         <div class="card">
             <div class="header">
-                <TransactionsHeader></TransactionsHeader>
-                <TxParams @change="fetchTx"></TxParams>
+                <TransactionsHeader />
+                <TxParams @change="fetchTx" />
             </div>
             <div class="two-col">
-                <TxFilter @change="setFilter"></TxFilter>
+                <TxFilter @change="setFilter" />
                 <div class="right">
                     <template v-if="!loading && assetsLoaded">
-                        <TxTableHead></TxTableHead>
+                        <TxTableHead />
                         <v-alert
                             v-if="filteredTransactions.length === 0"
                             color="#e6f5ff"
@@ -19,12 +19,12 @@
                         </v-alert>
                         <div class="rows">
                             <transition-group name="fade" mode="out-in">
-                                <tx-row
+                                <TxRow
                                     v-for="tx in filteredTransactions"
                                     :key="tx.id"
                                     class="tx_item"
                                     :transaction="tx"
-                                ></tx-row>
+                                />
                             </transition-group>
                         </div>
                     </template>
@@ -35,7 +35,7 @@
                         :width="2"
                         color="#E84970"
                         indeterminate
-                    ></v-progress-circular>
+                    />
                 </div>
             </div>
         </div>

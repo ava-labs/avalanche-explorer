@@ -19,14 +19,14 @@
                     :width="2"
                     color="#E84970"
                     indeterminate
-                ></v-progress-circular>
+                />
             </template>
             <template v-else>
                 <BlockchainDataTable
                     :blockchains="blockchains"
                     :links="true"
                     :subnets="true"
-                ></BlockchainDataTable>
+                />
             </template>
         </div>
     </div>

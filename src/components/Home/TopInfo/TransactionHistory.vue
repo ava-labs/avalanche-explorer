@@ -5,13 +5,11 @@
                 Transaction Volume
                 <TooltipHeading
                     content="Timeline of transactions on Avalanche"
-                ></TooltipHeading>
+                />
             </h2>
         </div>
         <template v-if="aggregates && !loading">
-            <TransactionHistoryMeta
-                :aggregates="aggregates"
-            ></TransactionHistoryMeta>
+            <TransactionHistoryMeta :aggregates="aggregates" />
         </template>
         <div class="history_cont">
             <div class="chart_toggle_settings">
@@ -53,7 +51,7 @@
                     :width="2"
                     color="#E84970"
                     indeterminate
-                ></v-progress-circular>
+                />
             </div>
             <div class="canv_cont">
                 <canvas ref="canv"></canvas>

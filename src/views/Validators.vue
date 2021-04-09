@@ -1,8 +1,8 @@
 <template>
     <div>
-        <Metadata></Metadata>
+        <Metadata />
         <div class="validators card">
-            <StakingMetadata @toggle="handleToggle"></StakingMetadata>
+            <StakingMetadata @toggle="handleToggle" />
             <div class="controls">
                 <div class="filter_count">
                     <p v-show="search.length > 0 && matchedValidators">
@@ -28,19 +28,17 @@
                     Node ID
                     <Tooltip
                         content="Node ID of validator participating in the consensus protocol"
-                    ></Tooltip>
+                    />
                 </p>
                 <p style="text-align: right">
                     <Tooltip
                         content="Amount of AVAX staked by this validator"
-                    ></Tooltip
-                    >Stake
+                    />Stake
                 </p>
                 <p v-if="$vuetify.breakpoint.smAndUp" style="text-align: right">
                     <Tooltip
                         content="Percentage of AVAX concentrated up to this validator ranking"
-                    ></Tooltip
-                    >Cumulative Stake
+                    />Cumulative Stake
                 </p>
             </div>
             <div v-if="validators.length === 0" class="empty_table">
@@ -48,30 +46,30 @@
             </div>
             <div v-show="search.length === 0">
                 <div v-show="validators.length > 0">
-                    <validator-row
+                    <ValidatorRow
                         v-for="v in paginatedValidators"
                         :key="v.nodeID + v.stakeAmount"
                         class="validator"
                         :validator="v"
                         :cumulative-stake="cumulativeStake[v.rank - 1]"
-                    ></validator-row>
+                    />
                 </div>
             </div>
             <div v-show="search.length > 0">
-                <validator-row
+                <ValidatorRow
                     v-for="v in matchedValidators"
                     :key="v.nodeID + v.stakeAmount"
                     class="validator"
                     :validator="v"
                     :cumulative-stake="cumulativeStake[v.rank - 1]"
-                ></validator-row>
+                />
             </div>
             <div v-show="search.length === 0" class="pagination_container">
-                <validator-pagination-controls
+                <ValidatorPaginationControls
                     :total="totalValidatorsCount"
                     :limit="limit"
                     @change="handleChange"
-                ></validator-pagination-controls>
+                />
             </div>
         </div>
     </div>

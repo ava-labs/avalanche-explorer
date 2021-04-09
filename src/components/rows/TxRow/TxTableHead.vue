@@ -6,15 +6,15 @@
             ID
             <Tooltip
                 content="Unique character string generated when a transaction is executed"
-            ></Tooltip>
+            />
         </p>
         <p>
             From
-            <Tooltip content="Address of the sender"></Tooltip>
+            <Tooltip content="Address of the sender" />
         </p>
         <p>
             To
-            <Tooltip content="Address of the receiver"></Tooltip>
+            <Tooltip content="Address of the receiver" />
         </p>
     </div>
 </template>

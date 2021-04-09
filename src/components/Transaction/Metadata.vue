@@ -3,10 +3,7 @@
         <article class="meta_row">
             <p class="label">
                 Status
-                <Tooltip
-                    content="Status of the transaction"
-                    color="#c4c4c4"
-                ></Tooltip>
+                <Tooltip content="Status of the transaction" color="#c4c4c4" />
             </p>
             <div>
                 <p class="status">Success</p>
@@ -19,7 +16,7 @@
                 <Tooltip
                     content="Date and time when transaction was accepted"
                     color="#c4c4c4"
-                ></Tooltip>
+                />
             </p>
             <div class="values">
                 <p class="date">
@@ -34,7 +31,7 @@
                 <Tooltip
                     content="Total economic value transferred in this transaction"
                     color="#c4c4c4"
-                ></Tooltip>
+                />
             </p>
             <p class="values">
                 <span v-for="(val, id) in outValuesDenominated" :key="id"
@@ -48,7 +45,7 @@
                 <Tooltip
                     content="Amount paid to validators for processing the transaction"
                     color="#c4c4c4"
-                ></Tooltip>
+                />
             </p>
             <p>{{ tx.txFee | toAVAX }} AVAX</p>
         </article>
@@ -58,7 +55,7 @@
                 <Tooltip
                     content="Blockchain storing transaction"
                     color="#c4c4c4"
-                ></Tooltip>
+                />
             </p>
             <div>
                 <p>{{ chain }}</p>
@@ -74,7 +71,7 @@
                 <Tooltip
                     content="The type of asset (NFT, variable or fixed cap)"
                     color="#c4c4c4"
-                ></Tooltip>
+                />
             </p>
             <div>
                 <p>{{ tx | getAssetType }}</p>

@@ -5,7 +5,7 @@
                 Top Assets
                 <TooltipHeading
                     content="The most transferred assets on Avalanche in the past 24 hours"
-                ></TooltipHeading>
+                />
             </h2>
         </div>
         <div v-if="!assetAggregatesLoaded" class="table_spinner_container">
@@ -15,18 +15,18 @@
                 :width="2"
                 color="#E84970"
                 indeterminate
-            ></v-progress-circular>
+            />
         </div>
         <div v-else>
             <div class="table">
                 <div class="asset column_headers">
                     <p class="name">
-                        Name <Tooltip content="Name for the asset"></Tooltip>
+                        Name <Tooltip content="Name for the asset" />
                     </p>
                     <p class="metric">
                         <Tooltip
                             content="Total number of transactions for the asset"
-                        ></Tooltip
+                        />
                         >Txs (24h)
                     </p>
                 </div>
@@ -43,11 +43,8 @@
                                         type(asset) === 'Variable Cap'
                                     "
                                     :asset="asset"
-                                ></AssetLogoRenderer>
-                                <NFTLogoRenderer
-                                    v-else
-                                    :asset="asset"
-                                ></NFTLogoRenderer>
+                                />
+                                <NFTLogoRenderer v-else :asset="asset" />
                             </div>
                             <div class="name_id">
                                 <span class="name">{{ asset.name }}</span>

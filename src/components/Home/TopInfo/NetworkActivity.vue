@@ -23,7 +23,7 @@
                         </p>
                     </div>
                     <div v-else>
-                        <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
+                        <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"/>
                     </div>
                 </router-link>
             </article> -->
@@ -49,7 +49,7 @@
                             :width="2"
                             color="#E84970"
                             indeterminate
-                        ></v-progress-circular>
+                        />
                     </div>
                 </router-link>
             </article>
@@ -76,7 +76,7 @@
                             :width="2"
                             color="#E84970"
                             indeterminate
-                        ></v-progress-circular>
+                        />
                     </div>
                 </router-link>
             </article>
@@ -102,7 +102,7 @@
                             :width="2"
                             color="#E84970"
                             indeterminate
-                        ></v-progress-circular>
+                        />
                     </div>
                 </router-link>
             </article>
@@ -127,7 +127,7 @@
                             :width="2"
                             color="#E84970"
                             indeterminate
-                        ></v-progress-circular>
+                        />
                     </div>
                 </router-link>
             </article>
@@ -152,7 +152,7 @@
                             :width="2"
                             color="#E84970"
                             indeterminate
-                        ></v-progress-circular>
+                        />
                     </div>
                 </router-link>
             </article>
@@ -175,7 +175,7 @@
                             :width="2"
                             color="#E84970"
                             indeterminate
-                        ></v-progress-circular>
+                        />
                     </div>
                 </router-link>
             </article>
@@ -194,7 +194,7 @@
                             :width="2"
                             color="#E84970"
                             indeterminate
-                        ></v-progress-circular>
+                        />
                     </div>
                 </router-link>
             </article>

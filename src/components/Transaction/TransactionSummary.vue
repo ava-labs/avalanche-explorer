@@ -23,7 +23,7 @@
         </header>
         <div class="two_column">
             <!-- SUMMARY -->
-            <Metadata :tx="tx"></Metadata>
+            <Metadata :tx="tx" />
             <!-- MEMO & STAKING -->
             <section>
                 <article v-if="isText" class="meta_row">
@@ -32,7 +32,7 @@
                         <Tooltip
                             content="A 256-byte text field for encoding arbitrary data"
                             color="#c4c4c4"
-                        ></Tooltip>
+                        />
                     </p>
                     <div>
                         <p><span class="decode">hex</span> {{ text_hex }}</p>
@@ -42,12 +42,9 @@
                 <article v-if="isStaking" class="meta_row">
                     <p class="label">
                         Staking
-                        <Tooltip
-                            content="Validator Rewards"
-                            color="#c4c4c4"
-                        ></Tooltip>
+                        <Tooltip content="Validator Rewards" color="#c4c4c4" />
                     </p>
-                    <StakingSummary :tx="tx"></StakingSummary>
+                    <StakingSummary :tx="tx" />
                 </article>
             </section>
         </div>
