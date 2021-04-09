@@ -27,7 +27,7 @@
                         <Tooltip
                             content="Total number of transactions for the asset"
                         />
-                        >Txs (24h)
+                        Txs (24h)
                     </p>
                 </div>
                 <div v-for="asset in assets" :key="asset.id" class="asset">
