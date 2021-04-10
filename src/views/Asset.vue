@@ -10,7 +10,7 @@
                 <TxParams @change="fetchTx" />
             </header>
             <div class="two-col">
-                <TxFilter @change="setFilter" />
+                <TxFilter :chains="chains" @change="setFilter" />
                 <div class="right">
                     <!-- LOAD -->
                     <template v-if="!txLoading && assetsLoaded">
@@ -173,6 +173,10 @@ export default class AssetPage extends Mixins(TransactionsGettersMixin) {
 
     setFilter(val: string[]) {
         this.filters = val
+    }
+
+    get chains() {
+        return [P, X, C]
     }
 
     get transactions() {

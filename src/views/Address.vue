@@ -32,7 +32,7 @@
                 <TxParams @change="fetchTx" />
             </div>
             <div class="two-col">
-                <TxFilter @change="setFilter" />
+                <TxFilter :chains="chains" @change="setFilter" />
                 <div class="right">
                     <!-- LOAD -->
                     <template v-if="!txLoading && assetsLoaded">
@@ -98,6 +98,7 @@ import { ITransactionParams } from '@/services/transactions'
 import TxFilter from '@/components/Transaction/TxFilter.vue'
 import TxParams from '@/components/Transaction/TxParams.vue'
 import { TransactionsGettersMixin } from '@/store/modules/transactions/transactions.mixins'
+import { P, X, C } from '@/known_blockchains'
 
 @Component({
     components: {
@@ -205,6 +206,10 @@ export default class AddressPage extends Mixins(TransactionsGettersMixin) {
 
     setFilter(val: string[]) {
         this.filters = val
+    }
+
+    get chains() {
+        return [P, X, C]
     }
 
     get transactions() {

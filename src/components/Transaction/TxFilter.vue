@@ -21,39 +21,27 @@
 
 <script lang="ts">
 import 'reflect-metadata'
-import { Vue, Component, Watch } from 'vue-property-decorator'
-import { P, X, C } from '@/known_blockchains'
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+import { ChainMap } from '@/known_blockchains'
 
 @Component({})
 export default class TxFilter extends Vue {
-    items = [
-        {
-            id: P.id,
-            name: `${P.name} (${P.fullname})`,
-            children: P.txTypes.map((type) => ({
-                id: type[0],
-                name: type[1].long,
-            })),
-        },
-        {
-            id: X.id,
-            name: `${X.name} (${X.fullname})`,
-            children: X.txTypes.map((type) => ({
-                id: type[0],
-                name: type[1].long,
-            })),
-        },
-        {
-            id: C.id,
-            name: `${C.name} (${C.fullname})`,
-            children: C.txTypes.map((type) => ({
-                id: type[0],
-                name: type[1].long,
-            })),
-        },
-    ]
+    @Prop() chains!: ChainMap[]
 
-    selection = this.items.flatMap((item) => item.children)
+    get items() {
+        return this.chains.map((chain: ChainMap) => ({
+            id: chain.id,
+            name: `${chain.name} (${chain.fullname})`,
+            children: chain.txTypes.map((type) => ({
+                id: type[0],
+                name: type[1].long,
+            })),
+        }))
+    }
+
+    get selection() {
+        return this.items.flatMap((item) => item.children)
+    }
 
     created() {
         this.$emit(

@@ -15,7 +15,7 @@
                         <TxParams @change="fetchTx" />
                     </div>
                     <div class="two-col">
-                        <TxFilter @change="setFilter" />
+                        <TxFilter :chains="[chain]" @change="setFilter" />
                         <div class="right">
                             <template v-if="!loading && assetsLoaded">
                                 <TxTableHead />

@@ -6,7 +6,7 @@
                 <TxParams @change="fetchTx" />
             </div>
             <div class="two-col">
-                <TxFilter @change="setFilter" />
+                <TxFilter :chains="chains" @change="setFilter" />
                 <div class="right">
                     <template v-if="!loading && assetsLoaded">
                         <TxTableHead />
@@ -54,6 +54,7 @@ import TxParams from '@/components/Transaction/TxParams.vue'
 import DateForm from '@/components/misc/DateForm.vue'
 import { ITransactionParams } from '@/services/transactions'
 import { TransactionsGettersMixin } from '@/store/modules/transactions/transactions.mixins'
+import { P, X, C } from '@/known_blockchains'
 
 @Component({
     components: {
@@ -91,6 +92,10 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
 
     setFilter(val: string[]) {
         this.filters = val
+    }
+
+    get chains() {
+        return [P, X, C]
     }
 
     get transactions() {
