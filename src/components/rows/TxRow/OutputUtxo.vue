@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="amount">
-            <div class="value monospace">{{ amount }}</div>
+            <div v-if="!isNFT" class="value monospace">{{ amount }}</div>
             <div class="symbol">{{ asset.symbol }}</div>
         </div>
     </div>
@@ -57,6 +57,19 @@ export default class OutputUtxo extends Vue {
     get amount(): string {
         const amt = Big(this.output.amount)
         return trimmedLocaleString(amt, this.asset.denomination)
+    }
+
+    get isNFT(): boolean {
+        switch (this.output.outputType) {
+            case 7:
+                return false
+            case 10:
+                return true
+            case 11:
+                return true
+            default:
+                return false
+        }
     }
 }
 </script>
