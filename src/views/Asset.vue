@@ -1,7 +1,11 @@
 <template>
     <div class="detail">
         <v-breadcrumbs :items="breadcrumbs" />
-        <AssetSummary v-if="asset" :asset="asset" />
+        <AssetSummary
+            v-if="asset && genesisTx"
+            :asset="asset"
+            :genesis-tx="genesisTx"
+        />
 
         <!-- TRANSACTIONS -->
         <section v-if="!txLoading && !txRequestError" class="card transactions">
@@ -53,16 +57,6 @@
             :support-u-r-l="'https://chat.avalabs.org'"
             :is-margin="true"
         />
-
-        <!-- TX GENESIS -->
-        <template v-if="!genesisTx">
-            <Loader :content-id="assetID" :message="'Fetching Asset Details'" />
-        </template>
-        <template v-else>
-            <TransactionSummary :tx="genesisTx"
-                >Asset Genesis Details</TransactionSummary
-            >
-        </template>
     </div>
 </template>
 
