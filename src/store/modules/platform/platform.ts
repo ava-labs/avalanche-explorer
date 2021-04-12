@@ -11,6 +11,8 @@ import SubnetDict from '@/known_subnets'
 import { IBlockchainData } from './IBlockchain'
 import BlockchainDict from '@/known_blockchains'
 import Blockchain from '@/js/Blockchain'
+import { getAddressCounts } from '@/services/addressCounts/addressCounts.service'
+import { AddressCount } from '@/services/addressCounts/models'
 
 export const AVALANCHE_SUBNET_ID = Object.keys(SubnetDict).find(
     (key) => SubnetDict[key] === 'Primary Network'
@@ -36,11 +38,15 @@ const platform_module: Module<IPlatformState, IRootState> = {
         finishLoading(state) {
             state.subnetsLoaded = true
         },
+        updateChainsWithAddressCounts(state, blockchains: Blockchain[]) {
+            state.blockchains = blockchains
+        },
     },
     actions: {
-        init({ dispatch }) {
-            dispatch('getSubnets')
+        async init({ dispatch }) {
+            await dispatch('getSubnets')
             dispatch('updateCurrentSupply')
+            dispatch('updateAddressCounts')
         },
 
         async getSubnets({ state, commit }) {
@@ -91,6 +97,23 @@ const platform_module: Module<IPlatformState, IRootState> = {
             state.minStake = (
                 await platform.getMinStake(true)
             ).minValidatorStake
+        },
+
+        async updateAddressCounts({ state, commit }) {
+            const res = await getAddressCounts()
+            const updates = state.blockchains.map((chain: Blockchain) => {
+                const toUpdate = chain
+                const addressCount = res.find(
+                    (addressCount: AddressCount) =>
+                        addressCount.chainID === toUpdate.id
+                )
+                if (addressCount) {
+                    toUpdate.updateAddressCount(addressCount.total)
+                }
+                return toUpdate
+            })
+            commit('updateChainsWithAddressCounts', updates)
+            console.log('state.blockchains', state.blockchains)
         },
     },
     getters: {

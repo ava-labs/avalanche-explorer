@@ -1,5 +1,5 @@
 import { IBlockchainData } from '@/store/modules/platform/IBlockchain'
-import { X_CHAIN_ID } from '@/store/modules/platform/platform'
+import { PCHAINID, XCHAINID, CCHAINID } from '@/known_blockchains'
 import { profanities } from '@/js/Profanities'
 
 export default class Blockchain {
@@ -7,6 +7,7 @@ export default class Blockchain {
     name: string
     subnetID: string
     vmID: string
+    addressCount?: number | null
     indexed?: boolean
     profane?: boolean
 
@@ -15,19 +16,33 @@ export default class Blockchain {
         this.name = data.name
         this.subnetID = data.subnetID
         this.vmID = data.vmID
+        this.addressCount = null
         this.indexed = this.updateIndexed()
         this.profane = false
         this.checkForProfanities(this.name)
     }
 
     private updateIndexed(): boolean {
-        return this.id === X_CHAIN_ID ? true : false
+        switch (this.id) {
+            case PCHAINID:
+                return true
+            case XCHAINID:
+                return true
+            case CCHAINID:
+                return true
+            default:
+                return false
+        }
     }
-
     private checkForProfanities(value: string): void {
         if (this.profane) {
             return
         }
         this.profane = profanities.screen(value)
+    }
+
+    public updateAddressCount(value: string | null): void {
+        if (!value) return
+        this.addressCount = parseInt(value)
     }
 }
