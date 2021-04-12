@@ -1,5 +1,5 @@
 import { IBlockchainData } from '@/store/modules/platform/IBlockchain'
-import { X_CHAIN_ID } from '@/store/modules/platform/platform'
+import { PCHAINID, XCHAINID, CCHAINID } from '@/known_blockchains'
 import { profanities } from '@/js/Profanities'
 
 export default class Blockchain {
@@ -23,9 +23,17 @@ export default class Blockchain {
     }
 
     private updateIndexed(): boolean {
-        return this.id === X_CHAIN_ID ? true : false
+        switch (this.id) {
+            case PCHAINID:
+                return true
+            case XCHAINID:
+                return true
+            case CCHAINID:
+                return true
+            default:
+                return false
+        }
     }
-
     private checkForProfanities(value: string): void {
         if (this.profane) {
             return
