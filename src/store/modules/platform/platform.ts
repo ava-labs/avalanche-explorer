@@ -10,6 +10,8 @@ import { ISubnetData } from './ISubnet'
 import { IBlockchainData } from './IBlockchain'
 import Blockchain from '@/js/Blockchain'
 import { P } from '@/known_blockchains'
+import { getAddressCounts } from '@/services/addressCounts/addressCounts.service'
+import { AddressCount } from '@/services/addressCounts/models'
 
 export const AVALANCHE_SUBNET_ID = P.id
 export const TOTAL_AVAX_SUPPLY = Big(360000000)
@@ -30,11 +32,15 @@ const platform_module: Module<PlatformState, IRootState> = {
         finishLoading(state) {
             state.subnetsLoaded = true
         },
+        updateChainsWithAddressCounts(state, blockchains: Blockchain[]) {
+            state.blockchains = blockchains
+        },
     },
     actions: {
-        init({ dispatch }) {
-            dispatch('getSubnets')
+        async init({ dispatch }) {
+            await dispatch('getSubnets')
             dispatch('updateCurrentSupply')
+            dispatch('updateAddressCounts')
         },
 
         async getSubnets({ state, commit }) {
@@ -85,6 +91,23 @@ const platform_module: Module<PlatformState, IRootState> = {
             state.minStake = (
                 await platform.getMinStake(true)
             ).minValidatorStake
+        },
+
+        async updateAddressCounts({ state, commit }) {
+            const res = await getAddressCounts()
+            const updates = state.blockchains.map((chain: Blockchain) => {
+                const toUpdate = chain
+                const addressCount = res.find(
+                    (addressCount: AddressCount) =>
+                        addressCount.chainID === toUpdate.id
+                )
+                if (addressCount) {
+                    toUpdate.updateAddressCount(addressCount.total)
+                }
+                return toUpdate
+            })
+            commit('updateChainsWithAddressCounts', updates)
+            console.log('state.blockchains', state.blockchains)
         },
     },
 }
