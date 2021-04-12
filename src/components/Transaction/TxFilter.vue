@@ -27,9 +27,11 @@ import { ChainMap } from '@/known_blockchains'
 @Component({})
 export default class TxFilter extends Vue {
     @Prop() chains!: ChainMap[]
+    items: any[] = []
+    selection: any[] = []
 
-    get items() {
-        return this.chains.map((chain: ChainMap) => ({
+    created() {
+        this.items = this.chains.map((chain: ChainMap) => ({
             id: chain.id,
             name: `${chain.name} (${chain.fullname})`,
             children: chain.txTypes.map((type) => ({
@@ -37,13 +39,9 @@ export default class TxFilter extends Vue {
                 name: type[1].long,
             })),
         }))
-    }
 
-    get selection() {
-        return this.items.flatMap((item) => item.children)
-    }
+        this.selection = this.items.flatMap((item) => item.children)
 
-    created() {
         this.$emit(
             'change',
             this.selection.map((val) => val.id)

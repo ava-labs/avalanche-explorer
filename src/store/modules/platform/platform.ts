@@ -107,7 +107,6 @@ const platform_module: Module<PlatformState, IRootState> = {
                 return toUpdate
             })
             commit('updateChainsWithAddressCounts', updates)
-            console.log('state.blockchains', state.blockchains)
         },
     },
 }

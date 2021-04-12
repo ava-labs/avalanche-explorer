@@ -15,7 +15,9 @@
                         <TxParams @change="fetchTx" />
                     </div>
                     <div class="two-col">
-                        <TxFilter :chains="[chain]" @change="setFilter" />
+                        <template v-if="chain">
+                            <TxFilter :chains="[chain]" @change="setFilter"
+                        /></template>
                         <div class="right">
                             <template v-if="!loading && assetsLoaded">
                                 <TxTableHead />
@@ -164,12 +166,11 @@ export default class BlockchainPage extends Mixins(TransactionsGettersMixin) {
     fetchTx(params: ITransactionParams): void {
         this.loading = true
         if (this.assetsLoaded) {
-            console.log('this.chain.id', this.chain.id)
             this.$store
                 .dispatch('Transactions/getTxsByBlockchain', {
                     id: null,
                     params: {
-                        chainID: [this.chain.id],
+                        chainID: [this.id],
                         ...params,
                     },
                 })
