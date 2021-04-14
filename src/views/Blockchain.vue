@@ -7,7 +7,7 @@
             :message="'Fetching Blockchain Details'"
         />
         <template v-else>
-            <Metadata :blockchain="blockchain" />
+            <BlockchainSummary :blockchain="blockchain" />
             <template v-if="blockchain">
                 <div v-if="blockchain.indexed" class="card blockchain_tx">
                     <div class="header">
@@ -60,7 +60,7 @@ import 'reflect-metadata'
 import { Mixins, Component, Watch } from 'vue-property-decorator'
 import Loader from '@/components/misc/Loader.vue'
 import Blockchain from '@/js/Blockchain'
-import Metadata from '@/components/Blockchain/Metadata.vue'
+import BlockchainSummary from '@/components/Blockchain/BlockchainSummary.vue'
 import { TransactionsGettersMixin } from '@/store/modules/transactions/transactions.mixins'
 import { ITransactionParams } from '@/services/transactions'
 import TransactionsHeader from '@/components/Transaction/TxHeader.vue'
@@ -74,7 +74,7 @@ import { ChainMap, getTxChainType } from '@/known_blockchains'
 @Component({
     components: {
         Loader,
-        Metadata,
+        BlockchainSummary,
         TransactionsHeader,
         TxTableHead,
         TxRow,

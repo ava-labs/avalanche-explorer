@@ -4,55 +4,57 @@
             <h2 v-if="alias">{{ alias }}</h2>
             <h2 v-else>{{ addressID }}</h2>
         </header>
-        <article class="meta_row">
-            <p class="label">Address</p>
-            <p class="addr">
-                <span>{{ addressID }}</span>
-                <CopyText :value="`${addressID}`" class="copy_but" />
-                <span v-if="alias" class="alias">{{ alias }}</span>
-            </p>
-        </article>
-        <article class="meta_row">
-            <p class="label">AVAX Balance</p>
-            <div class="symbol">
-                <div class="avax_balance_container">
-                    <div>
-                        <v-tabs show-arrows>
-                            <v-tab>Summary</v-tab>
-                            <v-tab>Detail</v-tab>
-                            <v-tab-item class="tab_content">
-                                <AVAXBalanceTableSummary
-                                    :p-unlocked="P_unlocked"
-                                    :p-locked-stakeable="P_lockedStakeable"
-                                    :p-locked-not-stakeable="
-                                        P_lockedNotStakeable
-                                    "
-                                    :p-staked="P_staked"
-                                    :x-unlocked="X_unlocked"
-                                    :x-locked="X_locked"
-                                />
-                            </v-tab-item>
-                            <v-tab-item class="tab_content">
-                                <AVAXBalanceTableDetail
-                                    :p-unlocked="P_unlocked"
-                                    :p-locked-stakeable="P_lockedStakeable"
-                                    :p-locked-not-stakeable="
-                                        P_lockedNotStakeable
-                                    "
-                                    :p-staked="P_staked"
-                                    :x-unlocked="X_unlocked"
-                                    :x-locked="X_locked"
-                                />
-                            </v-tab-item>
-                        </v-tabs>
+        <section class="stats">
+            <article class="meta_row">
+                <p class="label">Address</p>
+                <p class="addr">
+                    <span>{{ addressID }}</span>
+                    <CopyText :value="`${addressID}`" class="copy_but" />
+                    <span v-if="alias" class="alias">{{ alias }}</span>
+                </p>
+            </article>
+            <article class="meta_row">
+                <p class="label">AVAX Balance</p>
+                <div class="symbol">
+                    <div class="avax_balance_container">
+                        <div>
+                            <v-tabs show-arrows>
+                                <v-tab>Summary</v-tab>
+                                <v-tab>Detail</v-tab>
+                                <v-tab-item class="tab_content">
+                                    <AVAXBalanceTableSummary
+                                        :p-unlocked="P_unlocked"
+                                        :p-locked-stakeable="P_lockedStakeable"
+                                        :p-locked-not-stakeable="
+                                            P_lockedNotStakeable
+                                        "
+                                        :p-staked="P_staked"
+                                        :x-unlocked="X_unlocked"
+                                        :x-locked="X_locked"
+                                    />
+                                </v-tab-item>
+                                <v-tab-item class="tab_content">
+                                    <AVAXBalanceTableDetail
+                                        :p-unlocked="P_unlocked"
+                                        :p-locked-stakeable="P_lockedStakeable"
+                                        :p-locked-not-stakeable="
+                                            P_lockedNotStakeable
+                                        "
+                                        :p-staked="P_staked"
+                                        :x-unlocked="X_unlocked"
+                                        :x-locked="X_locked"
+                                    />
+                                </v-tab-item>
+                            </v-tabs>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </article>
-        <article class="meta_row">
-            <p class="label">X-Chain Portfolio</p>
-            <BalanceTable :assets="assets" />
-        </article>
+            </article>
+            <article class="meta_row">
+                <p class="label">X-Chain Portfolio</p>
+                <BalanceTable :assets="assets" />
+            </article>
+        </section>
     </section>
 </template>
 
