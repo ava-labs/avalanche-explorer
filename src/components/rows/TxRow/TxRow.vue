@@ -21,7 +21,7 @@
                 <span
                     class="value"
                     :style="{
-                        color: chainDarkColor,
+                        color: chainColor,
                     }"
                 >
                     {{ transaction.type | getType }}</span

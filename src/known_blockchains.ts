@@ -28,8 +28,8 @@ export const P: ChainMap = {
     name: 'P-Chain',
     fullname: 'Platform',
     code: 'P',
-    color: '#FFB547',
-    darkColor: '#7E5517',
+    color: '#F19100',
+    darkColor: '#FFF8EE',
     txTypes: [
         ['add_validator', txTypeMap.get('add_validator')!],
         ['add_subnet_validator', txTypeMap.get('add_subnet_validator')!],
@@ -48,8 +48,8 @@ export const X: ChainMap = {
     name: 'X-Chain',
     fullname: 'Exchange',
     code: 'X',
-    color: '#367FFF',
-    darkColor: '#083482',
+    color: '#005FED',
+    darkColor: '#EFF7FF',
     txTypes: [
         ['base', txTypeMap.get('base')!],
         ['create_asset', txTypeMap.get('create_asset')!],
@@ -66,8 +66,8 @@ export const C: ChainMap = {
     name: 'C-Chain',
     fullname: 'Contract',
     code: 'C',
-    color: '#3DEE64',
-    darkColor: '#088223',
+    color: '#088223',
+    darkColor: '#F6FFF6',
     txTypes: [
         ['atomic_import_tx', txTypeMap.get('atomic_import_tx')!],
         ['atomic_export_tx', txTypeMap.get('atomic_export_tx')!],
