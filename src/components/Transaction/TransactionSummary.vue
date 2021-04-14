@@ -131,6 +131,13 @@ export default class TransactionSummary extends Vue {
         return this.tx.type === 'create_asset'
     }
 
+    get isStaking() {
+        return this.tx.type === 'add_validator' ||
+            this.tx.type === 'add_delegator'
+            ? true
+            : false
+    }
+
     copy() {
         navigator.clipboard.writeText(this.tx.id)
         this.$store.dispatch('Notifications/add', {
