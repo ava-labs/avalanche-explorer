@@ -7,9 +7,9 @@
                 :asset-i-d="asset.id"
                 :group-i-d="payloads[0][1]"
             />
-            <NFTFallback v-else />
+            <NFTFallback v-else :size="100" />
         </template>
-        <NFTFallback v-else />
+        <NFTFallback v-else :size="100" />
     </div>
 </template>
 
