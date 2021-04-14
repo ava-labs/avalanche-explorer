@@ -10,7 +10,12 @@
                 <div class="utxo_label">
                     {{ payloadBase.typeID() | getType }} Payload
                 </div>
-                <div class="monospace code">{{ text }}</div>
+                <pre
+                    v-if="payloadBase.typeID() === 24"
+                    class="monospace code"
+                    >{{ JSON.stringify(JSON.parse(text), null, 2) }}</pre
+                >
+                <div v-else class="monospace code">{{ text }}</div>
             </div>
         </div>
     </div>
@@ -53,11 +58,34 @@ export default class UtxoNFTPayload extends Vue {
 </script>
 
 <style scoped lang="scss">
+.two_col {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    > div:first-of-type {
+        flex: 1;
+    }
+
+    > div:nth-of-type(2) {
+        flex: 2;
+    }
+}
+
 .payload {
     overflow: scroll;
 }
 
 .code {
     font-size: 10px;
+}
+
+pre {
+    overflow-x: auto;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
 }
 </style>
