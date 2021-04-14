@@ -6,8 +6,7 @@
             :content-id="addressID"
             :message="'Fetching Address Details'"
         />
-        <!-- ADDRESS SUMMARY -->
-        <Metadata
+        <AddressSummary
             v-if="metadata && !requestError && assetsLoaded === true"
             :meta-data="metadata"
             :address-i-d="addressID"
@@ -83,7 +82,7 @@ import 'reflect-metadata'
 import { Component, Watch, Mixins } from 'vue-property-decorator'
 import Loader from '@/components/misc/Loader.vue'
 import Tooltip from '@/components/rows/Tooltip.vue'
-import Metadata from '@/components/Address/Metadata.vue'
+import AddressSummary from '@/components/Address/AddressSummary.vue'
 import TxTableHead from '@/components/rows/TxRow/TxTableHead.vue'
 import TxRow from '@/components/rows/TxRow/TxRow.vue'
 import AddressDict from '@/known_addresses'
@@ -105,7 +104,7 @@ import { P, X, C } from '@/known_blockchains'
         Loader,
         Tooltip,
         HTTPError,
-        Metadata,
+        AddressSummary,
         TransactionsHeader,
         DateForm,
         TxTableHead,
