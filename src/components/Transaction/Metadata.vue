@@ -83,7 +83,7 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import TooltipMeta from '@/components/misc/TooltipMeta.vue'
+import Tooltip from '@/components/rows/Tooltip.vue'
 import TransactionHistory from '@/components/Home/TopInfo/TransactionHistory.vue'
 import { getAssetType } from '@/services/assets'
 import { getTxChainType } from '@/known_blockchains'
@@ -98,7 +98,7 @@ import {
 
 @Component({
     components: {
-        TooltipMeta,
+        Tooltip,
         TransactionHistory,
     },
 
@@ -121,13 +121,6 @@ export default class Metadata extends Vue {
 
     get isPChain() {
         return this.tx.chainID === P.id ? true : false
-    }
-
-    get isStaking() {
-        return this.tx.type === 'add_validator' ||
-            this.tx.type === 'add_delegator'
-            ? true
-            : false
     }
 
     get assets(): any {
