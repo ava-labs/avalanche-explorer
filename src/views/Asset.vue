@@ -183,12 +183,11 @@ export default class AssetPage extends Mixins(TransactionsGettersMixin) {
         })
     }
 
-    // get address details, txs, and genesis tx
     getData(params: ITransactionParams): void {
         this.txLoading = true
 
         if (this.assetsLoaded) {
-            // Get genesis tx
+            // Get address details and genesis tx
             Promise.all([getTransaction(this.txId), getAssetInfo(this.txId)])
                 .then(([transactionInfo, assetInfo]) => {
                     return {

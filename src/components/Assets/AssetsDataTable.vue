@@ -53,7 +53,11 @@
                     </div>
                 </router-link>
             </template>
-
+            <template #item.txCount_day="{ item }">
+                <p v-if="$vuetify.breakpoint.smAndUp" class="supply">
+                    {{ item.txCount_day.toLocaleString() }}
+                </p>
+            </template>
             <template #item.volume_day="{ item }">
                 <p class="volume_day">
                     {{ item.volume_day.toLocaleString() }}
@@ -62,12 +66,11 @@
                     }}</span>
                 </p>
             </template>
-            <template #item.txCount_day="{ item }">
-                <p v-if="$vuetify.breakpoint.smAndUp" class="supply">
-                    {{ item.txCount_day.toLocaleString() }}
+            <template #item.nft="{ item }">
+                <p v-if="$vuetify.breakpoint.smAndUp" class="nft">
+                    {{ type(item) }}
                 </p>
             </template>
-
             <template #item.currentSupply="{ item }">
                 <p v-if="$vuetify.breakpoint.smAndUp" class="supply">
                     {{ item.currentSupply.toLocaleString(item.denomination) }}
@@ -79,11 +82,6 @@
                     {{ item.chainID | blockchain }}
                 </p>
             </template>
-            <template #item.nft="{ item }">
-                <p v-if="$vuetify.breakpoint.smAndUp" class="nft">
-                    {{ type(item) }}
-                </p>
-            </template>
         </v-data-table>
     </div>
 </template>
@@ -91,7 +89,6 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { blockchainMap } from '@/helper'
 import { Asset } from '@/js/Asset'
 import { ICollisionMap } from '@/js/IAsset'
 import AssetLogoRenderer from '@/components/Assets/AssetLogoRenderer.vue'
@@ -112,16 +109,16 @@ export default class AssetsDataTable extends Vue {
         return [
             { text: 'Symbol', value: 'symbol', width: 100 },
             { text: 'Name', value: 'name' },
-            { text: '24h Volume', value: 'volume_day', width: 250 },
             { text: '24h Tx', value: 'txCount_day', width: 100 },
-            { text: 'Supply', value: 'currentSupply', width: 250 },
-            { text: 'Issuance', value: 'chainID', width: 80, sortable: false },
+            { text: '24h Volume', value: 'volume_day', width: 200 },
             {
                 text: 'Type',
                 value: 'nft',
                 width: 120,
                 sortable: false,
             },
+            { text: 'Supply', value: 'currentSupply', width: 250 },
+            { text: 'Issuance', value: 'chainID', width: 80, sortable: false },
         ]
     }
 
