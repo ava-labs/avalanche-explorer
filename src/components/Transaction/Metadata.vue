@@ -1,23 +1,23 @@
 <template>
-    <section class="stats">
+    <section class="meta">
         <article class="meta_row">
-            <p class="label">
+            <p class="meta_label">
                 Status
                 <Tooltip content="Status of the transaction" />
             </p>
-            <div>
+            <div class="meta_value">
                 <p class="status">Success</p>
                 <p v-if="tx.type === 'assetCreation'" class="status">Success</p>
             </div>
         </article>
         <article class="meta_row">
-            <p class="label">
+            <p class="meta_label">
                 Accepted
                 <Tooltip
                     content="Date and time when transaction was accepted"
                 />
             </p>
-            <div class="values">
+            <div class="meta_values values">
                 <p class="date">
                     <fa :icon="['far', 'clock']" class="time_icon"></fa>
                     {{ date | fromNow }} ({{ date.toLocaleString() }})
@@ -25,33 +25,33 @@
             </div>
         </article>
         <article class="meta_row">
-            <p class="label">
+            <p class="meta_label">
                 Value
                 <Tooltip
                     content="Total economic value transferred in this transaction"
                 />
             </p>
-            <p class="values">
+            <p class="meta_value values">
                 <span v-for="(val, id) in outValuesDenominated" :key="id"
                     >{{ val.amount }} <b>{{ val.symbol }}</b></span
                 >
             </p>
         </article>
         <article class="meta_row">
-            <p class="label">
+            <p class="meta_label">
                 Transaction Fee
                 <Tooltip
                     content="Amount paid to validators for processing the transaction"
                 />
             </p>
-            <p>{{ tx.txFee | toAVAX }} AVAX</p>
+            <p class="meta_value">{{ tx.txFee | toAVAX }} AVAX</p>
         </article>
         <article class="meta_row">
-            <p class="label">
+            <p class="meta_label">
                 Blockchain
                 <Tooltip content="Blockchain storing transaction" />
             </p>
-            <div>
+            <div class="meta_value">
                 <p>{{ chain }}</p>
                 <div v-if="isPChain" style="margin-top: 10px">
                     <div class="summary_label">Block</div>
@@ -60,13 +60,13 @@
             </div>
         </article>
         <article class="meta_row">
-            <p class="label">
+            <p class="meta_label">
                 Asset Type
                 <Tooltip
                     content="The type of asset (NFT, variable or fixed cap)"
                 />
             </p>
-            <div>
+            <div class="meta_value">
                 <p>{{ tx | getAssetType }}</p>
             </div>
         </article>

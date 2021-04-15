@@ -79,6 +79,7 @@ export default class AssetSummary extends Vue {
     display: grid;
     width: 100%;
     grid-template-columns: 1fr 1fr;
+    column-gap: 30px;
 }
 
 @include xsOnly {

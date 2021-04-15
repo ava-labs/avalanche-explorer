@@ -1,38 +1,38 @@
 <template>
-    <section class="stats">
+    <section class="meta">
         <article class="meta_row">
-            <p class="label">Name</p>
-            <p class="blockchain">
+            <p class="meta_label">Name</p>
+            <p class="meta_value">
                 <span>{{ blockchain.name }}</span>
             </p>
         </article>
         <article class="meta_row">
-            <p class="label">ID</p>
-            <p class="blockchain">
+            <p class="meta_label">ID</p>
+            <p class="meta_value">
                 <span>{{ blockchain.id }}</span>
             </p>
         </article>
         <article class="meta_row">
-            <p class="label">Subnet</p>
-            <p class="blockchain">
+            <p class="meta_label">Subnet</p>
+            <p class="meta_value">
                 <span>{{ blockchain.subnetID }}</span>
             </p>
         </article>
         <article class="meta_row">
-            <p class="label">Validators</p>
-            <p class="blockchain">
+            <p class="meta_label">Validators</p>
+            <p class="meta_value">
                 <span>{{ validatorsCount }}</span>
             </p>
         </article>
         <article class="meta_row">
-            <p class="label">VM ID</p>
-            <p class="blockchain">
+            <p class="meta_label">VM ID</p>
+            <p class="meta_value">
                 <span>{{ blockchain.vmID }}</span>
             </p>
         </article>
         <article class="meta_row">
-            <p class="label">Indexed</p>
-            <p class="blockchain">
+            <p class="meta_label">Indexed</p>
+            <p class="meta_value">
                 <Indexed
                     :indexed="blockchain.indexed"
                     :not-indexed-label="true"

@@ -135,4 +135,15 @@ export default class Input extends Vue {
     padding: 4px 8px;
     border-radius: 3px;
 }
+
+.io_item {
+    font-size: 13px;
+    padding: 10px 0px;
+    overflow: auto;
+    border-bottom: 1px solid #f2f2f2;
+
+    &:last-of-type {
+        border: none;
+    }
+}
 </style>

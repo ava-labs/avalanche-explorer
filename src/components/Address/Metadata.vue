@@ -1,16 +1,16 @@
 <template>
-    <section class="stats">
+    <section class="meta">
         <article class="meta_row">
-            <p class="label">Address</p>
-            <p class="addr">
+            <p class="meta_label">Address</p>
+            <p class="meta_value addr">
                 <span>{{ addressID }}</span>
                 <CopyText :value="`${addressID}`" class="copy_but" />
                 <span v-if="alias" class="alias">{{ alias }}</span>
             </p>
         </article>
         <article class="meta_row">
-            <p class="label">AVAX Balance</p>
-            <div class="symbol">
+            <p class="meta_label">AVAX Balance</p>
+            <div class="meta_value symbol">
                 <div class="avax_balance_container">
                     <div>
                         <v-tabs show-arrows>
@@ -46,7 +46,7 @@
             </div>
         </article>
         <article class="meta_row">
-            <p class="label">X-Chain Portfolio</p>
+            <p class="meta_label">X-Chain Portfolio</p>
             <BalanceTable :assets="assets" />
         </article>
     </section>

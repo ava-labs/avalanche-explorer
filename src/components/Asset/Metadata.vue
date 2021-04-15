@@ -1,43 +1,43 @@
 <template>
-    <section class="stats">
+    <section class="meta">
         <!-- INFO -->
         <article v-if="asset.alias" class="meta_row">
-            <p class="label">
+            <p class="meta_label">
                 Alias
                 <TooltipMeta :content="'Alias of ' + asset.id" />
             </p>
-            <p class="meta_val">
+            <p class="meta_value">
                 {{ asset.alias }}
             </p>
         </article>
         <article class="meta_row">
-            <p class="label">
+            <p class="meta_label">
                 ID
                 <TooltipMeta :content="'Unique identifier of token'" />
             </p>
-            <p class="meta_val">
+            <p class="meta_value">
                 <router-link :to="`/tx/${asset.id}`">{{
                     asset.id
                 }}</router-link>
             </p>
         </article>
         <article class="meta_row">
-            <p class="label">
+            <p class="meta_label">
                 Asset Type
                 <TooltipMeta
                     content="The type of asset (NFT, variable or fixed cap)"
                 />
             </p>
-            <p class="meta_val">{{ genesisTx | getAssetType }}</p>
+            <p class="meta_value">{{ genesisTx | getAssetType }}</p>
         </article>
         <article class="meta_row">
-            <p class="label">
+            <p class="meta_label">
                 Created
                 <TooltipMeta
                     :content="'When and where ' + asset.symbol + ' was minted'"
                 />
             </p>
-            <p class="meta_val">
+            <p class="meta_value">
                 <fa :icon="['far', 'clock']" class="time_icon"></fa>
                 {{ date | fromNow }} ({{ date.toLocaleString() }}) on
                 {{ asset.chainID | blockchain }}
@@ -45,31 +45,31 @@
         </article>
         <!-- FUNGIBLE ONLY -->
         <article v-if="!isNFT" class="meta_row">
-            <p class="label">
+            <p class="meta_label">
                 Minimal Transferrable Unit
                 <TooltipMeta
                     :content="'determines how balances of this asset are displayed'"
                 />
             </p>
-            <p class="meta_val">
+            <p class="meta_value">
                 {{ minimalTransferrableUnit }} ({{
                     asset.denomination | pluralizeDenomination
                 }})
             </p>
         </article>
         <article v-if="!isNFT" class="meta_row">
-            <p class="label">
+            <p class="meta_label">
                 Initial Supply
                 <TooltipMeta :content="'Type of asset'" />
             </p>
-            <p class="meta_val">
+            <p class="meta_value">
                 {{ asset.currentSupply.toLocaleString(asset.denomination) }}
                 <span class="unit">{{ asset.symbol }}</span>
             </p>
         </article>
         <!-- STATS -->
         <article v-if="!isNFT" class="meta_row">
-            <p class="label">
+            <p class="meta_label">
                 24h Volume
                 <TooltipMeta
                     :content="
@@ -79,13 +79,13 @@
                     "
                 />
             </p>
-            <p class="meta_val">
+            <p class="meta_value">
                 {{ parseInt(asset.volume_day.toFixed(0)).toLocaleString() }}
                 <span class="unit">{{ asset.symbol }}</span>
             </p>
         </article>
         <article class="meta_row">
-            <p class="label">
+            <p class="meta_label">
                 24h Tx
                 <TooltipMeta
                     :content="
@@ -95,7 +95,7 @@
                     "
                 />
             </p>
-            <p class="meta_val">
+            <p class="meta_value">
                 {{ asset.txCount_day.toLocaleString() }}
             </p>
         </article>
