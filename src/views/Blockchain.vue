@@ -8,6 +8,7 @@
         />
         <template v-else>
             <BlockchainSummary :blockchain="blockchain" />
+            <!-- TRANSACTIONS -->
             <template v-if="blockchain">
                 <div v-if="blockchain.indexed" class="card blockchain_tx">
                     <div class="header">

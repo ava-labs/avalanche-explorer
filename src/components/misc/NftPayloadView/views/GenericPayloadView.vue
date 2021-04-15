@@ -1,5 +1,4 @@
 <!--Used inside the JsonPayload.vue component-->
-
 <template>
     <div class="generic_payload_view">
         <template v-if="!isError">
@@ -10,7 +9,7 @@
             </div>
         </template>
         <template v-else>
-            <p>Failed to load generic collectible payload.</p>
+            <p>Failed to load generic NFT payload.</p>
         </template>
     </div>
 </template>
@@ -66,32 +65,33 @@ export default class UtfPayloadView extends Vue {
     height: 220px;
     max-height: 100%;
     overflow: hidden;
-}
-p {
-    font-size: 13px;
-    padding: 12px 24px;
-    word-break: break-word;
-    overflow: scroll;
-    background-color: var(--bg-light);
-    color: var(--primary-color);
-}
 
-img {
-    display: block;
-    object-fit: cover;
-    // width: 100%;
-    // height: 100%;
-    position: absolute;
-}
+    img {
+        display: block;
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+    }
 
-.nft_title {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    font-size: 13px;
-    background-color: #000000aa;
-    color: #fff;
-    transition-duration: 0.2s;
+    p {
+        font-size: 13px;
+        padding: 12px 24px;
+        word-break: break-word;
+        overflow: scroll;
+        background-color: var(--bg-light);
+        color: var(--primary-color);
+    }
+
+    .nft_title {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        font-size: 13px;
+        background-color: #000000aa;
+        color: #fff;
+        transition-duration: 0.2s;
+    }
 }
 
 .generic_view:hover {

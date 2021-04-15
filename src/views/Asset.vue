@@ -12,7 +12,6 @@
                 :asset="asset"
                 :genesis-tx="genesisTx"
             />
-
             <!-- TRANSACTIONS -->
             <section
                 v-if="!txLoading && !txRequestError"
