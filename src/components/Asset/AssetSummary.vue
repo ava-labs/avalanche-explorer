@@ -1,19 +1,17 @@
 <template>
-    <div class="asset_header">
-        <div class="card">
-            <div class="header">
-                <h2>
-                    {{ asset | nameOrID }}
-                    <span class="symbol">{{ asset.symbol }}</span>
-                </h2>
-            </div>
-            <div class="two_column">
-                <Metadata :asset="asset" :genesis-tx="genesisTx" />
-                <section>
-                    <TransactionHistory v-if="isAVAX" />
-                    <NFTRenderer v-if="isNFT" :asset="asset" />
-                </section>
-            </div>
+    <div class="card asset_header">
+        <header class="header">
+            <h2>
+                {{ asset | nameOrID }}
+                <span class="symbol">{{ asset.symbol }}</span>
+            </h2>
+        </header>
+        <div class="two_column">
+            <Metadata :asset="asset" :genesis-tx="genesisTx" />
+            <section>
+                <TransactionHistory v-if="isAVAX" />
+                <NFTRenderer v-if="isNFT" :asset="asset" />
+            </section>
         </div>
     </div>
 </template>
@@ -73,13 +71,6 @@ export default class AssetSummary extends Vue {
         display: inline-block;
         vertical-align: middle;
     }
-}
-
-.two_column {
-    display: grid;
-    width: 100%;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 30px;
 }
 
 @include xsOnly {

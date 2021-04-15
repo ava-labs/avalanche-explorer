@@ -47,7 +47,9 @@
         </article>
         <article class="meta_row">
             <p class="meta_label">X-Chain Portfolio</p>
-            <BalanceTable :assets="assets" />
+            <div class="meta_value">
+                <BalanceTable :assets="assets" />
+            </div>
         </article>
     </section>
 </template>
@@ -116,22 +118,7 @@ export default class Metadata extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
-.addr {
-    text-overflow: ellipsis;
-    word-break: keep-all;
-    white-space: nowrap;
-
-    .alias {
-        background-color: #e6ffe6;
-        border: 1px solid $green;
-        color: $green;
-        width: max-content;
-        padding: 4px 8px;
-        margin: 0px 30px;
-    }
-}
-</style>
+<style scoped lang="scss"></style>
 
 <style lang="scss">
 .info_alert {

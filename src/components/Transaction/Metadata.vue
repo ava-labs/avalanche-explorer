@@ -1,5 +1,5 @@
 <template>
-    <section class="meta">
+    <section class="stats">
         <article class="meta_row">
             <p class="meta_label">
                 Status
@@ -70,6 +70,28 @@
                 <p>{{ tx | getAssetType }}</p>
             </div>
         </article>
+        <!-- MEMO -->
+        <article v-if="isMemo" class="meta_row">
+            <p class="meta_label">
+                Memo
+                <Tooltip
+                    content="A 256-byte text field for encoding arbitrary data"
+                />
+            </p>
+            <div class="meta_value">
+                <Memo :tx="tx" />
+            </div>
+        </article>
+        <!-- STAKING -->
+        <article v-if="isStaking" class="meta_row">
+            <p class="meta_label">
+                Staking
+                <Tooltip content="Validator Rewards" color="#c4c4c4" />
+            </p>
+            <div class="meta_value">
+                <StakingSummary :tx="tx" />
+            </div>
+        </article>
     </section>
 </template>
 
@@ -88,11 +110,15 @@ import {
     OutputValuesDict,
     OutValuesDenominated,
 } from '@/store/modules/transactions/models'
+import StakingSummary from '@/components/Transaction/StakingSummary.vue'
+import Memo from '@/components/Transaction/Memo.vue'
 
 @Component({
     components: {
         Tooltip,
         TransactionHistory,
+        Memo,
+        StakingSummary,
     },
 
     filters: {
@@ -103,6 +129,8 @@ import {
 })
 export default class Metadata extends Vue {
     @Prop() tx!: Transaction
+    @Prop() isMemo!: boolean
+    @Prop() isStaking!: boolean
 
     get date(): Date {
         return new Date(this.tx.timestamp)

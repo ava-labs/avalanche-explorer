@@ -1,5 +1,5 @@
 <template>
-    <section class="card meta">
+    <section class="card">
         <header class="header">
             <h2 v-if="alias">{{ alias }}</h2>
             <h2 v-else>{{ addressID }}</h2>
