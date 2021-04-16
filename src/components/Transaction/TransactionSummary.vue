@@ -21,7 +21,7 @@
                 </v-tooltip>
             </h2>
         </header>
-        <Metadata :tx="tx" :isStaking="isStaking" :isMemo="isMemo" />
+        <Metadata :tx="tx" :is-staking="isStaking" :is-memo="isMemo" />
     </div>
 </template>
 
