@@ -168,7 +168,8 @@ h3.label {
         -webkit-text-fill-color: transparent;
     }
 }
-@include smOnly {
+
+@include smOrSmaller {
     .meta_row {
         padding: 16px 0;
         grid-template-columns: none;
@@ -181,7 +182,4 @@ h3.label {
             opacity: 0.7;
         }
     }
-}
-
-@include mdOrBigger {
 }
