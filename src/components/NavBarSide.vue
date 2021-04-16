@@ -7,10 +7,8 @@
             <v-list-item to="/blockchains">Blockchains</v-list-item>
             <v-list-item to="/assets">Assets</v-list-item>
             <v-list-item to="/tx">Transactions</v-list-item>
-            <!-- <v-list-item to="/addresses">Addresses</v-list-item> -->
-            <v-list-item href="https://cchain.explorer.avax.network/"
-                >C-Chain</v-list-item
-            >
+            <v-list-item :href="cChainURL">C-Chain</v-list-item>
+            <v-list-item :href="statusPageURL">Status</v-list-item>
             <v-list-item to="/resources">Resources</v-list-item>
         </v-list>
     </div>
@@ -18,9 +16,26 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
+import {
+    DEFAULT_NETWORK_ID,
+    cChainExplorerURL,
+    cChainExplorerURL_test,
+    statusURL,
+    statusURL_test,
+} from '@/store/modules/network/network'
 
 @Component({})
-export default class NavbarSide extends Vue {}
+export default class NavbarSide extends Vue {
+    get cChainURL() {
+        return DEFAULT_NETWORK_ID === 1
+            ? cChainExplorerURL
+            : cChainExplorerURL_test
+    }
+
+    get statusPageURL() {
+        return DEFAULT_NETWORK_ID === 1 ? statusURL : statusURL_test
+    }
+}
 </script>
 
 <style scoped lang="scss">

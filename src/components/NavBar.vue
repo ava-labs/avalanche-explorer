@@ -30,6 +30,7 @@
                     <router-link to="/assets">Assets</router-link>
                     <router-link to="/blockchains">Blockchains</router-link>
                     <a :href="cChainURL">C-Chain</a>
+                    <a :href="statusPageURL">Status</a>
                     <router-link to="/resources">Resources</router-link>
                 </div>
             </div>
@@ -52,6 +53,8 @@ import {
     DEFAULT_NETWORK_ID,
     cChainExplorerURL,
     cChainExplorerURL_test,
+    statusURL,
+    statusURL_test,
 } from '@/store/modules/network/network'
 
 export default Vue.extend({
@@ -79,6 +82,9 @@ export default Vue.extend({
             return DEFAULT_NETWORK_ID === 1
                 ? cChainExplorerURL
                 : cChainExplorerURL_test
+        },
+        statusPageURL() {
+            return DEFAULT_NETWORK_ID === 1 ? statusURL : statusURL_test
         },
     },
     methods: {

@@ -39,9 +39,8 @@
                     <v-list-item to="/assets">Assets</v-list-item>
                     <v-list-item to="/blockchains">Blockchains</v-list-item>
                     <v-list-item to="/tx">Transactions</v-list-item>
-                    <v-list-item href="https://cchain.explorer.avax.network/"
-                        >C-Chain</v-list-item
-                    >
+                    <v-list-item :href="cChainURL">C-Chain</v-list-item>
+                    <v-list-item :href="statusPageURL">Status</v-list-item>
                     <v-list-item to="/resources">Resources</v-list-item>
                 </template>
             </v-list>
@@ -71,6 +70,13 @@
 import { Vue, Component } from 'vue-property-decorator'
 import SearchBarMobile from '@/components/misc/SearchBar/SearchBarMobile.vue'
 import NetworkMenu from './NetworkSettings/NetworkMenu.vue'
+import {
+    DEFAULT_NETWORK_ID,
+    cChainExplorerURL,
+    cChainExplorerURL_test,
+    statusURL,
+    statusURL_test,
+} from '@/store/modules/network/network'
 
 @Component({
     components: {
@@ -92,6 +98,16 @@ export default class NavbarMobile extends Vue {
 
     get navColor() {
         return '#fff'
+    }
+
+    get cChainURL() {
+        return DEFAULT_NETWORK_ID === 1
+            ? cChainExplorerURL
+            : cChainExplorerURL_test
+    }
+
+    get statusPageURL() {
+        return DEFAULT_NETWORK_ID === 1 ? statusURL : statusURL_test
     }
 
     closeSearch(val: boolean) {

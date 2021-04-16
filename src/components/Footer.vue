@@ -26,9 +26,9 @@
             <router-link to="/subnets">Subnets</router-link>
             <router-link to="/validators">Validators</router-link>
             <router-link to="/assets">Assets</router-link>
-            <!-- <router-link to="/addresses">Addresses</router-link> -->
             <router-link to="/blockchains">Blockchains</router-link>
-            <a href="https://cchain.explorer.avax.network/">C-Chain</a>
+            <a :href="cChainURL">C-Chain</a>
+            <a :href="statusPageURL">Status</a>
             <router-link to="/resources">Resources</router-link>
         </div>
         <div class="list">
@@ -46,8 +46,28 @@
     </v-footer>
 </template>
 
-<script>
-export default {}
+<script lang="ts">
+import { Vue, Component } from 'vue-property-decorator'
+import {
+    DEFAULT_NETWORK_ID,
+    cChainExplorerURL,
+    cChainExplorerURL_test,
+    statusURL,
+    statusURL_test,
+} from '@/store/modules/network/network'
+
+@Component({})
+export default class Footer extends Vue {
+    get cChainURL() {
+        return DEFAULT_NETWORK_ID === 1
+            ? cChainExplorerURL
+            : cChainExplorerURL_test
+    }
+
+    get statusPageURL() {
+        return DEFAULT_NETWORK_ID === 1 ? statusURL : statusURL_test
+    }
+}
 </script>
 
 <style scoped lang="scss">
