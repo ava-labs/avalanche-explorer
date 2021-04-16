@@ -8,6 +8,7 @@ export interface IPlatformState {
     subnetsLoaded: boolean
     minStake: BN
     currentSupply: BN
+    annualStakingRewardPercentage: number
 }
 
 export interface ISubnets {

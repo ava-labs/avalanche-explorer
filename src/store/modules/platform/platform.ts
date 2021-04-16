@@ -13,6 +13,7 @@ import BlockchainDict from '@/known_blockchains'
 import Blockchain from '@/js/Blockchain'
 import { getAddressCounts } from '@/services/addressCounts/addressCounts.service'
 import { AddressCount } from '@/services/addressCounts/models'
+import { calculateStakingReward } from './helpers'
 
 export const AVALANCHE_SUBNET_ID = Object.keys(SubnetDict).find(
     (key) => SubnetDict[key] === 'Primary Network'
@@ -30,8 +31,12 @@ const platform_module: Module<IPlatformState, IRootState> = {
         subnetsLoaded: false,
         currentSupply: new BN(0),
         minStake: new BN(0),
+        annualStakingRewardPercentage: 0,
     },
     mutations: {
+        setCurrentSupply(state, currentSupply: BN) {
+            state.currentSupply = currentSupply
+        },
         setSubnet(state, s) {
             Vue.set(state.subnets, s.id, s)
         },
@@ -41,11 +46,16 @@ const platform_module: Module<IPlatformState, IRootState> = {
         updateChainsWithAddressCounts(state, blockchains: Blockchain[]) {
             state.blockchains = blockchains
         },
+        setAnnualStakingRewardPercentage(state, APR: number) {
+            state.annualStakingRewardPercentage = APR
+            console.log('APR', state.annualStakingRewardPercentage)
+        },
     },
     actions: {
         async init({ dispatch }) {
+            await dispatch('updateCurrentSupply')
+            await dispatch('updateAnnualStakingRewardPercentage')
             await dispatch('getSubnets')
-            dispatch('updateCurrentSupply')
             dispatch('updateAddressCounts')
         },
 
@@ -89,8 +99,8 @@ const platform_module: Module<IPlatformState, IRootState> = {
             state.subnetsLoaded = true
         },
 
-        async updateCurrentSupply({ state }) {
-            state.currentSupply = await platform.getCurrentSupply()
+        async updateCurrentSupply({ commit }) {
+            commit('setCurrentSupply', await platform.getCurrentSupply())
         },
 
         async updateMinStakeAmount({ state }) {
@@ -113,7 +123,23 @@ const platform_module: Module<IPlatformState, IRootState> = {
                 return toUpdate
             })
             commit('updateChainsWithAddressCounts', updates)
-            console.log('state.blockchains', state.blockchains)
+        },
+
+        async updateAnnualStakingRewardPercentage({ state, commit }) {
+            const ONE_YEAR_SECONDS = 60 * 60 * 24 * 365
+            const currentSupply = state.currentSupply
+            const reward = calculateStakingReward(
+                currentSupply,
+                ONE_YEAR_SECONDS,
+                currentSupply
+            )
+            // convert 'nAVAX BNs' to 'AVAX numbers' since BN arithmetic is buggy
+            const currentSupplyAVAX = currentSupply
+                .div(new BN(Math.pow(10, 9)))
+                .toNumber()
+            const rewardAVAX = reward.div(new BN(Math.pow(10, 9))).toNumber()
+            const APR = (rewardAVAX / currentSupplyAVAX) * 100
+            commit('setAnnualStakingRewardPercentage', APR)
         },
     },
     getters: {

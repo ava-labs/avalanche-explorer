@@ -211,9 +211,6 @@ import { AVAX_ID } from '@/store/index'
 import { Asset } from '@/js/Asset'
 import Big from 'big.js'
 import { TOTAL_AVAX_SUPPLY } from '@/store/modules/platform/platform'
-import { avalanche } from '@/avalanche'
-import { Defaults, ONEAVAX } from 'avalanche/dist/utils'
-import { BN } from 'avalanche/dist'
 
 @Component({
     components: {
@@ -355,82 +352,8 @@ export default class NetworkActivity extends Vue {
     }
 
     get annualStakingRewardPercentage(): string {
-        const networkID = avalanche.getNetworkID()
-
-        //@ts-ignore
-        const defaultValues = Defaults.network[networkID]
-        if (!defaultValues) {
-            console.error('Network default values not found.')
-            return 'TBD'
-        }
-
-        const maxConsumption: number = defaultValues.P.maxConsumption
-        const minConsumption: number = defaultValues.P.minConsumption
-        const avgReturn: number = ((maxConsumption + minConsumption) / 2) * 100
-
-        return `${avgReturn.toFixed(0)}%`
-    }
-
-    get annualStakingReward(): BN {
-        const totalStake: string = this.$store.getters[
-            'Platform/totalStake'
-        ].toFixed()
-        const totalStake_BN: BN = new BN(totalStake)
-        const ONE_YEAR_SECONDS = 60 * 60 * 24 * 365
-        const TOTAL_AVAX_SUPPLY_BN = new BN(
-            TOTAL_AVAX_SUPPLY.times(Math.pow(10, 9)).toFixed()
-        )
-
-        const annualStakingReward: BN = this.calculateStakingReward(
-            totalStake_BN,
-            ONE_YEAR_SECONDS,
-            TOTAL_AVAX_SUPPLY_BN
-        )
-        return annualStakingReward
-    }
-
-    calculateStakingReward(
-        amount: BN,
-        duration: number,
-        currentSupply: BN
-    ): BN {
-        const networkID = avalanche.getNetworkID()
-
-        //@ts-ignore
-        let defValues = Defaults.network[networkID]
-
-        if (!defValues) {
-            console.error('Network default values not found.')
-            return new BN(0)
-        }
-        defValues = defValues.P
-
-        const maxConsumption: number = defValues.maxConsumption
-        const minConsumption: number = defValues.minConsumption
-        const diffConsumption: number = maxConsumption - minConsumption
-        const maxSupply: BN = defValues.maxSupply
-        const maxStakingDuration: BN = defValues.maxStakingDuration
-        const remainingSupply = maxSupply.sub(currentSupply)
-
-        const amtBig = Big(amount.div(ONEAVAX).toString())
-        const currentSupplyBig = Big(currentSupply.div(ONEAVAX).toString())
-        const remainingSupplyBig = Big(remainingSupply.div(ONEAVAX).toString())
-        const portionOfExistingSupplyBig = amtBig.div(currentSupplyBig)
-
-        const portionOfStakingDuration: number =
-            duration / maxStakingDuration.toNumber()
-        const mintingRate: number =
-            minConsumption + diffConsumption * portionOfStakingDuration
-
-        let rewardBig: Big = remainingSupplyBig.times(
-            portionOfExistingSupplyBig
-        )
-        rewardBig = rewardBig.times(Big(mintingRate * portionOfStakingDuration))
-
-        const rewardStr = rewardBig.times(Math.pow(10, 9)).toFixed(0)
-        const rewardBN = new BN(rewardStr)
-
-        return rewardBN
+        const APR = this.$store.state.Platform.annualStakingRewardPercentage
+        return `${APR.toFixed(1)}%`
     }
 }
 </script>
