@@ -26,6 +26,7 @@ const avalancheJSNetworkID = parseInt(
 )
 const avalancheJSChainID = process.env.VUE_APP_AVALANCHE_JS_CHAINID || 'X'
 export const cChainExplorerURL = process.env.VUE_APP_CCHAIN_EXPLORER_URL || ''
+export const statusURL = process.env.VUE_APP_STATUS_URL || ''
 
 // Testnet
 const networkName_test = process.env.VUE_APP_TEST_NETWORKNAME || ''
@@ -45,6 +46,7 @@ const avalancheJSChainID_test =
     process.env.VUE_APP_TEST_AVALANCHE_JS_CHAINID || ''
 export const cChainExplorerURL_test =
     process.env.VUE_APP_TEST_CCHAIN_EXPLORER_URL || ''
+export const statusURL_test = process.env.VUE_APP_TEST_STATUS_URL || ''
 
 const network_module: Module<INetworkState, IRootState> = {
     namespaced: true,

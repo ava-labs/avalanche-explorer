@@ -111,21 +111,14 @@ export default class TransactionUTXO extends Vue {
     }
 }
 
-.decode {
-    display: inline-block;
-    color: $primary-color-light;
-    width: 60px;
-    font-size: 12px;
-}
-
-@include smOnly {
+@include smOrSmaller {
     .utxo {
         grid-template-columns: 1fr;
         column-gap: 0;
         margin-top: 30px;
 
         .card:last-of-type {
-            padding-top: 0;
+            margin-top: 30px;
         }
     }
 }

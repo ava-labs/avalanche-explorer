@@ -31,6 +31,7 @@
                     <router-link to="/assets">Assets</router-link>
                     <router-link to="/blockchains">Blockchains</router-link>
                     <a :href="cChainURL">C-Chain</a>
+                    <a :href="statusPageURL">Status</a>
                     <router-link to="/resources">Resources</router-link>
                 </div>
             </div>
@@ -68,6 +69,8 @@ import {
     DEFAULT_NETWORK_ID,
     cChainExplorerURL,
     cChainExplorerURL_test,
+    statusURL,
+    statusURL_test,
 } from '@/store/modules/network/network'
 
 @Component({
@@ -75,6 +78,45 @@ import {
         SearchBar,
         NetworkMenu,
     },
+<<<<<<< HEAD
+=======
+    computed: {
+        themeType() {
+            return this.$vuetify.theme.dark ? 'dark' : 'light'
+        },
+        theme() {
+            return this.$vuetify.theme.themes[this.themeType]
+        },
+        showSearch() {
+            return this.$router.currentRoute.name === 'Home' ? false : true
+        },
+        navColor() {
+            return DEFAULT_NETWORK_ID === 1 ? '#fff' : '#2196f3'
+        },
+        logoColor() {
+            return DEFAULT_NETWORK_ID === 1 ? 'light' : 'white'
+        },
+        cChainURL() {
+            return DEFAULT_NETWORK_ID === 1
+                ? cChainExplorerURL
+                : cChainExplorerURL_test
+        },
+        statusPageURL() {
+            return DEFAULT_NETWORK_ID === 1 ? statusURL : statusURL_test
+        },
+    },
+    methods: {
+        onsearch(val) {
+            this.$router
+                .push({ path: '/search', query: { query: val } })
+                .catch((error) => {
+                    if (error.name != 'NavigationDuplicated') {
+                        throw error
+                    }
+                })
+        },
+    },
+>>>>>>> master
 })
 export default class Navbar extends Vue {
     currencies = ['USD', 'AVAX']
