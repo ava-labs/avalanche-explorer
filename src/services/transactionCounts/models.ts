@@ -1,4 +1,4 @@
-export interface TransactionCount {
+export interface TxCount {
     chainID: string
     total: string
 }

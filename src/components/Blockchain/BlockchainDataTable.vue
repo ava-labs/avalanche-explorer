@@ -35,8 +35,11 @@
                     :not-indexed-label="false"
                 ></Indexed>
             </template>
-            <template #item.addressCounts="{ item }">
+            <template #item.addressCount="{ item }">
                 <div>{{ item.addressCount }}</div>
+            </template>
+            <template #item.txCount="{ item }">
+                <div>{{ item.txCount }}</div>
             </template>
             <template #item.subnetID="{ item }">
                 <div>
@@ -79,6 +82,7 @@ export default class BlockchainDataTable extends Vue {
             { text: 'Virtual Machine', value: 'vmID', width: 125 },
             { text: 'Database Index', value: 'indexed', width: 125 },
             { text: 'Unique Addresses', value: 'addressCount', width: 125 },
+            { text: 'Transactions', value: 'txCount', width: 125 },
             { text: 'Subnet', value: 'subnetID', width: 300 },
         ]
         return this.subnets ? headers : headers.slice(0, 3)

@@ -14,6 +14,8 @@ import Blockchain from '@/js/Blockchain'
 import { getAddressCounts } from '@/services/addressCounts/addressCounts.service'
 import { AddressCount } from '@/services/addressCounts/models'
 import { calculateStakingReward } from './helpers'
+import { getTxCounts } from '@/services/transactionCounts/transactionCounts.service'
+import { TxCount } from '@/services/transactionCounts/models'
 
 export const AVALANCHE_SUBNET_ID = Object.keys(SubnetDict).find(
     (key) => SubnetDict[key] === 'Primary Network'
@@ -46,6 +48,9 @@ const platform_module: Module<IPlatformState, IRootState> = {
         updateChainsWithAddressCounts(state, blockchains: Blockchain[]) {
             state.blockchains = blockchains
         },
+        updateChainsWithTxCounts(state, blockchains: Blockchain[]) {
+            state.blockchains = blockchains
+        },
         setAnnualStakingRewardPercentage(state, APR: number) {
             state.annualStakingRewardPercentage = APR
             console.log('APR', state.annualStakingRewardPercentage)
@@ -57,6 +62,7 @@ const platform_module: Module<IPlatformState, IRootState> = {
             await dispatch('updateAnnualStakingRewardPercentage')
             await dispatch('getSubnets')
             dispatch('updateAddressCounts')
+            dispatch('updateTxCounts')
         },
 
         async getSubnets({ state, commit }) {
@@ -123,6 +129,21 @@ const platform_module: Module<IPlatformState, IRootState> = {
                 return toUpdate
             })
             commit('updateChainsWithAddressCounts', updates)
+        },
+
+        async updateTxCounts({ state, commit }) {
+            const res = await getTxCounts()
+            const updates = state.blockchains.map((chain: Blockchain) => {
+                const toUpdate = chain
+                const txCount = res.find(
+                    (txCount: TxCount) => txCount.chainID === toUpdate.id
+                )
+                if (txCount) {
+                    toUpdate.updateTxCount(txCount.total)
+                }
+                return toUpdate
+            })
+            commit('updateChainsWithTxCounts', updates)
         },
 
         async updateAnnualStakingRewardPercentage({ state, commit }) {
