@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 // doing this to skirt the ts errors since vuex has no def for this
 const createLogger: any = require('vuex/dist/logger')
-import api from '../axios'
 import { Asset } from '@/js/Asset'
 import { IRootState } from '@/store/types'
 import AddressDict from '@/known_addresses'
@@ -27,6 +26,7 @@ import { ITransactionPayload } from '@/services/transactions'
 import { getTransaction } from '@/services/transactions'
 import { getAssetAggregates, IAssetAggregate } from '@/services/aggregates'
 import { parseTxs } from './modules/transactions/helpers'
+import { getCacheAssets } from '@/services/assets/assets.service'
 
 Vue.use(Vuex)
 
@@ -79,33 +79,7 @@ const store = new Vuex.Store({
          * Get and set initial list of all indexed assets
          */
         async getAssets(store) {
-            // TODO: support service for multiple chains
-            let isFinished = false
-            let offset = 0
-            const limit = 500
-            const res = await api.get(
-                `/x/assets?offset=${offset}&limit=${limit}`
-            )
-            const assetsData = res.data.assets
-
-            // keep getting asset data as necessary
-            async function checkForMoreAssets() {
-                offset += limit
-                const res = await api.get(
-                    `/x/assets?offset=${offset}&limit=${limit}`
-                )
-                const moreAssets = res.data.assets
-                if (moreAssets.length === 0) {
-                    isFinished = true
-                }
-                assetsData.push(...moreAssets)
-            }
-
-            while (isFinished === false) {
-                await checkForMoreAssets()
-            }
-
-            // once we get all the data, instantiate assets and save them to the store
+            const assetsData = await getCacheAssets()
             assetsData.forEach((assetData: any) => {
                 store.commit('addAsset', new Asset(assetData, false))
             })

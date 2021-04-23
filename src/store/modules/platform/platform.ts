@@ -53,7 +53,6 @@ const platform_module: Module<IPlatformState, IRootState> = {
         },
         setAnnualStakingRewardPercentage(state, APR: number) {
             state.annualStakingRewardPercentage = APR
-            console.log('APR', state.annualStakingRewardPercentage)
         },
     },
     actions: {
