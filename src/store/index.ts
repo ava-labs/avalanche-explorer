@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import api from '../axios'
 import { Asset } from '@/js/Asset'
 import { IRootState } from '@/store/types'
 import AddressDict from '@/known_addresses'
@@ -23,7 +22,7 @@ import { ITransactionPayload } from '@/services/transactions'
 import { getTransaction } from '@/services/transactions'
 import { getAssetAggregates, IAssetAggregate } from '@/services/aggregates'
 import { parseTxs } from './modules/transactions/helpers'
-import { isMainnetNetwork, X } from '@/known_blockchains'
+import { X } from '@/known_blockchains'
 import { getCacheAssets } from '@/services/assets'
 
 Vue.use(Vuex)
@@ -75,37 +74,7 @@ const store = new Vuex.Store({
          * Get and set initial list of all indexed assets
          */
         async getAssets(store) {
-            let assetsData = []
-
-            if (isMainnetNetwork()) {
-                // TODO: support service for multiple chains
-                let isFinished = false
-                let offset = 0
-                const limit = 500
-                const res = await api.get(
-                    `/x/assets?offset=${offset}&limit=${limit}`
-                )
-                assetsData = res.data.assets
-
-                while (isFinished === false) {
-                    // keep getting asset data as necessary
-                    await (async function () {
-                        offset += limit
-                        const res = await api.get(
-                            `/x/assets?offset=${offset}&limit=${limit}`
-                        )
-                        const moreAssets = res.data.assets
-                        if (moreAssets.length === 0) {
-                            isFinished = true
-                        }
-                        assetsData.push(...moreAssets)
-                    })()
-                }
-            } else {
-                assetsData = await getCacheAssets()
-            }
-
-            // once we get all the data, instantiate assets and save them to the store
+            const assetsData = await getCacheAssets()
             assetsData.forEach((assetData: any) => {
                 store.commit('addAsset', new Asset(assetData, false))
             })

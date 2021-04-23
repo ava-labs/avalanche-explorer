@@ -8,6 +8,7 @@ export default class Blockchain {
     subnetID: string
     vmID: string
     addressCount?: number | null
+    txCount?: number | null
     indexed?: boolean
     profane?: boolean
 
@@ -17,6 +18,7 @@ export default class Blockchain {
         this.subnetID = data.subnetID
         this.vmID = data.vmID
         this.addressCount = null
+        this.txCount = null
         this.indexed = this.updateIndexed()
         this.profane = false
         this.checkForProfanities(this.name)
@@ -44,5 +46,10 @@ export default class Blockchain {
     public updateAddressCount(value: string | null): void {
         if (!value) return
         this.addressCount = parseInt(value)
+    }
+
+    public updateTxCount(value: string | null): void {
+        if (!value) return
+        this.txCount = parseInt(value)
     }
 }
