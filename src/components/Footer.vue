@@ -19,31 +19,6 @@
                 >.
             </p>
         </div>
-<<<<<<< HEAD
-        <div class="lists">
-            <div class="list">
-                <h4>Menu</h4>
-                <router-link to="/">Home</router-link>
-                <router-link to="/subnets">Subnets</router-link>
-                <router-link to="/validators">Validators</router-link>
-                <router-link to="/assets">Assets</router-link>
-                <router-link to="/blockchains">Blockchains</router-link>
-                <a href="https://cchain.explorer.avax.network/">C-Chain</a>
-                <router-link to="/resources">Resources</router-link>
-            </div>
-            <div class="list">
-                <h4>Social</h4>
-                <a href="https://twitter.com/avalancheavax" target="_blank">
-                    <fa :icon="['fab', 'twitter']"></fa>Twitter
-                </a>
-                <a href="https://chat.avax.network" target="_blank">
-                    <fa :icon="['fab', 'discord']"></fa>Discord
-                </a>
-                <a href="https://reddit.com/r/avax" target="_blank">
-                    <fa :icon="['fab', 'reddit']"></fa>Reddit
-                </a>
-            </div>
-=======
         <div class="list">
             <h4>Menu</h4>
             <router-link to="/">Home</router-link>
@@ -66,7 +41,6 @@
             <a href="https://reddit.com/r/avax" target="_blank">
                 <fa :icon="['fab', 'reddit']"></fa>Reddit
             </a>
->>>>>>> master
         </div>
     </v-footer>
 </template>

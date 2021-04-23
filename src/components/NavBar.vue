@@ -78,8 +78,6 @@ import {
         SearchBar,
         NetworkMenu,
     },
-<<<<<<< HEAD
-=======
     computed: {
         themeType() {
             return this.$vuetify.theme.dark ? 'dark' : 'light'
@@ -116,7 +114,6 @@ import {
                 })
         },
     },
->>>>>>> master
 })
 export default class Navbar extends Vue {
     currencies = ['USD', 'AVAX']
