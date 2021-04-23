@@ -43,7 +43,7 @@ export default class NFTLogoRenderer extends Vue {
                 id: this.asset.id,
             })
             .then((payloads) => {
-                console.log('payloads', payloads)
+                // console.log('payloads', payloads)
                 this.payloads = payloads
                 this.loading = false
             })

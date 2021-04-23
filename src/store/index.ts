@@ -158,7 +158,6 @@ const store = new Vuex.Store({
         },
         finishAggregatesLoading(state) {
             state.assetAggregatesLoaded = true
-            console.log('ALL ASSET AGGREGATES LOADED')
         },
         // TRANSACTIONS
         addRecentTransactions(state, txRes: TransactionQuery) {
