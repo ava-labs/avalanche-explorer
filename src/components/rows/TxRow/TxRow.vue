@@ -72,6 +72,7 @@ import {
     Transaction,
     getTransactionOutputs,
     getTransactionInputs,
+    DisplayAddress,
 } from '@/js/Transaction'
 import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
 import { getTxChainType } from '@/known_blockchains'

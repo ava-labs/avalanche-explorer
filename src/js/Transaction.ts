@@ -51,7 +51,7 @@ export function getTransactionInputs(inputs: Input[]) {
 
 export interface DisplayAddress {
     address: string
-    displayAddress: string
+    displayAddress: string | undefined
 }
 
 export class Transaction implements ITransaction {
