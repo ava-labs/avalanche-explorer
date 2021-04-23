@@ -1,5 +1,10 @@
 <template>
-    <div class="to">
+    <div
+        class="to"
+        :style="{
+            backgroundColor: background,
+        }"
+    >
         <div class="addresses">
             <div v-for="(addr, i) in addresses" :key="i" class="addr_container">
                 <span v-if="$vuetify.breakpoint.smAndDown" class="label"
@@ -18,11 +23,11 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { trimmedLocaleString } from '@/helper'
+import { trimmedLocaleString, backgroundColor } from '@/helper'
 import AddressLink from '@/components/rows/TxRow/AddressLink.vue'
-import { Output } from '@/store/modules/transactions/models'
 import { Asset } from '@/js/Asset'
 import Big from 'big.js'
+import { DisplayAddress } from '@/js/Transaction'
 
 @Component({
     components: {
@@ -30,7 +35,7 @@ import Big from 'big.js'
     },
 })
 export default class OutputUtxo extends Vue {
-    @Prop() output!: Output
+    @Prop() output!: any
 
     get asset(): Asset {
         if (this.$store.state.assets[this.output.assetID]) {
@@ -50,7 +55,7 @@ export default class OutputUtxo extends Vue {
         }
     }
 
-    get addresses(): string[] {
+    get addresses(): DisplayAddress[] {
         return this.output.addresses
     }
 
@@ -70,6 +75,10 @@ export default class OutputUtxo extends Vue {
             default:
                 return false
         }
+    }
+
+    get background(): string {
+        return backgroundColor(this.addresses[0].displayAddress!)
     }
 }
 </script>

@@ -1,6 +1,6 @@
 import Big from 'big.js'
 import SubnetDict from './known_subnets'
-import BlockchainDict from './known_blockchains'
+import BlockchainDict, { C, P, X } from './known_blockchains'
 import VMDict from './known_vms'
 import { Quote, quotes } from './quotes'
 import { BN, Buffer } from 'avalanche/dist'
@@ -136,6 +136,22 @@ function pushPayload(rawPayload: string, assetID: string, groupID: number) {
     }
 }
 
+function backgroundColor(address: string) {
+    const prefix = address.charAt(0)
+    switch (prefix) {
+        case 'P':
+            return P.darkColor
+        case 'X':
+            return X.darkColor
+        case 'C':
+            return C.darkColor
+        case '0':
+            return C.darkColor
+        default:
+            return '#e4e4e4'
+    }
+}
+
 export {
     nAvaxToAVAX as toAVAX,
     stringToBig,
@@ -149,4 +165,5 @@ export {
     trimmedLocaleString,
     getPayloadFromUTXO,
     pushPayload,
+    backgroundColor,
 }
