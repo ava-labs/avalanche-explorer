@@ -1,6 +1,7 @@
 import store from '@/store'
 import { AVALANCHE_SUBNET_ID } from './platform'
 import Big from 'big.js'
+import { ONEAVAX } from 'avalanche/dist/utils'
 
 /**
  * @returns Count of active validators in Primary Network
@@ -87,4 +88,18 @@ export function getTotalBlockchains(): number {
         total += store.state.Platform.subnets[subnetID].blockchains.length
     }
     return total
+}
+
+/**
+ * @returns AVAX Market Cap in USD
+ */
+export function getMarketCapUSD(): string {
+    const currentSupplyBN = store.state.Platform.currentSupply
+    const currentSupplyBig = Big(currentSupplyBN.div(ONEAVAX).toString())
+    // TODO: need to use circulatingSupply as currentSupply is both locked and unlocked AVAX
+    if (store.state.prices) {
+        const marketCapUSD = currentSupplyBig.times(store.state.prices['usd'])
+        return marketCapUSD.toLocaleString(2)
+    }
+    return '-'
 }

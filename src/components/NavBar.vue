@@ -42,12 +42,12 @@
             <div class="prices">
                 <div class="price_pair">
                     <span class="label">AVAX</span>
-                    <span class="value">$-.--</span>
+                    <span class="value">${{ priceUSD }}</span>
                 </div>
-                <div class="price_pair">
+                <!-- <div class="price_pair">
                     <span class="label">Market Cap</span>
-                    <span class="value">$-</span>
-                </div>
+                    <span class="value">${{ marketCapUSD }}</span>
+                </div> -->
             </div>
             <div>
                 <SearchBar
@@ -62,7 +62,7 @@
 
 <script>
 import 'reflect-metadata'
-import { Vue, Component } from 'vue-property-decorator'
+import { Mixins, Component } from 'vue-property-decorator'
 import SearchBar from '@/components/misc/SearchBar/SearchBar'
 import NetworkMenu from './NetworkSettings/NetworkMenu.vue'
 import {
@@ -72,50 +72,16 @@ import {
     statusURL,
     statusURL_test,
 } from '@/store/modules/network/network'
+import { PlatformGettersMixin } from '@/store/modules/platform/platform.mixins'
+import { getMarketCapUSD } from '@/store/modules/platform/platform.getters'
 
 @Component({
     components: {
         SearchBar,
         NetworkMenu,
     },
-    computed: {
-        themeType() {
-            return this.$vuetify.theme.dark ? 'dark' : 'light'
-        },
-        theme() {
-            return this.$vuetify.theme.themes[this.themeType]
-        },
-        showSearch() {
-            return this.$router.currentRoute.name === 'Home' ? false : true
-        },
-        navColor() {
-            return DEFAULT_NETWORK_ID === 1 ? '#fff' : '#2196f3'
-        },
-        logoColor() {
-            return DEFAULT_NETWORK_ID === 1 ? 'light' : 'white'
-        },
-        cChainURL() {
-            return DEFAULT_NETWORK_ID === 1
-                ? cChainExplorerURL
-                : cChainExplorerURL_test
-        },
-        statusPageURL() {
-            return DEFAULT_NETWORK_ID === 1 ? statusURL : statusURL_test
-        },
-    },
-    methods: {
-        onsearch(val) {
-            this.$router
-                .push({ path: '/search', query: { query: val } })
-                .catch((error) => {
-                    if (error.name != 'NavigationDuplicated') {
-                        throw error
-                    }
-                })
-        },
-    },
 })
-export default class Navbar extends Vue {
+export default class Navbar extends Mixins(PlatformGettersMixin) {
     currencies = ['USD', 'AVAX']
 
     get themeType() {
@@ -137,6 +103,19 @@ export default class Navbar extends Vue {
         return DEFAULT_NETWORK_ID === 1
             ? cChainExplorerURL
             : cChainExplorerURL_test
+    }
+
+    get priceUSD() {
+        const prices = this.$store.state.prices
+        return prices ? prices.usd : '-.--'
+    }
+
+    get marketCapUSD() {
+        return getMarketCapUSD()
+    }
+
+    get statusPageURL() {
+        return DEFAULT_NETWORK_ID === 1 ? statusURL : statusURL_test
     }
 
     onsearch(val) {

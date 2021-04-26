@@ -24,6 +24,8 @@ import { getAssetAggregates, IAssetAggregate } from '@/services/aggregates'
 import { parseTxs } from './modules/transactions/helpers'
 import { X } from '@/known_blockchains'
 import { getCacheAssets } from '@/services/assets'
+import { getPrices, Price, PriceMap } from '@/services/price'
+import { AVAX_PRICE_ID, VS_CURRENCIES } from '@/known_prices'
 
 Vue.use(Vuex)
 
@@ -47,11 +49,13 @@ const store = new Vuex.Store({
         // it holds a subset of the assets and checks if they have aggregation data
         // temporarily responsible for triggering assetAggregatesLoaded
         collisionMap: {},
+        prices: null,
     } as IRootState,
     actions: {
         async init(store) {
             // Get and set initial list of all indexed assets
             await store.dispatch('getAssets')
+            store.dispatch('getPrice')
 
             // Once we have assets, next get recent transactions
             store.dispatch('getRecentTransactions', {
@@ -136,7 +140,13 @@ const store = new Vuex.Store({
             return map
         },
 
-        // TODO: move cache here
+        async getPrice({ commit }) {
+            const price: PriceMap = await getPrices({
+                ids: [AVAX_PRICE_ID],
+                vs_currencies: [VS_CURRENCIES],
+            })
+            commit('addPrices', price[AVAX_PRICE_ID])
+        },
     },
     mutations: {
         finishLoading(state) {
@@ -165,6 +175,9 @@ const store = new Vuex.Store({
         },
         addCollisionMap(state, collisionMap: ICollisionMap) {
             state.collisionMap = collisionMap
+        },
+        addPrices(state, prices: Price) {
+            state.prices = prices
         },
     },
     getters: {
