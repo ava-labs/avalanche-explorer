@@ -82,8 +82,8 @@ export default Vue.extend({
             }
         },
         onblur() {
-            // this.showResults = false
-            // this.results = []
+            this.showResults = false
+            this.results = []
         },
         // Hitting [enter] takes you to the search page
         search() {
