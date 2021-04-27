@@ -178,7 +178,7 @@ export default class AssetsDataTable extends Vue {
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 14px;
-    font-weight: 400; /* 700 */
+    font-weight: 400;
     text-decoration: none;
 
     display: flex;

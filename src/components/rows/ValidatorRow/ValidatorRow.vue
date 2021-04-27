@@ -191,7 +191,7 @@ export default class ValidatorRow extends Mixins(PlatformGettersMixin) {
         padding: 2px 0;
 
         &:last-of-type {
-            font-weight: 400; /* 700 */
+            font-weight: 400;
         }
     }
 }

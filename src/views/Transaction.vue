@@ -114,7 +114,7 @@ export default class TransactionPage extends Mixins(TransactionsGettersMixin) {
     text-align: center;
 
     h2 {
-        font-weight: 400; /* 700 */
+        font-weight: 400;
         font-size: 36px;
         line-height: 1.25em;
     }

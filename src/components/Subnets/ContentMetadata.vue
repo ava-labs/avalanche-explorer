@@ -91,7 +91,7 @@ export default class ContentMetadata extends Vue {
     }
 
     p {
-        font-weight: 400; /* 700 */
+        font-weight: 400;
     }
 
     .label {

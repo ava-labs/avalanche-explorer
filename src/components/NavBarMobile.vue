@@ -204,7 +204,7 @@ export default class NavbarMobile extends Vue {
 
 a {
     text-decoration: none;
-    font-weight: 400; /* 700 */
+    font-weight: 400;
     white-space: nowrap;
     margin-right: 15px;
 }
@@ -231,7 +231,7 @@ a {
 }
 
 button {
-    font-weight: 400; /* 700 */
+    font-weight: 400;
 }
 
 /* ==========================================

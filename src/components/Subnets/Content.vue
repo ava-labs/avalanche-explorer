@@ -174,7 +174,7 @@ export default class Content extends Vue {
 }
 
 .v-tab {
-    font-weight: 400; /* 700 */
+    font-weight: 400;
     text-transform: none;
     letter-spacing: 0;
 }
@@ -189,7 +189,7 @@ export default class Content extends Vue {
     .subheading {
         text-transform: capitalize;
         font-size: 12px;
-        font-weight: 400; /* 700 */
+        font-weight: 400;
     }
 
     h2 {
@@ -202,7 +202,7 @@ export default class Content extends Vue {
 .null {
     padding: 10px 0 0 16px;
     font-size: 0.75rem;
-    font-weight: 400; /* 700 */
+    font-weight: 400;
 }
 
 .table_image {

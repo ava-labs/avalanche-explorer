@@ -39,7 +39,7 @@ export default class TransactionResult extends Vue {
     background-color: $white;
     border-radius: 20px;
     border: 2px solid $black;
-    font-weight: 500; /* 700 */
+    font-weight: 500;
     font-size: 11px;
     height: 38px;
     width: 38px;

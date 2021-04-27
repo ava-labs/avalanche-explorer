@@ -108,7 +108,7 @@ export default class Subnets extends Mixins(PlatformGettersMixin) {
     display: grid;
     grid-template-columns: 70px 1fr 1fr 1fr;
     font-size: 12px;
-    font-weight: 400; /* 700 */
+    font-weight: 400;
 
     p {
         padding: 12px 15px;

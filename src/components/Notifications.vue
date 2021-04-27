@@ -33,7 +33,7 @@ export default {
     top: 0;
     right: 0;
     padding: 30px 3vw;
-    z-index: 9;
+    z-index: 11;
 }
 
 .notif_item {

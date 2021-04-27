@@ -82,8 +82,8 @@ export default Vue.extend({
             }
         },
         onblur() {
-            this.showResults = false
-            this.results = []
+            // this.showResults = false
+            // this.results = []
         },
         // Hitting [enter] takes you to the search page
         search() {
@@ -201,7 +201,7 @@ input {
     box-sizing: border-box;
     border-radius: 0 0 2px 2px;
     background-color: $white;
-    top: calc(100% - 3px);
+    top: calc(100% + 1px);
     left: 0px;
     font-size: 12px;
     color: #333;

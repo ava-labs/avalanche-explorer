@@ -393,7 +393,7 @@ export default class ValidatorDataTable extends Vue {
 }
 
 .v-tab {
-    font-weight: 400; /* 700 */
+    font-weight: 400;
     text-transform: none;
     letter-spacing: 0;
 }

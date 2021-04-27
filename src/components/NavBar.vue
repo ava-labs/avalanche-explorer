@@ -239,7 +239,7 @@ export default class Navbar extends Mixins(PlatformGettersMixin) {
 }
 
 .search_bar {
-    min-width: 375px;
+    min-width: 400px;
     width: 100%;
 }
 

@@ -80,7 +80,7 @@ export default class AssetRow extends Vue {
     text-align: center;
     border-radius: 4px;
     min-height: 1em;
-    font-weight: 400; /* 700 */
+    font-weight: 400;
 }
 
 .no_symbol {
@@ -96,7 +96,7 @@ export default class AssetRow extends Vue {
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 14px;
-    font-weight: 400; /* 700 */
+    font-weight: 400;
     text-decoration: none;
 }
 

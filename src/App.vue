@@ -1,6 +1,5 @@
 <template>
     <v-app>
-        <!-- <nav-bar-XL class="navbar_xl" v-if="$vuetify.breakpoint.xlOnly"></nav-bar-XL>         -->
         <NavBar v-if="$vuetify.breakpoint.mdAndUp" class="navbar" />
         <NavBarMobile
             v-if="$vuetify.breakpoint.smAndDown"

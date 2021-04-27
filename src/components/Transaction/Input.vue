@@ -72,7 +72,7 @@ export default class Input extends Vue {
 </script>
 <style scoped lang="scss">
 .label {
-    font-weight: 400; /* 700 */
+    font-weight: 400;
     white-space: nowrap;
 }
 

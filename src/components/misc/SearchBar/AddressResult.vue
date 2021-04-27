@@ -4,7 +4,7 @@
             <p class="symbol">Address</p>
         </div>
         <div class="data">
-            <p class="id">{{ chainNow }}-{{ item.address }}</p>
+            <p class="result_id">{{ prefixedAddress }}</p>
             <p class="balance">
                 Balance
                 <span
@@ -55,6 +55,10 @@ export default class AddressResult extends Vue {
     get chainNow() {
         return this.$store.state.chainId
     }
+
+    get prefixedAddress() {
+        return `${this.chainNow}-${this.item.address}`
+    }
 }
 </script>
 <style scoped lang="scss">
@@ -71,7 +75,7 @@ $symbol_W: 40px;
 .symbol {
     padding: 0;
     border-radius: 6px;
-    font-weight: 500; /* 700 */
+    font-weight: 500;
     font-size: 9px;
     height: $symbol_W;
     width: $symbol_W;
@@ -79,8 +83,11 @@ $symbol_W: 40px;
     line-height: $symbol_W;
 }
 
-.id {
+.result_id {
     color: $primary-color;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .balance {
