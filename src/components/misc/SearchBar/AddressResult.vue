@@ -51,7 +51,6 @@ export default class AddressResult extends Vue {
         return this.item.transactionCount
     }
 
-    // TODO: support for multiple chains. add a chain param
     get chainNow() {
         return this.$store.state.chainId
     }
@@ -88,10 +87,14 @@ $symbol_W: 40px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    width: 100%;
 }
 
 .balance {
     padding-top: 4px;
     opacity: 0.7;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 </style>
