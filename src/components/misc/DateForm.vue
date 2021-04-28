@@ -1,7 +1,7 @@
 <template>
     <div class="dates_form">
         <div class="input_container">
-            <label>Old (Start Time)</label>
+            <label>Start</label>
             <datetime
                 v-model="localStart"
                 type="datetime"
@@ -11,7 +11,7 @@
             ></datetime>
         </div>
         <div class="input_container">
-            <label>New (End Time)</label>
+            <label>End</label>
             <datetime
                 v-model="localEnd"
                 type="datetime"

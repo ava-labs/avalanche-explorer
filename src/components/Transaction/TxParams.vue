@@ -22,7 +22,7 @@
                 <v-select
                     v-model="limit"
                     :items="limits"
-                    label="Results"
+                    label="Limit Results"
                     dense
                     color="#4c2e56"
                 ></v-select>
