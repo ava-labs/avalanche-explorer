@@ -1,17 +1,17 @@
 <template>
     <div class="table_headers">
-        <p></p>
-        <p></p>
         <p>
             ID
             <Tooltip
                 content="Unique character string generated when a transaction is executed"
             />
         </p>
+        <p></p>
         <p>
             From
             <Tooltip content="Address of the sender" />
         </p>
+        <p></p>
         <p>
             To
             <Tooltip content="Address of the receiver" />

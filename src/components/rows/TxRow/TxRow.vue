@@ -1,5 +1,12 @@
 <template>
     <div class="tx_row">
+        <!-- DETAILS -->
+        <div class="info_col id_col">
+            <router-link :to="`/tx/${transaction.id}`" class="id monospace"
+                >{{ transaction.id }}...</router-link
+            >
+            <p class="time">{{ transaction.timestamp | fromNow }}</p>
+        </div>
         <!-- CHAIN -->
         <div
             class="avatar"
@@ -15,26 +22,6 @@
                 {{ chainCode }}
             </p>
         </div>
-        <!-- TYPE -->
-        <div>
-            <span class="type">
-                <span
-                    class="value"
-                    :style="{
-                        color: chainColor,
-                    }"
-                >
-                    {{ transaction.type | getType }}</span
-                >
-            </span>
-        </div>
-        <!-- DETAILS -->
-        <div class="info_col id_col">
-            <router-link :to="`/tx/${transaction.id}`" class="id monospace"
-                >{{ transaction.id }}...</router-link
-            >
-            <p class="time">{{ transaction.timestamp | fromNow }}</p>
-        </div>
         <!-- FROM -->
         <div class="info_col utxo_list">
             <span v-if="$vuetify.breakpoint.smAndDown" class="label"></span>
@@ -45,6 +32,19 @@
                     :input="input"
                 />
             </template>
+        </div>
+        <!-- TYPE -->
+        <div class="type">
+            <span>
+                <span
+                    class="value"
+                    :style="{
+                        color: chainColor,
+                    }"
+                >
+                    {{ transaction.type | getType }}</span
+                >
+            </span>
         </div>
         <!-- TO -->
         <div class="info_col utxo_list">
