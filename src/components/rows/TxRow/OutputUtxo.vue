@@ -17,7 +17,11 @@
             <div v-if="!isNFT" class="value monospace">
                 {{ amount }}<span class="leftover">{{ leftover }}</span>
             </div>
-            <div class="symbol">{{ asset.symbol }}</div>
+            <div class="symbol">
+                <router-link :to="`/asset/${asset.id}`">{{
+                    asset.symbol
+                }}</router-link>
+            </div>
         </div>
     </div>
 </template>
