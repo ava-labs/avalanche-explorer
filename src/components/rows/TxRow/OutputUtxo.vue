@@ -15,7 +15,7 @@
         </div>
         <div class="amount">
             <div v-if="!isNFT" class="value monospace">
-                {{ amount }} {{ leftover }}
+                {{ amount }}<span class="leftover">{{ leftover }}</span>
             </div>
             <div class="symbol">{{ asset.symbol }}</div>
         </div>
@@ -69,14 +69,23 @@ export default class OutputUtxo extends Vue {
     get leftover(): string {
         const charsAfterPeriod = this.amount.split('.')[1]
 
-        if (!charsAfterPeriod) return ''
-
+        // PAD WITH PERIOD AND ZEROS
+        if (!charsAfterPeriod) {
+            const paddingZeros = this.asset.denomination
+            let leftover = '.'
+            for (let i = 0; i < paddingZeros; i++) {
+                leftover += '0'
+            }
+            console.log('leftover:', leftover)
+            return leftover
+        }
+        // NO NEED TO PAD WITH ZEROS
         const paddingZeros = this.asset.denomination - charsAfterPeriod.length
-
         console.log('paddingZeros', paddingZeros)
-
-        if (!paddingZeros) return ''
-
+        if (!paddingZeros) {
+            return ''
+        }
+        // PAD WITH ZEROS
         let leftover = ''
         for (let i = 0; i < paddingZeros; i++) {
             leftover += '0'
