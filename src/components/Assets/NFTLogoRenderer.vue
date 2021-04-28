@@ -59,5 +59,16 @@ export default class NFTLogoRenderer extends Vue {
     display: inline-block;
     width: 25px;
     height: 25px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+
+    img {
+        display: inline;
+        margin: 0 auto;
+        margin-left: -12px;
+        height: 100%;
+        width: auto;
+    }
 }
 </style>
