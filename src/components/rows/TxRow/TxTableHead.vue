@@ -7,12 +7,12 @@
             />
         </p>
         <p></p>
-        <p>
+        <p class="header_indent">
             From
             <Tooltip content="Address of the sender" />
         </p>
         <p></p>
-        <p>
+        <p class="header_indent">
             To
             <Tooltip content="Address of the receiver" />
         </p>

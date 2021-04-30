@@ -15,6 +15,10 @@
     }
 }
 
+.header_indent {
+    padding-left: 12px;
+}
+
 .tx_row {
     padding: 12px 0px;
     position: relative;
@@ -185,8 +189,10 @@
         }
 
         .symbol {
-            margin-left: 3px;
+            margin-left: 5px;
             letter-spacing: 0.01em;
+            width: 32px;
+            text-align: left;
         }
     }
 }

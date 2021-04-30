@@ -166,10 +166,10 @@ function abbreviateBech32(address: string) {
         separatorPos + firstChars
     )
     const checksum = address.substr(address.length - lastChars, lastChars)
-    return prefix + hrp + addressAbbrev + '...' + checksum
+    return [prefix, hrp, addressAbbrev, '...', checksum]
 }
 
-function abbreviate0x(address: string) {
+function abbreviateHex(address: string) {
     const prefix = address.substring(0, 2)
     // @ts-ignore
     const hrpLength = NetworkIDToHRP[DEFAULT_NETWORK_ID].length
@@ -178,7 +178,7 @@ function abbreviate0x(address: string) {
         prefix.length + 1 + hrpLength + firstChars
     )
     const addressLast = address.substr(address.length - lastChars, lastChars)
-    return prefix + addressFirst + '...' + addressLast
+    return [prefix, addressFirst, '...', addressLast]
 }
 
 export {
@@ -196,5 +196,5 @@ export {
     pushPayload,
     backgroundColor,
     abbreviateBech32,
-    abbreviate0x,
+    abbreviateHex,
 }
