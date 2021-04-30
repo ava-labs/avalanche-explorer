@@ -13,7 +13,6 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 import AddressLink from '@/components/rows/TxRow/AddressLink.vue'
 import { DisplayAddress } from '@/js/Transaction'
 import { backgroundColor } from '@/helper'
-
 @Component({
     components: {
         AddressLink,

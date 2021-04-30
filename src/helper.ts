@@ -6,6 +6,8 @@ import { Quote, quotes } from './quotes'
 import { BN, Buffer } from 'avalanche/dist'
 import { NFTTransferOutput, UTXO } from 'avalanche/dist/apis/avm'
 import { PayloadBase, PayloadTypes } from 'avalanche/dist/utils'
+import { NetworkIDToHRP } from 'avalanche/dist/utils/constants'
+import { DEFAULT_NETWORK_ID } from './store/modules/network/network'
 
 function stringToBig(raw: string, denomination = 0): Big {
     return Big(raw).div(Math.pow(10, denomination))
@@ -152,6 +154,33 @@ function backgroundColor(address: string) {
     }
 }
 
+const firstChars = 6
+const lastChars = 6
+
+function abbreviateBech32(address: string) {
+    const separatorPos = Array.from(address).findIndex((i) => i === '1') + 1
+    const prefix = address.substring(0, 2)
+    const hrp = address.substring(prefix.length, separatorPos)
+    const addressAbbrev = address.substring(
+        separatorPos,
+        separatorPos + firstChars
+    )
+    const checksum = address.substr(address.length - lastChars, lastChars)
+    return prefix + hrp + addressAbbrev + '...' + checksum
+}
+
+function abbreviate0x(address: string) {
+    const prefix = address.substring(0, 2)
+    // @ts-ignore
+    const hrpLength = NetworkIDToHRP[DEFAULT_NETWORK_ID].length
+    const addressFirst = address.substring(
+        prefix.length,
+        prefix.length + 1 + hrpLength + firstChars
+    )
+    const addressLast = address.substr(address.length - lastChars, lastChars)
+    return prefix + addressFirst + '...' + addressLast
+}
+
 export {
     nAvaxToAVAX as toAVAX,
     stringToBig,
@@ -166,4 +195,6 @@ export {
     getPayloadFromUTXO,
     pushPayload,
     backgroundColor,
+    abbreviateBech32,
+    abbreviate0x,
 }

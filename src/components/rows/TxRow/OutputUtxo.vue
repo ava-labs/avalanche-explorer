@@ -80,12 +80,10 @@ export default class OutputUtxo extends Vue {
             for (let i = 0; i < paddingZeros; i++) {
                 leftover += '0'
             }
-            console.log('leftover:', leftover)
             return leftover
         }
         // NO NEED TO PAD WITH ZEROS
         const paddingZeros = this.asset.denomination - charsAfterPeriod.length
-        console.log('paddingZeros', paddingZeros)
         if (!paddingZeros) {
             return ''
         }
@@ -94,7 +92,6 @@ export default class OutputUtxo extends Vue {
         for (let i = 0; i < paddingZeros; i++) {
             leftover += '0'
         }
-        console.log('leftover:', leftover)
         return leftover
     }
 

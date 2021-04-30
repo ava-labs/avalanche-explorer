@@ -4,7 +4,7 @@
             <h2>
                 Top Assets
                 <TooltipHeading
-                    content="The most transferred assets on Avalanche in the past 24 hours"
+                    content="The most transferred assets on Avalanche in the past 24 hours (excludes C-Chain)"
                 />
             </h2>
         </div>
@@ -20,14 +20,11 @@
         <div v-else>
             <div class="table">
                 <div class="asset column_headers">
-                    <p class="name">
-                        Name <Tooltip content="Name for the asset" />
-                    </p>
+                    <p class="name">Asset</p>
                     <p class="metric">
                         <Tooltip
-                            content="Total number of transactions for the asset"
-                        />
-                        Txs (24h)
+                            content="Total number of transactions involving the asset"
+                        />Txs (24h)
                     </p>
                 </div>
                 <div v-for="asset in assets" :key="asset.id" class="asset">
@@ -198,6 +195,7 @@ export default class TopAssets extends Vue {
         text-overflow: ellipsis;
         display: inline-block;
         margin-top: 1px;
+        font-weight: 500;
     }
 
     .asset_name {

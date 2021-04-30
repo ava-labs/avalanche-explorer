@@ -1,15 +1,12 @@
 <template>
     <div>
         <!-- X/P (internal route) -->
-        <router-link
-            v-if="isXP(address)"
-            :to="xpURL(address)"
-            class="addr monospace"
-            >{{ address }}</router-link
-        >
+        <router-link v-if="isBech32" :to="internalURL" class="addr monospace">{{
+            abbrev32
+        }}</router-link>
         <!-- C (external route) -->
-        <a v-else :href="`${cURL(address)}`" class="addr monospace"
-            >{{ address }}
+        <a v-else :href="`${externalURL}`" class="addr monospace"
+            >{{ abbrev0x }}
         </a>
     </div>
 </template>
@@ -22,26 +19,34 @@ import {
 } from '@/store/modules/network/network'
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
+import { abbreviateBech32, abbreviate0x } from '@/helper'
 
 @Component({})
 export default class AddressLink extends Vue {
     @Prop() address!: string
 
-    isXP(id: string) {
-        const prefix = id.substring(0, 2)
+    get isBech32() {
+        const prefix = this.address.substring(0, 2)
         return prefix !== '0x' ? true : false
     }
 
-    xpURL(id: string) {
-        return `/address/${id}`
+    get internalURL() {
+        return `/address/${this.address}`
     }
 
-    cURL(id: string) {
+    get externalURL() {
         return `${
             DEFAULT_NETWORK_ID === 1
                 ? cChainExplorerURL
                 : cChainExplorerURL_test
-        }/address/${id}`
+        }/address/${this.address}`
+    }
+
+    get abbrev32() {
+        return abbreviateBech32(this.address)
+    }
+    get abbrev0x() {
+        return abbreviate0x(this.address)
     }
 }
 </script>
