@@ -52,7 +52,7 @@
                 </v-tooltip>
             </p>
         </div>
-        <div v-if="$vuetify.breakpoint.smAndUp" class="right" bottom>
+        <div class="right" bottom>
             <v-btn
                 :loading="loading"
                 :text="true"
@@ -166,7 +166,7 @@ export default class RecentTxHeader extends Vue {
             width: 100%;
             display: flex;
             flex-direction: row;
-            justify-content: flex-start;
+            justify-content: center;
             align-content: center;
         }
     }
