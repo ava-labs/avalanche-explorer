@@ -1,6 +1,6 @@
 .table_headers,
 .tx_row {
-    grid-template-columns: 100px 35px 270px 75px 1.5fr;
+    grid-template-columns: 270px 35px 270px 1.5fr;
     display: grid;
     column-gap: 20px;
 }
@@ -52,19 +52,9 @@
     }
 }
 
-.type {
-    font-size: 10px;
-    font-weight: 700;
-    text-align: center;
-
-    .value {
-        color: $primary-color;
-    }
-}
-
 // ID AND TIMESTAMP
 .id {
-    max-width: 250px;
+    padding-left: 4px;
     text-decoration: none;
     font-weight: 400;
     display: block;
@@ -74,11 +64,24 @@
 }
 
 .time {
+    padding-left: 4px;
     line-height: 140%;
     color: $black;
     font-size: 10px;
     word-break: keep-all;
     white-space: nowrap;
+}
+
+.type {
+    span {
+        font-size: 10px;
+        font-weight: 700;
+        background: #f8f8f8;
+        border: 1px solid #f0f7fe;
+        border-radius: 50px;
+        display: inline-block;
+        padding: 4px 8px;
+    }
 }
 
 // UTXOs
@@ -90,7 +93,7 @@
 .to {
     padding: 0;
     background: $background-color;
-    padding: 12px;
+    padding: 21px;
     border-bottom: 2px solid $white;
 
     .label {
@@ -138,8 +141,8 @@
     grid-template-columns: auto;
     white-space: nowrap;
     overflow: hidden;
-    padding-top: 12px;
-    padding-bottom: 12px;
+    padding-top: 22px;
+    padding-bottom: 22px;
 
     .addr_container {
         display: flex;
@@ -181,7 +184,7 @@
             line-height: 1em;
             padding-bottom: 2px;
             font-weight: 500;
-            font-size: 19.2px;
+            font-size: 16px;
 
             .leftover {
                 opacity: 0.1;

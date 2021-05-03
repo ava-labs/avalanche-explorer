@@ -6,6 +6,9 @@
                 >{{ transaction.id }}...</router-link
             >
             <p class="time">{{ transaction.timestamp | fromNow }}</p>
+            <p class="type">
+                <span v-if="type !== ''">{{ type }}</span>
+            </p>
         </div>
         <!-- CHAIN -->
         <div
@@ -14,11 +17,7 @@
                 backgroundColor: chainDarkColor,
             }"
         >
-            <p
-                :style="{
-                    color: chainColor,
-                }"
-            >
+            <p>
                 {{ chainCode }}
             </p>
         </div>
@@ -32,19 +31,6 @@
                     :input="input"
                 />
             </template>
-        </div>
-        <!-- TYPE -->
-        <div class="type">
-            <span>
-                <span
-                    class="value"
-                    :style="{
-                        color: chainColor,
-                    }"
-                >
-                    {{ transaction.type | getType }}</span
-                >
-            </span>
         </div>
         <!-- TO -->
         <div class="info_col utxo_list">
@@ -107,6 +93,10 @@ export default class TxRow extends Vue {
 
     get chainDarkColor() {
         return getTxChainType(this.transaction.chainID)!.darkColor
+    }
+
+    get type() {
+        return getMappingForType(this.transaction.type)
     }
 
     /**
