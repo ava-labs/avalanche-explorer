@@ -22,6 +22,7 @@ export interface IRootState {
         [key: string]: boolean
     }
     collisionMap: ICollisionMap
+    pricesLoaded: boolean
     prices: Price | null
     Transactions: TransactionsState
     Platform: PlatformState

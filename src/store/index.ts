@@ -49,6 +49,7 @@ const store = new Vuex.Store({
         // it holds a subset of the assets and checks if they have aggregation data
         // temporarily responsible for triggering assetAggregatesLoaded
         collisionMap: {},
+        pricesLoaded: false,
         prices: null,
     } as IRootState,
     actions: {
@@ -146,6 +147,7 @@ const store = new Vuex.Store({
                 vs_currencies: [VS_CURRENCIES],
             })
             commit('addPrices', price[AVAX_PRICE_ID])
+            commit('finishPricesLoading')
         },
     },
     mutations: {
@@ -178,6 +180,9 @@ const store = new Vuex.Store({
         },
         addPrices(state, prices: Price) {
             state.prices = prices
+        },
+        finishPricesLoading(state) {
+            state.pricesLoaded = true
         },
     },
     getters: {

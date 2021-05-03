@@ -39,7 +39,7 @@
             <NetworkMenu />
         </div>
         <div class="bottom">
-            <div class="prices">
+            <div v-if="pricesLoaded" class="prices">
                 <div class="price_pair">
                     <span class="label">AVAX</span>
                     <span class="value">${{ priceUSD }}</span>
@@ -49,6 +49,14 @@
                     <span class="value">${{ marketCapUSD }}</span>
                 </div> -->
             </div>
+            <v-progress-circular
+                v-else
+                key="1"
+                :size="16"
+                :width="2"
+                color="#E84970"
+                indeterminate
+            />
             <div>
                 <SearchBar
                     class="search_bar"
@@ -103,6 +111,10 @@ export default class Navbar extends Mixins(PlatformGettersMixin) {
         return DEFAULT_NETWORK_ID === 1
             ? cChainExplorerURL
             : cChainExplorerURL_test
+    }
+
+    get pricesLoaded() {
+        return this.$store.state.pricesLoaded
     }
 
     get priceUSD() {

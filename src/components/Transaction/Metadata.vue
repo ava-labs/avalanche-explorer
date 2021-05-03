@@ -39,9 +39,9 @@
         </article>
         <article class="meta_row">
             <p class="meta_label">
-                Transaction Fee
+                Burned
                 <Tooltip
-                    content="Amount paid to validators for processing the transaction"
+                    content="The amount of AVAX burned includes the fee for the network to process the transaction"
                 />
             </p>
             <p class="meta_value">{{ tx.txFee | toAVAX }} AVAX</p>
