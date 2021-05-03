@@ -302,6 +302,8 @@ p {
 
 @include xsOnly {
     .card {
+        padding-left: 0;
+        padding-right: 0;
         border-radius: 0;
         border: none;
     }

@@ -163,6 +163,7 @@ export default class RecentTxHeader extends Vue {
         }
 
         .right {
+            padding: 15px 0;
             width: 100%;
             display: flex;
             flex-direction: row;
