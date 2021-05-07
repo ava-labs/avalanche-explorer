@@ -17,6 +17,7 @@ export const DEFAULT_NETWORK_NAME =
 const networkName = process.env.VUE_APP_NETWORKNAME
 const explorerFEUrl = process.env.VUE_APP_EXPLORER_FE_URL || ''
 const orteliusURL = process.env.VUE_APP_ORTELIUS_URL || ''
+export const ethereumAPI = process.env.VUE_APP_AVALANCHE_GO_ETH_URL || ''
 export const peerInfoURL = process.env.VUE_APP_PEER_INFO_URL || ''
 const avalancheJSProtocol = process.env.VUE_APP_AVALANCHE_JS_PROTOCOL || ''
 const avalancheJSIP = process.env.VUE_APP_AVALANCHE_JS_IP || ''
@@ -32,6 +33,8 @@ export const statusURL = process.env.VUE_APP_STATUS_URL || ''
 const networkName_test = process.env.VUE_APP_TEST_NETWORKNAME || ''
 const explorerFEUrl_test = process.env.VUE_APP_TEST_EXPLORER_FE_URL || ''
 const orteliusURL_test = process.env.VUE_APP_TEST_ORTELIUS_URL || ''
+export const ethereumAPI_test =
+    process.env.VUE_APP_TEST_AVALANCHE_GO_ETH_URL || ''
 export const peerInfoURL_test = process.env.VUE_APP_TEST_PEER_INFO_URL || ''
 const avalancheJSProtocol_test =
     process.env.VUE_APP_TEST_AVALANCHE_JS_PROTOCOL || ''
