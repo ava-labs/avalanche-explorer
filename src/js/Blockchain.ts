@@ -9,7 +9,7 @@ export default class Blockchain {
     vmID: string
     addressCount?: number | null
     txCount?: number | null
-    burned?: number
+    burned?: number | null
     indexed?: boolean
     profane?: boolean
 
@@ -20,6 +20,7 @@ export default class Blockchain {
         this.vmID = data.vmID
         this.addressCount = null
         this.txCount = null
+        this.burned = null
         this.indexed = this.updateIndexed()
         this.profane = false
         this.checkForProfanities(this.name)
@@ -54,8 +55,8 @@ export default class Blockchain {
         this.txCount = parseInt(value)
     }
 
-    public updateBurnedCount(value: string | null): void {
+    public updateBurned(value: number | null): void {
         if (!value) return
-        this.burned = parseInt(value)
+        this.burned = value
     }
 }

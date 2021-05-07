@@ -22,21 +22,39 @@
                     <template v-else>{{ item.name }}</template>
                 </div>
             </template>
+            <template #item.indexed="{ item }">
+                <Indexed :indexed="item.indexed" :not-indexed-label="false" />
+            </template>
+            <template #item.addressCount="{ item }">
+                <div>
+                    <template v-if="item.addressCount !== null">{{
+                        parseInt(item.addressCount).toLocaleString()
+                    }}</template>
+                </div>
+            </template>
+            <template #item.txCount="{ item }">
+                <div>
+                    <template v-if="item.txCount !== null">{{
+                        parseInt(item.txCount).toLocaleString()
+                    }}</template>
+                </div>
+            </template>
+            <template #item.burned="{ item }">
+                <div>
+                    <template v-if="item.burned !== null"
+                        >{{
+                            parseFloat(item.burned.toFixed(2)).toLocaleString()
+                        }}
+                        AVAX</template
+                    >
+                </div>
+            </template>
             <template #item.vmID="{ item }">
                 <div>
                     <a :href="vmDocumentation(item.vmID)"
                         >{{ vmFullName(item.vmID) }} ({{ vm(item.vmID) }})</a
                     >
                 </div>
-            </template>
-            <template #item.indexed="{ item }">
-                <Indexed :indexed="item.indexed" :not-indexed-label="false" />
-            </template>
-            <template #item.addressCount="{ item }">
-                <div>{{ item.addressCount }}</div>
-            </template>
-            <template #item.txCount="{ item }">
-                <div>{{ item.txCount }}</div>
             </template>
             <template #item.subnetID="{ item }">
                 <div>
@@ -71,10 +89,11 @@ export default class BlockchainDataTable extends Vue {
     get headers(): any[] {
         const headers = [
             { text: 'Name', value: 'name', width: 200, fixed: true },
-            { text: 'Virtual Machine', value: 'vmID', width: 125 },
-            { text: 'Database Index', value: 'indexed', width: 125 },
-            { text: 'Unique Addresses', value: 'addressCount', width: 125 },
+            { text: 'Unique Addresses', value: 'addressCount', width: 140 },
             { text: 'Transactions', value: 'txCount', width: 125 },
+            { text: 'Burned Fees', value: 'burned', width: 125 },
+            { text: 'Database Index', value: 'indexed', width: 125 },
+            { text: 'Virtual Machine', value: 'vmID', width: 125 },
             { text: 'Validating Subnet', value: 'subnetID', width: 300 },
         ]
         return this.subnets ? headers : headers.slice(0, 3)

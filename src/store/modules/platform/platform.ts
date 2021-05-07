@@ -8,12 +8,13 @@ import Subnet from '@/js/Subnet'
 import { ISubnetData } from './ISubnet'
 import { IBlockchainData } from './IBlockchain'
 import Blockchain from '@/js/Blockchain'
-import { P } from '@/known_blockchains'
+import { C, P } from '@/known_blockchains'
 import { getAddressCounts } from '@/services/addressCounts/addressCounts.service'
 import { AddressCount } from '@/services/addressCounts/models'
 import { calculateStakingReward } from './helpers'
 import { getTxCounts } from '@/services/transactionCounts/transactionCounts.service'
 import { TxCount } from '@/services/transactionCounts/models'
+import { getBurnedC } from '@/services/burned/burned.service'
 
 export const AVALANCHE_SUBNET_ID = P.id
 
@@ -37,10 +38,7 @@ const platform_module: Module<PlatformState, IRootState> = {
         finishLoading(state) {
             state.subnetsLoaded = true
         },
-        updateChainsWithAddressCounts(state, blockchains: Blockchain[]) {
-            state.blockchains = blockchains
-        },
-        updateChainsWithTxCounts(state, blockchains: Blockchain[]) {
+        updateChains(state, blockchains: Blockchain[]) {
             state.blockchains = blockchains
         },
         setAnnualStakingRewardPercentage(state, APR: number) {
@@ -54,6 +52,7 @@ const platform_module: Module<PlatformState, IRootState> = {
             await dispatch('getSubnets')
             dispatch('updateAddressCounts')
             dispatch('updateTxCounts')
+            dispatch('updateBurned')
         },
 
         async getSubnets({ state, commit }) {
@@ -119,7 +118,7 @@ const platform_module: Module<PlatformState, IRootState> = {
                 }
                 return toUpdate
             })
-            commit('updateChainsWithAddressCounts', updates)
+            commit('updateChains', updates)
         },
 
         async updateTxCounts({ state, commit }) {
@@ -134,7 +133,19 @@ const platform_module: Module<PlatformState, IRootState> = {
                 }
                 return toUpdate
             })
-            commit('updateChainsWithTxCounts', updates)
+            commit('updateChains', updates)
+        },
+
+        async updateBurned({ state, commit }) {
+            const res = await getBurnedC()
+            const updates = state.blockchains.map((chain: Blockchain) => {
+                const toUpdate = chain
+                if (chain.id === C.id) {
+                    toUpdate.updateBurned(res)
+                }
+                return toUpdate
+            })
+            commit('updateChains', updates)
         },
 
         async updateAnnualStakingRewardPercentage({ state, commit }) {
