@@ -73,7 +73,6 @@ import 'reflect-metadata'
 import { Mixins, Component } from 'vue-property-decorator'
 import TooltipMeta from '@/components/Home/TopInfo/TooltipMeta.vue'
 import { bigToDenomBig } from '@/helper'
-import { TOTAL_AVAX_SUPPLY } from '@/store/modules/platform/platform'
 import { PlatformGettersMixin } from '@/store/modules/platform/platform.mixins'
 
 @Component({
@@ -93,11 +92,8 @@ export default class ValidatorStats extends Mixins(PlatformGettersMixin) {
         return totalStake.toLocaleString(0)
     }
 
-    get percentStaked(): string {
-        let totalStake = this.getTotalStake()
-        totalStake = bigToDenomBig(totalStake, 9)
-        const percentStaked = totalStake.div(TOTAL_AVAX_SUPPLY).times(100)
-        return percentStaked.toFixed(2)
+    get percentStaked() {
+        return this.getStakingRatio()
     }
 
     get annualStakingRewardPercentage(): string {

@@ -2,6 +2,7 @@ import store from '@/store'
 import { AVALANCHE_SUBNET_ID } from './platform'
 import Big from 'big.js'
 import { ONEAVAX } from 'avalanche/dist/utils'
+import { bigToDenomBig } from '@/helper'
 
 /**
  * @returns Count of active validators in Primary Network
@@ -102,4 +103,14 @@ export function getMarketCapUSD(): string {
         return marketCapUSD.toLocaleString(2)
     }
     return '-'
+}
+
+export function getStakingRatio(): number {
+    let totalStake = getTotalStake()
+    totalStake = bigToDenomBig(totalStake, 9)
+    const currentSupply = store.state.Platform.currentSupply
+        .div(ONEAVAX)
+        .toNumber()
+    const percentStaked = totalStake.div(currentSupply).times(100)
+    return parseFloat(percentStaked.toFixed(2))
 }

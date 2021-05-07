@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import { Module } from 'vuex'
-import Big from 'big.js'
 import BN from 'bn.js'
 import { IRootState } from '@/store/types'
 import { PlatformState } from './models'
@@ -17,7 +16,6 @@ import { getTxCounts } from '@/services/transactionCounts/transactionCounts.serv
 import { TxCount } from '@/services/transactionCounts/models'
 
 export const AVALANCHE_SUBNET_ID = P.id
-export const TOTAL_AVAX_SUPPLY = Big(360000000)
 
 const platform_module: Module<PlatformState, IRootState> = {
     namespaced: true,

@@ -7,6 +7,7 @@ import {
     getCumulativeStake,
     getCumulativePendingStake,
     getTotalBlockchains,
+    getStakingRatio,
 } from './platform.getters'
 
 @Component
@@ -37,5 +38,9 @@ export class PlatformGettersMixin extends Vue {
 
     getTotalBlockchains() {
         return getTotalBlockchains()
+    }
+
+    getStakingRatio() {
+        return getStakingRatio()
     }
 }

@@ -204,13 +204,11 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Mixins, Component, Watch } from 'vue-property-decorator'
-import { bigToDenomBig } from '@/helper'
 import TooltipHeading from '@/components/misc/TooltipHeading.vue'
 import TooltipMeta from '@/components/Home/TopInfo/TooltipMeta.vue'
 import { AVAX_ID } from '@/known_assets'
 import { Asset } from '@/js/Asset'
 import Big from 'big.js'
-import { TOTAL_AVAX_SUPPLY } from '@/store/modules/platform/platform'
 import { PlatformGettersMixin } from '@/store/modules/platform/platform.mixins'
 
 @Component({
@@ -343,11 +341,8 @@ export default class NetworkActivity extends Mixins(PlatformGettersMixin) {
         return Object.keys(this.$store.state.Platform.subnets).length
     }
 
-    get percentStaked(): string {
-        let totalStake = this.getTotalStake()
-        totalStake = bigToDenomBig(totalStake, 9)
-        const percentStaked = totalStake.div(TOTAL_AVAX_SUPPLY).times(100)
-        return percentStaked.toFixed(2)
+    get percentStaked() {
+        return this.getStakingRatio()
     }
 
     get annualStakingRewardPercentage(): string {
