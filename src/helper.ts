@@ -63,6 +63,14 @@ function VMDocumentationMap(id: string): string {
     }
 }
 
+function VMFullNameMap(id: string): string {
+    if (VMDict[id]) {
+        return VMDict[id].fullName
+    } else {
+        return ''
+    }
+}
+
 function getRandomQuote(): Quote {
     return quotes[Math.floor(Math.random() * quotes.length)]
 }
@@ -190,6 +198,7 @@ export {
     blockchainMap,
     VMMap,
     VMDocumentationMap,
+    VMFullNameMap,
     getRandomQuote,
     trimmedLocaleString,
     getPayloadFromUTXO,

@@ -24,9 +24,9 @@
             </template>
             <template #item.vmID="{ item }">
                 <div>
-                    <a :href="vmDocumentation(item.vmID)">{{
-                        vm(item.vmID)
-                    }}</a>
+                    <a :href="vmDocumentation(item.vmID)"
+                        >{{ vmFullName(item.vmID) }} ({{ vm(item.vmID) }})</a
+                    >
                 </div>
             </template>
             <template #item.indexed="{ item }">
@@ -52,7 +52,7 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { subnetMap, VMMap, VMDocumentationMap } from '@/helper'
+import { subnetMap, VMMap, VMDocumentationMap, VMFullNameMap } from '@/helper'
 import Blockchain from '@/js/Blockchain'
 import Indexed from '@/components/Blockchain/Indexed.vue'
 import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
@@ -75,7 +75,7 @@ export default class BlockchainDataTable extends Vue {
             { text: 'Database Index', value: 'indexed', width: 125 },
             { text: 'Unique Addresses', value: 'addressCount', width: 125 },
             { text: 'Transactions', value: 'txCount', width: 125 },
-            { text: 'Subnet', value: 'subnetID', width: 300 },
+            { text: 'Validating Subnet', value: 'subnetID', width: 300 },
         ]
         return this.subnets ? headers : headers.slice(0, 3)
     }
@@ -94,6 +94,10 @@ export default class BlockchainDataTable extends Vue {
 
     vmDocumentation(val: string) {
         return VMDocumentationMap(val)
+    }
+
+    vmFullName(val: string) {
+        return VMFullNameMap(val)
     }
 }
 </script>
