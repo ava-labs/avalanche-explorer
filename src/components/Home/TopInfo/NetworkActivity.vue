@@ -204,13 +204,12 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Watch } from 'vue-property-decorator'
-import { stringToBig, bigToDenomBig } from '@/helper'
+import { stringToBig } from '@/helper'
 import TooltipHeading from '../../misc/TooltipHeading.vue'
 import TooltipMeta from '../TopInfo/TooltipMeta.vue'
 import { AVAX_ID } from '@/store/index'
 import { Asset } from '@/js/Asset'
 import Big from 'big.js'
-import { TOTAL_AVAX_SUPPLY } from '@/store/modules/platform/platform'
 
 @Component({
     components: {
@@ -344,11 +343,8 @@ export default class NetworkActivity extends Vue {
         return Object.keys(this.$store.state.Platform.subnets).length
     }
 
-    get percentStaked(): string {
-        let totalStake = this.$store.getters['Platform/totalStake']
-        totalStake = bigToDenomBig(totalStake, 9)
-        const percentStaked = totalStake.div(TOTAL_AVAX_SUPPLY).times(100)
-        return percentStaked.toFixed(2)
+    get percentStaked(): number {
+        return this.$store.getters['Platform/stakingRatio']
     }
 
     get annualStakingRewardPercentage(): string {

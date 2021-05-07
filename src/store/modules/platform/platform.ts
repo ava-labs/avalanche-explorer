@@ -16,6 +16,8 @@ import { AddressCount } from '@/services/addressCounts/models'
 import { calculateStakingReward } from './helpers'
 import { getTxCounts } from '@/services/transactionCounts/transactionCounts.service'
 import { TxCount } from '@/services/transactionCounts/models'
+import { bigToDenomBig } from '@/helper'
+import { ONEAVAX } from 'avalanche/dist/utils'
 
 export const AVALANCHE_SUBNET_ID = Object.keys(SubnetDict).find(
     (key) => SubnetDict[key] === 'Primary Network'
@@ -23,7 +25,6 @@ export const AVALANCHE_SUBNET_ID = Object.keys(SubnetDict).find(
 export const X_CHAIN_ID = Object.keys(BlockchainDict).find(
     (key) => BlockchainDict[key] === 'X-Chain'
 ) as string
-export const TOTAL_AVAX_SUPPLY = Big(360000000)
 
 const platform_module: Module<IPlatformState, IRootState> = {
     namespaced: true,
@@ -228,6 +229,13 @@ const platform_module: Module<IPlatformState, IRootState> = {
                 total += state.subnets[subnetID].blockchains.length
             }
             return total
+        },
+        stakingRatio(state, getters): number {
+            let totalStake = getters.totalStake
+            totalStake = bigToDenomBig(totalStake, 9)
+            const currentSupply = state.currentSupply.div(ONEAVAX).toNumber()
+            const percentStaked = totalStake.div(currentSupply).times(100)
+            return parseFloat(percentStaked.toFixed(2))
         },
     },
 }

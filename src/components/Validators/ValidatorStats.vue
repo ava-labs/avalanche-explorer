@@ -72,8 +72,7 @@
 import 'reflect-metadata'
 import { Vue, Component } from 'vue-property-decorator'
 import TooltipMeta from '@/components/Home/TopInfo/TooltipMeta.vue'
-import { stringToBig, bigToDenomBig } from '@/helper'
-import { TOTAL_AVAX_SUPPLY } from '@/store/modules/platform/platform'
+import { stringToBig } from '@/helper'
 
 @Component({
     components: {
@@ -93,10 +92,7 @@ export default class ValidatorStats extends Vue {
     }
 
     get percentStaked(): string {
-        let totalStake = this.$store.getters['Platform/totalStake']
-        totalStake = bigToDenomBig(totalStake, 9)
-        const percentStaked = totalStake.div(TOTAL_AVAX_SUPPLY).times(100)
-        return percentStaked.toFixed(2)
+        return this.$store.getters['Platform/stakingRatio']
     }
 
     get annualStakingRewardPercentage(): string {
