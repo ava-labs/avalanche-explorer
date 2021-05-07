@@ -4,21 +4,28 @@ interface VMDict {
 
 interface IVirtualMachine {
     name: string
+    fullName: string
     documentation: string
 }
 
 const dict: VMDict = {
     '': {
         name: 'platformvm',
-        documentation: 'https://docs.avax.network/v1.0/en/api/platform/',
+        fullName: 'Platform Virtual Machine',
+        documentation:
+            'https://github.com/ava-labs/avalanchego/tree/master/vms/platformvm',
     },
     jvYyfQTxGMJLuGWa55kdP2p2zSUYsQ5Raupu4TW34ZAUBAbtq: {
         name: 'avm',
-        documentation: 'https://docs.avax.network/v1.0/en/api/avm/',
+        fullName: 'Ava Virtual Machine',
+        documentation:
+            'https://github.com/ava-labs/avalanchego/tree/master/vms/avm',
     },
     mgj786NP7uDwBCcq6YwThhaN8FLyybkCa4zBWTQbNgmK6k9A6: {
         name: 'evm',
-        documentation: 'https://docs.avax.network/v1.0/en/api/evm/',
+        fullName: 'Ethereum Virtual Machine',
+        documentation:
+            'https://github.com/ava-labs/avalanchego/tree/master/vms/evm',
     },
 }
 
