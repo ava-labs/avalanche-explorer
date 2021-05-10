@@ -89,12 +89,12 @@ export default class BlockchainDataTable extends Vue {
     get headers(): any[] {
         const headers = [
             { text: 'Name', value: 'name', width: 200, fixed: true },
-            { text: 'Unique Addresses', value: 'addressCount', width: 140 },
+            { text: 'Addresses', value: 'addressCount', width: 140 },
             { text: 'Transactions', value: 'txCount', width: 125 },
             { text: 'Burned Fees', value: 'burned', width: 125 },
-            { text: 'Database Index', value: 'indexed', width: 125 },
-            { text: 'Virtual Machine', value: 'vmID', width: 125 },
-            { text: 'Validating Subnet', value: 'subnetID', width: 300 },
+            { text: 'Index', value: 'indexed', width: 125 },
+            { text: 'VM', value: 'vmID', width: 125 },
+            { text: 'Validators', value: 'subnetID', width: 300 },
         ]
         return this.subnets ? headers : headers.slice(0, 3)
     }
