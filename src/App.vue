@@ -16,7 +16,7 @@
 
         <Footer class="footer" />
         <Notifications />
-        <!-- <ResponsiveGuidelines /> -->
+        <ResponsiveGuidelines />
     </v-app>
 </template>
 
@@ -25,7 +25,7 @@ import Vue from 'vue'
 import NavBar from '@/components/NavBar.vue'
 import NavBarMobile from '@/components/NavBarMobile.vue'
 import TestnetAlert from '@/components/misc/TestnetAlert.vue'
-// import ResponsiveGuidelines from "@/components/misc/ResponsiveGuidelines.vue";
+import ResponsiveGuidelines from '@/components/misc/ResponsiveGuidelines.vue'
 import Footer from '@/components/Footer.vue'
 import { IMetaTag } from '@/router/IMetaTag'
 import Notifications from '@/components/Notifications.vue'
@@ -35,7 +35,7 @@ export default Vue.extend({
     components: {
         NavBar,
         NavBarMobile,
-        // ResponsiveGuidelines,
+        ResponsiveGuidelines,
         TestnetAlert,
         Footer,
         Notifications,
@@ -194,7 +194,7 @@ export default Vue.extend({
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .router_view,
     .footer {
         padding: $container_padding_xs;
@@ -216,54 +216,23 @@ export default Vue.extend({
 </style>
 
 <style lang="scss">
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;700&display=swap');
-
-/* ==========================================
-   typography
-   ========================================== */
 body {
-    font-family: 'Inter', sans-serif;
-    letter-spacing: 0.01em;
     margin: 0;
-    background-color: $white !important;
     color: $primary-color;
+    background-color: $white !important;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-}
-
-.monospace {
-    font-family: 'Roboto Mono', monospace;
-}
-
-button {
-    font-family: 'Inter', sans-serif;
-    outline: none !important;
-    border: none;
-    cursor: pointer;
 }
 
 p {
     margin: 0;
 }
 
-.v-application a {
-    color: $primary-color !important;
-    text-decoration: none;
-
-    &:hover {
-        text-decoration: underline;
-    }
+button {
+    outline: none !important;
+    border: none;
+    cursor: pointer;
 }
-
-.v-application .primary--text {
-    color: $primary-color !important;
-    caret-color: $primary-color !important;
-}
-
-/* ==========================================
-   layout
-   ========================================== */
 
 .v-content__wrap {
     min-height: calc(100vh - #{$navbar_height_offset_xl});
@@ -282,25 +251,7 @@ p {
     }
 }
 
-.header {
-    h2 {
-        font-size: 22px;
-        margin: 0;
-        font-weight: 500;
-        color: $primary-color;
-    }
-}
-
-@include smOnly {
-    .header {
-        h2 {
-            font-size: 22px;
-            margin: 0;
-        }
-    }
-}
-
-@include xsOnly {
+@include xsOrSmaller {
     .card {
         padding-left: 0;
         padding-right: 0;

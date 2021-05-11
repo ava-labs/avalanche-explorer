@@ -182,7 +182,7 @@ button {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     img {
         display: none;
     }

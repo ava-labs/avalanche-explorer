@@ -192,7 +192,7 @@ export default class AssetsPage extends Vue {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .asset_list {
         padding: 5px 0;
     }

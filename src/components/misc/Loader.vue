@@ -148,7 +148,7 @@ img {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .quote_container {
         margin-top: 0;
     }

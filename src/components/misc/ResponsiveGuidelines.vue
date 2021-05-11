@@ -1,5 +1,13 @@
 <template>
     <div id="responsive-guidelines">
+        <div id="xxs" class="tick-container">
+            <span class="tick-label">
+                xxs
+                <br />400
+            </span>
+        </div>
+        <div id="guideline-xxs" class="guideline"></div>
+
         <div id="xs" class="tick-container">
             <span class="tick-label">
                 xs
@@ -64,6 +72,7 @@ export default {}
         z-index: 1001;
     }
 
+    #xxs,
     #xs,
     #sm,
     #md,
@@ -78,19 +87,25 @@ export default {}
         color: cyan;
     }
 
+    #xxs {
+        left: 380px;
+    }
     #xs {
-        left: 583px;
+        left: 581px;
     }
     #sm {
-        left: 943px;
+        left: 941px;
     }
     #md {
-        left: 1242px;
+        left: 1241px;
     }
     #lg {
-        left: 1882px;
+        left: 1881px;
     }
 
+    #guideline-xxs {
+        left: 399px;
+    }
     #guideline-xs {
         left: 599px;
     }

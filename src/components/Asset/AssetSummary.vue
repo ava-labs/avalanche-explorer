@@ -73,7 +73,7 @@ export default class AssetSummary extends Vue {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .asset_header {
         margin-bottom: 10px;
 

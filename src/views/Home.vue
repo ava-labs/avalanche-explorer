@@ -41,7 +41,7 @@ export default class Home extends Vue {}
     grid-gap: 30px;
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .recent_tx {
         margin-top: 0;
     }

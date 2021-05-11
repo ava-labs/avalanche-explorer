@@ -144,7 +144,7 @@ export default class Metadata extends Vue {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .staking_info {
         grid-template-columns: 1fr;
 

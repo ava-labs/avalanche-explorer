@@ -258,7 +258,7 @@ export default class Validators extends Mixins(PlatformGettersMixin) {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .validators {
         padding: 30px 15px;
     }

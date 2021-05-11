@@ -105,7 +105,7 @@ export default class TestnetAlert extends Vue {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .testnet_alert {
         margin-top: 0px !important;
         padding-left: 15px;

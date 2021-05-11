@@ -115,6 +115,6 @@ export default class AVAXBalanceTableSummary extends Vue {
 @include smOnly {
 }
 
-@include xsOnly {
+@include xsOrSmaller {
 }
 </style>

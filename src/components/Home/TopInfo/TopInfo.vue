@@ -61,7 +61,7 @@ export default {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .top_info {
         grid-template-columns: 1fr;
 

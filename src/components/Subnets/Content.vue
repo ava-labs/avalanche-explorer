@@ -256,7 +256,7 @@ export default class Content extends Vue {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .subnet_header {
         padding: 0;
     }

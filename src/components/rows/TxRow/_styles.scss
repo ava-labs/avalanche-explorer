@@ -229,7 +229,7 @@
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .table_headers {
         display: none;
     }

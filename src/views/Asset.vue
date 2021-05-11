@@ -266,7 +266,7 @@ $symbol_w: 35px;
     margin-top: 30px;
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .asset_genesis {
         margin-top: 10px;
     }

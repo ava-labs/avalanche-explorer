@@ -190,7 +190,7 @@ export default class Footer extends Vue {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .v-footer {
         flex-direction: column;
         justify-content: flex-start;

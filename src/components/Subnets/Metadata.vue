@@ -180,7 +180,7 @@ export default class Metadata extends Vue {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .metadata {
         margin-bottom: 10px;
 

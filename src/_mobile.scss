@@ -9,30 +9,6 @@
         @content;
     }
 }
-// --------------------------------------------- 1264px
-@mixin mdOnly {
-    @media only screen and (max-width: $width_md) and (min-width: $width_sm) {
-        @content;
-    }
-}
-// --------------------------------------------- 960px
-@mixin smOnly {
-    @media only screen and (max-width: $width_sm) and (min-width: $width_xs) {
-        @content;
-    }
-}
-// --------------------------------------------- 600px
-@mixin xsOnly {
-    @media only screen and (max-width: $width_xs) {
-        @content;
-    }
-}
-// --------------------------------------------- 400px
-@mixin xxs {
-    @media only screen and (max-width: $width_xs) {
-        @content;
-    }
-}
 
 // --------------------------------------------- equal to or greater than 1264px
 @mixin mdOrBigger {
@@ -41,9 +17,44 @@
     }
 }
 
+// --------------------------------------------- 1264px
+@mixin mdOnly {
+    @media only screen and (max-width: $width_md) and (min-width: $width_sm) {
+        @content;
+    }
+}
+
+// --------------------------------------------- 960px
+@mixin smOnly {
+    @media only screen and (max-width: $width_sm) and (min-width: $width_xs) {
+        @content;
+    }
+}
+
 // --------------------------------------------- equal to or smaller than 960px
 @mixin smOrSmaller {
     @media only screen and (max-width: $width_sm) {
+        @content;
+    }
+}
+
+// --------------------------------------------- 600px
+@mixin xsOnly {
+    @media only screen and (max-width: $width_xs) and (min-width: $width_xxs) {
+        @content;
+    }
+}
+
+// --------------------------------------------- equal to or smaller than 600px
+@mixin xsOrSmaller {
+    @media only screen and (max-width: $width_xs) {
+        @content;
+    }
+}
+
+// --------------------------------------------- 400px
+@mixin xxs {
+    @media only screen and (max-width: $width_xxs) {
         @content;
     }
 }

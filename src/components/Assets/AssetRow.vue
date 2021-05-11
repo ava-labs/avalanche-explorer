@@ -142,7 +142,7 @@ export default class AssetRow extends Vue {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .asset_row {
         p {
             font-size: 12px;

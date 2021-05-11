@@ -195,7 +195,7 @@ export default class Metadata extends Mixins(PlatformGettersMixin) {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .meta_data {
         margin-bottom: 10px;
     }

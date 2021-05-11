@@ -150,7 +150,7 @@ export default class RecentTxHeader extends Vue {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .header {
         display: flex;
         flex-direction: column;

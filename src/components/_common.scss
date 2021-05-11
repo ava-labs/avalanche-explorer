@@ -128,7 +128,7 @@
 @include smOnly {
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .utxo_table {
         margin-top: 5px;
     }

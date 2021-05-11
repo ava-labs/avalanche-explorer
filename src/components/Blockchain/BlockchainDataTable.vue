@@ -139,7 +139,7 @@ export default class BlockchainDataTable extends Vue {
 @include smOnly {
 }
 
-@include xsOnly {
+@include xsOrSmaller {
 }
 </style>
 

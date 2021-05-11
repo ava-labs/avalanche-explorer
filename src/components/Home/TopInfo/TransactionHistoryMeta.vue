@@ -81,7 +81,7 @@ export default class NetworkActivity extends Vue {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .stats {
         grid-template-columns: 1fr 1fr;
 

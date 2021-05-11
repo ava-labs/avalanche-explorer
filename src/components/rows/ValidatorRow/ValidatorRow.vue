@@ -218,7 +218,7 @@ export default class ValidatorRow extends Mixins(PlatformGettersMixin) {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .validator {
         grid-template-columns: 42px 1fr 1fr 0.5fr;
         grid-template-rows: max-content max-content;

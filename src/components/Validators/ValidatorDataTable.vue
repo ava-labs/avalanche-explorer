@@ -508,7 +508,7 @@ export default class ValidatorDataTable extends Vue {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     #validator-data-table {
         .v-data-table td,
         .v-data-table th {
@@ -566,7 +566,7 @@ export default class ValidatorDataTable extends Vue {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     #validator-data-table {
         .v-data-table td,
         .v-data-table th {

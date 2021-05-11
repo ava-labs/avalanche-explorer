@@ -464,7 +464,7 @@ export default class NetworkActivity extends Mixins(PlatformGettersMixin) {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .stats {
         grid-template-columns: none;
 

@@ -216,7 +216,7 @@ export default class AssetsDataTable extends Vue {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     #validator-data-table {
         .v-data-table td,
         .v-data-table th {
@@ -278,7 +278,7 @@ export default class AssetsDataTable extends Vue {
     font-weight: bold;
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     #validator-data-table {
         .v-data-table td,
         .v-data-table th {

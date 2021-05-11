@@ -256,7 +256,7 @@ export default class TopAssets extends Vue {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .asset {
         grid-template-columns: 1fr 100px;
     }

@@ -117,7 +117,7 @@ export default class UtfPayloadView extends Vue {
     background-color: #000000bb;
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .generic_view {
         height: 100%;
     }

@@ -80,7 +80,7 @@ export default class ControlKeyTable extends Vue {
 @include smOnly {
 }
 
-@include xsOnly {
+@include xsOrSmaller {
 }
 </style>
 

@@ -275,7 +275,7 @@ export default class NetworkMenu extends Vue {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     @if $VUE_APP_DEFAULT_NETWORKID == 5 {
         .toggle_but {
             .caret,
