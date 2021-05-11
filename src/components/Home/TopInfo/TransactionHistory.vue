@@ -1,11 +1,9 @@
 <template>
     <div class="tx_history card">
         <div class="header">
-            <h2>
+            <h2 class="top_info_heading">
                 Transaction Volume
-                <TooltipHeading
-                    content="Timeline of transactions on Avalanche"
-                />
+                <TooltipHeading content="for P and X-chains only" />
             </h2>
         </div>
         <template v-if="aggregates && !loading">

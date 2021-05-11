@@ -115,7 +115,7 @@ export default Vue.extend({
    RESPONSIVE
    ========================================== */
 
-@include xlOnly {
+@include lgOrBigger {
     .navbar,
     .router_view,
     .footer {
@@ -216,6 +216,94 @@ export default Vue.extend({
 </style>
 
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;700&display=swap');
+
+:root {
+    --c-detail: hsl(0, 0%, 90%);
+    --c-gray: hsl(0, 0%, 93%);
+
+    --f-size: 15px;
+    --f-height: 24px;
+    --f-weight: 400;
+    --f-scale-s: 0.87;
+    --f-scale-m: 1.2;
+    --f-scale-l: 2.618;
+
+    --a-speed: 150ms;
+    --a-ease: ease-out;
+    --l-padding: 1rem;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    letter-spacing: -0.0143007em;
+    font-size: var(--f-size);
+}
+
+.monospace {
+    font-family: 'Roboto Mono', monospace;
+}
+
+button {
+    font-family: 'Inter', sans-serif;
+}
+
+.v-application a {
+    color: $primary-color !important;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.v-application .primary--text {
+    color: $primary-color !important;
+    caret-color: $primary-color !important;
+}
+
+th {
+    font-weight: 500;
+}
+
+.header {
+    h2 {
+        font-size: 22px;
+        margin: 0;
+        font-weight: 500;
+        color: $primary-color;
+    }
+}
+
+@include mdOrBigger {
+    .header {
+        h2 {
+            font-size: 30px;
+        }
+
+        .top_info_heading {
+            font-size: 22px;
+        }
+    }
+}
+
+@include smOrSmaller {
+    .header {
+        h2 {
+            font-size: calc(var(--f-size) * var(--f-scale-m));
+        }
+    }
+}
+
+@include xsOrSmaller {
+    .header {
+        h2 {
+            font-size: 18px;
+        }
+    }
+}
+
 body {
     margin: 0;
     color: $primary-color;
@@ -350,7 +438,7 @@ input {
     }
 }
 
-@include smOnly {
+@include smOrSmaller {
     .view_all {
         width: 100%;
         text-align: center;
@@ -384,6 +472,12 @@ input {
 
 .v-breadcrumbs {
     padding: 8px 12px 20px !important;
+}
+
+@include smOrSmaller {
+    .v-breadcrumbs {
+        padding: 8px 0 0 !important;
+    }
 }
 
 .v-tooltip__content {
@@ -452,7 +546,7 @@ tbody {
     flex-direction: column;
 }
 
-@include xlOnly {
+@include lgOrBigger {
     .v-toolbar--dense .v-toolbar__content,
     .v-toolbar--dense .v-toolbar__extension {
         padding: 0;

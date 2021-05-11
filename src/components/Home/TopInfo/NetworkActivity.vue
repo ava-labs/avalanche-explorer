@@ -1,10 +1,7 @@
 <template>
     <div id="network_statistics" class="card">
         <div class="header">
-            <h2 class="meta_title">
-                Avalanche Network Activity
-                <!-- <TooltipHeading content="Key Avalanche stats" :color="'#2196f3'"></TooltipHeading> -->
-            </h2>
+            <h2 class="top_info_heading">Avalanche Network Activity</h2>
         </div>
         <section class="stats one-column">
             <!-- <article class="meta">
@@ -421,7 +418,7 @@ export default class NetworkActivity extends Mixins(PlatformGettersMixin) {
 
         p {
             padding: 2px 0;
-            font-weight: 400;
+            font-weight: var(--f-weight);
         }
 
         .label {
@@ -429,7 +426,6 @@ export default class NetworkActivity extends Mixins(PlatformGettersMixin) {
             font-size: 12px;
             margin-bottom: 6px;
             padding-left: 3px;
-            color: #707070;
         }
 
         .meta_val {
@@ -445,21 +441,38 @@ export default class NetworkActivity extends Mixins(PlatformGettersMixin) {
     }
 }
 
-@include mdOnly {
-    .stats {
-        img {
-            width: 24px;
-        }
+@include smOrSmaller {
+    .header {
+        padding-bottom: 0;
     }
-}
 
-@include smOnly {
     .stats {
         grid-template-columns: 50% 50%;
         grid-template-rows: max-content;
 
         > div {
             padding: 30px 0 0;
+        }
+
+        .meta {
+            font-weight: var(--f-weight) ;
+            
+            .label {
+                padding: 0;
+                margin-bottom: 0;
+                font-variation-settings: 'wght' 650;
+                font-size: 15px;
+                line-height: var(--f-height);
+            }
+
+            .meta_val {
+                font-size: 15px;
+                line-height: var(--f-height);
+
+                .unit {
+                    font-size: 15px !important;
+                }
+            }
         }
     }
 }
@@ -472,38 +485,6 @@ export default class NetworkActivity extends Mixins(PlatformGettersMixin) {
             grid-template-columns: 1fr;
             row-gap: 45px;
             margin-bottom: 45px;
-
-            .meta {
-                .meta_val {
-                    font-size: 20px;
-
-                    .unit {
-                        font-size: 14px !important;
-                    }
-                }
-            }
-        }
-
-        .two-column {
-            .meta {
-                .meta_val {
-                    font-size: 20px;
-                }
-            }
-        }
-
-        .stat {
-            .label {
-                font-size: 13px;
-            }
-
-            .meta_val {
-                font-size: 20px;
-
-                .unit {
-                    font-size: 14px !important;
-                }
-            }
         }
     }
 }

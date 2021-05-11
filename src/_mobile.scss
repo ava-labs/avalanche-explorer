@@ -1,8 +1,9 @@
-@mixin xlOnly {
+@mixin lgOrBigger {
     @media only screen and (min-width: $width_lg) {
         @content;
     }
 }
+
 // --------------------------------------------- 1904px
 @mixin lgOnly {
     @media only screen and (max-width: $width_lg) and (min-width: $width_md) {
@@ -10,7 +11,7 @@
     }
 }
 
-// --------------------------------------------- equal to or greater than 1264px
+// --------------------------------------------- 1264px ^
 @mixin mdOrBigger {
     @media only screen and (min-width: $width_md) {
         @content;
@@ -24,6 +25,13 @@
     }
 }
 
+// --------------------------------------------- 960px ^
+@mixin smOrBigger {
+    @media only screen and (min-width: $width_sm) {
+        @content;
+    }
+}
+
 // --------------------------------------------- 960px
 @mixin smOnly {
     @media only screen and (max-width: $width_sm) and (min-width: $width_xs) {
@@ -31,7 +39,7 @@
     }
 }
 
-// --------------------------------------------- equal to or smaller than 960px
+// --------------------------------------------- 960px v
 @mixin smOrSmaller {
     @media only screen and (max-width: $width_sm) {
         @content;
@@ -45,7 +53,7 @@
     }
 }
 
-// --------------------------------------------- equal to or smaller than 600px
+// --------------------------------------------- 600px v
 @mixin xsOrSmaller {
     @media only screen and (max-width: $width_xs) {
         @content;

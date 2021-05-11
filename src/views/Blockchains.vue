@@ -73,7 +73,8 @@ export default class Blockchains extends Mixins(PlatformGettersMixin) {
     margin-bottom: 10px;
 
     .count {
-        color: #808080;
+        padding-top: 10px;
+        color: $primary-color-light;
     }
 }
 
@@ -91,7 +92,7 @@ export default class Blockchains extends Mixins(PlatformGettersMixin) {
     justify-content: flex-end;
 }
 
-@include smOnly {
+@include xsOrSmaller {
     .table_headers {
         display: none;
     }

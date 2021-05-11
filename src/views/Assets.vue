@@ -2,10 +2,7 @@
     <div class="assets">
         <div class="card">
             <div class="header">
-                <h2>
-                    Assets
-                    <TooltipHeading content="A unit of value" />
-                </h2>
+                <h2>Assets</h2>
                 <template v-if="assetsLoaded">
                     <div class="bar">
                         <p class="count">
@@ -142,7 +139,7 @@ export default class AssetsPage extends Vue {
 }
 
 .grid_headers {
-    font-weight: 500;
+    font-weight: 500 !important;
     font-size: 12px;
 }
 

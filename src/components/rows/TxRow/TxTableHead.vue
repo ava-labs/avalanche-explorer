@@ -1,6 +1,6 @@
 <template>
     <div class="table_headers">
-        <p>
+        <p class="header_indent_sm">
             ID
             <Tooltip
                 content="Unique character string generated when a transaction is executed"

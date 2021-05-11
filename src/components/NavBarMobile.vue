@@ -121,6 +121,7 @@ export default class NavbarMobile extends Vue {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
     background-color: $white;
+    border-bottom: 1px solid #c4c4c4;
 
     > .v-toolbar__content {
         padding: 0;
