@@ -222,14 +222,12 @@ export default Vue.extend({
 :root {
     --c-detail: hsl(0, 0%, 90%);
     --c-gray: hsl(0, 0%, 93%);
-
     --f-size: 15px;
     --f-height: 24px;
     --f-weight: 400;
     --f-scale-s: 0.87;
     --f-scale-m: 1.2;
     --f-scale-l: 2.618;
-
     --a-speed: 150ms;
     --a-ease: ease-out;
     --l-padding: 1rem;
@@ -239,6 +237,7 @@ body {
     font-family: 'Inter', sans-serif;
     letter-spacing: -0.0143007em;
     font-size: var(--f-size);
+    line-height: var(--f-height);
 }
 
 .monospace {
@@ -296,14 +295,6 @@ th {
     }
 }
 
-@include xsOrSmaller {
-    .header {
-        h2 {
-            font-size: 18px;
-        }
-    }
-}
-
 body {
     margin: 0;
     color: $primary-color;
@@ -339,19 +330,18 @@ button {
     }
 }
 
+@include smOrSmaller {
+    .card {
+        margin: 4rem 0;
+    }
+}
+
 @include xsOrSmaller {
     .card {
         padding-left: 0;
         padding-right: 0;
         border-radius: 0;
         border: none;
-    }
-
-    .header {
-        h2 {
-            font-size: 30px;
-            margin: 0;
-        }
     }
 }
 
@@ -572,7 +562,7 @@ tbody {
         border: none;
         margin-left: 3px;
         outline: none;
-        border: 1px solid $button-dark-gray;
+        border: 1px solid $button;
         border-radius: 12px;
         padding: 4px 3px;
         font-weight: 700;
