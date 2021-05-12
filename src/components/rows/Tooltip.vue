@@ -26,7 +26,7 @@ img {
     max-height: 24px;
     height: 0.75em;
     object-fit: contain;
-    margin-left: 2px;
-    margin-right: 5px;
+    margin-left: 0.1em;
+    margin-right: 0.25em;
 }
 </style>

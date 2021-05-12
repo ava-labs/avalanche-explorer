@@ -1,18 +1,18 @@
 <template>
     <div id="tx_history_statistics">
         <section class="stats">
-            <article class="meta">
-                <p class="label">Addresses</p>
-                <p class="meta_val">
+            <dl>
+                <dd>Addresses</dd>
+                <dt>
                     {{ aggregates.addressCount.toLocaleString() }}
-                </p>
-            </article>
-            <article class="meta">
-                <p class="label">Assets</p>
-                <p class="meta_val">
+                </dt>
+            </dl>
+            <dl>
+                <dd>Assets</dd>
+                <dt>
                     {{ aggregates.assetCount.toLocaleString() }}
-                </p>
-            </article>
+                </dt>
+            </dl>
         </section>
     </div>
 </template>
@@ -40,64 +40,17 @@ export default class NetworkActivity extends Vue {
 .stats {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    row-gap: 45px;
-    column-gap: 30px;
-    padding: 4px 0 30px;
+    row-gap: 24px;
+    column-gap: 24px;
+    padding: 0 0 24px;
     flex-wrap: wrap;
     overflow: auto;
     width: 100%;
-
-    .meta {
-        display: flex;
-        flex-direction: column;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        flex-grow: 1;
-        font-size: 12px;
-        font-weight: 700;
-
-        p {
-            padding: 2px 4px;
-            font-weight: 500;
-            width: 100%;
-        }
-
-        .label {
-            text-transform: capitalize;
-            font-size: 12px;
-            font-weight: 300;
-            margin-top: 2px;
-        }
-
-        .meta_val {
-            font-size: 24px;
-            line-height: 1em;
-
-            .unit {
-                font-size: 12px;
-                opacity: 0.7;
-            }
-        }
-    }
 }
 
 @include xsOrSmaller {
     .stats {
         grid-template-columns: 1fr 1fr;
-
-        .stat {
-            .label {
-                font-size: 13px;
-            }
-
-            .meta_val {
-                font-size: 20px;
-
-                .unit {
-                    font-size: 12px;
-                }
-            }
-        }
     }
 }
 </style>

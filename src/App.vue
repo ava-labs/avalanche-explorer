@@ -238,6 +238,7 @@ body {
     letter-spacing: -0.0143007em;
     font-size: var(--f-size);
     line-height: var(--f-height);
+    font-weight: var(--f-weight);
 }
 
 .monospace {
@@ -330,9 +331,68 @@ button {
     }
 }
 
+.stats {
+    dl {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        flex-grow: 1;
+        justify-content: flex-start;
+        margin: 0;
+
+        dd {
+            text-transform: capitalize;
+            font-size: 12px;
+            margin-inline-start: 0;
+            margin-bottom: 6px;
+
+            &.indent {
+                padding-left: 3px;
+            }
+        }
+
+        dt {
+            font-size: 20px;
+            line-height: 1em;
+
+            .unit {
+                font-size: 12px;
+            }
+        }
+    }
+}
+
 @include smOrSmaller {
     .card {
         margin: 4rem 0;
+    }
+
+    .stats {
+        dl {
+            padding: 18px 0;
+            border-bottom: 1px solid var(--c-gray);
+
+            dd {
+                padding: 0;
+                margin-bottom: 0;
+                font-variation-settings: 'wght' 650;
+                font-size: var(--f-size);
+                line-height: var(--f-height);
+
+                &.indent {
+                    padding-left: 0;
+                }
+            }
+
+            dt {
+                font-size: var(--f-size);
+                line-height: var(--f-height);
+
+                .unit {
+                    font-size: 15px !important;
+                }
+            }
+        }
     }
 }
 
