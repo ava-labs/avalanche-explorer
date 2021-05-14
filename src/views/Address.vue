@@ -12,8 +12,6 @@
             :meta-data="metadata"
             :address-i-d="addressID"
             :alias="alias"
-            :total-transaction-count="totalTransactionCount"
-            :total-utxo-count="totalUtxoCount"
             :assets="assets"
             :prefix="prefix"
         ></Metadata>
@@ -207,14 +205,6 @@ export default class AddressPage extends Mixins(TransactionsGettersMixin) {
         return address.substring(0, 1)
     }
 
-    get totalTransactionCount(): number {
-        return this.metadata ? this.metadata.totalTransactionCount : 0
-    }
-
-    get totalUtxoCount(): number {
-        return this.metadata ? this.metadata.totalUtxoCount : 0
-    }
-
     setFilter(val: string[]) {
         this.filters = val
     }
@@ -250,11 +240,7 @@ export default class AddressPage extends Mixins(TransactionsGettersMixin) {
             }
 
             try {
-                this.metadata = await getAddress(
-                    this.addressID,
-                    this.assetsMap,
-                    params
-                )
+                this.metadata = await getAddress(params, this.assetsMap)
                 this.loading = false
                 if (!this.metadata) {
                     const nullData: IAddress = {
@@ -271,8 +257,6 @@ export default class AddressPage extends Mixins(TransactionsGettersMixin) {
                         X_unlocked: Big(0),
                         X_locked: Big(0),
                         // X-Chain Assets
-                        totalTransactionCount: 0,
-                        totalUtxoCount: 0,
                         assets: [],
                     }
                     this.metadata = nullData

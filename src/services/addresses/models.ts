@@ -15,8 +15,6 @@ export interface IAddress {
     X_unlocked: Big
     X_locked: Big
     // X-Chain Assets
-    totalTransactionCount: number
-    totalUtxoCount: number
     assets: IBalanceX[]
 }
 

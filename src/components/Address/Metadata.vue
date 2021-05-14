@@ -79,8 +79,6 @@ export default class Metadata extends Vue {
     @Prop() metaData!: IAddress
     @Prop() addressID!: string
     @Prop() alias!: string
-    @Prop() totalTransactionCount!: number
-    @Prop() totalUtxoCount!: number
     @Prop() assets!: IBalanceX[]
     @Prop() prefix!: string
 

@@ -70,8 +70,6 @@ export default class Addresses extends Vue {
                         X_unlocked: Big(0),
                         X_locked: Big(0),
                         // X-Chain Assets
-                        totalTransactionCount: 0,
-                        totalUtxoCount: 0,
                         assets: [],
                     }
 
