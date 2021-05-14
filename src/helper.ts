@@ -173,18 +173,19 @@ function getNullAddress(id: string, key = ''): IAddress {
     return {
         address: id,
         publicKey: key,
-        // P-Chain AVAX balance
+        // P-Chain (excludes X -> P shared memory)
         AVAX_balance: Big(0),
         P_unlocked: Big(0),
         P_lockedStakeable: Big(0),
         P_lockedNotStakeable: Big(0),
         P_staked: Big(0),
         P_utxoIDs: [],
-        // X-Chain AVAX balance
+        // X-Chain (includes C -> X and P -> X shared memory)
         X_unlocked: Big(0),
         X_locked: Big(0),
-        // X-Chain Assets
-        assets: [],
+        X_assets: [],
+        // X -> C shared memory
+        C_unlocked: Big(0),
     }
 }
 

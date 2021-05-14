@@ -38,6 +38,7 @@ export default class AVAXBalanceTableDetail extends Vue {
     @Prop() pStaked!: Big
     @Prop() xUnlocked!: Big
     @Prop() xLocked!: Big
+    @Prop() cUnlocked!: Big
 
     balances: any[] = [
         {
@@ -71,6 +72,11 @@ export default class AVAXBalanceTableDetail extends Vue {
             balance: this.xLocked,
         },
         {
+            name: 'Unlocked',
+            chain: 'XC Shared Memory',
+            balance: this.cUnlocked,
+        },
+        {
             name: 'Total Balance',
             chain: '',
             balance: this.totalAVAX,
@@ -84,6 +90,7 @@ export default class AVAXBalanceTableDetail extends Vue {
             .plus(this.pStaked)
             .plus(this.xUnlocked)
             .plus(this.xLocked)
+            .plus(this.cUnlocked)
     }
 }
 </script>

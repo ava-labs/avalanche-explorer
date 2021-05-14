@@ -185,7 +185,7 @@ export default class AddressPage extends Mixins(TransactionsGettersMixin) {
     }
 
     get assets(): IBalanceX[] {
-        return this.metadata ? this.metadata.assets : []
+        return this.metadata ? this.metadata.X_assets : []
     }
 
     get assetsMap(): any {
@@ -226,24 +226,21 @@ export default class AddressPage extends Mixins(TransactionsGettersMixin) {
 
         if (this.assetsLoaded) {
             this.fetchTx(params)
-            await this.getAddressDetails_X()
+            await this.getAddressDetails()
         }
     }
 
-    async getAddressDetails_X() {
+    async getAddressDetails() {
         if (this.assetsLoaded === true) {
             // restrict the query to the X and C-chains
-            // so we do not double count the P-chain AVAX balance
+            // this is so we do not double count the P-chain AVAX balance
             const params = {
                 address: this.addressID,
                 chainID: [XCHAINID, CCHAINID],
             }
 
-            console.log('params', params)
-
             try {
                 this.metadata = await getAddress(params, this.assetsMap)
-                console.log('this.metadata', this.metadata)
                 this.loading = false
                 if (!this.metadata) {
                     this.metadata = getNullAddress(this.addressID)
