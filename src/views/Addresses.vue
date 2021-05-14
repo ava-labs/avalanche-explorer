@@ -35,8 +35,8 @@
 import { Vue, Component } from 'vue-property-decorator'
 import api from '@/axios'
 import { IAddress, IAddressData } from '@/services/addresses/models'
-import Big from 'big.js'
 import AddressDataTable from '@/components/Address/AddressDataTable.vue'
+import { getNullAddress } from '@/helper'
 
 @Component({
     components: {
@@ -54,27 +54,10 @@ export default class Addresses extends Vue {
         api.get('/x/addresses').then((res) => {
             this.totalAddresses = res.data.count
             const addresses: IAddressData = res.data.addresses
-            const sorted = Object.values(addresses).map(
-                (addressData: IAddressData) => {
-                    const address: IAddress = {
-                        address: addressData.address,
-                        publicKey: addressData.publicKey,
-                        // P-Chain AVAX balance
-                        AVAX_balance: Big(0),
-                        P_unlocked: Big(0),
-                        P_lockedStakeable: Big(0),
-                        P_lockedNotStakeable: Big(0),
-                        P_staked: Big(0),
-                        P_utxoIDs: [],
-                        // X-Chain AVAX balance
-                        X_unlocked: Big(0),
-                        X_locked: Big(0),
-                        // X-Chain Assets
-                        assets: [],
-                    }
-
-                    return address
-                }
+            const sorted = Object.values(
+                addresses
+            ).map((addressData: IAddressData) =>
+                getNullAddress(addressData.address, addressData.publicKey)
             )
             sorted.sort((a: IAddress, b: IAddress) => {
                 const diff = a.X_unlocked.minus(b.X_unlocked)

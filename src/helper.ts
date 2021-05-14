@@ -6,6 +6,7 @@ import { Quote, quotes } from './quotes'
 import { BN, Buffer } from 'avalanche/dist'
 import { NFTTransferOutput, UTXO } from 'avalanche/dist/apis/avm'
 import { PayloadBase, PayloadTypes } from 'avalanche/dist/utils'
+import { IAddress } from './services/addresses/models'
 
 function stringToBig(raw: string, denomination = 0): Big {
     return Big(raw).div(Math.pow(10, denomination))
@@ -168,6 +169,25 @@ function pushPayload(rawPayload: string, assetID: string, groupID: number) {
     }
 }
 
+function getNullAddress(id: string, key = ''): IAddress {
+    return {
+        address: id,
+        publicKey: key,
+        // P-Chain AVAX balance
+        AVAX_balance: Big(0),
+        P_unlocked: Big(0),
+        P_lockedStakeable: Big(0),
+        P_lockedNotStakeable: Big(0),
+        P_staked: Big(0),
+        P_utxoIDs: [],
+        // X-Chain AVAX balance
+        X_unlocked: Big(0),
+        X_locked: Big(0),
+        // X-Chain Assets
+        assets: [],
+    }
+}
+
 export {
     nAvaxToAVAX as toAVAX,
     stringToBig,
@@ -181,4 +201,5 @@ export {
     trimmedLocaleString,
     getPayloadFromUTXO,
     pushPayload,
+    getNullAddress,
 }

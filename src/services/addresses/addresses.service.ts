@@ -1,6 +1,6 @@
 import avalanche_go_api from '@/avalanche_go_api'
 import api from '@/axios'
-import { bigToDenomBig, stringToBig } from '@/helper'
+import { bigToDenomBig, getNullAddress, stringToBig } from '@/helper'
 import { Asset } from '@/js/Asset'
 import { resolveResponseData } from '@/services/helpers'
 import { AVAX_ID } from '@/store'
@@ -177,44 +177,9 @@ export async function getAddress(
         getStake_P(params.address!),
     ])
 
-    // Parse addressData from Ortelius
-    // Check for X
-    // Check for C
-
-    const xBalanceOrtelius = addressData.addresses.filter(
-        // @ts-ignore
-        (a) => a.chainID === XCHAINID
-    )
-
-    // TODO - exception for no X
-    // if (balances.length === 0) {
-    //     balances = addressData.addresses.filter(
-    //         // @ts-ignore
-    //         (address) => address.chainID === CCHAINID
-    //     )
-    // }
-
-    const assets = setBalances(xBalanceOrtelius[0].assets, assetsMap)
-
-    // Exception for C- address with no data
+    // Exception where no addresses were found for queried chains
     if (addressData.addresses.length === 0) {
-        const nullData: IAddress = {
-            address: params.address!,
-            publicKey: '',
-            // P-Chain AVAX balance
-            AVAX_balance: Big(0),
-            P_unlocked: Big(0),
-            P_lockedStakeable: Big(0),
-            P_lockedNotStakeable: Big(0),
-            P_staked: Big(0),
-            P_utxoIDs: [],
-            // X-Chain AVAX balance
-            X_unlocked: Big(0),
-            X_locked: Big(0),
-            // X-Chain Assets
-            assets: [],
-        }
-        return nullData
+        return getNullAddress(params.address!)
     }
 
     const address: IAddress = {
@@ -242,10 +207,30 @@ export async function getAddress(
             assetsMap[AVAX_ID].denomination
         ),
         P_utxoIDs: pBalance.utxoIDs as string[],
-        // P-Chain balances (AVAX, etc.)
-        assets,
-        X_unlocked: setUnlockedX(assets),
+        // X-Chain balances (AVAX, etc.)
+        assets: [],
+        X_unlocked: Big(0),
         X_locked: Big(0),
     }
+
+    const xBalanceOrtelius = addressData.addresses.filter(
+        // @ts-ignore
+        (a) => a.chainID === XCHAINID
+    )
+
+    if (xBalanceOrtelius) {
+        address.assets = setBalances(xBalanceOrtelius[0].assets, assetsMap)
+        address.X_unlocked = setUnlockedX(address.assets)
+    }
+
+    const cBalanceOrtelius = addressData.addresses.filter(
+        // @ts-ignore
+        (a) => a.chainID === CCHAINID
+    )
+
+    if (cBalanceOrtelius) {
+        console.log(cBalanceOrtelius)
+    }
+
     return address
 }

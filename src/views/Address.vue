@@ -89,7 +89,6 @@ import TxRow from '@/components/rows/TxRow/TxRow.vue'
 import AddressDict from '@/known_addresses'
 import { IBalanceX, IAddress } from '@/services/addresses/models'
 import { getAddress } from '@/services/addresses/addresses.service'
-import Big from 'big.js'
 import HTTPError from '@/components/misc/HTTPError.vue'
 import TxHeader from '@/components/Transaction/TxHeader.vue'
 import TransactionsHeader from '@/components/Transaction/TxHeader.vue'
@@ -99,6 +98,7 @@ import TxFilter from '@/components/Transaction/TxFilter.vue'
 import TxParams from '@/components/Transaction/TxParams.vue'
 import { TransactionsGettersMixin } from '@/store/modules/transactions/transactions.mixins'
 import { XCHAINID, CCHAINID } from '@/known_blockchains'
+import { getNullAddress } from '@/helper'
 
 @Component({
     components: {
@@ -243,23 +243,7 @@ export default class AddressPage extends Mixins(TransactionsGettersMixin) {
                 this.metadata = await getAddress(params, this.assetsMap)
                 this.loading = false
                 if (!this.metadata) {
-                    const nullData: IAddress = {
-                        address: this.addressID,
-                        publicKey: '',
-                        // P-Chain AVAX balance
-                        AVAX_balance: Big(0),
-                        P_unlocked: Big(0),
-                        P_lockedStakeable: Big(0),
-                        P_lockedNotStakeable: Big(0),
-                        P_staked: Big(0),
-                        P_utxoIDs: [],
-                        // X-Chain AVAX balance
-                        X_unlocked: Big(0),
-                        X_locked: Big(0),
-                        // X-Chain Assets
-                        assets: [],
-                    }
-                    this.metadata = nullData
+                    this.metadata = getNullAddress(this.addressID)
                 }
             } catch (err) {
                 this.loading = false
