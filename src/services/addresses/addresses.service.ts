@@ -17,54 +17,29 @@ import Big from 'big.js'
 import { IAssetDataAvalancheGo, IAssetDataOrtelius } from '@/js/IAsset'
 import { avm } from '@/avalanche'
 import { setUnlockedX, setAssetMetadata, setBalanceData } from './address'
+import qs from 'qs'
+import { XCHAINID, CCHAINID } from '@/known_blockchains'
 
 const ADDRESSES_V2_API_BASE_URL = process.env.VUE_APP_ADDRESSES_V2_API_BASE_URL
 
 export interface IAddressesParams {
+    address?: string
     chainID?: string[]
-
     sort?: string
     offset?: number
     limit?: number
 }
 
-/*
-TODO
-USE THIS
-v2/addresses?addressId=
-{
-  "addresses": [
-    {
-      "address": "avax1y8cyrzn2kg4udccs5d625gkac7a99pe452cy5u",
-      "publicKey": null,
-      "chainID": X          // X
-      "assets": {
-        "FvwEAhmxKfeiG8SnEvq42hc6whRyY3EFYAvebMqDNDGCgxN5Z": {
-          ...
-        }
-      }
-    },
-    {
-      "address": "avax1y8cyrzn2kg4udccs5d625gkac7a99pe452cy5u",
-      "publicKey": null,
-      "chainID": P          // P
-      "assets": {
-        "FvwEAhmxKfeiG8SnEvq42hc6whRyY3EFYAvebMqDNDGCgxN5Z": {
-          ...
-        }
-      }
-    }
-  ]
-}
-
-DON'T USE v2/addresses/{addressId}
-
-*/
-// export type Combo = ITransactionParams & IAddressesParams
-
-export function getAddressFromOrtelius(id: string, params?: IAddressesParams) {
+/**
+ * @dev put addressID as a param
+ */
+export function getAddressFromOrtelius(params?: IAddressesParams) {
     return api
-        .get(`${ADDRESSES_V2_API_BASE_URL}/${id}`, { params })
+        .get(`${ADDRESSES_V2_API_BASE_URL}`, {
+            params,
+            paramsSerializer: (params) =>
+                qs.stringify(params, { arrayFormat: 'repeat' }),
+        })
         .then(resolveResponseData)
 }
 
@@ -96,7 +71,7 @@ export async function getStake_P(id: string) {
     return result
 }
 
-function setXBalances(
+function setBalances(
     balanceData: IBalanceXData,
     assetsMap: any
 ): [IBalanceX[], number, number] {
@@ -199,17 +174,65 @@ function setXBalances(
     return [balances, totalTransactionCount, totalUtxoCount]
 }
 
-export async function getAddress(id: string, assetsMap: IAssetsMap) {
+/**
+ *
+ * @param id
+ * @param assetsMap
+ * @param params
+ * @returns balances for an address
+ */
+export async function getAddress(
+    id: string,
+    assetsMap: IAssetsMap,
+    params: IAddressesParams
+) {
+    // Get data from Ortelius and Avalanche-Go
     const [addressData, pBalanceData, pStakeData] = await Promise.all([
-        getAddressFromOrtelius(id),
+        getAddressFromOrtelius(params),
         getBalance_P(id),
         getStake_P(id),
     ])
 
-    const [assets, totalTransactionCount, totalUtxoCount] = setXBalances(
-        addressData.assets,
+    const balances = addressData.addresses.filter(
+        // @ts-ignore
+        (address) => address.chainID === XCHAINID
+    )
+
+    // TODO - exception for no X
+    // if (balances.length === 0) {
+    //     balances = addressData.addresses.filter(
+    //         // @ts-ignore
+    //         (address) => address.chainID === CCHAINID
+    //     )
+    // }
+
+    const [assets, totalTransactionCount, totalUtxoCount] = setBalances(
+        balances[0].assets,
         assetsMap
     )
+
+    // Exception for C- address with no data
+    if (addressData.addresses.length === 0) {
+        const nullData: IAddress = {
+            address: id,
+            publicKey: '',
+            // P-Chain AVAX balance
+            AVAX_balance: Big(0),
+            P_unlocked: Big(0),
+            P_lockedStakeable: Big(0),
+            P_lockedNotStakeable: Big(0),
+            P_staked: Big(0),
+            P_utxoIDs: [],
+            // X-Chain AVAX balance
+            X_unlocked: Big(0),
+            X_locked: Big(0),
+            // X-Chain Assets
+            totalTransactionCount: 0,
+            totalUtxoCount: 0,
+            assets: [],
+        }
+        return nullData
+    }
 
     const address: IAddress = {
         address: addressData.address,

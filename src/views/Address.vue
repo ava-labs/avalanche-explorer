@@ -100,6 +100,7 @@ import { ITransactionParams } from '@/services/transactions'
 import TxFilter from '@/components/Transaction/TxFilter.vue'
 import TxParams from '@/components/Transaction/TxParams.vue'
 import { TransactionsGettersMixin } from '@/store/modules/transactions/transactions.mixins'
+import { XCHAINID, CCHAINID } from '@/known_blockchains'
 
 @Component({
     components: {
@@ -241,8 +242,19 @@ export default class AddressPage extends Mixins(TransactionsGettersMixin) {
 
     async getAddressDetails_X() {
         if (this.assetsLoaded === true) {
+            // restrict the query to the X and C-chains
+            // so we do not double count the P-chain AVAX balance
+            const params = {
+                address: this.addressID,
+                chainID: [XCHAINID, CCHAINID],
+            }
+
             try {
-                this.metadata = await getAddress(this.addressID, this.assetsMap)
+                this.metadata = await getAddress(
+                    this.addressID,
+                    this.assetsMap,
+                    params
+                )
                 this.loading = false
                 if (!this.metadata) {
                     const nullData: IAddress = {
