@@ -177,13 +177,15 @@ export async function getAddress(
         getStake_P(params.address!),
     ])
 
+    console.log('addressData        ', addressData)
+
     // Exception where no addresses were found for queried chains
     if (addressData.addresses.length === 0) {
         return getNullAddress(params.address!)
     }
 
     const address: IAddress = {
-        address: addressData.address,
+        address: params.address!,
         publicKey: addressData.publicKey,
         // P-Chain balance (AVAX)
         AVAX_balance: bigToDenomBig(
@@ -218,7 +220,9 @@ export async function getAddress(
         (a) => a.chainID === XCHAINID
     )
 
-    if (xBalanceOrtelius) {
+    console.log('xBalanceOrtelius   ', xBalanceOrtelius)
+
+    if (xBalanceOrtelius.length > 0) {
         address.assets = setBalances(xBalanceOrtelius[0].assets, assetsMap)
         address.X_unlocked = setUnlockedX(address.assets)
     }
@@ -228,9 +232,8 @@ export async function getAddress(
         (a) => a.chainID === CCHAINID
     )
 
-    if (cBalanceOrtelius) {
-        console.log(cBalanceOrtelius)
-    }
+    console.log('cBalanceOrtelius   ', cBalanceOrtelius)
+    console.log('address            ', address)
 
     return address
 }
