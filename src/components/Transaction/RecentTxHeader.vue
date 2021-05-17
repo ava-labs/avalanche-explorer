@@ -62,9 +62,9 @@
                 <fa icon="sync"></fa>
                 <span class="ava-btn-label">Refresh</span>
             </v-btn>
-            <router-link to="/tx" class="view_all"
-                >View All Transactions</router-link
-            >
+            <v-btn :text="true" class="ava_btn" @click="goToTx">
+                View All Transactions
+            </v-btn>
         </div>
     </div>
 </template>
@@ -94,6 +94,10 @@ export default class RecentTxHeader extends Vue {
 
     get cChain() {
         return getTxChainType(C.id)
+    }
+
+    goToTx() {
+        this.$router.push('/tx')
     }
 }
 </script>

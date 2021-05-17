@@ -35,9 +35,9 @@
         <!-- TO -->
         <div class="info_col utxo_list">
             <template v-if="isGenesisVertex">
-                <router-link :to="`/tx/${tx_id}`" class="view_all"
-                    >Explore Genesis Vertex</router-link
-                >
+                <v-btn :text="true" class="ava_btn" @click="goToTx">
+                    Explore Genesis Vertex
+                </v-btn>
             </template>
             <template v-else>
                 <OutputUTXO
@@ -122,6 +122,10 @@ export default class TxRow extends Vue {
 
     get outputs() {
         return getTransactionOutputs(this.transaction.outputs)
+    }
+
+    goToTx() {
+        this.$router.push(`/tx/${this.transaction.id}`)
     }
 }
 </script>

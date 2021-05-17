@@ -57,9 +57,9 @@
                 </div>
             </div>
             <div class="bottom">
-                <router-link to="/assets" class="view_all"
-                    >View All Assets</router-link
-                >
+                <v-btn :text="true" class="refresh ava_btn" @click="goToAssets">
+                    <span class="ava-btn-label">View All Assets</span>
+                </v-btn>
             </div>
         </div>
     </div>
@@ -118,6 +118,10 @@ export default class TopAssets extends Vue {
             : asset.variableCap === 1
             ? 'Variable Cap'
             : 'Fixed Cap'
+    }
+
+    goToAssets() {
+        this.$router.push('/assets')
     }
 }
 </script>

@@ -412,26 +412,6 @@ input {
     font-family: 'Inter', sans-serif;
 }
 
-.view_all {
-    display: block;
-    width: max-content;
-    text-decoration: none !important;
-    transition: opacity 0.3s;
-
-    background-color: transparent !important;
-    border-radius: 6px;
-    padding: 10px 24px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 700 !important;
-    letter-spacing: 0.5px;
-    text-transform: uppercase !important;
-    font-size: 14px;
-
-    &:hover {
-        opacity: 0.7;
-    }
-}
-
 .data_table_header {
     display: flex;
     flex-direction: column;
@@ -488,12 +468,6 @@ input {
     }
 }
 
-@include smOrSmaller {
-    .view_all {
-        width: 100%;
-        text-align: center;
-    }
-}
 /* ==========================================
    vuetify overrides
    ========================================== */
