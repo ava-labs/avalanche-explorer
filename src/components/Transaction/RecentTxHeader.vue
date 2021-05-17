@@ -7,7 +7,7 @@
                 <v-tooltip>
                     <template v-slot:activator="{ on }">
                         <span
-                            class="tag"
+                            class="chain_tag"
                             :style="{
                                 backgroundColor: pChain.darkColor,
                             }"
@@ -24,7 +24,7 @@
                 <v-tooltip>
                     <template v-slot:activator="{ on }">
                         <span
-                            class="tag margin-left"
+                            class="chain_tag margin-left"
                             :style="{
                                 backgroundColor: xChain.darkColor,
                             }"
@@ -43,9 +43,9 @@
                 <v-tooltip>
                     <template v-slot:activator="{ on }">
                         <span
-                            class="tag margin-left"
+                            class="chain_tag margin-left"
                             :style="{
-                                color: cChain.color,
+                                backgroundColor: cChain.darkColor,
                             }"
                             v-on="on"
                             >{{ cChain.name }}</span
@@ -120,6 +120,9 @@ export default class RecentTxHeader extends Vue {
 
 .ava-btn-label {
     padding-left: 8px;
+}
+
+.chain_tag {
 }
 
 .header {
