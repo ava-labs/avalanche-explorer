@@ -3,7 +3,7 @@
         <div class="card">
             <div class="header">
                 <h2>
-                    Subnet Stats
+                    Subnets
                     <TooltipHeading
                         content="A subnet is a dynamic set of validators working together to achieve consensus on the state of a set of blockchains"
                     />

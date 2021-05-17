@@ -9,31 +9,16 @@
                         <span
                             class="tag"
                             :style="{
-                                color: pChain.color,
                                 backgroundColor: pChain.darkColor,
                             }"
                             v-on="on"
                             >{{ pChain.name }}</span
                         >
                     </template>
-                    <span></span>
-                </v-tooltip>
-                <v-tooltip>
-                    <template v-slot:activator="{ on }">
-                        <span
-                            class="tag margin-left"
-                            :style="{
-                                color: xChain.color,
-                                backgroundColor: xChain.darkColor,
-                            }"
-                            v-on="on"
-                            >{{ xChain.name }}</span
-                        >
-                    </template>
                     <span
-                        >The X-Chain acts as a decentralized platform for
-                        creating and trading smart digital assets. (Think X for
-                        eXchanging assets.)</span
+                        >The P-Chain is the metadata blockchain on Avalanche,
+                        managing validators and custom subnets. Validators stake
+                        AVAX on the P-Chain to secure the network.</span
                     >
                 </v-tooltip>
                 <v-tooltip>
@@ -41,14 +26,37 @@
                         <span
                             class="tag margin-left"
                             :style="{
+                                backgroundColor: xChain.darkColor,
+                            }"
+                            v-on="on"
+                            >{{ xChain.name }}</span
+                        >
+                    </template>
+                    <span
+                        >The X-Chain is the default asset blockchain on
+                        Avalanche enabling the creation and instant exchange of
+                        assets. This blockchain is for transfers that benefit
+                        from high-throughput and instant finality. Think X for
+                        eXchanging assets.
+                    </span>
+                </v-tooltip>
+                <v-tooltip>
+                    <template v-slot:activator="{ on }">
+                        <span
+                            class="tag margin-left"
+                            :style="{
                                 color: cChain.color,
-                                backgroundColor: cChain.darkColor,
                             }"
                             v-on="on"
                             >{{ cChain.name }}</span
                         >
                     </template>
-                    <span></span>
+                    <span
+                        >The C-Chain is the default smart contract blockchain on
+                        Avalanche and enables the creation of any
+                        Ethereum-compatible applications and assets with lower
+                        fees and faster transactions.</span
+                    >
                 </v-tooltip>
             </p>
         </div>
@@ -120,7 +128,7 @@ export default class RecentTxHeader extends Vue {
     margin-bottom: 20px;
 
     h2 {
-        padding-bottom: 2px;
+        padding-bottom: 10px;
     }
 
     .refresh {
