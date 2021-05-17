@@ -8,6 +8,7 @@ import { NFTTransferOutput, UTXO } from 'avalanche/dist/apis/avm'
 import { PayloadBase, PayloadTypes } from 'avalanche/dist/utils'
 import { NetworkIDToHRP } from 'avalanche/dist/utils/constants'
 import { DEFAULT_NETWORK_ID } from './store/modules/network/network'
+import { IAddress } from './services/addresses/models'
 
 function stringToBig(raw: string, denomination = 0): Big {
     return Big(raw).div(Math.pow(10, denomination))
@@ -189,6 +190,26 @@ function abbreviateHex(address: string) {
     return [prefix, addressFirst, '...', addressLast]
 }
 
+function getNullAddress(id: string, key = ''): IAddress {
+    return {
+        address: id,
+        publicKey: key,
+        // P-Chain (excludes X -> P shared memory)
+        AVAX_balance: Big(0),
+        P_unlocked: Big(0),
+        P_lockedStakeable: Big(0),
+        P_lockedNotStakeable: Big(0),
+        P_staked: Big(0),
+        P_utxoIDs: [],
+        // X-Chain (includes C -> X and P -> X shared memory)
+        X_unlocked: Big(0),
+        X_locked: Big(0),
+        X_assets: [],
+        // X -> C shared memory
+        C_unlocked: Big(0),
+    }
+}
+
 export {
     nAvaxToAVAX as toAVAX,
     stringToBig,
@@ -206,4 +227,5 @@ export {
     backgroundColor,
     abbreviateBech32,
     abbreviateHex,
+    getNullAddress,
 }

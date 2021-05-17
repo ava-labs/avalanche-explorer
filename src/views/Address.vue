@@ -11,8 +11,6 @@
             :meta-data="metadata"
             :address-i-d="addressID"
             :alias="alias"
-            :total-transaction-count="totalTransactionCount"
-            :total-utxo-count="totalUtxoCount"
             :assets="assets"
             :prefix="prefix"
         />
@@ -88,7 +86,6 @@ import TxRow from '@/components/rows/TxRow/TxRow.vue'
 import AddressDict from '@/known_addresses'
 import { IBalanceX, IAddress } from '@/services/addresses/models'
 import { getAddress } from '@/services/addresses/addresses.service'
-import Big from 'big.js'
 import HTTPError from '@/components/misc/HTTPError.vue'
 import TxHeader from '@/components/Transaction/TxHeader.vue'
 import TransactionsHeader from '@/components/Transaction/TxHeader.vue'
@@ -98,6 +95,7 @@ import TxFilter from '@/components/Transaction/TxFilter.vue'
 import TxParams from '@/components/Transaction/TxParams.vue'
 import { TransactionsGettersMixin } from '@/store/modules/transactions/transactions.mixins'
 import { P, X, C } from '@/known_blockchains'
+import { getNullAddress } from '@/helper'
 
 @Component({
     components: {
@@ -175,7 +173,7 @@ export default class AddressPage extends Mixins(TransactionsGettersMixin) {
     }
 
     get assets(): IBalanceX[] {
-        return this.metadata ? this.metadata.assets : []
+        return this.metadata ? this.metadata.X_assets : []
     }
 
     get assetsMap(): any {
@@ -193,14 +191,6 @@ export default class AddressPage extends Mixins(TransactionsGettersMixin) {
     get prefix(): string {
         const address = this.$route.params.address
         return address.substring(0, 1)
-    }
-
-    get totalTransactionCount(): number {
-        return this.metadata ? this.metadata.totalTransactionCount : 0
-    }
-
-    get totalUtxoCount(): number {
-        return this.metadata ? this.metadata.totalUtxoCount : 0
     }
 
     setFilter(val: string[]) {
@@ -228,35 +218,24 @@ export default class AddressPage extends Mixins(TransactionsGettersMixin) {
 
         if (this.assetsLoaded) {
             this.fetchTx(params)
-            await this.getAddressDetails_X()
+            await this.getAddressDetails()
         }
     }
 
-    async getAddressDetails_X() {
+    async getAddressDetails() {
         if (this.assetsLoaded === true) {
+            // restrict the query to the X and C-chains
+            // this is so we do not double count the P-chain AVAX balance
+            const params = {
+                address: this.addressID,
+                chainID: [X.id, C.id],
+            }
+
             try {
-                this.metadata = await getAddress(this.addressID, this.assetsMap)
+                this.metadata = await getAddress(params, this.assetsMap)
                 this.loading = false
                 if (!this.metadata) {
-                    const nullData: IAddress = {
-                        address: this.addressID,
-                        publicKey: '',
-                        // P-Chain AVAX balance
-                        AVAX_balance: Big(0),
-                        P_unlocked: Big(0),
-                        P_lockedStakeable: Big(0),
-                        P_lockedNotStakeable: Big(0),
-                        P_staked: Big(0),
-                        P_utxoIDs: [],
-                        // X-Chain AVAX balance
-                        X_unlocked: Big(0),
-                        X_locked: Big(0),
-                        // X-Chain Assets
-                        totalTransactionCount: 0,
-                        totalUtxoCount: 0,
-                        assets: [],
-                    }
-                    this.metadata = nullData
+                    this.metadata = getNullAddress(this.addressID)
                 }
             } catch (err) {
                 this.loading = false
