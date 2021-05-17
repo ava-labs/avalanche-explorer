@@ -42,7 +42,7 @@
             <div v-if="pricesLoaded" class="prices">
                 <div class="price_pair">
                     <span class="label">AVAX</span>
-                    <span class="value">${{ priceUSD }}</span>
+                    <span class="value">{{ priceUSD }}</span>
                 </div>
                 <!-- <div class="price_pair">
                     <span class="label">Market Cap</span>
@@ -119,7 +119,11 @@ export default class Navbar extends Mixins(PlatformGettersMixin) {
 
     get priceUSD() {
         const prices = this.$store.state.prices
-        return prices ? prices.usd : '-.--'
+        const formatter = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+        })
+        return prices ? formatter.format(prices.usd) : '$-.--'
     }
 
     get marketCapUSD() {
