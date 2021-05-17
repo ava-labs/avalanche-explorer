@@ -45,7 +45,7 @@
                             </div>
                             <div class="name_id">
                                 <span class="name">{{ asset.name }}</span>
-                                <span class="collision">{{
+                                <span class="collision monospace">{{
                                     collisionHash(asset)
                                 }}</span>
                             </div>
@@ -189,6 +189,10 @@ export default class TopAssets extends Vue {
         display: flex;
         flex-direction: row;
         align-items: flex-end;
+
+        .name {
+            font-weight: 700;
+        }
     }
 
     .name {
@@ -199,7 +203,6 @@ export default class TopAssets extends Vue {
         text-overflow: ellipsis;
         display: inline-block;
         margin-top: 1px;
-        font-weight: 500;
     }
 
     .asset_name {
@@ -210,7 +213,7 @@ export default class TopAssets extends Vue {
 
     .collision {
         padding-left: 8px;
-        font-size: 0.75em;
+        font-size: 10px;
         color: $primary-color-light;
         font-weight: 400;
 
