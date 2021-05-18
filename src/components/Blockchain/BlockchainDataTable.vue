@@ -7,23 +7,26 @@
         <v-data-table :items="blockchains" :headers="headers" multi-sort>
             <template #item.name="{ item }">
                 <div class="chain_logo_name">
-                    <img
-                        class="table_image"
-                        :src="require(`@/assets/blockchain-${imgColor}.png`)"
-                        alt
-                    />
-                    <template v-if="links">
-                        <router-link
-                            :to="`/blockchain/${item.id}`"
-                            class="id"
-                            >{{ item.name }}</router-link
-                        >
-                    </template>
-                    <template v-else>{{ item.name }}</template>
+                    <div
+                        class="avatar"
+                        :style="{
+                            backgroundColor: chainDarkColor(item.id),
+                        }"
+                    >
+                        <p>
+                            {{ chainCode(item.id) }}
+                        </p>
+                    </div>
+                    <router-link
+                        v-if="links"
+                        :to="`/blockchain/${item.id}`"
+                        class="chain_name"
+                        >{{ item.name }}</router-link
+                    >
+                    <span v-else class="chain_name">
+                        {{ item.name }}
+                    </span>
                 </div>
-            </template>
-            <template #item.indexed="{ item }">
-                <Indexed :indexed="item.indexed" :not-indexed-label="false" />
             </template>
             <template #item.addressCount="{ item }">
                 <div>
@@ -49,11 +52,15 @@
                     >
                 </div>
             </template>
+            <template #item.indexed="{ item }">
+                <Indexed :indexed="item.indexed" :not-indexed-label="false" />
+            </template>
             <template #item.vmID="{ item }">
                 <div>
-                    <a :href="vmDocumentation(item.vmID)"
-                        >{{ vmFullName(item.vmID) }} ({{ vm(item.vmID) }})</a
-                    >
+                    <a :href="vmDocumentation(item.vmID)">
+                        <p>{{ vmFullName(item.vmID) }}</p>
+                        <p class="vm_abbrev">{{ vm(item.vmID) }}</p>
+                    </a>
                 </div>
             </template>
             <template #item.subnetID="{ item }">
@@ -73,7 +80,8 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 import { subnetMap, VMMap, VMDocumentationMap, VMFullNameMap } from '@/helper'
 import Blockchain from '@/js/Blockchain'
 import Indexed from '@/components/Blockchain/Indexed.vue'
-import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
+import { getTxChainType } from '@/known_blockchains'
+import { P, X, C } from '@/known_blockchains'
 
 @Component({
     components: {
@@ -92,15 +100,37 @@ export default class BlockchainDataTable extends Vue {
             { text: 'Addresses', value: 'addressCount', width: 140 },
             { text: 'Transactions', value: 'txCount', width: 125 },
             { text: 'Burned Fees', value: 'burned', width: 125 },
-            { text: 'Index', value: 'indexed', width: 125 },
             { text: 'VM', value: 'vmID', width: 125 },
             { text: 'Validators', value: 'subnetID', width: 300 },
+            { text: 'Index', value: 'indexed', width: 125 },
         ]
         return this.subnets ? headers : headers.slice(0, 3)
     }
 
-    get imgColor(): string {
-        return DEFAULT_NETWORK_ID === 1 ? 'testnet' : 'testnet'
+    chainDarkColor(id: string) {
+        switch (id) {
+            case P.id:
+                return getTxChainType(id)!.darkColor
+            case X.id:
+                return getTxChainType(id)!.darkColor
+            case C.id:
+                return getTxChainType(id)!.darkColor
+            default:
+                return '#FFF'
+        }
+    }
+
+    chainCode(id: string) {
+        switch (id) {
+            case P.id:
+                return getTxChainType(id)!.code
+            case X.id:
+                return getTxChainType(id)!.code
+            case C.id:
+                return getTxChainType(id)!.code
+            default:
+                return ''
+        }
     }
 
     subnet(val: string) {
@@ -122,18 +152,44 @@ export default class BlockchainDataTable extends Vue {
 </script>
 
 <style scoped lang="scss">
+.avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 35px;
+    line-height: 35px;
+    text-align: center;
+
+    p {
+        width: 100%;
+        font-weight: 500;
+        color: $primary-color;
+        font-size: 16px;
+        padding-left: 1px;
+    }
+}
+
+.chain_name {
+    font-weight: 700;
+    padding-left: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .id_overflow {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     font-weight: 300;
-    font-size: 0.825em;
+    font-size: 12px;
     color: $gray;
     line-height: 1em;
 }
 
-.id {
-    font-weight: 700;
+.vm_abbrev {
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 1em;
 }
 
 @include smOnly {
@@ -147,7 +203,9 @@ export default class BlockchainDataTable extends Vue {
 .chain_logo_name {
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
+
 #blockchain_data_table {
     .v-data-footer__icons-before > button,
     .v-data-footer__icons-after > button {
