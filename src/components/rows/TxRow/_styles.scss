@@ -24,7 +24,7 @@
 }
 
 .tx_row {
-    padding: 12px 0px;
+    padding: 16px 0px;
     position: relative;
 
     flex-direction: row;
@@ -170,6 +170,7 @@
     column-gap: 10px;
     white-space: nowrap;
     overflow: hidden;
+    padding: 17px 20px;
 
     .addresses {
         display: flex;

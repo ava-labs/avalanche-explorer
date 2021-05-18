@@ -150,7 +150,7 @@ export default class TopAssets extends Vue {
 
 .asset {
     display: grid;
-    grid-template-columns: 1fr 100px;
+    grid-template-columns: 1fr 75px;
     column-gap: 10px;
     padding: 4px 0 4px;
     font-size: 12px;
@@ -265,7 +265,7 @@ export default class TopAssets extends Vue {
 
 @include xsOrSmaller {
     .asset {
-        grid-template-columns: 1fr 100px;
+        grid-template-columns: 1fr 75px;
     }
 }
 </style>
