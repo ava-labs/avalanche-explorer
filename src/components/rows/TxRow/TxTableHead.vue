@@ -2,18 +2,19 @@
     <div class="table_headers">
         <p class="header_indent_sm">
             ID
-            <Tooltip
-                content="Unique character string generated when a transaction is executed"
-            />
+            <Tooltip content="Unique identifier for this transaction" />
         </p>
-        <p></p>
+        <p>
+            Chain
+            <Tooltip content="Blockchain for this transaction" />
+        </p>
         <p class="header_indent">
             From
-            <Tooltip content="Address of the sender" />
+            <Tooltip content="Sender address" />
         </p>
         <p class="header_indent">
             To
-            <Tooltip content="Address of the receiver" />
+            <Tooltip content="Receiver address" />
         </p>
     </div>
 </template>

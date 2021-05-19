@@ -7,7 +7,7 @@
             >
             <p class="time">{{ transaction.timestamp | fromNow }}</p>
             <p class="type">
-                <span v-if="type !== ''">{{ type }}</span>
+                <span v-if="type !== ''" class="tx_type_label">{{ type }}</span>
             </p>
         </div>
         <!-- CHAIN -->

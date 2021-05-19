@@ -1,18 +1,14 @@
 <template>
     <div v-if="tx" class="card meta">
         <header class="header">
+            <p class="tx_type_label">
+                <slot></slot>
+            </p>
             <h2>
-                <p class="type_label monospace">
-                    <slot></slot>
-                </p>
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
                         <p class="click_to_copy">
-                            <span
-                                class="tx_hash monospace"
-                                @click="copy"
-                                v-on="on"
-                            >
+                            <span class="tx_hash" @click="copy" v-on="on">
                                 {{ tx.id }}
                             </span>
                         </p>
@@ -83,5 +79,9 @@ export default class TransactionSummary extends Vue {
     color: $primary-color-light;
     width: 60px;
     font-size: 12px;
+}
+
+.tx_type_label {
+    margin-bottom: 20px;
 }
 </style>
