@@ -115,7 +115,7 @@ export default class TransactionUTXO extends Vue {
     .utxo {
         grid-template-columns: 1fr;
         column-gap: 0;
-        margin-top: 30px;
+        margin-top: 0;
 
         .card:last-of-type {
             margin-top: 30px;

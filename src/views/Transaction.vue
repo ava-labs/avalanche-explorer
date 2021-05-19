@@ -17,7 +17,7 @@
             />
             <template v-else>
                 <TransactionSummary :tx="tx">
-                    {{ tx.type | getType }}
+                    {{ tx.type | getType }} Transaction
                 </TransactionSummary>
                 <TransactionUTXO :tx="tx" />
             </template>
@@ -55,7 +55,7 @@ export default class TransactionPage extends Mixins(TransactionsGettersMixin) {
             href: '/',
         },
         {
-            text: 'Transaction',
+            text: 'Transaction Details',
             disabled: true,
             href: '',
         },

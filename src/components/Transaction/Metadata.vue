@@ -3,7 +3,7 @@
         <article class="meta_row">
             <p class="meta_label">
                 Status
-                <Tooltip content="Status of the transaction" />
+                <Tooltip content="Status of this transaction" />
             </p>
             <div class="meta_value">
                 <p class="status">Success</p>
@@ -14,7 +14,7 @@
             <p class="meta_label">
                 Accepted
                 <Tooltip
-                    content="Date and time when transaction was accepted"
+                    content="The time when this transaction was accepted by the Explorer Node"
                 />
             </p>
             <div class="meta_values values">
@@ -27,9 +27,7 @@
         <article class="meta_row">
             <p class="meta_label">
                 Value
-                <Tooltip
-                    content="Total economic value transferred in this transaction"
-                />
+                <Tooltip content="The value transferred in this transaction" />
             </p>
             <p class="meta_value values">
                 <span v-for="(val, id) in outValuesDenominated" :key="id"
@@ -40,16 +38,14 @@
         <article class="meta_row">
             <p class="meta_label">
                 Burned
-                <Tooltip
-                    content="The amount of AVAX burned includes the fee for the network to process the transaction"
-                />
+                <Tooltip content="The fee to process this transaction" />
             </p>
             <p class="meta_value">{{ tx.txFee | toAVAX }} AVAX</p>
         </article>
         <article class="meta_row">
             <p class="meta_label">
                 Blockchain
-                <Tooltip content="Blockchain storing transaction" />
+                <Tooltip content="The blockchain for this transaction" />
             </p>
             <div class="meta_value">
                 <p>{{ chain }}</p>
@@ -75,7 +71,7 @@
             <p class="meta_label">
                 Memo
                 <Tooltip
-                    content="A 256-byte text field for encoding arbitrary data"
+                    content="A 256-byte text field for encoding arbitrary data associated with this transaction"
                 />
             </p>
             <div class="meta_value">
@@ -86,7 +82,10 @@
         <article v-if="isStaking" class="meta_row">
             <p class="meta_label">
                 Staking
-                <Tooltip content="Validator Rewards" color="#c4c4c4" />
+                <Tooltip
+                    content="Validator Rewards for this transaction"
+                    color="#c4c4c4"
+                />
             </p>
             <div class="meta_value">
                 <StakingSummary :tx="tx" />

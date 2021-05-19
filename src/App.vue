@@ -220,16 +220,21 @@ export default Vue.extend({
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;700&display=swap');
 
 :root {
+    // color
     --c-detail: hsl(0, 0%, 90%);
     --c-gray: hsl(0, 0%, 93%);
+    // font
     --f-size: 15px;
     --f-height: 24px;
+    --f-height-mono: 20px;
     --f-weight: 400;
     --f-scale-s: 0.87;
     --f-scale-m: 1.2;
     --f-scale-l: 2.618;
+    // animation
     --a-speed: 150ms;
     --a-ease: ease-out;
+    // layout
     --l-padding: 1rem;
 }
 
@@ -243,6 +248,7 @@ body {
 
 .monospace {
     font-family: 'Roboto Mono', monospace;
+    line-height: var(--f-height-mono);
 }
 
 button {
@@ -273,6 +279,7 @@ th {
         margin: 0;
         font-weight: 500;
         color: $primary-color;
+        word-break: break-all;
     }
 }
 
@@ -364,7 +371,7 @@ button {
 
 @include smOrSmaller {
     .card {
-        margin: 4rem 0;
+        margin: 2rem 0 0;
     }
 
     .stats {
