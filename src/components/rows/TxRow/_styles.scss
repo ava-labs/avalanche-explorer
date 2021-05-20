@@ -1,6 +1,15 @@
+.recent_tx {
+    .table_headers,
+    .tx_row {
+        grid-template-columns: 1fr 50px 225px calc(225px + 300px);
+        display: grid;
+        column-gap: 20px;
+    }
+}
+
 .table_headers,
 .tx_row {
-    grid-template-columns: 270px 50px 270px 1.5fr;
+    grid-template-columns: 150px 50px 225px 1fr;
     display: grid;
     column-gap: 20px;
 }
