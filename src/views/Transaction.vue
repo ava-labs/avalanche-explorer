@@ -55,7 +55,12 @@ export default class TransactionPage extends Mixins(TransactionsGettersMixin) {
             href: '/',
         },
         {
-            text: 'Transaction Details',
+            text: 'Transactions',
+            disabled: false,
+            href: '/tx',
+        },
+        {
+            text: 'Detail',
             disabled: true,
             href: '',
         },

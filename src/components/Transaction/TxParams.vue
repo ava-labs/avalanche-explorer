@@ -98,10 +98,12 @@ export default class TxParams extends Vue {
 
 <style scoped lang="scss">
 .params {
+    margin: 30px 0;
     font-size: 12px;
+    border-radius: 6px;
+    padding-left: 6px;
 
     h4 {
-        margin-top: 30px;
         margin-bottom: 0;
     }
 }

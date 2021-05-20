@@ -1,9 +1,8 @@
 <template>
     <div class="transactions-filter left">
-        <h4>Filter Results</h4>
+        <h4>Filter Results<br />by Chain and Type</h4>
         <div>
             <div>
-                <h5>Filter by Chain and Tx Type</h5>
                 <v-treeview
                     v-model="selection"
                     selectable
@@ -61,9 +60,11 @@ export default class TxFilter extends Vue {
 <style scoped lang="scss">
 .transactions-filter {
     font-size: 12px;
+    padding-left: 6px;
 }
 
 h4 {
     margin-top: 0;
+    line-height: 1.35em;
 }
 </style>

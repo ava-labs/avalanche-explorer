@@ -109,6 +109,10 @@ export default class TransactionUTXO extends Vue {
     .utxo_container:last-of-type {
         margin-bottom: 0;
     }
+
+    .card {
+        border: none;
+    }
 }
 
 @include smOrSmaller {

@@ -2,25 +2,23 @@
     <section class="stats">
         <article class="meta_row">
             <p class="meta_label">
-                Status
-                <Tooltip content="Status of this transaction" />
-            </p>
-            <div class="meta_value">
-                <p class="status">Success</p>
-                <p v-if="tx.type === 'assetCreation'" class="status">Success</p>
-            </div>
-        </article>
-        <article class="meta_row">
-            <p class="meta_label">
                 Accepted
                 <Tooltip
                     content="The time when this transaction was accepted by the Explorer Node"
                 />
             </p>
-            <div class="meta_values values">
+            <div class="meta_value values">
                 <p class="date">
                     <fa :icon="['far', 'clock']" class="time_icon"></fa>
-                    {{ date | fromNow }} ({{ date.toLocaleString() }})
+                    <span class="timestamp"
+                        >{{ date | fromNow }} ({{
+                            date.toLocaleString()
+                        }})</span
+                    >
+                    <span class="status">Success</span>
+                    <span v-if="tx.type === 'assetCreation'" class="status"
+                        >Asset Creation Success</span
+                    >
                 </p>
             </div>
         </article>
@@ -31,7 +29,8 @@
             </p>
             <p class="meta_value values">
                 <span v-for="(val, id) in outValuesDenominated" :key="id"
-                    >{{ val.amount }} <b>{{ val.symbol }}</b></span
+                    >{{ val.amount }}
+                    <span class="unit">{{ val.symbol }}</span></span
                 >
             </p>
         </article>
@@ -40,7 +39,10 @@
                 Burned
                 <Tooltip content="The fee to process this transaction" />
             </p>
-            <p class="meta_value">{{ tx.txFee | toAVAX }} AVAX</p>
+            <p class="meta_value">
+                {{ tx.txFee | toAVAX }}
+                <span class="unit">AVAX</span>
+            </p>
         </article>
         <article class="meta_row">
             <p class="meta_label">

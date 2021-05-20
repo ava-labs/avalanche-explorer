@@ -71,15 +71,14 @@ h3.label {
 .summary_label,
 .utxo_label {
     font-size: 10px;
-    text-transform: uppercase;
-    color: $primary-color-xlight;
+    color: $primary-color;
 }
 
 .utxo_col {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     height: $icon_dimension;
     margin-bottom: 16px;
 
@@ -90,7 +89,7 @@ h3.label {
     }
 
     .index {
-        color: $primary-color-light;
+        color: $primary-color;
     }
 
     .type {
@@ -123,19 +122,14 @@ h3.label {
 }
 
 .signature {
-    color: $purple-light;
     word-break: break-all;
+    max-width: 315px;
+    font-weight: 300;
+    line-height: 1.2em i !important;
 }
 
 .redeemed {
     color: $green;
-}
-
-.compound_interest {
-    background: -webkit-linear-gradient(top left, $pink, $red, $pink);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
 }
 
 .two_col {
@@ -153,22 +147,22 @@ h3.label {
 }
 
 .tag {
-    font-weight: bold;
-    font-size: 12px;
+    font-size: 10px;
+    font-weight: 700;
+    background: #f8f8f8;
+    border: 1px solid #f0f7fe;
+    border-radius: 50px;
+    display: inline-block;
+    margin-top: 4px;
+    padding: 4px 8px;
+    line-height: 1em;
+    width: max-content;
     text-transform: none;
-    color: #867e89;
 }
 
 @if $VUE_APP_DEFAULT_NETWORKID == 5 {
     .utxo_container {
         // background-color: $purple-xlight;
-    }
-
-    .compound_interest {
-        background: -webkit-linear-gradient(top left, $blue $pink);
-        background-clip: text;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
     }
 }
 

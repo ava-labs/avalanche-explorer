@@ -81,6 +81,11 @@
             }
 
             // TX DETAIL
+
+            .timestamp {
+                margin-right: 15px;
+            }
+
             .status {
                 background-color: $green-xlight;
                 color: $green;
@@ -107,16 +112,6 @@
                 padding: 4px 8px;
                 margin: 0 0 0 30px;
                 word-break: keep-all;
-            }
-        }
-
-        .values {
-            span {
-                background-color: $secondary-color-xlight;
-                color: $secondary-color;
-                margin-right: 4px;
-                padding: 4px 8px;
-                border-radius: 3px;
             }
         }
     }
