@@ -157,7 +157,7 @@ export interface OutputResponse {
     payload: string | null // NFTs
 
     // RELEVANT TO P-CHAIN & X-CHAIN
-    addresses: string[] // notice the output UTXO address is blank. build an exception for c-chain
+    addresses: string[] // notice the output UTXO address is blank. an exception for c-chain is handled in the transaction class
 
     // RELEVANT TO C-CHAIN
     caddresses: string[]

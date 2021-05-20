@@ -26,6 +26,7 @@ export function getTransactionChainType(chainID: string) {
 export function getTransactionOutputs(outputs: Output[]) {
     return outputs.map((output) => {
         const chainType = getTransactionChainType(output.chainID)
+        // switch for addresses (bech32) or caddresses (hex)
         const addresses =
             output.addresses !== null ? output.addresses : output.caddresses
         const prefix = output.addresses !== null ? `${chainType?.code}-` : ``

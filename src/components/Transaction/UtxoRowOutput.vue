@@ -1,5 +1,8 @@
 <template>
-    <div class="utxo_container output_container">
+    <div
+        class="utxo_container output_container"
+        :style="{ backgroundColor: background }"
+    >
         <div class="utxo_new_col">
             <Summary
                 :index="$vnode.key"
@@ -46,7 +49,6 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { Output } from '@/store/modules/transactions/models'
 import { Asset } from '@/js/Asset'
 import TxLinkOutput from '@/components/Transaction/UtxoTxLinkOutput.vue'
 import LockTime from '@/components/Transaction/UtxoLockTime.vue'
@@ -59,6 +61,7 @@ import NFTPayload from '@/components/Transaction/UtxoNFTPayload.vue'
 import Summary from '@/components/Transaction/UtxoSummary.vue'
 import { AVAX_ID } from '@/known_assets'
 import { P, X, C } from '@/known_blockchains'
+import { backgroundColor } from '@/helper'
 
 @Component({
     components: {
@@ -74,7 +77,7 @@ import { P, X, C } from '@/known_blockchains'
     },
 })
 export default class UtxoRowOutput extends Vue {
-    @Prop() utxo!: Output
+    @Prop() utxo!: any
     @Prop() type!: string
     @Prop() txtype!: string
 
@@ -118,6 +121,10 @@ export default class UtxoRowOutput extends Vue {
         return this.txtype === 'atomic_export_tx' && this.utxo.chainID !== C.id
             ? true
             : false
+    }
+
+    get background(): string {
+        return backgroundColor(this.utxo.addresses[0].displayAddress)
     }
 }
 </script>

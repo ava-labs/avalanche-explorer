@@ -1,5 +1,8 @@
 <template>
-    <div class="utxo_container input_container">
+    <div
+        class="utxo_container input_container"
+        :style="{ backgroundColor: background }"
+    >
         <div class="tx_link">
             <TxLinkInput
                 :tx-i-d="utxo.output.transactionID"
@@ -46,7 +49,6 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { Input } from '@/store/modules/transactions/models'
 import TxLinkInput from '@/components/Transaction/UtxoTxLinkInput.vue'
 import LockTime from '@/components/Transaction/UtxoLockTime.vue'
 import Threshold from '@/components/Transaction/UtxoThreshold.vue'
@@ -57,6 +59,7 @@ import Block from '@/components/Transaction/UtxoBlock.vue'
 import NFTPayload from '@/components/Transaction/UtxoNFTPayload.vue'
 import Credentials from '@/components/Transaction/UtxoCredentials.vue'
 import Summary from '@/components/Transaction/UtxoSummary.vue'
+import { backgroundColor } from '@/helper'
 
 @Component({
     components: {
@@ -73,7 +76,7 @@ import Summary from '@/components/Transaction/UtxoSummary.vue'
     },
 })
 export default class UtxoRowInput extends Vue {
-    @Prop() utxo!: Input
+    @Prop() utxo!: any
     @Prop() txtype!: string
 
     // Importing UTXO from Atomic DB to P
@@ -89,6 +92,10 @@ export default class UtxoRowInput extends Vue {
     // Importing UTXO from Atomic DB to C
     get isAtomicImport() {
         return this.txtype === 'atomic_import_tx' ? true : false
+    }
+
+    get background(): string {
+        return backgroundColor(this.utxo.output.addresses[0].displayAddress)
     }
 }
 </script>

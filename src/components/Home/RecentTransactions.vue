@@ -50,8 +50,8 @@ import RecentTxHeader from '@/components/Transaction/RecentTxHeader.vue'
 })
 export default class RecentTransactions extends Vue {
     loading = false
-    limit = 25
     poller = 0
+    limit = 25
     sort = 'timestamp-desc'
 
     created() {
@@ -89,7 +89,6 @@ export default class RecentTransactions extends Vue {
     async updateTx(): Promise<void> {
         this.loading = true
         if (this.assetsLoaded) {
-            // TODO: support service for multiple chains
             await this.$store.dispatch('getRecentTransactions', {
                 id: null,
                 params: {
