@@ -50,7 +50,12 @@
                 <Tooltip content="The blockchain for this transaction" />
             </p>
             <div class="meta_value">
-                <p class="chain_tag">{{ chain }}</p>
+                <span
+                    class="chain_tag"
+                    :style="{ backgroundColor: background }"
+                >
+                    {{ chain }}
+                </span>
                 <div v-if="isPChain" style="margin-top: 10px">
                     <div class="summary_label">Block</div>
                     <div>{{ tx.txBlockId }}</div>
@@ -104,7 +109,7 @@ import TransactionHistory from '@/components/Home/TopInfo/TransactionHistory.vue
 import { getAssetType } from '@/services/assets'
 import { getTxChainType } from '@/known_blockchains'
 import { getMappingForType } from '@/store/modules/transactions/maps'
-import { stringToBig, toAVAX } from '../../helper'
+import { backgroundColor, stringToBig, toAVAX } from '../../helper'
 import { Transaction, getTransactionOutputs } from '@/js/Transaction'
 import { P } from '@/known_blockchains'
 import {
@@ -197,6 +202,10 @@ export default class Metadata extends Vue {
             }
         }
         return outValuesDenominated
+    }
+
+    get background(): string {
+        return backgroundColor(this.chain)
     }
 }
 </script>
