@@ -2,7 +2,7 @@ import {
     DEFAULT_NETWORK_ID,
     peerInfoURL,
     peerInfoURL_test,
-} from '@/store/modules/network/network.ts'
+} from '@/store/modules/network/network'
 import { IVersion, IVersionRes } from './models'
 import { toAVAX } from '@/helper'
 import { getTotalStake } from './peerinfo'

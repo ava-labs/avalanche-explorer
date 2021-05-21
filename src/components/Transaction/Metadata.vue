@@ -50,7 +50,7 @@
                 <Tooltip content="The blockchain for this transaction" />
             </p>
             <div class="meta_value">
-                <p>{{ chain }}</p>
+                <p class="chain_tag">{{ chain }}</p>
                 <div v-if="isPChain" style="margin-top: 10px">
                     <div class="summary_label">Block</div>
                     <div>{{ tx.txBlockId }}</div>

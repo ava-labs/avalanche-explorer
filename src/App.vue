@@ -462,17 +462,17 @@ input {
         min-height: 1em;
         line-height: 2em;
     }
+}
 
-    .chain_tag {
-        padding: 4px 12px;
-        border-radius: 12px;
-        color: $primary-color;
-        background-color: $white;
-        min-height: 1em;
-        line-height: 2em;
-        word-break: keep-all;
-        white-space: nowrap;
-    }
+.chain_tag {
+    padding: 4px 12px;
+    border-radius: 12px;
+    color: $primary-color;
+    background-color: $white;
+    min-height: 1em;
+    line-height: 2em;
+    word-break: keep-all;
+    white-space: nowrap;
 }
 
 /* ==========================================
