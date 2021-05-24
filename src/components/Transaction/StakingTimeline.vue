@@ -17,7 +17,10 @@
                     backgroundColor: color,
                 }"
             ></div>
-            <div class="now" :style="{ left: `${current}px` }"></div>
+            <div
+                class="now"
+                :style="{ left: `${current}px`, backgroundColor: color }"
+            ></div>
         </div>
         <div class="labels">
             <div>
@@ -118,8 +121,6 @@ export default class StakingTimeline extends Vue {
     width: 100%;
     height: 20px;
     position: relative;
-    border-left: 1px solid $gray-light;
-    border-right: 1px solid $gray-light;
 }
 
 .chartbar {
@@ -155,7 +156,7 @@ export default class StakingTimeline extends Vue {
     position: absolute;
     top: 0;
     font-size: 12px;
-    background-color: $primary-color;
+    background-color: trans;
     height: 100%;
     width: 1px;
     z-index: 5;
