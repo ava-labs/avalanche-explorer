@@ -109,7 +109,7 @@ import TransactionHistory from '@/components/Home/TopInfo/TransactionHistory.vue
 import { getAssetType } from '@/services/assets'
 import { getTxChainType } from '@/known_blockchains'
 import { getMappingForType } from '@/store/modules/transactions/maps'
-import { backgroundColor, stringToBig, toAVAX } from '../../helper'
+import { backgroundColor, stringToBig, toAVAX } from '@/helper'
 import { Transaction, getTransactionOutputs } from '@/js/Transaction'
 import { P } from '@/known_blockchains'
 import {

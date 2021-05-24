@@ -148,6 +148,7 @@ export interface OutputResponse {
     stake: boolean // if true, UTXO was in the staking output set (ins/outs/staking)
     stakeableout: boolean // if true, UTXO is/was subject to vesting. connected to stakeLocktime
     stakeLocktime: number // if before stakeLockTime, UTXO is vesting (locked), and can only used as input UTXO to stake in addValidator/addDelegator tx
+    rewardUtxo: boolean // if true, this UTXO is the validation/delegation reward
 
     // RELEVANT TO X-CHAIN
     genesisutxo: boolean

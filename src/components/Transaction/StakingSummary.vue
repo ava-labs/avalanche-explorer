@@ -21,8 +21,16 @@
                 <div>
                     <p class="inline_status">
                         <template v-if="rewardedDate">
-                            <span class="status">Rewarded</span>
-                            <span v-if="rewardedDate">
+                            <span class="status">
+                                <template v-if="rewardUTXO"
+                                    >{{
+                                        rewardUTXO.amount | toAVAX
+                                    }}
+                                    AVAX</template
+                                >
+                            </span>
+                            <span>
+                                rewarded
                                 {{ rewardedDate | fromNow }} ({{
                                     rewardedDate.toLocaleString()
                                 }})
@@ -44,10 +52,15 @@ import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import StakingTimeline from '@/components/Transaction/StakingTimeline.vue'
 import moment from 'moment'
+import { Output } from '@/store/modules/transactions/models'
+import { toAVAX } from '@/helper'
 
 @Component({
     components: {
         StakingTimeline,
+    },
+    filters: {
+        toAVAX,
     },
 })
 export default class StakingSummary extends Vue {
@@ -70,6 +83,11 @@ export default class StakingSummary extends Vue {
         const start = moment(this.tx.validatorStart * 1000)
         const end = moment(this.tx.validatorEnd * 1000)
         return Math.round(moment.duration(end.diff(start)).asDays())
+    }
+
+    get rewardUTXO(): Output | undefined {
+        const rewardUTXO = this.tx.outputs.find((tx) => tx.rewardUtxo === true)
+        return rewardUTXO
     }
 }
 </script>
