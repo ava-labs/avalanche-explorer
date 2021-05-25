@@ -6,9 +6,6 @@
                 <TooltipHeading content="for P and X-chains only" />
             </h2>
         </div>
-        <template v-if="aggregates && !loading">
-            <TransactionHistoryMeta :aggregates="aggregates" />
-        </template>
         <div class="history_cont">
             <div class="chart_toggle_settings">
                 <!-- API DB CANNOT HANDLE 1YR options[0] -->
@@ -54,6 +51,12 @@
             <div class="canv_cont">
                 <canvas ref="canv"></canvas>
             </div>
+            <template v-if="aggregates && !loading">
+                <TransactionHistoryMeta
+                    :aggregates="aggregates"
+                    :scope="scope"
+                />
+            </template>
         </div>
     </div>
 </template>
@@ -506,7 +509,7 @@ export default {
 }
 
 .header {
-    padding-bottom: 15px;
+    padding-bottom: 30px;
 }
 
 .history_cont {

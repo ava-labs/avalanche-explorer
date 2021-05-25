@@ -2,13 +2,25 @@
     <div id="tx_history_statistics">
         <section class="stats">
             <dl>
-                <dd>Addresses</dd>
+                <dd>
+                    {{ prefix }} Addresses
+                    <TooltipMeta
+                        content="Number of unique addresses on Avalanche in the selected time-interval"
+                        :color="'#2196f3'"
+                    />
+                </dd>
                 <dt>
                     {{ aggregates.addressCount.toLocaleString() }}
                 </dt>
             </dl>
             <dl>
-                <dd>Assets</dd>
+                <dd>
+                    {{ prefix }} Assets
+                    <TooltipMeta
+                        content="Number of distinct assets transferred on Avalanche in the selected time-interval"
+                        :color="'#2196f3'"
+                    />
+                </dd>
                 <dt>
                     {{ aggregates.assetCount.toLocaleString() }}
                 </dt>
@@ -30,11 +42,16 @@ import TooltipMeta from '../TopInfo/TooltipMeta.vue'
 })
 export default class NetworkActivity extends Vue {
     @Prop() aggregates!: any
+    @Prop() scope!: string
+
+    get prefix() {
+        return `1-${this.scope}`
+    }
 }
 </script>
 <style scoped lang="scss">
 #tx_history_statistics {
-    margin-top: 10px;
+    margin-top: 30px;
 }
 
 .stats {
