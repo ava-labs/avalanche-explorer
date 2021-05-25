@@ -156,6 +156,10 @@ export default class TopAssets extends Vue {
     font-size: 12px;
     overflow: auto;
 
+    &:hover {
+        opacity: 0.7;
+    }
+
     > * {
         align-self: center;
     }
