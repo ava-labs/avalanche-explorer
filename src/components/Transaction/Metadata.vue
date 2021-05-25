@@ -29,9 +29,9 @@
             </p>
             <p class="meta_value values">
                 <span
-                    class="asset_value"
                     v-for="(val, id) in outValuesDenominated"
                     :key="id"
+                    class="asset_value"
                     >{{ val.amount }}
                     <span class="unit">{{ val.symbol }}</span></span
                 >
