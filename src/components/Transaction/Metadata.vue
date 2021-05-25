@@ -28,7 +28,10 @@
                 <Tooltip content="The value transferred in this transaction" />
             </p>
             <p class="meta_value values">
-                <span v-for="(val, id) in outValuesDenominated" :key="id"
+                <span
+                    class="asset_value"
+                    v-for="(val, id) in outValuesDenominated"
+                    :key="id"
                     >{{ val.amount }}
                     <span class="unit">{{ val.symbol }}</span></span
                 >
