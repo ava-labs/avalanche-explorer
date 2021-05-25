@@ -1,6 +1,7 @@
 <template>
     <a class="network_row" :active="isSelected" :href="explorerFEUrl">
-        <img src="@/assets/network_ava.png" />
+        <img v-if="isSelected" src="img/avalanche_red.png" />
+        <img v-else src="img/avalanche_black.png" />
         <div class="name_col">
             <p class="name">{{ network.name }}</p>
             <p class="url">{{ endpoint }}</p>
