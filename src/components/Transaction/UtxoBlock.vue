@@ -3,7 +3,7 @@
         <div>
             <div class="utxo_label">Block</div>
             <div>
-                <a :href="cURL">{{ block }}</a>
+                <a class="block" :href="cURL">{{ block }}</a>
             </div>
         </div>
         <div v-if="nonce > 0">
@@ -37,4 +37,11 @@ export default class UtxoBlock extends Vue {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.v-application a.block {
+    &:hover {
+        opacity: 0.7;
+        text-decoration: none;
+    }
+}
+</style>

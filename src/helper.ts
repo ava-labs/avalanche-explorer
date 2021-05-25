@@ -147,6 +147,22 @@ function pushPayload(rawPayload: string, assetID: string, groupID: number) {
     }
 }
 
+function foregroundColor(address: string) {
+    const prefix = address.charAt(0)
+    switch (prefix) {
+        case 'P':
+            return P.color
+        case 'X':
+            return X.color
+        case 'C':
+            return C.color
+        case '0':
+            return C.color
+        default:
+            return '#212121'
+    }
+}
+
 function backgroundColor(address: string) {
     const prefix = address.charAt(0)
     switch (prefix) {
@@ -224,6 +240,7 @@ export {
     trimmedLocaleString,
     getPayloadFromUTXO,
     pushPayload,
+    foregroundColor,
     backgroundColor,
     abbreviateBech32,
     abbreviateHex,
