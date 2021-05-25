@@ -145,6 +145,16 @@ export default class AssetsDataTable extends Vue {
 <style scoped lang="scss">
 #assets_data_table {
     margin-left: 1px;
+
+    a {
+        &:hover {
+            text-decoration: none;
+            > * {
+                opacity: 0.7;
+                text-decoration: none;
+            }
+        }
+    }
 }
 
 .controls {

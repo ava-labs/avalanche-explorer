@@ -70,6 +70,11 @@ export default class AssetRow extends Vue {
 
     a {
         color: $black !important;
+
+        &:hover {
+            opacity: 0.7;
+            text-decoration: none;
+        }
     }
 }
 

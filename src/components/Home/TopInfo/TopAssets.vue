@@ -171,8 +171,8 @@ export default class TopAssets extends Vue {
     }
 
     .logo_container {
-        width: 25px;
-        height: 25px;
+        width: 26px;
+        height: 26px;
     }
 
     .logo_name_id {

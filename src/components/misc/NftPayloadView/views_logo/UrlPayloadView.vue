@@ -40,8 +40,8 @@ export default class UrlPayloadView extends Vue {
 </script>
 <style scoped lang="scss">
 img {
-    width: 25px;
-    width: 25px;
+    width: 24px;
+    height: 24px;
     display: block;
     object-fit: cover;
 }
