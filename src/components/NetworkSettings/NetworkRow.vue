@@ -4,9 +4,6 @@
         <div class="name_col">
             <p class="name">{{ network.name }}</p>
             <p class="url">{{ endpoint }}</p>
-            <!-- <button class="editBut" @click="edit" v-if="!isSelected">
-                <fa icon="cog"></fa>Edit
-            </button> -->
         </div>
         <div class="status_col">
             <button v-if="!isSelected" @click="select"></button>
@@ -53,14 +50,6 @@ export default class NetworkRow extends Vue {
         return this.network === state.selectedNetwork ? true : false
     }
 
-    edit() {
-        // console.log(this.$parent.onedit);
-        // console.log(this.$parent.$parent.onedit);
-        // console.log(this.$parent.$parent.$parent.onedit);
-        // @ts-ignore;
-        this.$parent.$parent.$parent.onedit(this.network)
-    }
-
     get explorerFEUrl() {
         const net = this.network
         return net.explorerFEUrl
@@ -69,26 +58,6 @@ export default class NetworkRow extends Vue {
     async select() {
         const net = this.network
         window.location.href = net.explorerFEUrl
-
-        // try {
-        //     let isSel = await this.$store.dispatch('Network/setNetwork', net);
-
-        //     this.$store.dispatch('Notifications/add', {
-        //         title: "Network Connected",
-        //         message: "Connected to " + net.name,
-        //         type: "success"
-        //     }, { root: true });
-
-        //     // @ts-ignore;
-        //     this.$parent.$parent.isActive = false;
-        // } catch (e) {
-        //     this.$store.state.Network.selectedNetwork = null;
-        //     this.$store.dispatch('Notifications/add', {
-        //         title: "Connection Failed",
-        //         message: `Failed to connect ${net.name}`,
-        //         type: "error"
-        //     }, { root: true });
-        // }
     }
 }
 </script>
@@ -129,8 +98,8 @@ img {
 }
 
 .name {
-    color: $primary-color;
-    font-weight: 700;
+    font-size: 14px;
+    font-weight: 500;
 }
 
 .name_col {
@@ -139,38 +108,42 @@ img {
     word-wrap: break-word;
 }
 
-.status_col {
-    font-size: 14px;
-    color: $primary-color;
-    text-align: right;
+.url {
+    font-weight: 300;
+    font-size: 11px;
 }
 
-/* .editBut {
+.status_col {
+    font-size: 12px;
     color: $primary-color;
-    opacity: 0.4;
-    font-size: 11px;
-    margin-top: 6px;
+    text-align: center;
 
-    &:hover {
-        opacity: 0.8;
+    button {
+        color: $primary-color;
+        background-color: $white;
+        font-size: 11px;
+        font-weight: 700;
     }
-} */
+}
+
+.connected {
+    padding: 4px 12px;
+    border-radius: 20px;
+    color: $white;
+    background-color: $green;
+    min-height: 1em;
+    line-height: 2em;
+    word-break: keep-all;
+    white-space: nowrap;
+    font-size: 10px;
+    font-weight: 700;
+}
 
 .connecting {
     animation-name: connecting;
     animation-duration: 0.5s;
     animation-iteration-count: infinite;
     animation-direction: alternate;
-}
-
-.url {
-    color: $primary-color-light;
-    font-size: 12px;
-}
-
-button {
-    color: $primary-color;
-    background-color: $white;
 }
 
 @keyframes connecting {
