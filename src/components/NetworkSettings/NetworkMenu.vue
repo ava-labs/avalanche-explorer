@@ -135,27 +135,6 @@ export default class NetworkMenu extends Vue {
     }
 }
 
-.header {
-    border-bottom: 1px solid $gray-light;
-    padding: 10px 15px;
-    display: flex;
-
-    h4 {
-        flex-grow: 1;
-        margin: 0;
-        color: $primary-color;
-        font-weight: 500;
-    }
-
-    button {
-        background-color: $secondary-color;
-        color: #fff;
-        font-size: 12px;
-        padding: 3px 14px;
-        border-radius: 4px;
-    }
-}
-
 .network_body {
     position: absolute;
     z-index: 10000;
@@ -165,6 +144,27 @@ export default class NetworkMenu extends Vue {
     background-color: #fff;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4);
     font-size: 16px;
+
+    .header {
+        border-bottom: 1px solid $gray-light;
+        padding: 10px 15px;
+        display: flex;
+
+        h4 {
+            flex-grow: 1;
+            margin: 0;
+            color: $primary-color;
+            font-weight: 500;
+        }
+
+        button {
+            background-color: $secondary-color;
+            color: #fff;
+            font-size: 12px;
+            padding: 3px 14px;
+            border-radius: 4px;
+        }
+    }
 }
 
 .network_dispose_bg {
@@ -184,7 +184,7 @@ export default class NetworkMenu extends Vue {
     }
 }
 
-@include smOnly {
+@include smOrSmaller {
     @if $VUE_APP_DEFAULT_NETWORKID == 5 {
         .toggle_but {
             .caret,
@@ -195,6 +195,14 @@ export default class NetworkMenu extends Vue {
 
         .network_menu[connected] .toggle_but {
             color: $primary-color-light;
+        }
+    }
+
+    .network_body {
+        top: 0;
+
+        .header {
+            padding: 16px 15px;
         }
     }
 
@@ -217,36 +225,6 @@ export default class NetworkMenu extends Vue {
 }
 
 @include xsOrSmaller {
-    @if $VUE_APP_DEFAULT_NETWORKID == 5 {
-        .toggle_but {
-            .caret,
-            button {
-                color: $primary-color-light;
-            }
-        }
-
-        .network_menu[connected] .toggle_but {
-            color: $primary-color-light;
-        }
-    }
-
-    .network_menu {
-        padding-right: 24px;
-    }
-
-    .toggle_but {
-        img {
-            max-height: 18px;
-            margin-right: 3px;
-        }
-
-        button {
-            font-size: 12px;
-        }
-
-        min-width: auto;
-    }
-
     .network_body {
         position: fixed;
         width: 100vw;

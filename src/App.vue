@@ -629,6 +629,7 @@ tbody {
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.3s;
+    transition-timing-function: cubic-bezier(0.25, 0.8, 0.5, 1), ease;
 }
 
 .fade-enter, 
