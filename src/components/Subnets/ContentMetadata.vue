@@ -8,7 +8,7 @@
                             Blockchains
                             <TooltipMeta
                                 content="Total number of blockchains created on this subnetwork"
-                            ></TooltipMeta>
+                            />
                         </p>
                         <p class="meta_val">{{ totalBlockchains }}</p>
                     </div>
@@ -19,7 +19,7 @@
                             Validators
                             <TooltipMeta
                                 content="Total number of nodes participating in the consensus protocol of this subnetwork"
-                            ></TooltipMeta>
+                            />
                         </p>
                         <p class="meta_val">{{ totalValidators }}</p>
                     </div>
@@ -30,7 +30,7 @@
                             Pending Validators
                             <TooltipMeta
                                 content="Total number of nodes waiting to participate in the consensus protocol of this subnetwork"
-                            ></TooltipMeta>
+                            />
                         </p>
                         <p class="meta_val">{{ totalPendingValidators }}</p>
                     </div>
@@ -41,7 +41,7 @@
                             Control Keys
                             <TooltipMeta
                                 content="In order to add a validator to a subnet, threshold signatures from keys are needed"
-                            ></TooltipMeta>
+                            />
                         </p>
                         <p class="meta_val">{{ totalControlKeys }}</p>
                     </div>
@@ -91,7 +91,7 @@ export default class ContentMetadata extends Vue {
     }
 
     p {
-        font-weight: 400; /* 700 */
+        font-weight: 400;
     }
 
     .label {
@@ -105,7 +105,6 @@ export default class ContentMetadata extends Vue {
     .meta_val {
         font-size: 36px;
         line-height: 1em;
-        font-weight: 300;
         color: $primary-color;
     }
 }

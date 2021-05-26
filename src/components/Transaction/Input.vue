@@ -72,7 +72,7 @@ export default class Input extends Vue {
 </script>
 <style scoped lang="scss">
 .label {
-    font-weight: 400; /* 700 */
+    font-weight: 400;
     white-space: nowrap;
 }
 
@@ -134,5 +134,16 @@ export default class Input extends Vue {
     width: max-content;
     padding: 4px 8px;
     border-radius: 3px;
+}
+
+.io_item {
+    font-size: 13px;
+    padding: 10px 0px;
+    overflow: auto;
+    border-bottom: 1px solid #f2f2f2;
+
+    &:last-of-type {
+        border: none;
+    }
 }
 </style>

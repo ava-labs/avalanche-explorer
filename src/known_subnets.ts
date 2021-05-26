@@ -1,9 +1,11 @@
+import { P } from '@/known_blockchains'
+
 interface SubnetDict {
     [key: string]: string
 }
 
-const dict: SubnetDict = {
-    '11111111111111111111111111111111LpoYY': 'Primary Network',
-}
+const dict: SubnetDict = {}
+
+dict[P.id] = 'Primary Network'
 
 export default dict

@@ -1,31 +1,135 @@
 import { OutputResponse } from '@/store/modules/transactions/models'
 import { OutputType, BlockType } from './models'
-import { CChainInfo, PChainInfo, XChainInfo } from '@/helper'
+
+export interface TxType {
+    long: string
+    short: string
+}
 
 /**
  * These types come from here @link https://github.com/ava-labs/ortelius/blob/ec567c97630383d1a4ef468cf1bcf35d5d1eb3d2/services/indexes/models/types.go#L56
  */
-export const txTypeMap = new Map<string, string>([
-    ['base', 'Base'],
-    ['create_asset', 'Create Asset'], // X
+export const txTypeMap = new Map<string, TxType>([
+    [
+        'base',
+        {
+            long: 'Base',
+            short: '',
+        },
+    ],
+    [
+        'create_asset',
+        {
+            long: 'Create Asset',
+            short: 'Mint',
+        },
+    ],
     /**
      * @link https://docs.avax.network/build/references/avm-transaction-serialization#operations
      */
-    ['operation', 'Operation'], // X
-    ['import', 'Import'], // X
-    ['export', 'Export'], // X
-    ['atomic_import_tx', 'Atomic Import'], // C
-    ['atomic_export_tx', 'Atomic Export'], // C
-    ['add_validator', 'Add Validator'], // P
-    ['add_subnet_validator', 'Add Subnet Validator'], // P
-    ['add_delegator', 'Add Delegator'], // P
-    ['create_subnet', 'Create Subnet'], // P
-    ['create_chain', 'Create Chain'], // P
-    ['pvm_export', 'PVM Export'], // P
-    ['pvm_import', 'PVM Import'], // P
-    ['advance_time', 'Advance Time'], // P
-    ['reward_validator', 'Reward Validator'], // P
+    [
+        'operation',
+        {
+            long: 'Operation',
+            short: 'NFT',
+        },
+    ],
+    [
+        'import',
+        {
+            long: 'Import',
+            short: 'Import',
+        },
+    ],
+    [
+        'export',
+        {
+            long: 'Export',
+            short: 'Export',
+        },
+    ],
+    [
+        'atomic_import_tx',
+        {
+            long: 'Atomic Import',
+            short: 'Import',
+        },
+    ],
+    [
+        'atomic_export_tx',
+        {
+            long: 'Atomic Export',
+            short: 'Export',
+        },
+    ],
+    [
+        'add_validator',
+        {
+            long: 'Add Validator',
+            short: 'Validate',
+        },
+    ],
+    [
+        'add_subnet_validator',
+        {
+            long: 'Add Subnet Validator',
+            short: 'Validate Subnet',
+        },
+    ],
+    [
+        'add_delegator',
+        {
+            long: 'Add Delegator',
+            short: 'Delegate',
+        },
+    ],
+    [
+        'create_subnet',
+        {
+            long: 'Create Subnet',
+            short: 'Create Subnet',
+        },
+    ],
+    [
+        'create_chain',
+        {
+            long: 'Create Chain',
+            short: 'Create Chain',
+        },
+    ],
+    [
+        'pvm_export',
+        {
+            long: 'PVM Export',
+            short: 'Export',
+        },
+    ],
+    [
+        'pvm_import',
+        {
+            long: 'PVM Import',
+            short: 'Import',
+        },
+    ],
+    [
+        'advance_time',
+        {
+            long: 'Advance Time',
+            short: 'Advance Time',
+        },
+    ],
+    [
+        'reward_validator',
+        {
+            long: 'Reward Validator',
+            short: 'Reward',
+        },
+    ],
 ])
+
+export function getMappingForType(type: string) {
+    return txTypeMap.get(type)!.short || ''
+}
 
 /**
  * Info can be found here @link https://docs.avax.network/build/references/avm-transaction-serialization
@@ -40,6 +144,8 @@ const outputTypes = new Map([
 ])
 
 export function getOutputType(type: OutputResponse['outputType']) {
+    console.log(type)
+    console.log(outputTypes.get(type))
     return outputTypes.get(type)
 }
 
@@ -53,16 +159,6 @@ const blockTypes = new Map([
 
 export function getBlockType(type: number) {
     return blockTypes.get(type)
-}
-
-export const txChainTypeMap = new Map<string, typeof CChainInfo>([
-    [CChainInfo.id, CChainInfo],
-    [PChainInfo.id, PChainInfo],
-    [XChainInfo.id, XChainInfo],
-])
-
-export function getTxChainType(type: string) {
-    return txChainTypeMap.get(type)
 }
 
 export const NFTTypes = new Map([

@@ -1,20 +1,16 @@
 <template>
-    <section class="card meta">
-        <header class="header">
-            <h2 v-if="alias">{{ alias }}</h2>
-            <h2 v-else>{{ addressID }}</h2>
-        </header>
+    <section class="meta">
         <article class="meta_row">
-            <p class="label">Address</p>
-            <p class="addr">
+            <p class="meta_label">Address</p>
+            <p class="meta_value addr">
                 <span>{{ addressID }}</span>
-                <CopyText :value="`${addressID}`" class="copy_but"></CopyText>
+                <CopyText :value="`${addressID}`" class="copy_but" />
                 <span v-if="alias" class="alias">{{ alias }}</span>
             </p>
         </article>
         <article class="meta_row">
-            <p class="label">AVAX Balance</p>
-            <div class="symbol">
+            <p class="meta_label">AVAX Balance</p>
+            <div class="meta_value symbol">
                 <div class="avax_balance_container">
                     <div>
                         <v-tabs show-arrows>
@@ -52,8 +48,10 @@
             </div>
         </article>
         <article class="meta_row">
-            <p class="label">X-Chain Portfolio</p>
-            <BalanceTable :assets="assets"></BalanceTable>
+            <p class="meta_label">X-Chain Portfolio</p>
+            <div class="meta_value">
+                <BalanceTable :assets="assets" />
+            </div>
         </article>
     </section>
 </template>
@@ -67,7 +65,7 @@ import AVAXBalanceTableSummary from '@/components/Address/AVAXBalanceTableSummar
 import AVAXBalanceTableDetail from '@/components/Address/AVAXBalanceTableDetail.vue'
 import { IAddress, IBalanceX } from '@/services/addresses/models'
 import Big from 'big.js'
-import { AVAX_ID } from '@/store/index'
+import { AVAX_ID } from '@/known_assets'
 
 @Component({
     components: {
@@ -125,22 +123,7 @@ export default class Metadata extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
-.addr {
-    text-overflow: ellipsis;
-    word-break: keep-all;
-    white-space: nowrap;
-
-    .alias {
-        background-color: #e6ffe6;
-        border: 1px solid $green;
-        color: $green;
-        width: max-content;
-        padding: 4px 8px;
-        margin: 0px 30px;
-    }
-}
-</style>
+<style scoped lang="scss"></style>
 
 <style lang="scss">
 .info_alert {

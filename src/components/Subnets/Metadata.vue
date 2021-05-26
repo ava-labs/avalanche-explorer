@@ -3,21 +3,20 @@
         <div class="card">
             <div class="header">
                 <h2>
-                    Subnet Stats
+                    Subnets
                     <TooltipHeading
                         content="A subnet is a dynamic set of validators working together to achieve consensus on the state of a set of blockchains"
-                    ></TooltipHeading>
+                    />
                 </h2>
             </div>
             <section class="stats">
                 <article>
-                    <img :src="require(`@/assets/subnet-${imgColor}.png`)" />
                     <div class="stat">
                         <p class="label">
                             Subnets
                             <TooltipMeta
                                 content="Total number of subnets on Avalanche"
-                            ></TooltipMeta>
+                            />
                         </p>
                         <p class="meta_val">
                             {{ totalSubnets.toLocaleString() }}
@@ -25,15 +24,12 @@
                     </div>
                 </article>
                 <article>
-                    <img
-                        :src="require(`@/assets/blockchain-${imgColor}.png`)"
-                    />
                     <div class="stat">
                         <p class="label">
                             Blockchains
                             <TooltipMeta
                                 content="Total number of blockchains on Avalanche"
-                            ></TooltipMeta>
+                            />
                         </p>
                         <p class="meta_val">
                             {{ totalBlockchains.toLocaleString() }}
@@ -41,15 +37,12 @@
                     </div>
                 </article>
                 <article>
-                    <img
-                        :src="require(`@/assets/validators-${imgColor}.png`)"
-                    />
                     <div class="stat">
                         <p class="label">
                             Validators
                             <TooltipMeta
                                 content="Total number of nodes validating transactions on Avalanche"
-                            ></TooltipMeta>
+                            />
                         </p>
                         <p class="meta_val">
                             {{ totalValidators.toLocaleString() }}
@@ -57,13 +50,12 @@
                     </div>
                 </article>
                 <article>
-                    <img :src="require(`@/assets/ava_price-${imgColor}.png`)" />
                     <div class="stat">
                         <p class="label">
                             Total Stake Amount
                             <TooltipMeta
                                 content="Total value of AVAX locked to secure Avalanche"
-                            ></TooltipMeta>
+                            />
                         </p>
                         <p class="meta_val">
                             {{ totalStake.toLocaleString() }}
@@ -127,18 +119,12 @@ export default class Metadata extends Vue {
         flex-wrap: wrap;
     }
 
-    img {
-        object-fit: contain;
-        width: 40px;
-        margin-right: 20px;
-    }
-
     .stat {
         display: flex;
         flex-direction: column;
 
         p {
-            font-weight: 400; /* 700 */
+            font-weight: 400;
         }
 
         .label {
@@ -152,7 +138,6 @@ export default class Metadata extends Vue {
         .meta_val {
             font-size: 36px;
             line-height: 1em;
-            font-weight: 300;
 
             .unit {
                 font-size: 20px;
@@ -195,7 +180,7 @@ export default class Metadata extends Vue {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .metadata {
         margin-bottom: 10px;
 

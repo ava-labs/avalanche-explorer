@@ -7,7 +7,6 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import { JSONPayload } from 'avalanche/dist/utils'
-
 import GenericPayloadView from '@/components/misc/NftPayloadView/views/GenericPayloadView.vue'
 
 @Component({
@@ -19,42 +18,6 @@ export default class JsonPayloadView extends Vue {
     @Prop() payload!: JSONPayload
     val = ''
 
-    updateText() {
-        this.val = this.jsonText
-    }
-
-    get jsonText() {
-        const data = this.text
-        try {
-            const obj = JSON.parse(data)
-            return JSON.stringify(obj, undefined, 4)
-        } catch (e) {
-            return data
-        }
-    }
-    get text(): string {
-        return this.payload.getContent().toString()
-    }
-
-    get isGeneric() {
-        const data = this.text
-        try {
-            if (
-                Object.prototype.hasOwnProperty.call(
-                    JSON.parse(data),
-                    'avalanche'
-                )
-            ) {
-                return true
-            } else {
-                return false
-            }
-        } catch (e) {
-            return false
-        }
-        return false
-    }
-
     @Watch('payload')
     onPayloadChange() {
         this.updateText()
@@ -63,12 +26,42 @@ export default class JsonPayloadView extends Vue {
     mounted() {
         this.updateText()
     }
+
+    updateText() {
+        this.val = this.jsonText
+    }
+
+    get jsonText() {
+        try {
+            return JSON.stringify(JSON.parse(this.text), undefined, 4)
+        } catch (e) {
+            return this.text
+        }
+    }
+
+    get text(): string {
+        return this.payload.getContent().toString()
+    }
+
+    get isGeneric() {
+        try {
+            return Object.prototype.hasOwnProperty.call(
+                JSON.parse(this.text),
+                'avalanche'
+            )
+                ? true
+                : false
+        } catch (e) {
+            return false
+        }
+    }
 }
 </script>
 <style scoped lang="scss">
 .json_payload_view {
     overflow: scroll;
 }
+
 textarea {
     display: block;
     padding: 12px;
@@ -82,6 +75,7 @@ textarea {
     resize: none;
     border: none !important;
 }
+
 p {
     font-size: 13px;
     padding: 12px 24px;

@@ -11,7 +11,7 @@
                     :total-validators="subnet.validators.length"
                     :total-pending-validators="subnet.pendingValidators.length"
                     :total-control-keys="subnet.controlKeys.length"
-                ></ContentMetadata>
+                />
                 <v-tabs v-model="tab" show-arrows>
                     <v-tab href="#validators">Validators</v-tab>
                     <v-tab href="#pending-validators">Pending Validators</v-tab>
@@ -31,7 +31,7 @@
                                 :subnet="subnet"
                                 :title="'Validators'"
                                 class="table_margin"
-                            ></ValidatorDataTable>
+                            />
                         </template>
                     </v-tab-item>
                     <v-tab-item class="tab_content" value="pending-validators">
@@ -47,7 +47,7 @@
                                 :subnet="subnet"
                                 :title="'Pending Validators'"
                                 class="table_margin"
-                            ></ValidatorDataTable>
+                            />
                         </template>
                     </v-tab-item>
                     <v-tab-item class="tab_content" value="blockchains">
@@ -62,7 +62,7 @@
                                 :title="'Blockchains'"
                                 :links="true"
                                 class="table_margin"
-                            ></BlockchainDataTable>
+                            />
                         </template>
                     </v-tab-item>
                     <v-tab-item class="tab_content" value="control-keys">
@@ -76,7 +76,7 @@
                                 :subnet="subnet"
                                 :title="'Control Keys'"
                                 class="table_margin"
-                            ></ControlKeyTable>
+                            />
                         </template>
                     </v-tab-item>
                     <v-tab-item class="tab_content" value="delegations">
@@ -92,7 +92,7 @@
                                 :subnet="subnet"
                                 :title="'Delegations'"
                                 class="table_margin"
-                            ></DelegationDataTable>
+                            />
                         </template>
                     </v-tab-item>
                 </v-tabs>
@@ -104,8 +104,6 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { subnetMap, toAVAX } from '@/helper'
-import moment from 'moment'
 import Subnet from '@/js/Subnet'
 import { AVALANCHE_SUBNET_ID } from '@/store/modules/platform/platform'
 import ContentMetadata from '@/components/Subnets/ContentMetadata.vue'
@@ -121,23 +119,6 @@ import ControlKeyTable from '@/components/Validators/ControlKeyTable.vue'
         BlockchainDataTable,
         ControlKeyTable,
         DelegationDataTable,
-    },
-    filters: {
-        subnet(val: string) {
-            return subnetMap(val)
-        },
-        AVAX(val: number) {
-            return toAVAX(val)
-        },
-        duration(val: number) {
-            return moment.duration(val).humanize()
-        },
-        date(val: number) {
-            return moment(val).format('D/M/YYYY')
-        },
-        time(val: number) {
-            return moment(val).format('h:mm:ss A')
-        },
     },
 })
 export default class Content extends Vue {
@@ -193,7 +174,7 @@ export default class Content extends Vue {
 }
 
 .v-tab {
-    font-weight: 400; /* 700 */
+    font-weight: 400;
     text-transform: none;
     letter-spacing: 0;
 }
@@ -208,7 +189,7 @@ export default class Content extends Vue {
     .subheading {
         text-transform: capitalize;
         font-size: 12px;
-        font-weight: 400; /* 700 */
+        font-weight: 400;
     }
 
     h2 {
@@ -221,7 +202,7 @@ export default class Content extends Vue {
 .null {
     padding: 10px 0 0 16px;
     font-size: 0.75rem;
-    font-weight: 400; /* 700 */
+    font-weight: 400;
 }
 
 .table_image {
@@ -275,7 +256,7 @@ export default class Content extends Vue {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .subnet_header {
         padding: 0;
     }

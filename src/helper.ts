@@ -1,11 +1,13 @@
 import Big from 'big.js'
 import SubnetDict from './known_subnets'
-import BlockchainDict from './known_blockchains'
+import BlockchainDict, { C, P, X } from './known_blockchains'
 import VMDict from './known_vms'
 import { Quote, quotes } from './quotes'
 import { BN, Buffer } from 'avalanche/dist'
 import { NFTTransferOutput, UTXO } from 'avalanche/dist/apis/avm'
 import { PayloadBase, PayloadTypes } from 'avalanche/dist/utils'
+import { NetworkIDToHRP } from 'avalanche/dist/utils/constants'
+import { DEFAULT_NETWORK_ID } from './store/modules/network/network'
 import { IAddress } from './services/addresses/models'
 
 function stringToBig(raw: string, denomination = 0): Big {
@@ -40,7 +42,7 @@ function subnetMap(id: string): string {
 
 function blockchainMap(id: string): string {
     if (BlockchainDict[id]) {
-        return BlockchainDict[id]
+        return BlockchainDict[id].name
     } else {
         return id
     }
@@ -57,6 +59,14 @@ function VMMap(id: string): string {
 function VMDocumentationMap(id: string): string {
     if (VMDict[id]) {
         return VMDict[id].documentation
+    } else {
+        return ''
+    }
+}
+
+function VMFullNameMap(id: string): string {
+    if (VMDict[id]) {
+        return VMDict[id].fullName
     } else {
         return ''
     }
@@ -98,38 +108,6 @@ function trimmedLocaleString(
         : amount.div(Math.pow(10, denomination)).toLocaleString(decimalPlaces)
 }
 
-const DEFAULT_NETWORK_ID = parseInt(
-    process.env.VUE_APP_DEFAULT_NETWORKID || '4'
-)
-
-export function isMainnetNetwork() {
-    return DEFAULT_NETWORK_ID === 1
-}
-
-export const XChainInfo = {
-    id: (isMainnetNetwork()
-        ? process.env.VUE_APP_XCHAINID
-        : process.env.VUE_APP_TEST_XCHAINID) as string,
-    name: 'X-Chain',
-    code: 'X',
-}
-
-export const PChainInfo = {
-    id: (isMainnetNetwork()
-        ? process.env.VUE_APP_PCHAINID
-        : process.env.VUE_APP_TEST_PCHAINID) as string,
-    name: 'P-Chain',
-    code: 'P',
-}
-
-export const CChainInfo = {
-    id: (isMainnetNetwork()
-        ? process.env.VUE_APP_CCHAINID
-        : process.env.VUE_APP_TEST_CCHAINID) as string,
-    name: 'C-Chain',
-    code: 'C',
-}
-
 const payloadtypes = PayloadTypes.getInstance()
 
 function getPayloadFromUTXO(utxo: UTXO): PayloadBase {
@@ -169,6 +147,65 @@ function pushPayload(rawPayload: string, assetID: string, groupID: number) {
     }
 }
 
+function foregroundColor(address: string) {
+    const prefix = address.charAt(0)
+    switch (prefix) {
+        case 'P':
+            return P.color
+        case 'X':
+            return X.color
+        case 'C':
+            return C.color
+        case '0':
+            return C.color
+        default:
+            return '#212121'
+    }
+}
+
+function backgroundColor(address: string) {
+    const prefix = address.charAt(0)
+    switch (prefix) {
+        case 'P':
+            return P.darkColor
+        case 'X':
+            return X.darkColor
+        case 'C':
+            return C.darkColor
+        case '0':
+            return C.darkColor
+        default:
+            return '#e4e4e4'
+    }
+}
+
+const firstChars = 6
+const lastChars = 6
+
+function abbreviateBech32(address: string) {
+    const separatorPos = Array.from(address).findIndex((i) => i === '1') + 1
+    const prefix = address.substring(0, 2)
+    const hrp = address.substring(prefix.length, separatorPos)
+    const addressAbbrev = address.substring(
+        separatorPos,
+        separatorPos + firstChars
+    )
+    const checksum = address.substr(address.length - lastChars, lastChars)
+    return [prefix, hrp, addressAbbrev, '...', checksum]
+}
+
+function abbreviateHex(address: string) {
+    const prefix = address.substring(0, 2)
+    // @ts-ignore
+    const hrpLength = NetworkIDToHRP[DEFAULT_NETWORK_ID].length
+    const addressFirst = address.substring(
+        prefix.length,
+        prefix.length + 1 + hrpLength + firstChars
+    )
+    const addressLast = address.substr(address.length - lastChars, lastChars)
+    return [prefix, addressFirst, '...', addressLast]
+}
+
 function getNullAddress(id: string, key = ''): IAddress {
     return {
         address: id,
@@ -198,9 +235,14 @@ export {
     blockchainMap,
     VMMap,
     VMDocumentationMap,
+    VMFullNameMap,
     getRandomQuote,
     trimmedLocaleString,
     getPayloadFromUTXO,
     pushPayload,
+    foregroundColor,
+    backgroundColor,
+    abbreviateBech32,
+    abbreviateHex,
     getNullAddress,
 }

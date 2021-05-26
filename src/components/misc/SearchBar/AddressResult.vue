@@ -4,7 +4,7 @@
             <p class="symbol">Address</p>
         </div>
         <div class="data">
-            <p class="id">{{ chainNow }}-{{ item.address }}</p>
+            <p class="result_id">{{ prefixedAddress }}</p>
             <p class="balance">
                 Balance
                 <span
@@ -19,7 +19,7 @@
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { stringToBig } from '@/helper'
-import { AVAX_ID } from '@/store/index'
+import { AVAX_ID } from '@/known_assets'
 
 @Component({})
 export default class AddressResult extends Vue {
@@ -51,9 +51,12 @@ export default class AddressResult extends Vue {
         return this.item.transactionCount
     }
 
-    // TODO: support for multiple chains. add a chain param
     get chainNow() {
         return this.$store.state.chainId
+    }
+
+    get prefixedAddress() {
+        return `${this.chainNow}-${this.item.address}`
     }
 }
 </script>
@@ -71,7 +74,7 @@ $symbol_W: 40px;
 .symbol {
     padding: 0;
     border-radius: 6px;
-    font-weight: 500; /* 700 */
+    font-weight: 500;
     font-size: 9px;
     height: $symbol_W;
     width: $symbol_W;
@@ -79,12 +82,20 @@ $symbol_W: 40px;
     line-height: $symbol_W;
 }
 
-.id {
+.result_id {
     color: $primary-color;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
 }
 
 .balance {
     padding-top: 4px;
     opacity: 0.7;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
 }
 </style>

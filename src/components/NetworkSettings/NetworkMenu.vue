@@ -21,46 +21,18 @@
             <button v-else>Disconnected</button>
             <fa class="caret" icon="angle-down"></fa>
         </div>
-
         <!-- MODAL -->
         <transition-group name="fade">
             <div v-if="isModalOpen" key="body" class="network_body">
-                <!-- MODAL HEADER -->
                 <div class="header">
                     <template v-if="page === 'list'">
-                        <h4>Networks</h4>
-                        <!-- <button @click="viewCustom">Add Custom</button> -->
+                        <h4>Switch Networks</h4>
                     </template>
-                    <template v-if="page === 'custom'">
-                        <h4>Add Custom Network</h4>
-                        <button
-                            style="
-                                background-color: transparent;
-                                color: #3a3144;
-                            "
-                            @click="viewList"
-                        >
-                            Cancel
-                        </button>
-                    </template>
-                    <template v-if="page === 'edit'">
-                        <h4>Edit Network</h4>
-                        <button
-                            style="
-                                background-color: transparent;
-                                color: #3a3144;
-                            "
-                            @click="viewList"
-                        >
-                            Cancel
-                        </button>
-                    </template>
+                    <!-- custom/edit headers removed -->
                 </div>
-                <!-- MODAL CONTENT -->
                 <transition name="fade" mode="out-in">
-                    <ListPage v-if="page === 'list'"></ListPage>
-                    <!-- <CustomPage v-if="page==='custom'" @add="addCustomNetwork"></CustomPage> -->
-                    <!-- <EditPage v-if="page==='edit'" :net="editNetwork" ></EditPage> -->
+                    <ListPage v-if="page === 'list'" />
+                    <!-- custom/edit pages removed -->
                 </transition>
             </div>
             <!-- BACKGROUND -->
@@ -78,28 +50,19 @@ import 'reflect-metadata'
 import { Vue, Component } from 'vue-property-decorator'
 import Network from '@/js/Network'
 import ListPage from './ListPage.vue'
-// import CustomPage from './CustomPage.vue';
-// import EditPage from "@/components/NetworkSettings/EditPage.vue";
 import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
 
 @Component({
     components: {
         ListPage,
-        // CustomPage,
-        // EditPage
     },
 })
 export default class NetworkMenu extends Vue {
-    page = 'list' // list, custom, edit
+    page = 'list' // list, custom, edit (disabled)
     isModalOpen = false
-    editNetwork: Network | null = null
 
     toggleMenu(): void {
         this.isModalOpen = !this.isModalOpen
-    }
-
-    viewCustom(): void {
-        this.page = 'custom'
     }
 
     viewList(): void {
@@ -109,16 +72,6 @@ export default class NetworkMenu extends Vue {
     closeMenu(): void {
         this.page = 'list'
         this.isModalOpen = false
-    }
-
-    addCustomNetwork(data: Network): void {
-        this.$store.commit('Network/addNetwork', data)
-        this.page = 'list'
-    }
-
-    onedit(network: Network): void {
-        this.editNetwork = network
-        this.page = 'edit'
     }
 
     get status(): string {
@@ -182,6 +135,38 @@ export default class NetworkMenu extends Vue {
     }
 }
 
+.network_body {
+    position: absolute;
+    z-index: 10000;
+    top: 9px;
+    left: -155px;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4);
+    font-size: 16px;
+
+    .header {
+        border-bottom: 1px solid $gray-light;
+        padding: 10px 15px;
+        display: flex;
+
+        h4 {
+            flex-grow: 1;
+            margin: 0;
+            color: $primary-color;
+            font-weight: 500;
+        }
+
+        button {
+            background-color: $secondary-color;
+            color: #fff;
+            font-size: 12px;
+            padding: 3px 14px;
+            border-radius: 4px;
+        }
+    }
+}
+
 .network_dispose_bg {
     position: fixed;
     z-index: 1;
@@ -193,57 +178,13 @@ export default class NetworkMenu extends Vue {
     opacity: 0.54;
 }
 
-.network_body {
-    /* position: fixed;
-        z-index: 10000;
-        top: 31px;
-        right: 16px; */
-    position: absolute;
-    z-index: 10000;
-    top: 17px;
-    right: -210px;
-    border-radius: 4px;
-    background-color: #fff;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4);
-    font-size: 16px;
-}
-
-@include lgOnly {
-    .network_body {
-        position: absolute;
-        z-index: 10000;
-        top: -11px;
-        right: -227px;
-    }
-}
-
-.header {
-    border-bottom: 1px solid $gray-light;
-    padding: 10px 15px;
-    display: flex;
-
-    h4 {
-        flex-grow: 1;
-        margin: 0;
-        color: $primary-color;
-    }
-
-    button {
-        background-color: $secondary-color;
-        color: #fff;
-        font-size: 12px;
-        padding: 3px 14px;
-        border-radius: 4px;
-    }
-}
-
 .network_menu[connected] {
     .toggle_but {
         color: $primary-color;
     }
 }
 
-@include smOnly {
+@include smOrSmaller {
     @if $VUE_APP_DEFAULT_NETWORKID == 5 {
         .toggle_but {
             .caret,
@@ -254,6 +195,14 @@ export default class NetworkMenu extends Vue {
 
         .network_menu[connected] .toggle_but {
             color: $primary-color-light;
+        }
+    }
+
+    .network_body {
+        top: 0;
+
+        .header {
+            padding: 16px 15px;
         }
     }
 
@@ -275,37 +224,7 @@ export default class NetworkMenu extends Vue {
     }
 }
 
-@include xsOnly {
-    @if $VUE_APP_DEFAULT_NETWORKID == 5 {
-        .toggle_but {
-            .caret,
-            button {
-                color: $primary-color-light;
-            }
-        }
-
-        .network_menu[connected] .toggle_but {
-            color: $primary-color-light;
-        }
-    }
-
-    .network_menu {
-        padding-right: 24px;
-    }
-
-    .toggle_but {
-        img {
-            max-height: 18px;
-            margin-right: 3px;
-        }
-
-        button {
-            font-size: 12px;
-        }
-
-        min-width: auto;
-    }
-
+@include xsOrSmaller {
     .network_body {
         position: fixed;
         width: 100vw;
@@ -316,19 +235,6 @@ export default class NetworkMenu extends Vue {
 }
 
 @include xxs {
-    @if $VUE_APP_DEFAULT_NETWORKID == 5 {
-        .toggle_but {
-            .caret,
-            button {
-                color: $primary-color-light;
-            }
-        }
-
-        .network_menu[connected] .toggle_but {
-            color: $primary-color-light;
-        }
-    }
-
     .toggle_but {
         img {
             display: none;

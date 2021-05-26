@@ -4,28 +4,30 @@
             heading="Recent Transactions"
             :loading="loading"
             @update="updateTx"
-        ></RecentTxHeader>
+        />
         <!-- TABLE -->
         <div class="list">
-            <TxTableHead></TxTableHead>
-            <transition-group v-if="transactions.length > 0" name="fade">
-                <tx-row
-                    v-for="tx in transactions"
-                    :key="tx.id"
-                    class="recent_tx_rows"
-                    :transaction="tx"
-                ></tx-row>
-            </transition-group>
-            <!-- LOAD -->
-            <div v-if="transactions.length === 0">
-                <v-progress-circular
-                    key="1"
-                    :size="16"
-                    :width="2"
-                    color="#E84970"
-                    indeterminate
-                ></v-progress-circular>
-            </div>
+            <TxTableHead />
+            <template v-if="transactions">
+                <transition-group v-if="transactions.length > 0" name="fade">
+                    <TxRow
+                        v-for="tx in transactions"
+                        :key="tx.id"
+                        class="recent_tx_rows"
+                        :transaction="tx"
+                    />
+                </transition-group>
+                <!-- LOAD -->
+                <div v-if="transactions.length === 0">
+                    <v-progress-circular
+                        key="1"
+                        :size="16"
+                        :width="2"
+                        color="#E84970"
+                        indeterminate
+                    />
+                </div>
+            </template>
         </div>
     </div>
 </template>
@@ -48,8 +50,8 @@ import RecentTxHeader from '@/components/Transaction/RecentTxHeader.vue'
 })
 export default class RecentTransactions extends Vue {
     loading = false
-    limit = 25
     poller = 0
+    limit = 25
     sort = 'timestamp-desc'
 
     created() {
@@ -87,7 +89,6 @@ export default class RecentTransactions extends Vue {
     async updateTx(): Promise<void> {
         this.loading = true
         if (this.assetsLoaded) {
-            // TODO: support service for multiple chains
             await this.$store.dispatch('getRecentTransactions', {
                 id: null,
                 params: {

@@ -1,11 +1,11 @@
 <template>
     <div class="card">
         <div class="header">
-            <h2>
+            <h2 class="top_info_heading">
                 Top Assets
                 <TooltipHeading
-                    content="The most transferred assets on Avalanche in the past 24 hours"
-                ></TooltipHeading>
+                    content="The most transferred assets on Avalanche P and X-Chains in the past 24 hours (excludes C-Chain)"
+                />
             </h2>
         </div>
         <div v-if="!assetAggregatesLoaded" class="table_spinner_container">
@@ -15,40 +15,41 @@
                 :width="2"
                 color="#E84970"
                 indeterminate
-            ></v-progress-circular>
+            />
         </div>
         <div v-else>
             <div class="table">
                 <div class="asset column_headers">
-                    <p v-if="$vuetify.breakpoint.smAndUp"></p>
-                    <p class="name">
-                        Name <Tooltip content="Name for the asset"></Tooltip>
-                    </p>
+                    <p class="name">Asset</p>
                     <p class="metric">
                         <Tooltip
-                            content="Total number of transactions for the asset"
-                        ></Tooltip
-                        >Txs (24h)
+                            content="Total number of transactions involving the asset"
+                        />Txs (24h)
                     </p>
                 </div>
                 <div v-for="asset in assets" :key="asset.id" class="asset">
-                    <div v-if="$vuetify.breakpoint.smAndUp">
-                        <span class="symbol">{{ asset.symbol }}</span>
-                    </div>
                     <div class="name name_value">
-                        <img
-                            class="table_image"
-                            :src="require(`@/assets/hex_ava_${hexColor}.svg`)"
-                            alt
-                        />
                         <router-link
                             :to="`/asset/${asset.id}`"
-                            class="asset_name"
-                            >{{ asset.name }}</router-link
+                            class="asset_name logo_name_id"
                         >
-                        <span class="collision">{{
-                            collisionHash(asset)
-                        }}</span>
+                            <div class="logo_container">
+                                <AssetLogoRenderer
+                                    v-if="
+                                        type(asset) === 'Fixed Cap' ||
+                                        type(asset) === 'Variable Cap'
+                                    "
+                                    :asset="asset"
+                                />
+                                <NFTLogoRenderer v-else :asset="asset" />
+                            </div>
+                            <div class="name_id">
+                                <span class="name">{{ asset.name }}</span>
+                                <span class="collision monospace">{{
+                                    collisionHash(asset)
+                                }}</span>
+                            </div>
+                        </router-link>
                     </div>
                     <p class="metric metric_value">
                         {{ asset.txCount_day.toLocaleString() }}
@@ -56,9 +57,9 @@
                 </div>
             </div>
             <div class="bottom">
-                <router-link to="/assets" class="view_all"
-                    >View All Assets</router-link
-                >
+                <v-btn :text="true" class="refresh ava_btn" @click="goToAssets">
+                    <span class="ava-btn-label">View All Assets</span>
+                </v-btn>
             </div>
         </div>
     </div>
@@ -67,17 +68,20 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component } from 'vue-property-decorator'
-import Tooltip from '../../../components/rows/Tooltip.vue'
-import TooltipHeading from '../../../components/misc/TooltipHeading.vue'
+import Tooltip from '@/components/rows/Tooltip.vue'
+import TooltipHeading from '@/components/misc/TooltipHeading.vue'
 import { Asset } from '@/js/Asset'
-import { AVAX_ID } from '@/store/index'
+import { AVAX_ID } from '@/known_assets'
 import { ICollisionMap } from '@/js/IAsset'
-import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
+import AssetLogoRenderer from '@/components/Assets/AssetLogoRenderer.vue'
+import NFTLogoRenderer from '@/components/Assets/NFTLogoRenderer.vue'
 
 @Component({
     components: {
         Tooltip,
         TooltipHeading,
+        AssetLogoRenderer,
+        NFTLogoRenderer,
     },
 })
 export default class TopAssets extends Vue {
@@ -87,7 +91,7 @@ export default class TopAssets extends Vue {
         res = res.filter((asset: Asset) => asset.id !== AVAX_ID)
         res.sort((a: Asset, b: Asset) => b.txCount_day - a.txCount_day)
         res.unshift(avax)
-        return res.slice(0, 10)
+        return res.slice(0, 7)
     }
 
     get assetAggregatesLoaded(): boolean {
@@ -108,8 +112,16 @@ export default class TopAssets extends Vue {
         return this.$store.state.collisionMap
     }
 
-    get hexColor(): string {
-        return DEFAULT_NETWORK_ID === 1 ? 'mainnet' : 'testnet'
+    type(asset: Asset): string {
+        return asset.nft === 1
+            ? 'NFT'
+            : asset.variableCap === 1
+            ? 'Variable Cap'
+            : 'Fixed Cap'
+    }
+
+    goToAssets() {
+        this.$router.push('/assets')
     }
 }
 </script>
@@ -131,22 +143,21 @@ export default class TopAssets extends Vue {
 
 .column_headers {
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 500;
     color: $primary-color;
     border-bottom: 1px solid $gray-light;
 }
 
 .asset {
     display: grid;
-    grid-template-columns: 46px 1fr 100px;
+    grid-template-columns: 1fr 75px;
     column-gap: 10px;
     padding: 4px 0 4px;
     font-size: 12px;
     overflow: auto;
 
-    &:nth-child(6),
-    &:nth-child(11) {
-        border-bottom: 1px solid $gray-light;
+    &:hover {
+        opacity: 0.7;
     }
 
     > * {
@@ -157,6 +168,35 @@ export default class TopAssets extends Vue {
         white-space: nowrap;
         padding: 6px 0;
         border-radius: 2px;
+    }
+
+    .logo_container {
+        width: 26px;
+        height: 26px;
+    }
+
+    .logo_name_id {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 14px;
+        font-weight: 400;
+        text-decoration: none;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .name_id {
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+
+        .name {
+            font-weight: 700;
+        }
     }
 
     .name {
@@ -177,7 +217,7 @@ export default class TopAssets extends Vue {
 
     .collision {
         padding-left: 8px;
-        font-size: 0.75em;
+        font-size: 10px;
         color: $primary-color-light;
         font-weight: 400;
 
@@ -227,9 +267,9 @@ export default class TopAssets extends Vue {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .asset {
-        grid-template-columns: 1fr 100px;
+        grid-template-columns: 1fr 75px;
     }
 }
 </style>

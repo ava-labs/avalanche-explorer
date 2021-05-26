@@ -6,6 +6,7 @@
                 :style="{
                     left: `${start}px`,
                     width: `${stakingDuration}px`,
+                    backgroundColor: darkColor,
                 }"
             ></div>
             <div
@@ -13,20 +14,48 @@
                 :style="{
                     left: `${start}px`,
                     width: `${elapsedDuration}px`,
+                    backgroundColor: color,
                 }"
             ></div>
-            <div class="now" :style="{ left: `${current}px` }"></div>
+            <div
+                class="now"
+                :style="{ left: `${current}px`, backgroundColor: color }"
+            ></div>
         </div>
         <div class="labels">
             <div>
-                <div class="diagram_label">Start</div>
-                <div class="diagram_label">
+                <div
+                    class="diagram_label"
+                    :style="{
+                        color: color,
+                    }"
+                >
+                    Start
+                </div>
+                <div
+                    class="diagram_label"
+                    :style="{
+                        color: color,
+                    }"
+                >
                     {{ (startTime * 1000) | date }}
                 </div>
             </div>
             <div class="right">
-                <div class="diagram_label">End</div>
-                <div class="diagram_label">
+                <div
+                    class="diagram_label"
+                    :style="{
+                        color: color,
+                    }"
+                >
+                    End
+                </div>
+                <div
+                    class="diagram_label"
+                    :style="{
+                        color: color,
+                    }"
+                >
                     {{ (endTime * 1000) | date }}
                 </div>
             </div>
@@ -38,15 +67,9 @@
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { scaleLinear } from 'd3-scale'
-import moment from 'moment'
+import { P } from '@/known_blockchains'
 
-@Component({
-    filters: {
-        date(val: number) {
-            return moment(val).format('M/D/YYYY')
-        },
-    },
-})
+@Component({})
 export default class StakingTimeline extends Vue {
     @Prop() startTime!: number
     @Prop() endTime!: number
@@ -74,6 +97,14 @@ export default class StakingTimeline extends Vue {
         return this.currentTime > this.endTime ? this.stakingDuration : elapsed
     }
 
+    get darkColor() {
+        return P.darkColor
+    }
+
+    get color() {
+        return P.color
+    }
+
     scale(val: number) {
         const scale = scaleLinear()
             .domain([this.startTime, this.endTime])
@@ -90,22 +121,18 @@ export default class StakingTimeline extends Vue {
     width: 100%;
     height: 20px;
     position: relative;
-    border-left: 1px solid $gray-light;
-    border-right: 1px solid $gray-light;
 }
 
 .chartbar {
     position: absolute;
     top: 0;
     height: 100%;
-    background-color: $secondary-color-xlight;
 }
 
 .chartbar_complete {
     position: absolute;
     top: 0;
     height: 100%;
-    background-color: $secondary-color;
     opacity: 0.5;
 }
 
@@ -129,7 +156,7 @@ export default class StakingTimeline extends Vue {
     position: absolute;
     top: 0;
     font-size: 12px;
-    background-color: $primary-color;
+    background-color: trans;
     height: 100%;
     width: 1px;
     z-index: 5;
@@ -169,6 +196,6 @@ export default class StakingTimeline extends Vue {
 
 .diagram_label {
     font-size: 10px;
-    color: $secondary-color;
+    line-height: 1.25em;
 }
 </style>

@@ -75,7 +75,7 @@ export default class TestnetAlert extends Vue {
     font-weight: 700;
 }
 
-@include xlOnly {
+@include lgOrBigger {
     .testnet_alert {
         margin-top: $navbar_height_offset_xl !important;
         padding-left: 18vw;
@@ -105,7 +105,7 @@ export default class TestnetAlert extends Vue {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .testnet_alert {
         margin-top: 0px !important;
         padding-left: 15px;

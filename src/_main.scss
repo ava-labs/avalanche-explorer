@@ -8,41 +8,40 @@ $width_sm: 960px;
 $width_xs: 600px;
 $width_xxs: 400px;
 
-$container_padding_xl: 15px 18vw;
-$container_padding_lg: 15px 8vw;
-$container_padding_md: 15px 15px;
-$container_padding_sm: 15px 15px;
-$container_padding_xs: 15px 15px;
+$container_padding_xl: 30px 18vw;
+$container_padding_lg: 30px 8vw;
+$container_padding_md: 30px 24px;
+$container_padding_sm: 30px 24px;
+$container_padding_xs: 30px 24px;
 
-$navbar_height_offset_xl: 100px;
-$navbar_height_offset_lg: 100px;
-$navbar_height_offset_md: 100px;
+$navbar_height_offset_xl: 140px;
+$navbar_height_offset_lg: 140px;
+$navbar_height_offset_md: 140px;
 $navbar_height_offset_sm: 15px;
 $navbar_height_offset_xs: 15px;
 
-$primary-color: $purple;
-$primary-color-light: $purple-light;
-$primary-color-xlight: $purple-xlight;
+$primary-color: $black;
+$primary-color-light: $gray;
+$primary-color-xlight: $gray-light;
 
-$secondary-color: $pink;
-$secondary-color-light: $pink-light;
-$secondary-color-xlight: $pink-xlight;
+$secondary-color: $red;
+$secondary-color-light: $red-light;
+$secondary-color-xlight: $red-xlight;
+
+$background-color: $dark-white;
+$button: $button-gray;
 
 @if $VUE_APP_DEFAULT_NETWORKID == 5 {
-    $primary-color: $black;
-    $primary-color-light: $gray;
-    $primary-color-xlight: $gray-light;
-
     $secondary-color: $blue;
     $secondary-color-light: $blue-light;
     $secondary-color-xlight: $blue-light2;
 }
 
-$bg-light: $gray-xlight;
+$bg-light: $white;
 
 $h2_xs: 18px;
 $h2_s: 20px;
-$h2_m: 26px;
+$h2_m: 22px;
 
 $box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
 
@@ -54,4 +53,5 @@ $box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
 }
 
 @import './mobile';
+@import './components/common';
 @import './components/styles';

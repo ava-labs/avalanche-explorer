@@ -1,8 +1,8 @@
 <template>
     <div class="top_info">
-        <transaction-history></transaction-history>
-        <network-activity></network-activity>
-        <top-assets></top-assets>
+        <TransactionHistory />
+        <NetworkActivity />
+        <TopAssets />
     </div>
 </template>
 <script>
@@ -23,14 +23,14 @@ export default {
 .top_info {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    column-gap: 15px;
+    column-gap: 20px;
     padding: 0;
     width: 100%;
     background: transparent;
     overflow: visible;
 
     > div {
-        padding: 24px;
+        padding: 30px;
         overflow: auto;
     }
 
@@ -61,12 +61,12 @@ export default {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .top_info {
         grid-template-columns: 1fr;
 
         > div {
-            padding: 15px;
+            padding: 15px 0;
             margin-bottom: 15px;
         }
     }

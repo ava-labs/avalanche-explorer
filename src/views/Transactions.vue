@@ -2,14 +2,14 @@
     <div class="transactions">
         <div class="card">
             <div class="header">
-                <TransactionsHeader></TransactionsHeader>
-                <TxParams @change="fetchTx"></TxParams>
+                <TransactionsHeader />
+                <TxParams @change="fetchTx" />
             </div>
             <div class="two-col">
-                <TxFilter @change="setFilter"></TxFilter>
+                <TxFilter :chains="chains" @change="setFilter" />
                 <div class="right">
                     <template v-if="!loading && assetsLoaded">
-                        <TxTableHead></TxTableHead>
+                        <TxTableHead />
                         <v-alert
                             v-if="filteredTransactions.length === 0"
                             color="#e6f5ff"
@@ -19,12 +19,12 @@
                         </v-alert>
                         <div class="rows">
                             <transition-group name="fade" mode="out-in">
-                                <tx-row
+                                <TxRow
                                     v-for="tx in filteredTransactions"
                                     :key="tx.id"
                                     class="tx_item"
                                     :transaction="tx"
-                                ></tx-row>
+                                />
                             </transition-group>
                         </div>
                     </template>
@@ -35,7 +35,7 @@
                         :width="2"
                         color="#E84970"
                         indeterminate
-                    ></v-progress-circular>
+                    />
                 </div>
             </div>
         </div>
@@ -54,6 +54,7 @@ import TxParams from '@/components/Transaction/TxParams.vue'
 import DateForm from '@/components/misc/DateForm.vue'
 import { ITransactionParams } from '@/services/transactions'
 import { TransactionsGettersMixin } from '@/store/modules/transactions/transactions.mixins'
+import { P, X, C } from '@/known_blockchains'
 
 @Component({
     components: {
@@ -91,6 +92,10 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
 
     setFilter(val: string[]) {
         this.filters = val
+    }
+
+    get chains() {
+        return [P, X, C]
     }
 
     get transactions() {

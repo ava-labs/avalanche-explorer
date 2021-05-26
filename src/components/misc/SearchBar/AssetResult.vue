@@ -65,7 +65,7 @@ export default class AssetResult extends Vue {
     background-color: $secondary-color-xlight !important;
     color: $secondary-color;
     border-radius: 6px;
-    font-weight: 500; /* 700 */
+    font-weight: 500;
     font-size: 11px;
     height: 40px;
     width: 40px;

@@ -1,7 +1,7 @@
 <template>
     <div class="home">
-        <top-info></top-info>
-        <recent-transactions class="card recent_tx"></recent-transactions>
+        <TopInfo />
+        <RecentTransactions class="card recent_tx" />
     </div>
 </template>
 
@@ -32,6 +32,7 @@ export default class Home extends Vue {}
     width: 100%;
     margin-top: 15px;
     box-sizing: border-box;
+    border: none !important;
 }
 
 .tables {
@@ -40,7 +41,7 @@ export default class Home extends Vue {}
     grid-gap: 30px;
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .recent_tx {
         margin-top: 0;
     }

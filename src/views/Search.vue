@@ -2,7 +2,7 @@
     <div class="search">
         <div class="card">
             <template v-if="loading && query">
-                <Loader :content-id="query" :message="'Searching'"></Loader>
+                <Loader :content-id="query" :message="'Searching'" />
             </template>
             <div>
                 <p v-if="loading && query">Searching for {{ query }}</p>
@@ -12,12 +12,12 @@
                 Showing results for <span>{{ query }}</span>
             </p>
             <div v-if="!loading && results.length > 0" class="results">
-                <result-row
+                <ResultRow
                     v-for="(res, i) in results"
                     :key="i"
                     class="result_row"
                     :result="res"
-                ></result-row>
+                />
             </div>
             <div v-if="!loading && results.length === 0" class="not_found card">
                 <h2>Not Found</h2>

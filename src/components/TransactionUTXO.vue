@@ -15,7 +15,7 @@
                     :key="i"
                     :txtype="tx.type"
                     :utxo="input"
-                ></UtxoRowInput>
+                />
             </div>
             <div v-else>
                 <p>
@@ -40,7 +40,7 @@
                     :utxo="output"
                     :txtype="tx.type"
                     type="output"
-                ></UtxoRowOutput>
+                />
             </div>
             <div v-else>
                 <p>No output utxos found for this transaction.</p>
@@ -56,7 +56,6 @@ import CopyText from '@/components/misc/CopyText.vue'
 import UtxoRowInput from '@/components/Transaction/UtxoRowInput.vue'
 import UtxoRowOutput from '@/components/Transaction/UtxoRowOutput.vue'
 import {
-    getMappingForType,
     Transaction,
     getTransactionOutputs,
     getTransactionInputs,
@@ -64,6 +63,7 @@ import {
 import { toAVAX } from '../helper'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import { getAssetType } from '@/services/assets'
+import { getMappingForType } from '@/store/modules/transactions/maps'
 
 @Component({
     components: {
@@ -109,13 +109,17 @@ export default class TransactionUTXO extends Vue {
     .utxo_container:last-of-type {
         margin-bottom: 0;
     }
+
+    .card {
+        border: none;
+    }
 }
 
 @include smOrSmaller {
     .utxo {
         grid-template-columns: 1fr;
         column-gap: 0;
-        margin-top: 30px;
+        margin-top: 0;
 
         .card:last-of-type {
             margin-top: 30px;

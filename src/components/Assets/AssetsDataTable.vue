@@ -32,19 +32,32 @@
                 ></p>
             </template>
             <template #item.name="{ item }">
-                <router-link class="name_id" :to="`/asset/${item.id}`">
-                    <div>
-                        <img
-                            class="table_image"
-                            :src="require(`@/assets/hex_ava_${hexColor}.svg`)"
-                            alt
-                        />
-                        <span class="name">{{ item | nameOrID }} </span>
-                        <span class="collision">{{ collisionHash(item) }}</span>
+                <router-link :to="`/asset/${item.id}`">
+                    <div class="logo_name_id">
+                        <div class="logo_container">
+                            <AssetLogoRenderer
+                                v-if="
+                                    type(item) === 'Fixed Cap' ||
+                                    type(item) === 'Variable Cap'
+                                "
+                                :asset="item"
+                            />
+                            <NFTLogoRenderer v-else :asset="item" />
+                        </div>
+                        <div class="name_id">
+                            <span class="name">{{ item | nameOrID }} </span>
+                            <span class="collision">{{
+                                collisionHash(item)
+                            }}</span>
+                        </div>
                     </div>
                 </router-link>
             </template>
-
+            <template #item.txCount_day="{ item }">
+                <p v-if="$vuetify.breakpoint.smAndUp" class="supply">
+                    {{ item.txCount_day.toLocaleString() }}
+                </p>
+            </template>
             <template #item.volume_day="{ item }">
                 <p class="volume_day">
                     {{ item.volume_day.toLocaleString() }}
@@ -53,12 +66,11 @@
                     }}</span>
                 </p>
             </template>
-            <template #item.txCount_day="{ item }">
-                <p v-if="$vuetify.breakpoint.smAndUp" class="supply">
-                    {{ item.txCount_day.toLocaleString() }}
+            <template #item.nft="{ item }">
+                <p v-if="$vuetify.breakpoint.smAndUp" class="nft">
+                    {{ type(item) }}
                 </p>
             </template>
-
             <template #item.currentSupply="{ item }">
                 <p v-if="$vuetify.breakpoint.smAndUp" class="supply">
                     {{ item.currentSupply.toLocaleString(item.denomination) }}
@@ -77,20 +89,15 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { blockchainMap } from '@/helper'
 import { Asset } from '@/js/Asset'
 import { ICollisionMap } from '@/js/IAsset'
-import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
+import AssetLogoRenderer from '@/components/Assets/AssetLogoRenderer.vue'
+import NFTLogoRenderer from '@/components/Assets/NFTLogoRenderer.vue'
 
 @Component({
-    components: {},
-    filters: {
-        blockchain(val: string): string {
-            return blockchainMap(val)
-        },
-        nameOrID(val: Asset): string {
-            return val.name ? val.name : val.id
-        },
+    components: {
+        AssetLogoRenderer,
+        NFTLogoRenderer,
     },
 })
 export default class AssetsDataTable extends Vue {
@@ -102,10 +109,16 @@ export default class AssetsDataTable extends Vue {
         return [
             { text: 'Symbol', value: 'symbol', width: 100 },
             { text: 'Name', value: 'name' },
-            { text: '24h Volume', value: 'volume_day', width: 250 },
             { text: '24h Tx', value: 'txCount_day', width: 100 },
+            { text: '24h Volume', value: 'volume_day', width: 200 },
+            {
+                text: 'Type',
+                value: 'nft',
+                width: 120,
+                sortable: false,
+            },
             { text: 'Supply', value: 'currentSupply', width: 250 },
-            { text: 'Issuance', value: 'chainID', width: 60, sortable: false },
+            { text: 'Issuance', value: 'chainID', width: 80, sortable: false },
         ]
     }
 
@@ -119,8 +132,12 @@ export default class AssetsDataTable extends Vue {
         return this.$store.state.collisionMap
     }
 
-    get hexColor(): string {
-        return DEFAULT_NETWORK_ID === 1 ? 'mainnet' : 'testnet'
+    type(asset: Asset): string {
+        return asset.nft === 1
+            ? 'NFT'
+            : asset.variableCap === 1
+            ? 'Variable Cap'
+            : 'Fixed Cap'
     }
 }
 </script>
@@ -128,6 +145,16 @@ export default class AssetsDataTable extends Vue {
 <style scoped lang="scss">
 #assets_data_table {
     margin-left: 1px;
+
+    a {
+        &:hover {
+            text-decoration: none;
+            > * {
+                opacity: 0.7;
+                text-decoration: none;
+            }
+        }
+    }
 }
 
 .controls {
@@ -143,7 +170,7 @@ export default class AssetsDataTable extends Vue {
     text-align: center;
     border-radius: 4px;
     min-height: 1em;
-    font-weight: 400; /* 700 */
+    font-weight: 400;
     width: 40px;
 }
 
@@ -157,6 +184,26 @@ export default class AssetsDataTable extends Vue {
     }
 }
 
+.logo_name_id {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 14px;
+    font-weight: 400;
+    text-decoration: none;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.name_id {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
 .collision {
     padding-left: 8px;
     font-size: 0.75em;
@@ -167,6 +214,11 @@ export default class AssetsDataTable extends Vue {
     }
 }
 
+.ft {
+    font-size: 12px;
+    color: $primary-color-light;
+}
+
 @include smOnly {
     .v-card__text {
         padding-left: 16px;
@@ -174,7 +226,7 @@ export default class AssetsDataTable extends Vue {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     #validator-data-table {
         .v-data-table td,
         .v-data-table th {
@@ -236,7 +288,7 @@ export default class AssetsDataTable extends Vue {
     font-weight: bold;
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     #validator-data-table {
         .v-data-table td,
         .v-data-table th {

@@ -1,292 +1,142 @@
 <template>
-    <div class="metadata">
-        <div class="card">
-            <div class="header">
-                <h2>
-                    {{ asset | name }}
-                    <span class="symbol">{{ asset.symbol }}</span>
-                    <p v-if="asset.alias" class="alias">
-                        <span>Alias</span> {{ asset.alias }}
-                    </p>
-                    <p class="alias"><span>ID</span> {{ asset.id }}</p>
-                </h2>
-            </div>
-            <section class="stats">
-                <article>
-                    <img src="@/assets/ava_price-purple.png" />
-                    <div class="stat">
-                        <p class="label">
-                            24h Volume
-                            <TooltipMeta
-                                :content="
-                                    'Total value of ' +
-                                    asset.symbol +
-                                    ' transferred on Avalanche in the past 24 hours'
-                                "
-                            ></TooltipMeta>
-                        </p>
-                        <p class="meta_val">
-                            {{
-                                parseInt(
-                                    asset.volume_day.toFixed(0)
-                                ).toLocaleString()
-                            }}
-                            <span class="unit">{{ asset.symbol }}</span>
-                        </p>
-                    </div>
-                </article>
-                <article>
-                    <img src="@/assets/ava_transactions-purple.png" />
-                    <div class="stat">
-                        <p class="label">
-                            24h Transactions
-                            <TooltipMeta
-                                :content="
-                                    'Total number of state queries or modifications of blockchains involving ' +
-                                    asset.symbol +
-                                    ' in the past 24 hours'
-                                "
-                            ></TooltipMeta>
-                        </p>
-                        <p class="meta_val">
-                            {{ asset.txCount_day.toLocaleString() }}
-                        </p>
-                    </div>
-                </article>
-                <article>
-                    <img src="@/assets/blockchain-purple.png" />
-                    <div class="stat">
-                        <p class="label">
-                            Minted On
-                            <TooltipMeta
-                                :content="
-                                    'Blockchain where ' +
-                                    asset.symbol +
-                                    ' was minted'
-                                "
-                            ></TooltipMeta>
-                        </p>
-                        <p class="meta_val">{{ asset.chainID | blockchain }}</p>
-                    </div>
-                </article>
-                <article>
-                    <img src="@/assets/stake_amount-purple.png" />
-                    <div class="stat">
-                        <p class="label">
-                            Initial Supply
-                            <TooltipMeta
-                                :content="
-                                    'Initial value of ' +
-                                    asset.symbol +
-                                    ' minted'
-                                "
-                            ></TooltipMeta>
-                        </p>
-                        <p class="meta_val">
-                            {{
-                                asset.currentSupply.toLocaleString(
-                                    asset.denomination
-                                )
-                            }}
-                            <span class="unit">{{ asset.symbol }}</span>
-                        </p>
-                        <p class="meta_annotation">
-                            Minimal Transferrable Unit:
-                        </p>
-                        <p class="meta_annotation">
-                            {{ minimalTransferrableUnit }} ({{
-                                asset.denomination | pluralizeDenomination
-                            }})
-                        </p>
-                    </div>
-                </article>
-            </section>
-        </div>
-    </div>
+    <section class="meta">
+        <!-- INFO -->
+        <article v-if="asset.alias" class="meta_row">
+            <p class="meta_label">
+                Alias
+                <TooltipMeta :content="'Alias of ' + asset.id" />
+            </p>
+            <p class="meta_value">
+                {{ asset.alias }}
+            </p>
+        </article>
+        <article class="meta_row">
+            <p class="meta_label">
+                ID
+                <TooltipMeta :content="'Unique identifier of token'" />
+            </p>
+            <p class="meta_value">
+                <router-link :to="`/tx/${asset.id}`">{{
+                    asset.id
+                }}</router-link>
+            </p>
+        </article>
+        <article class="meta_row">
+            <p class="meta_label">
+                Asset Type
+                <TooltipMeta
+                    content="The type of asset (NFT, variable or fixed cap)"
+                />
+            </p>
+            <p class="meta_value">{{ genesisTx | getAssetType }}</p>
+        </article>
+        <article class="meta_row">
+            <p class="meta_label">
+                Created
+                <TooltipMeta
+                    :content="'When and where ' + asset.symbol + ' was minted'"
+                />
+            </p>
+            <p class="meta_value">
+                <fa :icon="['far', 'clock']" class="time_icon"></fa>
+                {{ date | fromNow }} ({{ date.toLocaleString() }}) on
+                {{ asset.chainID | blockchain }}
+            </p>
+        </article>
+        <!-- FUNGIBLE ONLY -->
+        <article v-if="!isNFT" class="meta_row">
+            <p class="meta_label">
+                Minimal Transferrable Unit
+                <TooltipMeta
+                    :content="'determines how balances of this asset are displayed'"
+                />
+            </p>
+            <p class="meta_value">
+                {{ minimalTransferrableUnit }} ({{
+                    asset.denomination | pluralizeDenomination
+                }})
+            </p>
+        </article>
+        <article v-if="!isNFT" class="meta_row">
+            <p class="meta_label">
+                Initial Supply
+                <TooltipMeta :content="'Type of asset'" />
+            </p>
+            <p class="meta_value">
+                {{ asset.currentSupply.toLocaleString(asset.denomination) }}
+                <span class="unit">{{ asset.symbol }}</span>
+            </p>
+        </article>
+        <!-- STATS -->
+        <article v-if="!isNFT" class="meta_row">
+            <p class="meta_label">
+                24h Volume
+                <TooltipMeta
+                    :content="
+                        'Total value of ' +
+                        asset.symbol +
+                        ' transferred on Avalanche in the past 24 hours'
+                    "
+                />
+            </p>
+            <p class="meta_value">
+                {{ parseInt(asset.volume_day.toFixed(0)).toLocaleString() }}
+                <span class="unit">{{ asset.symbol }}</span>
+            </p>
+        </article>
+        <article class="meta_row">
+            <p class="meta_label">
+                24h Tx
+                <TooltipMeta
+                    :content="
+                        'Total number of state queries or modifications of blockchains involving ' +
+                        asset.symbol +
+                        ' in the past 24 hours'
+                    "
+                />
+            </p>
+            <p class="meta_value">
+                {{ asset.txCount_day.toLocaleString() }}
+            </p>
+        </article>
+    </section>
 </template>
 
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { Asset } from '@/js/Asset'
-import { blockchainMap } from '../../helper'
-import TooltipMeta from '../../components/misc/TooltipMeta.vue'
+import TooltipMeta from '@/components/misc/TooltipMeta.vue'
+import TransactionHistory from '@/components/Home/TopInfo/TransactionHistory.vue'
+import { Transaction } from '@/js/Transaction'
+import { getAssetType } from '@/services/assets'
 
 @Component({
     components: {
         TooltipMeta,
+        TransactionHistory,
     },
-
     filters: {
-        name(val: Asset): string {
-            return val.name ? val.name : val.id
-        },
-        blockchain(val: string): string {
-            return blockchainMap(val)
-        },
-        pluralizeDenomination(val: number): string {
-            return val === 0
-                ? `no fractional units`
-                : val > 1
-                ? `${val} decimal digits`
-                : `${val} decimal digit`
-        },
+        getAssetType,
     },
 })
 export default class Metadata extends Vue {
     @Prop() asset!: Asset
+    @Prop() genesisTx!: Transaction
 
     get minimalTransferrableUnit() {
         const power = -1 * this.asset.denomination
         return Math.pow(10, power).toFixed(this.asset.denomination)
     }
+
+    get isNFT() {
+        return this.asset.nft === 1
+    }
+
+    get date(): Date {
+        return new Date(this.genesisTx.timestamp)
+    }
 }
 </script>
 
-<style scoped lang="scss">
-.metadata {
-    margin-bottom: 15px;
-
-    .header {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-
-        .alias {
-            margin-top: 0.5em;
-            font-size: 14px;
-        }
-    }
-
-    .symbol {
-        flex-shrink: 0;
-        color: $secondary-color;
-        background-color: $secondary-color-xlight;
-        min-height: 1em;
-        min-width: 20px;
-        text-align: center;
-        margin: 0px 10px 5px;
-        padding: 3px 4px;
-        font-size: 9px;
-        border-radius: 3px;
-        display: inline-block;
-        vertical-align: middle;
-    }
-}
-
-.alias {
-    span {
-        font-weight: 700;
-    }
-}
-
-.stats {
-    display: grid;
-    width: 100%;
-    grid-template-columns: 25% 25% 25% 25%;
-
-    > article {
-        padding: 30px 15px 0;
-        text-align: left;
-        line-height: 1.4em;
-        display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-        flex-wrap: wrap;
-    }
-
-    img {
-        object-fit: contain;
-        width: 24px;
-        margin: 0 14px 0 0;
-    }
-
-    .stat {
-        display: flex;
-        flex-direction: column;
-
-        p {
-            font-weight: 400; /* 700 */
-        }
-
-        .label {
-            text-transform: capitalize;
-            color: $primary-color;
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 6px;
-        }
-
-        .meta_val {
-            font-size: 26px;
-            line-height: 1em;
-
-            .unit {
-                font-size: 14px;
-                opacity: 0.7;
-            }
-        }
-
-        .meta_annotation {
-            font-size: 12px;
-            opacity: 0.7;
-        }
-    }
-}
-
-@include mdOnly {
-    .stats {
-        img {
-            width: 24px;
-        }
-
-        .stat {
-            .label {
-                font-size: 13px;
-            }
-
-            .meta_val {
-                font-size: 20px;
-
-                .unit {
-                    font-size: 14px;
-                }
-            }
-        }
-    }
-}
-
-@include smOnly {
-    .stats {
-        grid-template-columns: 50% 50%;
-        grid-template-rows: max-content;
-
-        > article {
-            padding: 30px 0 0;
-        }
-    }
-}
-
-@include xsOnly {
-    .metadata {
-        margin-bottom: 10px;
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-        }
-    }
-
-    .stats {
-        grid-template-columns: none;
-
-        > article {
-            padding: 30px 0 0;
-        }
-
-        img {
-            display: none;
-        }
-    }
-}
-</style>
+<style scoped lang="scss"></style>

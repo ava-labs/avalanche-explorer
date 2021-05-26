@@ -1,5 +1,8 @@
 <template>
-    <div class="utxo_container output_container">
+    <div
+        class="utxo_container output_container"
+        :style="{ backgroundColor: background }"
+    >
         <div class="utxo_new_col">
             <Summary
                 :index="$vnode.key"
@@ -8,19 +11,19 @@
                 :is-p-v-m-export="isPVMExport"
                 :is-export="isExport"
                 :is-atomic-export="isAtomicExport"
-            ></Summary>
-            <Addresses :addresses="utxo.addresses" :type="'output'"></Addresses>
-            <LockTime :time="utxo.locktime"></LockTime>
+            />
+            <Addresses :addresses="utxo.addresses" :type="'output'" />
+            <LockTime :time="utxo.locktime" />
             <Threshold
                 :threshold="utxo.threshold"
                 :addresses="utxo.addresses"
-            ></Threshold>
+            />
             <!-- P-CHAIN -->
-            <Stake :is-stake="utxo.stake"></Stake>
+            <Stake :is-stake="utxo.stake" />
             <Stakeable
                 :is-stakeableout="utxo.stakeableout"
                 :time="utxo.stakeLocktime"
-            ></Stakeable>
+            />
             <!-- X-CHAIN -->
             <div v-if="utxo.genesisutxo === true">
                 <div>UTXO is from genesis</div>
@@ -29,17 +32,16 @@
                 :payload="utxo.payload"
                 :asset-i-d="utxo.assetID"
                 :group-i-d="utxo.groupID"
-            ></NFTPayload>
+            />
             <!-- C-CHAIN -->
-            <Block :block="utxo.block" :nonce="utxo.nonce"></Block>
+            <Block :block="utxo.block" :nonce="utxo.nonce" />
         </div>
         <div class="tx_link">
             <TxLinkOutput
                 :tx-i-d="utxo.redeemingTransactionID"
                 :chain-i-d="utxo.chainID"
                 :timestamp="utxo.timestamp"
-            >
-            </TxLinkOutput>
+            />
         </div>
     </div>
 </template>
@@ -47,7 +49,6 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { Output } from '@/store/modules/transactions/models'
 import { Asset } from '@/js/Asset'
 import TxLinkOutput from '@/components/Transaction/UtxoTxLinkOutput.vue'
 import LockTime from '@/components/Transaction/UtxoLockTime.vue'
@@ -59,7 +60,8 @@ import Block from '@/components/Transaction/UtxoBlock.vue'
 import NFTPayload from '@/components/Transaction/UtxoNFTPayload.vue'
 import Summary from '@/components/Transaction/UtxoSummary.vue'
 import { AVAX_ID } from '@/known_assets'
-import { XCHAINID, PCHAINID, CCHAINID } from '@/known_blockchains'
+import { P, X, C } from '@/known_blockchains'
+import { backgroundColor } from '@/helper'
 
 @Component({
     components: {
@@ -75,7 +77,7 @@ import { XCHAINID, PCHAINID, CCHAINID } from '@/known_blockchains'
     },
 })
 export default class UtxoRowOutput extends Vue {
-    @Prop() utxo!: Output
+    @Prop() utxo!: any
     @Prop() type!: string
     @Prop() txtype!: string
 
@@ -102,24 +104,27 @@ export default class UtxoRowOutput extends Vue {
 
     // Exporting UTXO from P to Atomic DB
     get isPVMExport() {
-        return this.txtype === 'pvm_export' && this.utxo.chainID !== PCHAINID
+        return this.txtype === 'pvm_export' && this.utxo.chainID !== P.id
             ? true
             : false
     }
 
     // Exporting UTXO from X to Atomic DB
     get isExport() {
-        return this.txtype === 'export' && this.utxo.chainID !== XCHAINID
+        return this.txtype === 'export' && this.utxo.chainID !== X.id
             ? true
             : false
     }
 
     // Exporting UTXO from C to Atomic DB
     get isAtomicExport() {
-        return this.txtype === 'atomic_export_tx' &&
-            this.utxo.chainID !== CCHAINID
+        return this.txtype === 'atomic_export_tx' && this.utxo.chainID !== C.id
             ? true
             : false
+    }
+
+    get background(): string {
+        return backgroundColor(this.utxo.addresses[0].displayAddress)
     }
 }
 </script>

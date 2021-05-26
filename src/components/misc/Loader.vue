@@ -15,7 +15,7 @@
                 :width="2"
                 color="#E84970"
                 indeterminate
-            ></v-progress-circular>
+            />
             <div key="2" class="message">{{ message }}</div>
             <div v-if="contentId" key="3" class="content_id">
                 {{ contentId }}
@@ -105,7 +105,7 @@ img {
 }
 
 .quote {
-    font-weight: 400; /* 700 */
+    font-weight: 400;
     font-size: 36px;
     line-height: 1.25em;
     max-width: 800px;
@@ -148,7 +148,7 @@ img {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .quote_container {
         margin-top: 0;
     }

@@ -1,12 +1,12 @@
 <template>
     <div>
         <div class="networks_list">
-            <network-row
+            <NetworkRow
                 v-for="net in networks"
                 :key="net.id"
                 class="network_row"
                 :network="net"
-            ></network-row>
+            />
         </div>
     </div>
 </template>

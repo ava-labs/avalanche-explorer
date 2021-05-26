@@ -175,7 +175,7 @@ input {
     outline: none;
     border: none;
     font-size: 14px;
-    font-family: 'Rubik', sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 .v-btn {
@@ -214,7 +214,7 @@ input {
     align-items: center;
 
     .icon {
-        font-size: 26px;
+        font-size: 22px;
         margin-right: 15px;
         opacity: 0.4;
     }

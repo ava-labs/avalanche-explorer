@@ -1,11 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-// doing this to skirt the ts errors since vuex has no def for this
-const createLogger: any = require('vuex/dist/logger')
 import { Asset } from '@/js/Asset'
 import { IRootState } from '@/store/types'
 import AddressDict from '@/known_addresses'
-import AssetDict from '@/known_assets'
 import Platform from './modules/platform/platform'
 import Address from './modules/address/address'
 import Network from './modules/network/network'
@@ -17,7 +14,6 @@ import {
     IAssetDataAvalancheGo,
     ICollisionMap,
 } from '@/js/IAsset'
-import { X_CHAIN_ID } from '@/store/modules/platform/platform'
 import {
     TransactionQuery,
     TransactionQueryResponse,
@@ -26,11 +22,12 @@ import { ITransactionPayload } from '@/services/transactions'
 import { getTransaction } from '@/services/transactions'
 import { getAssetAggregates, IAssetAggregate } from '@/services/aggregates'
 import { parseTxs } from './modules/transactions/helpers'
-import { getCacheAssets } from '@/services/assets/assets.service'
+import { X } from '@/known_blockchains'
+import { getCacheAssets } from '@/services/assets'
+import { getPrices, Price, PriceMap } from '@/services/price'
+import { AVAX_PRICE_ID, VS_CURRENCIES } from '@/known_prices'
 
 Vue.use(Vuex)
-
-export const AVAX_ID = AssetDict['AVAX'] as string
 
 const store = new Vuex.Store({
     modules: {
@@ -52,11 +49,14 @@ const store = new Vuex.Store({
         // it holds a subset of the assets and checks if they have aggregation data
         // temporarily responsible for triggering assetAggregatesLoaded
         collisionMap: {},
+        pricesLoaded: false,
+        prices: null,
     } as IRootState,
     actions: {
         async init(store) {
             // Get and set initial list of all indexed assets
             await store.dispatch('getAssets')
+            store.dispatch('getPrice')
 
             // Once we have assets, next get recent transactions
             store.dispatch('getRecentTransactions', {
@@ -112,12 +112,16 @@ const store = new Vuex.Store({
             )
             const newAssetData: IAssetDataOrtelius = {
                 alias: '',
-                chainID: X_CHAIN_ID,
+                chainID: X.id,
                 currentSupply: '0',
                 denomination: desc.denomination,
                 id: assetId,
                 name: desc.name,
                 symbol: desc.symbol,
+                timestamp: '',
+                variableCap: 0,
+                nft: 0,
+                aggregates: null,
             }
             commit('addAsset', new Asset(newAssetData, true))
         },
@@ -137,7 +141,14 @@ const store = new Vuex.Store({
             return map
         },
 
-        // TODO: move cache here
+        async getPrice({ commit }) {
+            const price: PriceMap = await getPrices({
+                ids: [AVAX_PRICE_ID],
+                vs_currencies: [VS_CURRENCIES],
+            })
+            commit('addPrices', price[AVAX_PRICE_ID])
+            commit('finishPricesLoading')
+        },
     },
     mutations: {
         finishLoading(state) {
@@ -159,7 +170,6 @@ const store = new Vuex.Store({
         },
         finishAggregatesLoading(state) {
             state.assetAggregatesLoaded = true
-            console.log('ALL ASSET AGGREGATES LOADED')
         },
         // TRANSACTIONS
         addRecentTransactions(state, txRes: TransactionQuery) {
@@ -167,6 +177,12 @@ const store = new Vuex.Store({
         },
         addCollisionMap(state, collisionMap: ICollisionMap) {
             state.collisionMap = collisionMap
+        },
+        addPrices(state, prices: Price) {
+            state.prices = prices
+        },
+        finishPricesLoading(state) {
+            state.pricesLoaded = true
         },
     },
     getters: {

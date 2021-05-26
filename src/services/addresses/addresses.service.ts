@@ -3,7 +3,7 @@ import api from '@/axios'
 import { bigToDenomBig, getNullAddress, stringToBig } from '@/helper'
 import { Asset } from '@/js/Asset'
 import { resolveResponseData } from '@/services/helpers'
-import { AVAX_ID } from '@/store'
+import { AVAX_ID } from '@/known_assets'
 import {
     IAddress,
     IAddressData,
@@ -24,7 +24,7 @@ import {
     setUnlockedC,
 } from './address'
 import qs from 'qs'
-import { XCHAINID, CCHAINID } from '@/known_blockchains'
+import { C, X } from '@/known_blockchains'
 
 const ADDRESSES_V2_API_BASE_URL = process.env.VUE_APP_ADDRESSES_V2_API_BASE_URL
 
@@ -222,7 +222,7 @@ export async function getAddress(
     }
 
     const xBalanceOrtelius = addressData.addresses.filter(
-        (a: IAddressData) => a.chainID === XCHAINID
+        (a: IAddressData) => a.chainID === X.id
     )
 
     if (xBalanceOrtelius.length > 0) {
@@ -231,7 +231,7 @@ export async function getAddress(
     }
 
     const cBalanceOrtelius = addressData.addresses.filter(
-        (a: IAddressData) => a.chainID === CCHAINID
+        (a: IAddressData) => a.chainID === C.id
     )
 
     if (cBalanceOrtelius.length > 0) {

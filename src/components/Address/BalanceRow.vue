@@ -21,19 +21,14 @@
         <p class="utxos">{{ asset.utxoCount.toLocaleString() }}</p>
     </div>
 </template>
-<script>
-export default {
-    filters: {
-        nameOrID(val) {
-            return val.name ? val.name : val.id
-        },
-    },
-    props: {
-        asset: {
-            type: Object,
-            required: true,
-        },
-    },
+<script lang="ts">
+import { Asset } from '@/js/Asset'
+import 'reflect-metadata'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+
+@Component({})
+export default class BalanceRow extends Vue {
+    @Prop() asset!: Asset
 }
 </script>
 <style scoped lang="scss">
@@ -65,7 +60,7 @@ export default {
     text-align: center;
     border-radius: 4px;
     min-height: 1em;
-    font-weight: 400; /* 700 */
+    font-weight: 400;
 }
 
 .no_symbol {
@@ -83,7 +78,7 @@ export default {
     white-space: nowrap;
     width: 100%;
     font-size: 12px;
-    font-weight: 400; /* 700 */
+    font-weight: 400;
     text-decoration: none;
 }
 

@@ -6,7 +6,7 @@
             <router-link v-if="isXP" :to="xpURL">
                 <v-tooltip left>
                     <template v-slot:activator="{ on }">
-                        <fa icon="arrow-right" color="#867e89" v-on="on"></fa>
+                        <fa icon="arrow-right" color="#c4c4c4" v-on="on"></fa>
                     </template>
                     <div>
                         <p>
@@ -24,7 +24,7 @@
             <a v-else :href="cURL">
                 <v-tooltip left>
                     <template v-slot:activator="{ on }">
-                        <fa icon="arrow-right" color="#w" v-on="on"></fa>
+                        <fa icon="arrow-right" color="#c4c4c4" v-on="on"></fa>
                     </template>
                     <div>
                         <p>
@@ -43,7 +43,7 @@
         <template v-else>
             <v-tooltip left>
                 <template v-slot:activator="{ on }">
-                    <fa icon="info-circle" color="#867e89" v-on="on"></fa>
+                    <fa icon="info-circle" color="#e4e4e4" v-on="on"></fa>
                 </template>
                 <div>
                     <p>
@@ -60,7 +60,7 @@
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { getOutputType } from '@/services/transactions'
-import { PChainInfo, XChainInfo } from '@/helper'
+import { P, X } from '@/known_blockchains'
 import {
     DEFAULT_NETWORK_ID,
     cChainExplorerURL,
@@ -79,7 +79,7 @@ export default class UtxoTxLinkOutput extends Vue {
     @Prop() timestamp!: string
 
     get isXP(): boolean {
-        return this.chainID === XChainInfo.id || this.chainID === PChainInfo.id
+        return this.chainID === X.id || this.chainID === P.id
     }
 
     get xpURL(): string {

@@ -12,26 +12,58 @@
                     :start-time="tx.validatorStart"
                     :end-time="tx.validatorEnd"
                     :current-time="currentTime"
-                ></StakingTimeline>
+                />
             </div>
         </div>
         <div class="subsection">
             <div v-if="tx.rewarded">
                 <div class="summary_label">Status</div>
-                <div>
-                    <p class="inline_status">
-                        <template v-if="rewardedDate">
-                            <span class="status">Rewarded</span>
-                            <span v-if="rewardedDate">
-                                {{ rewardedDate | fromNow }} ({{
-                                    rewardedDate.toLocaleString()
-                                }})
-                            </span>
-                        </template>
-                        <template v-else>
-                            <span class="status">Staking</span>
-                        </template>
+                <!-- Rewarded -->
+                <div v-if="rewardedDate">
+                    <!-- Validator TX -->
+                    <template v-if="isValidatorTx">
+                        <p>
+                            Validator is rewarded
+                            <span class="status"
+                                >{{
+                                    validatorRewardUTXO.amount | toAVAX
+                                }}
+                                AVAX</span
+                            >
+                        </p>
+                    </template>
+                    <!-- Delegator TX -->
+                    <template v-if="isDelegatorTx">
+                        <p>
+                            Delegator is rewarded
+                            <span class="status"
+                                >{{
+                                    delegatorRewardUTXO.amount | toAVAX
+                                }}
+                                AVAX</span
+                            >
+                        </p>
+                        <p class="margin_top">
+                            Validator is rewarded
+                            <span class="status"
+                                >{{
+                                    delegatorFeeUTXO.amount | toAVAX
+                                }}
+                                AVAX</span
+                            >
+                            as fee
+                        </p>
+                    </template>
+                    <!-- Reward Time -->
+                    <p class="margin_top">
+                        {{ rewardedDate | fromNow }} ({{
+                            rewardedDate.toLocaleString()
+                        }})
                     </p>
+                </div>
+                <!-- Staking -->
+                <div v-else>
+                    <span class="status">Staking</span>
                 </div>
             </div>
         </div>
@@ -44,10 +76,15 @@ import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import StakingTimeline from '@/components/Transaction/StakingTimeline.vue'
 import moment from 'moment'
+import { Output } from '@/store/modules/transactions/models'
+import { toAVAX } from '@/helper'
 
 @Component({
     components: {
         StakingTimeline,
+    },
+    filters: {
+        toAVAX,
     },
 })
 export default class StakingSummary extends Vue {
@@ -71,6 +108,57 @@ export default class StakingSummary extends Vue {
         const end = moment(this.tx.validatorEnd * 1000)
         return Math.round(moment.duration(end.diff(start)).asDays())
     }
+
+    get rewardUTXOs(): Output[] | undefined {
+        // if rewarded:
+        // Add Validator tx will have 1 rewardUtxo
+        // Add Delegator tx will have 2 rewardUtxo for delegator reward and validator fee
+        const rewards = this.tx.outputs.filter((tx) => tx.rewardUtxo === true)
+        return rewards
+            ? rewards.sort((a, b) => {
+                  const aNum = parseInt(a.amount.toString())
+                  const bNum = parseInt(b.amount.toString())
+                  return bNum - aNum
+              })
+            : undefined
+    }
+
+    // VALIDATOR REWARDS
+    get isValidatorTx() {
+        return this.tx.type === 'add_validator'
+    }
+
+    get validatorRewardUTXO(): Output | undefined {
+        // there is only one reward UTXO, this is the validator reward
+        return this.rewardUTXOs
+            ? this.rewardUTXOs.length === 1
+                ? this.rewardUTXOs[0]
+                : undefined
+            : undefined
+    }
+
+    // DELEGATOR REWARDS
+    get isDelegatorTx() {
+        return this.tx.type === 'add_delegator'
+    }
+
+    get delegatorRewardUTXO(): Output | undefined {
+        // more than one reward UTXO, the first is the delegator reward
+        return this.rewardUTXOs
+            ? this.rewardUTXOs.length > 1
+                ? this.rewardUTXOs[0]
+                : undefined
+            : undefined
+    }
+
+    get delegatorFeeUTXO(): Output | undefined {
+        // more than one reward UTXO, the second is the validator fee
+        return this.rewardUTXOs
+            ? this.rewardUTXOs.length > 1
+                ? this.rewardUTXOs[1]
+                : undefined
+            : undefined
+    }
 }
 </script>
 
@@ -80,5 +168,8 @@ export default class StakingSummary extends Vue {
 }
 .inline_status {
     margin-top: 8px;
+}
+.margin_top {
+    margin-top: 4px;
 }
 </style>

@@ -74,7 +74,7 @@ export default class HTTPError extends Vue {
         padding: 10px 24px;
 
         border-radius: 6px;
-        font-family: 'DM Sans', sans-serif;
+        font-family: 'Inter', sans-serif;
         font-weight: 700;
         letter-spacing: 0.5px;
         text-transform: uppercase !important;
@@ -87,6 +87,6 @@ export default class HTTPError extends Vue {
 }
 
 .request_error[margin] {
-    margin-top: 30px;
+    margin: 30px 0;
 }
 </style>

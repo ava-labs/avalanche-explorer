@@ -1,8 +1,8 @@
 <template>
     <div>
-        <Metadata></Metadata>
+        <Metadata />
         <div class="validators card">
-            <StakingMetadata @toggle="handleToggle"></StakingMetadata>
+            <StakingMetadata @toggle="handleToggle" />
             <div class="controls">
                 <div class="filter_count">
                     <p v-show="search.length > 0 && matchedValidators">
@@ -28,19 +28,17 @@
                     Node ID
                     <Tooltip
                         content="Node ID of validator participating in the consensus protocol"
-                    ></Tooltip>
+                    />
                 </p>
                 <p style="text-align: right">
                     <Tooltip
                         content="Amount of AVAX staked by this validator"
-                    ></Tooltip
-                    >Stake
+                    />Stake
                 </p>
                 <p v-if="$vuetify.breakpoint.smAndUp" style="text-align: right">
                     <Tooltip
                         content="Percentage of AVAX concentrated up to this validator ranking"
-                    ></Tooltip
-                    >Cumulative Stake
+                    />Cumulative Stake
                 </p>
             </div>
             <div v-if="validators.length === 0" class="empty_table">
@@ -48,37 +46,37 @@
             </div>
             <div v-show="search.length === 0">
                 <div v-show="validators.length > 0">
-                    <validator-row
+                    <ValidatorRow
                         v-for="v in paginatedValidators"
                         :key="v.nodeID + v.stakeAmount"
                         class="validator"
                         :validator="v"
                         :cumulative-stake="cumulativeStake[v.rank - 1]"
-                    ></validator-row>
+                    />
                 </div>
             </div>
             <div v-show="search.length > 0">
-                <validator-row
+                <ValidatorRow
                     v-for="v in matchedValidators"
                     :key="v.nodeID + v.stakeAmount"
                     class="validator"
                     :validator="v"
                     :cumulative-stake="cumulativeStake[v.rank - 1]"
-                ></validator-row>
+                />
             </div>
             <div v-show="search.length === 0" class="pagination_container">
-                <validator-pagination-controls
+                <ValidatorPaginationControls
                     :total="totalValidatorsCount"
                     :limit="limit"
                     @change="handleChange"
-                ></validator-pagination-controls>
+                />
             </div>
         </div>
     </div>
 </template>
 <script lang="ts">
 import 'reflect-metadata'
-import { Vue, Component } from 'vue-property-decorator'
+import { Mixins, Component } from 'vue-property-decorator'
 import ValidatorRow from '@/components/rows/ValidatorRow/ValidatorRow.vue'
 import ValidatorPaginationControls from '@/components/misc/ValidatorPaginationControls.vue'
 import { AVALANCHE_SUBNET_ID } from '@/store/modules/platform/platform'
@@ -86,6 +84,8 @@ import Tooltip from '@/components/rows/Tooltip.vue'
 import Metadata from '@/components/Validators/Metadata.vue'
 import StakingMetadata from '@/components/Validators/StakingMetadata.vue'
 import { IValidator } from '@/store/modules/platform/IValidator'
+import { PlatformGettersMixin } from '@/store/modules/platform/platform.mixins'
+import { bigToDenomBig } from '@/helper'
 
 @Component({
     components: {
@@ -96,7 +96,7 @@ import { IValidator } from '@/store/modules/platform/IValidator'
         StakingMetadata,
     },
 })
-export default class Validators extends Vue {
+export default class Validators extends Mixins(PlatformGettersMixin) {
     search = ''
     toggle = 'active' // active | pending
     limit = 25 // how many rows to display
@@ -122,17 +122,18 @@ export default class Validators extends Vue {
     }
 
     get totalStake() {
-        const valBig =
+        let valBig =
             this.toggle === 'active'
-                ? this.$store.getters['Platform/totalStake']
-                : this.$store.getters['Platform/totalPendingStake']
-        return valBig.div(Math.pow(10, 9)).toLocaleString()
+                ? this.getTotalStake()
+                : this.getTotalPendingStake()
+        valBig = bigToDenomBig(valBig, 9)
+        return valBig.toLocaleString(0)
     }
 
     get totalValidatorsCount() {
         return this.toggle === 'active'
-            ? this.$store.getters['Platform/totalValidators']
-            : this.$store.getters['Platform/totalPendingValidators']
+            ? this.getTotalValidators()
+            : this.getTotalPendingValidators()
     }
 
     get validators() {
@@ -174,8 +175,8 @@ export default class Validators extends Vue {
         ]
         if (defaultSubnet) {
             return this.toggle === 'active'
-                ? this.$store.getters['Platform/cumulativeStake']
-                : this.$store.getters['Platform/cumulativePendingStake']
+                ? this.getCumulativeStake()
+                : this.getCumulativePendingStake()
         }
         return []
     }
@@ -257,7 +258,7 @@ export default class Validators extends Vue {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .validators {
         padding: 30px 15px;
     }

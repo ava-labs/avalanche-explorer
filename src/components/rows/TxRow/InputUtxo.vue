@@ -1,8 +1,8 @@
 <template>
-    <div class="from">
+    <div class="from" :style="{ backgroundColor: background }">
         <div class="addr_container">
             <span v-if="$vuetify.breakpoint.smAndDown" class="label">From</span>
-            <AddressLink :address="input.displayAddress"></AddressLink>
+            <AddressLink :address="input.displayAddress" />
         </div>
     </div>
 </template>
@@ -11,15 +11,19 @@
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import AddressLink from '@/components/rows/TxRow/AddressLink.vue'
-import { Input } from '@/store/modules/transactions'
-
+import { DisplayAddress } from '@/js/Transaction'
+import { backgroundColor } from '@/helper'
 @Component({
     components: {
         AddressLink,
     },
 })
 export default class InputUTXO extends Vue {
-    @Prop() input!: Input
+    @Prop() input!: DisplayAddress
+
+    get background() {
+        return backgroundColor(this.input.displayAddress!)
+    }
 }
 </script>
 <style scoped lang="scss"></style>

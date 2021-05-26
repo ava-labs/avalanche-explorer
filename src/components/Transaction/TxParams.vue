@@ -17,12 +17,12 @@
                 :class="sort === 'timestamp-desc' ? 'reverse' : ''"
                 @change_start="setStart"
                 @change_end="setEnd"
-            ></DateForm>
+            />
             <div class="limit_container">
                 <v-select
                     v-model="limit"
                     :items="limits"
-                    label="Results"
+                    label="Limit Results"
                     dense
                     color="#4c2e56"
                 ></v-select>
@@ -98,10 +98,12 @@ export default class TxParams extends Vue {
 
 <style scoped lang="scss">
 .params {
+    margin: 30px 0;
     font-size: 12px;
+    border-radius: 6px;
+    padding-left: 6px;
 
     h4 {
-        margin-top: 30px;
         margin-bottom: 0;
     }
 }

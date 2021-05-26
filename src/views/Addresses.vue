@@ -19,13 +19,10 @@
                     :width="2"
                     color="#E84970"
                     indeterminate
-                ></v-progress-circular>
+                />
             </template>
             <template v-else>
-                <AddressDataTable
-                    :addresses="addressesList"
-                    :links="true"
-                ></AddressDataTable>
+                <AddressDataTable :addresses="addressesList" :links="true" />
             </template>
         </div>
     </div>

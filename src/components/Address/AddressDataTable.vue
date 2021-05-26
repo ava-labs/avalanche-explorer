@@ -68,7 +68,7 @@ export default class AddressDataTable extends Vue {
 @include smOnly {
 }
 
-@include xsOnly {
+@include xsOrSmaller {
 }
 </style>
 

@@ -1,13 +1,12 @@
 <template>
     <v-app>
-        <!-- <nav-bar-XL class="navbar_xl" v-if="$vuetify.breakpoint.xlOnly"></nav-bar-XL>         -->
-        <nav-bar v-if="$vuetify.breakpoint.mdAndUp" class="navbar"></nav-bar>
-        <nav-bar-mobile
+        <NavBar v-if="$vuetify.breakpoint.mdAndUp" class="navbar" />
+        <NavBarMobile
             v-if="$vuetify.breakpoint.smAndDown"
             class="navbar_mobile"
-        ></nav-bar-mobile>
+        />
         <div>
-            <testnet-alert></testnet-alert>
+            <TestnetAlert />
             <div class="side_container">
                 <v-content class="content">
                     <router-view class="router_view"></router-view>
@@ -15,9 +14,9 @@
             </div>
         </div>
 
-        <Footer class="footer"></Footer>
-        <notifications></notifications>
-        <!-- <ResponsiveGuidelines></ResponsiveGuidelines> -->
+        <Footer class="footer" />
+        <Notifications />
+        <!-- <ResponsiveGuidelines /> -->
     </v-app>
 </template>
 
@@ -26,7 +25,7 @@ import Vue from 'vue'
 import NavBar from '@/components/NavBar.vue'
 import NavBarMobile from '@/components/NavBarMobile.vue'
 import TestnetAlert from '@/components/misc/TestnetAlert.vue'
-// import ResponsiveGuidelines from "@/components/misc/ResponsiveGuidelines.vue";
+// import ResponsiveGuidelines from '@/components/misc/ResponsiveGuidelines.vue'
 import Footer from '@/components/Footer.vue'
 import { IMetaTag } from '@/router/IMetaTag'
 import Notifications from '@/components/Notifications.vue'
@@ -84,7 +83,7 @@ export default Vue.extend({
 
 <style scoped lang="scss">
 .v-application {
-    background-color: $gray-xlight !important;
+    background-color: $white !important;
     min-height: 100vh;
 }
 
@@ -116,7 +115,7 @@ export default Vue.extend({
    RESPONSIVE
    ========================================== */
 
-@include xlOnly {
+@include lgOrBigger {
     .navbar,
     .router_view,
     .footer {
@@ -182,6 +181,10 @@ export default Vue.extend({
         padding: $container_padding_sm;
         padding-top: 0 !important;
     }
+
+    .footer {
+        padding-top: 40px !important;
+    }
     .content {
         padding-top: 0 !important;
 
@@ -191,11 +194,15 @@ export default Vue.extend({
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .router_view,
     .footer {
         padding: $container_padding_xs;
         padding-top: 0 !important;
+    }
+
+    .footer {
+        padding-top: 40px !important;
     }
 
     .content {
@@ -209,36 +216,43 @@ export default Vue.extend({
 </style>
 
 <style lang="scss">
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;200;300;400;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@1,400&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;700&display=swap');
 
-/* ==========================================
-   typography
-   ========================================== */
+:root {
+    // color
+    --c-detail: hsl(0, 0%, 90%);
+    --c-gray: hsl(0, 0%, 93%);
+    // font
+    --f-size: 15px;
+    --f-height: 24px;
+    --f-height-mono: 20px;
+    --f-weight: 400;
+    --f-scale-s: 0.87;
+    --f-scale-m: 1.2;
+    --f-scale-l: 2.618;
+    // animation
+    --a-speed: 150ms;
+    --a-ease: ease-out;
+    // layout
+    --l-padding: 1rem;
+}
+
 body {
-    font-family: 'Rubik', sans-serif;
-    margin: 0;
-    background-color: $white !important;
-    color: $primary-color;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: -0.0143007em;
+    font-size: var(--f-size);
+    line-height: var(--f-height);
+    font-weight: var(--f-weight);
 }
 
 .monospace {
     font-family: 'Roboto Mono', monospace;
+    line-height: var(--f-height-mono);
 }
 
 button {
-    font-family: 'Rubik', sans-serif;
-    outline: none !important;
-    border: none;
-    cursor: pointer;
-}
-
-p {
-    margin: 0;
+    font-family: 'Inter', sans-serif;
 }
 
 .v-application a {
@@ -255,9 +269,57 @@ p {
     caret-color: $primary-color !important;
 }
 
-/* ==========================================
-   layout
-   ========================================== */
+th {
+    font-weight: 500;
+}
+
+.header {
+    h2 {
+        font-size: 22px;
+        margin: 0;
+        font-weight: 500;
+        color: $primary-color;
+        word-break: break-all;
+    }
+}
+
+@include mdOrBigger {
+    .header {
+        h2 {
+            font-size: 30px;
+        }
+
+        .top_info_heading {
+            font-size: 22px;
+        }
+    }
+}
+
+@include smOrSmaller {
+    .header {
+        h2 {
+            font-size: calc(var(--f-size) * var(--f-scale-m));
+        }
+    }
+}
+
+body {
+    margin: 0;
+    color: $primary-color;
+    background-color: $white !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+p {
+    margin: 0;
+}
+
+button {
+    outline: none !important;
+    border: none;
+    cursor: pointer;
+}
 
 .v-content__wrap {
     min-height: calc(100vh - #{$navbar_height_offset_xl});
@@ -266,7 +328,8 @@ p {
 .card {
     background-color: $white;
     padding: 30px;
-    border-radius: 6px;
+    border-radius: 20px;
+    border: 1px solid $gray-light;
 }
 
 @if $VUE_APP_DEFAULT_NETWORKID == 5 {
@@ -275,150 +338,77 @@ p {
     }
 }
 
-.header {
-    h2 {
-        font-size: 26px;
+.stats {
+    dl {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        flex-grow: 1;
+        justify-content: flex-start;
         margin: 0;
-        font-weight: 400;
-        color: $primary-color;
-    }
-}
 
-@include smOnly {
-    .header {
-        h2 {
-            font-size: 26px;
-            margin: 0;
+        dd {
+            text-transform: capitalize;
+            font-size: 12px;
+            margin-inline-start: 0;
+            margin-bottom: 6px;
+
+            &.indent {
+                padding-left: 3px;
+            }
+        }
+
+        dt {
+            font-size: 20px;
+            line-height: 1em;
+
+            .unit {
+                font-size: 12px;
+            }
         }
     }
 }
 
-@include xsOnly {
+@include smOrSmaller {
     .card {
+        margin: 2rem 0 0;
+    }
+
+    .stats {
+        dl {
+            padding: 18px 0;
+            border-bottom: 1px solid var(--c-gray);
+
+            dd {
+                padding: 0;
+                margin-bottom: 0;
+                font-variation-settings: 'wght' 650;
+                font-size: var(--f-size);
+                line-height: var(--f-height);
+
+                &.indent {
+                    padding-left: 0;
+                }
+            }
+
+            dt {
+                font-size: var(--f-size);
+                line-height: var(--f-height);
+
+                .unit {
+                    font-size: 15px !important;
+                }
+            }
+        }
+    }
+}
+
+@include xsOrSmaller {
+    .card {
+        padding-left: 0;
+        padding-right: 0;
         border-radius: 0;
-    }
-
-    .header {
-        h2 {
-            font-size: 30px;
-            margin: 0;
-        }
-    }
-}
-
-/* ==========================================
-   detail pages
-   ========================================== */
-
-.detail {
-    header {
-        margin-bottom: 20px;
-    }
-
-    a {
-        overflow: hidden;
-        display: block;
-        text-overflow: ellipsis;
-        color: $primary-color;
-        text-decoration: none;
-
-        &:hover {
-            text-decoration: underline;
-        }
-    }
-
-    > div {
-        position: relative;
-    }
-}
-
-.meta {
-    overflow: auto;
-    word-break: break-all;
-}
-
-.meta_row {
-    font-size: 14px;
-    display: grid;
-    grid-template-columns: 140px 1fr;
-    overflow-x: scroll;
-    padding: 15px 0;
-    border-bottom: 1px solid $gray-xlight;
-
-    .label {
-        font-weight: 400; /* 700 */
-        margin-right: 8px;
-    }
-
-    &:last-of-type {
         border: none;
-    }
-}
-
-.genesis_tx {
-    display: flex;
-    align-items: center;
-}
-
-.genesis {
-    background-color: #e6ffe6;
-    border: 1px solid $green;
-    color: $green;
-    width: max-content;
-    padding: 4px 8px;
-    margin: 0 0 0 30px;
-    word-break: keep-all;
-}
-
-.status {
-    background-color: $green-xlight;
-    color: $green;
-    width: max-content;
-    border-radius: 3px;
-    padding: 4px 8px;
-}
-
-.values {
-    span {
-        background-color: $secondary-color-xlight;
-        color: $secondary-color;
-        margin-right: 4px;
-        padding: 4px 8px;
-        border-radius: 3px;
-    }
-}
-
-.id {
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.amount {
-    text-align: right;
-}
-
-.io_item {
-    font-size: 13px;
-    padding: 10px 0px;
-    overflow: auto;
-    border-bottom: 1px solid #f2f2f2;
-
-    &:last-of-type {
-        border: none;
-    }
-}
-
-.outputs {
-    overflow: auto;
-}
-
-@include xsOnly {
-    .utxo_table {
-        margin-top: 5px;
-    }
-
-    .detail {
-        padding: $container_padding_xs;
     }
 }
 
@@ -426,27 +416,7 @@ p {
    UI
    ========================================== */
 input {
-    font-family: 'Rubik', sans-serif;
-}
-
-.view_all {
-    display: block;
-    width: max-content;
-    text-decoration: none !important;
-    transition: opacity 0.3s;
-
-    background-color: transparent !important;
-    border-radius: 6px;
-    padding: 10px 24px;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 700 !important;
-    letter-spacing: 0.5px;
-    text-transform: uppercase !important;
-    font-size: 14px;
-
-    &:hover {
-        opacity: 0.7;
-    }
+    font-family: 'Inter', sans-serif;
 }
 
 .data_table_header {
@@ -467,8 +437,8 @@ input {
 .table_image {
     height: 20px;
     display: inline-block;
-    margin-top: -4px;
-    margin-right: 8px;
+    margin-top: -1px;
+    margin-right: 14px;
     vertical-align: middle;
 }
 
@@ -485,7 +455,6 @@ input {
 .chain {
     font-size: 12px;
     color: $primary-color-light;
-    text-align: right;
     flex-grow: 1;
 
     .label {
@@ -493,25 +462,19 @@ input {
         min-height: 1em;
         line-height: 2em;
     }
-
-    .tag {
-        padding: 4px 12px;
-        border-radius: 4px;
-        color: $secondary-color;
-        background-color: $secondary-color-xlight;
-        min-height: 1em;
-        line-height: 2em;
-        word-break: keep-all;
-        white-space: nowrap;
-    }
 }
 
-@include smOnly {
-    .view_all {
-        width: 100%;
-        text-align: center;
-    }
+.chain_tag {
+    padding: 4px 12px;
+    border-radius: 12px;
+    color: $primary-color;
+    background-color: $white;
+    min-height: 1em;
+    line-height: 2em;
+    word-break: keep-all;
+    white-space: nowrap;
 }
+
 /* ==========================================
    vuetify overrides
    ========================================== */
@@ -521,7 +484,7 @@ input {
     background-color: transparent !important;
     border-radius: 6px;
     padding: 10px 24px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 700 !important;
     letter-spacing: 0.5px;
     text-transform: uppercase !important;
@@ -540,6 +503,12 @@ input {
 
 .v-breadcrumbs {
     padding: 8px 12px 20px !important;
+}
+
+@include smOrSmaller {
+    .v-breadcrumbs {
+        padding: 8px 0 0 !important;
+    }
 }
 
 .v-tooltip__content {
@@ -583,8 +552,8 @@ tbody {
         max-width: 320px;
 
         .filter {
-            border: 2px solid $bg-light;
-            background-color: $bg-light;
+            border: 2px solid $background-color;
+            background-color: $background-color;
             height: 36px;
             width: 320px;
             box-sizing: content-box;
@@ -605,9 +574,10 @@ tbody {
 .v-toolbar--dense .v-toolbar__content,
 .v-toolbar--dense .v-toolbar__extension {
     padding: 0;
+    flex-direction: column;
 }
 
-@include xlOnly {
+@include lgOrBigger {
     .v-toolbar--dense .v-toolbar__content,
     .v-toolbar--dense .v-toolbar__extension {
         padding: 0;
@@ -621,21 +591,21 @@ tbody {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     margin: 2px 0 20px;
 
     button {
-        flex-grow: 1;
         font-size: 9px;
         background-color: transparent;
-        color: $primary-color;
+        color: $button;
         height: 24px;
-        width: 28px;
+        width: 50px;
         border: none;
         margin-left: 3px;
         outline: none;
-        border-radius: 2px;
-        padding: 1px 3px;
+        border: 1px solid $button;
+        border-radius: 12px;
+        padding: 4px 3px;
         font-weight: 700;
         text-transform: uppercase;
         cursor: pointer;
@@ -646,7 +616,8 @@ tbody {
 
         &[active] {
             color: $white;
-            background-color: $primary-color;
+            background-color: $button;
+            border: 1px solid $button;
         }
     }
 }
@@ -658,6 +629,7 @@ tbody {
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.3s;
+    transition-timing-function: cubic-bezier(0.25, 0.8, 0.5, 1), ease;
 }
 
 .fade-enter, 

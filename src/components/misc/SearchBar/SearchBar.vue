@@ -160,8 +160,11 @@ export default Vue.extend({
     width: 100%;
     padding: 5px;
     background-color: $bg-light;
-    border-radius: 4px;
     display: flex;
+
+    border: 1px solid $primary-color;
+    box-sizing: border-box;
+    border-radius: 50px;
 }
 
 .search_bar {
@@ -189,6 +192,7 @@ input {
     padding: 0 !important;
     min-width: 38px;
     border-radius: 4px;
+    background-color: transparent !important;
 }
 
 .search_results {
@@ -197,7 +201,7 @@ input {
     box-sizing: border-box;
     border-radius: 0 0 2px 2px;
     background-color: $white;
-    top: calc(100% - 3px);
+    top: calc(100% + 1px);
     left: 0px;
     font-size: 12px;
     color: #333;
@@ -211,7 +215,7 @@ input {
     align-items: center;
 
     .icon {
-        font-size: 26px;
+        font-size: 22px;
         margin-right: 15px;
         opacity: 0.4;
     }

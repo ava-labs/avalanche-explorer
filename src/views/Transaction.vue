@@ -1,11 +1,11 @@
 <template>
     <div class="detail">
-        <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
+        <v-breadcrumbs :items="breadcrumbs" />
         <template v-if="loading">
             <Loader
                 :content-id="txId"
                 :message="'Fetching Transaction Details'"
-            ></Loader>
+            />
         </template>
         <template v-else>
             <HTTPError
@@ -14,13 +14,12 @@
                 :title="'Transaction Details Not Found'"
                 :message="'A record for this transaction ID was not found in the Avalanche Explorer'"
                 :support-u-r-l="'https://chat.avalabs.org'"
-            >
-            </HTTPError>
+            />
             <template v-else>
                 <TransactionSummary :tx="tx">
-                    {{ tx.type | getType }}
+                    {{ tx.type | getType }} Transaction
                 </TransactionSummary>
-                <TransactionUTXO :tx="tx"></TransactionUTXO>
+                <TransactionUTXO :tx="tx" />
             </template>
         </template>
     </div>
@@ -30,11 +29,11 @@
 import 'reflect-metadata'
 import { Component, Watch, Mixins } from 'vue-property-decorator'
 import Loader from '@/components/misc/Loader.vue'
-import TransactionSummary from '@/components/TransactionSummary.vue'
+import TransactionSummary from '@/components/Transaction/TransactionSummary.vue'
 import TransactionUTXO from '@/components/TransactionUTXO.vue'
 import HTTPError from '@/components/misc/HTTPError.vue'
 import { TransactionsGettersMixin } from '@/store/modules/transactions/transactions.mixins'
-import { getMappingForType } from '../js/Transaction'
+import { getMappingForType } from '@/store/modules/transactions/maps'
 
 @Component({
     components: {
@@ -56,7 +55,12 @@ export default class TransactionPage extends Mixins(TransactionsGettersMixin) {
             href: '/',
         },
         {
-            text: 'Transaction',
+            text: 'Transactions',
+            disabled: false,
+            href: '/tx',
+        },
+        {
+            text: 'Detail',
             disabled: true,
             href: '',
         },
@@ -115,7 +119,7 @@ export default class TransactionPage extends Mixins(TransactionsGettersMixin) {
     text-align: center;
 
     h2 {
-        font-weight: 400; /* 700 */
+        font-weight: 400;
         font-size: 36px;
         line-height: 1.25em;
     }
@@ -143,7 +147,7 @@ export default class TransactionPage extends Mixins(TransactionsGettersMixin) {
         padding: 10px 24px;
 
         border-radius: 6px;
-        font-family: 'DM Sans', sans-serif;
+        font-family: 'Inter', sans-serif;
         font-weight: 700;
         letter-spacing: 0.5px;
         text-transform: uppercase !important;

@@ -1,3 +1,5 @@
+import { IAggregate } from '@/services/aggregates/'
+
 export interface IAssetDataOrtelius {
     id: string
     alias: string
@@ -6,6 +8,10 @@ export interface IAssetDataOrtelius {
     denomination: number
     name: string
     symbol: string
+    timestamp: string
+    variableCap: number
+    nft: number
+    aggregates: IAggregate | null
 }
 
 export interface IAssetDataAvalancheGo {

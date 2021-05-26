@@ -1,32 +1,24 @@
 import Vue from 'vue'
 import { Module } from 'vuex'
-import Big from 'big.js'
 import BN from 'bn.js'
 import { IRootState } from '@/store/types'
-import { IPlatformState } from './IPlatformState'
+import { PlatformState } from './models'
 import { platform } from '@/avalanche'
 import Subnet from '@/js/Subnet'
 import { ISubnetData } from './ISubnet'
-import SubnetDict from '@/known_subnets'
 import { IBlockchainData } from './IBlockchain'
-import BlockchainDict from '@/known_blockchains'
 import Blockchain from '@/js/Blockchain'
+import { C, P } from '@/known_blockchains'
 import { getAddressCounts } from '@/services/addressCounts/addressCounts.service'
 import { AddressCount } from '@/services/addressCounts/models'
 import { calculateStakingReward } from './helpers'
 import { getTxCounts } from '@/services/transactionCounts/transactionCounts.service'
 import { TxCount } from '@/services/transactionCounts/models'
-import { bigToDenomBig } from '@/helper'
-import { ONEAVAX } from 'avalanche/dist/utils'
+import { getBurnedC } from '@/services/burned/burned.service'
 
-export const AVALANCHE_SUBNET_ID = Object.keys(SubnetDict).find(
-    (key) => SubnetDict[key] === 'Primary Network'
-) as string
-export const X_CHAIN_ID = Object.keys(BlockchainDict).find(
-    (key) => BlockchainDict[key] === 'X-Chain'
-) as string
+export const AVALANCHE_SUBNET_ID = P.id
 
-const platform_module: Module<IPlatformState, IRootState> = {
+const platform_module: Module<PlatformState, IRootState> = {
     namespaced: true,
     state: {
         subnets: {},
@@ -46,10 +38,7 @@ const platform_module: Module<IPlatformState, IRootState> = {
         finishLoading(state) {
             state.subnetsLoaded = true
         },
-        updateChainsWithAddressCounts(state, blockchains: Blockchain[]) {
-            state.blockchains = blockchains
-        },
-        updateChainsWithTxCounts(state, blockchains: Blockchain[]) {
+        updateChains(state, blockchains: Blockchain[]) {
             state.blockchains = blockchains
         },
         setAnnualStakingRewardPercentage(state, APR: number) {
@@ -63,6 +52,7 @@ const platform_module: Module<IPlatformState, IRootState> = {
             await dispatch('getSubnets')
             dispatch('updateAddressCounts')
             dispatch('updateTxCounts')
+            dispatch('updateBurned')
         },
 
         async getSubnets({ state, commit }) {
@@ -85,7 +75,7 @@ const platform_module: Module<IPlatformState, IRootState> = {
 
             // Add P-Chain manually
             const pChain = new Blockchain({
-                name: BlockchainDict[AVALANCHE_SUBNET_ID],
+                name: P.name,
                 id: AVALANCHE_SUBNET_ID,
                 subnetID: AVALANCHE_SUBNET_ID,
                 vmID: '',
@@ -128,7 +118,7 @@ const platform_module: Module<IPlatformState, IRootState> = {
                 }
                 return toUpdate
             })
-            commit('updateChainsWithAddressCounts', updates)
+            commit('updateChains', updates)
         },
 
         async updateTxCounts({ state, commit }) {
@@ -143,7 +133,19 @@ const platform_module: Module<IPlatformState, IRootState> = {
                 }
                 return toUpdate
             })
-            commit('updateChainsWithTxCounts', updates)
+            commit('updateChains', updates)
+        },
+
+        async updateBurned({ state, commit }) {
+            const res = await getBurnedC()
+            const updates = state.blockchains.map((chain: Blockchain) => {
+                const toUpdate = chain
+                if (chain.id === C.id) {
+                    toUpdate.updateBurned(res)
+                }
+                return toUpdate
+            })
+            commit('updateChains', updates)
         },
 
         async updateAnnualStakingRewardPercentage({ state, commit }) {
@@ -161,81 +163,6 @@ const platform_module: Module<IPlatformState, IRootState> = {
             const rewardAVAX = reward.div(new BN(Math.pow(10, 9))).toNumber()
             const APR = (rewardAVAX / currentSupplyAVAX) * 100
             commit('setAnnualStakingRewardPercentage', APR)
-        },
-    },
-    getters: {
-        totalValidators(state): number {
-            // Count of active validators in Primary Network
-            const defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID]
-            return !defaultSubnet ? 0 : defaultSubnet.validators.length
-        },
-        totalPendingValidators(state): number {
-            // Count of pending validators in Primary Network
-            const defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID]
-            return !defaultSubnet ? 0 : defaultSubnet.pendingValidators.length
-        },
-        totalStake(state): Big {
-            // Total $AVAX active stake on Primary Network
-            const defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID]
-            let total = Big(0)
-            return !defaultSubnet
-                ? total
-                : (total = defaultSubnet.validators.reduce(
-                      (a, v) => a.add(Big(v.totalStakeAmount as number)),
-                      total
-                  ))
-        },
-        totalPendingStake(state): Big {
-            // Total $AVAX pending stake on Primary Network
-            const defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID]
-            let total = Big(0)
-            return !defaultSubnet
-                ? total
-                : (total = defaultSubnet.pendingValidators.reduce(
-                      (a, v) => a.add(Big(v.stakeAmount as number)),
-                      total
-                  ))
-        },
-        cumulativeStake(state): number[] {
-            // Accumulative distribution of active stakes
-            const defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID]
-            const res: number[] = []
-            let total = 0
-            if (defaultSubnet) {
-                defaultSubnet.validators.forEach((v) => {
-                    total += v.totalStakeAmount as number
-                    res.push(total)
-                })
-            }
-            return res
-        },
-        cumulativePendingStake(state): number[] {
-            // Accumulative distribution of pending stakes
-            const defaultSubnet = state.subnets[AVALANCHE_SUBNET_ID]
-            const res: number[] = []
-            let total = 0
-            if (defaultSubnet) {
-                defaultSubnet.pendingValidators.forEach((v) => {
-                    total += v.stakeAmount as number
-                    res.push(total)
-                })
-            }
-            return res
-        },
-        totalBlockchains(state): number {
-            // Count of blockchains across all subnets
-            let total = 0
-            for (const subnetID of Object.keys(state.subnets)) {
-                total += state.subnets[subnetID].blockchains.length
-            }
-            return total
-        },
-        stakingRatio(state, getters): number {
-            let totalStake = getters.totalStake
-            totalStake = bigToDenomBig(totalStake, 9)
-            const currentSupply = state.currentSupply.div(ONEAVAX).toNumber()
-            const percentStaked = totalStake.div(currentSupply).times(100)
-            return parseFloat(percentStaked.toFixed(2))
         },
     },
 }

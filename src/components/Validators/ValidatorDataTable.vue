@@ -269,7 +269,6 @@
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { toAVAX } from '@/helper'
-import moment from 'moment'
 import Subnet from '@/js/Subnet'
 import { AVALANCHE_SUBNET_ID } from '@/store/modules/platform/platform'
 import { IValidator } from '@/store/modules/platform/IValidator'
@@ -283,15 +282,6 @@ import { scaleLinear } from 'd3-scale'
     filters: {
         AVAX(val: number) {
             return toAVAX(val).toFixed(4).toLocaleString()
-        },
-        duration(val: number) {
-            return moment.duration(val).humanize()
-        },
-        date(val: number) {
-            return moment(val).format('M/D/YYYY')
-        },
-        time(val: number) {
-            return moment(val).format('h:mm:ss A')
         },
     },
 })
@@ -403,7 +393,7 @@ export default class ValidatorDataTable extends Vue {
 }
 
 .v-tab {
-    font-weight: 400; /* 700 */
+    font-weight: 400;
     text-transform: none;
     letter-spacing: 0;
 }
@@ -518,7 +508,7 @@ export default class ValidatorDataTable extends Vue {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     #validator-data-table {
         .v-data-table td,
         .v-data-table th {
@@ -576,7 +566,7 @@ export default class ValidatorDataTable extends Vue {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     #validator-data-table {
         .v-data-table td,
         .v-data-table th {

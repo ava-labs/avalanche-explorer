@@ -2,18 +2,40 @@
     <div class="utxo_col">
         <div class="utxo_label">
             <span class="index">#{{ index }} </span>
-            <span class="type">{{ utxo.outputType | getOutputType }}</span>
-            <span v-if="isMint" class="type tag minted">Minted</span>
-            <span v-if="isPVMExport || isExport || isAtomicExport" class="tag"
-                >Exported to Atomic DB</span
+            <span
+                v-if="utxo.outputType !== 7"
+                class="type tag"
+                :style="{ color: foreground }"
+                >{{ utxo.outputType | getOutputType }}</span
             >
-            <span v-if="isPVMImport || isImport || isAtomicImport" class="tag"
-                >Imported from Atomic DB</span
+            <span
+                v-if="isMint"
+                class="type tag minted"
+                :style="{ color: foreground }"
+                >Minted</span
+            >
+            <span
+                v-if="isPVMExport || isExport || isAtomicExport"
+                class="tag"
+                :style="{ color: foreground }"
+                >Exported to Atomic Memory</span
+            >
+            <span
+                v-if="isPVMImport || isImport || isAtomicImport"
+                class="tag"
+                :style="{ color: foreground }"
+                >Imported from Atomic Memory</span
             >
         </div>
         <div>
             <span v-if="amount" class="amount monospace">{{ amount }}</span>
-            <span class="symbol">{{ symbol }}</span>
+            <span class="symbol">
+                <router-link
+                    :to="`/asset/${utxo.assetID}`"
+                    class="asset_link"
+                    >{{ symbol }}</router-link
+                >
+            </span>
         </div>
     </div>
 </template>
@@ -24,7 +46,8 @@ import { Asset } from '@/js/Asset'
 import { getOutputType } from '@/services/transactions'
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { getTxChainType } from '@/store/modules/transactions/maps'
+import { getTxChainType } from '@/known_blockchains'
+import { foregroundColor } from '@/helper'
 
 @Component({
     filters: {
@@ -63,6 +86,10 @@ export default class UtxoSummary extends Vue {
     get chain(): string {
         return getTxChainType(this.utxo.chainID)!.name
     }
+
+    get foreground(): string {
+        return foregroundColor(this.chain)
+    }
 }
 </script>
 
@@ -72,5 +99,16 @@ export default class UtxoSummary extends Vue {
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+}
+
+.detail {
+    a.asset_link {
+        display: inline;
+
+        &:hover {
+            opacity: 0.7;
+            text-decoration: none;
+        }
+    }
 }
 </style>

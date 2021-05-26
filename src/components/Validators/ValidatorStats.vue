@@ -31,7 +31,7 @@
             <p class="label">
                 Staking Ratio
                 <TooltipMeta
-                    content="Percentage of AVAX locked to secure Avalanche out of total AVAX supply (360m)"
+                    content="Percentage of AVAX locked to secure Avalanche out of total AVAX supply"
                     :color="'#2196f3'"
                 />
             </p>
@@ -62,7 +62,7 @@
                     :width="2"
                     color="#E84970"
                     indeterminate
-                ></v-progress-circular>
+                />
             </div>
         </article>
     </div>
@@ -70,29 +70,30 @@
 
 <script lang="ts">
 import 'reflect-metadata'
-import { Vue, Component } from 'vue-property-decorator'
+import { Mixins, Component } from 'vue-property-decorator'
 import TooltipMeta from '@/components/Home/TopInfo/TooltipMeta.vue'
-import { stringToBig } from '@/helper'
+import { bigToDenomBig } from '@/helper'
+import { PlatformGettersMixin } from '@/store/modules/platform/platform.mixins'
 
 @Component({
     components: {
         TooltipMeta,
     },
 })
-export default class ValidatorStats extends Vue {
+export default class ValidatorStats extends Mixins(PlatformGettersMixin) {
     get subnetsLoaded(): boolean {
         return this.$store.state.Platform.subnetsLoaded
     }
 
     // Data from Avalanche-Go
     get totalStake(): string {
-        let res = this.$store.getters['Platform/totalStake']
-        res = stringToBig(res.toString(), 9).toFixed(0)
-        return parseInt(res).toLocaleString()
+        let totalStake = this.getTotalStake()
+        totalStake = bigToDenomBig(totalStake, 9)
+        return totalStake.toLocaleString(0)
     }
 
-    get percentStaked(): string {
-        return this.$store.getters['Platform/stakingRatio']
+    get percentStaked() {
+        return this.getStakingRatio()
     }
 
     get annualStakingRewardPercentage(): string {
@@ -163,11 +164,10 @@ h3 {
 
         .meta_val {
             font-size: 36px;
-            font-weight: 300;
             line-height: 1em;
 
             .unit {
-                font-family: 'Rubik', sans-serif;
+                font-family: 'Inter', sans-serif;
                 font-size: 12px;
                 opacity: 0.7;
             }

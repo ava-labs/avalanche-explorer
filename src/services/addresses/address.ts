@@ -1,7 +1,7 @@
 import { stringToBig } from '@/helper'
 import { Asset } from '@/js/Asset'
 import { IAssetDataOrtelius, IAssetDataAvalancheGo } from '@/js/IAsset'
-import { AVAX_ID } from '@/store'
+import { AVAX_ID } from '@/known_assets'
 import { IBalanceX, IBalanceXData, IBalanceXDatum } from './models'
 import Big from 'big.js'
 

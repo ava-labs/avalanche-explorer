@@ -7,6 +7,7 @@ export interface TransactionsState {
     recentTxRes: TransactionQuery
     assetTxRes: TransactionQuery
     addressTxRes: TransactionQuery
+    blockchainTxRes: TransactionQuery
 }
 
 /* ==========================================
@@ -147,6 +148,7 @@ export interface OutputResponse {
     stake: boolean // if true, UTXO was in the staking output set (ins/outs/staking)
     stakeableout: boolean // if true, UTXO is/was subject to vesting. connected to stakeLocktime
     stakeLocktime: number // if before stakeLockTime, UTXO is vesting (locked), and can only used as input UTXO to stake in addValidator/addDelegator tx
+    rewardUtxo: boolean // if true, this UTXO is the validation/delegation reward
 
     // RELEVANT TO X-CHAIN
     genesisutxo: boolean
@@ -156,7 +158,7 @@ export interface OutputResponse {
     payload: string | null // NFTs
 
     // RELEVANT TO P-CHAIN & X-CHAIN
-    addresses: string[] // notice the output UTXO address is blank. build an exception for c-chain
+    addresses: string[] // notice the output UTXO address is blank. an exception for c-chain is handled in the transaction class
 
     // RELEVANT TO C-CHAIN
     caddresses: string[]

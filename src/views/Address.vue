@@ -5,16 +5,15 @@
             v-if="loading && !requestError"
             :content-id="addressID"
             :message="'Fetching Address Details'"
-        ></Loader>
-        <!-- ADDRESS SUMMARY -->
-        <Metadata
+        />
+        <AddressSummary
             v-if="metadata && !requestError && assetsLoaded === true"
             :meta-data="metadata"
             :address-i-d="addressID"
             :alias="alias"
             :assets="assets"
             :prefix="prefix"
-        ></Metadata>
+        />
         <HTTPError
             v-if="!loading && requestError"
             :id="addressID"
@@ -22,20 +21,19 @@
             :status="requestErrorStatus"
             :message="requestErrorMessage"
             :support-u-r-l="'https://chat.avalabs.org'"
-        >
-        </HTTPError>
+        />
         <!-- TRANSACTIONS -->
         <section v-if="!loading && !txRequestError" class="card transactions">
             <div class="header">
-                <TransactionsHeader></TransactionsHeader>
-                <TxParams @change="fetchTx"></TxParams>
+                <TransactionsHeader />
+                <TxParams @change="fetchTx" />
             </div>
             <div class="two-col">
-                <TxFilter @change="setFilter"></TxFilter>
+                <TxFilter :chains="chains" @change="setFilter" />
                 <div class="right">
                     <!-- LOAD -->
                     <template v-if="!txLoading && assetsLoaded">
-                        <TxTableHead></TxTableHead>
+                        <TxTableHead />
                         <v-alert
                             v-if="filteredTransactions.length === 0"
                             color="#e6f5ff"
@@ -45,12 +43,12 @@
                         </v-alert>
                         <div v-else class="rows">
                             <transition-group name="fade" mode="out-in">
-                                <tx-row
+                                <TxRow
                                     v-for="tx in filteredTransactions"
                                     :key="tx.id"
                                     class="tx_item"
                                     :transaction="tx"
-                                ></tx-row>
+                                />
                             </transition-group>
                         </div>
                     </template>
@@ -61,7 +59,7 @@
                         :width="2"
                         color="#E84970"
                         indeterminate
-                    ></v-progress-circular>
+                    />
                 </div>
             </div>
         </section>
@@ -73,8 +71,7 @@
             :message="txRequestErrorMessage"
             :support-u-r-l="'https://chat.avalabs.org'"
             :is-margin="true"
-        >
-        </HTTPError>
+        />
     </div>
 </template>
 
@@ -83,7 +80,7 @@ import 'reflect-metadata'
 import { Component, Watch, Mixins } from 'vue-property-decorator'
 import Loader from '@/components/misc/Loader.vue'
 import Tooltip from '@/components/rows/Tooltip.vue'
-import Metadata from '@/components/Address/Metadata.vue'
+import AddressSummary from '@/components/Address/AddressSummary.vue'
 import TxTableHead from '@/components/rows/TxRow/TxTableHead.vue'
 import TxRow from '@/components/rows/TxRow/TxRow.vue'
 import AddressDict from '@/known_addresses'
@@ -97,7 +94,7 @@ import { ITransactionParams } from '@/services/transactions'
 import TxFilter from '@/components/Transaction/TxFilter.vue'
 import TxParams from '@/components/Transaction/TxParams.vue'
 import { TransactionsGettersMixin } from '@/store/modules/transactions/transactions.mixins'
-import { XCHAINID, CCHAINID } from '@/known_blockchains'
+import { P, X, C } from '@/known_blockchains'
 import { getNullAddress } from '@/helper'
 
 @Component({
@@ -105,7 +102,7 @@ import { getNullAddress } from '@/helper'
         Loader,
         Tooltip,
         HTTPError,
-        Metadata,
+        AddressSummary,
         TransactionsHeader,
         DateForm,
         TxTableHead,
@@ -113,15 +110,6 @@ import { getNullAddress } from '@/helper'
         TxHeader,
         TxFilter,
         TxParams,
-    },
-    filters: {
-        pluralize(val: number) {
-            return val === 0
-                ? `${val} assets`
-                : val > 1
-                ? `${val} assets`
-                : `${val} asset`
-        },
     },
 })
 export default class AddressPage extends Mixins(TransactionsGettersMixin) {
@@ -209,6 +197,10 @@ export default class AddressPage extends Mixins(TransactionsGettersMixin) {
         this.filters = val
     }
 
+    get chains() {
+        return [P, X, C]
+    }
+
     get transactions() {
         return this.getTxsByAddress()
     }
@@ -236,7 +228,7 @@ export default class AddressPage extends Mixins(TransactionsGettersMixin) {
             // this is so we do not double count the P-chain AVAX balance
             const params = {
                 address: this.addressID,
-                chainID: [XCHAINID, CCHAINID],
+                chainID: [X.id, C.id],
             }
 
             try {

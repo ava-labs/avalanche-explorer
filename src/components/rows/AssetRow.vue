@@ -34,7 +34,7 @@ export default {
 
     p {
         width: 100%;
-        font-weight: 400; /* 700 */
+        font-weight: 400;
         color: #272727;
     }
 }

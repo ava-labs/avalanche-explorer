@@ -6,29 +6,61 @@
                 <span class="label">You are viewing transactions for</span>
                 <v-tooltip>
                     <template v-slot:activator="{ on }">
-                        <span class="tag" v-on="on">X-Chain</span>
+                        <span
+                            class="chain_tag"
+                            :style="{
+                                backgroundColor: pChain.darkColor,
+                            }"
+                            v-on="on"
+                            >{{ pChain.name }}</span
+                        >
                     </template>
                     <span
-                        >The X-Chain acts as a decentralized platform for
-                        creating and trading smart digital assets. (Think X for
-                        eXchanging assets.)</span
+                        >The P-Chain is the metadata blockchain on Avalanche,
+                        managing validators and custom subnets. Validators stake
+                        AVAX on the P-Chain to secure the network.</span
                     >
                 </v-tooltip>
                 <v-tooltip>
                     <template v-slot:activator="{ on }">
-                        <span class="tag margin-left" v-on="on">P-Chain</span>
+                        <span
+                            class="chain_tag margin-left"
+                            :style="{
+                                backgroundColor: xChain.darkColor,
+                            }"
+                            v-on="on"
+                            >{{ xChain.name }}</span
+                        >
                     </template>
-                    <span></span>
+                    <span
+                        >The X-Chain is the default asset blockchain on
+                        Avalanche enabling the creation and instant exchange of
+                        assets. This blockchain is for transfers that benefit
+                        from high-throughput and instant finality. Think X for
+                        eXchanging assets.
+                    </span>
                 </v-tooltip>
                 <v-tooltip>
                     <template v-slot:activator="{ on }">
-                        <span class="tag margin-left" v-on="on">C-Chain</span>
+                        <span
+                            class="chain_tag margin-left"
+                            :style="{
+                                backgroundColor: cChain.darkColor,
+                            }"
+                            v-on="on"
+                            >{{ cChain.name }}</span
+                        >
                     </template>
-                    <span></span>
+                    <span
+                        >The C-Chain is the default smart contract blockchain on
+                        Avalanche and enables the creation of any
+                        Ethereum-compatible applications and assets with lower
+                        fees and faster transactions.</span
+                    >
                 </v-tooltip>
             </p>
         </div>
-        <div v-if="$vuetify.breakpoint.smAndUp" class="right" bottom>
+        <div class="right" bottom>
             <v-btn
                 :loading="loading"
                 :text="true"
@@ -38,15 +70,16 @@
                 <fa icon="sync"></fa>
                 <span class="ava-btn-label">Refresh</span>
             </v-btn>
-            <router-link to="/tx" class="view_all"
-                >View All Transactions</router-link
-            >
+            <v-btn :text="true" class="ava_btn" @click="goToTx">
+                View All Transactions
+            </v-btn>
         </div>
     </div>
 </template>
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
+import { P, X, C, getTxChainType } from '@/known_blockchains'
 
 @Component({
     components: {},
@@ -57,6 +90,22 @@ export default class RecentTxHeader extends Vue {
 
     updateTx() {
         this.$emit('update')
+    }
+
+    get xChain() {
+        return getTxChainType(X.id)
+    }
+
+    get pChain() {
+        return getTxChainType(P.id)
+    }
+
+    get cChain() {
+        return getTxChainType(C.id)
+    }
+
+    goToTx() {
+        this.$router.push('/tx')
     }
 }
 </script>
@@ -73,13 +122,16 @@ export default class RecentTxHeader extends Vue {
     padding-left: 8px;
 }
 
+.chain_tag {
+}
+
 .header {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
 
     h2 {
-        padding-bottom: 2px;
+        padding-bottom: 10px;
     }
 
     .refresh {
@@ -113,7 +165,7 @@ export default class RecentTxHeader extends Vue {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .header {
         display: flex;
         flex-direction: column;
@@ -126,10 +178,11 @@ export default class RecentTxHeader extends Vue {
         }
 
         .right {
+            padding: 15px 0;
             width: 100%;
             display: flex;
             flex-direction: row;
-            justify-content: flex-start;
+            justify-content: center;
             align-content: center;
         }
     }

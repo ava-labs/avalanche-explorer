@@ -12,7 +12,7 @@
                 </router-link>
             </div>
             <div class="buttons">
-                <NetworkMenu></NetworkMenu>
+                <NetworkMenu />
                 <v-btn icon class="search_btn" @click="isSearch = !isSearch">
                     <fa icon="search"></fa>
                 </v-btn>
@@ -54,12 +54,12 @@
         >
             <v-card>
                 <div v-if="isSearch" class="search_container">
-                    <search-bar-mobile
+                    <SearchBarMobile
                         class="search_bar"
                         placeholder="Search by Address / TxId / Asset"
                         @search="onsearch"
                         @change="closeSearch"
-                    ></search-bar-mobile>
+                    />
                 </div>
             </v-card>
         </v-dialog>
@@ -121,6 +121,7 @@ export default class NavbarMobile extends Vue {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
     background-color: $white;
+    border-bottom: 1px solid #c4c4c4;
 
     > .v-toolbar__content {
         padding: 0;
@@ -204,7 +205,7 @@ export default class NavbarMobile extends Vue {
 
 a {
     text-decoration: none;
-    font-weight: 400; /* 700 */
+    font-weight: 400;
     white-space: nowrap;
     margin-right: 15px;
 }
@@ -231,7 +232,7 @@ a {
 }
 
 button {
-    font-weight: 400; /* 700 */
+    font-weight: 400;
 }
 
 /* ==========================================

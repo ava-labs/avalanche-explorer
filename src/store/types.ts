@@ -4,6 +4,8 @@ import {
 } from '@/store/modules/transactions/models'
 import { Asset } from '@/js/Asset'
 import { ICollisionMap } from '@/js/IAsset'
+import { PlatformState } from './modules/platform/models'
+import { Price } from '@/services/price'
 
 export interface IRootState {
     assets: {
@@ -20,5 +22,8 @@ export interface IRootState {
         [key: string]: boolean
     }
     collisionMap: ICollisionMap
+    pricesLoaded: boolean
+    prices: Price | null
     Transactions: TransactionsState
+    Platform: PlatformState
 }

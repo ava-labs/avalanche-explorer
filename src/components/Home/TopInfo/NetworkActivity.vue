@@ -1,215 +1,205 @@
 <template>
     <div id="network_statistics" class="card">
         <div class="header">
-            <h2 class="meta_title">
-                Avalanche Network Activity
-                <!-- <TooltipHeading content="Key Avalanche stats" :color="'#2196f3'"></TooltipHeading> -->
-            </h2>
+            <h2 class="top_info_heading">Avalanche Network Activity</h2>
         </div>
         <section class="stats one-column">
-            <!-- <article class="meta">
-                <router-link class="stat" to="/tx">
-                    <p class="label">
+            <!-- <dl>
+                <router-link class="link" to="/tx">
+                    <dd class="indent">
                         24h Transactions
                         <TooltipMeta
                             content="Total number of state queries or modifications of all blockchains on Avalanche in the past 24 hours"
                             :color="'#2196f3'"
-                        ></TooltipMeta>
-                    </p>
-                    <div v-if="assetsLoaded">
-                        <p class="meta_val">
+                        />
+                    </dd>
+                    <dt>
+                        <template v-if="subnetsLoaded">
                             {{totalTransactions.toLocaleString()}}
                             <span class="unit">{{tpmText}} TPM</span>
-                        </p>
-                    </div>
-                    <div v-else>
-                        <v-progress-circular :size="16" :width="2" color="#E84970" indeterminate key="1"></v-progress-circular>
-                    </div>
+                        </template>
+                        <v-progress-circular v-else :size="16" :width="2" color="#E84970" indeterminate key="1"/>                        
+                    </dt>                    
                 </router-link>
-            </article> -->
-            <article class="meta">
-                <router-link class="stat" to="/assets">
-                    <p class="label">
+            </dl> -->
+            <dl>
+                <router-link class="link" to="/assets">
+                    <dd class="indent">
                         24h Volume
                         <TooltipMeta
                             content="Total value of AVAX transferred on Avalanche in the past 24 hours"
                             :color="'#2196f3'"
-                        ></TooltipMeta>
-                    </p>
-                    <div v-if="assetsLoaded">
-                        <p class="meta_val">
+                        />
+                    </dd>
+                    <dt>
+                        <template v-if="subnetsLoaded">
                             {{ avaxVolume }}
                             <span class="unit">AVAX</span>
-                        </p>
-                    </div>
-                    <div v-else>
+                        </template>
                         <v-progress-circular
+                            v-else
                             key="1"
                             :size="16"
                             :width="2"
                             color="#E84970"
                             indeterminate
-                        ></v-progress-circular>
-                    </div>
+                        />
+                    </dt>
                 </router-link>
-            </article>
+            </dl>
         </section>
         <section class="stats two-column">
-            <article class="meta">
-                <router-link class="stat" to="/validators">
-                    <p class="label">
+            <dl>
+                <router-link class="link" to="/validators">
+                    <dd>
                         Validators
                         <TooltipMeta
                             content="Total number of nodes validating transactions on Avalanche"
                             :color="'#2196f3'"
-                        ></TooltipMeta>
-                    </p>
-                    <div v-if="subnetsLoaded">
-                        <p class="meta_val">
+                        />
+                    </dd>
+                    <dt>
+                        <template v-if="subnetsLoaded">
                             {{ validatorCount.toLocaleString() }}
-                        </p>
-                    </div>
-                    <div v-else>
+                        </template>
                         <v-progress-circular
+                            v-else
                             key="1"
                             :size="16"
                             :width="2"
                             color="#E84970"
                             indeterminate
-                        ></v-progress-circular>
-                    </div>
+                        />
+                    </dt>
                 </router-link>
-            </article>
-            <article class="meta">
-                <router-link class="stat" to="/validators">
-                    <p class="label">
+            </dl>
+            <dl>
+                <router-link class="link" to="/validators">
+                    <dd>
                         Total Staked
                         <TooltipMeta
                             content="Total value of AVAX locked to secure Avalanche"
                             :color="'#2196f3'"
-                        ></TooltipMeta>
-                    </p>
-                    <div v-if="subnetsLoaded">
-                        <p class="meta_val">
+                        />
+                    </dd>
+                    <dt>
+                        <template v-if="subnetsLoaded">
                             {{ totalStake }}
-                            <span class="unit">AVAX</span>
-                        </p>
-                    </div>
-                    <div v-else>
+                            <span class="unit">AVAX</span></template
+                        >
                         <v-progress-circular
+                            v-else
                             key="1"
                             :size="16"
                             :width="2"
                             color="#E84970"
                             indeterminate
-                        ></v-progress-circular>
-                    </div>
+                        />
+                    </dt>
                 </router-link>
-            </article>
-            <article class="meta">
-                <router-link class="stat" to="/blockchains">
-                    <p class="label">
+            </dl>
+            <dl>
+                <router-link class="link" to="/blockchains">
+                    <dd>
                         Blockchains
                         <TooltipMeta
                             content="Total number of blockchains on Avalanche"
                             :color="'#2196f3'"
-                        ></TooltipMeta>
-                    </p>
-                    <div v-if="subnetsLoaded">
-                        <p class="meta_val">
-                            {{ totalBlockchains }}
-                        </p>
-                    </div>
-                    <div v-else>
+                        />
+                    </dd>
+                    <dt>
+                        <template v-if="subnetsLoaded">{{
+                            totalBlockchains
+                        }}</template>
                         <v-progress-circular
+                            v-else
                             key="1"
                             :size="16"
                             :width="2"
                             color="#E84970"
                             indeterminate
-                        ></v-progress-circular>
-                    </div>
+                        />
+                    </dt>
                 </router-link>
-            </article>
-            <article class="meta">
-                <router-link class="stat" to="/subnets">
-                    <p class="label">
+            </dl>
+            <dl>
+                <router-link class="link" to="/subnets">
+                    <dd>
                         Subnets
                         <TooltipMeta
                             content="Total number of subnets on Avalanche"
                             :color="'#2196f3'"
-                        ></TooltipMeta>
-                    </p>
-                    <div v-if="subnetsLoaded">
-                        <p class="meta_val">
-                            {{ totalSubnets }}
-                        </p>
-                    </div>
-                    <div v-else>
+                        />
+                    </dd>
+                    <dt>
+                        <template v-if="subnetsLoaded">{{
+                            totalSubnets
+                        }}</template>
                         <v-progress-circular
+                            v-else
                             key="1"
                             :size="16"
                             :width="2"
                             color="#E84970"
                             indeterminate
-                        ></v-progress-circular>
-                    </div>
+                        />
+                    </dt>
                 </router-link>
-            </article>
-            <article class="meta">
-                <router-link class="stat" to="/subnets">
-                    <p class="label">
+            </dl>
+            <dl>
+                <router-link class="link" to="/subnets">
+                    <dd>
                         Staking Ratio
                         <TooltipMeta
-                            content="Percentage of AVAX locked to secure Avalanche out of total AVAX supply (360m)"
+                            content="Percentage of AVAX locked to secure Avalanche out of total AVAX supply"
                             :color="'#2196f3'"
-                        ></TooltipMeta>
-                    </p>
-                    <div v-if="subnetsLoaded">
-                        <p class="meta_val">{{ percentStaked }}%</p>
-                    </div>
-                    <div v-else>
+                        />
+                    </dd>
+                    <dt>
+                        <template v-if="subnetsLoaded"
+                            >{{ percentStaked }}%</template
+                        >
                         <v-progress-circular
+                            v-else
                             key="1"
                             :size="16"
                             :width="2"
                             color="#E84970"
                             indeterminate
-                        ></v-progress-circular>
-                    </div>
+                        />
+                    </dt>
                 </router-link>
-            </article>
-            <article class="meta">
-                <router-link class="stat" to="/subnets">
-                    <p class="label">Annual Staking Reward</p>
-                    <div v-if="subnetsLoaded">
-                        <p class="meta_val">
-                            {{ annualStakingRewardPercentage }}
-                        </p>
-                    </div>
-                    <div v-else>
+            </dl>
+            <dl>
+                <router-link class="link" to="/subnets">
+                    <dd>Annual Staking Reward</dd>
+                    <dt>
+                        <template v-if="subnetsLoaded">{{
+                            annualStakingRewardPercentage
+                        }}</template>
                         <v-progress-circular
+                            v-else
                             key="1"
                             :size="16"
                             :width="2"
                             color="#E84970"
                             indeterminate
-                        ></v-progress-circular>
-                    </div>
+                        />
+                    </dt>
                 </router-link>
-            </article>
+            </dl>
         </section>
     </div>
 </template>
 <script lang="ts">
 import 'reflect-metadata'
-import { Vue, Component, Watch } from 'vue-property-decorator'
-import { stringToBig } from '@/helper'
-import TooltipHeading from '../../misc/TooltipHeading.vue'
-import TooltipMeta from '../TopInfo/TooltipMeta.vue'
-import { AVAX_ID } from '@/store/index'
+import { Mixins, Component, Watch } from 'vue-property-decorator'
+import TooltipHeading from '@/components/misc/TooltipHeading.vue'
+import TooltipMeta from '@/components/Home/TopInfo/TooltipMeta.vue'
+import { AVAX_ID } from '@/known_assets'
 import { Asset } from '@/js/Asset'
 import Big from 'big.js'
+import { PlatformGettersMixin } from '@/store/modules/platform/platform.mixins'
 
 @Component({
     components: {
@@ -217,7 +207,7 @@ import Big from 'big.js'
         TooltipMeta,
     },
 })
-export default class NetworkActivity extends Vue {
+export default class NetworkActivity extends Mixins(PlatformGettersMixin) {
     volumeCache: Big = Big(0)
     totalTransactionsCache = 0
 
@@ -326,25 +316,23 @@ export default class NetworkActivity extends Vue {
 
     // Data from Avalanche-Go
     get totalStake(): string {
-        let res = this.$store.getters['Platform/totalStake']
-        res = stringToBig(res.toString(), 9).toFixed(0)
-        return parseInt(res).toLocaleString()
+        return this.getTotalStake().div(Math.pow(10, 9)).toLocaleString(0)
     }
 
     get validatorCount(): number {
-        return this.$store.getters['Platform/totalValidators']
+        return this.getTotalValidators()
     }
 
     get totalBlockchains(): number {
-        return this.$store.getters['Platform/totalBlockchains']
+        return this.getTotalBlockchains()
     }
 
     get totalSubnets(): number {
         return Object.keys(this.$store.state.Platform.subnets).length
     }
 
-    get percentStaked(): number {
-        return this.$store.getters['Platform/stakingRatio']
+    get percentStaked() {
+        return this.getStakingRatio()
     }
 
     get annualStakingRewardPercentage(): string {
@@ -364,14 +352,11 @@ export default class NetworkActivity extends Vue {
 
 .one-column {
     grid-template-columns: 1fr;
-    row-gap: 30px;
-    margin-bottom: 25px;
-    padding-bottom: 15px !important;
-    border-bottom: 1px solid $primary-color-xlight;
+    row-gap: 24px;
+    margin-bottom: 24px;
 
-    .meta {
-        .meta_val {
-            padding-top: 10px;
+    dl {
+        dt {
             font-size: 36px;
 
             .unit {
@@ -383,11 +368,11 @@ export default class NetworkActivity extends Vue {
 
 .two-column {
     grid-template-columns: minmax(0, 0.75fr) minmax(0, 1fr);
-    row-gap: 30px;
-    column-gap: 30px;
+    row-gap: 24px;
+    column-gap: 24px;
 
-    .meta {
-        .meta_val {
+    dl {
+        dt {
             font-size: 20px;
         }
     }
@@ -395,121 +380,56 @@ export default class NetworkActivity extends Vue {
 
 .stats {
     display: grid;
-    padding: 4px 0 0;
     flex-wrap: wrap;
     overflow: auto;
 
-    /* hyperlink */
-    .meta {
-        font-size: 12px;
-        display: flex;
-        flex-grow: 1;
-        justify-content: flex-start;
-        flex-wrap: wrap;
-        font-weight: 700;
-
-        .stat {
-            display: flex;
-            flex-direction: column;
-
+    dl {
+        .link {
             &:hover {
                 text-decoration: none !important;
                 opacity: 0.7;
             }
         }
+    }
+}
 
-        .stat > div {
-            display: flex;
-        }
+@include smOrSmaller {
+    .header {
+        padding-bottom: 24px;
+    }
 
-        p {
-            padding: 2px 0;
-            font-weight: 400;
-        }
+    .one-column {
+        margin-bottom: 0;
+    }
 
-        .label {
-            text-transform: capitalize;
-            /* color: $blue; */
-            font-size: 12px;
-            font-weight: 700;
-            margin-bottom: 6px;
-            padding-left: 3px;
-        }
+    .one-column,
+    .two-column {
+        row-gap: 0;
+        column-gap: 0;
 
-        .meta_val {
-            font-weight: 300;
-            /* color: $blue; */
-            line-height: 1em;
+        dl {
+            dd {
+                font-size: var(--f-size);
+            }
 
-            .unit {
-                font-family: 'Rubik', sans-serif;
-                font-size: 12px;
-                opacity: 0.7;
+            dt {
+                font-size: var(--f-size);
+                .unit {
+                    font-size: 15px !important;
+                }
             }
         }
     }
-}
 
-@include mdOnly {
-    .stats {
-        img {
-            width: 24px;
-        }
-    }
-}
-
-@include smOnly {
     .stats {
         grid-template-columns: 50% 50%;
         grid-template-rows: max-content;
-
-        > div {
-            padding: 30px 0 0;
-        }
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .stats {
         grid-template-columns: none;
-
-        .one-column {
-            grid-template-columns: 1fr;
-            row-gap: 45px;
-            margin-bottom: 45px;
-
-            .meta {
-                .meta_val {
-                    font-size: 20px;
-
-                    .unit {
-                        font-size: 14px !important;
-                    }
-                }
-            }
-        }
-
-        .two-column {
-            .meta {
-                .meta_val {
-                    font-size: 20px;
-                }
-            }
-        }
-
-        .stat {
-            .label {
-                font-size: 13px;
-            }
-
-            .meta_val {
-                font-size: 20px;
-
-                .unit {
-                    font-size: 14px !important;
-                }
-            }
-        }
     }
 }
 </style>

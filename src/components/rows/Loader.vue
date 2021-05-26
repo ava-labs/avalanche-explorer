@@ -5,7 +5,7 @@
             :width="2"
             color="#E84970"
             indeterminate
-        ></v-progress-circular>
+        />
     </div>
 </template>
 <script>

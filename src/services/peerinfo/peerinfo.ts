@@ -2,10 +2,13 @@ import chroma from 'chroma-js'
 import { IVersion } from '.'
 
 /**
- * Excludes 'offline' nodes
+ * For bar chart
+ * Excludes 'offline' and 0 nodeCount
  */
 export function getVersionsOnly(peerInfo: IVersion[]) {
-    return peerInfo.filter((i) => i.version !== 'offline')
+    return peerInfo
+        .filter((i) => i.version !== 'offline')
+        .filter((i) => i.nodeCount !== 0)
 }
 
 /**
@@ -38,9 +41,9 @@ export const lower = '#f5f6fa'
 export const brightnessFactor = 0.5
 
 /**
- * categorical and continuous colorscale for major.minor.patch versions
- * each major.minor version is a categorical color
- * patches follow a continuous scale of the categorical color
+ * colorscale for major.minor.patch
+ * each major.minor is a categorical color ("pink")
+ * patches are a continuous scale (dark to light "pink")
  * @param datamap
  */
 export function getVersionsColorMap(datamap: any) {
@@ -62,9 +65,17 @@ export function getVersionsColorMap(datamap: any) {
     return colors
 }
 
+/**
+ * For pie chart
+ * Excludes versions with 0 stakeAmount
+ */
+export function getStakesOnly(peerInfo: IVersion[]) {
+    return peerInfo.filter((i) => i.stakeAmount > 0)
+}
+
 export function getTotalStake(peerInfo: IVersion[]) {
-    const allVersions = getVersionsOnly(peerInfo)
-    return allVersions
+    const allStakes = getStakesOnly(peerInfo)
+    return allStakes
         .map((item) => item.stakeAmount)
         .reduce((acc, val) => acc + val)
 }

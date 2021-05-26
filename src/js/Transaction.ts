@@ -9,7 +9,7 @@ import {
     OutputTotal,
 } from '@/store/modules/transactions/models'
 import { stringToBig } from '@/helper'
-import { txTypeMap, txChainTypeMap } from '@/store/modules/transactions/maps'
+import { txChainTypeMap } from '@/known_blockchains'
 
 function getOutput(output: OutputResponse): Output {
     return {
@@ -19,10 +19,6 @@ function getOutput(output: OutputResponse): Output {
     }
 }
 
-export function getMappingForType(type: string) {
-    return txTypeMap.get(type) || 'Unknown'
-}
-
 export function getTransactionChainType(chainID: string) {
     return txChainTypeMap.get(chainID)
 }
@@ -30,6 +26,7 @@ export function getTransactionChainType(chainID: string) {
 export function getTransactionOutputs(outputs: Output[]) {
     return outputs.map((output) => {
         const chainType = getTransactionChainType(output.chainID)
+        // switch for addresses (bech32) or caddresses (hex)
         const addresses =
             output.addresses !== null ? output.addresses : output.caddresses
         const prefix = output.addresses !== null ? `${chainType?.code}-` : ``
@@ -55,7 +52,7 @@ export function getTransactionInputs(inputs: Input[]) {
 
 export interface DisplayAddress {
     address: string
-    displayAddress: string
+    displayAddress: string | undefined
 }
 
 export class Transaction implements ITransaction {

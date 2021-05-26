@@ -1,71 +1,70 @@
 <template>
     <div class="detail">
-        <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
-        <Metadata v-if="asset" :asset="asset"></Metadata>
-
-        <!-- TRANSACTIONS -->
-        <section v-if="!txLoading && !txRequestError" class="card transactions">
-            <header class="header">
-                <TxHeader></TxHeader>
-                <TxParams @change="fetchTx"></TxParams>
-            </header>
-            <div class="two-col">
-                <TxFilter @change="setFilter"></TxFilter>
-                <div class="right">
-                    <!-- LOAD -->
-                    <template v-if="!txLoading && assetsLoaded">
-                        <TxTableHead></TxTableHead>
-                        <v-alert
-                            v-if="filteredTransactions.length === 0"
-                            color="#e6f5ff"
-                            dense
-                        >
-                            There are no matching entries
-                        </v-alert>
-                        <div v-else class="rows">
-                            <transition-group name="fade" mode="out-in">
-                                <tx-row
-                                    v-for="tx in filteredTransactions"
-                                    :key="tx.id"
-                                    class="tx_item"
-                                    :transaction="tx"
-                                ></tx-row>
-                            </transition-group>
-                        </div>
-                    </template>
-                    <v-progress-circular
-                        v-else
-                        key="1"
-                        :size="16"
-                        :width="2"
-                        color="#E84970"
-                        indeterminate
-                    ></v-progress-circular>
-                </div>
-            </div>
-        </section>
-        <HTTPError
-            v-if="!txLoading && txRequestError"
-            :id="assetID"
-            :title="'There was an error fetching asset transactions.'"
-            :status="txRequestErrorStatus"
-            :message="txRequestErrorMessage"
-            :support-u-r-l="'https://chat.avalabs.org'"
-            :is-margin="true"
-        >
-        </HTTPError>
-
-        <!-- TX GENESIS -->
-        <template v-if="!genesisTx">
-            <Loader
-                :content-id="assetID"
-                :message="'Fetching Asset Details'"
-            ></Loader>
-        </template>
+        <v-breadcrumbs :items="breadcrumbs" />
+        <Loader
+            v-if="loading"
+            :content-id="assetID"
+            :message="'Fetching Asset Details'"
+        />
         <template v-else>
-            <TransactionDetailCard :tx="genesisTx"
-                >Asset Genesis Details</TransactionDetailCard
+            <AssetSummary
+                v-if="asset && genesisTx"
+                :asset="asset"
+                :genesis-tx="genesisTx"
+            />
+            <!-- TRANSACTIONS -->
+            <section
+                v-if="!txLoading && !txRequestError"
+                class="card transactions"
             >
+                <header class="header">
+                    <TxHeader />
+                    <TxParams @change="fetchTx" />
+                </header>
+                <div class="two-col">
+                    <TxFilter :chains="chains" @change="setFilter" />
+                    <div class="right">
+                        <!-- LOAD -->
+                        <template v-if="!txLoading && assetsLoaded">
+                            <TxTableHead />
+                            <v-alert
+                                v-if="filteredTransactions.length === 0"
+                                color="#e6f5ff"
+                                dense
+                            >
+                                There are no matching entries
+                            </v-alert>
+                            <div v-else class="rows">
+                                <transition-group name="fade" mode="out-in">
+                                    <TxRow
+                                        v-for="tx in filteredTransactions"
+                                        :key="tx.id"
+                                        class="tx_item"
+                                        :transaction="tx"
+                                    />
+                                </transition-group>
+                            </div>
+                        </template>
+                        <v-progress-circular
+                            v-else
+                            key="1"
+                            :size="16"
+                            :width="2"
+                            color="#E84970"
+                            indeterminate
+                        />
+                    </div>
+                </div>
+            </section>
+            <HTTPError
+                v-if="!txLoading && txRequestError"
+                :id="assetID"
+                :title="'There was an error fetching asset transactions.'"
+                :status="txRequestErrorStatus"
+                :message="txRequestErrorMessage"
+                :support-u-r-l="'https://chat.avalabs.org'"
+                :is-margin="true"
+            />
         </template>
     </div>
 </template>
@@ -74,8 +73,8 @@
 import 'reflect-metadata'
 import { Component, Watch, Mixins } from 'vue-property-decorator'
 import Loader from '@/components/misc/Loader.vue'
-import Metadata from '@/components/Asset/Metadata.vue'
-import TransactionDetailCard from '@/components/TransactionSummary.vue'
+import AssetSummary from '@/components/Asset/AssetSummary.vue'
+import TransactionSummary from '@/components/Transaction/TransactionSummary.vue'
 import PaginationControls from '@/components/misc/PaginationControls.vue'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import TxTableHead from '@/components/rows/TxRow/TxTableHead.vue'
@@ -88,22 +87,26 @@ import TxHeader from '@/components/Transaction/TxHeader.vue'
 import { TransactionsGettersMixin } from '@/store/modules/transactions/transactions.mixins'
 import TxFilter from '@/components/Transaction/TxFilter.vue'
 import TxParams from '@/components/Transaction/TxParams.vue'
+import HTTPError from '@/components/misc/HTTPError.vue'
+import { P, X, C } from '@/known_blockchains'
 
 @Component({
     components: {
         Loader,
-        Metadata,
+        AssetSummary,
         PaginationControls,
-        TransactionDetailCard,
+        TransactionSummary,
         Tooltip,
         TxTableHead,
         TxRow,
         TxHeader,
         TxFilter,
         TxParams,
+        HTTPError,
     },
 })
 export default class AssetPage extends Mixins(TransactionsGettersMixin) {
+    loading = false
     genesisTx: Transaction | null = null
     // txs
     txLoading = false
@@ -176,6 +179,10 @@ export default class AssetPage extends Mixins(TransactionsGettersMixin) {
         this.filters = val
     }
 
+    get chains() {
+        return [P, X, C]
+    }
+
     get transactions() {
         return this.getTxsByAsset()
     }
@@ -186,12 +193,12 @@ export default class AssetPage extends Mixins(TransactionsGettersMixin) {
         })
     }
 
-    // get address details, txs, and genesis tx
     getData(params: ITransactionParams): void {
+        this.loading = true
         this.txLoading = true
 
         if (this.assetsLoaded) {
-            // Get genesis tx
+            // Get address details and genesis tx
             Promise.all([getTransaction(this.txId), getAssetInfo(this.txId)])
                 .then(([transactionInfo, assetInfo]) => {
                     return {
@@ -200,10 +207,12 @@ export default class AssetPage extends Mixins(TransactionsGettersMixin) {
                     }
                 })
                 .then((data) => {
+                    this.loading = false
                     const tx = new Transaction(data)
                     this.genesisTx = tx
                 })
                 .catch((err) => {
+                    this.loading = false
                     console.log(err)
                 })
 
@@ -218,6 +227,7 @@ export default class AssetPage extends Mixins(TransactionsGettersMixin) {
                 id: null,
                 params: {
                     assetID: this.assetID,
+                    chainID: [P.id, C.id, X.id],
                     ...params,
                 },
             })
@@ -245,7 +255,7 @@ $symbol_w: 35px;
     background-color: #f1f2f3;
     color: #000;
     font-size: 14px;
-    font-weight: 400; /* 700 */
+    font-weight: 400;
     box-sizing: border-box;
     height: $symbol_w;
     width: $symbol_w;
@@ -256,7 +266,7 @@ $symbol_w: 35px;
     margin-top: 30px;
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .asset_genesis {
         margin-top: 10px;
     }

@@ -1,0 +1,149 @@
+/* ==========================================
+   detail pages
+   ========================================== */
+.detail {
+    header {
+        margin-bottom: 20px;
+    }
+
+    a {
+        overflow: hidden;
+        display: block;
+        text-overflow: ellipsis;
+        color: $primary-color;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    > div {
+        position: relative;
+    }
+}
+
+.two_column {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 30px;
+}
+
+.meta {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    .meta_row {
+        display: grid;
+        grid-template-columns: 140px 1fr;
+        font-size: 14px;
+        overflow-x: scroll;
+        padding: 15px 0;
+        // border-bottom: 1px solid $gray-xlight;
+
+        &:last-of-type {
+            padding-bottom: 0;
+            border: none;
+        }
+
+        .meta_label {
+            display: inline-block;
+            margin-top: 2px;
+            margin-right: 16px;
+            text-align: right;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .meta_value {
+            // ADDRESS DETAIL
+            .addr {
+                text-overflow: ellipsis;
+                word-break: keep-all;
+                white-space: nowrap;
+
+                .alias {
+                    background-color: #e6ffe6;
+                    border: 1px solid $green;
+                    color: $green;
+                    width: max-content;
+                    padding: 4px 8px;
+                    margin: 0px 30px;
+                }
+            }
+
+            // ASSET DETAIL
+            .id {
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .asset_value {
+                margin-left: 16px;
+
+                &:first-of-type {
+                    margin-left: 0;
+                }
+            }
+
+            // TX DETAIL
+            .timestamp {
+                margin-right: 15px;
+            }
+
+            .status {
+                background-color: $green-xlight;
+                color: $green;
+                width: max-content;
+                border-radius: 3px;
+                padding: 4px 8px;
+            }
+
+            .unit {
+                font-size: 14px;
+                opacity: 0.7;
+            }
+
+            .genesis_tx {
+                display: flex;
+                align-items: center;
+            }
+
+            .genesis {
+                background-color: #e6ffe6;
+                border: 1px solid $green;
+                color: $green;
+                width: max-content;
+                padding: 4px 8px;
+                margin: 0 0 0 30px;
+                word-break: keep-all;
+            }
+        }
+    }
+}
+
+@include mdOnly {
+}
+
+@include smOnly {
+}
+
+@include smOrSmaller {
+    .meta {
+        .meta_row {
+            border-bottom: 1px solid $gray-xlight;
+        }
+    }
+}
+
+@include xsOrSmaller {
+    .utxo_table {
+        margin-top: 5px;
+    }
+
+    .detail {
+        padding: $container_padding_xs;
+    }
+}

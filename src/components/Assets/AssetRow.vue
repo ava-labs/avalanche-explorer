@@ -36,19 +36,9 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { blockchainMap } from '@/helper'
 import { Asset } from '@/js/Asset'
 
-@Component({
-    filters: {
-        blockchain(val: string): string {
-            return blockchainMap(val)
-        },
-        nameOrID(val: Asset): string {
-            return val.name ? val.name : val.id
-        },
-    },
-})
+@Component({})
 export default class AssetRow extends Vue {
     @Prop() asset!: Asset
 
@@ -80,6 +70,11 @@ export default class AssetRow extends Vue {
 
     a {
         color: $black !important;
+
+        &:hover {
+            opacity: 0.7;
+            text-decoration: none;
+        }
     }
 }
 
@@ -90,7 +85,7 @@ export default class AssetRow extends Vue {
     text-align: center;
     border-radius: 4px;
     min-height: 1em;
-    font-weight: 400; /* 700 */
+    font-weight: 400;
 }
 
 .no_symbol {
@@ -106,7 +101,7 @@ export default class AssetRow extends Vue {
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 14px;
-    font-weight: 400; /* 700 */
+    font-weight: 400;
     text-decoration: none;
 }
 
@@ -152,7 +147,7 @@ export default class AssetRow extends Vue {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .asset_row {
         p {
             font-size: 12px;

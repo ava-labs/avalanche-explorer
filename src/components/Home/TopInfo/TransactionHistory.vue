@@ -1,11 +1,9 @@
 <template>
     <div class="tx_history card">
         <div class="header">
-            <h2>
+            <h2 class="top_info_heading">
                 Transaction Volume
-                <TooltipHeading
-                    content="Timeline of transactions on Avalanche"
-                ></TooltipHeading>
+                <TooltipHeading content="for P and X-chains only" />
             </h2>
         </div>
         <div class="history_cont">
@@ -48,17 +46,18 @@
                     :width="2"
                     color="#E84970"
                     indeterminate
-                ></v-progress-circular>
+                />
             </div>
             <div class="canv_cont">
                 <canvas ref="canv"></canvas>
             </div>
+            <template v-if="aggregates && !loading">
+                <TransactionHistoryMeta
+                    :aggregates="aggregates"
+                    :scope="scope"
+                />
+            </template>
         </div>
-        <template v-if="aggregates && !loading">
-            <TransactionHistoryMeta
-                :aggregates="aggregates"
-            ></TransactionHistoryMeta>
-        </template>
     </div>
 </template>
 <script>

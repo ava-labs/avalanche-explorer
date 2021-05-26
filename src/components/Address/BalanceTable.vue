@@ -10,39 +10,37 @@
                 Symbol
                 <Tooltip
                     content="An arrangement of letters representing an asset"
-                ></Tooltip>
+                />
             </p>
             <p class="name">
                 Name
-                <Tooltip content="Name for the asset"></Tooltip>
+                <Tooltip content="Name for the asset" />
             </p>
             <p class="balance">
-                <Tooltip content="Balance held by this address"></Tooltip
-                >Balance
+                <Tooltip content="Balance held by this address" />
+                Balance
             </p>
             <p class="sent">
-                <Tooltip content="Total sent by this address"></Tooltip>Sent
+                <Tooltip content="Total sent by this address" />Sent
             </p>
             <p class="received">
-                <Tooltip content="Total received by this address"></Tooltip
-                >Received
+                <Tooltip content="Total received by this address" />
+                Received
             </p>
             <p class="txs">
-                <Tooltip
-                    content="Total transactions involving this address"
-                ></Tooltip
-                >Txs
+                <Tooltip content="Total transactions involving this address" />
+                Txs
             </p>
             <p class="utxos">
-                <Tooltip content="Total UTXOs involving this address"></Tooltip
-                >UTXOs
+                <Tooltip content="Total UTXOs involving this address" />
+                UTXOs
             </p>
         </div>
         <BalanceRow
             v-for="(asset, index) in assets"
             :key="index"
             :asset="asset"
-        ></BalanceRow>
+        />
     </div>
 </template>
 
@@ -73,7 +71,7 @@ export default class BalanceTable extends Vue {
     }
 
     .grid_headers {
-        font-weight: 700;
+        font-weight: 500;
         font-size: 12px;
     }
 

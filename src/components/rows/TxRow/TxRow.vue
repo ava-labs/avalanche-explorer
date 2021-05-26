@@ -1,18 +1,25 @@
 <template>
     <div class="tx_row">
-        <!-- CHAIN -->
-        <div class="avatar">
-            <p>{{ chainCode }}</p>
-        </div>
         <!-- DETAILS -->
         <div class="info_col id_col">
             <router-link :to="`/tx/${transaction.id}`" class="id monospace"
                 >{{ transaction.id }}...</router-link
             >
             <p class="time">{{ transaction.timestamp | fromNow }}</p>
-            <span class="type">
-                <span class="value"> {{ transaction.type | getType }}</span>
-            </span>
+            <p class="type">
+                <span v-if="type !== ''" class="tx_type_label">{{ type }}</span>
+            </p>
+        </div>
+        <!-- CHAIN -->
+        <div
+            class="avatar"
+            :style="{
+                backgroundColor: chainDarkColor,
+            }"
+        >
+            <p>
+                {{ chainCode }}
+            </p>
         </div>
         <!-- FROM -->
         <div class="info_col utxo_list">
@@ -22,22 +29,22 @@
                     v-for="(input, i) in inputs"
                     :key="i"
                     :input="input"
-                ></InputUTXO>
+                />
             </template>
         </div>
         <!-- TO -->
         <div class="info_col utxo_list">
             <template v-if="isGenesisVertex">
-                <router-link :to="`/tx/${tx_id}`" class="view_all"
-                    >Explore Genesis Vertex</router-link
-                >
+                <v-btn :text="true" class="ava_btn" @click="goToTx">
+                    Explore Genesis Vertex
+                </v-btn>
             </template>
             <template v-else>
                 <OutputUTXO
                     v-for="(output, i) in outputs"
                     :key="i"
                     :output="output"
-                ></OutputUTXO>
+                />
             </template>
         </div>
     </div>
@@ -48,13 +55,13 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 import InputUTXO from '@/components/rows/TxRow/InputUtxo.vue'
 import OutputUTXO from '@/components/rows/TxRow/OutputUtxo.vue'
 import {
-    getMappingForType,
     Transaction,
     getTransactionOutputs,
     getTransactionInputs,
 } from '@/js/Transaction'
 import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
-import { getTxChainType } from '@/services/transactions'
+import { getTxChainType } from '@/known_blockchains'
+import { getMappingForType } from '@/store/modules/transactions/maps'
 
 @Component({
     components: {
@@ -78,6 +85,18 @@ export default class TxRow extends Vue {
 
     get chainCode() {
         return getTxChainType(this.transaction.chainID)!.code
+    }
+
+    get chainColor() {
+        return getTxChainType(this.transaction.chainID)!.color
+    }
+
+    get chainDarkColor() {
+        return getTxChainType(this.transaction.chainID)!.darkColor
+    }
+
+    get type() {
+        return getMappingForType(this.transaction.type)
     }
 
     /**
@@ -104,67 +123,10 @@ export default class TxRow extends Vue {
     get outputs() {
         return getTransactionOutputs(this.transaction.outputs)
     }
+
+    goToTx() {
+        this.$router.push(`/tx/${this.transaction.id}`)
+    }
 }
 </script>
-<style scoped lang="scss">
-.avatar {
-    width: 35px;
-    height: 35px;
-    border-radius: 35px;
-    line-height: 35px;
-    text-align: center;
-    background-color: $primary-color-xlight;
-
-    p {
-        width: 100%;
-        font-weight: 400;
-        color: $primary-color;
-        font-size: 16px;
-    }
-}
-
-.id {
-    text-decoration: none;
-    font-weight: 400;
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: $black !important;
-}
-
-.time {
-    line-height: 140%;
-    color: #000000;
-    font-size: 10px;
-    word-break: keep-all;
-    white-space: nowrap;
-}
-
-.type {
-    font-size: 10px;
-    .value {
-        color: $secondary-color;
-    }
-}
-
-.label {
-    font-size: 12px;
-    font-weight: 400;
-    overflow: hidden;
-}
-
-.data {
-    display: flex;
-}
-
-.tx_type_label {
-    color: $primary-color-light;
-    font-style: italic;
-    font-size: 0.875em;
-    min-height: 16px;
-    display: flex;
-    align-items: flex-start;
-    padding-top: 6px;
-    padding-bottom: 6px;
-}
-</style>
+<style scoped lang="scss"></style>

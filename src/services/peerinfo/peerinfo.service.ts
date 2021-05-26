@@ -2,7 +2,7 @@ import {
     DEFAULT_NETWORK_ID,
     peerInfoURL,
     peerInfoURL_test,
-} from '@/store/modules/network/network.ts'
+} from '@/store/modules/network/network'
 import { IVersion, IVersionRes } from './models'
 import { toAVAX } from '@/helper'
 import { getTotalStake } from './peerinfo'
@@ -37,7 +37,9 @@ export async function getPeerInfo() {
                 version: removePrefix(peer.version),
                 nodeCount: peer.nodeCount,
                 stakeAmount: toAVAX(peer.stakeAmount),
-                stakePercent: Math.round((peer.stakeAmount / totalStake) * 100),
+                stakePercent: parseFloat(
+                    ((peer.stakeAmount / totalStake) * 100).toFixed(2)
+                ),
             }
         })
 

@@ -1,20 +1,8 @@
 <template>
     <div class="assets">
-        <!-- <wordcloud
-            v-if="assetsLoaded"
-            :data="assetNames"
-            nameKey="name"
-            valueKey="value"
-            :color="myColors"
-            :showTooltip="true"
-            :wordClick="wordClickHandler">
-        </wordcloud> -->
         <div class="card">
             <div class="header">
-                <h2>
-                    Assets
-                    <TooltipHeading content="A unit of value"></TooltipHeading>
-                </h2>
+                <h2>Assets</h2>
                 <template v-if="assetsLoaded">
                     <div class="bar">
                         <p class="count">
@@ -22,6 +10,12 @@
                                 Object.keys(assets).length | pluralize('asset')
                             }}
                             found
+                        </p>
+                    </div>
+                    <div class="bar">
+                        <p class="count">
+                            Assets are updated on 5-min intervals. Please
+                            refresh to view new listings.
                         </p>
                     </div>
                 </template>
@@ -33,61 +27,58 @@
                     :width="2"
                     color="#E84970"
                     indeterminate
-                ></v-progress-circular>
+                />
             </div>
             <div
                 v-if="assetsLoaded && $vuetify.breakpoint.smAndDown"
                 class="asset_list"
             >
+                <!-- SIMPLE TABLE FOR SMALL SCREENSIZES -->
                 <div class="grid_headers asset_row">
                     <p v-if="$vuetify.breakpoint.smAndUp">
                         Symbol
                         <Tooltip
                             content="An arrangement of letters representing an asset"
-                        ></Tooltip>
+                        />
                     </p>
                     <p>
                         Name
-                        <Tooltip content="Name for the asset"></Tooltip>
+                        <Tooltip content="Name for the asset" />
                     </p>
                     <p class="volume_day">
-                        <Tooltip content="Volume for the past 24h"></Tooltip>24h
-                        Volume
+                        <Tooltip content="Volume for the past 24h" />24h Volume
                     </p>
                     <p v-if="$vuetify.breakpoint.smAndUp" class="txCount_day">
                         <Tooltip
                             content="Number of transactions for the past 24h"
-                        ></Tooltip
+                        />
                         >24h Tx
                     </p>
                     <p v-if="$vuetify.breakpoint.smAndUp" class="avgTx_day">
-                        <Tooltip
-                            content="Average tx value over the past 24h"
-                        ></Tooltip
+                        <Tooltip content="Average tx value over the past 24h" />
                         >Avg Tx
                     </p>
                     <p v-if="$vuetify.breakpoint.smAndUp" class="supply">
-                        <Tooltip
-                            content="Total number of tokens minted"
-                        ></Tooltip
+                        <Tooltip content="Total number of tokens minted" />
                         >Supply
                     </p>
                     <p v-if="$vuetify.breakpoint.smAndUp" class="chain">
                         Issuance
                         <Tooltip
                             content="Blockchain where this asset was minted"
-                        ></Tooltip>
+                        />
                     </p>
                 </div>
-                <asset-row
+                <AssetRow
                     v-for="asset in assets"
                     :key="asset.id"
                     class="asset_row"
                     :asset="asset"
-                ></asset-row>
+                />
             </div>
+            <!-- DATA TABLE FOR MEDIUM SCREENSIZES -->
             <div v-if="$vuetify.breakpoint.smAndUp">
-                <AssetsDataTable :assets="assets"></AssetsDataTable>
+                <AssetsDataTable :assets="assets" />
             </div>
         </div>
     </div>
@@ -101,9 +92,7 @@ import AssetsDataTable from '@/components/Assets/AssetsDataTable.vue'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import TooltipHeading from '@/components/misc/TooltipHeading.vue'
 import { Asset } from '@/js/Asset'
-//@ts-ignore
-import wordcloud from 'vue-wordcloud'
-import { AVAX_ID } from '@/store/index'
+import { AVAX_ID } from '@/known_assets'
 
 @Component({
     components: {
@@ -111,15 +100,11 @@ import { AVAX_ID } from '@/store/index'
         TooltipHeading,
         AssetRow,
         AssetsDataTable,
-        wordcloud,
     },
 })
 export default class AssetsPage extends Vue {
-    myColors: string[] = ['#1f77b4', '#629fc9', '#94bedb', '#c9e0ef']
-
-    //@ts-ignore
-    wordClickHandler(name, value, vm) {
-        console.log('wordClickHandler', name, value, vm)
+    get assetsLoaded(): boolean {
+        return this.$store.state.assetsLoaded
     }
 
     get assets(): Asset[] {
@@ -133,16 +118,11 @@ export default class AssetsPage extends Vue {
         return res
     }
 
-    get assetsLoaded(): boolean {
-        return this.$store.state.assetsLoaded
-    }
-
     get assetNames(): any[] {
         return this.assets.map((asset: Asset) => {
             return {
                 name: asset.name,
                 value: 1,
-                // value: asset.currentSupply.toFixed(0)
             }
         })
     }
@@ -159,7 +139,7 @@ export default class AssetsPage extends Vue {
 }
 
 .grid_headers {
-    font-weight: 500;
+    font-weight: 500 !important;
     font-size: 12px;
 }
 
@@ -209,7 +189,7 @@ export default class AssetsPage extends Vue {
     }
 }
 
-@include xsOnly {
+@include xsOrSmaller {
     .asset_list {
         padding: 5px 0;
     }

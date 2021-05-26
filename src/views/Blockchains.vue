@@ -19,29 +19,30 @@
                     :width="2"
                     color="#E84970"
                     indeterminate
-                ></v-progress-circular>
+                />
             </template>
             <template v-else>
                 <BlockchainDataTable
                     :blockchains="blockchains"
                     :links="true"
                     :subnets="true"
-                ></BlockchainDataTable>
+                />
             </template>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
+import { Mixins, Component } from 'vue-property-decorator'
 import BlockchainDataTable from '@/components/Blockchain/BlockchainDataTable.vue'
+import { PlatformGettersMixin } from '@/store/modules/platform/platform.mixins'
 
 @Component({
     components: {
         BlockchainDataTable,
     },
 })
-export default class Blockchains extends Vue {
+export default class Blockchains extends Mixins(PlatformGettersMixin) {
     loading = true
 
     async created() {
@@ -57,7 +58,7 @@ export default class Blockchains extends Vue {
     }
 
     get totalBlockchains() {
-        return this.$store.getters['Platform/totalBlockchains']
+        return this.getTotalBlockchains()
     }
 }
 </script>
@@ -72,7 +73,8 @@ export default class Blockchains extends Vue {
     margin-bottom: 10px;
 
     .count {
-        color: #808080;
+        padding-top: 10px;
+        color: $primary-color-light;
     }
 }
 
@@ -90,7 +92,7 @@ export default class Blockchains extends Vue {
     justify-content: flex-end;
 }
 
-@include smOnly {
+@include xsOrSmaller {
     .table_headers {
         display: none;
     }

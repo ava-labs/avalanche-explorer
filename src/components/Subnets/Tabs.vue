@@ -9,7 +9,7 @@
                 :key="s.id"
                 :vertical="true"
             >
-                <Content :subnet-i-d="subnetID" :subnet="s"></Content>
+                <Content :subnet-i-d="subnetID" :subnet="s" />
             </v-tab-item>
         </v-tabs>
     </div>
@@ -18,7 +18,6 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { subnetMap } from '@/helper'
 import Content from '@/components/Subnets/Content.vue'
 import Subnet from '@/js/Subnet'
 
@@ -29,11 +28,6 @@ interface Subnets {
 @Component({
     components: {
         Content,
-    },
-    filters: {
-        subnet(val: string): string {
-            return subnetMap(val)
-        },
     },
 })
 export default class SubnetTabs extends Vue {
@@ -61,7 +55,7 @@ export default class SubnetTabs extends Vue {
 }
 
 .v-tab {
-    font-weight: 400; /* 700 */
+    font-weight: 400;
     text-transform: none;
     letter-spacing: 0;
 }
@@ -87,7 +81,7 @@ export default class SubnetTabs extends Vue {
     }
 
     .v-tab.v-tab {
-        font-family: 'Rubik', sans-serif;
+        font-family: 'Inter', sans-serif;
         text-transform: uppercase;
         font-weight: 500;
     }
