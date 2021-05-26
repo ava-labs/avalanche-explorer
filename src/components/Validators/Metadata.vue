@@ -16,8 +16,8 @@
                 </div>
                 <PeerStake
                     v-show="!loading"
-                    :data="versions"
-                    :color-scale="versionsColorScale"
+                    :data="stakes"
+                    :color-scale="stakesColorScale"
                     :metric="'stakePercent'"
                 />
             </div>
@@ -32,8 +32,8 @@
                 </div>
                 <PeerCount
                     v-show="!loading"
-                    :data="versionsOnly"
-                    :color-scale="versionsOnlyColorScale"
+                    :data="versions"
+                    :color-scale="versionsColorScale"
                     :metric="'nodeCount'"
                 />
             </div>
@@ -54,6 +54,7 @@ import {
     versionsOnlyMap,
     getVersionsColorMap,
     lower,
+    getStakesOnly,
 } from '@/services/peerinfo'
 
 @Component({
@@ -64,10 +65,11 @@ import {
     },
 })
 export default class Metadata extends Vue {
+    stakes: null | IVersion[] = null
+    stakesColorScale: string[] = []
+
     versions: null | IVersion[] = null
     versionsColorScale: string[] = []
-    versionsOnly: null | IVersion[] = null
-    versionsOnlyColorScale: string[] = []
 
     loading = false
 
@@ -77,13 +79,20 @@ export default class Metadata extends Vue {
 
     async getData() {
         this.loading = true
-        this.versions = await getPeerInfo()
-        this.versionsOnly = getVersionsOnly(this.versions)
+        const peerInfo = await getPeerInfo()
 
-        const map = versionsOnlyMap(this.versions)
-        this.versionsOnlyColorScale = getVersionsColorMap(map)
+        // this map is used to create color scales
+        const map = versionsOnlyMap(peerInfo)
+
+        // bar chart - only node counts > 0. exclude 'offline'
+        this.versions = getVersionsOnly(peerInfo)
         this.versionsColorScale = getVersionsColorMap(map)
-        this.versionsColorScale.push(lower)
+
+        // pie chart - only stakes > 0. include 'offline'
+        this.stakes = getStakesOnly(peerInfo)
+        this.stakesColorScale = getVersionsColorMap(map) // extend the versions-only color scale
+        this.stakesColorScale.push(lower) // by adding extra color for 'offline' stake
+
         this.loading = false
     }
 }

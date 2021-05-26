@@ -31,7 +31,7 @@
             <p class="label">
                 Staking Ratio
                 <TooltipMeta
-                    content="Percentage of AVAX locked to secure Avalanche out of total AVAX supply (360m)"
+                    content="Percentage of AVAX locked to secure Avalanche out of total AVAX supply"
                     :color="'#2196f3'"
                 />
             </p>

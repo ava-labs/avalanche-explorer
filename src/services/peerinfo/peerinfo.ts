@@ -2,7 +2,8 @@ import chroma from 'chroma-js'
 import { IVersion } from '.'
 
 /**
- * Excludes 'offline' nodes and versions with no nodes
+ * For bar chart
+ * Excludes 'offline' and 0 nodeCount
  */
 export function getVersionsOnly(peerInfo: IVersion[]) {
     return peerInfo
@@ -64,9 +65,17 @@ export function getVersionsColorMap(datamap: any) {
     return colors
 }
 
+/**
+ * For pie chart
+ * Excludes versions with 0 stakeAmount
+ */
+export function getStakesOnly(peerInfo: IVersion[]) {
+    return peerInfo.filter((i) => i.stakeAmount > 0)
+}
+
 export function getTotalStake(peerInfo: IVersion[]) {
-    const allVersions = getVersionsOnly(peerInfo)
-    return allVersions
+    const allStakes = getStakesOnly(peerInfo)
+    return allStakes
         .map((item) => item.stakeAmount)
         .reduce((acc, val) => acc + val)
 }
