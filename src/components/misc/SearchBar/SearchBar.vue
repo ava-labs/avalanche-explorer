@@ -238,6 +238,12 @@ input {
     opacity: 0;
 }
 
+@if $VUE_APP_DEFAULT_NETWORKID == 5 {
+    .search_input_wrapper {
+        border: 1px solid $white;
+    }
+}
+
 @include smOnly {
     .search_results {
         position: fixed;

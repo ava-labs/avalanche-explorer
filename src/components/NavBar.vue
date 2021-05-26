@@ -304,6 +304,17 @@ export default class Navbar extends Mixins(PlatformGettersMixin) {
             color: $white !important;
         }
     }
+
+    .prices {
+        .price_pair {
+            .label {
+                color: rgba(255, 255, 255, 0.72) !important;
+            }
+            .value {
+                color: $white !important;
+            }
+        }
+    }
 }
 
 @include smOnly {
