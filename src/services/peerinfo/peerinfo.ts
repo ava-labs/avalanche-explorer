@@ -36,7 +36,7 @@ export function versionsOnlyMap(peerInfo: IVersion[]) {
 }
 
 // categorical colorscale based on Explorer colors
-const categorical = ['#e84970', '#2196f3', '#6bc688', '#ef8f4a', '#4c2e56']
+const categorical = ['#4c2e56', '#e84970', '#2196f3', '#6bc688', '#ef8f4a']
 export const lower = '#f5f6fa'
 export const brightnessFactor = 0.5
 
