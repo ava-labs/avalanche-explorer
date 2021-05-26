@@ -79,6 +79,7 @@ export default class Metadata extends Vue {
         this.loading = true
         this.versions = await getPeerInfo()
         this.versionsOnly = getVersionsOnly(this.versions)
+
         const map = versionsOnlyMap(this.versions)
         this.versionsOnlyColorScale = getVersionsColorMap(map)
         this.versionsColorScale = getVersionsColorMap(map)

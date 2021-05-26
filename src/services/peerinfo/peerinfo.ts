@@ -2,10 +2,12 @@ import chroma from 'chroma-js'
 import { IVersion } from '.'
 
 /**
- * Excludes 'offline' nodes
+ * Excludes 'offline' nodes and versions with no nodes
  */
 export function getVersionsOnly(peerInfo: IVersion[]) {
-    return peerInfo.filter((i) => i.version !== 'offline')
+    return peerInfo
+        .filter((i) => i.version !== 'offline')
+        .filter((i) => i.nodeCount !== 0)
 }
 
 /**
@@ -33,14 +35,14 @@ export function versionsOnlyMap(peerInfo: IVersion[]) {
 }
 
 // categorical colorscale based on Explorer colors
-const categorical = ['#4c2e56', '#e84970', '#2196f3', '#6bc688', '#ef8f4a']
+const categorical = ['#e84970', '#2196f3', '#6bc688', '#ef8f4a', '#4c2e56']
 export const lower = '#f5f6fa'
 export const brightnessFactor = 0.5
 
 /**
- * categorical and continuous colorscale for major.minor.patch versions
- * each major.minor version is a categorical color
- * patches follow a continuous scale of the categorical color
+ * colorscale for major.minor.patch
+ * each major.minor is a categorical color ("pink")
+ * patches are a continuous scale (dark to light "pink")
  * @param datamap
  */
 export function getVersionsColorMap(datamap: any) {

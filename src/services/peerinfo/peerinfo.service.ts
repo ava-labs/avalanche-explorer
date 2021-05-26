@@ -17,13 +17,23 @@ function removePrefix(s: string): string {
  * get a list of peers, ordered by latest version
  */
 export async function getPeerInfo() {
-    const res: IVersionRes[] = await fetch(PEER_INFO_URL, {
+    let res: IVersionRes[] = await fetch(PEER_INFO_URL, {
         headers: {
             'Content-Type': 'application/json',
         },
     })
         .then((response) => response.json())
         .then((data) => data.stakeInfo)
+
+    console.log('res', res)
+
+    res.push({
+        version: 'test',
+        nodeCount: 0,
+        stakeAmount: 0,
+    })
+
+    console.log('res', res)
 
     const totalStake = getTotalStake(res)
 
