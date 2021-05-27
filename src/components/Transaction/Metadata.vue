@@ -27,15 +27,19 @@
                 Value
                 <Tooltip content="The value transferred in this transaction" />
             </p>
-            <p class="meta_value values">
-                <span
+            <div class="meta_value values">
+                <p
                     v-for="(val, id) in outValuesDenominated"
                     :key="id"
                     class="asset_value"
-                    >{{ val.amount }}
-                    <span class="unit">{{ val.symbol }}</span></span
                 >
-            </p>
+                    <template v-if="!val.isNFT">{{ val.amount }} </template>
+                    <span class="unit">{{ val.symbol }}</span>
+                    <span v-if="assetsLoaded" class="asset_type">{{
+                        asset(val.assetID) | getAssetType
+                    }}</span>
+                </p>
+            </div>
         </article>
         <article class="meta_row">
             <p class="meta_label">
@@ -63,17 +67,6 @@
                     <div class="summary_label">Block</div>
                     <div>{{ tx.txBlockId }}</div>
                 </div>
-            </div>
-        </article>
-        <article class="meta_row">
-            <p class="meta_label">
-                Asset Type
-                <Tooltip
-                    content="The type of asset (NFT, variable or fixed cap)"
-                />
-            </p>
-            <div class="meta_value">
-                <p>{{ tx | getAssetType }}</p>
             </div>
         </article>
         <!-- MEMO -->
@@ -141,6 +134,10 @@ export default class Metadata extends Vue {
     @Prop() isMemo!: boolean
     @Prop() isStaking!: boolean
 
+    get assetsLoaded(): boolean {
+        return this.$store.state.assetsLoaded
+    }
+
     get date(): Date {
         return new Date(this.tx.timestamp)
     }
@@ -171,9 +168,11 @@ export default class Metadata extends Vue {
             const asset = this.assets[assetID]
             let denomination = 0
             let symbol = assetID
+            let isNFT = false
             if (asset) {
                 denomination = asset.denomination
                 symbol = asset.symbol
+                isNFT = !!asset.nft
             } else {
                 this.$store.dispatch('addUnknownAsset', assetID)
             }
@@ -185,6 +184,7 @@ export default class Metadata extends Vue {
                     symbol,
                     amount,
                     denomination,
+                    isNFT,
                 }
             }
         })
@@ -202,6 +202,8 @@ export default class Metadata extends Vue {
             outValuesDenominated[assetId] = {
                 amount: res,
                 symbol: val.symbol,
+                assetID: assetId,
+                isNFT: val.isNFT,
             }
         }
         return outValuesDenominated
@@ -209,6 +211,10 @@ export default class Metadata extends Vue {
 
     get background(): string {
         return backgroundColor(this.chain)
+    }
+
+    asset(id: string) {
+        return this.$store.state.assets[id]
     }
 }
 </script>

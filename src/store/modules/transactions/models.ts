@@ -214,6 +214,7 @@ export interface OutputValuesDict {
         symbol: string
         amount: Big
         denomination: number
+        isNFT: boolean
     }
 }
 
@@ -221,6 +222,8 @@ export interface OutValuesDenominated {
     [assetId: string]: {
         amount: string
         symbol: string
+        assetID: string
+        isNFT: boolean
     }
 }
 

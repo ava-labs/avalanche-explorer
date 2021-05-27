@@ -28,7 +28,7 @@
                     content="The type of asset (NFT, variable or fixed cap)"
                 />
             </p>
-            <p class="meta_value">{{ genesisTx | getAssetType }}</p>
+            <p class="meta_value">{{ asset | getAssetType }}</p>
         </article>
         <article class="meta_row">
             <p class="meta_label">
