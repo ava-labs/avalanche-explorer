@@ -15,5 +15,5 @@ export interface IAsset {
 export enum AssetType {
     VARIABLE_CAP = 'Variable Cap',
     FIXED_CAP = 'Fixed Cap',
-    NFT = 'NFT',
+    NFT = 'Non-Fungible Token (NFT)',
 }

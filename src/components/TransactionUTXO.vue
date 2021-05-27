@@ -62,7 +62,6 @@ import {
 } from '../js/Transaction'
 import { toAVAX } from '../helper'
 import Tooltip from '@/components/rows/Tooltip.vue'
-import { getAssetType } from '@/services/assets'
 import { getMappingForType } from '@/store/modules/transactions/maps'
 
 @Component({
@@ -75,7 +74,6 @@ import { getMappingForType } from '@/store/modules/transactions/maps'
     filters: {
         getType: getMappingForType,
         toAVAX,
-        getAssetType,
     },
 })
 export default class TransactionUTXO extends Vue {
