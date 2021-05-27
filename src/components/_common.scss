@@ -41,7 +41,6 @@
         font-size: 14px;
         overflow-x: scroll;
         padding: 15px 0;
-        // border-bottom: 1px solid $gray-xlight;
 
         &:last-of-type {
             padding-bottom: 0;
@@ -129,12 +128,6 @@
             }
         }
     }
-}
-
-@include mdOnly {
-}
-
-@include smOnly {
 }
 
 @include smOrSmaller {
