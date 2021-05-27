@@ -33,7 +33,7 @@
                     :key="id"
                     class="asset_value"
                 >
-                    <template v-if="!val.isNFT">{{ val.amount }} </template>
+                    {{ val.amount }}
                     <span class="unit">{{ val.symbol }}</span>
                     <span v-if="assetsLoaded" class="asset_type">{{
                         asset(val.assetID) | getAssetType
@@ -114,6 +114,7 @@ import {
 } from '@/store/modules/transactions/models'
 import StakingSummary from '@/components/Transaction/StakingSummary.vue'
 import Memo from '@/components/Transaction/Memo.vue'
+import Big from 'big.js'
 
 @Component({
     components: {
@@ -158,17 +159,20 @@ export default class Metadata extends Vue {
         return getTransactionOutputs(this.tx.outputs)
     }
 
+    // a map of unique assets and their total amounts trasferred in this tx
     get outValues(): OutputValuesDict {
         const dict: OutputValuesDict = {}
         const outs = this.tx.outputs
 
         outs.forEach((out) => {
             const assetID = out.assetID
-            const amount = out.amount
             const asset = this.assets[assetID]
+
             let denomination = 0
             let symbol = assetID
             let isNFT = false
+
+            // look up the asset and set props
             if (asset) {
                 denomination = asset.denomination
                 symbol = asset.symbol
@@ -176,16 +180,23 @@ export default class Metadata extends Vue {
             } else {
                 this.$store.dispatch('addUnknownAsset', assetID)
             }
-            if (dict[assetID]) {
-                const valNow = dict[assetID].amount
-                dict[assetID].amount = valNow.plus(amount)
-            } else {
+
+            // amount is based on fungibility
+            const amount = isNFT ? Big(1) : out.amount
+
+            // create totals object for each unique asset
+            if (!dict[assetID]) {
                 dict[assetID] = {
                     symbol,
-                    amount,
+                    amount: amount,
                     denomination,
                     isNFT,
                 }
+            }
+            // if object already exists, update the amount
+            else {
+                const valNow = dict[assetID].amount
+                dict[assetID].amount = valNow.plus(amount)
             }
         })
         return dict
