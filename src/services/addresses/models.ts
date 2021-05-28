@@ -86,6 +86,7 @@ export interface IBalancePData {
 
 export interface IStakePData {
     staked: string
+    stakedOutputs: string[]
 }
 
 export interface IAssetsMap {
