@@ -63,7 +63,8 @@ export async function getStake_P(id: string): Promise<IStakePData> {
         jsonrpc: '2.0',
         method: 'platform.getStake',
         params: {
-            address: `P-${id}`,
+            addresses: [`P-${id}`],
+            encoding: 'hex',
         },
         id: 1,
     })
