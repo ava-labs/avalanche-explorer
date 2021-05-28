@@ -144,8 +144,6 @@ const outputTypes = new Map([
 ])
 
 export function getOutputType(type: OutputResponse['outputType']) {
-    console.log(type)
-    console.log(outputTypes.get(type))
     return outputTypes.get(type)
 }
 
