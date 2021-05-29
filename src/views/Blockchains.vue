@@ -36,6 +36,7 @@
 import { Mixins, Component } from 'vue-property-decorator'
 import BlockchainDataTable from '@/components/Blockchain/BlockchainDataTable.vue'
 import { PlatformGettersMixin } from '@/store/modules/platform/platform.mixins'
+import Blockchain from '@/js/Blockchain'
 
 @Component({
     components: {
@@ -54,7 +55,10 @@ export default class Blockchains extends Mixins(PlatformGettersMixin) {
     }
 
     get blockchains() {
-        return this.$store.state.Platform.blockchains
+        return (this.$store.state.Platform
+            .blockchains as Blockchain[]).sort((a, b) =>
+            a.subnetID > b.subnetID ? 1 : b.subnetID > a.subnetID ? -1 : 0
+        )
     }
 
     get totalBlockchains() {
