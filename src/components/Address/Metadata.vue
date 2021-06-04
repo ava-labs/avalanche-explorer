@@ -26,7 +26,7 @@
                                     :p-staked="P_staked"
                                     :x-unlocked="X_unlocked"
                                     :x-locked="X_locked"
-                                    :c-unlocked="C_unlocked"
+                                    :c-unlocked="XC_unlocked"
                                 ></AVAXBalanceTableSummary>
                             </v-tab-item>
                             <v-tab-item class="tab_content">
@@ -39,7 +39,7 @@
                                     :p-staked="P_staked"
                                     :x-unlocked="X_unlocked"
                                     :x-locked="X_locked"
-                                    :c-unlocked="C_unlocked"
+                                    :c-unlocked="XC_unlocked"
                                 ></AVAXBalanceTableDetail>
                             </v-tab-item>
                         </v-tabs>
@@ -117,8 +117,8 @@ export default class Metadata extends Vue {
     }
 
     // C-Chain AVAX balance (bech32, no 0x)
-    get C_unlocked(): Big {
-        return this.metaData.C_unlocked
+    get XC_unlocked(): Big {
+        return this.metaData.XC_unlocked
     }
 }
 </script>
