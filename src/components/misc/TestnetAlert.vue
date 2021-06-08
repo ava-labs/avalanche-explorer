@@ -43,7 +43,7 @@ export default class TestnetAlert extends Vue {
 
 <style scoped lang="scss">
 .testnet_alert {
-    margin-top: 100px !important;
+    margin-top: 140px !important;
     background-color: $white !important;
 }
 

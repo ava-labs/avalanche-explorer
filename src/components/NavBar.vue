@@ -156,6 +156,12 @@ export default class Navbar extends Mixins(PlatformGettersMixin) {
     flex-direction: column !important;
 }
 
+@if $VUE_APP_DEFAULT_NETWORKID == 5 {
+    .navbar {
+        border-bottom: none;
+    }
+}
+
 .top {
     display: flex;
     flex-direction: row;
