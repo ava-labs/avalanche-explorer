@@ -188,6 +188,12 @@ export default Vue.extend({
 }
 
 @include xsOrSmaller {
+    @if $VUE_APP_DEFAULT_NETWORKID == 5 {
+        .v-application {
+            background-image: none !important;
+        }
+    }
+
     .router_view {
         padding: $container_padding_xs;
         padding-top: 0 !important;

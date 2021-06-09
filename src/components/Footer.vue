@@ -90,18 +90,18 @@ $footer_color: $black;
     padding: 0 !important;
     color: $footer_color !important;
     font-weight: 500;
+}
 
-    .footer_container {
-        width: 100%;
-        padding-top: 40px;
-        align-items: flex-start;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
+.footer_container {
+    width: 100%;
+    padding-top: 40px;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 
-        h4 {
-            margin-top: 12px;
-        }
+    h4 {
+        margin-top: 12px;
     }
 }
 
@@ -239,7 +239,7 @@ $footer_color: $black;
 @include xsOrSmaller {
     .footer_container {
         padding: $container_padding_xs;
-        padding-top: 0 !important;
+        padding-top: 40px !important;
 
         flex-direction: column;
         justify-content: flex-start;
