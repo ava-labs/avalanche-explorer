@@ -73,7 +73,7 @@ export default class Footer extends Vue {
 
     get img() {
         const color = DEFAULT_NETWORK_ID === 1 ? `black` : `blue`
-        return `img/ava_logo_${color}.png`
+        return `/img/ava_logo_${color}.png`
     }
 }
 </script>

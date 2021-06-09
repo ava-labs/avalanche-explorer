@@ -27,13 +27,11 @@
                 <Tooltip content="Total received by this address" />
                 Received
             </p>
-            <p class="txs">
-                <Tooltip content="Total transactions involving this address" />
-                Txs
-            </p>
             <p class="utxos">
-                <Tooltip content="Total UTXOs involving this address" />
-                UTXOs
+                <Tooltip
+                    content="Total UTXOs that are currently spendable by this address (includes locked and unlocked UTXOs)"
+                />
+                Spendable UTXOs
             </p>
         </div>
         <BalanceRow
@@ -78,7 +76,6 @@ export default class BalanceTable extends Vue {
     .balance,
     .sent,
     .received,
-    .txs,
     .utxos {
         text-align: right;
     }
@@ -93,7 +90,7 @@ export default class BalanceTable extends Vue {
 
     .balance_row {
         display: grid;
-        grid-template-columns: 60px 1fr 225px 225px 225px 75px 75px;
+        grid-template-columns: 60px 1fr 200px 200px 200px 150px;
         padding: 10px 0;
         border-bottom: 1px solid #e7e7e7;
         column-gap: 10px;
@@ -113,7 +110,7 @@ export default class BalanceTable extends Vue {
 @include mdOnly {
     .balances_container {
         .balance_row {
-            grid-template-columns: 60px 100px 225px 225px 225px 75px 75px;
+            grid-template-columns: 60px 1fr 200px 200px 200px 150px;
         }
     }
 }
@@ -121,7 +118,7 @@ export default class BalanceTable extends Vue {
 @include smOnly {
     .balances_container {
         .balance_row {
-            grid-template-columns: 50px 100px 225px 225px 225px 75px 75px;
+            grid-template-columns: 50px 100px 200px 200px 200px 150px;
         }
     }
 }
