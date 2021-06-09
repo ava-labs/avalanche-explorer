@@ -131,6 +131,10 @@
 }
 
 @include smOrSmaller {
+    .two_column {
+        grid-template-columns: 1fr;
+    }
+
     .meta {
         .meta_row {
             border-bottom: 1px solid $gray-xlight;
