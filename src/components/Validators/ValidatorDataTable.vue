@@ -38,6 +38,7 @@
             :headers="headers"
             :search="search"
             multi-sort
+            :mobile-breakpoint="0"
         >
             <!-- TODO: reinstate show-expand when client is patched -->
             <template #item.id="{ item }">

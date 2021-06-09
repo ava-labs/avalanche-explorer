@@ -18,6 +18,7 @@
             :items-per-page="15"
             :search="search"
             multi-sort
+            :mobile-breakpoint="0"
         >
             <template #item.symbol="{ item }">
                 <p

@@ -1,5 +1,5 @@
 <template>
-    <div class="asset_row">
+    <div>
         <p>
             <span v-if="asset.symbol" class="symbol">{{ asset.symbol }}</span>
             <span v-else class="no_symbol"></span>
@@ -132,7 +132,7 @@ export default class AssetRow extends Vue {
     }
 
     .symbol {
-        padding: 2px;
+        padding: 3px 6px;
     }
 }
 </style>
