@@ -1,34 +1,22 @@
 <template>
     <div class="asset_row">
-        <p v-if="asset.symbol && $vuetify.breakpoint.smAndUp" class="symbol">
-            {{ asset.symbol }}
+        <p>
+            <span v-if="asset.symbol" class="symbol">{{ asset.symbol }}</span>
+            <span v-else class="no_symbol"></span>
         </p>
-        <p
-            v-if="!asset.symbol && $vuetify.breakpoint.smAndUp"
-            class="no_symbol"
-        ></p>
-        <router-link class="name_id" :to="`/asset/${asset.id}`">{{
-            asset | nameOrID
-        }}</router-link>
+        <p>
+            <router-link class="name_id" :to="`/asset/${asset.id}`">{{
+                asset | nameOrID
+            }}</router-link>
+        </p>
         <p class="volume_day">
             {{ asset.volume_day.toLocaleString() }}
             <span v-if="$vuetify.breakpoint.xs" class="unit">{{
                 asset.symbol
             }}</span>
         </p>
-        <p v-if="$vuetify.breakpoint.smAndUp" class="txCount_day">
+        <p class="txCount_day">
             {{ asset.txCount_day.toLocaleString() }}
-        </p>
-        <p v-if="$vuetify.breakpoint.smAndUp" class="avgTx_day">
-            {{ avgTxValue }}
-        </p>
-        <!-- <p class="denomination" v-if="$vuetify.breakpoint.smAndUp">{{asset.denomination}}</p> -->
-        <p v-if="$vuetify.breakpoint.smAndUp" class="supply">
-            {{ asset.currentSupply.toLocaleString(asset.denomination) }}
-            <span>{{ asset.symbol }}</span>
-        </p>
-        <p v-if="$vuetify.breakpoint.smAndUp" class="chain">
-            {{ asset.chainID | blockchain }}
         </p>
     </div>
 </template>
@@ -116,34 +104,13 @@ export default class AssetRow extends Vue {
 
 .volume_day,
 .txCount_day,
-.avgTx_day,
-.denomination,
-.supply {
+.avgTx_day {
     text-align: right;
-}
-
-.supply {
-    span {
-        display: inline-block;
-        width: 43px;
-        opacity: 0.4;
-        text-align: left;
-        padding-left: 4px;
-    }
 }
 
 @include smOnly {
     .symbol {
         padding: 2px;
-    }
-
-    .name_id {
-        grid-column: 2/4;
-    }
-
-    .supply {
-        grid-column: 1/4;
-        text-align: right;
     }
 }
 
@@ -166,15 +133,6 @@ export default class AssetRow extends Vue {
 
     .symbol {
         padding: 2px;
-    }
-
-    .name_id {
-        grid-column: 1/2;
-    }
-
-    .supply {
-        grid-column: 2/2;
-        text-align: right;
     }
 }
 </style>
