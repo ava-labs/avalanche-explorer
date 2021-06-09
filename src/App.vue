@@ -16,7 +16,7 @@
 
         <Footer class="footer" />
         <Notifications />
-        <!-- <ResponsiveGuidelines /> -->
+        <ResponsiveGuidelines />
     </v-app>
 </template>
 
@@ -25,7 +25,7 @@ import Vue from 'vue'
 import NavBar from '@/components/NavBar.vue'
 import NavBarMobile from '@/components/NavBarMobile.vue'
 import TestnetAlert from '@/components/misc/TestnetAlert.vue'
-// import ResponsiveGuidelines from '@/components/misc/ResponsiveGuidelines.vue'
+import ResponsiveGuidelines from '@/components/misc/ResponsiveGuidelines.vue'
 import Footer from '@/components/Footer.vue'
 import { IMetaTag } from '@/router/IMetaTag'
 import Notifications from '@/components/Notifications.vue'
@@ -35,7 +35,7 @@ export default Vue.extend({
     components: {
         NavBar,
         NavBarMobile,
-        // ResponsiveGuidelines,
+        ResponsiveGuidelines,
         TestnetAlert,
         Footer,
         Notifications,

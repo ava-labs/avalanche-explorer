@@ -131,5 +131,13 @@ export default class TransactionUTXO extends Vue {
             margin-top: 30px;
         }
     }
+
+    @if $VUE_APP_DEFAULT_NETWORKID == 5 {
+        .utxo {
+            .card {
+                border: none;
+            }
+        }
+    }
 }
 </style>

@@ -84,4 +84,10 @@ export default class TransactionSummary extends Vue {
 .tx_type_label {
     margin-bottom: 20px;
 }
+
+@include smOrSmaller {
+    .tx_type_label {
+        margin-bottom: 20px;
+    }
+}
 </style>
