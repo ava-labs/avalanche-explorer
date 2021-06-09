@@ -117,8 +117,7 @@ export default Vue.extend({
 
 @include lgOrBigger {
     .navbar,
-    .router_view,
-    .footer {
+    .router_view {
         padding: $container_padding_xl;
     }
 
@@ -142,8 +141,7 @@ export default Vue.extend({
 
 @include lgOnly {
     .navbar,
-    .router_view,
-    .footer {
+    .router_view {
         padding: $container_padding_lg;
     }
 
@@ -158,8 +156,7 @@ export default Vue.extend({
 
 @include mdOnly {
     .navbar,
-    .router_view,
-    .footer {
+    .router_view {
         padding: $container_padding_md;
     }
 
@@ -176,15 +173,11 @@ export default Vue.extend({
     .side_container {
         flex-direction: column;
     }
-    .router_view,
-    .footer {
+    .router_view {
         padding: $container_padding_sm;
         padding-top: 0 !important;
     }
 
-    .footer {
-        padding-top: 40px !important;
-    }
     .content {
         padding-top: 0 !important;
 
@@ -195,14 +188,9 @@ export default Vue.extend({
 }
 
 @include xsOrSmaller {
-    .router_view,
-    .footer {
+    .router_view {
         padding: $container_padding_xs;
         padding-top: 0 !important;
-    }
-
-    .footer {
-        padding-top: 40px !important;
     }
 
     .content {
