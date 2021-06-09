@@ -113,6 +113,14 @@ export default class TransactionUTXO extends Vue {
     }
 }
 
+@if $VUE_APP_DEFAULT_NETWORKID == 5 {
+    .utxo {
+        .card {
+            border: 2px solid $secondary-color;
+        }
+    }
+}
+
 @include smOrSmaller {
     .utxo {
         grid-template-columns: 1fr;
@@ -121,6 +129,14 @@ export default class TransactionUTXO extends Vue {
 
         .card:last-of-type {
             margin-top: 30px;
+        }
+    }
+
+    @if $VUE_APP_DEFAULT_NETWORKID == 5 {
+        .utxo {
+            .card {
+                border: none;
+            }
         }
     }
 }

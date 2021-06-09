@@ -4,7 +4,12 @@
             {{ title }}
             <v-spacer></v-spacer>
         </v-card-title>
-        <v-data-table :items="addresses" :headers="headers" multi-sort>
+        <v-data-table
+            :items="addresses"
+            :headers="headers"
+            multi-sort
+            :mobile-breakpoint="0"
+        >
             <template #item.address="{ item }">
                 <div>
                     <template v-if="links">

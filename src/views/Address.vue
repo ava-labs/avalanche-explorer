@@ -224,15 +224,9 @@ export default class AddressPage extends Mixins(TransactionsGettersMixin) {
 
     async getAddressDetails() {
         if (this.assetsLoaded === true) {
-            // restrict the query to the X and C-chains
-            // this is so we do not double count the P-chain AVAX balance
-            const params = {
-                address: this.addressID,
-                chainID: [X.id, C.id],
-            }
-
             try {
-                this.metadata = await getAddress(params, this.assetsMap)
+                this.metadata = await getAddress(this.addressID, this.assetsMap)
+                // console.log('this.metadata', this.metadata)
                 this.loading = false
                 if (!this.metadata) {
                     this.metadata = getNullAddress(this.addressID)

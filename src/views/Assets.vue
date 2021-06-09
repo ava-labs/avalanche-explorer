@@ -30,12 +30,12 @@
                 />
             </div>
             <div
-                v-if="assetsLoaded && $vuetify.breakpoint.smAndDown"
+                v-if="assetsLoaded && $vuetify.breakpoint.xsOnly"
                 class="asset_list"
             >
                 <!-- SIMPLE TABLE FOR SMALL SCREENSIZES -->
                 <div class="grid_headers asset_row">
-                    <p v-if="$vuetify.breakpoint.smAndUp">
+                    <p>
                         Symbol
                         <Tooltip
                             content="An arrangement of letters representing an asset"
@@ -48,25 +48,11 @@
                     <p class="volume_day">
                         <Tooltip content="Volume for the past 24h" />24h Volume
                     </p>
-                    <p v-if="$vuetify.breakpoint.smAndUp" class="txCount_day">
+                    <p class="txCount_day">
                         <Tooltip
                             content="Number of transactions for the past 24h"
                         />
-                        >24h Tx
-                    </p>
-                    <p v-if="$vuetify.breakpoint.smAndUp" class="avgTx_day">
-                        <Tooltip content="Average tx value over the past 24h" />
-                        >Avg Tx
-                    </p>
-                    <p v-if="$vuetify.breakpoint.smAndUp" class="supply">
-                        <Tooltip content="Total number of tokens minted" />
-                        >Supply
-                    </p>
-                    <p v-if="$vuetify.breakpoint.smAndUp" class="chain">
-                        Issuance
-                        <Tooltip
-                            content="Blockchain where this asset was minted"
-                        />
+                        24h Tx
                     </p>
                 </div>
                 <AssetRow
@@ -145,7 +131,7 @@ export default class AssetsPage extends Vue {
 
 .asset_row {
     display: grid;
-    grid-template-columns: 60px 1fr 150px 100px 100px 250px 100px;
+    grid-template-columns: 60px 1fr 150px 75px;
     padding: 10px 0;
     border-bottom: 1px solid #e7e7e7;
     column-gap: 10px;
@@ -171,22 +157,6 @@ export default class AssetsPage extends Vue {
     .asset_list {
         padding: 5px 0;
     }
-
-    .asset_row {
-        grid-template-columns: 50px 1fr 1fr;
-        padding: 10px 0 5px;
-    }
-}
-
-@include smOnly {
-    .asset_list {
-        padding: 5px 0;
-    }
-
-    .asset_row {
-        grid-template-columns: 50px 1fr 1fr;
-        padding: 10px 0 5px;
-    }
 }
 
 @include xsOrSmaller {
@@ -196,11 +166,6 @@ export default class AssetsPage extends Vue {
 
     .volume_day {
         padding-right: 37px;
-    }
-
-    .asset_row {
-        grid-template-columns: 50% 50%;
-        column-gap: 0;
     }
 }
 </style>

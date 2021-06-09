@@ -17,7 +17,6 @@
             {{ asset.totalReceived.toLocaleString(asset.denomination) }}
             <span>{{ asset.symbol }}</span>
         </p>
-        <p class="txs">{{ asset.transactionCount.toLocaleString() }}</p>
         <p class="utxos">{{ asset.utxoCount.toLocaleString() }}</p>
     </div>
 </template>
@@ -85,7 +84,6 @@ export default class BalanceRow extends Vue {
 .balance,
 .sent,
 .received,
-.txs,
 .utxos {
     text-align: right;
 }

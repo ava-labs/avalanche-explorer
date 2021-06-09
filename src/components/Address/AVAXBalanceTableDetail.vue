@@ -12,7 +12,15 @@
                 <tbody>
                     <tr v-for="(item, i) in balances" :key="i">
                         <td class="text-left">{{ item.name }}</td>
-                        <td class="text-right chain">{{ item.chain }}</td>
+                        <td class="text-right chain">
+                            <span
+                                class="chain_tag"
+                                :style="{
+                                    backgroundColor: background(item.chain),
+                                }"
+                                >{{ item.chain }}</span
+                            >
+                        </td>
                         <td class="text-right balance">
                             {{ item.balance }} <span>AVAX</span>
                         </td>
@@ -26,6 +34,7 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
+import { backgroundColor } from '@/helper'
 import Big from 'big.js'
 
 @Component({
@@ -91,6 +100,23 @@ export default class AVAXBalanceTableDetail extends Vue {
             .plus(this.xUnlocked)
             .plus(this.xLocked)
             .plus(this.cUnlocked)
+    }
+
+    background(chain: string): string {
+        switch (chain) {
+            case 'Platform':
+                return backgroundColor('P')
+            case 'PX Shared Memory':
+                return backgroundColor('P')
+            case 'Exchange':
+                return backgroundColor('X')
+            case 'XC Shared Memory':
+                return backgroundColor('C')
+            case 'Contract':
+                return backgroundColor('C')
+            default:
+                return 'transparent'
+        }
     }
 }
 </script>

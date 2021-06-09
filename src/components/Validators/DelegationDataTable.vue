@@ -39,6 +39,7 @@
             :headers="headers"
             :search="search"
             multi-sort
+            :mobile-breakpoint="0"
         >
             <template #item.id="{ item }">
                 <div class="text-truncate" style="max-width: 100px">

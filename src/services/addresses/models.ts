@@ -11,12 +11,14 @@ export interface IAddress {
     P_lockedNotStakeable: Big // vesting tokens. !stake/!move (denominated)
     P_staked: Big // staked tokens. from getStake (denominated)
     P_utxoIDs: string[]
+    // X -> P shared memory
+    XP_unlocked: Big
     // X-Chain (includes C -> X and P -> X shared memory)
     X_unlocked: Big
     X_locked: Big
     X_assets: IBalanceX[]
     // X -> C shared memory
-    C_unlocked: Big
+    XC_unlocked: Big
 }
 
 export interface IBalanceX {

@@ -4,11 +4,16 @@
             {{ title }}
             <v-spacer></v-spacer>
         </v-card-title>
-        <v-data-table :items="blockchains" :headers="headers" multi-sort>
+        <v-data-table
+            :items="blockchains"
+            :headers="headers"
+            multi-sort
+            :mobile-breakpoint="0"
+        >
             <template #item.name="{ item }">
                 <div class="chain_logo_name">
                     <div
-                        class="avatar"
+                        class="chain_avatar"
                         :style="{
                             backgroundColor: chainDarkColor(item.id),
                         }"
@@ -152,7 +157,7 @@ export default class BlockchainDataTable extends Vue {
 </script>
 
 <style scoped lang="scss">
-.avatar {
+.chain_avatar {
     width: 35px;
     height: 35px;
     border-radius: 35px;

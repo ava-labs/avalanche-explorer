@@ -24,7 +24,7 @@ import {
     setUnlockedC,
 } from './address'
 import qs from 'qs'
-import { C, X } from '@/known_blockchains'
+import { C, P, X } from '@/known_blockchains'
 
 const ADDRESSES_V2_API_BASE_URL = process.env.VUE_APP_ADDRESSES_V2_API_BASE_URL
 
@@ -174,24 +174,62 @@ function setBalances(balanceData: IBalanceXData, assetsMap: any): IBalanceX[] {
  *  - shared memory balances: P/X, X/C
  */
 export async function getAddress(
-    params: IAddressesParams,
+    id: string,
     assetsMap: IAssetsMap
 ): Promise<IAddress> {
+    console.log('id', id!)
+
     // Get data from Ortelius and Avalanche-Go
-    const [addressData, pBalance, pStake] = await Promise.all([
-        getAddressFromOrtelius(params),
-        getBalance_P(params.address!),
-        getStake_P(params.address!),
+    const [pAddress, xAddress, cAddress, pBalance, pStake] = await Promise.all([
+        getAddressFromOrtelius({
+            address: id,
+            chainID: [P.id],
+        }),
+        getAddressFromOrtelius({
+            address: id,
+            chainID: [X.id],
+        }),
+        getAddressFromOrtelius({
+            address: id,
+            chainID: [C.id],
+        }),
+        getBalance_P(id!),
+        getStake_P(id!),
     ])
 
+    // console.log('pBalance   ', pBalance)
+    // console.log('pStake     ', pStake)
+    // console.log('pAddress  ', pAddress)
+    // console.log('xAddress  ', xAddress)
+    // console.log('cAddress  ', cAddress)
+
     // Exception where no addresses were found for queried chains
-    if (addressData.addresses.length === 0) {
-        return getNullAddress(params.address!)
+    if (
+        pAddress.addresses.length === 0 &&
+        xAddress.addresses.length === 0 &&
+        cAddress.addresses.length === 0
+    ) {
+        return getNullAddress(id!)
     }
 
+    const pBalanceOrtelius = pAddress.addresses.filter(
+        (a: IAddressData) => a.chainID === P.id
+    )
+    const xBalanceOrtelius = xAddress.addresses.filter(
+        (a: IAddressData) => a.chainID === X.id
+    )
+    const cBalanceOrtelius = cAddress.addresses.filter(
+        (a: IAddressData) => a.chainID === C.id
+    )
+
+    // console.log('pBalanceOrtelius       ', pBalanceOrtelius)
+    // console.log('xBalanceOrtelius       ', xBalanceOrtelius)
+    // console.log('cBalanceOrtelius       ', cBalanceOrtelius)
+
     const address: IAddress = {
-        address: params.address!,
-        publicKey: addressData.publicKey,
+        address: id!,
+        publicKey: '', // todo
+
         // P-Chain (excludes X -> P shared memory)
         AVAX_balance: bigToDenomBig(
             new Big(pBalance.balance),
@@ -214,29 +252,36 @@ export async function getAddress(
             assetsMap[AVAX_ID].denomination
         ),
         P_utxoIDs: pBalance.utxoIDs as string[],
-        // X-Chain (includes C -> X and P -> X shared memory)
+
+        // X -> P shared memory
+        XP_unlocked: Big(0),
+
+        // X-Chain (includes P -> X & C -> X shared memory)
         X_assets: [],
         X_unlocked: Big(0),
         X_locked: Big(0),
+
         // X -> C shared memory
-        C_unlocked: Big(0),
+        XC_unlocked: Big(0),
     }
 
-    const xBalanceOrtelius = addressData.addresses.filter(
-        (a: IAddressData) => a.chainID === X.id
-    )
+    if (pBalanceOrtelius.length > 0) {
+        // console.log('do stuff with P here')
+        // do not double count the P-chain AVAX balance
+        /**
+         *
+         *
+         *
+         */
+    }
 
     if (xBalanceOrtelius.length > 0) {
         address.X_assets = setBalances(xBalanceOrtelius[0].assets, assetsMap)
         address.X_unlocked = setUnlockedX(address.X_assets)
     }
 
-    const cBalanceOrtelius = addressData.addresses.filter(
-        (a: IAddressData) => a.chainID === C.id
-    )
-
     if (cBalanceOrtelius.length > 0) {
-        address.C_unlocked = setUnlockedC(cBalanceOrtelius[0].assets)
+        address.XC_unlocked = setUnlockedC(cBalanceOrtelius[0].assets)
     }
 
     return address
