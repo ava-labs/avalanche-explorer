@@ -226,7 +226,7 @@ export default class AddressPage extends Mixins(TransactionsGettersMixin) {
         if (this.assetsLoaded === true) {
             try {
                 this.metadata = await getAddress(this.addressID, this.assetsMap)
-                console.log('this.metadata', this.metadata)
+                // console.log('this.metadata', this.metadata)
                 this.loading = false
                 if (!this.metadata) {
                     this.metadata = getNullAddress(this.addressID)

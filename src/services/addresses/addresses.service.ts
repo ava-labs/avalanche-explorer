@@ -197,11 +197,11 @@ export async function getAddress(
         getStake_P(id!),
     ])
 
-    console.log('pBalance   ', pBalance)
-    console.log('pStake     ', pStake)
-    console.log('pAddress  ', pAddress)
-    console.log('xAddress  ', xAddress)
-    console.log('cAddress  ', cAddress)
+    // console.log('pBalance   ', pBalance)
+    // console.log('pStake     ', pStake)
+    // console.log('pAddress  ', pAddress)
+    // console.log('xAddress  ', xAddress)
+    // console.log('cAddress  ', cAddress)
 
     // Exception where no addresses were found for queried chains
     if (
@@ -222,9 +222,9 @@ export async function getAddress(
         (a: IAddressData) => a.chainID === C.id
     )
 
-    console.log('pBalanceOrtelius       ', pBalanceOrtelius)
-    console.log('xBalanceOrtelius       ', xBalanceOrtelius)
-    console.log('cBalanceOrtelius       ', cBalanceOrtelius)
+    // console.log('pBalanceOrtelius       ', pBalanceOrtelius)
+    // console.log('xBalanceOrtelius       ', xBalanceOrtelius)
+    // console.log('cBalanceOrtelius       ', cBalanceOrtelius)
 
     const address: IAddress = {
         address: id!,
@@ -266,7 +266,7 @@ export async function getAddress(
     }
 
     if (pBalanceOrtelius.length > 0) {
-        console.log('do stuff with P here')
+        // console.log('do stuff with P here')
         // do not double count the P-chain AVAX balance
         /**
          *
