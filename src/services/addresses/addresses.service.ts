@@ -22,7 +22,7 @@ import {
     setUnlockedX,
     setAssetMetadata,
     setBalanceData,
-    setUnlockedC,
+    setUnlockedXC,
 } from './address'
 import qs from 'qs'
 import { C, P, X } from '@/known_blockchains'
@@ -178,8 +178,6 @@ export async function getAddress(
     id: string,
     assetsMap: IAssetsMap
 ): Promise<IAddress> {
-    console.log('id', id!)
-
     // Get data from Ortelius and Avalanche-Go
     const [pAddress, xAddress, cAddress, pBalance, pStake] = await Promise.all([
         getAddressFromOrtelius({
@@ -197,12 +195,6 @@ export async function getAddress(
         getBalance_P(id!),
         getStake_P(id!),
     ])
-
-    console.log('pBalance           ', pBalance)
-    console.log('pStake             ', pStake)
-    console.log('pAddress           ', pAddress)
-    console.log('xAddress           ', xAddress)
-    console.log('cAddress           ', cAddress)
 
     // Exception where no addresses were found for queried chains
     if (
@@ -264,27 +256,15 @@ export async function getAddress(
         (a: IAddressData) => a.chainID === C.id
     )
 
-    console.log('pBalanceOrtelius   ', pBalanceOrtelius)
-    console.log('xBalanceOrtelius   ', xBalanceOrtelius)
-    console.log('cBalanceOrtelius   ', cBalanceOrtelius)
-    // TEST CASE fuji1vu6mxvgjc5yxevfm0hkz7gldaakeatw5vpc383
-
     // Ortelius pBalance includes UTXOs from P-chain and X -> P shared memory
     // Avala-Go pBalance includes UTXOs from P-chain
     // We subtract one from the other to get balance for X -> P shared memory
     if (pBalanceOrtelius.length > 0) {
-        console.log('address.AVAX_balance', address.AVAX_balance)
         const pBalanceAndXPbalance = bigToDenomBig(
             setUnlockedXP(pBalanceOrtelius[0].assets),
             assetsMap[AVAX_ID].denomination
         )
         address.XP_unlocked = pBalanceAndXPbalance.minus(address.AVAX_balance)
-        console.log(
-            'XP BALANCE',
-            (address.XP_unlocked = pBalanceAndXPbalance.minus(
-                address.AVAX_balance
-            )).toString()
-        )
     }
 
     if (xBalanceOrtelius.length > 0) {
@@ -293,7 +273,10 @@ export async function getAddress(
     }
 
     if (cBalanceOrtelius.length > 0) {
-        address.XC_unlocked = setUnlockedC(cBalanceOrtelius[0].assets)
+        address.XC_unlocked = bigToDenomBig(
+            setUnlockedXC(cBalanceOrtelius[0].assets),
+            assetsMap[AVAX_ID].denomination
+        )
     }
 
     return address

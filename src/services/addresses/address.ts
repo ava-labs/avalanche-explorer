@@ -30,7 +30,6 @@ export function setBalanceData(
 }
 
 export function setUnlockedXP(assets: IBalanceXData): Big {
-    console.log('AVAX BALANCE:', assets[AVAX_ID])
     return assets[AVAX_ID] ? Big(assets[AVAX_ID].balance) : Big(0)
 }
 
@@ -39,6 +38,6 @@ export function setUnlockedX(assets: IBalanceX[]): Big {
     return result ? result.balance : Big(0)
 }
 
-export function setUnlockedC(assets: IBalanceXData): Big {
+export function setUnlockedXC(assets: IBalanceXData): Big {
     return assets[AVAX_ID] ? Big(assets[AVAX_ID].balance) : Big(0)
 }

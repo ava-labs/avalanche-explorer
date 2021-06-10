@@ -27,7 +27,7 @@
                                     :xp-unlocked="XP_unlocked"
                                     :x-unlocked="X_unlocked"
                                     :x-locked="X_locked"
-                                    :c-unlocked="XC_unlocked"
+                                    :xc-unlocked="XC_unlocked"
                                 ></AVAXBalanceTableSummary>
                             </v-tab-item>
                             <v-tab-item class="tab_content">
@@ -41,7 +41,7 @@
                                     :xp-unlocked="XP_unlocked"
                                     :x-unlocked="X_unlocked"
                                     :x-locked="X_locked"
-                                    :c-unlocked="XC_unlocked"
+                                    :xc-unlocked="XC_unlocked"
                                 ></AVAXBalanceTableDetail>
                             </v-tab-item>
                         </v-tabs>
