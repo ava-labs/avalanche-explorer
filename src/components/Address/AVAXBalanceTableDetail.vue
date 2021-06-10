@@ -45,6 +45,7 @@ export default class AVAXBalanceTableDetail extends Vue {
     @Prop() pLockedStakeable!: Big
     @Prop() pLockedNotStakeable!: Big
     @Prop() pStaked!: Big
+    @Prop() xpUnlocked!: Big
     @Prop() xUnlocked!: Big
     @Prop() xLocked!: Big
     @Prop() cUnlocked!: Big
@@ -69,6 +70,11 @@ export default class AVAXBalanceTableDetail extends Vue {
             name: 'Staked',
             chain: 'Platform',
             balance: this.pStaked,
+        },
+        {
+            name: 'Unlocked',
+            chain: 'XP Shared Memory',
+            balance: this.xpUnlocked,
         },
         {
             name: 'Unlocked',
@@ -97,6 +103,7 @@ export default class AVAXBalanceTableDetail extends Vue {
             .plus(this.pLockedStakeable)
             .plus(this.pLockedNotStakeable)
             .plus(this.pStaked)
+            .plus(this.xpUnlocked)
             .plus(this.xUnlocked)
             .plus(this.xLocked)
             .plus(this.cUnlocked)
@@ -106,7 +113,7 @@ export default class AVAXBalanceTableDetail extends Vue {
         switch (chain) {
             case 'Platform':
                 return backgroundColor('P')
-            case 'PX Shared Memory':
+            case 'XP Shared Memory':
                 return backgroundColor('P')
             case 'Exchange':
                 return backgroundColor('X')

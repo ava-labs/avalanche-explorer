@@ -18,6 +18,7 @@ import Big from 'big.js'
 import { IAssetDataAvalancheGo, IAssetDataOrtelius } from '@/js/IAsset'
 import { avm } from '@/avalanche'
 import {
+    setUnlockedXP,
     setUnlockedX,
     setAssetMetadata,
     setBalanceData,
@@ -197,11 +198,11 @@ export async function getAddress(
         getStake_P(id!),
     ])
 
-    // console.log('pBalance   ', pBalance)
-    // console.log('pStake     ', pStake)
-    // console.log('pAddress  ', pAddress)
-    // console.log('xAddress  ', xAddress)
-    // console.log('cAddress  ', cAddress)
+    console.log('pBalance           ', pBalance)
+    console.log('pStake             ', pStake)
+    console.log('pAddress           ', pAddress)
+    console.log('xAddress           ', xAddress)
+    console.log('cAddress           ', cAddress)
 
     // Exception where no addresses were found for queried chains
     if (
@@ -212,20 +213,7 @@ export async function getAddress(
         return getNullAddress(id!)
     }
 
-    const pBalanceOrtelius = pAddress.addresses.filter(
-        (a: IAddressData) => a.chainID === P.id
-    )
-    const xBalanceOrtelius = xAddress.addresses.filter(
-        (a: IAddressData) => a.chainID === X.id
-    )
-    const cBalanceOrtelius = cAddress.addresses.filter(
-        (a: IAddressData) => a.chainID === C.id
-    )
-
-    // console.log('pBalanceOrtelius       ', pBalanceOrtelius)
-    // console.log('xBalanceOrtelius       ', xBalanceOrtelius)
-    // console.log('cBalanceOrtelius       ', cBalanceOrtelius)
-
+    // Initialize the address and set the data from Avalanche-Go API
     const address: IAddress = {
         address: id!,
         publicKey: '', // todo
@@ -265,14 +253,38 @@ export async function getAddress(
         XC_unlocked: Big(0),
     }
 
+    // Then set data from Ortelius
+    const pBalanceOrtelius = pAddress.addresses.filter(
+        (a: IAddressData) => a.chainID === P.id
+    )
+    const xBalanceOrtelius = xAddress.addresses.filter(
+        (a: IAddressData) => a.chainID === X.id
+    )
+    const cBalanceOrtelius = cAddress.addresses.filter(
+        (a: IAddressData) => a.chainID === C.id
+    )
+
+    console.log('pBalanceOrtelius   ', pBalanceOrtelius)
+    console.log('xBalanceOrtelius   ', xBalanceOrtelius)
+    console.log('cBalanceOrtelius   ', cBalanceOrtelius)
+    // TEST CASE fuji1vu6mxvgjc5yxevfm0hkz7gldaakeatw5vpc383
+
+    // Ortelius pBalance includes UTXOs from P-chain and X -> P shared memory
+    // Avala-Go pBalance includes UTXOs from P-chain
+    // We subtract one from the other to get balance for X -> P shared memory
     if (pBalanceOrtelius.length > 0) {
-        // console.log('do stuff with P here')
-        // do not double count the P-chain AVAX balance
-        /**
-         *
-         *
-         *
-         */
+        console.log('address.AVAX_balance', address.AVAX_balance)
+        const pBalanceAndXPbalance = bigToDenomBig(
+            setUnlockedXP(pBalanceOrtelius[0].assets),
+            assetsMap[AVAX_ID].denomination
+        )
+        address.XP_unlocked = pBalanceAndXPbalance.minus(address.AVAX_balance)
+        console.log(
+            'XP BALANCE',
+            (address.XP_unlocked = pBalanceAndXPbalance.minus(
+                address.AVAX_balance
+            )).toString()
+        )
     }
 
     if (xBalanceOrtelius.length > 0) {

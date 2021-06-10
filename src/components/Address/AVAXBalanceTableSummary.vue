@@ -53,6 +53,7 @@ export default class AVAXBalanceTableSummary extends Vue {
     @Prop() pLockedStakeable!: Big
     @Prop() pLockedNotStakeable!: Big
     @Prop() pStaked!: Big
+    @Prop() xpUnlocked!: Big
     @Prop() xUnlocked!: Big
     @Prop() xLocked!: Big
     @Prop() cUnlocked!: Big
@@ -68,7 +69,10 @@ export default class AVAXBalanceTableSummary extends Vue {
     }
 
     get totalAVAXUnlocked(): Big {
-        return this.pUnlocked.plus(this.xUnlocked).plus(this.cUnlocked)
+        return this.pUnlocked
+            .plus(this.xpUnlocked)
+            .plus(this.xUnlocked)
+            .plus(this.cUnlocked)
     }
 
     get totalAVAX(): Big {
@@ -76,6 +80,7 @@ export default class AVAXBalanceTableSummary extends Vue {
             .plus(this.pLockedStakeable)
             .plus(this.pLockedNotStakeable)
             .plus(this.pStaked)
+            .plus(this.xpUnlocked)
             .plus(this.xUnlocked)
             .plus(this.xLocked)
             .plus(this.cUnlocked)

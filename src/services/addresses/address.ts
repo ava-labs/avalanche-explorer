@@ -29,6 +29,11 @@ export function setBalanceData(
     balance.totalSent = stringToBig(balanceDatum.totalSent, denomination)
 }
 
+export function setUnlockedXP(assets: IBalanceXData): Big {
+    console.log('AVAX BALANCE:', assets[AVAX_ID])
+    return assets[AVAX_ID] ? Big(assets[AVAX_ID].balance) : Big(0)
+}
+
 export function setUnlockedX(assets: IBalanceX[]): Big {
     const result = assets.find((asset) => asset.id === AVAX_ID)
     return result ? result.balance : Big(0)

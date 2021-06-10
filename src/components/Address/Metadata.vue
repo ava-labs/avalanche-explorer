@@ -24,6 +24,7 @@
                                         P_lockedNotStakeable
                                     "
                                     :p-staked="P_staked"
+                                    :xp-unlocked="XP_unlocked"
                                     :x-unlocked="X_unlocked"
                                     :x-locked="X_locked"
                                     :c-unlocked="XC_unlocked"
@@ -37,6 +38,7 @@
                                         P_lockedNotStakeable
                                     "
                                     :p-staked="P_staked"
+                                    :xp-unlocked="XP_unlocked"
                                     :x-unlocked="X_unlocked"
                                     :x-locked="X_locked"
                                     :c-unlocked="XC_unlocked"
@@ -107,6 +109,11 @@ export default class Metadata extends Vue {
         return this.metaData.P_staked
     }
 
+    // X -> P shared memory
+    get XP_unlocked(): Big {
+        return this.metaData.XP_unlocked
+    }
+
     // X-Chain AVAX balance
     get X_unlocked(): Big {
         return this.metaData.X_unlocked
@@ -116,10 +123,13 @@ export default class Metadata extends Vue {
         return this.metaData.X_locked
     }
 
-    // C-Chain AVAX balance (bech32, no 0x)
+    // X -> C shared memory
     get XC_unlocked(): Big {
         return this.metaData.XC_unlocked
     }
+
+    // C-Chain AVAX balance
+    // @dev we do not support EVM balances here. only bech32, no 0x
 }
 </script>
 
