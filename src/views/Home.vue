@@ -37,7 +37,7 @@ export default class Home extends Vue {}
 
 @if $VUE_APP_DEFAULT_NETWORKID == 5 {
     .recent_tx {
-        border: 2px solid $secondary-color;
+        border: 2px solid $secondary-color !important;
     }
 }
 
