@@ -282,7 +282,7 @@ import { scaleLinear } from 'd3-scale'
     },
     filters: {
         AVAX(val: number) {
-            return toAVAX(val).toFixed(4).toLocaleString()
+            return parseFloat(toAVAX(val).toFixed(4)).toLocaleString()
         },
     },
 })
