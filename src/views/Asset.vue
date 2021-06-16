@@ -253,30 +253,9 @@ $symbol_w: 35px;
     justify-content: flex-end;
 }
 
-.two-col {
-    display: flex;
-    flex-direction: row;
-
-    .left {
-        h4 {
-            margin-top: 0;
-        }
-        flex-basis: 0 0 300px;
-        margin-right: 60px;
-    }
-
-    .right {
-        flex: 1;
-    }
-}
-
 @include smOnly {
     .transactions {
         margin-bottom: 10px;
-
-        .table_headers {
-            display: none;
-        }
     }
 }
 </style>
