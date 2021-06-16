@@ -2,42 +2,15 @@
     <div class="transactions">
         <div class="card">
             <div class="header">
-                <TransactionsHeader />
-                <TxParams @change="fetchTx" />
+                <TxHeader />
             </div>
-            <div class="two-col">
-                <TxFilter :chains="chains" @change="setFilter" />
-                <div class="right">
-                    <template v-if="!loading && assetsLoaded">
-                        <TxTableHead />
-                        <v-alert
-                            v-if="filteredTransactions.length === 0"
-                            color="#e6f5ff"
-                            dense
-                        >
-                            There are no matching entries
-                        </v-alert>
-                        <div class="rows">
-                            <transition-group name="fade" mode="out-in">
-                                <TxRow
-                                    v-for="tx in filteredTransactions"
-                                    :key="tx.id"
-                                    class="tx_item"
-                                    :transaction="tx"
-                                />
-                            </transition-group>
-                        </div>
-                    </template>
-                    <v-progress-circular
-                        v-else
-                        key="1"
-                        :size="16"
-                        :width="2"
-                        color="#E84970"
-                        indeterminate
-                    />
-                </div>
-            </div>
+            <TxInteractive
+                :transactions="transactions"
+                :assets-loaded="assetsLoaded"
+                :loading="loading"
+                :chains="chains"
+                @change="fetchTx"
+            />
         </div>
     </div>
 </template>
@@ -45,26 +18,16 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Component, Watch, Mixins } from 'vue-property-decorator'
-import Tooltip from '@/components/rows/Tooltip.vue'
-import TxTableHead from '@/components/rows/TxRow/TxTableHead.vue'
-import TxRow from '@/components/rows/TxRow/TxRow.vue'
-import TransactionsHeader from '@/components/Transaction/TxHeader.vue'
-import TxFilter from '@/components/Transaction/TxFilter.vue'
-import TxParams from '@/components/Transaction/TxParams.vue'
-import DateForm from '@/components/misc/DateForm.vue'
+import TxHeader from '@/components/Transaction/TxHeader.vue'
+import TxInteractive from '@/components/Transaction/TxInteractive.vue'
 import { ITransactionParams } from '@/services/transactions'
 import { TransactionsGettersMixin } from '@/store/modules/transactions/transactions.mixins'
 import { P, X, C } from '@/known_blockchains'
 
 @Component({
     components: {
-        Tooltip,
-        TxTableHead,
-        TxRow,
-        TransactionsHeader,
-        DateForm,
-        TxFilter,
-        TxParams,
+        TxHeader,
+        TxInteractive,
     },
 })
 export default class Transactions extends Mixins(TransactionsGettersMixin) {
@@ -90,22 +53,12 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
         })
     }
 
-    setFilter(val: string[]) {
-        this.filters = val
-    }
-
     get chains() {
         return [P, X, C]
     }
 
     get transactions() {
         return this.getTxs()
-    }
-
-    get filteredTransactions() {
-        return this.transactions.filter((tx) => {
-            return this.filters.some((val) => val === tx.type)
-        })
     }
 
     fetchTx(params: ITransactionParams): void {
@@ -132,40 +85,9 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
     margin-bottom: 10px;
 }
 
-.tx_item {
-    border-bottom: 1px solid #e7e7e7;
-
-    &:last-of-type {
-        border: none !important;
-    }
-}
-
 .bar-table {
     padding-top: 30px;
     display: flex;
     justify-content: flex-end;
-}
-
-.two-col {
-    display: flex;
-    flex-direction: row;
-
-    .left {
-        h4 {
-            margin-top: 0;
-        }
-        flex-basis: 0 0 300px;
-        margin-right: 60px;
-    }
-
-    .right {
-        flex: 1;
-    }
-}
-
-@include smOnly {
-    .table_headers {
-        display: none;
-    }
 }
 </style>
