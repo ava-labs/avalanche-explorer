@@ -1,9 +1,7 @@
 <template>
     <div class="transactions">
         <div class="card">
-            <div class="header">
-                <TxHeader />
-            </div>
+            <TxHeader />
             <TxInteractive
                 :transactions="transactions"
                 :assets-loaded="assetsLoaded"
@@ -33,12 +31,13 @@ import { P, X, C } from '@/known_blockchains'
 export default class Transactions extends Mixins(TransactionsGettersMixin) {
     loading = true
     filters: string[] = []
+    initialParams = {
+        sort: 'timestamp-desc',
+        limit: 25,
+    }
 
     created() {
-        this.fetchTx({
-            sort: 'timestamp-desc',
-            limit: 25,
-        })
+        this.fetchTx(this.initialParams)
     }
 
     get assetsLoaded() {
@@ -47,10 +46,7 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
 
     @Watch('assetsLoaded')
     onAssetsLoadedChanged() {
-        this.fetchTx({
-            sort: 'timestamp-desc',
-            limit: 25,
-        })
+        this.fetchTx(this.initialParams)
     }
 
     get chains() {

@@ -441,10 +441,10 @@ input {
     flex-direction: row-reverse;
 }
 
-.tx_chain_header {
-    display: flex;
-    justify-content: space-between;
-}
+// .tx_chain_header {
+//     display: flex;
+//     justify-content: space-between;
+// }
 
 .chain {
     font-size: 12px;
