@@ -157,8 +157,7 @@ export default class AssetPage extends Mixins(TransactionsGettersMixin) {
                 })
                 .then((data) => {
                     this.loading = false
-                    const tx = new Transaction(data)
-                    this.genesisTx = tx
+                    this.genesisTx = new Transaction(data)
                 })
                 .catch((err) => {
                     this.loading = false
