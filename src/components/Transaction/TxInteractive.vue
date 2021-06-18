@@ -72,7 +72,7 @@ export default class TxInteractive extends Vue {
     @Prop() assetsLoaded!: boolean
     @Prop() loading!: boolean
     @Prop() chains!: ChainMap[]
-    text = 'center'
+
     filters: string[] = []
 
     setFilter(val: string[]) {
