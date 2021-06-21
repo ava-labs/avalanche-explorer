@@ -76,11 +76,6 @@ export default class Transactions extends Mixins(TransactionsGettersMixin) {
     font-size: 12px;
 }
 
-.header {
-    padding-bottom: 20px;
-    margin-bottom: 10px;
-}
-
 .bar-table {
     padding-top: 30px;
     display: flex;
