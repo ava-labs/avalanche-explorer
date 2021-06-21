@@ -125,6 +125,11 @@
             <template #item.duration="{ item }">
                 {{ (item.endTime - item.startTime) | duration }}
             </template>
+            <template #item.rewardOwner.addresses[0]="{ item }">
+                <router-link :to="`/address/${item.rewardOwner.addresses[0]}`"
+                    >{{ item.rewardOwner.addresses[0] }}
+                </router-link>
+            </template>
             <template #item.delegationFee="{ item }">
                 <div>{{ item.delegationFee }}%</div>
             </template>
