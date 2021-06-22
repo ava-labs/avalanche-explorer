@@ -115,6 +115,40 @@ export interface TransactionResponse {
     */
 }
 
+export interface EVMTransactionResponse {
+    hash: string
+    createdAt: string
+    nonce: number
+    value: string
+    input: string
+    toAddr: string
+    fromAddr: string
+    gasPrice: string
+    gasLimit: number
+    block: string
+    blockGasUsed: number
+    blockGasLimit: number
+    blockNonce: number
+    blockHash: string
+    recipient: string
+    v: string
+    r: string
+    s: string
+    traces: TraceResponse[]
+}
+
+export interface TraceResponse {
+    callType: string
+    to: string
+    from: string
+    type: string
+    gasUsed: string
+    gas: string
+    input: string
+    value: string
+    traceAddress?: number[]
+}
+
 /* ==========================================
    Transactions (JS)
    ========================================== */
