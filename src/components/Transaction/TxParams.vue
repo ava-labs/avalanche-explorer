@@ -131,4 +131,15 @@ export default class TxParams extends Vue {
     padding-top: 19px;
     padding-right: 15px;
 }
+
+@include smOrSmaller {
+    .bar {
+        flex-direction: column;
+        align-items: flex-start;
+
+        > p {
+            flex-grow: 1;
+        }
+    }
+}
 </style>

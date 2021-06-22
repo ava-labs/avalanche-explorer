@@ -1,6 +1,6 @@
 <template>
     <div class="transactions-filter left">
-        <h4>Filter Results<br />by Chain and Type</h4>
+        <h4>Filter Results</h4>
         <div>
             <div>
                 <v-treeview

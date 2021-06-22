@@ -146,6 +146,10 @@ export default class TopAssets extends Vue {
     font-weight: 500;
     color: $primary-color;
     border-bottom: 1px solid $gray-light;
+
+    &:hover {
+        opacity: 1 !important;
+    }
 }
 
 .asset {

@@ -153,4 +153,15 @@ export default class DateForm extends Vue {
 .reverse {
     flex-direction: row-reverse !important;
 }
+
+@include smOrSmaller {
+    .dates_form {
+        flex-direction: column !important;
+        align-items: left;
+
+        > p {
+            flex-grow: 1;
+        }
+    }
+}
 </style>

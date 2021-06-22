@@ -23,45 +23,15 @@
             :support-u-r-l="'https://chat.avalabs.org'"
         />
         <!-- TRANSACTIONS -->
-        <section v-if="!loading && !txRequestError" class="card transactions">
-            <div class="header">
-                <TransactionsHeader />
-                <TxParams @change="fetchTx" />
-            </div>
-            <div class="two-col">
-                <TxFilter :chains="chains" @change="setFilter" />
-                <div class="right">
-                    <!-- LOAD -->
-                    <template v-if="!txLoading && assetsLoaded">
-                        <TxTableHead />
-                        <v-alert
-                            v-if="filteredTransactions.length === 0"
-                            color="#e6f5ff"
-                            dense
-                        >
-                            There are no matching entries
-                        </v-alert>
-                        <div v-else class="rows">
-                            <transition-group name="fade" mode="out-in">
-                                <TxRow
-                                    v-for="tx in filteredTransactions"
-                                    :key="tx.id"
-                                    class="tx_item"
-                                    :transaction="tx"
-                                />
-                            </transition-group>
-                        </div>
-                    </template>
-                    <v-progress-circular
-                        v-else
-                        key="1"
-                        :size="16"
-                        :width="2"
-                        color="#E84970"
-                        indeterminate
-                    />
-                </div>
-            </div>
+        <section v-if="!txRequestError" class="card transactions">
+            <TxHeader />
+            <TxInteractive
+                :transactions="transactions"
+                :assets-loaded="assetsLoaded"
+                :loading="loading"
+                :chains="chains"
+                @change="fetchTx"
+            />
         </section>
         <HTTPError
             v-if="!txLoading && txRequestError"
@@ -81,18 +51,13 @@ import { Component, Watch, Mixins } from 'vue-property-decorator'
 import Loader from '@/components/misc/Loader.vue'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import AddressSummary from '@/components/Address/AddressSummary.vue'
-import TxTableHead from '@/components/rows/TxRow/TxTableHead.vue'
-import TxRow from '@/components/rows/TxRow/TxRow.vue'
 import AddressDict from '@/known_addresses'
 import { IBalanceX, IAddress } from '@/services/addresses/models'
 import { getAddress } from '@/services/addresses/addresses.service'
 import HTTPError from '@/components/misc/HTTPError.vue'
 import TxHeader from '@/components/Transaction/TxHeader.vue'
-import TransactionsHeader from '@/components/Transaction/TxHeader.vue'
-import DateForm from '@/components/misc/DateForm.vue'
+import TxInteractive from '@/components/Transaction/TxInteractive.vue'
 import { ITransactionParams } from '@/services/transactions'
-import TxFilter from '@/components/Transaction/TxFilter.vue'
-import TxParams from '@/components/Transaction/TxParams.vue'
 import { TransactionsGettersMixin } from '@/store/modules/transactions/transactions.mixins'
 import { P, X, C } from '@/known_blockchains'
 import { getNullAddress } from '@/helper'
@@ -103,13 +68,8 @@ import { getNullAddress } from '@/helper'
         Tooltip,
         HTTPError,
         AddressSummary,
-        TransactionsHeader,
-        DateForm,
-        TxTableHead,
-        TxRow,
         TxHeader,
-        TxFilter,
-        TxParams,
+        TxInteractive,
     },
 })
 export default class AddressPage extends Mixins(TransactionsGettersMixin) {
@@ -203,12 +163,6 @@ export default class AddressPage extends Mixins(TransactionsGettersMixin) {
 
     get transactions() {
         return this.getTxsByAddress()
-    }
-
-    get filteredTransactions() {
-        return this.transactions.filter((tx) => {
-            return this.filters.some((val) => val === tx.type)
-        })
     }
 
     // get address details and txs

@@ -13,48 +13,15 @@
                 :genesis-tx="genesisTx"
             />
             <!-- TRANSACTIONS -->
-            <section
-                v-if="!txLoading && !txRequestError"
-                class="card transactions"
-            >
-                <header class="header">
-                    <TxHeader />
-                    <TxParams @change="fetchTx" />
-                </header>
-                <div class="two-col">
-                    <TxFilter :chains="chains" @change="setFilter" />
-                    <div class="right">
-                        <!-- LOAD -->
-                        <template v-if="!txLoading && assetsLoaded">
-                            <TxTableHead />
-                            <v-alert
-                                v-if="filteredTransactions.length === 0"
-                                color="#e6f5ff"
-                                dense
-                            >
-                                There are no matching entries
-                            </v-alert>
-                            <div v-else class="rows">
-                                <transition-group name="fade" mode="out-in">
-                                    <TxRow
-                                        v-for="tx in filteredTransactions"
-                                        :key="tx.id"
-                                        class="tx_item"
-                                        :transaction="tx"
-                                    />
-                                </transition-group>
-                            </div>
-                        </template>
-                        <v-progress-circular
-                            v-else
-                            key="1"
-                            :size="16"
-                            :width="2"
-                            color="#E84970"
-                            indeterminate
-                        />
-                    </div>
-                </div>
+            <section v-if="!txRequestError" class="card transactions">
+                <TxHeader />
+                <TxInteractive
+                    :transactions="transactions"
+                    :assets-loaded="assetsLoaded"
+                    :loading="loading"
+                    :chains="chains"
+                    @change="fetchTx"
+                />
             </section>
             <HTTPError
                 v-if="!txLoading && txRequestError"
@@ -75,18 +42,14 @@ import { Component, Watch, Mixins } from 'vue-property-decorator'
 import Loader from '@/components/misc/Loader.vue'
 import AssetSummary from '@/components/Asset/AssetSummary.vue'
 import TransactionSummary from '@/components/Transaction/TransactionSummary.vue'
-import PaginationControls from '@/components/misc/PaginationControls.vue'
 import Tooltip from '@/components/rows/Tooltip.vue'
-import TxTableHead from '@/components/rows/TxRow/TxTableHead.vue'
-import TxRow from '@/components/rows/TxRow/TxRow.vue'
 import { Transaction } from '../js/Transaction'
 import { Asset } from '@/js/Asset'
 import { getTransaction, ITransactionParams } from '@/services/transactions'
 import { getAssetInfo } from '@/services/assets'
 import TxHeader from '@/components/Transaction/TxHeader.vue'
+import TxInteractive from '@/components/Transaction/TxInteractive.vue'
 import { TransactionsGettersMixin } from '@/store/modules/transactions/transactions.mixins'
-import TxFilter from '@/components/Transaction/TxFilter.vue'
-import TxParams from '@/components/Transaction/TxParams.vue'
 import HTTPError from '@/components/misc/HTTPError.vue'
 import { P, X, C } from '@/known_blockchains'
 
@@ -94,14 +57,10 @@ import { P, X, C } from '@/known_blockchains'
     components: {
         Loader,
         AssetSummary,
-        PaginationControls,
         TransactionSummary,
         Tooltip,
-        TxTableHead,
-        TxRow,
         TxHeader,
-        TxFilter,
-        TxParams,
+        TxInteractive,
         HTTPError,
     },
 })
@@ -175,22 +134,12 @@ export default class AssetPage extends Mixins(TransactionsGettersMixin) {
         return this.$route.params.id
     }
 
-    setFilter(val: string[]) {
-        this.filters = val
-    }
-
     get chains() {
         return [P, X, C]
     }
 
     get transactions() {
         return this.getTxsByAsset()
-    }
-
-    get filteredTransactions() {
-        return this.transactions.filter((tx) => {
-            return this.filters.some((val) => val === tx.type)
-        })
     }
 
     getData(params: ITransactionParams): void {
@@ -208,8 +157,7 @@ export default class AssetPage extends Mixins(TransactionsGettersMixin) {
                 })
                 .then((data) => {
                     this.loading = false
-                    const tx = new Transaction(data)
-                    this.genesisTx = tx
+                    this.genesisTx = new Transaction(data)
                 })
                 .catch((err) => {
                     this.loading = false
@@ -304,30 +252,9 @@ $symbol_w: 35px;
     justify-content: flex-end;
 }
 
-.two-col {
-    display: flex;
-    flex-direction: row;
-
-    .left {
-        h4 {
-            margin-top: 0;
-        }
-        flex-basis: 0 0 300px;
-        margin-right: 60px;
-    }
-
-    .right {
-        flex: 1;
-    }
-}
-
 @include smOnly {
     .transactions {
         margin-bottom: 10px;
-
-        .table_headers {
-            display: none;
-        }
     }
 }
 </style>

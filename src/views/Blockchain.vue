@@ -11,45 +11,14 @@
             <!-- TRANSACTIONS -->
             <template v-if="blockchain">
                 <div v-if="blockchain.indexed" class="card blockchain_tx">
-                    <div class="header">
-                        <TransactionsHeader />
-                        <TxParams @change="fetchTx" />
-                    </div>
-                    <div class="two-col">
-                        <template v-if="chain">
-                            <TxFilter :chains="[chain]" @change="setFilter"
-                        /></template>
-                        <div class="right">
-                            <template v-if="!loading && assetsLoaded">
-                                <TxTableHead />
-                                <v-alert
-                                    v-if="filteredTransactions.length === 0"
-                                    color="#e6f5ff"
-                                    dense
-                                >
-                                    There are no matching entries
-                                </v-alert>
-                                <div class="rows">
-                                    <transition-group name="fade" mode="out-in">
-                                        <TxRow
-                                            v-for="tx in filteredTransactions"
-                                            :key="tx.id"
-                                            class="tx_item"
-                                            :transaction="tx"
-                                        />
-                                    </transition-group>
-                                </div>
-                            </template>
-                            <v-progress-circular
-                                v-else
-                                key="1"
-                                :size="16"
-                                :width="2"
-                                color="#E84970"
-                                indeterminate
-                            />
-                        </div>
-                    </div>
+                    <TxHeader />
+                    <TxInteractive
+                        :transactions="transactions"
+                        :assets-loaded="assetsLoaded"
+                        :loading="loading"
+                        :chains="chain"
+                        @change="fetchTx"
+                    />
                 </div>
             </template>
         </template>
@@ -64,30 +33,26 @@ import Blockchain from '@/js/Blockchain'
 import BlockchainSummary from '@/components/Blockchain/BlockchainSummary.vue'
 import { TransactionsGettersMixin } from '@/store/modules/transactions/transactions.mixins'
 import { ITransactionParams } from '@/services/transactions'
-import TransactionsHeader from '@/components/Transaction/TxHeader.vue'
-import TxTableHead from '@/components/rows/TxRow/TxTableHead.vue'
-import TxRow from '@/components/rows/TxRow/TxRow.vue'
-import TxFilter from '@/components/Transaction/TxFilter.vue'
-import TxParams from '@/components/Transaction/TxParams.vue'
-import DateForm from '@/components/misc/DateForm.vue'
+import TxHeader from '@/components/Transaction/TxHeader.vue'
+import TxInteractive from '@/components/Transaction/TxInteractive.vue'
 import { ChainMap, getTxChainType } from '@/known_blockchains'
 
 @Component({
     components: {
         Loader,
         BlockchainSummary,
-        TransactionsHeader,
-        TxTableHead,
-        TxRow,
-        DateForm,
-        TxFilter,
-        TxParams,
+        TxHeader,
+        TxInteractive,
     },
 })
 export default class BlockchainPage extends Mixins(TransactionsGettersMixin) {
     loading = true
     blockchain: Blockchain | null = null
     filters: string[] = []
+    initialParams = {
+        sort: 'timestamp-desc',
+        limit: 25,
+    }
 
     breadcrumbs: any = [
         {
@@ -104,32 +69,19 @@ export default class BlockchainPage extends Mixins(TransactionsGettersMixin) {
 
     async created() {
         await this.getData()
-        this.fetchTx({
-            sort: 'timestamp-desc',
-            limit: 25,
-        })
+        this.fetchTx(this.initialParams)
     }
 
     @Watch('subnetsLoaded')
     async onSubnetsLoadedChanged() {
         await this.getData()
-        this.fetchTx({
-            sort: 'timestamp-desc',
-            limit: 25,
-        })
+        this.fetchTx(this.initialParams)
     }
 
     @Watch('assetsLoaded')
     async onAssetsLoadedChanged() {
         await this.getData()
-        this.fetchTx({
-            sort: 'timestamp-desc',
-            limit: 25,
-        })
-    }
-
-    setFilter(val: string[]) {
-        this.filters = val
+        this.fetchTx(this.initialParams)
     }
 
     get id(): string {
@@ -137,7 +89,7 @@ export default class BlockchainPage extends Mixins(TransactionsGettersMixin) {
     }
 
     get chain() {
-        return getTxChainType(this.id) as ChainMap
+        return [getTxChainType(this.id) as ChainMap]
     }
 
     get assetsLoaded() {
@@ -156,12 +108,6 @@ export default class BlockchainPage extends Mixins(TransactionsGettersMixin) {
 
     get transactions() {
         return this.getTxsByBlockchain()
-    }
-
-    get filteredTransactions() {
-        return this.transactions.filter((tx) => {
-            return this.filters.some((val) => val === tx.type)
-        })
     }
 
     fetchTx(params: ITransactionParams): void {
@@ -184,28 +130,5 @@ export default class BlockchainPage extends Mixins(TransactionsGettersMixin) {
 <style scoped lang="scss">
 .blockchain_tx {
     margin-top: 30px;
-}
-
-.two-col {
-    display: flex;
-    flex-direction: row;
-
-    .left {
-        h4 {
-            margin-top: 0;
-        }
-        flex-basis: 0 0 300px;
-        margin-right: 60px;
-    }
-
-    .right {
-        flex: 1;
-    }
-}
-
-@include smOnly {
-    .table_headers {
-        display: none;
-    }
 }
 </style>

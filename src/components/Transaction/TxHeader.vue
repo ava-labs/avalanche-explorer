@@ -1,5 +1,5 @@
 <template>
-    <div class="tx_chain_header">
+    <div class="header">
         <h2>Transactions</h2>
     </div>
 </template>
@@ -7,9 +7,12 @@
 import 'reflect-metadata'
 import { Vue, Component } from 'vue-property-decorator'
 
-@Component({
-    components: {},
-})
+@Component({})
 export default class TxHeader extends Vue {}
 </script>
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.header {
+    padding-bottom: 20px;
+    margin-bottom: 10px;
+}
+</style>

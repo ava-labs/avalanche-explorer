@@ -125,6 +125,11 @@
             <template #item.duration="{ item }">
                 {{ (item.endTime - item.startTime) | duration }}
             </template>
+            <template #item.rewardOwner.addresses[0]="{ item }">
+                <router-link :to="`/address/${item.rewardOwner.addresses[0]}`"
+                    >{{ item.rewardOwner.addresses[0] }}
+                </router-link>
+            </template>
             <template #item.delegationFee="{ item }">
                 <div>{{ item.delegationFee }}%</div>
             </template>
@@ -282,7 +287,7 @@ import { scaleLinear } from 'd3-scale'
     },
     filters: {
         AVAX(val: number) {
-            return toAVAX(val).toFixed(4).toLocaleString()
+            return parseFloat(toAVAX(val).toFixed(4)).toLocaleString()
         },
     },
 })
