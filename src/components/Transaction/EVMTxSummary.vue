@@ -17,7 +17,7 @@
                 </v-tooltip>
             </h2>
         </header>
-        <!-- <Metadata :tx="tx" :is-staking="isStaking" :is-memo="isMemo" /> -->
+        <EVMMetadata :tx="tx" />
     </div>
 </template>
 
@@ -29,13 +29,13 @@ import { Transaction } from '@/js/Transaction'
 import { getMappingForType } from '@/store/modules/transactions/maps'
 import { toAVAX } from '@/helper'
 import Tooltip from '@/components/rows/Tooltip.vue'
-// import Metadata from '@/components/Transaction/Metadata.vue'
+import EVMMetadata from '@/components/Transaction/EVMMetadata.vue'
 
 @Component({
     components: {
         Tooltip,
         CopyText,
-        // Metadata,
+        EVMMetadata,
     },
     filters: {
         getType: getMappingForType,
