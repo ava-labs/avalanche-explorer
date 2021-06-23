@@ -20,7 +20,6 @@ export interface TransactionQueryResponse {
     next: string
     transactions: TransactionResponse[]
 }
-
 export interface TransactionQuery {
     startTime: string
     endTime: string
@@ -115,6 +114,83 @@ export interface TransactionResponse {
     */
 }
 
+/* ==========================================
+   EVM Blocks
+   ========================================== */
+// response is the same as eth getBlock
+// example https://explorerapi.avax.network/v2/ctxdata/1000
+export interface EVMBlockQueryResponse {
+    blockNumber: string // '1000'
+    header: EVMBlockHeader
+    uncles: null
+    txs: null
+    version: number // 0
+    blockExtraData: string // ''
+    transactions: EVMBlockTransaction[]
+    logs: EVMBlockLog[]
+}
+
+export interface EVMBlockHeader {
+    parentHash: string // '0x38c50e6d69e590682fde94c6f66aa3596c5e0a9ccc7290f7ed876ed7008ee564'
+    sha3Uncles: string // '0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347'
+    miner: string // '0x0100000000000000000000000000000000000000'
+    stateRoot: string // '0x2d0a9ba7a1462a85c770e6d6d25ec10c7488707ed946977a14c934d4ef534506'
+    transactionsRoot: string // '0x97d585d1361a1a605e996f9b4fcd170fe0002f97b8f41b0dd49778a6f28f81a5'
+    receiptsRoot: string // '0x4b59332f20afb63eae88492640524f29451491d02abf59d9250136cb4a0adfdb'
+    logsBloom: string // '0x00000000000000000000000000000000000100000000000000000000000000000000000000000000000001200000000000000000000000000000000000000000000000000000000000000008000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000004000000000000001020000000000000000000000000000000000000000000000000000000000002000000000001000000000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000'
+    difficulty: string // '0x1'
+    number: string // '0x3e8'
+    gasLimit: string // '0x23e6441'
+    gasUsed: string // '0x7d71'
+    timestamp: string // '0x5fde8d3b'
+    extraData: string // '0xd883010916846765746888676f312e31352e35856c696e75783ae348c32855703315cdd63cb0e75ee2d2fb932daab4d17377098975ab12e495'
+    mixHash: string // '0x0000000000000000000000000000000000000000000000000000000000000000'
+    nonce: string // '0x0000000000000000'
+    extDataHash: string // '0x0000000000000000000000000000000000000000000000000000000000000000'
+    hash: string // '0x7676d0aca0c753aaf36ceefc7be9a9340616dc07ddd7d254bc41db426bb72e56'
+}
+
+export interface EVMBlockTransaction {
+    hash: string // '0x98e2215034972c080eb0729f7ebe2d2e995f48485ef6a2b482de13a19e716a67'
+    type: string // '0x0'
+    // SENDER (v,r,s resolves to fromAddr)
+    v: string // '0x150f8'
+    r: string // '0x3b6e48994f3c46853ae729439d45c8e96c659a5236a22d74e0ba8ec82a189441'
+    s: string // '0x2d001e06c4ab3658fd75720ed7625a33d4cd513d0a8f4317827def37395ac27f'
+    nonce: string // '0x17'
+    // PAYLOAD
+    value: string // '0x0'
+    input: string // '0xa9059cbb0000000000000000000000003739a6ab96d4e0e4c9d51316e673766bb6e7711b000000000000000000000000000000000000000000000000000000000000460c'
+    gasPrice: string // '0x6d6e2edc00'
+    gas: string // '0x7d71'
+    // RECIPIENT
+    to: string // '0xcb65dad78320a8d15ad8a88001324e4e163ca534'
+}
+export interface EVMBlockLog {
+    address: string // '0xcb65dad78320a8d15ad8a88001324e4e163ca534'
+    topics: string[] /* [
+            '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef',
+            '0x00000000000000000000000077c31cd409fce1984abe6f23743bf6046de4b9e0',
+            '0x0000000000000000000000003739a6ab96d4e0e4c9d51316e673766bb6e7711b'
+        ] */
+    data: string // '0x000000000000000000000000000000000000000000000000000000000000460c'
+    blockNumber: string // '0x3e8'
+    transactionHash: string // '0x98e2215034972c080eb0729f7ebe2d2e995f48485ef6a2b482de13a19e716a67'
+    transactionIndex: string // '0x0'
+    blockHash: string // '0x7676d0aca0c753aaf36ceefc7be9a9340616dc07ddd7d254bc41db426bb72e56'
+    logIndex: string // '0x0'
+    removed: boolean // false
+}
+
+/* ==========================================
+   EVM Transactions
+   ========================================== */
+export interface EVMTransactionQueryResponse {
+    Transactions: EVMTransactionResponse[]
+    startTime: string // N/A - internal query logic for Ortelius DB
+    endTime: string // N/A
+}
+
 /* All definitions from https://consensys.github.io/EthOn/EthOn_spec.html
     ValueTx - Just moves Ether from one account to another.
     CallTx - A type of transaction that is directed towards a contract account and calls a method in the contract's code.
@@ -122,14 +198,13 @@ export interface TransactionResponse {
  */
 export interface EVMTransactionResponse {
     hash: string // The Keccak 256-bit hash of the transaction
-    createdAt: string // time of block acceptance by Avalanche-Go
-    recipient: string // ???
+    createdAt: string // time of ingestion by Ortelius, 99& of the time this value should be the same as blockHeader.timestamp (sec granularity). different by ms
 
-    // THE SENDER
+    // SENDER
     fromAddr: string /* A tx always originates from an external account that is 
                         controlled by an external actor by means of a private key */
     nonce: number // A scalar value equal to the number of transactions sent by the sender.
-    // THE PAYLOAD
+    // PAYLOAD
     value: string /* A scalar value equal to the number of Wei to be transferred to the Message call's recipient. 
                         In the case of contract creation it is the initial balance of 
                         the contract account, paid by the sending account. */
@@ -141,13 +216,13 @@ export interface EVMTransactionResponse {
                         If used with contract messages it represents the fraction of the original transaction gas limit still 
                         available for execution of the contract message. After all resulting computations are done, 
                         excess gas is returned to the sender of the original transaction. */
-    // THE RECIPIENT
+    // RECIPIENT
     toAddr: string // Relates a message with the account it is sent to.
+    recipient: string // duplicate to above
 
     // THE BLOCK CONTAINING THIS TX
     block: string // A scalar value equal to the number of ancestor blocks. The genesis block has a number of zero.
-    blockGasUsed: number /* ??? CONFIRM A scalar value equal to the total gas used by all transactions in this block.
-                            or txGasUsed - The total amount of gas that was used for processing this Tx and all contract messages resulting from it. It is the sum of all msgGasUsed by this Tx and resulting contract messages. */
+    blockGasUsed: number // A scalar value equal to the total gas used by all transactions in this block.
     blockGasLimit: number /* Will stay constant for foreseeable future
                                 A scalar value equal to the current limit of gas expenditure per block. 
                                 Its purpose is to keep block propagation and processing time low, 
@@ -196,24 +271,24 @@ export interface TraceResponse {
                         CREATE - a subtype of a contract message that results in creation of a new contract account
                         CALL - CallContractMsg - a contract message that calls a function in another contract.
                         ??? SelfdestructContractMsg - a contract message that deletes the originating contract and refunds its balance to the receiver of the message.*/
-    // THE SENDER
+    // SENDER
     from: string // Relates a message to the account it originates from.
-    // THE PAYLOAD
+    // PAYLOAD
     input: string // An unlimited size byte array specifying the input data of the call.
     value: string // amount to be transferred in wei
-    // THE RECEIVER
+    // RECEIVER
     to: string /* Relates a message with the account it is sent to. 
                     refunds - Relates a selfdestruct contract message to the contract account it sends its refund balance to.
                     creates - Relates a create transaction to the contract account it creates. */
 
     gasUsed: string /* The amount of gas that was used for processing a single message
                         regardless of which type of message it may be. */
-    gas: string // CONFIRM: msgGasLimit - A scalar value equal to the maximum amount of gas that should be used in executing this transaction. This is paid up-front, before any computation is done and may not be increased later. If used with contract messages it represents the fraction of the original transaction gas limit still available for execution of the contract message. After all resulting computations are done, excess gas is returned to the sender of the original transaction.
+    gas: string // ??? could be msgGasLimit - A scalar value equal to the maximum amount of gas that should be used in executing this transaction. This is paid up-front, before any computation is done and may not be increased later. If used with contract messages it represents the fraction of the original transaction gas limit still available for execution of the contract message. After all resulting computations are done, excess gas is returned to the sender of the original transaction.
 
     traceAddress?: number[]
 
     error?: string // "execution reverted",
-    revertReason?: string // "0x08c379a000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000009542d4f4145582d30310000000000000000000000000000000000000000000000",
+    revertReason?: string // keccak-256 encoding "0x08c379a000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000009542d4f4145582d30310000000000000000000000000000000000000000000000",
     revertReasonUnpacked?: string // "T-OAEX-01"
 }
 
