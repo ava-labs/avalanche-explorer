@@ -115,18 +115,18 @@ export interface TransactionResponse {
     */
 }
 
-// All definitions from https://consensys.github.io/EthOn/EthOn_spec.html
-// ValueTx - Just moves Ether from one account to another.
-// CallTx - A type of transaction that is directed towards a contract account and calls a method in the contract's code.
-// CreateTx - A type of transaction that results in creation of a new contract account.
+/* All definitions from https://consensys.github.io/EthOn/EthOn_spec.html
+    ValueTx - Just moves Ether from one account to another.
+    CallTx - A type of transaction that is directed towards a contract account and calls a method in the contract's code.
+    CreateTx - A type of transaction that results in creation of a new contract account.    
+ */
 export interface EVMTransactionResponse {
     hash: string // The Keccak 256-bit hash of the transaction
     createdAt: string // time of block acceptance by Avalanche-Go
     recipient: string // ???
 
     // THE SENDER
-    fromAddr: string /* Relates a message to the account it originates from.
-                        A tx always originates from an external account that is 
+    fromAddr: string /* A tx always originates from an external account that is 
                         controlled by an external actor by means of a private key */
     nonce: number // A scalar value equal to the number of transactions sent by the sender.
     // THE PAYLOAD
@@ -136,21 +136,25 @@ export interface EVMTransactionResponse {
     input: string // An unlimited size byte array specifying the input data of the call.
     gasPrice: string /* A scalar value equal to the number of Wei to be paid per unit of gas for all 
                         computation costs incurred as a result of the execution of this transaction. */
-    gasLimit: number //
+    gasLimit: number /* A scalar value equal to the maximum amount of gas that should be used in executing this transaction. 
+                        This is paid up-front, before any computation is done and may not be increased later. 
+                        If used with contract messages it represents the fraction of the original transaction gas limit still 
+                        available for execution of the contract message. After all resulting computations are done, 
+                        excess gas is returned to the sender of the original transaction. */
     // THE RECIPIENT
     toAddr: string // Relates a message with the account it is sent to.
 
     // THE BLOCK CONTAINING THIS TX
     block: string // A scalar value equal to the number of ancestor blocks. The genesis block has a number of zero.
-    blockGasUsed: number // ??? CONFIRM A scalar value equal to the total gas used by all transactions in this block.
-    // or txGasUsed - The total amount of gas that was used for processing this Tx and all contract messages resulting from it. It is the sum of all msgGasUsed by this Tx and resulting contract messages.
+    blockGasUsed: number /* ??? CONFIRM A scalar value equal to the total gas used by all transactions in this block.
+                            or txGasUsed - The total amount of gas that was used for processing this Tx and all contract messages resulting from it. It is the sum of all msgGasUsed by this Tx and resulting contract messages. */
     blockGasLimit: number /* Will stay constant for foreseeable future
                                 A scalar value equal to the current limit of gas expenditure per block. 
                                 Its purpose is to keep block propagation and processing time low, 
                                 thereby allowing for a sufficiently decentralized network. */
     blockHash: string // The Keccak 256-bit hash of the block's header, in its entierty.
     blockNonce: number /* Not Applicable
-                            In Pow, when combined with the mix-hash, this 64 bit hash proves
+                            In PoW, this 64 bit hash, when combined with the mix-hash, proves
                             that a sufficient amount of computation has been carried out on this block. */
 
     /* EXECUTION TRACES 
@@ -162,8 +166,8 @@ export interface EVMTransactionResponse {
     traces: TraceResponse[]
 
     /* TX SIGNATURE
-        V, R and S correspond to the signature of the transaction
-        used to determine the sender of the transaction */
+        - used to determine the sender of the transaction
+        - V, R and S correspond to the signature of the transaction */
     r: string // byte array of length 32
     s: string // byte array of length 32
     v: string /* specifies the sign and finiteness of the curve point. 
@@ -173,15 +177,17 @@ export interface EVMTransactionResponse {
 
 /* EXECUTION TRACES
     This response is based on the Blockscout tracer: 
-        allows Geth's "debug_traceTransaction" to mimic 
+        It allows Geth's "debug_traceTransaction" to mimic 
         the output of Parity's "trace_replayTransaction".
     Objects represent ContractMsg - A contract message is passed between a 
         contract account and any other account (external or contract). It is the 
         result of an execution chain originally triggered by an external eccount.
     curl -X POST --data '{ "jsonrpc": "2.0", "method": "debug_traceTransaction","params": ["0x00000217bc17e7e3187efae9248523f4fe2bc90e029e3ba13ddd8ff69607c705", {"disableStack": true, "disableMemory": true, "disableStorage": true}],"id": 1}' -H 'content-type:application/json;' https://api.avax.network/ext/bc/C/rpc
  */
+
+// ERROR EXAMPLE: https://explorerapi.avax-test.network/v2/ctransactions?hash=0x638a35c57a7a1545a8a6eb4ea6a3355c2d4e64657f8921fd3ff922aff86436b1
 export interface TraceResponse {
-    callType: string /* execution context of the call
+    callType: string /* execution context
                         CALL ???
                         CALLCODE ???
                         DELEGATECALL - value inherited from scope during call sequencing
@@ -196,7 +202,7 @@ export interface TraceResponse {
     input: string // An unlimited size byte array specifying the input data of the call.
     value: string // amount to be transferred in wei
     // THE RECEIVER
-    to: string /* Relates a message with the account it is sent to.
+    to: string /* Relates a message with the account it is sent to. 
                     refunds - Relates a selfdestruct contract message to the contract account it sends its refund balance to.
                     creates - Relates a create transaction to the contract account it creates. */
 
@@ -205,6 +211,10 @@ export interface TraceResponse {
     gas: string // CONFIRM: msgGasLimit - A scalar value equal to the maximum amount of gas that should be used in executing this transaction. This is paid up-front, before any computation is done and may not be increased later. If used with contract messages it represents the fraction of the original transaction gas limit still available for execution of the contract message. After all resulting computations are done, excess gas is returned to the sender of the original transaction.
 
     traceAddress?: number[]
+
+    error?: string // "execution reverted",
+    revertReason?: string // "0x08c379a000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000009542d4f4145582d30310000000000000000000000000000000000000000000000",
+    revertReasonUnpacked?: string // "T-OAEX-01"
 }
 
 /* ==========================================
