@@ -7,7 +7,7 @@
             transition="dialog-bottom-transition"
         >
             <template v-slot:activator="{ on, attrs }">
-                <v-btn v-bind="attrs" v-on="on" icon color="pink">
+                <v-btn v-bind="attrs" icon color="pink" v-on="on">
                     <v-icon>mdi-eye-off</v-icon>
                 </v-btn>
             </template>
