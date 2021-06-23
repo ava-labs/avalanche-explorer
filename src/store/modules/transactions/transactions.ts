@@ -5,8 +5,14 @@ import {
     TransactionQueryResponse,
     TransactionsState,
     TransactionQuery,
+    EVMTransactionResponse,
+    EVMTransactionQueryResponse,
 } from './models'
 import { getTransaction, ITransactionPayload } from '@/services/transactions'
+import {
+    getEVMTransaction,
+    IEVMTransactionParams,
+} from '@/services/evmtransactions'
 import { Transaction } from '@/js/Transaction'
 import { parseTxs } from './helpers'
 
@@ -42,6 +48,7 @@ const defaultState = {
         next: '',
         transactions: [],
     },
+    evmTx: null,
 }
 
 const transactions_module: Module<TransactionsState, IRootState> = {
@@ -66,6 +73,9 @@ const transactions_module: Module<TransactionsState, IRootState> = {
         },
         addBlockchainTxs(state, txRes: TransactionQuery) {
             state.blockchainTxRes = txRes
+        },
+        addEVMTx(state, evmTx: EVMTransactionResponse) {
+            state.evmTx = evmTx
         },
     },
     actions: {
@@ -128,6 +138,13 @@ const transactions_module: Module<TransactionsState, IRootState> = {
                 })
                 .filter((value, index, self) => self.indexOf(value) === index)
             return payloads
+        },
+        async getEVMTx(store, params: IEVMTransactionParams) {
+            const txRes: EVMTransactionQueryResponse = await getEVMTransaction(
+                params
+            )
+            const tx = txRes.Transactions[0]
+            if (tx) store.commit('addEVMTx', tx)
         },
     },
 }

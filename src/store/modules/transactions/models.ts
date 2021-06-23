@@ -8,6 +8,7 @@ export interface TransactionsState {
     assetTxRes: TransactionQuery
     addressTxRes: TransactionQuery
     blockchainTxRes: TransactionQuery
+    evmTx: EVMTransactionResponse | null
 }
 
 /* ==========================================
