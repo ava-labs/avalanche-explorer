@@ -6,6 +6,7 @@ import {
     getTxsByAsset,
     getTxsByAddress,
     getTxsByBlockchain,
+    getEVMTx,
 } from './transactions.getters'
 
 @Component
@@ -32,5 +33,9 @@ export class TransactionsGettersMixin extends Vue {
 
     getTxsByBlockchain() {
         return getTxsByBlockchain()
+    }
+
+    getEVMTx() {
+        return getEVMTx()
     }
 }

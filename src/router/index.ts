@@ -92,6 +92,19 @@ const routes = [
         },
     },
     {
+        path: '/evmtx/:id',
+        name: 'EVM Transaction',
+        component: () =>
+            import(
+                /* webpackChunkName: "evmtransaction" */ '../views/EVMTransaction.vue'
+            ),
+        meta: {
+            auth: false,
+            title: prefix + 'Transaction',
+            metaTags: metaTags,
+        },
+    },
+    {
         path: '/blockchains',
         name: 'Blockchains',
         component: () =>
