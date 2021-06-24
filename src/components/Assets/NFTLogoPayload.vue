@@ -34,7 +34,7 @@ export default class NFTLogoPayload extends Vue {
 
 <style scoped lang="scss">
 .payload {
-    overflow: scroll;
+    overflow: hidden;
 }
 
 .code {
