@@ -73,7 +73,7 @@ export default class UtxoNFTPayload extends Vue {
 }
 
 .payload {
-    overflow: scroll;
+    overflow: hidden;
 }
 
 .code {

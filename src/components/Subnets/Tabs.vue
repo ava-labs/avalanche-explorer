@@ -73,7 +73,7 @@ export default class SubnetTabs extends Vue {
     }
 
     .v-tabs--vertical > .v-window {
-        overflow: scroll !important;
+        overflow: hidden !important;
     }
 
     .v-card__text {

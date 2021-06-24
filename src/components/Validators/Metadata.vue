@@ -110,7 +110,7 @@ export default class Metadata extends Vue {
 
     > div {
         padding: 24px 0;
-        overflow: auto;
+        overflow: hidden;
     }
 }
 
