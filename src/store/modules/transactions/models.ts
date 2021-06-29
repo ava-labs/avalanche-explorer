@@ -12,7 +12,7 @@ export interface TransactionsState {
 }
 
 /* ==========================================
-   Transactions (API)
+   UTXO Transactions (API)
    ========================================== */
 
 export interface TransactionQueryResponse {
@@ -195,7 +195,7 @@ export interface EVMTransactionQueryResponse {
 /* All definitions from https://consensys.github.io/EthOn/EthOn_spec.html
     ValueTx - Just moves Ether from one account to another.
     CallTx - A type of transaction that is directed towards a contract account and calls a method in the contract's code.
-    CreateTx - A type of transaction that results in creation of a new contract account.    
+    CreateTx - A type of transaction that results in creation of a new contract account.
  */
 export interface EVMTransactionResponse {
     hash: string // The Keccak 256-bit hash of the transaction
@@ -264,8 +264,7 @@ export interface EVMTransactionResponse {
 // ERROR EXAMPLE: https://explorerapi.avax-test.network/v2/ctransactions?hash=0x638a35c57a7a1545a8a6eb4ea6a3355c2d4e64657f8921fd3ff922aff86436b1
 export interface TraceResponse {
     callType: string /* execution context
-                        CALL ???
-                        CALLCODE ???
+                        CALL                        
                         DELEGATECALL - value inherited from scope during call sequencing
                         STATICCALL - by definition static calls transfer no value */
     type: string /*  one of the two values CALL and CREATE
