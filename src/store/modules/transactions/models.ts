@@ -44,6 +44,17 @@ export interface TransactionResponse {
 
     timestamp: string
 
+    // https://docs.avax.network/learn/platform-overview/transaction-fees#fee-schedule
+    /* Multi-sig txFee scenarios
+        A. 1-of-2 ms UTXO  =>  UTXO (equal)      both parties paid the fee.
+                               UTXO (equal) 
+        
+        B. 1-of-2 ms UTXO  =>  UTXO (equal)      person that owned the non-multisig output paid more of a % of the fee.
+              non-ms UTXO      UTXO (equal)
+        
+        C. 1-of-2 ms UTXO  =>  UTXO              person that ended up w/ out output paid the fee because the other person was reimbursed.
+              non-ms UTXO
+     */
     txFee: number
 
     genesis: boolean
@@ -236,7 +247,7 @@ export interface EVMTransactionResponse {
     /* EXECUTION TRACES 
         The downside of contract execution is that it is very hard to say what a transaction actually did. 
         A transaction receipt does contain a status code to check whether execution succeeded or not, 
-        but there’s no way to see what data was modified, nor what external contracts where invoked. 
+        but there’s no way to see what data was modified, nor what external contracts were invoked. 
         In order to introspect a transaction, we need to trace its execution.
     */
     traces: TraceResponse[]
@@ -260,8 +271,6 @@ export interface EVMTransactionResponse {
         result of an execution chain originally triggered by an external eccount.
     curl -X POST --data '{ "jsonrpc": "2.0", "method": "debug_traceTransaction","params": ["0x00000217bc17e7e3187efae9248523f4fe2bc90e029e3ba13ddd8ff69607c705", {"disableStack": true, "disableMemory": true, "disableStorage": true}],"id": 1}' -H 'content-type:application/json;' https://api.avax.network/ext/bc/C/rpc
  */
-
-// ERROR EXAMPLE: https://explorerapi.avax-test.network/v2/ctransactions?hash=0x638a35c57a7a1545a8a6eb4ea6a3355c2d4e64657f8921fd3ff922aff86436b1
 export interface TraceResponse {
     callType: string /* execution context
                         CALL                        
@@ -287,6 +296,7 @@ export interface TraceResponse {
 
     traceAddress?: number[]
 
+    // ERROR EXAMPLE: https://explorerapi.avax-test.network/v2/ctransactions?hash=0x638a35c57a7a1545a8a6eb4ea6a3355c2d4e64657f8921fd3ff922aff86436b1
     error?: string // "execution reverted",
     revertReason?: string // keccak-256 encoding "0x08c379a000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000009542d4f4145582d30310000000000000000000000000000000000000000000000",
     revertReasonUnpacked?: string // "T-OAEX-01"
