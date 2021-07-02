@@ -178,14 +178,27 @@ export interface EVMBlockTransaction {
     // RECIPIENT
     to: string // '0xcb65dad78320a8d15ad8a88001324e4e163ca534'
 }
+
+// https://docs.soliditylang.org/en/v0.8.4/abi-spec.html#events
+// Filtering logs https://docs.ethers.io/v5/concepts/events/#events--logs-and-filtering
 export interface EVMBlockLog {
-    address: string // '0xcb65dad78320a8d15ad8a88001324e4e163ca534'
-    topics: string[] /* [
-            '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef',
-            '0x00000000000000000000000077c31cd409fce1984abe6f23743bf6046de4b9e0',
-            '0x0000000000000000000000003739a6ab96d4e0e4c9d51316e673766bb6e7711b'
-        ] */
-    data: string // '0x000000000000000000000000000000000000000000000000000000000000460c'
+    address: string // the address of the contract that emitted the event
+    // intrinsically provided by Ethereum
+    // '0xcb65dad78320a8d15ad8a88001324e4e163ca534'
+    topics: string[] /* topics[0] = keccak(EVENT_NAME+"("+EVENT_ARGS.map(canonical_type_of).join(",")+")")
+                                    canonical_type_of is a function that simply returns 
+                                    the canonical type of a given argument 
+                                    e.g. for uint indexed foo, it would return uint256). 
+                                    If the event is declared as anonymous the topics[0] is not generated;
+                        topics[n] = abi_encode(EVENT_INDEXED_ARGS[n - 1]) 
+                                    EVENT_INDEXED_ARGS is the series of EVENT_ARGS that are indexed;*/
+    data: string /* ABI encoding of EVENT_NON_INDEXED_ARGS 
+                    EVENT_NON_INDEXED_ARGS is the series of EVENT_ARGS that are not indexed, 
+                    abi_encode is the ABI encoding function used for returning a series of 
+                    typed values from a function, as described above.
+                    '0x000000000000000000000000000000000000000000000000000000000000460c'
+                    */
+
     blockNumber: string // '0x3e8'
     transactionHash: string // '0x98e2215034972c080eb0729f7ebe2d2e995f48485ef6a2b482de13a19e716a67'
     transactionIndex: string // '0x0'
