@@ -7,6 +7,7 @@ import {
     TransactionQuery,
     EVMTransactionResponse,
     EVMTransactionQueryResponse,
+    EVMBlockQueryResponse,
 } from './models'
 import { getTransaction, ITransactionPayload } from '@/services/transactions'
 import {
@@ -15,6 +16,8 @@ import {
 } from '@/services/evmtransactions'
 import { Transaction } from '@/js/Transaction'
 import { parseTxs } from './helpers'
+import { getEVMBlock } from '@/services/evmblocks'
+import { parseEVMTxs } from './helpers/parseEVMTxs'
 
 const defaultState = {
     tx: null,
@@ -144,7 +147,13 @@ const transactions_module: Module<TransactionsState, IRootState> = {
                 params
             )
             const tx = txRes.Transactions[0]
-            if (tx) store.commit('addEVMTx', tx)
+            if (tx) {
+                const blockRes: EVMBlockQueryResponse = await getEVMBlock(
+                    tx.block
+                )
+                parseEVMTxs(tx, blockRes)
+                store.commit('addEVMTx', tx)
+            }
         },
     },
 }

@@ -249,6 +249,7 @@ export interface EVMTransactionResponse {
         A transaction receipt does contain a status code to check whether execution succeeded or not, 
         but there’s no way to see what data was modified, nor what external contracts were invoked. 
         In order to introspect a transaction, we need to trace its execution.
+        Example: https://explorerapi.avax.network/v2/ctransactions?hash=0xbe5960deded935d9cbea94ea9e944699db668646dba9d20bcfda921f979bfd87
     */
     traces: TraceResponse[]
 
@@ -273,8 +274,8 @@ export interface EVMTransactionResponse {
  */
 export interface TraceResponse {
     callType: string /* execution context
-                        CALL                        
-                        DELEGATECALL - value inherited from scope during call sequencing
+                        CALL - executes in scope of contract
+                        DELEGATECALL - executes in scope of caller contract. value inherited from scope during call sequencing
                         STATICCALL - by definition static calls transfer no value */
     type: string /*  one of the two values CALL and CREATE
                         CREATE - a subtype of a contract message that results in creation of a new contract account
