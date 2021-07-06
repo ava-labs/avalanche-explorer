@@ -105,6 +105,30 @@ const routes = [
         },
     },
     {
+        path: '/evmtx/:id',
+        name: 'EVM Block',
+        component: () =>
+            import(/* webpackChunkName: "evmblock" */ '../views/EVMBlock.vue'),
+        meta: {
+            auth: false,
+            title: prefix + 'Block',
+            metaTags: metaTags,
+        },
+    },
+    {
+        path: '/evmaddress/:id',
+        name: 'EVM Address',
+        component: () =>
+            import(
+                /* webpackChunkName: "evmaddress" */ '../views/EVMAddress.vue'
+            ),
+        meta: {
+            auth: false,
+            title: prefix + 'Address',
+            metaTags: metaTags,
+        },
+    },
+    {
         path: '/blockchains',
         name: 'Blockchains',
         component: () =>
