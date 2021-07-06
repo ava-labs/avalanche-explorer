@@ -2,6 +2,17 @@
     <section class="stats">
         <article class="meta_row">
             <p class="meta_label">
+                Block
+                <Tooltip
+                    content="The number of the block in which the transaction was recorded."
+                />
+            </p>
+            <div class="meta_value values">
+                {{ tx.block }}
+            </div>
+        </article>
+        <article class="meta_row">
+            <p class="meta_label">
                 Accepted
                 <Tooltip
                     content="The date and time when this transaction was accepted by the Avalanche Network"
@@ -73,17 +84,6 @@
                 {{ tx.gasLimit }}
             </div>
         </article>
-        <article class="meta_row">
-            <p class="meta_label">
-                Block
-                <Tooltip
-                    content="The number of the block in which the transaction was recorded."
-                />
-            </p>
-            <div class="meta_value values">
-                {{ tx.block }}
-            </div>
-        </article>
     </section>
 </template>
 
@@ -106,12 +106,10 @@ import { EVMTransactionResponse } from '@/store/modules/transactions/models'
     },
 })
 export default class EVMMetadata extends Vue {
-    @Prop() tx!: EVMTransactionResponse
-
-    get assetsLoaded(): boolean {
-        return this.$store.state.assetsLoaded
-    }
-
+    // @Prop() tx!: EVMTransactionResponse
+    // get assetsLoaded(): boolean {
+    //     return this.$store.state.assetsLoaded
+    // }
     // get date(): Date {
     //     return new Date(this.tx.timestamp)
     // }

@@ -106,12 +106,10 @@ import { EVMTransactionResponse } from '@/store/modules/transactions/models'
     },
 })
 export default class EVMMetadata extends Vue {
-    @Prop() tx!: EVMTransactionResponse
-
-    get assetsLoaded(): boolean {
-        return this.$store.state.assetsLoaded
-    }
-
+    // @Prop() tx!: EVMTransactionResponse
+    // get assetsLoaded(): boolean {
+    //     return this.$store.state.assetsLoaded
+    // }
     // get date(): Date {
     //     return new Date(this.tx.timestamp)
     // }
