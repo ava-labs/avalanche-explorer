@@ -7,8 +7,8 @@ import {
     TransactionQuery,
     EVMTransactionResponse,
     EVMTransactionQueryResponse,
-    EVMBlockQueryResponse,
 } from './models'
+import { EVMBlockQueryResponse } from '@/store/modules/blocks/models'
 import { getTransaction, ITransactionPayload } from '@/services/transactions'
 import {
     getEVMTransaction,
