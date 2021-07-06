@@ -8,7 +8,7 @@ const defaultState = {
     evmBlock: null,
 }
 
-const transactions_module: Module<BlocksState, IRootState> = {
+const blocks_module: Module<BlocksState, IRootState> = {
     namespaced: true,
     modules: {},
     state: defaultState,
@@ -22,9 +22,9 @@ const transactions_module: Module<BlocksState, IRootState> = {
             const blockRes: EVMBlockQueryResponse = await getEVMBlock(height)
             if (blockRes) {
                 parseEVMBlocks(blockRes)
-                store.commit('addEVMblock', blockRes)
+                store.commit('addEVMBlock', blockRes)
             }
         },
     },
 }
-export default transactions_module
+export default blocks_module

@@ -105,7 +105,7 @@ const routes = [
         },
     },
     {
-        path: '/evmtx/:id',
+        path: '/evmblock/:id',
         name: 'EVM Block',
         component: () =>
             import(/* webpackChunkName: "evmblock" */ '../views/EVMBlock.vue'),

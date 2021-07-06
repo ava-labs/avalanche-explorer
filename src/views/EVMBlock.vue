@@ -13,10 +13,10 @@
                 :support-u-r-l="'https://chat.avalabs.org'"
             />
             <template v-else>
-                <!-- <EVMTxSummary :block="block"> -->
-                <!-- {{ block }}  -->
-                EVM Block
-                <!-- </EVMTxSummary> -->
+                <EVMBlockSummary :block="block"> EVM Block </EVMBlockSummary>
+                <!-- transactions: EVMBlockTransaction[] -->
+                <!-- logs: EVMBlockLog[]  -->
+                <!-- blockExtraData: string -->
             </template>
         </template>
     </div>
@@ -26,24 +26,22 @@
 import 'reflect-metadata'
 import { Component, Watch, Mixins } from 'vue-property-decorator'
 import Loader from '@/components/misc/Loader.vue'
-// import EVMTxSummary from '@/components/Transaction/EVMTxSummary.vue'
+import EVMBlockSummary from '@/components/Block/EVMBlockSummary.vue'
 import HTTPError from '@/components/misc/HTTPError.vue'
-import { TransactionsGettersMixin } from '@/store/modules/transactions/transactions.mixins'
-import { getMappingForType } from '@/store/modules/transactions/maps'
+import { BlocksGettersMixin } from '@/store/modules/blocks/blocks.mixins'
+import { getMappingForType } from '@/store/modules/blocks/maps'
 
 @Component({
     components: {
         Loader,
-        // EVMTxSummary,
+        EVMBlockSummary,
         HTTPError,
     },
     filters: {
         getType: getMappingForType,
     },
 })
-export default class EVMTransactionPage extends Mixins(
-    TransactionsGettersMixin
-) {
+export default class EVMBlockPage extends Mixins(BlocksGettersMixin) {
     loading = false
     breadcrumbs: any = [
         {
@@ -85,24 +83,22 @@ export default class EVMTransactionPage extends Mixins(
         return this.$route.params.id
     }
 
-    // get block() {
-    //     return this.getEVMBlock()
-    // }
+    get block() {
+        return this.getEVMBlock()
+    }
 
     getData(): void {
         this.loading = true
-        // if (this.assetsLoaded) {
-        //     this.$store
-        //         .dispatch('blocks/getEVMBlock', {
-        //             hash: this.Id,
-        //         })
-        //         .then(() => {
-        //             this.loading = false
-        //         })
-        //         .catch((err) => {
-        //             console.log(err)
-        //         })
-        // }
+        if (this.assetsLoaded) {
+            this.$store
+                .dispatch('Blocks/getEVMBlock', this.blockId)
+                .then(() => {
+                    this.loading = false
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        }
     }
 }
 </script>
