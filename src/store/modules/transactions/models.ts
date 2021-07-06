@@ -186,12 +186,12 @@ export interface EVMBlockLog {
     // intrinsically provided by Ethereum
     // '0xcb65dad78320a8d15ad8a88001324e4e163ca534'
     topics: string[] /* topics[0] = keccak(EVENT_NAME+"("+EVENT_ARGS.map(canonical_type_of).join(",")+")")
-                                    canonical_type_of is a function that simply returns 
-                                    the canonical type of a given argument 
-                                    e.g. for uint indexed foo, it would return uint256). 
-                                    If the event is declared as anonymous the topics[0] is not generated;
+                            canonical_type_of is a function that simply returns 
+                            the canonical type of a given argument 
+                            e.g. for uint indexed foo, it would return uint256). 
+                            If the event is declared as anonymous the topics[0] is not generated;
                         topics[n] = abi_encode(EVENT_INDEXED_ARGS[n - 1]) 
-                                    EVENT_INDEXED_ARGS is the series of EVENT_ARGS that are indexed;*/
+                            EVENT_INDEXED_ARGS is the series of EVENT_ARGS that are indexed;*/
     data: string /* ABI encoding of EVENT_NON_INDEXED_ARGS 
                     EVENT_NON_INDEXED_ARGS is the series of EVENT_ARGS that are not indexed, 
                     abi_encode is the ABI encoding function used for returning a series of 
