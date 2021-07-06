@@ -8,6 +8,7 @@ import Address from './modules/address/address'
 import Network from './modules/network/network'
 import Notifications from './modules/notifications/notifications'
 import Transactions from './modules/transactions/transactions'
+import Blocks from './modules/blocks/blocks'
 import { avm } from '@/avalanche'
 import {
     IAssetDataOrtelius,
@@ -36,6 +37,7 @@ const store = new Vuex.Store({
         Notifications,
         Network,
         Transactions,
+        Blocks,
     },
     state: {
         assets: {},
