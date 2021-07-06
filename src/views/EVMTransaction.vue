@@ -16,10 +16,7 @@
                 :support-u-r-l="'https://chat.avalabs.org'"
             />
             <template v-else>
-                <EVMTxSummary :tx="tx">
-                    <!-- {{ tx.type | getType }}  -->
-                    EVM Transaction
-                </EVMTxSummary>
+                <EVMTxSummary :tx="tx"> EVM Transaction </EVMTxSummary>
             </template>
         </template>
     </div>

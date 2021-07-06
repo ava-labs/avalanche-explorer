@@ -2,6 +2,15 @@
     <section class="stats">
         <article class="meta_row">
             <p class="meta_label">
+                ID
+                <Tooltip content="Unique Identifier of this transaction" />
+            </p>
+            <div class="meta_value values">
+                {{ tx.hash }}
+            </div>
+        </article>
+        <article class="meta_row">
+            <p class="meta_label">
                 Accepted
                 <Tooltip
                     content="The date and time when this transaction was accepted by the Avalanche Network"
@@ -17,7 +26,9 @@
                 <Tooltip content="The sending account of the transaction" />
             </p>
             <div class="meta_value values">
-                {{ tx.fromAddr }}
+                <router-link :to="`/evmaddress/${tx.fromAddr}`">{{
+                    tx.fromAddr
+                }}</router-link>
             </div>
         </article>
         <article class="meta_row">
@@ -28,7 +39,9 @@
                 />
             </p>
             <div class="meta_value values">
-                {{ tx.toAddr }}
+                <router-link :to="`/evmaddress/${tx.toAddr}`">{{
+                    tx.toAddr
+                }}</router-link>
             </div>
         </article>
         <article class="meta_row">
@@ -81,7 +94,9 @@
                 />
             </p>
             <div class="meta_value values">
-                {{ tx.block }}
+                <router-link :to="`/evmblock/${tx.block}`">{{
+                    tx.block
+                }}</router-link>
             </div>
         </article>
     </section>

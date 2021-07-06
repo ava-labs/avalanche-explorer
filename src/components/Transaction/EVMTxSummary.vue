@@ -9,7 +9,7 @@
                     <template v-slot:activator="{ on }">
                         <p class="click_to_copy">
                             <span class="tx_hash" @click="copy" v-on="on">
-                                {{ tx.hash }}
+                                Transaction Detail
                             </span>
                         </p>
                     </template>
