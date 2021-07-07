@@ -71,8 +71,8 @@ export interface EVMBlockHeader {
                             match of the bloom filter can be verified. */
 
     // USED FOR AVALANCHE ATOMIC TRANSACTIONS AND ARBITRARY USES BY VALIDATORS
-    extraData: string //
-    extDataHash: string //
+    extraData: string // An arbitrary byte array containing data relevant to this block. This must be 32 bytes or fewer.
+    extDataHash: string /* */
 
     // NOT APPLICABLE - ARTIFACTS OF PROOF OF WORK
     difficulty: string // The difficulty level of this block.
@@ -80,7 +80,12 @@ export interface EVMBlockHeader {
                         sufficient amount of computation has been carried out on this block. */
     nonce: string /* 64 bit hash which proves combined with the mix-hash 
                         that a sufficient amount of computation has been carried out on this block.*/
-    sha3Uncles: string //
+    sha3Uncles: string /* Relates a block to another block by including it as an uncle. 
+                            Block B can be an uncle of block A if it is the direct child 
+                            of the k'th generation ancestor of block B, where 2<=k<=7 
+                            but not a direct ancestor of block A. Uncles are blocks found by a miner, 
+                            when a different miner has already found another block for the corresponding 
+                            place in the blockchain. They are also known as “stale blocks”. */
 }
 
 export interface EVMBlockTransaction {
