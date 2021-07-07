@@ -3,10 +3,12 @@
         <article class="meta_row">
             <p class="meta_label">
                 Block
-                <Tooltip content="" />
+                <Tooltip
+                    content="A scalar value equal to the number of ancestor blocks."
+                />
             </p>
             <div class="meta_value values">
-                {{ block.blockNumber }}
+                {{ block.heaader.number }}
             </div>
         </article>
         <article class="meta_row">
@@ -30,7 +32,9 @@
         <article class="meta_row">
             <p class="meta_label">
                 Gas Limit
-                <Tooltip content="" />
+                <Tooltip
+                    content="A scalar value equal to the current limit of gas expenditure per block."
+                />
             </p>
             <div class="meta_value values">
                 {{ block.header.gasLimit }}
@@ -39,37 +43,31 @@
         <article class="meta_row">
             <p class="meta_label">
                 Gas Used
-                <Tooltip content="" />
+                <Tooltip
+                    content="A scalar value equal to the total gas used by all transactions in this block."
+                />
             </p>
             <div class="meta_value values">
                 {{ block.header.gasUsed }}
             </div>
         </article>
 
+        <!-- MODIFIED MERKLE PATRICIA TREE -->
         <article class="meta_row">
             <p class="meta_label">
-                Parent Hash
+                Hash
                 <Tooltip content="" />
             </p>
             <div class="meta_value values">
-                {{ block.header.parentHash }}
+                {{ block.header.hash }}
             </div>
         </article>
-
-        <article class="meta_row">
-            <p class="meta_label">
-                SHA3 Uncles
-                <Tooltip content="" />
-            </p>
-            <div class="meta_value values">
-                {{ block.header.sha3Uncles }}
-            </div>
-        </article>
-
         <article class="meta_row">
             <p class="meta_label">
                 Parent Hash
-                <Tooltip content="" />
+                <Tooltip
+                    content="Relates a block to its parent in the chain. It always points to the block with a number that is decreased by one, compared to the block it originates from. "
+                />
             </p>
             <div class="meta_value values">
                 {{ block.header.parentHash }}
@@ -106,6 +104,7 @@
             </div>
         </article>
 
+        <!-- LOGS -->
         <article class="meta_row">
             <p class="meta_label">
                 Logs Bloom
@@ -116,26 +115,7 @@
             </div>
         </article>
 
-        <article class="meta_row">
-            <p class="meta_label">
-                Difficulty
-                <Tooltip content="" />
-            </p>
-            <div class="meta_value values">
-                {{ block.header.difficulty }}
-            </div>
-        </article>
-
-        <article class="meta_row">
-            <p class="meta_label">
-                Number
-                <Tooltip content="" />
-            </p>
-            <div class="meta_value values">
-                {{ block.header.number }}
-            </div>
-        </article>
-
+        <!-- USED FOR AVALANCHE ATOMIC TRANSACTIONS -->
         <article class="meta_row">
             <p class="meta_label">
                 Extra Data
@@ -145,17 +125,6 @@
                 {{ block.header.extraData }}
             </div>
         </article>
-
-        <article class="meta_row">
-            <p class="meta_label">
-                Nonce
-                <Tooltip content="" />
-            </p>
-            <div class="meta_value values">
-                {{ block.header.nonce }}
-            </div>
-        </article>
-        <!-- MORE INFO -->
         <article class="meta_row">
             <p class="meta_label">
                 Extra Data Hash
@@ -163,6 +132,17 @@
             </p>
             <div class="meta_value values">
                 {{ block.header.extDataHash }}
+            </div>
+        </article>
+
+        <!-- MORE INFO -->
+        <article class="meta_row">
+            <p class="meta_label">
+                Difficulty
+                <Tooltip content="" />
+            </p>
+            <div class="meta_value values">
+                {{ block.header.difficulty }}
             </div>
         </article>
         <article class="meta_row">
@@ -176,11 +156,20 @@
         </article>
         <article class="meta_row">
             <p class="meta_label">
-                Hash
+                Nonce
                 <Tooltip content="" />
             </p>
             <div class="meta_value values">
-                {{ block.header.hash }}
+                {{ block.header.nonce }}
+            </div>
+        </article>
+        <article class="meta_row">
+            <p class="meta_label">
+                SHA3 Uncles
+                <Tooltip content="" />
+            </p>
+            <div class="meta_value values">
+                {{ block.header.sha3Uncles }}
             </div>
         </article>
     </section>
