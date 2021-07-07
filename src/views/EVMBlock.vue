@@ -52,7 +52,7 @@ export default class EVMBlockPage extends Mixins(BlocksGettersMixin) {
         {
             text: 'Blocks',
             disabled: false,
-            href: '/', //TODO
+            href: '/', // TODO
         },
         {
             text: 'Detail',
