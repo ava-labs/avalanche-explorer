@@ -31,6 +31,15 @@
         </article>
         <article class="meta_row">
             <p class="meta_label">
+                Transactions
+                <Tooltip content="" />
+            </p>
+            <div class="meta_value values">
+                {{ block.transactions.length }} transactions
+            </div>
+        </article>
+        <article class="meta_row">
+            <p class="meta_label">
                 Gas Limit
                 <Tooltip
                     content="A scalar value equal to the current limit of gas expenditure per block."
