@@ -13,7 +13,7 @@ const blocks_module: Module<BlocksState, IRootState> = {
     modules: {},
     state: defaultState,
     mutations: {
-        addEVMBlock(state, block: EVMBlockQueryResponse) {
+        addEVMBlock(state, block) {
             state.evmBlock = block
         },
     },
@@ -21,8 +21,8 @@ const blocks_module: Module<BlocksState, IRootState> = {
         async getEVMBlock(store, height: string) {
             const blockRes: EVMBlockQueryResponse = await getEVMBlock(height)
             if (blockRes) {
-                parseEVMBlocks(blockRes)
-                store.commit('addEVMBlock', blockRes)
+                const parsedBlock = parseEVMBlocks(blockRes)
+                store.commit('addEVMBlock', parsedBlock)
             }
         },
     },

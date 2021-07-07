@@ -8,7 +8,7 @@
                 />
             </p>
             <div class="meta_value values">
-                {{ block.heaader.number }}
+                {{ block.number }}
             </div>
         </article>
         <article class="meta_row">
@@ -17,16 +17,14 @@
                 <Tooltip content="This block's inception date and time." />
             </p>
             <div class="meta_value values">
-                {{ block.header.timestamp }}
-            </div>
-        </article>
-        <article class="meta_row">
-            <p class="meta_label">
-                Version
-                <Tooltip content="" />
-            </p>
-            <div class="meta_value values">
-                {{ block.version }}
+                <p class="date">
+                    <fa :icon="['far', 'clock']" class="time_icon"></fa>
+                    <span class="timestamp"
+                        >{{ date | fromNow }} ({{
+                            date.toLocaleString()
+                        }})</span
+                    >
+                </p>
             </div>
         </article>
         <article class="meta_row">
@@ -46,7 +44,7 @@
                 />
             </p>
             <div class="meta_value values">
-                {{ block.header.gasLimit }}
+                {{ block.gasLimit.toLocaleString() }} gas
             </div>
         </article>
         <article class="meta_row">
@@ -57,7 +55,7 @@
                 />
             </p>
             <div class="meta_value values">
-                {{ block.header.gasUsed }}
+                {{ block.gasUsed.toLocaleString() }} gas
             </div>
         </article>
 
@@ -68,7 +66,7 @@
                 <Tooltip content="" />
             </p>
             <div class="meta_value values">
-                {{ block.header.hash }}
+                {{ block.hash }}
             </div>
         </article>
         <article class="meta_row">
@@ -79,7 +77,7 @@
                 />
             </p>
             <div class="meta_value values">
-                {{ block.header.parentHash }}
+                {{ block.parentHash }}
             </div>
         </article>
 
@@ -89,7 +87,7 @@
                 <Tooltip content="" />
             </p>
             <div class="meta_value values">
-                {{ block.header.stateRoot }}
+                {{ block.stateRoot }}
             </div>
         </article>
 
@@ -99,7 +97,7 @@
                 <Tooltip content="" />
             </p>
             <div class="meta_value values">
-                {{ block.header.transactionsRoot }}
+                {{ block.transactionsRoot }}
             </div>
         </article>
 
@@ -109,7 +107,7 @@
                 <Tooltip content="" />
             </p>
             <div class="meta_value values">
-                {{ block.header.receiptsRoot }}
+                {{ block.receiptsRoot }}
             </div>
         </article>
 
@@ -120,7 +118,7 @@
                 <Tooltip content="" />
             </p>
             <div class="meta_value values">
-                {{ block.header.logsBloom }}
+                {{ block.logsBloom }}
             </div>
         </article>
 
@@ -131,7 +129,7 @@
                 <Tooltip content="" />
             </p>
             <div class="meta_value values">
-                {{ block.header.extraData }}
+                {{ block.extraData }}
             </div>
         </article>
         <article class="meta_row">
@@ -140,45 +138,7 @@
                 <Tooltip content="" />
             </p>
             <div class="meta_value values">
-                {{ block.header.extDataHash }}
-            </div>
-        </article>
-
-        <!-- MORE INFO -->
-        <article class="meta_row">
-            <p class="meta_label">
-                Difficulty
-                <Tooltip content="" />
-            </p>
-            <div class="meta_value values">
-                {{ block.header.difficulty }}
-            </div>
-        </article>
-        <article class="meta_row">
-            <p class="meta_label">
-                Mix Hash
-                <Tooltip content="" />
-            </p>
-            <div class="meta_value values">
-                {{ block.header.mixHash }}
-            </div>
-        </article>
-        <article class="meta_row">
-            <p class="meta_label">
-                Nonce
-                <Tooltip content="" />
-            </p>
-            <div class="meta_value values">
-                {{ block.header.nonce }}
-            </div>
-        </article>
-        <article class="meta_row">
-            <p class="meta_label">
-                SHA3 Uncles
-                <Tooltip content="" />
-            </p>
-            <div class="meta_value values">
-                {{ block.header.sha3Uncles }}
+                {{ block.extDataHash }}
             </div>
         </article>
     </section>
@@ -197,10 +157,10 @@ import { EVMBlockQueryResponse } from '@/store/modules/blocks'
     filters: {},
 })
 export default class EVMMetadata extends Vue {
-    @Prop() block!: EVMBlockQueryResponse
-    // get date(): Date {
-    //     return new Date(this.block.timestamp)
-    // }
+    @Prop() block!: any
+    get date(): Date {
+        return new Date(this.block.timestamp)
+    }
 }
 </script>
 

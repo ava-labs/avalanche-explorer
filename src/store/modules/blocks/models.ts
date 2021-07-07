@@ -23,7 +23,7 @@ export interface EVMBlockQueryResponse {
     header: EVMBlockHeader /* Relates a block to its block header data. The property is functional 
                                 because a block can have only exactly one block header. */
     transactions: EVMBlockTransaction[]
-    logs: EVMBlockLog[]
+    logs: EVMBlockLog[] | null
     blockExtraData: string /* An arbitrary byte array containing data relevant to this block. 
                                 Contains atomic transactions (cross-chain imports/exports) in Avalanche 
                                 Must be 32 bytes or fewer. */

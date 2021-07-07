@@ -9,7 +9,7 @@
                     <template v-slot:activator="{ on }">
                         <p class="click_to_copy">
                             <span class="block_hash" @click="copy" v-on="on">
-                                {{ block.blockNumber }}
+                                {{ block.number }}
                             </span>
                         </p>
                     </template>
