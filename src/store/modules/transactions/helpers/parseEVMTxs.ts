@@ -1,6 +1,5 @@
 import { EVMTransactionResponse } from '../models'
 import { EVMBlockQueryResponse, EVMBlockLog } from '@/store/modules/blocks'
-// import ethers from 'ethers'
 
 export function parseLogs(
     block: EVMBlockQueryResponse,

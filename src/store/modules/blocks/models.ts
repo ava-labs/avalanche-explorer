@@ -74,8 +74,9 @@ export interface EVMBlockHeader {
                             match of the bloom filter can be verified. */
 
     // USED FOR AVALANCHE ATOMIC TRANSACTIONS
-    extraData: string // An arbitrary byte array containing data relevant to this block. This must be 32 bytes or fewer.
-    extDataHash: string /* */
+    extraData: string /* Ignore this as the ingested data is obfuscated by Ortelius. 
+                            An arbitrary byte array containing data relevant to this block. This must be 32 bytes or fewer.*/
+    extDataHash: string /* This will map to the block.blockExtraData in the level above */
 
     // NOT APPLICABLE - ARTIFACTS OF PROOF OF WORK
     difficulty: string // The difficulty level of this block.

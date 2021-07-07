@@ -112,7 +112,7 @@
         </article>
 
         <!-- LOGS -->
-        <article class="meta_row">
+        <!-- <article class="meta_row">
             <p class="meta_label">
                 Logs Bloom
                 <Tooltip content="" />
@@ -120,7 +120,7 @@
             <div class="meta_value values">
                 {{ block.logsBloom }}
             </div>
-        </article>
+        </article> -->
 
         <!-- USED FOR AVALANCHE ATOMIC TRANSACTIONS -->
         <article class="meta_row">
@@ -138,7 +138,7 @@
                 <Tooltip content="" />
             </p>
             <div class="meta_value values">
-                {{ block.extDataHash }}
+                {{ block.extraDataHash }}
             </div>
         </article>
     </section>

@@ -5,10 +5,12 @@ import {
 } from '../models'
 import web3 from 'web3'
 
-export function parseEVMBlockTxs(txs: EVMBlockTransaction[]) {
+export function parseEVMBlockTxs(txs: EVMBlockTransaction[] | null) {
     console.log('txs          ', txs)
-    if (!txs) return null
+    if (!txs) return []
     const parsedTxs = txs.map((tx) => {
+        console.log('tx.input', web3.utils.hexToAscii(tx.input))
+
         return {
             hash: tx.hash,
             type: tx.type,
@@ -19,8 +21,8 @@ export function parseEVMBlockTxs(txs: EVMBlockTransaction[]) {
             nonce: '',
 
             // PAYLOAD
-            value: '',
-            input: '',
+            value: parseInt(web3.utils.hexToNumberString(tx.value)),
+            input: web3.utils.hexToAscii(tx.input), //TODO https://ethereum.stackexchange.com/questions/11144/how-to-decode-input-data-from-a-transaction
             gasPrice: parseInt(web3.utils.hexToNumberString(tx.gasPrice)),
             gas: parseInt(web3.utils.hexToNumberString(tx.gas)),
 
@@ -28,12 +30,13 @@ export function parseEVMBlockTxs(txs: EVMBlockTransaction[]) {
             to: tx.to,
         }
     })
+
     console.log('parsedTxs              ', parsedTxs)
     return parsedTxs
 }
 
-export function parseLogs(logs: EVMBlockLog[]) {
-    if (!logs) return null
+export function parseLogs(logs: EVMBlockLog[] | null) {
+    if (!logs) return []
     logs.forEach((l) => {
         console.log('l.address          ', l.address)
         console.log('l.topic0           ', l.topics[0])
@@ -42,6 +45,16 @@ export function parseLogs(logs: EVMBlockLog[]) {
         console.log('l.data             ', l.data)
     })
     return logs
+}
+
+function _base64ToArrayBuffer(base64: string) {
+    var binary_string = window.atob(base64)
+    var len = binary_string.length
+    var bytes = new Uint8Array(len)
+    for (var i = 0; i < len; i++) {
+        bytes[i] = binary_string.charCodeAt(i)
+    }
+    return bytes.buffer
 }
 
 export function parseEVMBlocks(block: EVMBlockQueryResponse) {
@@ -62,16 +75,13 @@ export function parseEVMBlocks(block: EVMBlockQueryResponse) {
         // BLOCK SIZE
         gasLimit: parseInt(web3.utils.hexToNumberString(block.header.gasLimit)),
         gasUsed: parseInt(web3.utils.hexToNumberString(block.header.gasUsed)),
-        miner: block.header.miner,
+        validator: block.header.miner,
 
-        transactions: block.transactions
-            ? parseEVMBlockTxs(block.transactions)
-            : null,
-        logs: block.logs ? parseLogs(block.logs) : null,
+        transactions: parseEVMBlockTxs(block.transactions),
+        logs: parseLogs(block.logs),
         extraData: block.blockExtraData,
-        blockExtraDataFromHeader: String.fromCharCode(
-            ...web3.utils.hexToBytes(block.header.extraData)
-        ),
+        // extraData: _base64ToArrayBuffer(block.blockExtraData),
+        extraDataHash: block.header.extDataHash,
     }
     console.log('parsedBlock       ', parsedBlock)
     return parsedBlock
