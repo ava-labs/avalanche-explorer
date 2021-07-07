@@ -148,7 +148,6 @@
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import Tooltip from '@/components/rows/Tooltip.vue'
-import { EVMBlockQueryResponse } from '@/store/modules/blocks'
 
 @Component({
     components: {

@@ -5,6 +5,33 @@ import {
 } from '../models'
 import web3 from 'web3'
 
+export function parseEVMBlockTxs(txs: EVMBlockTransaction[]) {
+    console.log('txs          ', txs)
+    if (!txs) return null
+    const parsedTxs = txs.map((tx) => {
+        return {
+            hash: tx.hash,
+            type: tx.type,
+            // SENDER (v,r,s resolves to fromAddr)
+            v: '',
+            r: '',
+            s: '',
+            nonce: '',
+
+            // PAYLOAD
+            value: '',
+            input: '',
+            gasPrice: parseInt(web3.utils.hexToNumberString(tx.gasPrice)),
+            gas: parseInt(web3.utils.hexToNumberString(tx.gas)),
+
+            // RECIPIENT
+            to: tx.to,
+        }
+    })
+    console.log('parsedTxs              ', parsedTxs)
+    return parsedTxs
+}
+
 export function parseLogs(logs: EVMBlockLog[]) {
     if (!logs) return null
     logs.forEach((l) => {
@@ -48,31 +75,4 @@ export function parseEVMBlocks(block: EVMBlockQueryResponse) {
     }
     console.log('parsedBlock       ', parsedBlock)
     return parsedBlock
-}
-
-export function parseEVMBlockTxs(txs: EVMBlockTransaction[]) {
-    console.log('txs          ', txs)
-    if (!txs) return null
-    const parsedTxs = txs.map((tx) => {
-        return {
-            hash: tx.hash,
-            type: tx.type,
-            // SENDER (v,r,s resolves to fromAddr)
-            v: '',
-            r: '',
-            s: '',
-            nonce: '',
-
-            // PAYLOAD
-            value: '',
-            input: '',
-            gasPrice: parseInt(web3.utils.hexToNumberString(tx.gasPrice)),
-            gas: parseInt(web3.utils.hexToNumberString(tx.gas)),
-
-            // RECIPIENT
-            to: tx.to,
-        }
-    })
-    console.log('parsedTxs              ', parsedTxs)
-    return parsedTxs
 }
