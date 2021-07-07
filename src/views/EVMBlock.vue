@@ -17,6 +17,14 @@
                 <!-- transactions: EVMBlockTransaction[] -->
                 <!-- logs: EVMBlockLog[]  -->
                 <!-- blockExtraData: string -->
+                <div v-if="block.logs" class="card">
+                    <h2>Logs</h2>
+                    <EVMLogRow
+                        v-for="log in block.logs"
+                        :key="log.logIndex"
+                        :log="log"
+                    />
+                </div>
             </template>
         </template>
     </div>
@@ -25,17 +33,19 @@
 <script lang="ts">
 import 'reflect-metadata'
 import { Component, Watch, Mixins } from 'vue-property-decorator'
+import { BlocksGettersMixin } from '@/store/modules/blocks/blocks.mixins'
+import { getMappingForType } from '@/store/modules/blocks/maps'
 import Loader from '@/components/misc/Loader.vue'
 import EVMBlockSummary from '@/components/Block/EVMBlockSummary.vue'
 import HTTPError from '@/components/misc/HTTPError.vue'
-import { BlocksGettersMixin } from '@/store/modules/blocks/blocks.mixins'
-import { getMappingForType } from '@/store/modules/blocks/maps'
+import EVMLogRow from '@/components/rows/EVMLogRow.vue'
 
 @Component({
     components: {
         Loader,
-        EVMBlockSummary,
         HTTPError,
+        EVMBlockSummary,
+        EVMLogRow,
     },
     filters: {
         getType: getMappingForType,

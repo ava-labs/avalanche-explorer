@@ -6,10 +6,10 @@ import {
 import web3 from 'web3'
 
 export function parseEVMBlockTxs(txs: EVMBlockTransaction[] | null) {
-    console.log('txs          ', txs)
+    console.log('txs                ', txs)
     if (!txs) return []
     const parsedTxs = txs.map((tx) => {
-        console.log('tx.input', web3.utils.hexToAscii(tx.input))
+        console.log('tx.input           ', web3.utils.hexToAscii(tx.input))
 
         return {
             hash: tx.hash,
@@ -31,13 +31,14 @@ export function parseEVMBlockTxs(txs: EVMBlockTransaction[] | null) {
         }
     })
 
-    console.log('parsedTxs              ', parsedTxs)
+    console.log('parsedTxs          ', parsedTxs)
     return parsedTxs
 }
 
 export function parseLogs(logs: EVMBlockLog[] | null) {
     if (!logs) return []
     logs.forEach((l) => {
+        console.log('-------------------')
         console.log('l.address          ', l.address)
         console.log('l.topic0           ', l.topics[0])
         console.log('l.topic1           ', l.topics[1])
@@ -48,17 +49,17 @@ export function parseLogs(logs: EVMBlockLog[] | null) {
 }
 
 function _base64ToArrayBuffer(base64: string) {
-    var binary_string = window.atob(base64)
-    var len = binary_string.length
-    var bytes = new Uint8Array(len)
-    for (var i = 0; i < len; i++) {
+    const binary_string = window.atob(base64)
+    const len = binary_string.length
+    const bytes = new Uint8Array(len)
+    for (let i = 0; i < len; i++) {
         bytes[i] = binary_string.charCodeAt(i)
     }
     return bytes.buffer
 }
 
 export function parseEVMBlocks(block: EVMBlockQueryResponse) {
-    console.log('block       ', block)
+    console.log('block              ', block)
     const parsedBlock = {
         number: parseInt(web3.utils.hexToNumberString(block.header.number)),
         timestamp:
@@ -79,10 +80,9 @@ export function parseEVMBlocks(block: EVMBlockQueryResponse) {
 
         transactions: parseEVMBlockTxs(block.transactions),
         logs: parseLogs(block.logs),
-        extraData: block.blockExtraData,
-        // extraData: _base64ToArrayBuffer(block.blockExtraData),
+        extraData: block.blockExtraData, // _base64ToArrayBuffer(block.blockExtraData),
         extraDataHash: block.header.extDataHash,
     }
-    console.log('parsedBlock       ', parsedBlock)
+    console.log('parsedBlock        ', parsedBlock)
     return parsedBlock
 }
