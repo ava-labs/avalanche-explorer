@@ -4,12 +4,15 @@ import {
     EVMBlockTransaction,
 } from '../models'
 import web3 from 'web3'
+import { Buffer } from 'avalanche/dist'
+import { Serialization } from 'avalanche/dist/utils'
+import createHash from 'create-hash'
 
 export function parseEVMBlockTxs(txs: EVMBlockTransaction[] | null) {
-    console.log('txs                ', txs)
+    // console.log('txs                ', txs)
     if (!txs) return []
     const parsedTxs = txs.map((tx) => {
-        console.log('tx.input           ', web3.utils.hexToAscii(tx.input))
+        // console.log('tx.input           ', web3.utils.hexToAscii(tx.input))
 
         return {
             hash: tx.hash,
@@ -48,18 +51,23 @@ export function parseLogs(logs: EVMBlockLog[] | null) {
     return logs
 }
 
-function _base64ToArrayBuffer(base64: string) {
-    const binary_string = window.atob(base64)
-    const len = binary_string.length
-    const bytes = new Uint8Array(len)
-    for (let i = 0; i < len; i++) {
-        bytes[i] = binary_string.charCodeAt(i)
+export function parseAtomicTxs(blockExtraData: string) {
+    if (blockExtraData === '') {
+        return []
+    } else {
+        const serialization: Serialization = Serialization.getInstance()
+        const buf = Buffer.from(
+            createHash('sha256').update(blockExtraData, 'base64').digest()
+                .buffer
+        )
+        const hash = serialization.bufferToType(buf, 'cb58')
+        return [hash]
     }
-    return bytes.buffer
 }
 
 export function parseEVMBlocks(block: EVMBlockQueryResponse) {
     console.log('block              ', block)
+
     const parsedBlock = {
         number: parseInt(web3.utils.hexToNumberString(block.header.number)),
         timestamp:
@@ -80,9 +88,10 @@ export function parseEVMBlocks(block: EVMBlockQueryResponse) {
 
         transactions: parseEVMBlockTxs(block.transactions),
         logs: parseLogs(block.logs),
-        extraData: block.blockExtraData, // _base64ToArrayBuffer(block.blockExtraData),
+        extraData: parseAtomicTxs(block.blockExtraData),
         extraDataHash: block.header.extDataHash,
     }
+
     console.log('parsedBlock        ', parsedBlock)
     return parsedBlock
 }
