@@ -9,6 +9,45 @@
             </p>
             <div class="meta_value values">
                 {{ block.number }}
+                <div class="block_link">
+                    <router-link
+                        v-if="block.number > 0"
+                        :to="`/evmblock/${block.number - 1}`"
+                    >
+                        <v-tooltip top>
+                            <template v-slot:activator="{ on }">
+                                <fa
+                                    icon="arrow-left"
+                                    color="#c4c4c4"
+                                    v-on="on"
+                                ></fa>
+                            </template>
+                            <div>
+                                <p>
+                                    {{ block.number - 1 }}
+                                </p>
+                            </div>
+                        </v-tooltip>
+                    </router-link>
+                </div>
+                <div class="block_link">
+                    <router-link :to="`/evmblock/${block.number + 1}`">
+                        <v-tooltip top>
+                            <template v-slot:activator="{ on }">
+                                <fa
+                                    icon="arrow-right"
+                                    color="#c4c4c4"
+                                    v-on="on"
+                                ></fa>
+                            </template>
+                            <div>
+                                <p>
+                                    {{ block.number + 1 }}
+                                </p>
+                            </div>
+                        </v-tooltip>
+                    </router-link>
+                </div>
             </div>
         </article>
         <article class="meta_row">
@@ -148,10 +187,21 @@ import Tooltip from '@/components/rows/Tooltip.vue'
 })
 export default class EVMMetadata extends Vue {
     @Prop() block!: any
+
     get date(): Date {
         return new Date(this.block.timestamp)
     }
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.block_link {
+    display: inline-block;
+    line-height: 1em;
+
+    &:first-of-type {
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+}
+</style>
