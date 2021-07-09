@@ -33,18 +33,19 @@
                 <Tooltip content="" />
             </p>
             <div class="meta_value values">
-                {{ block.transactions.length }} transactions
+                {{ block.transactions.length | pluralize('transaction') }}
             </div>
         </article>
         <article class="meta_row">
             <p class="meta_label">
-                Gas Limit
-                <Tooltip
-                    content="A scalar value equal to the current limit of gas expenditure per block."
-                />
+                Atomic Txs
+                <Tooltip content="" />
             </p>
             <div class="meta_value values">
-                {{ block.gasLimit.toLocaleString() }} gas
+                {{
+                    block.atomicTransactions.length
+                        | pluralize('cross-chain transfer')
+                }}
             </div>
         </article>
         <article class="meta_row">
@@ -56,6 +57,17 @@
             </p>
             <div class="meta_value values">
                 {{ block.gasUsed.toLocaleString() }} gas
+            </div>
+        </article>
+        <article class="meta_row">
+            <p class="meta_label">
+                Gas Limit
+                <Tooltip
+                    content="A scalar value equal to the current limit of gas expenditure per block."
+                />
+            </p>
+            <div class="meta_value values">
+                {{ block.gasLimit.toLocaleString() }} gas
             </div>
         </article>
 
@@ -110,7 +122,6 @@
                 {{ block.receiptsRoot }}
             </div>
         </article>
-
         <!-- LOGS -->
         <!-- <article class="meta_row">
             <p class="meta_label">
@@ -121,26 +132,6 @@
                 {{ block.logsBloom }}
             </div>
         </article> -->
-
-        <!-- USED FOR AVALANCHE ATOMIC TRANSACTIONS -->
-        <article class="meta_row">
-            <p class="meta_label">
-                Extra Data
-                <Tooltip content="" />
-            </p>
-            <div class="meta_value values">
-                {{ block.extraData }}
-            </div>
-        </article>
-        <article class="meta_row">
-            <p class="meta_label">
-                Extra Data Hash
-                <Tooltip content="" />
-            </p>
-            <div class="meta_value values">
-                {{ block.extraDataHash }}
-            </div>
-        </article>
     </section>
 </template>
 

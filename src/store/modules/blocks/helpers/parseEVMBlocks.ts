@@ -35,8 +35,7 @@ export function parseEVMBlockTxs(txs: EVMBlockTransaction[] | null) {
             to: tx.to,
         }
     })
-
-    console.log('parsedTxs          ', parsedTxs)
+    // console.log('parsedTxs          ', parsedTxs)
     return parsedTxs
 }
 
@@ -59,25 +58,21 @@ export async function parseAtomicTxs(
     if (blockExtraData === '') {
         return []
     } else {
-        // Decode id from atomic tx
+        // Decode id
         const serialization: Serialization = Serialization.getInstance()
         const buf = Buffer.from(
             createHash('sha256').update(blockExtraData, 'base64').digest()
                 .buffer
         )
         const hash = serialization.bufferToType(buf, 'cb58')
-        // Get data from Ortelius
+        // Get atomic tx data
         const txRes = await getTransaction(hash)
-        console.log('txRes', txRes)
         const tx = new Transaction(txRes)
-        console.log('tx', tx)
         return [tx]
     }
 }
 
 export async function parseEVMBlocks(block: EVMBlockQueryResponse) {
-    console.log('block              ', block)
-
     const parsedBlock = {
         number: parseInt(web3.utils.hexToNumberString(block.header.number)),
         timestamp:
@@ -101,7 +96,5 @@ export async function parseEVMBlocks(block: EVMBlockQueryResponse) {
         atomicTransactions: await parseAtomicTxs(block.blockExtraData),
         logs: parseLogs(block.logs),
     }
-
-    console.log('parsedBlock        ', parsedBlock)
     return parsedBlock
 }
