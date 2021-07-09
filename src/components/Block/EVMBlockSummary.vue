@@ -19,48 +19,43 @@
         </header>
         <div id="block_tabs">
             <v-tabs v-model="tab" show-arrows>
+                <!-- TABS -->
                 <v-tab href="#overview">Overview</v-tab>
-                <v-tab href="#transactions">Transactions</v-tab>
-                <v-tab href="#atomic-transactions">Atomic Transactions</v-tab>
-                <v-tab href="#logs">Event Logs</v-tab>
-                <!-- OVERVIEW -->
+                <v-tab v-if="hasTxs" href="#transactions"
+                    >Transactions ({{ block.transactions.length }})</v-tab
+                >
+                <v-tab v-if="hasAtomicTxs" href="#atomic-transactions"
+                    >Atomic Transactions ({{
+                        block.atomicTransactions.length
+                    }})</v-tab
+                >
+                <v-tab v-if="hasLogs" href="#logs"
+                    >Event Logs ({{ block.logs.length }})</v-tab
+                >
+                <!-- TAB ITEMS -->
                 <v-tab-item class="tab_content" value="overview">
                     <EVMMetadata :block="block" />
                 </v-tab-item>
-                <!-- TRANSACTIONS -->
-                <v-tab-item class="tab_content" value="transactions">
-                    <template v-if="block.transactions.length === 0">
-                        <p class="null">
-                            There are no transactions for this block.
-                        </p>
-                    </template>
-                    <template v-else>
-                        <EVMTxDataTable :transactions="block.transactions" />
-                    </template>
+                <v-tab-item
+                    v-if="hasTxs"
+                    class="tab_content"
+                    value="transactions"
+                >
+                    <EVMTxDataTable :transactions="block.transactions" />
                 </v-tab-item>
-                <!-- ATOMIC TRANSACTIONS -->
-                <v-tab-item class="tab_content" value="atomic-transactions">
-                    <template v-if="block.atomicTransactions.length === 0">
-                        <p class="null">
-                            There are no atomic transactions for this block.
-                        </p>
-                    </template>
-                    <template v-else>
-                        <TxList :transactions="block.atomicTransactions" />
-                    </template>
+                <v-tab-item
+                    v-if="hasAtomicTxs"
+                    class="tab_content"
+                    value="atomic-transactions"
+                >
+                    <TxList :transactions="block.atomicTransactions" />
                 </v-tab-item>
-                <!-- LOGS -->
-                <v-tab-item class="tab_content" value="logs">
-                    <template v-if="block.logs.length === 0">
-                        <p class="null">There are no logs for this block.</p>
-                    </template>
-                    <template v-else>
-                        <EVMLogRow
-                            v-for="log in block.logs"
-                            :key="log.logIndex"
-                            :log="log"
-                        />
-                    </template>
+                <v-tab-item v-if="hasLogs" class="tab_content" value="logs">
+                    <EVMLogRow
+                        v-for="log in block.logs"
+                        :key="log.logIndex"
+                        :log="log"
+                    />
                 </v-tab-item>
             </v-tabs>
         </div>
@@ -108,6 +103,18 @@ export default class EVMTxSummary extends Vue {
 
     set tab(tab: string | (string | null)[]) {
         this.$router.replace({ query: { ...this.$route.query, tab } })
+    }
+
+    get hasTxs() {
+        return this.block.transactions.length > 0 ? true : false
+    }
+
+    get hasAtomicTxs() {
+        return this.block.atomicTransactions.length > 0 ? true : false
+    }
+
+    get hasLogs() {
+        return this.block.logs.length > 0 ? true : false
     }
 }
 </script>

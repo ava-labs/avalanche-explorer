@@ -72,7 +72,12 @@
                 <Tooltip content="" />
             </p>
             <div class="meta_value values">
-                {{ block.transactions.length | pluralize('transaction') }}
+                <template v-if="block.transactions.length === 0"
+                    >There are no transactions for this block.</template
+                >
+                <template v-else>
+                    {{ block.transactions.length | pluralize('transaction') }}
+                </template>
             </div>
         </article>
         <article class="meta_row">
@@ -81,10 +86,13 @@
                 <Tooltip content="" />
             </p>
             <div class="meta_value values">
-                {{
+                <template v-if="block.atomicTransactions.length === 0"
+                    >There are no atomic transactions for this block.</template
+                >
+                <template v-else>{{
                     block.atomicTransactions.length
                         | pluralize('cross-chain transfer')
-                }}
+                }}</template>
             </div>
         </article>
         <article class="meta_row">
