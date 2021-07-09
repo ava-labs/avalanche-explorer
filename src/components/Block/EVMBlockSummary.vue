@@ -17,49 +17,51 @@
                 </v-tooltip>
             </h2>
         </header>
-        <v-tabs v-model="tab" show-arrows>
-            <v-tab href="#overview">Overview</v-tab>
-            <v-tab href="#transactions">Transactions</v-tab>
-            <v-tab href="#atomic-transactions">Atomic Transactions</v-tab>
-            <v-tab href="#logs">Event Logs</v-tab>
-            <!-- OVERVIEW -->
-            <v-tab-item class="tab_content" value="overview">
-                <EVMMetadata :block="block" />
-            </v-tab-item>
-            <!-- TRANSACTIONS -->
-            <v-tab-item class="tab_content" value="transactions">
-                <template v-if="block.transactions.length === 0">
-                    <p class="null">
-                        There are no transactions for this block.
-                    </p>
-                </template>
-                <template v-else></template>
-            </v-tab-item>
-            <!-- ATOMIC TRANSACTIONS -->
-            <v-tab-item class="tab_content" value="atomic-transactions">
-                <template v-if="block.atomicTransactions.length === 0">
-                    <p class="null">
-                        There are no atomic transactions for this block.
-                    </p>
-                </template>
-                <template v-else>
-                    <TxList :transactions="block.atomicTransactions" />
-                </template>
-            </v-tab-item>
-            <!-- LOGS -->
-            <v-tab-item class="tab_content" value="logs">
-                <template v-if="block.logs.length === 0">
-                    <p class="null">There are no logs for this block.</p>
-                </template>
-                <template v-else>
-                    <EVMLogRow
-                        v-for="log in block.logs"
-                        :key="log.logIndex"
-                        :log="log"
-                    />
-                </template>
-            </v-tab-item>
-        </v-tabs>
+        <div id="block_tabs">
+            <v-tabs v-model="tab" show-arrows>
+                <v-tab href="#overview">Overview</v-tab>
+                <v-tab href="#transactions">Transactions</v-tab>
+                <v-tab href="#atomic-transactions">Atomic Transactions</v-tab>
+                <v-tab href="#logs">Event Logs</v-tab>
+                <!-- OVERVIEW -->
+                <v-tab-item class="tab_content" value="overview">
+                    <EVMMetadata :block="block" />
+                </v-tab-item>
+                <!-- TRANSACTIONS -->
+                <v-tab-item class="tab_content" value="transactions">
+                    <template v-if="block.transactions.length === 0">
+                        <p class="null">
+                            There are no transactions for this block.
+                        </p>
+                    </template>
+                    <template v-else></template>
+                </v-tab-item>
+                <!-- ATOMIC TRANSACTIONS -->
+                <v-tab-item class="tab_content" value="atomic-transactions">
+                    <template v-if="block.atomicTransactions.length === 0">
+                        <p class="null">
+                            There are no atomic transactions for this block.
+                        </p>
+                    </template>
+                    <template v-else>
+                        <TxList :transactions="block.atomicTransactions" />
+                    </template>
+                </v-tab-item>
+                <!-- LOGS -->
+                <v-tab-item class="tab_content" value="logs">
+                    <template v-if="block.logs.length === 0">
+                        <p class="null">There are no logs for this block.</p>
+                    </template>
+                    <template v-else>
+                        <EVMLogRow
+                            v-for="log in block.logs"
+                            :key="log.logIndex"
+                            :log="log"
+                        />
+                    </template>
+                </v-tab-item>
+            </v-tabs>
+        </div>
     </div>
 </template>
 
@@ -111,9 +113,57 @@ export default class EVMTxSummary extends Vue {
     margin-bottom: 20px;
 }
 
+.detail {
+    a {
+        overflow: hidden;
+        display: flex;
+        text-overflow: ellipsis;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+}
+
+.tab_content {
+    margin-top: 20px;
+}
+
 @include smOrSmaller {
     .block_type_label {
         margin-bottom: 20px;
+    }
+}
+</style>
+<style lang="scss">
+#block_tabs {
+    .v-tabs--vertical > .v-tabs-bar {
+        max-width: 200px !important;
+        border-left: 1px solid #cecece;
+    }
+
+    .v-tabs--vertical > .v-window {
+        overflow: hidden !important;
+    }
+
+    .v-card__text {
+        padding-left: 0 !important;
+    }
+
+    .v-tab.v-tab {
+        font-family: 'Inter', sans-serif;
+        text-transform: uppercase;
+        font-weight: 500;
+    }
+    .v-application .primary--text {
+        color: $primary-color !important;
+        caret-color: $primary-color !important;
+    }
+
+    .v-tabs-slider-wrapper {
+        color: $secondary-color;
+        caret-color: $secondary-color;
     }
 }
 </style>

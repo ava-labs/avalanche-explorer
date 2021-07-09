@@ -1,14 +1,11 @@
-import {
-    EVMBlockQueryResponse,
-    EVMBlockLog,
-    EVMBlockTransaction,
-} from '../models'
+import { EVMBlockQueryResponse, EVMBlockTransaction } from '../models'
 import web3 from 'web3'
 import { Buffer } from 'avalanche/dist'
 import { Serialization } from 'avalanche/dist/utils'
 import createHash from 'create-hash'
 import { getTransaction } from '@/services/transactions'
 import { Transaction } from '@/js/Transaction'
+import { parseLogs } from './parseEVMLogs'
 
 export function parseEVMBlockTxs(txs: EVMBlockTransaction[] | null) {
     // console.log('txs                ', txs)
@@ -37,19 +34,6 @@ export function parseEVMBlockTxs(txs: EVMBlockTransaction[] | null) {
     })
     // console.log('parsedTxs          ', parsedTxs)
     return parsedTxs
-}
-
-export function parseLogs(logs: EVMBlockLog[] | null) {
-    if (!logs) return []
-    logs.forEach((l) => {
-        console.log('-------------------')
-        console.log('l.address          ', l.address)
-        console.log('l.topic0           ', l.topics[0])
-        console.log('l.topic1           ', l.topics[1])
-        console.log('l.topic2           ', l.topics[2])
-        console.log('l.data             ', l.data)
-    })
-    return logs
 }
 
 export async function parseAtomicTxs(
