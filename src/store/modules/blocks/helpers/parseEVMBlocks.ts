@@ -6,6 +6,7 @@ import createHash from 'create-hash'
 import { getTransaction } from '@/services/transactions'
 import { Transaction } from '@/js/Transaction'
 import { parseLogs } from './parseEVMLogs'
+import { toAVAX } from '@/helper'
 
 export function parseEVMBlockTxs(txs: EVMBlockTransaction[] | null) {
     // console.log('txs                ', txs)
@@ -23,16 +24,19 @@ export function parseEVMBlockTxs(txs: EVMBlockTransaction[] | null) {
             nonce: '',
 
             // PAYLOAD
-            value: parseInt(web3.utils.hexToNumberString(tx.value)),
+            value: toAVAX(parseInt(web3.utils.hexToNumberString(tx.value)), 18),
             input: web3.utils.hexToAscii(tx.input), //TODO https://ethereum.stackexchange.com/questions/11144/how-to-decode-input-data-from-a-transaction
-            gasPrice: parseInt(web3.utils.hexToNumberString(tx.gasPrice)),
+            gasPrice: toAVAX(
+                parseInt(web3.utils.hexToNumberString(tx.gasPrice)),
+                18
+            ),
             gas: parseInt(web3.utils.hexToNumberString(tx.gas)),
 
             // RECIPIENT
             to: tx.to,
         }
     })
-    // console.log('parsedTxs          ', parsedTxs)
+    console.log('parsedTxs          ', parsedTxs)
     return parsedTxs
 }
 

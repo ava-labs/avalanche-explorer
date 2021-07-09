@@ -34,7 +34,9 @@
                             There are no transactions for this block.
                         </p>
                     </template>
-                    <template v-else></template>
+                    <template v-else>
+                        <EVMTxDataTable :transactions="block.transactions" />
+                    </template>
                 </v-tab-item>
                 <!-- ATOMIC TRANSACTIONS -->
                 <v-tab-item class="tab_content" value="atomic-transactions">
@@ -74,12 +76,14 @@ import Tooltip from '@/components/rows/Tooltip.vue'
 import EVMMetadata from '@/components/Block/EVMMetadata.vue'
 import EVMLogRow from '@/components/rows/EVMLogRow.vue'
 import TxList from '@/components/Transaction/TxList.vue'
+import EVMTxDataTable from '@/components/Transaction/EVMTxDataTable.vue'
 
 @Component({
     components: {
         Tooltip,
         CopyText,
         EVMMetadata,
+        EVMTxDataTable,
         TxList,
         EVMLogRow,
     },

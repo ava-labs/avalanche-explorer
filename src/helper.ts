@@ -17,11 +17,12 @@ function stringToBig(raw: string, denomination = 0): Big {
 /**
  * Convert nAvax to Avax
  * @param nAVAX nAvax amount
+ * @param denom 9 or 18 decimal places depending on chain
  */
-function nAvaxToAVAX(nAVAX: string | number): number {
+function nAvaxToAVAX(nAVAX: string | number, denom = 9): number {
     return typeof nAVAX === 'string'
-        ? parseInt(nAVAX) / Math.pow(10, 9)
-        : nAVAX / Math.pow(10, 9)
+        ? parseInt(nAVAX) / Math.pow(10, denom)
+        : nAVAX / Math.pow(10, denom)
 }
 
 function bigToDenomBig(val: Big, denomination = 0): Big {
