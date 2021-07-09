@@ -14,17 +14,6 @@
             />
             <template v-else>
                 <EVMBlockSummary :block="block"> EVM Block </EVMBlockSummary>
-                <!-- transactions: EVMBlockTransaction[] -->
-                <!-- logs: EVMBlockLog[]  -->
-                <!-- blockExtraData: string -->
-                <div v-if="block.logs" class="card">
-                    <h2>Logs</h2>
-                    <EVMLogRow
-                        v-for="log in block.logs"
-                        :key="log.logIndex"
-                        :log="log"
-                    />
-                </div>
             </template>
         </template>
     </div>
@@ -36,16 +25,14 @@ import { Component, Watch, Mixins } from 'vue-property-decorator'
 import { BlocksGettersMixin } from '@/store/modules/blocks/blocks.mixins'
 import { getMappingForType } from '@/store/modules/blocks/maps'
 import Loader from '@/components/misc/Loader.vue'
-import EVMBlockSummary from '@/components/Block/EVMBlockSummary.vue'
 import HTTPError from '@/components/misc/HTTPError.vue'
-import EVMLogRow from '@/components/rows/EVMLogRow.vue'
+import EVMBlockSummary from '@/components/Block/EVMBlockSummary.vue'
 
 @Component({
     components: {
         Loader,
         HTTPError,
         EVMBlockSummary,
-        EVMLogRow,
     },
     filters: {
         getType: getMappingForType,

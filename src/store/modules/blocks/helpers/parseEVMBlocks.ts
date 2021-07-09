@@ -7,6 +7,8 @@ import web3 from 'web3'
 import { Buffer } from 'avalanche/dist'
 import { Serialization } from 'avalanche/dist/utils'
 import createHash from 'create-hash'
+import { getTransaction } from '@/services/transactions'
+import { Transaction } from '@/js/Transaction'
 
 export function parseEVMBlockTxs(txs: EVMBlockTransaction[] | null) {
     // console.log('txs                ', txs)
@@ -51,21 +53,29 @@ export function parseLogs(logs: EVMBlockLog[] | null) {
     return logs
 }
 
-export function parseAtomicTxs(blockExtraData: string) {
+export async function parseAtomicTxs(
+    blockExtraData: string
+): Promise<Transaction[] | null> {
     if (blockExtraData === '') {
         return []
     } else {
+        // Decode id from atomic tx
         const serialization: Serialization = Serialization.getInstance()
         const buf = Buffer.from(
             createHash('sha256').update(blockExtraData, 'base64').digest()
                 .buffer
         )
         const hash = serialization.bufferToType(buf, 'cb58')
-        return [hash]
+        // Get data from Ortelius
+        const txRes = await getTransaction(hash)
+        console.log('txRes', txRes)
+        const tx = new Transaction(txRes)
+        console.log('tx', tx)
+        return [tx]
     }
 }
 
-export function parseEVMBlocks(block: EVMBlockQueryResponse) {
+export async function parseEVMBlocks(block: EVMBlockQueryResponse) {
     console.log('block              ', block)
 
     const parsedBlock = {
@@ -79,17 +89,17 @@ export function parseEVMBlocks(block: EVMBlockQueryResponse) {
         parentHash: block.header.parentHash,
         stateRoot: block.header.stateRoot,
         transactionsRoot: block.header.stateRoot,
+        atomicTransactionsRoot: block.header.extDataHash,
         receiptsRoot: block.header.receiptsRoot,
 
         // BLOCK SIZE
         gasLimit: parseInt(web3.utils.hexToNumberString(block.header.gasLimit)),
         gasUsed: parseInt(web3.utils.hexToNumberString(block.header.gasUsed)),
-        validator: block.header.miner,
 
+        // EXECUTIONS
         transactions: parseEVMBlockTxs(block.transactions),
+        atomicTransactions: await parseAtomicTxs(block.blockExtraData),
         logs: parseLogs(block.logs),
-        extraData: parseAtomicTxs(block.blockExtraData),
-        extraDataHash: block.header.extDataHash,
     }
 
     console.log('parsedBlock        ', parsedBlock)

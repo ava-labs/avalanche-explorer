@@ -19,9 +19,10 @@ const blocks_module: Module<BlocksState, IRootState> = {
     },
     actions: {
         async getEVMBlock(store, height: string) {
+            // GET BLOCK FROM ORTELIUS
             const blockRes: EVMBlockQueryResponse = await getEVMBlock(height)
             if (blockRes) {
-                const parsedBlock = parseEVMBlocks(blockRes)
+                const parsedBlock = await parseEVMBlocks(blockRes)
                 store.commit('addEVMBlock', parsedBlock)
             }
         },

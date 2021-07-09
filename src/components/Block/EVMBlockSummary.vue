@@ -17,7 +17,49 @@
                 </v-tooltip>
             </h2>
         </header>
-        <EVMMetadata :block="block" />
+        <v-tabs v-model="tab" show-arrows>
+            <v-tab href="#overview">Overview</v-tab>
+            <v-tab href="#transactions">Transactions</v-tab>
+            <v-tab href="#atomic-transactions">Atomic Transactions</v-tab>
+            <v-tab href="#logs">Event Logs</v-tab>
+            <!-- OVERVIEW -->
+            <v-tab-item class="tab_content" value="overview">
+                <EVMMetadata :block="block" />
+            </v-tab-item>
+            <!-- TRANSACTIONS -->
+            <v-tab-item class="tab_content" value="transactions">
+                <template v-if="block.transactions.length === 0">
+                    <p class="null">
+                        There are no transactions for this block.
+                    </p>
+                </template>
+                <template v-else></template>
+            </v-tab-item>
+            <!-- ATOMIC TRANSACTIONS -->
+            <v-tab-item class="tab_content" value="atomic-transactions">
+                <template v-if="block.atomicTransactions.length === 0">
+                    <p class="null">
+                        There are no atomic transactions for this block.
+                    </p>
+                </template>
+                <template v-else>
+                    <TxList :transactions="block.atomicTransactions" />
+                </template>
+            </v-tab-item>
+            <!-- LOGS -->
+            <v-tab-item class="tab_content" value="logs">
+                <template v-if="block.logs.length === 0">
+                    <p class="null">There are no logs for this block.</p>
+                </template>
+                <template v-else>
+                    <EVMLogRow
+                        v-for="log in block.logs"
+                        :key="log.logIndex"
+                        :log="log"
+                    />
+                </template>
+            </v-tab-item>
+        </v-tabs>
     </div>
 </template>
 
@@ -28,20 +70,23 @@ import CopyText from '@/components/misc/CopyText.vue'
 import { toAVAX } from '@/helper'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import EVMMetadata from '@/components/Block/EVMMetadata.vue'
-import { EVMBlockQueryResponse } from '@/store/modules/blocks'
+import EVMLogRow from '@/components/rows/EVMLogRow.vue'
+import TxList from '@/components/Transaction/TxList.vue'
 
 @Component({
     components: {
         Tooltip,
         CopyText,
         EVMMetadata,
+        TxList,
+        EVMLogRow,
     },
     filters: {
         toAVAX,
     },
 })
 export default class EVMTxSummary extends Vue {
-    @Prop() block!: EVMBlockQueryResponse
+    @Prop() block!: any
 
     copy() {
         navigator.clipboard.writeText(this.block.blockNumber)
@@ -49,6 +94,14 @@ export default class EVMTxSummary extends Vue {
             title: 'Copied',
             message: 'Copied to clipoard.',
         })
+    }
+
+    get tab() {
+        return this.$route.query.tab
+    }
+
+    set tab(tab: string | (string | null)[]) {
+        this.$router.replace({ query: { ...this.$route.query, tab } })
     }
 }
 </script>
