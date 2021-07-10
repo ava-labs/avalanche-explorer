@@ -34,6 +34,7 @@ export function parseEVMTxs(
         ...tx,
         ...block,
         logs,
+        transfers: [],
     }
     console.log('munged tx      ', transaction)
     return transaction
