@@ -5,7 +5,7 @@ export function parseLogs(
     block: EVMBlockQueryResponse,
     transaction: EVMTransactionResponse
 ) {
-    if (!block.logs) return null
+    if (!block.logs) return []
     const logs: EVMBlockLog[] = block.logs.filter(
         (l) => l.transactionHash === transaction.hash
     )
