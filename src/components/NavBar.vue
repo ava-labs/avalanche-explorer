@@ -12,7 +12,7 @@
             <div class="logo">
                 <router-link to="/">
                     <img
-                        style="height: 27.6px"
+                        style="height: 30px"
                         :src="
                             require(`@/assets/explorer_logo_${logoColor}.png`)
                         "
