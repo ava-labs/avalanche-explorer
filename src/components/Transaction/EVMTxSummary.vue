@@ -96,17 +96,14 @@ export default class EVMTxSummary extends Vue {
     }
 
     get hasTraces() {
-        console.log('this.tx.traces     ', this.tx.traces)
         return this.tx.traces.length > 0 ? true : false
     }
 
     get hasTransfers() {
-        console.log('this.tx.transfers  ', this.tx.transfers)
         return this.tx.transfers.length > 0 ? true : false
     }
 
     get hasLogs() {
-        console.log('this.tx.logs       ', this.tx.logs)
         return this.tx.logs.length > 0 ? true : false
     }
 }
