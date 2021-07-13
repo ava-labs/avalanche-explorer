@@ -1,5 +1,4 @@
 @import './colors';
-@import './typography';
 
 $max_width: 1800px;
 
@@ -54,5 +53,6 @@ $box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
 }
 
 @import './mobile';
+@import './typography';
 @import './components/common';
 @import './components/styles';

@@ -381,7 +381,6 @@ export default class NetworkActivity extends Mixins(PlatformGettersMixin) {
 .stats {
     display: grid;
     flex-wrap: wrap;
-    overflow: auto;
 
     dl {
         .link {

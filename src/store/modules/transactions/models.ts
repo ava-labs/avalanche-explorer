@@ -8,10 +8,11 @@ export interface TransactionsState {
     assetTxRes: TransactionQuery
     addressTxRes: TransactionQuery
     blockchainTxRes: TransactionQuery
+    evmTx: EVMTransactionResponse | null
 }
 
 /* ==========================================
-   Transactions (API)
+   UTXO Transactions (API)
    ========================================== */
 
 export interface TransactionQueryResponse {
@@ -20,7 +21,6 @@ export interface TransactionQueryResponse {
     next: string
     transactions: TransactionResponse[]
 }
-
 export interface TransactionQuery {
     startTime: string
     endTime: string
@@ -44,6 +44,17 @@ export interface TransactionResponse {
 
     timestamp: string
 
+    // https://docs.avax.network/learn/platform-overview/transaction-fees#fee-schedule
+    /* Multi-sig txFee scenarios
+        A. 1-of-2 ms UTXO  =>  UTXO (equal)      both parties paid the fee.
+                               UTXO (equal) 
+        
+        B. 1-of-2 ms UTXO  =>  UTXO (equal)      person that owned the non-multisig output paid more of a % of the fee.
+              non-ms UTXO      UTXO (equal)
+        
+        C. 1-of-2 ms UTXO  =>  UTXO              person that ended up w/ out output paid the fee because the other person was reimbursed.
+              non-ms UTXO
+     */
     txFee: number
 
     genesis: boolean
@@ -113,6 +124,115 @@ export interface TransactionResponse {
             - stakeLockTime - vesting avax. we needed a way for ppl to stake but otherwise not spend it for any other purpose                
             - lockTime
     */
+}
+
+/* ==========================================
+   EVM Transactions
+   ========================================== */
+export interface EVMTransactionQueryResponse {
+    Transactions: EVMTransactionResponse[]
+    startTime: string // N/A - internal query logic for Ortelius DB
+    endTime: string // N/A
+}
+
+/* All definitions from https://consensys.github.io/EthOn/EthOn_spec.html
+    ValueTx - Just moves Ether from one account to another.
+    CallTx - A type of transaction that is directed towards a contract account and calls a method in the contract's code.
+    CreateTx - A type of transaction that results in creation of a new contract account.
+ */
+export interface EVMTransactionResponse {
+    hash: string // The Keccak 256-bit hash of the transaction
+    createdAt: string // time of ingestion by Ortelius, 99& of the time this value should be the same as blockHeader.timestamp (sec granularity). different by ms
+
+    // SENDER
+    fromAddr: string /* A tx always originates from an external account that is 
+                        controlled by an external actor by means of a private key */
+    nonce: number // A scalar value equal to the number of transactions sent by the sender.
+    // PAYLOAD
+    value: string /* A scalar value equal to the number of Wei to be transferred to the Message call's recipient. 
+                        In the case of contract creation it is the initial balance of 
+                        the contract account, paid by the sending account. */
+    input: string // An unlimited size byte array specifying the input data of the call.
+    gasPrice: string /* A scalar value equal to the number of Wei to be paid per unit of gas for all 
+                        computation costs incurred as a result of the execution of this transaction. */
+    gasLimit: number /* A scalar value equal to the maximum amount of gas that should be used in executing this transaction. 
+                        This is paid up-front, before any computation is done and may not be increased later. 
+                        If used with contract messages it represents the fraction of the original transaction gas limit still 
+                        available for execution of the contract message. After all resulting computations are done, 
+                        excess gas is returned to the sender of the original transaction. */
+    // RECIPIENT
+    toAddr: string // Relates a message with the account it is sent to.
+    recipient: string // duplicate to above
+
+    // THE BLOCK CONTAINING THIS TX
+    block: string // A scalar value equal to the number of ancestor blocks. The genesis block has a number of zero.
+    blockGasUsed: number // A scalar value equal to the total gas used by all transactions in this block.
+    blockGasLimit: number /* Will stay constant for foreseeable future
+                                A scalar value equal to the current limit of gas expenditure per block. 
+                                Its purpose is to keep block propagation and processing time low, 
+                                thereby allowing for a sufficiently decentralized network. */
+    blockHash: string // The Keccak 256-bit hash of the block's header, in its entierty.
+    blockNonce: number /* Not Applicable
+                            In PoW, this 64 bit hash, when combined with the mix-hash, proves
+                            that a sufficient amount of computation has been carried out on this block. */
+
+    /* EXECUTION TRACES 
+        The downside of contract execution is that it is very hard to say what a transaction actually did. 
+        A transaction receipt does contain a status code to check whether execution succeeded or not, 
+        but there’s no way to see what data was modified, nor what external contracts were invoked. 
+        In order to introspect a transaction, we need to trace its execution.
+        Example: https://explorerapi.avax.network/v2/ctransactions?hash=0xbe5960deded935d9cbea94ea9e944699db668646dba9d20bcfda921f979bfd87
+    */
+    traces: TraceResponse[]
+
+    /* TX SIGNATURE
+        - used to determine the sender of the transaction
+        - V, R and S correspond to the signature of the transaction */
+    r: string // byte array of length 32
+    s: string // byte array of length 32
+    v: string /* specifies the sign and finiteness of the curve point. 
+                    Since EIP-155 it is used to realize a replay attack protection. 
+                    It is calculated in the following way: txV = CHAIN_ID * 2 + 36 */
+}
+
+/* EXECUTION TRACES
+    This response is based on the Blockscout tracer: 
+        It allows Geth's "debug_traceTransaction" to mimic 
+        the output of Parity's "trace_replayTransaction".
+    Objects represent ContractMsg - A contract message is passed between a 
+        contract account and any other account (external or contract). It is the 
+        result of an execution chain originally triggered by an external eccount.
+    curl -X POST --data '{ "jsonrpc": "2.0", "method": "debug_traceTransaction","params": ["0x00000217bc17e7e3187efae9248523f4fe2bc90e029e3ba13ddd8ff69607c705", {"disableStack": true, "disableMemory": true, "disableStorage": true}],"id": 1}' -H 'content-type:application/json;' https://api.avax.network/ext/bc/C/rpc
+ */
+export interface TraceResponse {
+    callType: string /* execution context
+                        CALL - executes in scope of contract
+                        DELEGATECALL - executes in scope of caller contract. value inherited from scope during call sequencing
+                        STATICCALL - by definition static calls transfer no value */
+    type: string /*  one of the two values CALL and CREATE
+                        CREATE - a subtype of a contract message that results in creation of a new contract account
+                        CALL - CallContractMsg - a contract message that calls a function in another contract.
+                        ??? SelfdestructContractMsg - a contract message that deletes the originating contract and refunds its balance to the receiver of the message.*/
+    // SENDER
+    from: string // Relates a message to the account it originates from.
+    // PAYLOAD
+    input: string // An unlimited size byte array specifying the input data of the call.
+    value: string // amount to be transferred in wei
+    // RECEIVER
+    to: string /* Relates a message with the account it is sent to. 
+                    refunds - Relates a selfdestruct contract message to the contract account it sends its refund balance to.
+                    creates - Relates a create transaction to the contract account it creates. */
+
+    gasUsed: string /* The amount of gas that was used for processing a single message
+                        regardless of which type of message it may be. */
+    gas: string // ??? could be msgGasLimit - A scalar value equal to the maximum amount of gas that should be used in executing this transaction. This is paid up-front, before any computation is done and may not be increased later. If used with contract messages it represents the fraction of the original transaction gas limit still available for execution of the contract message. After all resulting computations are done, excess gas is returned to the sender of the original transaction.
+
+    traceAddress?: number[]
+
+    // ERROR EXAMPLE: https://explorerapi.avax-test.network/v2/ctransactions?hash=0x638a35c57a7a1545a8a6eb4ea6a3355c2d4e64657f8921fd3ff922aff86436b1
+    error?: string // "execution reverted",
+    revertReason?: string // keccak-256 encoding "0x08c379a000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000009542d4f4145582d30310000000000000000000000000000000000000000000000",
+    revertReasonUnpacked?: string // "T-OAEX-01"
 }
 
 /* ==========================================

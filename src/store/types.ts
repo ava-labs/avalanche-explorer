@@ -5,6 +5,7 @@ import {
 import { Asset } from '@/js/Asset'
 import { ICollisionMap } from '@/js/IAsset'
 import { PlatformState } from './modules/platform/models'
+import { BlocksState } from './modules/blocks/models'
 import { Price } from '@/services/price'
 
 export interface IRootState {
@@ -26,4 +27,5 @@ export interface IRootState {
     prices: Price | null
     Transactions: TransactionsState
     Platform: PlatformState
+    Blocks: BlocksState
 }

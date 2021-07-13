@@ -5,8 +5,10 @@
             <div class="logo">
                 <router-link to="/">
                     <img
-                        style="height: 16px"
-                        src="@/assets/explorer_logo.png"
+                        style="height: 20px"
+                        :src="
+                            require(`@/assets/explorer_logo_${logoColor}.png`)
+                        "
                     />
                     <h1><span class="hide">Avalanche Explorer</span></h1>
                 </router-link>
@@ -27,7 +29,9 @@
                 <v-list-item>
                     <div class="drawer_img_container">
                         <img
-                            src="@/assets/explorer_logo.png"
+                            :src="
+                                require(`@/assets/explorer_logo_${logoColor}.png`)
+                            "
                             class="drawer_img"
                         />
                     </div>
@@ -94,6 +98,10 @@ export default class NavbarMobile extends Vue {
 
     get showSearch() {
         return this.$router.currentRoute.name === 'Home' ? false : true
+    }
+
+    get logoColor() {
+        return DEFAULT_NETWORK_ID === 1 ? 'black' : 'white'
     }
 
     get navColor() {

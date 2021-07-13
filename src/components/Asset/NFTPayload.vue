@@ -32,7 +32,7 @@ export default class NFTPayload extends Vue {
 
 <style scoped lang="scss">
 .payload {
-    overflow: scroll;
+    overflow: hidden;
 }
 
 .code {

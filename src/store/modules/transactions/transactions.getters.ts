@@ -23,3 +23,7 @@ export function getTxsByAsset() {
 export function getTxsByBlockchain() {
     return store.state.Transactions.blockchainTxRes.transactions
 }
+
+export function getEVMTx() {
+    return store.state.Transactions.evmTx
+}

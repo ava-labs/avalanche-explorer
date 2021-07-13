@@ -123,7 +123,7 @@ $footer_color: $black;
         img {
             width: auto;
             margin-right: 10px;
-            height: 22px;
+            height: 30px;
             object-fit: contain;
         }
     }
@@ -173,6 +173,7 @@ $footer_color: $black;
         padding-bottom: 8px;
         border-bottom: 2px solid $footer_color;
         margin-bottom: 30px;
+        font-size: 14px !important;
     }
 
     a {
@@ -187,10 +188,8 @@ $footer_color: $black;
     }
 }
 
-@if $VUE_APP_DEFAULT_NETWORKID == 5 {
-    .footer_container {
-        border-top: 2px solid $footer_color;
-    }
+.footer_container {
+    border-top: 2px solid $footer_color;
 }
 
 @include lgOrBigger {

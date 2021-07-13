@@ -1,7 +1,7 @@
 <template>
     <a class="network_row" :active="isSelected" :href="explorerFEUrl">
-        <img v-if="isSelected" src="img/avalanche_red.png" />
-        <img v-else src="img/avalanche_black.png" />
+        <img v-if="isSelected" :src="`img/ava_logo_${logoColor}.png`" />
+        <img v-else src="img/ava_logo_black.png" />
         <div class="name_col">
             <p class="name">{{ network.name }}</p>
             <p class="url">{{ endpoint }}</p>
@@ -20,6 +20,7 @@
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import Network from '@/js/Network'
+import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
 
 @Component({})
 export default class NetworkRow extends Vue {
@@ -54,6 +55,10 @@ export default class NetworkRow extends Vue {
     get explorerFEUrl() {
         const net = this.network
         return net.explorerFEUrl
+    }
+
+    get logoColor() {
+        return DEFAULT_NETWORK_ID === 1 ? 'red' : 'blue'
     }
 
     async select() {

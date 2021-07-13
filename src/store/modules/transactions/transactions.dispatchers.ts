@@ -7,6 +7,7 @@ export enum TXACTION {
     GET_TX_RECENT = 'getRecentTxs',
     GET_TXS_BY_ASSET = 'getTxsByAsset',
     GET_TXS_BY_ADDRESS = 'getTxsByAddress',
+    GET_EVM_TX = 'getEVMTx',
 }
 
 export function dispatchGetTx() {
@@ -27,4 +28,8 @@ export function dispatchGetTxsByAsset() {
 
 export function dispatchGetTxsByAddress() {
     return store.dispatch(`${TX_NAMESPACE}/${TXACTION.GET_TXS_BY_ADDRESS}`)
+}
+
+export function dispatchGetEVMTx() {
+    return store.dispatch(`${TX_NAMESPACE}/${TXACTION.GET_EVM_TX}`)
 }

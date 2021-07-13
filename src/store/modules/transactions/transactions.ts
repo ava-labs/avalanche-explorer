@@ -5,10 +5,19 @@ import {
     TransactionQueryResponse,
     TransactionsState,
     TransactionQuery,
+    EVMTransactionResponse,
+    EVMTransactionQueryResponse,
 } from './models'
+import { EVMBlockQueryResponse } from '@/store/modules/blocks/models'
 import { getTransaction, ITransactionPayload } from '@/services/transactions'
+import {
+    getEVMTransaction,
+    IEVMTransactionParams,
+} from '@/services/evmtransactions'
 import { Transaction } from '@/js/Transaction'
 import { parseTxs } from './helpers'
+import { getEVMBlock } from '@/services/evmblocks'
+import { parseEVMTxs } from './helpers/parseEVMTxs'
 
 const defaultState = {
     tx: null,
@@ -42,6 +51,7 @@ const defaultState = {
         next: '',
         transactions: [],
     },
+    evmTx: null,
 }
 
 const transactions_module: Module<TransactionsState, IRootState> = {
@@ -66,6 +76,9 @@ const transactions_module: Module<TransactionsState, IRootState> = {
         },
         addBlockchainTxs(state, txRes: TransactionQuery) {
             state.blockchainTxRes = txRes
+        },
+        addEVMTx(state, evmTx: EVMTransactionResponse) {
+            state.evmTx = evmTx
         },
     },
     actions: {
@@ -128,6 +141,19 @@ const transactions_module: Module<TransactionsState, IRootState> = {
                 })
                 .filter((value, index, self) => self.indexOf(value) === index)
             return payloads
+        },
+        async getEVMTx(store, params: IEVMTransactionParams) {
+            const txRes: EVMTransactionQueryResponse = await getEVMTransaction(
+                params
+            )
+            const tx = txRes.Transactions[0]
+            if (tx) {
+                const blockRes: EVMBlockQueryResponse = await getEVMBlock(
+                    tx.block
+                )
+                const parsedTx = parseEVMTxs(tx, blockRes)
+                store.commit('addEVMTx', parsedTx)
+            }
         },
     },
 }
