@@ -12,7 +12,7 @@
             <div class="logo">
                 <router-link to="/">
                     <img
-                        style="height: 23px"
+                        style="height: 27.6px"
                         :src="
                             require(`@/assets/explorer_logo_${logoColor}.png`)
                         "
@@ -184,10 +184,6 @@ export default class Navbar extends Mixins(PlatformGettersMixin) {
         height: 100%;
         color: $primary-color !important;
         text-decoration: none !important;
-
-        img {
-            height: 23px;
-        }
     }
 
     h1 {

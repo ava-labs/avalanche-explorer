@@ -13,7 +13,7 @@
             <router-link to="/">
                 <img
                     style="height: 31px"
-                    src="@/assets/explorer_logo_light.png"
+                    src="@/assets/explorer_logo_black.png"
                 />
                 <h1>
                     <span class="hide">Avalanche Explorer</span>

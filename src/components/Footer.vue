@@ -123,7 +123,7 @@ $footer_color: $black;
         img {
             width: auto;
             margin-right: 10px;
-            height: 22px;
+            height: 30px;
             object-fit: contain;
         }
     }
