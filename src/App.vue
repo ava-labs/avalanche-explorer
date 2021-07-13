@@ -276,7 +276,7 @@ th {
     }
 }
 
-@include mdOrBigger {
+@include smOrBigger {
     .header {
         h2 {
             font-size: 30px;
@@ -284,6 +284,7 @@ th {
 
         .top_info_heading {
             font-size: 22px;
+            word-break: break-word;
         }
     }
 }

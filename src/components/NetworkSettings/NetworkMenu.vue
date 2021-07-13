@@ -155,6 +155,7 @@ export default class NetworkMenu extends Vue {
             margin: 0;
             color: $primary-color;
             font-weight: 500;
+            font-size: 22px;
         }
 
         button {

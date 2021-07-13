@@ -1,3 +1,5 @@
+@import './mobile';
+
 h1,
 h2,
 h3,
@@ -14,13 +16,31 @@ h2 {
     font-size: 48px;
 }
 h3 {
-    font-size: 34px;
+    font-size: 27px;
 }
 h4 {
-    font-size: 27px;
+    font-size: 20px;
 }
 h5 {
     font-size: 17px;
+}
+
+@include xsOrSmaller {
+    h1 {
+        font-size: 27px;
+    }
+    h2 {
+        font-size: 22px;
+    }
+    h3 {
+        font-size: 20px;
+    }
+    h4 {
+        font-size: 18px;
+    }
+    h5 {
+        font-size: 14px;
+    }
 }
 
 body {

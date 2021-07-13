@@ -2,12 +2,7 @@
     <div class="metadata">
         <div class="card">
             <div class="header">
-                <h2>
-                    Subnets
-                    <TooltipHeading
-                        content="A subnet is a dynamic set of validators working together to achieve consensus on the state of a set of blockchains"
-                    />
-                </h2>
+                <h2>Subnets</h2>
             </div>
             <section class="stats">
                 <article>
