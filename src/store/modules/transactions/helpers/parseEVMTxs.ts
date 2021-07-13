@@ -1,22 +1,16 @@
 import { EVMTransactionResponse } from '../models'
 import { EVMBlockQueryResponse, EVMBlockLog } from '@/store/modules/blocks'
+import { parseLogs } from '../../blocks/helpers/parseEVMLogs'
 
-export function parseLogs(
+export function getLogs(
     block: EVMBlockQueryResponse,
     transaction: EVMTransactionResponse
 ) {
     if (!block.logs) return []
-    const logs: EVMBlockLog[] = block.logs.filter(
+    let logs: EVMBlockLog[] = block.logs.filter(
         (l) => l.transactionHash === transaction.hash
     )
-    console.log('logs          ', logs)
-    logs.forEach((l) => {
-        console.log('l.address          ', l.address)
-        console.log('l.topic0           ', l.topics[0])
-        console.log('l.topic1           ', l.topics[1])
-        console.log('l.topic2           ', l.topics[2])
-        console.log('l.data             ', l.data)
-    })
+    logs = parseLogs(logs)
     return logs
 }
 
@@ -27,7 +21,7 @@ export function parseEVMTxs(
     console.log('tx          ', tx)
     console.log('block       ', block)
 
-    const logs = parseLogs(block, tx)
+    const logs = getLogs(block, tx)
 
     // Munge tx and block
     const transaction = {
