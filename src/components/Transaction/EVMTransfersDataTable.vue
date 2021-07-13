@@ -28,13 +28,13 @@
                     >
                 </div>
             </template>
-            <template #item.value="{ item }">
+            <!-- <template #item.value="{ item }">
                 <div>
-                    <span class="amount"><!-- {{ item.value }} --></span>
+                    <span class="amount"></span>
                     <span class="token_name"></span>
                     (<span class="token_symbol"></span>)
                 </div>
-            </template>
+            </template> -->
         </v-data-table>
     </div>
 </template>
@@ -53,8 +53,8 @@ export default class EVMTransfersDataTable extends Vue {
     get headers(): any[] {
         const headers = [
             { text: 'From', value: 'v' },
-            { text: 'Value', value: 'value' },
             { text: 'To', value: 'to' },
+            // { text: 'Value', value: 'value' },
         ]
         return headers
     }

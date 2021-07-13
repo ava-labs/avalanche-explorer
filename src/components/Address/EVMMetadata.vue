@@ -89,11 +89,10 @@
 
 <script lang="ts">
 import 'reflect-metadata'
-import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Vue, Component } from 'vue-property-decorator'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import { getAssetType } from '@/services/assets'
 import { getMappingForType } from '@/store/modules/transactions/maps'
-import { EVMTransactionResponse } from '@/store/modules/transactions/models'
 
 @Component({
     components: {
