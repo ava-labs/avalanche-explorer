@@ -35,6 +35,7 @@
                     <EVMMetadata :tx="tx" />
                 </v-tab-item>
                 <v-tab-item v-if="hasTraces" class="tab_content" value="traces">
+                    <EVMExecutionTrace :traces="tx.tracesGraph" />
                 </v-tab-item>
                 <v-tab-item
                     v-if="hasTransfers"
@@ -62,6 +63,7 @@ import { getMappingForType } from '@/store/modules/transactions/maps'
 import { toAVAX } from '@/helper'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import EVMMetadata from '@/components/Transaction/EVMMetadata.vue'
+import EVMExecutionTrace from '@/components/Transaction/EVMExecutionTrace.vue'
 import EVMLogRow from '@/components/rows/EVMLogRow.vue'
 
 @Component({
@@ -69,6 +71,7 @@ import EVMLogRow from '@/components/rows/EVMLogRow.vue'
         Tooltip,
         CopyText,
         EVMMetadata,
+        EVMExecutionTrace,
         EVMLogRow,
     },
     filters: {

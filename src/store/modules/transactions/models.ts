@@ -238,6 +238,8 @@ export interface TraceResponse {
     error?: string // "execution reverted",
     revertReason?: string // keccak-256 encoding "0x08c379a000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000009542d4f4145582d30310000000000000000000000000000000000000000000000",
     revertReasonUnpacked?: string // "T-OAEX-01"
+
+    children?: TraceResponse[]
 }
 
 /* ==========================================

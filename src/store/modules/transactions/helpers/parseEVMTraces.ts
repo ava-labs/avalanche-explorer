@@ -1,19 +1,33 @@
 import { TraceResponse } from '../models'
 
-export function parseEVMTraces(traces: TraceResponse[]) {
+// inits a list to store children
+// adds props for UI
+function dressTrace(trace: TraceResponse, txInput: string) {
+    return {
+        ...trace,
+        children: [],
+        id: trace.traceAddress ? trace.traceAddress.toString() : txInput,
+        name: `${trace.callType} | ${trace.type} (${trace.input} => ${trace.output})`,
+    }
+}
+
+export function parseEVMTraces(traces: TraceResponse[], txInput: string) {
     if (!traces) return []
+    console.log(txInput)
 
     const graph: any = []
 
     // the root trace is the outermost function call
     // this is the transaction itself
     graph[0] = traces.shift()
-    graph[0].children = []
+    graph[0] = dressTrace(graph[0], txInput)
+    console.log('root     ', graph[0])
 
     // This reducer converts the flat list of function traces to a graph structure
     const grapher = (root: any, currentValue: any) => {
-        // for each trace, init a list to store children
-        currentValue.children = []
+        console.log(`${currentValue.traceAddress.toString()}`, currentValue)
+
+        currentValue = dressTrace(currentValue, txInput)
 
         // the second-to-last traceAddress is the trace's parent (execution context)
         const beforeLast =

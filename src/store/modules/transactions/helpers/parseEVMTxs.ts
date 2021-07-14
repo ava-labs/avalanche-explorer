@@ -22,7 +22,7 @@ export function parseEVMTxs(
     // Parse raw data
     const logs = getLogs(block, tx)
     const traces = tx.traces
-    const tracesGraph = parseEVMTraces(tx.traces)
+    const tracesGraph = parseEVMTraces(tx.traces, tx.input)
 
     // Munge tx and block
     const transaction = {
