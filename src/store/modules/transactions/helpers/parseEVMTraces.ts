@@ -21,12 +21,9 @@ export function parseEVMTraces(traces: TraceResponse[], txInput: string) {
     // this is the transaction itself
     graph[0] = traces.shift()
     graph[0] = dressTrace(graph[0], txInput)
-    console.log('root     ', graph[0])
 
     // This reducer converts the flat list of function traces to a graph structure
     const grapher = (root: any, currentValue: any) => {
-        console.log(`${currentValue.traceAddress.toString()}`, currentValue)
-
         currentValue = dressTrace(currentValue, txInput)
 
         // the second-to-last traceAddress is the trace's parent (execution context)
@@ -34,7 +31,7 @@ export function parseEVMTraces(traces: TraceResponse[], txInput: string) {
             currentValue.traceAddress[currentValue.traceAddress.length - 1 - 1]
 
         // if no parent, insert trace into the root
-        if (!beforeLast) {
+        if (beforeLast === undefined) {
             root.children.push(currentValue)
         }
         // find the parent
