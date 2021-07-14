@@ -16,7 +16,7 @@ export function parseEVMTraces(traces: TraceResponse[]) {
         currentValue.children = []
 
         // the second-to-last traceAddress is the trace's parent (execution context)
-        let beforeLast =
+        const beforeLast =
             currentValue.traceAddress[currentValue.traceAddress.length - 1 - 1]
 
         // if no parent, insert trace into the root
@@ -44,6 +44,6 @@ export function parseEVMTraces(traces: TraceResponse[]) {
         return root
     }
 
-    let traceGraph = [traces.reduce(grapher, graph[0])]
+    const traceGraph = [traces.reduce(grapher, graph[0])]
     return traceGraph
 }
