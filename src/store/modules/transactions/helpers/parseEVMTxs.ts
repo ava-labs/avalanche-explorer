@@ -19,8 +19,10 @@ export function parseEVMTxs(
     tx: EVMTransactionResponse,
     block: EVMBlockQueryResponse
 ) {
+    // Parse raw data
     const logs = getLogs(block, tx)
-    const traces = parseEVMTraces(tx.traces)
+    const traces = tx.traces
+    const tracesGraph = parseEVMTraces(tx.traces)
 
     // Munge tx and block
     const transaction = {
@@ -28,6 +30,7 @@ export function parseEVMTxs(
         ...block,
         logs,
         traces,
+        tracesGraph,
         transfers: [],
     }
     // console.log('munged tx      ', transaction)

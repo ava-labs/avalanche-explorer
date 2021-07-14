@@ -4,19 +4,46 @@ export function parseEVMTraces(traces: TraceResponse[]) {
     if (!traces) return []
 
     const graph: any = []
-    let root
 
-    traces.forEach((t) => {
-        if (!t.traceAddress) {
-            root = t
-            graph.push(root)
+    // the root trace is the outermost function call
+    // this is the transaction itself
+    graph[0] = traces.shift()
+    graph[0].children = []
+
+    // This reducer converts the flat list of function traces to a graph structure
+    const grapher = (root: any, currentValue: any) => {
+        // for each trace, init a list to store children
+        currentValue.children = []
+
+        // the second-to-last traceAddress is the trace's parent (execution context)
+        let beforeLast =
+            currentValue.traceAddress[currentValue.traceAddress.length - 1 - 1]
+
+        // if no parent, insert trace into the root
+        if (!beforeLast) {
+            root.children.push(currentValue)
         }
-        console.log('-------------------')
-        console.log('t.traceAddress     ', t.traceAddress)
-        // console.log('t.from             ', t.from)
-        // console.log('t.to               ', t.to)
-    })
+        // find the parent
+        else {
+            // The traceAddress list shows us the positions for the call graph:
+            // [0,      0,       2,        0]
+            //                   ^parent   ^trace
 
-    console.log('graph', graph)
-    return traces
+            // find depth of parent
+            const depth = currentValue.traceAddress.length - 1
+            let ancestor
+            let parent = root
+            // walk the graph to get to the parent
+            for (let i = 0; i < depth; i++) {
+                ancestor = parent
+                parent = ancestor.children[currentValue.traceAddress[i]]
+            }
+            // insert trace into the parent
+            parent.children.push(currentValue)
+        }
+        return root
+    }
+
+    let traceGraph = [traces.reduce(grapher, graph[0])]
+    return traceGraph
 }
