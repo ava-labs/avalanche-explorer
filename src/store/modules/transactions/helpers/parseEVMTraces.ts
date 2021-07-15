@@ -13,7 +13,6 @@ function dressTrace(trace: TraceResponse, txInput: string) {
 
 export function parseEVMTraces(traces: TraceResponse[], txInput: string) {
     if (!traces) return []
-    console.log(txInput)
 
     const graph: any = []
 
@@ -26,7 +25,7 @@ export function parseEVMTraces(traces: TraceResponse[], txInput: string) {
     const grapher = (root: any, currentValue: any) => {
         currentValue = dressTrace(currentValue, txInput)
 
-        // the second-to-last traceAddress is the trace's parent (execution context)
+        // the second-to-last traceAddress is the trace's parent (where the function was called)
         const beforeLast =
             currentValue.traceAddress[currentValue.traceAddress.length - 1 - 1]
 
