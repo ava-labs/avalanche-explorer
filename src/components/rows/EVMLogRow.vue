@@ -53,7 +53,7 @@
 </template>
 <script lang="ts">
 import 'reflect-metadata'
-import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import Tooltip from '@/components/rows/Tooltip.vue'
 
 @Component({
@@ -61,8 +61,19 @@ import Tooltip from '@/components/rows/Tooltip.vue'
 })
 export default class EVMLogRow extends Vue {
     @Prop() log!: any
-    created() {
-        console.log('this.log', this.log)
+
+    decodedLog: any = null
+
+    @Watch('abisLoaded')
+    async onAbisLoadedChanged() {
+        const isDecoded = this.$store.state.abiDecoder.decodeLogs([this.log])
+        if (isDecoded !== [undefined]) {
+            this.decodedLog = isDecoded[0]
+        }
+    }
+
+    get abisLoaded() {
+        return this.$store.state.abisLoaded
     }
 }
 </script>

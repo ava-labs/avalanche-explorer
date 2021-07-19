@@ -28,6 +28,8 @@ import { getCacheAssets } from '@/services/assets'
 import { getPrices, Price, PriceMap } from '@/services/price'
 import { AVAX_PRICE_ID, VS_CURRENCIES } from '@/known_prices'
 import { getABI } from '@/services/abi/abi.service'
+//@ts-ignore
+import abiDecoder from 'abi-decoder'
 
 Vue.use(Vuex)
 
@@ -56,6 +58,7 @@ const store = new Vuex.Store({
         prices: null,
         abisLoaded: false,
         abis: null,
+        abiDecoder: null,
     } as IRootState,
     actions: {
         async init(store) {
@@ -157,6 +160,32 @@ const store = new Vuex.Store({
         },
 
         async getABI({ commit }) {
+            const testABI = [
+                {
+                    anonymous: false,
+                    inputs: [
+                        {
+                            indexed: true,
+                            name: 'from',
+                            type: 'address',
+                        },
+                        {
+                            indexed: true,
+                            name: 'to',
+                            type: 'address',
+                        },
+                        {
+                            indexed: false,
+                            name: 'value',
+                            type: 'uint256',
+                        },
+                    ],
+                    name: 'Transfer',
+                    type: 'event',
+                },
+            ]
+            abiDecoder.addABI(testABI)
+
             const ERC20: any = await getABI('erc20')
             const ERC721: any = await getABI('erc721')
             const ABIS = {
@@ -164,6 +193,7 @@ const store = new Vuex.Store({
                 erc721: ERC721,
             }
             commit('addABIs', ABIS)
+            commit('addABIDecoder', abiDecoder)
             commit('finishABIsLoading')
         },
     },
@@ -206,6 +236,9 @@ const store = new Vuex.Store({
         },
         finishABIsLoading(state) {
             state.abisLoaded = true
+        },
+        addABIDecoder(state, abiDecoder: any) {
+            state.abiDecoder = abiDecoder
         },
     },
     getters: {

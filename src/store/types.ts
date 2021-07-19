@@ -27,6 +27,7 @@ export interface IRootState {
     prices: Price | null
     abisLoaded: boolean
     abis: any | null
+    abiDecoder: any
     Transactions: TransactionsState
     Platform: PlatformState
     Blocks: BlocksState
