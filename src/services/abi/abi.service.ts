@@ -1,5 +1,5 @@
 export async function getABI(id: string) {
-    const res: any = await fetch(`./abi/${id}.json`, {
+    const res: any = await fetch(`/abi/${id}.json`, {
         headers: {
             'Content-Type': 'application/json',
         },
