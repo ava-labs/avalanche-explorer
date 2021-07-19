@@ -25,6 +25,8 @@ export interface IRootState {
     collisionMap: ICollisionMap
     pricesLoaded: boolean
     prices: Price | null
+    abisLoaded: boolean
+    abis: any | null
     Transactions: TransactionsState
     Platform: PlatformState
     Blocks: BlocksState
