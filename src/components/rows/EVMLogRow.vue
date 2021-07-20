@@ -12,31 +12,52 @@
                     }}</router-link>
                 </div>
             </article>
-            <article v-if="log.topics[0]" class="meta_row">
+            <article v-if="decodedLog" class="meta_row">
                 <p class="meta_label">
-                    Topic 0
+                    Name
                     <Tooltip content="" />
                 </p>
                 <div class="meta_value values">
-                    {{ log.topics[0] }}
+                    <div class="method_id monospace">
+                        <span class="margin-right">{{ decodedLog.name }}</span>
+                        <span>(</span>
+                        <div v-for="(event, i) in decodedLog.events" :key="i">
+                            <span v-if="i === 0" class="index_topic"
+                                >index_topic_1
+                            </span>
+                            <span v-if="i === 1" class="index_topic"
+                                >index_topic_2
+                            </span>
+                            <span class="arg_name">{{ event.name }} </span>
+                            <span class="arg_type">{{ event.type }}</span>
+                            <span
+                                v-if="i < decodedLog.events.length - 1"
+                                class="margin-right"
+                                >,
+                            </span>
+                        </div>
+                        <span>)</span>
+                    </div>
                 </div>
             </article>
-            <article v-if="log.topics[1]" class="meta_row">
+            <article class="meta_row">
                 <p class="meta_label">
-                    Topic 1
+                    Topics
                     <Tooltip content="" />
                 </p>
                 <div class="meta_value values">
-                    {{ log.topics[1] }}
-                </div>
-            </article>
-            <article v-if="log.topics[2]" class="meta_row">
-                <p class="meta_label">
-                    Topic 2
-                    <Tooltip content="" />
-                </p>
-                <div class="meta_value values">
-                    {{ log.topics[2] }}
+                    <div v-if="log.topics[0]" class="topic">
+                        <div>0</div>
+                        <div class="monospace">{{ log.topics[0] }}</div>
+                    </div>
+                    <div v-if="log.topics[1]" class="topic">
+                        <div>1</div>
+                        <div class="monospace">{{ log.topics[1] }}</div>
+                    </div>
+                    <div v-if="log.topics[2]" class="topic">
+                        <div>2</div>
+                        <div class="monospace">{{ log.topics[2] }}</div>
+                    </div>
                 </div>
             </article>
             <article v-if="log.data" class="meta_row">
@@ -44,7 +65,7 @@
                     Data
                     <Tooltip content="" />
                 </p>
-                <div class="meta_value values">
+                <div class="meta_value values monospace">
                     {{ log.data }}
                 </div>
             </article>
@@ -77,4 +98,45 @@ export default class EVMLogRow extends Vue {
     }
 }
 </script>
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.meta {
+    .meta_row {
+        padding: 5px 0;
+    }
+}
+.evm_log_row {
+    padding: 15px 0;
+    border-bottom: 1px solid $gray;
+}
+
+.topic {
+    display: flex;
+
+    :first-of-type {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 12px;
+        min-width: 20px;
+        margin-right: 10px;
+    }
+}
+
+.method_id {
+    display: flex;
+}
+
+.index_topic {
+    color: $primary-color-light;
+}
+.arg_name {
+    color: $green;
+}
+
+.arg_type {
+    color: $secondary-color;
+}
+.margin-right {
+    margin-right: 5px;
+}
+</style>
