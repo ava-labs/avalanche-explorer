@@ -30,7 +30,7 @@
                     }})</v-tab
                 >
                 <v-tab v-if="hasLogs" href="#logs"
-                    >Event Logs ({{ block.logs.length }})</v-tab
+                    >Events ({{ block.logs.length }})</v-tab
                 >
                 <!-- TAB ITEMS -->
                 <v-tab-item class="tab_content" value="overview">

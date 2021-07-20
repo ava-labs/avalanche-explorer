@@ -28,7 +28,7 @@
                     >Transfers (TBD)</v-tab
                 >
                 <v-tab v-if="hasLogs" href="#logs"
-                    >Event Logs ({{ tx.logs.length }})</v-tab
+                    >Events ({{ tx.logs.length }})</v-tab
                 >
                 <!-- TAB ITEMS -->
                 <v-tab-item class="tab_content" value="overview">
