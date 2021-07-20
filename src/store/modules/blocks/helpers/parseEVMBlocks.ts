@@ -36,7 +36,7 @@ export function parseEVMBlockTxs(txs: EVMBlockTransaction[] | null) {
             to: tx.to,
         }
     })
-    console.log('parsedTxs          ', parsedTxs)
+    // console.log('parsedTxs          ', parsedTxs)
     return parsedTxs
 }
 
