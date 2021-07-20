@@ -206,6 +206,7 @@ export interface EVMTransactionResponse {
  */
 export interface TraceResponse {
     callType: string /* execution context
+                        "" - when it's a CREATE
                         CALL - executes in scope of contract
                         DELEGATECALL - executes in scope of caller contract. value inherited from scope during call sequencing
                         STATICCALL - by definition static calls transfer no value */
@@ -217,6 +218,7 @@ export interface TraceResponse {
     from: string // Relates a message to the account it originates from.
     // PAYLOAD
     input: string // An unlimited size byte array specifying the input data of the call.
+    output?: string // return value
     value: string // amount to be transferred in wei
     // RECEIVER
     to: string /* Relates a message with the account it is sent to. 
@@ -229,10 +231,15 @@ export interface TraceResponse {
 
     traceAddress?: number[]
 
+    createdContractAddressHash?: string
+    createdContractCode?: string
+
     // ERROR EXAMPLE: https://explorerapi.avax-test.network/v2/ctransactions?hash=0x638a35c57a7a1545a8a6eb4ea6a3355c2d4e64657f8921fd3ff922aff86436b1
     error?: string // "execution reverted",
     revertReason?: string // keccak-256 encoding "0x08c379a000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000009542d4f4145582d30310000000000000000000000000000000000000000000000",
     revertReasonUnpacked?: string // "T-OAEX-01"
+
+    children?: TraceResponse[]
 }
 
 /* ==========================================

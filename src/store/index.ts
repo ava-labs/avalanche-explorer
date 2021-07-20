@@ -27,6 +27,9 @@ import { X } from '@/known_blockchains'
 import { getCacheAssets } from '@/services/assets'
 import { getPrices, Price, PriceMap } from '@/services/price'
 import { AVAX_PRICE_ID, VS_CURRENCIES } from '@/known_prices'
+import { getABI } from '@/services/abi/abi.service'
+//@ts-ignore
+import abiDecoder from 'abi-decoder'
 
 Vue.use(Vuex)
 
@@ -53,12 +56,16 @@ const store = new Vuex.Store({
         collisionMap: {},
         pricesLoaded: false,
         prices: null,
+        abisLoaded: false,
+        abis: null,
+        abiDecoder: null,
     } as IRootState,
     actions: {
         async init(store) {
             // Get and set initial list of all indexed assets
             await store.dispatch('getAssets')
             store.dispatch('getPrice')
+            store.dispatch('getABI')
 
             // Once we have assets, next get recent transactions
             store.dispatch('getRecentTransactions', {
@@ -151,6 +158,44 @@ const store = new Vuex.Store({
             commit('addPrices', price[AVAX_PRICE_ID])
             commit('finishPricesLoading')
         },
+
+        async getABI({ commit }) {
+            const testABI = [
+                {
+                    anonymous: false,
+                    inputs: [
+                        {
+                            indexed: true,
+                            name: 'from',
+                            type: 'address',
+                        },
+                        {
+                            indexed: true,
+                            name: 'to',
+                            type: 'address',
+                        },
+                        {
+                            indexed: false,
+                            name: 'value',
+                            type: 'uint256',
+                        },
+                    ],
+                    name: 'Transfer',
+                    type: 'event',
+                },
+            ]
+            abiDecoder.addABI(testABI)
+
+            const ERC20: any = await getABI('erc20')
+            const ERC721: any = await getABI('erc721')
+            const ABIS = {
+                erc20: ERC20,
+                erc721: ERC721,
+            }
+            commit('addABIs', ABIS)
+            commit('addABIDecoder', abiDecoder)
+            commit('finishABIsLoading')
+        },
     },
     mutations: {
         finishLoading(state) {
@@ -185,6 +230,15 @@ const store = new Vuex.Store({
         },
         finishPricesLoading(state) {
             state.pricesLoaded = true
+        },
+        addABIs(state, abis: any) {
+            state.abis = abis
+        },
+        finishABIsLoading(state) {
+            state.abisLoaded = true
+        },
+        addABIDecoder(state, abiDecoder: any) {
+            state.abiDecoder = abiDecoder
         },
     },
     getters: {
