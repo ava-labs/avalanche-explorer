@@ -106,7 +106,7 @@ export default class BlockchainDataTable extends Vue {
             { text: 'Transactions', value: 'txCount', width: 125 },
             { text: 'Burned Fees', value: 'burned', width: 125 },
             { text: 'VM', value: 'vmID', width: 125 },
-            { text: 'Validators', value: 'subnetID', width: 300 },
+            { text: 'Subnet', value: 'subnetID', width: 300 },
             { text: 'Index', value: 'indexed', width: 125 },
         ]
         return this.subnets ? headers : headers.slice(0, 3)

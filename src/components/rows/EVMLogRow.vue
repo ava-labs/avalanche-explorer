@@ -113,6 +113,7 @@ export default class EVMLogRow extends Vue {
     display: flex;
 
     :first-of-type {
+        margin-top: 2px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -138,5 +139,10 @@ export default class EVMLogRow extends Vue {
 }
 .margin-right {
     margin-right: 5px;
+}
+
+.monospace {
+    padding-top: 3px;
+    font-size: 0.9rem;
 }
 </style>
