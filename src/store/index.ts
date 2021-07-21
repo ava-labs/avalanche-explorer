@@ -160,34 +160,16 @@ const store = new Vuex.Store({
         },
 
         async getABI({ commit }) {
-            const testABI = [
-                {
-                    anonymous: false,
-                    inputs: [
-                        {
-                            indexed: true,
-                            name: 'from',
-                            type: 'address',
-                        },
-                        {
-                            indexed: true,
-                            name: 'to',
-                            type: 'address',
-                        },
-                        {
-                            indexed: false,
-                            name: 'value',
-                            type: 'uint256',
-                        },
-                    ],
-                    name: 'Transfer',
-                    type: 'event',
-                },
-            ]
-            abiDecoder.addABI(testABI)
-
             const ERC20: any = await getABI('erc20')
             const ERC721: any = await getABI('erc721')
+
+            const ERC20Events = ERC20.filter((i: any) => i.type === 'event')
+            abiDecoder.addABI(ERC20Events)
+
+            // TODO: Deal with collisions due to canonical sigs
+            // const ERC721Events = ERC721.filter((i: any) => i.type === 'event')
+            // abiDecoder.addABI(ERC721Events)
+
             const ABIS = {
                 erc20: ERC20,
                 erc721: ERC721,

@@ -191,7 +191,6 @@ export default class Validators extends Mixins(PlatformGettersMixin) {
 
 .validators {
     background-color: $white;
-    border-radius: 6px;
     padding: 30px;
 }
 
@@ -213,6 +212,10 @@ export default class Validators extends Mixins(PlatformGettersMixin) {
     p {
         padding: 12px 15px;
     }
+}
+
+.controls {
+    margin-top: 20px;
 }
 
 .empty_table {

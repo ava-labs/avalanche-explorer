@@ -70,14 +70,14 @@ export default class EVMTxDataTable extends Vue {
 
     get headers(): any[] {
         const headers = [
-            { text: 'Type', value: 'type' },
-            { text: 'ID', value: 'hash' },
-            { text: 'From', value: 'v' },
-            { text: 'Value', value: 'value' },
-            { text: 'Input', value: 'input' },
+            { text: 'Type', value: 'type', width: 50 },
+            { text: 'ID', value: 'hash', width: 50 },
+            { text: 'From', value: 'v', width: 50 },
+            { text: 'Value', value: 'value', width: 50 },
+            { text: 'Input', value: 'input', width: 100 },
             { text: 'To', value: 'to' },
-            { text: 'Gas Price', value: 'gasPrice' },
-            { text: 'Gas Used', value: 'gas' },
+            { text: 'Gas Price', value: 'gasPrice', width: 100 },
+            { text: 'Gas Used', value: 'gas', width: 100 },
         ]
         return headers
     }

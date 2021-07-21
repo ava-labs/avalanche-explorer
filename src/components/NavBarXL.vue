@@ -82,7 +82,7 @@ export default Vue.extend({
 
 .logo {
     height: 100%;
-    padding: 15px 0px;
+    padding: 15px 0px 10px;
     white-space: nowrap;
     box-sizing: border-box;
 

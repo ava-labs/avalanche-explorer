@@ -1,7 +1,7 @@
 <template>
     <div class="peer_info">
         <div class="header">
-            <h3 class="meta_title">Peer Count</h3>
+            <h4 class="meta_title">Peer Count</h4>
             <p class="subtitle">by AvalancheGo Version</p>
         </div>
         <div class="canv_cont">
@@ -86,7 +86,8 @@ export default class PeerCount extends Vue {
     padding-bottom: 30px;
 }
 
-h3 {
+h3,
+h4 {
     margin: 0;
     font-weight: 400;
 }

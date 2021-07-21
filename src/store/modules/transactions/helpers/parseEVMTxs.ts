@@ -2,6 +2,9 @@ import { EVMTransactionResponse } from '../models'
 import { EVMBlockQueryResponse, EVMBlockLog } from '@/store/modules/blocks'
 import { parseLogs } from '../../blocks/helpers/parseEVMLogs'
 import { parseEVMTraces } from './parseEVMTraces'
+import { toAVAX } from '@/helper'
+import web3 from 'web3'
+import Big from 'big.js'
 
 export function getLogs(
     block: EVMBlockQueryResponse,
@@ -27,6 +30,8 @@ export function parseEVMTxs(
     // Munge tx and block
     const transaction = {
         ...tx,
+        // PAYLOAD
+        gasPrice: toAVAX(parseInt(tx.gasPrice), 18),
         ...block,
         logs,
         traces,

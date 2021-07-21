@@ -1,9 +1,31 @@
 <template>
     <div class="stats">
         <div class="header">
-            <h3 class="meta_title">Staking Stats</h3>
+            <h4 class="meta_title">Staking Stats</h4>
             <p class="subtitle"></p>
         </div>
+        <article class="meta">
+            <p class="label">
+                Validators
+                <TooltipMeta
+                    content="Total number of nodes validating transactions on Avalanche"
+                    :color="'#2196f3'"
+                />
+            </p>
+            <div>
+                <p v-if="subnetsLoaded" class="meta_val">
+                    {{ totalValidatorsCount.toLocaleString() }}
+                </p>
+                <v-progress-circular
+                    v-else
+                    key="1"
+                    :size="16"
+                    :width="2"
+                    color="#E84970"
+                    indeterminate
+                />
+            </div>
+        </article>
         <article class="meta">
             <p class="label">
                 Total Staked
@@ -85,7 +107,14 @@ export default class ValidatorStats extends Mixins(PlatformGettersMixin) {
         return this.$store.state.Platform.subnetsLoaded
     }
 
-    // Data from Avalanche-Go
+    get totalValidatorsCount() {
+        return this.getTotalValidators()
+    }
+
+    get totalPendingValidatorsCount() {
+        return this.getTotalPendingValidators()
+    }
+
     get totalStake(): string {
         let totalStake = this.getTotalStake()
         totalStake = bigToDenomBig(totalStake, 9)
@@ -108,7 +137,8 @@ export default class ValidatorStats extends Mixins(PlatformGettersMixin) {
     padding-bottom: 30px;
 }
 
-h3 {
+h3,
+h4 {
     margin: 0;
     font-weight: 400;
 }
@@ -157,7 +187,6 @@ h3 {
         .label {
             text-transform: capitalize;
             font-size: 12px;
-            font-weight: 700;
             margin-bottom: 6px;
             padding-left: 3px;
         }

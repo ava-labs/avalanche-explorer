@@ -11,7 +11,20 @@
         </article>
         <article class="meta_row">
             <p class="meta_label">
-                Accepted
+                Block
+                <Tooltip
+                    content="The number of the block in which the transaction was recorded."
+                />
+            </p>
+            <div class="meta_value values">
+                <router-link :to="`/evmblock/${tx.block}`">{{
+                    tx.block
+                }}</router-link>
+            </div>
+        </article>
+        <article class="meta_row">
+            <p class="meta_label">
+                Timestamp
                 <Tooltip
                     content="The date and time when this transaction was accepted by the Avalanche Network"
                 />
@@ -49,9 +62,7 @@
                 Value
                 <Tooltip content="The value being transacted in AVAX." />
             </p>
-            <div class="meta_value values">
-                {{ tx.value }}
-            </div>
+            <div class="meta_value values">{{ tx.value }} {{ avaxSymbol }}</div>
         </article>
         <article class="meta_row">
             <p class="meta_label">
@@ -72,7 +83,7 @@
                 />
             </p>
             <div class="meta_value values">
-                {{ tx.gasPrice }}
+                {{ tx.gasPrice }} {{ avaxSymbol }}
             </div>
         </article>
         <article class="meta_row">
@@ -86,19 +97,6 @@
                 {{ tx.gasLimit }}
             </div>
         </article>
-        <article class="meta_row">
-            <p class="meta_label">
-                Block
-                <Tooltip
-                    content="The number of the block in which the transaction was recorded."
-                />
-            </p>
-            <div class="meta_value values">
-                <router-link :to="`/evmblock/${tx.block}`">{{
-                    tx.block
-                }}</router-link>
-            </div>
-        </article>
     </section>
 </template>
 
@@ -109,6 +107,7 @@ import Tooltip from '@/components/rows/Tooltip.vue'
 import { getAssetType } from '@/services/assets'
 import { getMappingForType } from '@/store/modules/transactions/maps'
 import { EVMTransactionResponse } from '@/store/modules/transactions/models'
+import { AVAX_ID } from '@/known_assets'
 
 @Component({
     components: {
@@ -127,9 +126,9 @@ export default class EVMMetadata extends Vue {
         return this.$store.state.assetsLoaded
     }
 
-    // get date(): Date {
-    //     return new Date(this.tx.timestamp)
-    // }
+    get avaxSymbol() {
+        return this.$store.state.assets[AVAX_ID].symbol
+    }
 }
 </script>
 

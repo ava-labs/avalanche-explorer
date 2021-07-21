@@ -4,7 +4,9 @@
             <article class="meta_row">
                 <p class="meta_label">
                     Address
-                    <Tooltip content="" />
+                    <Tooltip
+                        content="The smart contract that emitted this event"
+                    />
                 </p>
                 <div class="meta_value values">
                     <router-link :to="`/evmaddress/${log.address}`">{{
@@ -15,7 +17,7 @@
             <article v-if="decodedLog" class="meta_row">
                 <p class="meta_label">
                     Name
-                    <Tooltip content="" />
+                    <Tooltip content="The decoded name of this event" />
                 </p>
                 <div class="meta_value values">
                     <div class="method_id monospace">
@@ -43,7 +45,9 @@
             <article class="meta_row">
                 <p class="meta_label">
                     Topics
-                    <Tooltip content="" />
+                    <Tooltip
+                        content="Topics are indexed values emitted in the event, which can be used to efficiently search the blockchain"
+                    />
                 </p>
                 <div class="meta_value values">
                     <div v-if="log.topics[0]" class="topic">
@@ -63,7 +67,9 @@
             <article v-if="log.data" class="meta_row">
                 <p class="meta_label">
                     Data
-                    <Tooltip content="" />
+                    <Tooltip
+                        content="Non-indexed values emitted in the event"
+                    />
                 </p>
                 <div class="meta_value values monospace">
                     {{ log.data }}

@@ -159,7 +159,7 @@ export default class Metadata extends Vue {
         grid-template-columns: 1fr;
 
         > div {
-            padding: 15px;
+            padding: 15px 0;
             margin-bottom: 15px;
         }
     }
