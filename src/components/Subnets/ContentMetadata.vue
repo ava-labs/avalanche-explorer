@@ -31,13 +31,16 @@
                 <div>
                     <div>
                         <p class="label">
-                            Pending Validators
+                            Delegations
                             <TooltipMeta
-                                content="Total number of nodes waiting to participate in the consensus protocol of this subnetwork"
+                                content="Total number of stake delegations to validators"
                             />
                         </p>
                         <p class="meta_val">
-                            {{ totalPendingValidators.toLocaleString() }}
+                            <template v-if="totalDelegators">
+                                {{ totalDelegators.toLocaleString() }}
+                            </template>
+                            <template v-else>n/a</template>
                         </p>
                     </div>
                 </div>
@@ -70,7 +73,7 @@ import TooltipMeta from '../../components/misc/TooltipMeta.vue'
 export default class ContentMetadata extends Vue {
     @Prop() totalBlockchains!: number
     @Prop() totalValidators!: number
-    @Prop() totalPendingValidators!: number
+    @Prop() totalDelegators!: number
     @Prop() totalControlKeys!: number
 }
 </script>

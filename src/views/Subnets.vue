@@ -1,7 +1,7 @@
 <template>
     <div id="subnets">
         <template v-if="!subnetsLoaded">
-            <Loader :message="'Fetching Subnets'" />
+            <Loader :content-id="''" :message="'Fetching Subnets'" />
         </template>
         <template v-else>
             <Metadata

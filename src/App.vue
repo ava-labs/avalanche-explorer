@@ -424,7 +424,9 @@ input {
     }
 
     .filter_count {
+        padding: 10px 0 0 16px;
         font-size: 12px;
+        font-weight: 400;
     }
 }
 

@@ -1,9 +1,5 @@
 <template>
     <div id="blockchain_data_table">
-        <v-card-title v-if="title">
-            {{ title }}
-            <v-spacer></v-spacer>
-        </v-card-title>
         <v-data-table
             :items="blockchains"
             :headers="headers"
@@ -109,7 +105,7 @@ export default class BlockchainDataTable extends Vue {
             { text: 'Subnet', value: 'subnetID', width: 300 },
             { text: 'Index', value: 'indexed', width: 125 },
         ]
-        return this.subnets ? headers : headers.slice(0, 3)
+        return this.subnets ? headers : headers.slice(0, 5)
     }
 
     chainDarkColor(id: string) {

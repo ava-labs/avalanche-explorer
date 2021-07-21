@@ -1,35 +1,30 @@
 <template>
-    <v-card id="validator_data_table">
-        <v-card-title>
-            <div class="data_table_header">
-                <!-- 1 -->
-                <div class="header">
-                    <h3>{{ title }}</h3>
+    <div id="validator_data_table">
+        <div class="data_table_header">
+            <!-- 2 -->
+            <div class="controls">
+                <div class="filter_count">
+                    <p v-show="search.length === 0">
+                        {{ validators.length | pluralize('result') }}
+                        found
+                    </p>
+                    <p v-show="search.length > 0">...filtering results</p>
                 </div>
-                <!-- 2 -->
-                <div class="controls">
-                    <div class="filter_count">
-                        <p v-show="search.length === 0">
-                            {{ validators.length | pluralize('result') }}
-                            found
-                        </p>
-                        <p v-show="search.length > 0">...filtering results</p>
-                    </div>
-                    <div class="filter_input_container">
-                        <input
-                            v-model="search"
-                            class="filter"
-                            type="text"
-                            placeholder="Filter by NodeID"
-                        />
-                    </div>
-                </div>
-                <!-- 3 -->
-                <div class="duration_toggle_container">
-                    <v-switch v-model="absolute" :label="modeText"></v-switch>
+                <div class="filter_input_container">
+                    <input
+                        v-model="search"
+                        class="filter"
+                        type="text"
+                        placeholder="Filter by NodeID"
+                    />
                 </div>
             </div>
-        </v-card-title>
+            <!-- 3 -->
+            <div class="duration_toggle_container">
+                <v-switch v-model="absolute" :label="modeText"></v-switch>
+            </div>
+        </div>
+
         <v-data-table
             :items="validators"
             :headers="headers"
@@ -266,7 +261,7 @@
                 </td>
             </template>
         </v-data-table>
-    </v-card>
+    </div>
 </template>
 
 <script lang="ts">
@@ -310,9 +305,9 @@ export default class ValidatorDataTable extends Vue {
 
     get headers(): any[] {
         return [
-            { text: 'Validator', value: 'nodeID', width: 400 },
-            { text: 'Stake', value: this.stakeOrWeight, width: 250 },
-            { text: 'Potential Reward', value: 'potentialReward', width: 200 },
+            { text: 'Validator', value: 'nodeID', width: 420 },
+            { text: 'Stake', value: this.stakeOrWeight, width: 175 },
+            { text: 'Potential Reward', value: 'potentialReward', width: 150 },
             { text: 'Start', value: 'startTime', align: 'end', width: 80 },
             {
                 text: 'Completion',
@@ -325,7 +320,7 @@ export default class ValidatorDataTable extends Vue {
             {
                 text: 'Payout Address',
                 value: 'rewardOwner.addresses[0]',
-                width: 400,
+                width: 420,
             },
             { text: 'Delegation Fee', value: 'delegationFee', width: 125 },
             { text: 'Connected', value: 'connected', width: 125 },

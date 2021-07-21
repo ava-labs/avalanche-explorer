@@ -1,39 +1,27 @@
 <template>
     <div id="validator_data_table">
-        <v-card-title>
-            <div class="data_table_header">
-                <!-- 1 -->
-                <div class="header">
-                    <h3>{{ title }}</h3>
+        <div class="data_table_header">
+            <div class="controls">
+                <div class="filter_count">
+                    <p v-show="search.length === 0">
+                        {{ validators.length | pluralize('result') }}
+                        found
+                    </p>
+                    <p v-show="search.length > 0">...filtering results</p>
                 </div>
-                <!-- 2 -->
-                <div class="controls">
-                    <div class="filter_count">
-                        <p v-show="search.length === 0">
-                            {{
-                                validators.length.toLocaleString()
-                                    | pluralize('result')
-                            }}
-                            found
-                        </p>
-                        <p v-show="search.length > 0">...filtering results</p>
-                    </div>
-                    <div class="filter_input_container">
-                        <input
-                            v-model="search"
-                            class="filter"
-                            type="text"
-                            placeholder="Filter by NodeID"
-                        />
-                    </div>
-                </div>
-                <!-- 3 -->
-                <div class="duration_toggle_container">
-                    <v-switch v-model="absolute" :label="modeText"></v-switch>
+                <div class="filter_input_container">
+                    <input
+                        v-model="search"
+                        class="filter"
+                        type="text"
+                        placeholder="Filter by NodeID"
+                    />
                 </div>
             </div>
-        </v-card-title>
-
+            <div class="duration_toggle_container">
+                <v-switch v-model="absolute" :label="modeText"></v-switch>
+            </div>
+        </div>
         <v-data-table
             :items="validators"
             :headers="headers"
@@ -41,16 +29,16 @@
             multi-sort
             :mobile-breakpoint="0"
         >
-            <template #item.id="{ item }">
-                <div class="text-truncate" style="max-width: 100px">
-                    {{ item.id }}
-                </div>
+            <template #item.rewardOwner.addresses[0]="{ item }">
+                <router-link :to="`/address/${item.rewardOwner.addresses[0]}`"
+                    >{{ item.rewardOwner.addresses[0] }}
+                </router-link>
             </template>
             <template #item.stakeAmount="{ item }"
-                >{{ item.stakeAmount | AVAX }}{{ nativeSymbol }}</template
+                >{{ item.stakeAmount | AVAX }} {{ nativeSymbol }}</template
             >
             <template #item.potentialReward="{ item }"
-                >{{ item.potentialReward | AVAX }}{{ nativeSymbol }}</template
+                >{{ item.potentialReward | AVAX }} {{ nativeSymbol }}</template
             >
             <template #item.startTime="{ item }">
                 <div class="text-right date no-pad-right">
@@ -125,6 +113,11 @@
             <template #item.duration="{ item }">
                 {{ (item.endTime - item.startTime) | duration }}
             </template>
+            <template #item.id="{ item }">
+                <div class="text-truncate" style="max-width: 100px">
+                    {{ item.id }}
+                </div>
+            </template>
         </v-data-table>
     </div>
 </template>
@@ -170,9 +163,13 @@ export default class ValidatorDataTable extends Vue {
 
     get headers(): any[] {
         return [
-            { text: 'Node', value: 'nodeID', width: 100 },
-            { text: 'Delegated Stake', value: 'stakeAmount', width: 130 },
-            { text: 'Potential Reward', value: 'potentialReward', width: 130 },
+            {
+                text: 'Delegator Payout Address',
+                value: 'rewardOwner.addresses[0]',
+                width: 420,
+            },
+            { text: 'Delegated Stake', value: 'stakeAmount', width: 175 },
+            { text: 'Potential Reward', value: 'potentialReward', width: 150 },
             { text: 'Start', value: 'startTime', align: 'end', width: 80 },
             {
                 text: 'Completion',
@@ -182,11 +179,7 @@ export default class ValidatorDataTable extends Vue {
             },
             { text: 'End', value: 'endTime', width: 80 },
             { text: 'Duration', value: 'duration', width: 85 },
-            {
-                text: 'Payout Address',
-                value: 'rewardOwner.addresses[0]',
-                width: 125,
-            },
+            { text: 'Delegate Node', value: 'nodeID', width: 420 },
         ]
     }
 
