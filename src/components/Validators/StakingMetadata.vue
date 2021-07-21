@@ -13,53 +13,16 @@
                 <v-tab>Pending</v-tab>
             </v-tabs>
         </div>
-        <!-- STATS -->
-        <div class="stats">
-            <article>
-                <div class="stat">
-                    <p class="label">
-                        Total {{ toggle }} Stake Amount
-                        <TooltipMeta
-                            content="Total value of AVAX locked to secure Avalanche"
-                        />
-                    </p>
-                    <p class="meta_val">
-                        {{ totalStake }}
-                        <span class="unit">AVAX</span>
-                    </p>
-                </div>
-            </article>
-            <article>
-                <div class="stat">
-                    <p class="label">
-                        {{ toggle }} Validators
-                        <TooltipMeta
-                            content="Total number of nodes validating transactions on Avalanche"
-                        />
-                    </p>
-                    <p class="meta_val">
-                        {{ totalValidatorsCount.toLocaleString() }}
-                    </p>
-                </div>
-            </article>
-        </div>
     </div>
 </template>
 
 <script lang="ts">
 import 'reflect-metadata'
 import { Mixins, Component } from 'vue-property-decorator'
-import TooltipHeading from '@/components/misc/TooltipHeading.vue'
-import TooltipMeta from '@/components/misc/TooltipMeta.vue'
-import { DEFAULT_NETWORK_ID } from '@/store/modules/network/network'
 import { PlatformGettersMixin } from '@/store/modules/platform/platform.mixins'
-import { bigToDenomBig } from '@/helper'
 
 @Component({
-    components: {
-        TooltipHeading,
-        TooltipMeta,
-    },
+    components: {},
 })
 export default class Metadata extends Mixins(PlatformGettersMixin) {
     toggle = 'active' // active | pending
@@ -67,25 +30,6 @@ export default class Metadata extends Mixins(PlatformGettersMixin) {
     typeChange(val: string) {
         this.toggle = val ? 'pending' : 'active'
         this.$emit('toggle', this.toggle)
-    }
-
-    get totalStake() {
-        let valBig =
-            this.toggle === 'active'
-                ? this.getTotalStake()
-                : this.getTotalPendingStake()
-        valBig = bigToDenomBig(valBig, 9)
-        return valBig.toLocaleString(0)
-    }
-
-    get totalValidatorsCount() {
-        return this.toggle === 'active'
-            ? this.getTotalValidators()
-            : this.getTotalPendingValidators()
-    }
-
-    get imgColor(): string {
-        return DEFAULT_NETWORK_ID === 1 ? 'testnet' : 'testnet'
     }
 }
 </script>
@@ -103,110 +47,6 @@ export default class Metadata extends Mixins(PlatformGettersMixin) {
     display: flex;
     align-content: center;
     justify-content: flex-end;
-}
-
-.stats {
-    display: grid;
-    width: 100%;
-    grid-template-columns: 1fr 1fr max-content;
-
-    > article {
-        padding: 30px 15px;
-        text-align: left;
-        line-height: 1.4em;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
-
-    .stat {
-        display: flex;
-        flex-direction: column;
-
-        p {
-            font-weight: 400;
-        }
-
-        .label {
-            text-transform: capitalize;
-            color: $primary-color;
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-
-        .meta_val {
-            font-size: 32px;
-            line-height: 1em;
-
-            .unit {
-                font-size: 14px;
-                opacity: 0.7;
-            }
-        }
-    }
-}
-
-@include smOnly {
-    .stats {
-        grid-template-columns: 50% 50%;
-        grid-template-rows: max-content;
-
-        > div {
-            padding: 30px 0 0;
-        }
-
-        .stat {
-            .label {
-                font-size: 13px;
-            }
-
-            .meta_val {
-                font-size: 20px;
-
-                .unit {
-                    font-size: 14px;
-                }
-            }
-        }
-    }
-
-    .header {
-        flex-direction: column;
-    }
-
-    .tabs {
-        margin-top: 20px;
-        width: 100%;
-    }
-
-    .v-tab {
-        flex-grow: 1;
-    }
-
-    .meta_data {
-        grid-template-columns: none;
-        grid-template-rows: max-content max-content max-content;
-
-        > div {
-            text-align: left;
-            padding: 0;
-        }
-    }
-}
-
-@include xsOrSmaller {
-    .meta_data {
-        margin-bottom: 10px;
-    }
-
-    .stats {
-        grid-template-columns: none;
-
-        > article {
-            padding: 15px 0 0;
-        }
-    }
 }
 
 .tabs {
@@ -228,6 +68,32 @@ export default class Metadata extends Mixins(PlatformGettersMixin) {
 
 .tab_active {
     border-bottom: 4px solid $secondary-color;
+}
+
+@include smOrSmaller {
+    .meta_data {
+        margin-bottom: 10px;
+        grid-template-columns: none;
+        grid-template-rows: max-content max-content max-content;
+
+        .header {
+            flex-direction: column;
+        }
+
+        > div {
+            text-align: left;
+            padding: 0;
+        }
+    }
+
+    .tabs {
+        margin-top: 20px;
+        width: 100%;
+    }
+
+    .v-tab {
+        flex-grow: 1;
+    }
 }
 </style>
 <style lang="scss">
