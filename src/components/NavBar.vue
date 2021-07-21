@@ -173,7 +173,7 @@ export default class Navbar extends Mixins(PlatformGettersMixin) {
 .logo {
     display: flex;
     flex-direction: row;
-    padding: 15px 0px;
+    padding: 15px 0px 10px;
     white-space: nowrap;
     box-sizing: border-box;
 
