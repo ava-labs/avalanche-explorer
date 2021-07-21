@@ -62,7 +62,9 @@
                 Value
                 <Tooltip content="The value being transacted in AVAX." />
             </p>
-            <div class="meta_value values">{{ tx.value }} {{ avaxSymbol }}</div>
+            <div class="meta_value values">
+                {{ tx.value }} {{ nativeSymbol }}
+            </div>
         </article>
         <article class="meta_row">
             <p class="meta_label">
@@ -83,7 +85,7 @@
                 />
             </p>
             <div class="meta_value values">
-                {{ tx.gasPrice }} {{ avaxSymbol }}
+                {{ tx.gasPrice }} {{ nativeSymbol }}
             </div>
         </article>
         <article class="meta_row">
@@ -126,7 +128,7 @@ export default class EVMMetadata extends Vue {
         return this.$store.state.assetsLoaded
     }
 
-    get avaxSymbol() {
+    get nativeSymbol() {
         return this.$store.state.assets[AVAX_ID].symbol
     }
 }

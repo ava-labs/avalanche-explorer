@@ -10,7 +10,9 @@
                                 content="Total number of blockchains created on this subnetwork"
                             />
                         </p>
-                        <p class="meta_val">{{ totalBlockchains }}</p>
+                        <p class="meta_val">
+                            {{ totalBlockchains.toLocaleString() }}
+                        </p>
                     </div>
                 </div>
                 <div>
@@ -21,7 +23,9 @@
                                 content="Total number of nodes participating in the consensus protocol of this subnetwork"
                             />
                         </p>
-                        <p class="meta_val">{{ totalValidators }}</p>
+                        <p class="meta_val">
+                            {{ totalValidators.toLocaleString() }}
+                        </p>
                     </div>
                 </div>
                 <div>
@@ -32,7 +36,9 @@
                                 content="Total number of nodes waiting to participate in the consensus protocol of this subnetwork"
                             />
                         </p>
-                        <p class="meta_val">{{ totalPendingValidators }}</p>
+                        <p class="meta_val">
+                            {{ totalPendingValidators.toLocaleString() }}
+                        </p>
                     </div>
                 </div>
                 <div>
@@ -43,7 +49,9 @@
                                 content="In order to add a validator to a subnet, threshold signatures from keys are needed"
                             />
                         </p>
-                        <p class="meta_val">{{ totalControlKeys }}</p>
+                        <p class="meta_val">
+                            {{ totalControlKeys.toLocaleString() }}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -97,7 +105,6 @@ export default class ContentMetadata extends Vue {
     .label {
         text-transform: capitalize;
         font-size: 12px;
-        font-weight: 700;
         margin-bottom: 6px;
         color: $primary-color;
     }

@@ -46,12 +46,12 @@
                     {{ item.id }}
                 </div>
             </template>
-            <template #item.stakeAmount="{ item }">{{
-                item.stakeAmount | toAVAX
-            }}</template>
-            <template #item.potentialReward="{ item }">{{
-                item.potentialReward | toAVAX
-            }}</template>
+            <template #item.stakeAmount="{ item }"
+                >{{ item.stakeAmount | AVAX }}{{ nativeSymbol }}</template
+            >
+            <template #item.potentialReward="{ item }"
+                >{{ item.potentialReward | AVAX }}{{ nativeSymbol }}</template
+            >
             <template #item.startTime="{ item }">
                 <div class="text-right date no-pad-right">
                     {{ item.startTime.getTime() | date }}
@@ -138,13 +138,16 @@ import { AVALANCHE_SUBNET_ID } from '@/store/modules/platform/platform'
 import { IValidator } from '@/store/modules/platform/IValidator'
 import ContentMetadata from '@/components/Subnets/ContentMetadata.vue'
 import { scaleLinear } from 'd3-scale'
+import { AVAX_ID } from '@/known_assets'
 
 @Component({
     components: {
         ContentMetadata,
     },
     filters: {
-        toAVAX,
+        AVAX(val: number) {
+            return parseFloat(toAVAX(val).toFixed(9)).toLocaleString()
+        },
     },
 })
 export default class ValidatorDataTable extends Vue {
@@ -193,6 +196,10 @@ export default class ValidatorDataTable extends Vue {
 
     get modeText() {
         return this.absolute ? 'Timeline' : 'Completion'
+    }
+
+    get nativeSymbol() {
+        return this.$store.state.assets[AVAX_ID].symbol
     }
 
     created() {
