@@ -1,38 +1,30 @@
 <template>
-    <v-card id="validator_data_table">
-        <v-card-title>
-            <div class="data_table_header">
-                <!-- 1 -->
-                <div class="header">
-                    <h3>{{ title }}</h3>
+    <div id="validator_data_table">
+        <div class="data_table_header">
+            <!-- 2 -->
+            <div class="controls">
+                <div class="filter_count">
+                    <p v-show="search.length === 0">
+                        {{ validators.length | pluralize('result') }}
+                        found
+                    </p>
+                    <p v-show="search.length > 0">...filtering results</p>
                 </div>
-                <!-- 2 -->
-                <div class="controls">
-                    <div class="filter_count">
-                        <p v-show="search.length === 0">
-                            {{
-                                validators.length.toLocaleString()
-                                    | pluralize('result')
-                            }}
-                            found
-                        </p>
-                        <p v-show="search.length > 0">...filtering results</p>
-                    </div>
-                    <div class="filter_input_container">
-                        <input
-                            v-model="search"
-                            class="filter"
-                            type="text"
-                            placeholder="Filter by NodeID"
-                        />
-                    </div>
-                </div>
-                <!-- 3 -->
-                <div class="duration_toggle_container">
-                    <v-switch v-model="absolute" :label="modeText"></v-switch>
+                <div class="filter_input_container">
+                    <input
+                        v-model="search"
+                        class="filter"
+                        type="text"
+                        placeholder="Filter by NodeID"
+                    />
                 </div>
             </div>
-        </v-card-title>
+            <!-- 3 -->
+            <div class="duration_toggle_container">
+                <v-switch v-model="absolute" :label="modeText"></v-switch>
+            </div>
+        </div>
+
         <v-data-table
             :items="validators"
             :headers="headers"
@@ -47,11 +39,11 @@
                 </div>
             </template>
             <template #item.stakeAmount="{ item }">
-                {{ item.totalStakeAmount | AVAX }} AVAX
+                {{ item.totalStakeAmount | AVAX }} {{ nativeSymbol }}
             </template>
-            <template #item.potentialReward="{ item }">{{
-                item.potentialReward | AVAX
-            }}</template>
+            <template #item.potentialReward="{ item }"
+                >{{ item.potentialReward | AVAX }} {{ nativeSymbol }}</template
+            >
             <template #item.startTime="{ item }">
                 <div class="text-right date no-pad-right">
                     {{ item.startTime.getTime() | date }}
@@ -160,6 +152,7 @@
                         <td>
                             <div style="width: 130px">
                                 {{ delegator.totalStakeAmount | AVAX }}
+                                {{ nativeSymbol }}
                             </div>
                         </td>
                         <td style="width: 80px">
@@ -268,7 +261,7 @@
                 </td>
             </template>
         </v-data-table>
-    </v-card>
+    </div>
 </template>
 
 <script lang="ts">
@@ -280,6 +273,7 @@ import { AVALANCHE_SUBNET_ID } from '@/store/modules/platform/platform'
 import { IValidator } from '@/store/modules/platform/IValidator'
 import ContentMetadata from '@/components/Subnets/ContentMetadata.vue'
 import { scaleLinear } from 'd3-scale'
+import { AVAX_ID } from '@/known_assets'
 
 @Component({
     components: {
@@ -287,7 +281,7 @@ import { scaleLinear } from 'd3-scale'
     },
     filters: {
         AVAX(val: number) {
-            return parseFloat(toAVAX(val).toFixed(4)).toLocaleString()
+            return parseFloat(toAVAX(val).toFixed(9)).toLocaleString()
         },
     },
 })
@@ -311,9 +305,9 @@ export default class ValidatorDataTable extends Vue {
 
     get headers(): any[] {
         return [
-            { text: 'Validator', value: 'nodeID', width: 400 },
-            { text: 'Stake', value: this.stakeOrWeight, width: 250 },
-            { text: 'Potential Reward', value: 'potentialReward', width: 200 },
+            { text: 'Validator', value: 'nodeID', width: 420 },
+            { text: 'Stake', value: this.stakeOrWeight, width: 175 },
+            { text: 'Potential Reward', value: 'potentialReward', width: 150 },
             { text: 'Start', value: 'startTime', align: 'end', width: 80 },
             {
                 text: 'Completion',
@@ -326,7 +320,7 @@ export default class ValidatorDataTable extends Vue {
             {
                 text: 'Payout Address',
                 value: 'rewardOwner.addresses[0]',
-                width: 400,
+                width: 420,
             },
             { text: 'Delegation Fee', value: 'delegationFee', width: 125 },
             { text: 'Connected', value: 'connected', width: 125 },
@@ -347,6 +341,10 @@ export default class ValidatorDataTable extends Vue {
 
     get modeText() {
         return this.absolute ? 'Timeline' : 'Completion'
+    }
+
+    get nativeSymbol() {
+        return this.$store.state.assets[AVAX_ID].symbol
     }
 
     created() {

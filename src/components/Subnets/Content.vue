@@ -9,7 +9,7 @@
                 <ContentMetadata
                     :total-blockchains="subnet.blockchains.length"
                     :total-validators="subnet.validators.length"
-                    :total-pending-validators="subnet.pendingValidators.length"
+                    :total-delegators="subnet.delegators.length"
                     :total-control-keys="subnet.controlKeys.length"
                 />
                 <v-tabs v-model="tab" show-arrows>

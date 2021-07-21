@@ -3,8 +3,6 @@ import { EVMBlockQueryResponse, EVMBlockLog } from '@/store/modules/blocks'
 import { parseLogs } from '../../blocks/helpers/parseEVMLogs'
 import { parseEVMTraces } from './parseEVMTraces'
 import { toAVAX } from '@/helper'
-import web3 from 'web3'
-import Big from 'big.js'
 
 export function getLogs(
     block: EVMBlockQueryResponse,
