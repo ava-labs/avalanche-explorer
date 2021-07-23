@@ -73,7 +73,7 @@
                     content="Additional information that is required for the transaction."
                 />
             </p>
-            <div class="meta_value values">
+            <div class="meta_value values breakall">
                 {{ tx.input }}
             </div>
         </article>

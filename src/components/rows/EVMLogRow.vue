@@ -50,15 +50,15 @@
                     />
                 </p>
                 <div class="meta_value values">
-                    <div v-if="log.topics[0]" class="topic">
+                    <div v-if="log.topics[0]" class="topic breakall">
                         <div>0</div>
                         <div class="monospace">{{ log.topics[0] }}</div>
                     </div>
-                    <div v-if="log.topics[1]" class="topic">
+                    <div v-if="log.topics[1]" class="topic breakall">
                         <div>1</div>
                         <div class="monospace">{{ log.topics[1] }}</div>
                     </div>
-                    <div v-if="log.topics[2]" class="topic">
+                    <div v-if="log.topics[2]" class="topic breakall">
                         <div>2</div>
                         <div class="monospace">{{ log.topics[2] }}</div>
                     </div>
@@ -71,7 +71,7 @@
                         content="Non-indexed values emitted in the event"
                     />
                 </p>
-                <div class="meta_value values monospace">
+                <div class="meta_value values monospace breakall">
                     {{ log.data }}
                 </div>
             </article>
