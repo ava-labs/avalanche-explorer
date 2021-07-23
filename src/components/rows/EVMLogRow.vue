@@ -24,14 +24,9 @@
                         <span class="margin-right">{{ decodedLog.name }}</span>
                         <span>(</span>
                         <div v-for="(event, i) in decodedLog.events" :key="i">
-                            <span v-if="i === 0" class="index_topic"
-                                >index_topic_1
-                            </span>
-                            <span v-if="i === 1" class="index_topic"
-                                >index_topic_2
-                            </span>
                             <span class="arg_name">{{ event.name }} </span>
-                            <span class="arg_type">{{ event.type }}</span>
+                            <span class="arg_type">{{ event.type }} </span>
+                            <span class="arg_value">{{ event.value }} </span>
                             <span
                                 v-if="i < decodedLog.events.length - 1"
                                 class="margin-right"
@@ -60,7 +55,9 @@
                     </div>
                     <div v-if="log.topics[2]" class="topic breakall">
                         <div>2</div>
-                        <div class="monospace">{{ log.topics[2] }}</div>
+                        <div class="monospace">
+                            {{ log.topics[2] }}
+                        </div>
                     </div>
                 </div>
             </article>
@@ -71,8 +68,10 @@
                         content="Non-indexed values emitted in the event"
                     />
                 </p>
-                <div class="meta_value values monospace breakall">
-                    {{ log.data }}
+                <div class="meta_value values data">
+                    <div class="monospace breakall">
+                        {{ log.data }}
+                    </div>
                 </div>
             </article>
         </section>
@@ -110,6 +109,7 @@ export default class EVMLogRow extends Vue {
         ])
         if ([isDecoded] !== undefined) {
             this.decodedLog = isDecoded[0]
+            console.log('this.decodedLog', this.decodedLog)
         }
     }
 }
@@ -128,6 +128,10 @@ export default class EVMLogRow extends Vue {
 .topic {
     display: flex;
 
+    .monospace {
+        font-size: 0.62em;
+    }
+
     :first-of-type {
         margin-top: 2px;
         display: flex;
@@ -139,6 +143,12 @@ export default class EVMLogRow extends Vue {
     }
 }
 
+.data {
+    .monospace {
+        font-size: 0.62em;
+    }
+}
+
 .method_id {
     display: flex;
 }
@@ -146,13 +156,20 @@ export default class EVMLogRow extends Vue {
 .index_topic {
     color: $primary-color-light;
 }
+
 .arg_name {
     color: $green;
+    font-size: 0.75em;
 }
 
 .arg_type {
     color: $secondary-color;
+    font-size: 0.75em;
 }
+
+.arg_value {
+}
+
 .margin-right {
     margin-right: 5px;
 }
