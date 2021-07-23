@@ -50,6 +50,5 @@ const sources_module: Module<SourcesState, IRootState> = {
             state.abiDecoder = abiDecoder
         },
     },
-    getters: {},
 }
 export default sources_module
