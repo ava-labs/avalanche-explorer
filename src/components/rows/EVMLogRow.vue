@@ -91,16 +91,26 @@ export default class EVMLogRow extends Vue {
 
     decodedLog: any = null
 
+    created() {
+        this.decodeLog()
+    }
+
     @Watch('abisLoaded')
     async onAbisLoadedChanged() {
-        const isDecoded = this.$store.state.abiDecoder.decodeLogs([this.log])
-        if (isDecoded !== [undefined]) {
-            this.decodedLog = isDecoded[0]
-        }
+        this.decodeLog()
     }
 
     get abisLoaded() {
-        return this.$store.state.abisLoaded
+        return this.$store.state.Sources.abisLoaded
+    }
+
+    decodeLog() {
+        const isDecoded = this.$store.state.Sources.abiDecoder.decodeLogs([
+            this.log,
+        ])
+        if ([isDecoded] !== undefined) {
+            this.decodedLog = isDecoded[0]
+        }
     }
 }
 </script>

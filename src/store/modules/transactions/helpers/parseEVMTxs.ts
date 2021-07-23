@@ -20,8 +20,13 @@ export function parseEVMTxs(
     tx: EVMTransactionResponse,
     block: EVMBlockQueryResponse
 ) {
-    // Parse raw data
+    // Decode Logs
     const logs = getLogs(block, tx)
+    console.log('logs       ', logs)
+
+    // Decode Transfers
+
+    // Decode Traces
     const traces = tx.traces
     const tracesGraph = parseEVMTraces(tx.traces, tx.input)
 

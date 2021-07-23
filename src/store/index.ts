@@ -9,6 +9,7 @@ import Network from './modules/network/network'
 import Notifications from './modules/notifications/notifications'
 import Transactions from './modules/transactions/transactions'
 import Blocks from './modules/blocks/blocks'
+import Sources from './modules/sources/sources'
 import { avm } from '@/avalanche'
 import {
     IAssetDataOrtelius,
@@ -27,9 +28,6 @@ import { X } from '@/known_blockchains'
 import { getCacheAssets } from '@/services/assets'
 import { getPrices, Price, PriceMap } from '@/services/price'
 import { AVAX_PRICE_ID, VS_CURRENCIES } from '@/known_prices'
-import { getABI } from '@/services/abi/abi.service'
-//@ts-ignore
-import abiDecoder from 'abi-decoder'
 
 Vue.use(Vuex)
 
@@ -41,6 +39,7 @@ const store = new Vuex.Store({
         Network,
         Transactions,
         Blocks,
+        Sources,
     },
     state: {
         assets: {},
@@ -56,16 +55,13 @@ const store = new Vuex.Store({
         collisionMap: {},
         pricesLoaded: false,
         prices: null,
-        abisLoaded: false,
-        abis: null,
-        abiDecoder: null,
     } as IRootState,
     actions: {
         async init(store) {
             // Get and set initial list of all indexed assets
             await store.dispatch('getAssets')
             store.dispatch('getPrice')
-            store.dispatch('getABI')
+            store.dispatch('Sources/getABI')
 
             // Once we have assets, next get recent transactions
             store.dispatch('getRecentTransactions', {
@@ -158,26 +154,6 @@ const store = new Vuex.Store({
             commit('addPrices', price[AVAX_PRICE_ID])
             commit('finishPricesLoading')
         },
-
-        async getABI({ commit }) {
-            const ERC20: any = await getABI('erc20')
-            const ERC721: any = await getABI('erc721')
-
-            const ERC20Events = ERC20.filter((i: any) => i.type === 'event')
-            abiDecoder.addABI(ERC20Events)
-
-            // TODO: Deal with collisions due to canonical sigs
-            // const ERC721Events = ERC721.filter((i: any) => i.type === 'event')
-            // abiDecoder.addABI(ERC721Events)
-
-            const ABIS = {
-                erc20: ERC20,
-                erc721: ERC721,
-            }
-            commit('addABIs', ABIS)
-            commit('addABIDecoder', abiDecoder)
-            commit('finishABIsLoading')
-        },
     },
     mutations: {
         finishLoading(state) {
@@ -212,15 +188,6 @@ const store = new Vuex.Store({
         },
         finishPricesLoading(state) {
             state.pricesLoaded = true
-        },
-        addABIs(state, abis: any) {
-            state.abis = abis
-        },
-        finishABIsLoading(state) {
-            state.abisLoaded = true
-        },
-        addABIDecoder(state, abiDecoder: any) {
-            state.abiDecoder = abiDecoder
         },
     },
     getters: {

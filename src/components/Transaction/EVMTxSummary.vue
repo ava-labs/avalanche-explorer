@@ -24,9 +24,7 @@
                 <v-tab v-if="hasTraces" href="#traces"
                     >Traces ({{ tx.traces.length }})</v-tab
                 >
-                <v-tab v-if="hasTransfers" href="#transfers"
-                    >Transfers (TBD)</v-tab
-                >
+                <v-tab v-if="hasTransfers" href="#transfers">Transfers</v-tab>
                 <v-tab v-if="hasLogs" href="#logs"
                     >Events ({{ tx.logs.length }})</v-tab
                 >
