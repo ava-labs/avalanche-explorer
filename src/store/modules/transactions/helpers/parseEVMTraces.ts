@@ -1,8 +1,15 @@
+import { getSignature } from '@/services/abi'
 import { TraceResponse } from '../models'
+
+async function getSig(trace: TraceResponse) {
+    const res = await getSignature(trace.input)
+    console.log('sig res:   ', res)
+}
 
 // inits a list to store children
 // adds props for UI
 function dressTrace(trace: TraceResponse, txInput: string) {
+    getSig(trace)
     return {
         ...trace,
         children: [],

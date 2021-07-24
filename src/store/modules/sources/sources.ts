@@ -1,14 +1,26 @@
 import { Module } from 'vuex'
 import { IRootState } from '@/store/types'
 import { SourcesState } from './models'
-import { getABI } from '@/services/abi/abi.service'
+import {
+    getABI,
+    getEventSignature,
+    getSignature,
+} from '@/services/abi/abi.service'
 //@ts-ignore
 import abiDecoder from 'abi-decoder'
+import {
+    CanonicEventSignature,
+    CanonicSignature,
+    EventSignatureResponse,
+    SignatureResponse,
+} from '@/services/abi'
 
 const defaultState = {
     abisLoaded: false,
     abis: null,
     abiDecoder: null,
+    signatures: [],
+    eventSignatures: [],
 }
 
 const sources_module: Module<SourcesState, IRootState> = {
@@ -38,8 +50,29 @@ const sources_module: Module<SourcesState, IRootState> = {
             commit('addABIDecoder', abiDecoder)
             commit('finishABIsLoading')
         },
+        //TODO: integrate with parser
+        async getSignature({ commit }, id: string) {
+            const signatures: SignatureResponse = await getSignature(id)
+            commit('addSignatures', signatures.results)
+        },
+        async getEventSignature({ commit }, id: string) {
+            const eventSignatures: EventSignatureResponse = await getEventSignature(
+                id
+            )
+            commit('addEventSignatures', eventSignatures.results)
+        },
     },
     mutations: {
+        addSignatures(state, signatures: CanonicSignature[]) {
+            signatures.forEach((sig: CanonicSignature) => {
+                state.signatures.push(sig)
+            })
+        },
+        addEventSignatures(state, eventSignatures: CanonicEventSignature[]) {
+            eventSignatures.forEach((sig: CanonicEventSignature) => {
+                state.eventSignatures.push(sig)
+            })
+        },
         addABIs(state, abis: any) {
             state.abis = abis
         },
