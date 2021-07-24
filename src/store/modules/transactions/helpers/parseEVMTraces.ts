@@ -2,7 +2,7 @@ import { getSignature } from '@/services/abi'
 import { TraceResponse } from '../models'
 
 async function getSig(trace: TraceResponse) {
-    const res = await getSignature(trace.input)
+    const res = await getSignature(trace.input.substring(0, 10))
     console.log('sig res:   ', res)
 }
 
