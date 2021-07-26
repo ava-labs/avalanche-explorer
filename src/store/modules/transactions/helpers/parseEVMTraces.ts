@@ -1,9 +1,14 @@
-import { getSignature } from '@/services/abi'
+import { CanonicSignature, getSignature } from '@/services/abi'
 import { TraceResponse } from '../models'
 
 async function getSig(trace: TraceResponse) {
-    const res = await getSignature(trace.input.substring(0, 10))
-    console.log('sig res:   ', res)
+    if (trace.input !== undefined) {
+        const res = await getSignature(trace.input.substring(0, 10))
+        console.log('   methodID        ', trace.input.substring(0, 10))
+        res.results.forEach((result: CanonicSignature) => {
+            console.log('       could be:   ', result.text_signature)
+        })
+    }
 }
 
 // inits a list to store children
