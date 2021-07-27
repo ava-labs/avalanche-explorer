@@ -1,29 +1,31 @@
 import { CanonicSignature, getSignature } from '@/services/abi'
 import { TraceResponse } from '../models'
 
-async function getSig(trace: TraceResponse) {
-    if (trace.input !== undefined) {
-        const res = await getSignature(trace.input.substring(0, 10))
-        console.log('   methodID        ', trace.input.substring(0, 10))
-        res.results.forEach((result: CanonicSignature) => {
-            console.log('       could be:   ', result.text_signature)
-        })
+async function getPossibleSigs(trace: TraceResponse): Promise<string[]> {
+    if (trace.input === undefined) {
+        return []
     }
+    const res = await getSignature(trace.input.substring(0, 10))
+    // console.log('   methodID        ', trace.input.substring(0, 10))
+    const possibleSigs = res.results.map((result: CanonicSignature) => {
+        // console.log('       could be:   ', result.text_signature)
+        return result.text_signature
+    })
+    return possibleSigs
 }
 
 // inits a list to store children
 // adds props for UI
-function dressTrace(trace: TraceResponse, txInput: string) {
-    getSig(trace)
+async function dressTrace(trace: TraceResponse, txInput: string) {
     return {
         ...trace,
         children: [],
         id: trace.traceAddress ? trace.traceAddress.toString() : txInput,
-        name: `${trace.callType} | ${trace.type} (${trace.input} => ${trace.output})`,
+        possibleSignatures: await getPossibleSigs(trace),
     }
 }
 
-export function parseEVMTraces(traces: TraceResponse[], txInput: string) {
+export async function parseEVMTraces(traces: TraceResponse[], txInput: string) {
     if (!traces) return []
 
     const graph: any = []
@@ -31,11 +33,13 @@ export function parseEVMTraces(traces: TraceResponse[], txInput: string) {
     // the root trace is the outermost function call
     // this is the transaction itself
     graph[0] = traces.shift()
-    graph[0] = dressTrace(graph[0], txInput)
+    graph[0] = await dressTrace(graph[0], txInput)
+    console.log('graph[0]:      ', graph[0])
 
     // This reducer converts the flat list of function traces to a graph structure
-    const grapher = (root: any, currentValue: any) => {
-        currentValue = dressTrace(currentValue, txInput)
+    const grapher = async (rootP: Promise<any>, currentValue: any) => {
+        const root = await rootP
+        currentValue = await dressTrace(currentValue, txInput)
 
         // the second-to-last traceAddress is the trace's parent (where the function was called)
         const beforeLast =
@@ -66,6 +70,6 @@ export function parseEVMTraces(traces: TraceResponse[], txInput: string) {
         return root
     }
 
-    const traceGraph = [traces.reduce(grapher, graph[0])]
+    const traceGraph = [await traces.reduce(grapher, Promise.resolve(graph[0]))]
     return traceGraph
 }

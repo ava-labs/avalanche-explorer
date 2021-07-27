@@ -151,7 +151,8 @@ const transactions_module: Module<TransactionsState, IRootState> = {
                 const blockRes: EVMBlockQueryResponse = await getEVMBlock(
                     tx.block
                 )
-                const parsedTx = parseEVMTxs(tx, blockRes)
+                const parsedTx = await parseEVMTxs(tx, blockRes)
+                console.log('parsedTx PROMISE:  ', parsedTx)
                 store.commit('addEVMTx', parsedTx)
             }
         },

@@ -231,6 +231,7 @@ export interface TraceResponse {
 
     traceAddress?: number[]
 
+    init?: string
     createdContractAddressHash?: string
     createdContractCode?: string
 
