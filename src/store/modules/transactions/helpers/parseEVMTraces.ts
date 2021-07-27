@@ -34,7 +34,6 @@ export async function parseEVMTraces(traces: TraceResponse[], txInput: string) {
     // this is the transaction itself
     graph[0] = traces.shift()
     graph[0] = await dressTrace(graph[0], txInput)
-    console.log('graph[0]:      ', graph[0])
 
     // This reducer converts the flat list of function traces to a graph structure
     const grapher = async (rootP: Promise<any>, currentValue: any) => {

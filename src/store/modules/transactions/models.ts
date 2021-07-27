@@ -211,8 +211,9 @@ export interface TraceResponse {
                         DELEGATECALL - executes in scope of caller contract. value inherited from scope during call sequencing
                         STATICCALL - by definition static calls transfer no value */
     type: string /*  one of the two values CALL and CREATE
-                        CREATE - a subtype of a contract message that results in creation of a new contract account
-                        CALL - CallContractMsg - a contract message that calls a function in another contract.
+                        CALL - CallContractMsg - a contract message that calls a function in another contract.                    
+                        CREATE - a subtype of a contract message that results in creation of a new contract account. uses deployer account and nonce
+                        CREATE2 - CREATE2 opcode replaces above values with a data value called salt. The salt combined with the init code of the contract allows you to determine its future address before it is deployed. It’s a way to say: “I’ll deploy this contract at this address in the future.”                        
                         ??? SelfdestructContractMsg - a contract message that deletes the originating contract and refunds its balance to the receiver of the message.*/
     // SENDER
     from: string // Relates a message to the account it originates from.
