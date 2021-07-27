@@ -109,7 +109,6 @@ export default class EVMLogRow extends Vue {
         ])
         if ([isDecoded] !== undefined) {
             this.decodedLog = isDecoded[0]
-            console.log('this.decodedLog', this.decodedLog)
         }
     }
 }
