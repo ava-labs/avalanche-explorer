@@ -1,4 +1,4 @@
-import { CanonicEventSignature, getEventSignature } from '@/services/abi'
+import { getEventSignature } from '@/services/abi'
 import { EVMBlockLog } from '../models'
 
 async function getEventSig(log: EVMBlockLog) {
@@ -7,6 +7,7 @@ async function getEventSig(log: EVMBlockLog) {
     // res.results.forEach((result: CanonicEventSignature) => {
     //     console.log('       could be:   ', result.text_signature)
     // })
+    return res
 }
 
 export function parseLogs(logs: EVMBlockLog[] | null) {

@@ -23,6 +23,7 @@ ${colors.green('.Env configs are:')}
     HTTP PORT: ${colors.magenta(process.env.VUE_APP_HTTP_PORT)}
 `)
 
+// TODO vuecli proxy to a local server
 module.exports = {
     devServer: {
         https: !process.env.USE_HTTP,

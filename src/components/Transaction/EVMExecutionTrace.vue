@@ -23,11 +23,11 @@
                                 <div>
                                     <div
                                         v-for="(
-                                            item, i
+                                            sig, i
                                         ) in item.possibleSignatures"
                                         :key="i"
                                     >
-                                        {{ item }}
+                                        {{ sig }}
                                     </div>
                                 </div>
                                 <div class="input_reference">
