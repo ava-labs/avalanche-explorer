@@ -1,19 +1,15 @@
 const express = require('express')
 const app = express()
+const metadata = require('./metadata')
+
+app.get('/api/metadata/:addressId', function (req, res) {
+    let response = metadata.getMetadata(req.params.addressId)
+    res.send(response)
+})
 
 // ports will distinguish
-// port/api/metadata =>
-/**
- * localhost:8080/ => vue app
- *
- *
- *
- * https explroera.avax.network:443/ => vue app
- * explroera.avax.network:4000
- */
 const port = process.env.PORT || 4000
 
 app.listen(port, () => {
-    onListening()
     console.log(`listening on ${port}`)
 })

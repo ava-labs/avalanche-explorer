@@ -1,9 +1,14 @@
-let contractName = ''
-const abis = []
-
+let stub = {
+    address: null,
+    name: null,
+    abi: null,
+    sourcecode: null,
+}
 // start puppeteer
 function getMetadata(id) {
+    stub.address = id
     console.log(`getMetadata(${id})`)
+    return stub
 }
 
-module.exports = { abis, contractName, getMetadata }
+module.exports = { stub, getMetadata }
