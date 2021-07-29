@@ -28,6 +28,12 @@ module.exports = {
     devServer: {
         https: !process.env.USE_HTTP,
         port: process.env.VUE_APP_HTTP_PORT,
+        proxy: {
+            '^/api': {
+                target: 'http://localhost:4000',
+                changeOrigin: true,
+            },
+        },
     },
     transpileDependencies: ['vuetify'],
     css: {
