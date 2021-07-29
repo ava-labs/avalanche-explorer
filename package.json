@@ -41,6 +41,7 @@
         "moment": "2.24.0",
         "path": "0.12.7",
         "punycode": "^2.1.1",
+        "puppeteer": "^10.1.0",
         "qs": "^6.10.1",
         "reflect-metadata": "0.1.13",
         "vue": "2.6.12",

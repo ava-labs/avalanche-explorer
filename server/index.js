@@ -2,8 +2,8 @@ const express = require('express')
 const app = express()
 const metadata = require('./metadata')
 
-app.get('/api/metadata/:addressId', function (req, res) {
-    let response = metadata.getMetadata(req.params.addressId)
+app.get('/api/metadata/:addressId', async function (req, res) {
+    let response = await metadata.getMetadata(req.params.addressId)
     res.send(response)
 })
 
