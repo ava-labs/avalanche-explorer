@@ -17,21 +17,26 @@
                     </div>
                     <!-- 2 -->
                     <div class="input">
+                        <!-- CONTRACT THAT WAS CALLED -->
+                        <a :href="cURL(item.to)" target="_blank">
+                            <span class="called_contract">{{ item.to }}</span>
+                        </a>
                         <template v-if="item.input">
                             <!-- SHOW DECODED INPUT -->
                             <template v-if="item.possibleSignatures.length > 0">
-                                <div>
+                                <div class="methodId_and_input_ref">
                                     <div
                                         v-for="(
                                             sig, i
                                         ) in item.possibleSignatures"
                                         :key="i"
+                                        class="methodId"
                                     >
-                                        {{ sig }}
+                                        .{{ sig }}
                                     </div>
-                                </div>
-                                <div class="input_reference">
-                                    {{ item.input }}
+                                    <div class="input_ref">
+                                        {{ item.input }}
+                                    </div>
                                 </div>
                             </template>
                             <!-- SHOW INPUT AS FALLBACK -->
@@ -72,6 +77,11 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import 'reflect-metadata'
+import {
+    cChainExplorerURL,
+    cChainExplorerURL_test,
+    DEFAULT_NETWORK_ID,
+} from '@/store/modules/network/network'
 
 @Component({
     components: {},
@@ -84,6 +94,14 @@ export default class EVMExecutionTrace extends Vue {
 
     created() {
         this.items = this.traces
+    }
+
+    cURL(id: string) {
+        return `${
+            DEFAULT_NETWORK_ID === 1
+                ? cChainExplorerURL
+                : cChainExplorerURL_test
+        }/address/${id}`
     }
 }
 </script>
@@ -116,13 +134,25 @@ $margin: 8.2px;
 }
 
 .input_raw,
-.input_reference,
+.input_ref,
 .output_raw,
 .output_reference {
     word-break: break-all;
 }
 
-.input_reference {
+.input {
+    display: flex;
+}
+
+.called_contract {
+}
+
+.methodId_and_input_ref {
+    display: flex;
+    flex-direction: column;
+}
+
+.input_ref {
     font-size: 0.75em;
 }
 
