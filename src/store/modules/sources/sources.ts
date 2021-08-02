@@ -14,6 +14,10 @@ import {
     EventSignatureResponse,
     SignatureResponse,
 } from '@/services/abi'
+import {
+    DecodedContractResponse,
+    getVerifiedContract,
+} from '@/services/verifiedContract'
 
 const defaultState = {
     abisLoaded: false,
@@ -49,6 +53,16 @@ const sources_module: Module<SourcesState, IRootState> = {
             commit('addABIs', ABIS)
             commit('addABIDecoder', abiDecoder)
             commit('finishABIsLoading')
+        },
+        async getVerifiedContract({ commit }, addressId: string) {
+            const res: DecodedContractResponse = await getVerifiedContract(
+                addressId
+            )
+
+            /*
+                - Remove new lines in response.ABI
+                - Add ABIs to decoder
+            */
         },
         //TODO: integrate with parser
         async getSignature({ commit }, id: string) {

@@ -14,8 +14,9 @@ async function getPossibleSigs(trace: TraceResponse): Promise<string[]> {
     return possibleSigs
 }
 
-// inits a list to store children
-// adds props for UI
+/**
+ * inits a list to store children and adds props for UI
+ * */
 async function dressTrace(trace: TraceResponse, txInput: string) {
     return {
         ...trace,

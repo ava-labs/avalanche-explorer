@@ -1,4 +1,4 @@
-interface Decoded {
+export interface DecodedContractResponse {
     address: string | null
     name: string | null
     abi: string | null

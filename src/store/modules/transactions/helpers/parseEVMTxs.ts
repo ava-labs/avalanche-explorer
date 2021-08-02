@@ -23,7 +23,6 @@ export async function parseEVMTxs(
 ) {
     // Decode Logs
     const logs = getLogs(block, tx)
-    console.log('logs       ', logs)
 
     // Decode Transfers
 
