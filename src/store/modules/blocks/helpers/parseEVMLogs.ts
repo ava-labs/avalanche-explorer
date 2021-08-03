@@ -1,4 +1,4 @@
-import { getEventSignature } from '@/services/abi'
+import { getEventSignature } from '@/services/sources'
 import { EVMBlockLog } from '../models'
 
 async function getEventSig(log: EVMBlockLog) {

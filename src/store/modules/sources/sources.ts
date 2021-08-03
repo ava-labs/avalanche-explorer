@@ -1,23 +1,21 @@
 import { Module } from 'vuex'
 import { IRootState } from '@/store/types'
 import { SourcesState } from './models'
+import { getABI } from '@/services/sources/abi.service'
 import {
-    getABI,
     getEventSignature,
     getSignature,
-} from '@/services/abi/abi.service'
+} from '@/services/sources/signature.service'
+import { getVerifiedContract } from '@/services/sources/contract.service'
 //@ts-ignore
 import abiDecoder from 'abi-decoder'
 import {
     CanonicEventSignature,
     CanonicSignature,
+    DecodedContractResponse,
     EventSignatureResponse,
     SignatureResponse,
-} from '@/services/abi'
-import {
-    DecodedContractResponse,
-    getVerifiedContract,
-} from '@/services/verifiedContract'
+} from '@/services/sources'
 
 const defaultState = {
     abisLoaded: false,
@@ -33,10 +31,34 @@ const sources_module: Module<SourcesState, IRootState> = {
     state: defaultState,
     actions: {
         async init(store) {
-            // Get and set initial list of all indexed assets
-            await store.dispatch('getABI')
+            await store.dispatch('getFallbackABIs')
         },
-        async getABI({ commit }) {
+        async getVerifiedContract({ commit }, addressId: string) {
+            const res: DecodedContractResponse = await getVerifiedContract(
+                addressId
+            )
+
+            /*
+                - Remove new lines in response.ABI
+                - Add ABIs to decoder
+            */
+        },
+
+        // TODO: integrate with parser
+        async getMethod4Byte({ commit }, id: string) {
+            const signatures: SignatureResponse = await getSignature(id)
+            commit('addSignatures', signatures.results)
+        },
+        async getEvent4Byte({ commit }, id: string) {
+            const eventSignatures: EventSignatureResponse = await getEventSignature(
+                id
+            )
+            commit('addEventSignatures', eventSignatures.results)
+        },
+        /**
+         * Initializes the Fallback ABIs
+         */
+        async getFallbackABIs({ commit }) {
             const ERC20: any = await getABI('erc20')
             const ERC721: any = await getABI('erc721')
 
@@ -53,27 +75,6 @@ const sources_module: Module<SourcesState, IRootState> = {
             commit('addABIs', ABIS)
             commit('addABIDecoder', abiDecoder)
             commit('finishABIsLoading')
-        },
-        async getVerifiedContract({ commit }, addressId: string) {
-            const res: DecodedContractResponse = await getVerifiedContract(
-                addressId
-            )
-
-            /*
-                - Remove new lines in response.ABI
-                - Add ABIs to decoder
-            */
-        },
-        //TODO: integrate with parser
-        async getSignature({ commit }, id: string) {
-            const signatures: SignatureResponse = await getSignature(id)
-            commit('addSignatures', signatures.results)
-        },
-        async getEventSignature({ commit }, id: string) {
-            const eventSignatures: EventSignatureResponse = await getEventSignature(
-                id
-            )
-            commit('addEventSignatures', eventSignatures.results)
         },
     },
     mutations: {

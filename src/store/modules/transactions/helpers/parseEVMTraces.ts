@@ -1,4 +1,4 @@
-import { CanonicSignature, getSignature } from '@/services/abi'
+import { CanonicSignature, getSignature } from '@/services/sources'
 import { TraceResponse } from '../models'
 
 async function getPossibleSigs(trace: TraceResponse): Promise<string[]> {

@@ -17,18 +17,32 @@ export function getLogs(
     return logs
 }
 
+// export function decodeLogs() {}
+
 export async function parseEVMTxs(
     tx: EVMTransactionResponse,
     block: EVMBlockQueryResponse
 ) {
-    // Decode Logs
+    // Get Logs
     const logs = getLogs(block, tx)
+    const parsedLogs: any[] = []
 
-    // Decode Transfers
+    if (logs.length > 0) {
+        // Decode Logs
+        logs.map((log: EVMBlockLog) => log)
+        // Extract Transfers from Logs
+    }
 
-    // Decode Traces
+    // Get Traces
     const traces = tx.traces
     const tracesGraph = await parseEVMTraces(tx.traces, tx.input)
+
+    if (traces.length > 0) {
+        // Decode Traces
+    }
+
+    const parsedTraces: any[] = []
+    const parsedTracesGraph: any[] = []
 
     // Munge tx and block
     const transaction = {
@@ -40,6 +54,10 @@ export async function parseEVMTxs(
         logs,
         traces,
         tracesGraph,
+        // SEMANTIC LIFTING
+        parsedLogs,
+        parsedTraces,
+        parsedTracesGraph,
         transfers: [],
     }
     // console.log('munged tx      ', transaction)

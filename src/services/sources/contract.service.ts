@@ -1,5 +1,10 @@
 import { DecodedContractResponse } from '.'
 
+/**
+ *
+ * @param id
+ * @returns verified contract data
+ */
 export async function getVerifiedContract(id: string) {
     const res: DecodedContractResponse = await fetch(`/api/metadata/${id}`, {
         headers: {

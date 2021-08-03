@@ -147,7 +147,12 @@ const transactions_module: Module<TransactionsState, IRootState> = {
                 params
             )
             const tx = txRes.Transactions[0]
+
             if (tx) {
+                // Get Contracts in Tx
+                const contracts = []
+                // Find Verified Sources for Contracts
+
                 const blockRes: EVMBlockQueryResponse = await getEVMBlock(
                     tx.block
                 )

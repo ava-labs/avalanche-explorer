@@ -28,3 +28,12 @@ export interface CanonicEventSignature {
     hex_signature: string // '0x15aac4af776447c09d895192c86bab463c38b92191f3ba3f7b8831723c548d6e'
     bytes_signature: string // "r'\x15\xaa\xc4\xafwdG\xc0\x9d\x89Q\x92\xc8k\xabF18\xb9!\x91\xf3\xba?{\x881r1T\x8dn"
 }
+
+export interface DecodedContractResponse {
+    address: string | null
+    name: string | null
+    abi: string | null
+    sourcecode: string | null
+    constructorArgs: string | null
+    deployedBytecode: string | null
+}

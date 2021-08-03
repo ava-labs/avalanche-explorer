@@ -1,4 +1,7 @@
-import { CanonicEventSignature, CanonicSignature } from '@/services/abi/models'
+import {
+    CanonicEventSignature,
+    CanonicSignature,
+} from '@/services/sources/models'
 
 export interface SourcesState {
     abisLoaded: boolean
