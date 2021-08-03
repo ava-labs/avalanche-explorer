@@ -23,6 +23,7 @@ const defaultState = {
     abiDecoder: null,
     signatures: [],
     eventSignatures: [],
+    verifiedContracts: {},
 }
 
 const sources_module: Module<SourcesState, IRootState> = {
@@ -33,23 +34,22 @@ const sources_module: Module<SourcesState, IRootState> = {
         async init(store) {
             await store.dispatch('getFallbackABIs')
         },
-        async getVerifiedContract({ commit }, addressId: string) {
+        async getContract({ commit }, addressId: string) {
             const res: DecodedContractResponse = await getVerifiedContract(
                 addressId
             )
-
             /*
                 - Remove new lines in response.ABI
                 - Add ABIs to decoder
             */
+            commit('addContract', res)
         },
-
         // TODO: integrate with parser
-        async getMethod4Byte({ commit }, id: string) {
+        async getSignatures({ commit }, id: string) {
             const signatures: SignatureResponse = await getSignature(id)
             commit('addSignatures', signatures.results)
         },
-        async getEvent4Byte({ commit }, id: string) {
+        async getEventSignatures({ commit }, id: string) {
             const eventSignatures: EventSignatureResponse = await getEventSignature(
                 id
             )

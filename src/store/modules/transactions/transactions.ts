@@ -7,6 +7,7 @@ import {
     TransactionQuery,
     EVMTransactionResponse,
     EVMTransactionQueryResponse,
+    TraceResponse,
 } from './models'
 import { EVMBlockQueryResponse } from '@/store/modules/blocks/models'
 import { getTransaction, ITransactionPayload } from '@/services/transactions'
@@ -150,7 +151,11 @@ const transactions_module: Module<TransactionsState, IRootState> = {
 
             if (tx) {
                 // Get Contracts in Tx
-                const contracts = []
+                const allContracts = tx.traces.map((trace: TraceResponse) => {
+                    return trace.to
+                })
+                const uniqueContracts = new Set(allContracts)
+                console.log('uniqueContracts', uniqueContracts)
                 // Find Verified Sources for Contracts
 
                 const blockRes: EVMBlockQueryResponse = await getEVMBlock(

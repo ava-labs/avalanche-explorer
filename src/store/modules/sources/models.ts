@@ -1,6 +1,7 @@
 import {
     CanonicEventSignature,
     CanonicSignature,
+    DecodedContractResponse,
 } from '@/services/sources/models'
 
 export interface SourcesState {
@@ -9,4 +10,9 @@ export interface SourcesState {
     abiDecoder: any
     signatures: CanonicSignature[]
     eventSignatures: CanonicEventSignature[]
+    verifiedContracts: DecodedContractMap
+}
+
+interface DecodedContractMap {
+    [key: string]: DecodedContractResponse
 }

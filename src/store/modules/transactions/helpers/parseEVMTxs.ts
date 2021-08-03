@@ -17,8 +17,6 @@ export function getLogs(
     return logs
 }
 
-// export function decodeLogs() {}
-
 export async function parseEVMTxs(
     tx: EVMTransactionResponse,
     block: EVMBlockQueryResponse
