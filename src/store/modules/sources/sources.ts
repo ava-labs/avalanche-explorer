@@ -50,11 +50,12 @@ const sources_module: Module<SourcesState, IRootState> = {
             const res: DecodedContractResponse = await getVerifiedContract(
                 addressId
             )
+            console.log('verified contract res: ', res)
             if (res.abi !== null) {
                 const parsedABI = JSON.parse(res.abi)
                 await abiDecoder.addABI(parsedABI)
             }
-            commit('addContract', res)
+            await commit('addContract', res)
         },
         /**
          * PREFERENCE 2 - 4-BYTE FUNCTION SIGNATURES

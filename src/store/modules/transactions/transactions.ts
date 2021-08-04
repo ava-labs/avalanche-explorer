@@ -150,7 +150,8 @@ const transactions_module: Module<TransactionsState, IRootState> = {
             )
             const tx = txRes.Transactions[0]
 
-            // Since much of the data is not human-readable
+            // Since EVM bytecode is not human-readable
+            // We need to find the Ethereum Contract ABIs to decode the data
             if (tx) {
                 // Get Contracts in Tx
                 const allContracts = tx.traces
@@ -159,12 +160,11 @@ const transactions_module: Module<TransactionsState, IRootState> = {
                 const uniqueContracts = new Set(allContracts)
 
                 // Find Verified Sources for Contracts
-                await uniqueContracts.forEach(async (id: string) => {
+                for (const id of uniqueContracts) {
                     await store.dispatch('Sources/getContract', id, {
                         root: true,
                     })
-                })
-
+                }
                 const verifiedContracts = await store.getters[
                     'verifiedContracts'
                 ]
