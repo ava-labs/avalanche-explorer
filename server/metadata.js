@@ -3,8 +3,10 @@ const puppeteer = require('puppeteer')
 async function getMetadata(id) {
     const browser = await puppeteer.launch()
     const page = await browser.newPage()
+    page.on('console', (msg) => console.log('PAGE LOG:', msg))
 
-    console.log('WHAT IS THE ID?', id)
+    console.log('======================================')
+    console.log('ID:            ', id)
 
     return await (async () => {
         let decoded = {
@@ -21,7 +23,6 @@ async function getMetadata(id) {
             let result = await page.goto(
                 `https://cchain.explorer.avax.network/address/${id}/contracts`
             )
-            console.info('No error thrown')
             if (result.status() === 200) {
                 console.error('200 status code found in result')
                 // CONTRACT NAME
@@ -32,27 +33,48 @@ async function getMetadata(id) {
                 decoded.name = name ? name : null
                 console.log('name:          ', name)
 
-                // SOURCECODE
-                let sourcecode = await page.$eval('#button', (el) => {
-                    return el.getAttribute('data-clipboard-text')
-                })
-                decoded.sourcecode = sourcecode ? sourcecode : null
-                // console.log('sourcecode:          ', sourcecode)
-
-                // CONSTRUCTOR ARGS, ABI, BYTECODE
-                let sources = await page.$$eval('code.nohighlight', (els) =>
-                    els.map((el) => el.textContent)
+                // CONSTRUCTOR ARGS, ,
+                let sections = await page.$$eval(
+                    '.d-flex.justify-content-between.align-items-baseline',
+                    (els) => {
+                        return els.map((el) => {
+                            let header = el.children[0].innerHTML
+                            let content = el.children[1].getAttribute(
+                                'data-clipboard-text'
+                            )
+                            // return header
+                            return [header, content]
+                        })
+                    }
                 )
-                decoded.constructorArgs = sources[0] ? sources[0] : null
-                decoded.abi = sources[1] ? sources[1] : null
-                decoded.deployedBytecode = sources[2] ? sources[2] : null
-                // console.log('sources:       ', sources)
+                // console.log('section:      ', sections)
+
+                // decoded.constructorArgs = sections.find(section => section[0] === )
+
+                // SOURCECODE
+                const sourcecode = sections.find(
+                    (s) => s[0] === 'Contract source code'
+                )
+                decoded.sourcecode = sourcecode ? sourcecode[1] : null
+                // ABI
+                const abi = sections.find(
+                    (section) => section[0] === 'Contract ABI'
+                )
+                decoded.abi = abi ? abi[1] : null
+                // DEPLOYED BYTECODE
+                const deployedBytecode = sections.find(
+                    (section) => section[0] === 'Deployed ByteCode'
+                )
+                decoded.deployedBytecode = deployedBytecode
+                    ? deployedBytecode[1]
+                    : null
+                // CONSTRUCTOR ARGS
             }
             if (result.status() === 404) {
                 console.error('404 status code found in result')
             }
         } catch (err) {
-            console.error('Error thrown')
+            console.error('Error thrown:', err)
         }
         return decoded
     })()
