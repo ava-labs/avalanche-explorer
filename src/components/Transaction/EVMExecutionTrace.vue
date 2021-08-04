@@ -1,6 +1,6 @@
 <template>
     <div id="execution_tree">
-        <v-treeview v-model="items" :items="items" return-object open-all>
+        <v-treeview v-model="traces" :items="traces" return-object open-all>
             <template v-slot:prepend="{ item }">
                 <div class="trace monospace">
                     <!-- 1 -->
@@ -19,7 +19,12 @@
                     <div class="input">
                         <!-- CONTRACT THAT WAS CALLED -->
                         <a :href="cURL(item.to)" target="_blank">
-                            <span class="called_contract">{{ item.to }}</span>
+                            <span class="called_contract">
+                                <template v-if="item.name">
+                                    {{ item.name }}
+                                </template>
+                                <template v-else>{{ item.to }}</template>
+                            </span>
                         </a>
                         <template v-if="item.input">
                             <!-- SHOW DECODED INPUT -->
@@ -75,7 +80,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import 'reflect-metadata'
 import {
     cChainExplorerURL,
@@ -90,10 +95,13 @@ import {
 export default class EVMExecutionTrace extends Vue {
     @Prop() traces!: any[]
 
-    items: any[] = []
+    get verifiedContracts() {
+        return this.$store.state.Sources.verifiedContracts
+    }
 
-    created() {
-        this.items = this.traces
+    @Watch('verifiedContracts')
+    onVerifiedContracts() {
+        this.$forceUpdate()
     }
 
     cURL(id: string) {

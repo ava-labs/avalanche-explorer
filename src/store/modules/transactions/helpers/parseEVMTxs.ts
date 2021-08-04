@@ -4,6 +4,7 @@ import { parseLogs } from '../../blocks/helpers/parseEVMLogs'
 import { parseEVMTraces } from './parseEVMTraces'
 import { toAVAX } from '@/helper'
 import web3 from 'web3'
+import { DecodedContractMap } from '../../sources'
 
 export function getLogs(
     block: EVMBlockQueryResponse,
@@ -19,7 +20,8 @@ export function getLogs(
 
 export async function parseEVMTxs(
     tx: EVMTransactionResponse,
-    block: EVMBlockQueryResponse
+    block: EVMBlockQueryResponse,
+    verifiedContracts: DecodedContractMap
 ) {
     // Get Logs
     const logs = getLogs(block, tx)
@@ -33,7 +35,11 @@ export async function parseEVMTxs(
 
     // Get Traces
     const traces = tx.traces
-    const tracesGraph = await parseEVMTraces(tx.traces, tx.input)
+    const tracesGraph = await parseEVMTraces(
+        tx.traces,
+        tx.input,
+        verifiedContracts
+    )
 
     if (traces.length > 0) {
         // Decode Traces

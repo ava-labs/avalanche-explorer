@@ -30,7 +30,7 @@ export interface CanonicEventSignature {
 }
 
 export interface DecodedContractResponse {
-    address: string | null
+    address: string
     name: string | null
     abi: string | null
     sourcecode: string | null

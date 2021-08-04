@@ -13,7 +13,6 @@ export async function getVerifiedContract(id: string) {
     })
         .then((response) => response.json())
         .then((data) => {
-            console.log('source service:    ', data)
             return data
         })
     return res

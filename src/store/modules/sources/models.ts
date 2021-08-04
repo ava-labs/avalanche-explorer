@@ -13,6 +13,6 @@ export interface SourcesState {
     verifiedContracts: DecodedContractMap
 }
 
-interface DecodedContractMap {
+export interface DecodedContractMap {
     [key: string]: DecodedContractResponse
 }

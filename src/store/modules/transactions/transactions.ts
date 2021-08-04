@@ -151,19 +151,41 @@ const transactions_module: Module<TransactionsState, IRootState> = {
 
             if (tx) {
                 // Get Contracts in Tx
-                const allContracts = tx.traces.map((trace: TraceResponse) => {
-                    return trace.to
-                })
+                const allContracts = tx.traces
+                    .map((trace: TraceResponse) => trace.to)
+                    .filter((res: string) => res !== '')
                 const uniqueContracts = new Set(allContracts)
-                console.log('uniqueContracts', uniqueContracts)
-                // Find Verified Sources for Contracts
 
+                // Find Verified Sources for Contracts
+                await uniqueContracts.forEach(async (id: string) => {
+                    await store.dispatch('Sources/getContract', id, {
+                        root: true,
+                    })
+                })
+
+                const verifiedContracts = await store.getters[
+                    'verifiedContracts'
+                ]
+
+                // Get the Tx's Block
                 const blockRes: EVMBlockQueryResponse = await getEVMBlock(
                     tx.block
                 )
-                const parsedTx = await parseEVMTxs(tx, blockRes)
+
+                // Semantically lift the Tx
+                const parsedTx = await parseEVMTxs(
+                    tx,
+                    blockRes,
+                    verifiedContracts
+                )
+
                 store.commit('addEVMTx', parsedTx)
             }
+        },
+    },
+    getters: {
+        verifiedContracts(state, getters, rootState) {
+            return rootState.Sources.verifiedContracts
         },
     },
 }

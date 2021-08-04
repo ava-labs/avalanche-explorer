@@ -16,6 +16,7 @@ import {
     EventSignatureResponse,
     SignatureResponse,
 } from '@/services/sources'
+import store from '@/store'
 
 const defaultState = {
     abisLoaded: false,
@@ -35,13 +36,16 @@ const sources_module: Module<SourcesState, IRootState> = {
             await store.dispatch('getFallbackABIs')
         },
         async getContract({ commit }, addressId: string) {
+            if (store.state.Sources.verifiedContracts[addressId]) {
+                return
+            }
             const res: DecodedContractResponse = await getVerifiedContract(
                 addressId
             )
-            /*
-                - Remove new lines in response.ABI
-                - Add ABIs to decoder
-            */
+            if (res.abi !== null) {
+                const parsedABI = JSON.parse(res.abi)
+                await abiDecoder.addABI(parsedABI)
+            }
             commit('addContract', res)
         },
         // TODO: integrate with parser
@@ -96,6 +100,14 @@ const sources_module: Module<SourcesState, IRootState> = {
         },
         addABIDecoder(state, abiDecoder: any) {
             state.abiDecoder = abiDecoder
+        },
+        addContract(state, verifiedContract: DecodedContractResponse) {
+            state.verifiedContracts[verifiedContract.address] = verifiedContract
+        },
+    },
+    getters: {
+        getVerifiedContracts(state: SourcesState) {
+            return state.verifiedContracts
         },
     },
 }

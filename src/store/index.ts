@@ -61,7 +61,7 @@ const store = new Vuex.Store({
             // Get and set initial list of all indexed assets
             await store.dispatch('getAssets')
             store.dispatch('getPrice')
-            store.dispatch('Sources/getABI')
+            store.dispatch('Sources/getFallbackABIs')
 
             // Once we have assets, next get recent transactions
             store.dispatch('getRecentTransactions', {

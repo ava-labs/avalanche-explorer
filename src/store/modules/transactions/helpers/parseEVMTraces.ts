@@ -1,6 +1,7 @@
-import { CanonicSignature, getSignature } from '@/services/sources'
+// import { CanonicSignature, getSignature } from '@/services/sources'
 import { TraceResponse } from '../models'
-
+import { DecodedContractMap } from '@/store/modules/sources/models'
+/*
 async function getPossibleSigs(trace: TraceResponse): Promise<string[]> {
     if (trace.input === undefined) {
         return []
@@ -13,20 +14,33 @@ async function getPossibleSigs(trace: TraceResponse): Promise<string[]> {
     })
     return possibleSigs
 }
+*/
 
 /**
  * inits a list to store children and adds props for UI
  * */
-async function dressTrace(trace: TraceResponse, txInput: string) {
+async function dressTrace(
+    trace: TraceResponse,
+    txInput: string,
+    verifiedContracts: DecodedContractMap
+) {
     return {
         ...trace,
         children: [],
         id: trace.traceAddress ? trace.traceAddress.toString() : txInput,
-        possibleSignatures: await getPossibleSigs(trace),
+        possibleSignatures: [],
+        // possibleSignatures: await getPossibleSigs(trace),
+        name: verifiedContracts[trace.to]
+            ? verifiedContracts[trace.to].name
+            : null,
     }
 }
 
-export async function parseEVMTraces(traces: TraceResponse[], txInput: string) {
+export async function parseEVMTraces(
+    traces: TraceResponse[],
+    txInput: string,
+    verifiedContracts: DecodedContractMap
+) {
     if (!traces) return []
 
     const graph: any = []
@@ -34,12 +48,16 @@ export async function parseEVMTraces(traces: TraceResponse[], txInput: string) {
     // the root trace is the outermost function call
     // this is the transaction itself
     graph[0] = traces.shift()
-    graph[0] = await dressTrace(graph[0], txInput)
+    graph[0] = await dressTrace(graph[0], txInput, verifiedContracts)
 
     // This reducer converts the flat list of function traces to a graph structure
     const grapher = async (rootP: Promise<any>, currentValue: any) => {
         const root = await rootP
-        currentValue = await dressTrace(currentValue, txInput)
+        currentValue = await dressTrace(
+            currentValue,
+            txInput,
+            verifiedContracts
+        )
 
         // the second-to-last traceAddress is the trace's parent (where the function was called)
         const beforeLast =
