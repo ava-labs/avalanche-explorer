@@ -7,10 +7,10 @@ const EVENTS = process.env.VUE_APP_EVENT_API_URL
 
 /**
  *
- * @param id
- * @returns list of 4-byte signatures that match the method id
+ * @param id first 4 bytes of encoded function
+ * @returns list of possible function signatures that match the id
  */
-export function getSignature(id: string) {
+export function getFunctionSignature(id: string) {
     return api
         .get(`${ETHEREUM_SIGNATURE_API_URL}/${SIGNATURES}/?hex_signature=${id}`)
         .then(resolveResponseData)
@@ -18,8 +18,8 @@ export function getSignature(id: string) {
 
 /**
  *
- * @param id
- * @returns list of 4-byte signatures that match the event id
+ * @param id bytes of encoded event log
+ * @returns list of possible event signatures that match the id
  */
 export function getEventSignature(id: string) {
     return api

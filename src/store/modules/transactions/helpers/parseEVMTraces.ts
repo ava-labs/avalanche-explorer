@@ -24,6 +24,9 @@ async function dressTrace(
     txInput: string,
     verifiedContracts: DecodedContractMap
 ) {
+    console.log(verifiedContracts)
+    console.log(Object.keys(verifiedContracts).length)
+    console.log('does it?', verifiedContracts[trace.to])
     return {
         ...trace,
         children: [],

@@ -144,11 +144,13 @@ const transactions_module: Module<TransactionsState, IRootState> = {
             return payloads
         },
         async getEVMTx(store, params: IEVMTransactionParams) {
+            // Get the Tx as raw data
             const txRes: EVMTransactionQueryResponse = await getEVMTransaction(
                 params
             )
             const tx = txRes.Transactions[0]
 
+            // Since much of the data is not human-readable
             if (tx) {
                 // Get Contracts in Tx
                 const allContracts = tx.traces

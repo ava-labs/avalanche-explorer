@@ -1,6 +1,6 @@
 /**
  *
- * @param id
+ * @param id name of Ethereum interface
  * @returns hardcoded ABI of common ERC interface
  */
 export async function getABI(id: string) {

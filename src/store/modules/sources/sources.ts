@@ -4,17 +4,17 @@ import { SourcesState } from './models'
 import { getABI } from '@/services/sources/abi.service'
 import {
     getEventSignature,
-    getSignature,
+    getFunctionSignature,
 } from '@/services/sources/signature.service'
 import { getVerifiedContract } from '@/services/sources/contract.service'
 //@ts-ignore
 import abiDecoder from 'abi-decoder'
 import {
-    CanonicEventSignature,
-    CanonicSignature,
+    EventSignature,
+    FunctionSignature,
     DecodedContractResponse,
     EventSignatureResponse,
-    SignatureResponse,
+    FunctionSignatureResponse,
 } from '@/services/sources'
 import store from '@/store'
 
@@ -35,6 +35,14 @@ const sources_module: Module<SourcesState, IRootState> = {
         async init(store) {
             await store.dispatch('getFallbackABIs')
         },
+        /**
+         * FIRST PREFERENCE - VERIFIED CONTRACT SOURCE
+         * find sourcecode of a verified smart contract
+         *      Included    contractName, source code, ABIs for all function/event names and types
+         * @param param0
+         * @param addressId
+         *
+         */
         async getContract({ commit }, addressId: string) {
             if (store.state.Sources.verifiedContracts[addressId]) {
                 return
@@ -48,19 +56,39 @@ const sources_module: Module<SourcesState, IRootState> = {
             }
             commit('addContract', res)
         },
-        // TODO: integrate with parser
-        async getSignatures({ commit }, id: string) {
-            const signatures: SignatureResponse = await getSignature(id)
-            commit('addSignatures', signatures.results)
+        /**
+         * PREFERENCE 2 - 4-BYTE FUNCTION SIGNATURES
+         * find text signatures that match the encoded function (warning: there may be collisions)
+         *      Included        methodName, paramType
+         *      Not included    paramName, returnType
+         * @param param0
+         * @param methodId
+         */
+        async getFunctionSignatures({ commit }, methodId: string) {
+            const signatures: FunctionSignatureResponse = await getFunctionSignature(
+                methodId
+            )
+            commit('addFunctionSignatures', signatures.results)
         },
-        async getEventSignatures({ commit }, id: string) {
+        /**
+         * PREFERENCE 2 - EVENT SIGNATURES
+         * find text signatures that match the encoded event (warning: there may be collisions)
+         * warning: there may be collisions
+         *      Included        eventName and paramTypes
+         *      Not included    paramNames
+         * @param param0
+         * @param eventId
+         */
+        async getEventSignatures({ commit }, eventId: string) {
             const eventSignatures: EventSignatureResponse = await getEventSignature(
-                id
+                eventId
             )
             commit('addEventSignatures', eventSignatures.results)
         },
         /**
-         * Initializes the Fallback ABIs
+         * PREFERENCE 3 - HARDCODED ABIs
+         * find signatures using common interfaces (ERC20, 721, etc.) as a last resort
+         * @param param0
          */
         async getFallbackABIs({ commit }) {
             const ERC20: any = await getABI('erc20')
@@ -82,13 +110,13 @@ const sources_module: Module<SourcesState, IRootState> = {
         },
     },
     mutations: {
-        addSignatures(state, signatures: CanonicSignature[]) {
-            signatures.forEach((sig: CanonicSignature) => {
+        addFunctionSignatures(state, signatures: FunctionSignature[]) {
+            signatures.forEach((sig: FunctionSignature) => {
                 state.signatures.push(sig)
             })
         },
-        addEventSignatures(state, eventSignatures: CanonicEventSignature[]) {
-            eventSignatures.forEach((sig: CanonicEventSignature) => {
+        addEventSignatures(state, eventSignatures: EventSignature[]) {
+            eventSignatures.forEach((sig: EventSignature) => {
                 state.eventSignatures.push(sig)
             })
         },

@@ -1,6 +1,6 @@
 import {
-    CanonicEventSignature,
-    CanonicSignature,
+    EventSignature,
+    FunctionSignature,
     DecodedContractResponse,
 } from '@/services/sources/models'
 
@@ -8,8 +8,8 @@ export interface SourcesState {
     abisLoaded: boolean
     abis: any | null
     abiDecoder: any
-    signatures: CanonicSignature[]
-    eventSignatures: CanonicEventSignature[]
+    signatures: FunctionSignature[]
+    eventSignatures: EventSignature[]
     verifiedContracts: DecodedContractMap
 }
 
