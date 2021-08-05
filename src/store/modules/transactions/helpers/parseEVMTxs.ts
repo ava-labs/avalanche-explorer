@@ -5,6 +5,9 @@ import { parseEVMTraces } from './parseEVMTraces'
 import { toAVAX } from '@/helper'
 import web3 from 'web3'
 import { DecodedContractMap } from '../../sources'
+//@ts-ignore
+import abiDecoder from 'abi-decoder'
+import { decodeTxData } from '../../sources/helpers/decodeInput'
 
 export function getLogs(
     block: EVMBlockQueryResponse,
@@ -21,11 +24,12 @@ export function getLogs(
 export async function parseEVMTxs(
     tx: EVMTransactionResponse,
     block: EVMBlockQueryResponse,
-    verifiedContracts: DecodedContractMap
+    verifiedContracts: DecodedContractMap,
+    abiDecoder: any
 ) {
     // Get Logs
     const logs = getLogs(block, tx)
-    const parsedLogs: any[] = []
+    const logsDecoded: any[] = []
 
     if (logs.length > 0) {
         // Decode Logs
@@ -41,28 +45,43 @@ export async function parseEVMTxs(
         verifiedContracts
     )
 
-    if (traces.length > 0) {
-        // Decode Traces
-    }
-
-    const parsedTraces: any[] = []
-    const parsedTracesGraph: any[] = []
-
-    // Munge tx and block
     const transaction = {
-        ...tx,
+        hash: tx.hash,
+        createdAt: tx.createdAt, // "2021-05-20T23:30:03.532054Z"
+
+        // SENDER
+        fromAddr: tx.fromAddr,
+        nonce: tx.nonce,
+
         // PAYLOAD
-        gasPrice: toAVAX(parseInt(tx.gasPrice), 18),
+        value: toAVAX(parseInt(tx.value), 18),
         input: web3.utils.utf8ToHex(tx.input),
+        inputDecoded: decodeTxData(web3.utils.utf8ToHex(tx.input), abiDecoder),
+        gasLimit: tx.gasLimit,
+        gasPrice: toAVAX(parseInt(tx.gasPrice), 18),
+
+        // RECIPIENT
+        toAddr: tx.toAddr,
+        toName: verifiedContracts[tx.toAddr]
+            ? verifiedContracts[tx.toAddr].name
+            : null,
+
+        // BLOCK
         ...block,
+        block: tx.block,
+        blockGasLimit: tx.blockGasLimit,
+        blockGasUsed: tx.blockGasUsed,
+        blockHash: tx.blockHash,
+        blockNonce: tx.blockNonce,
+
+        // LOGS
         logs,
+        logsDecoded,
+        transfers: [],
+
+        // TRACES
         traces,
         tracesGraph,
-        // SEMANTIC LIFTING
-        parsedLogs,
-        parsedTraces,
-        parsedTracesGraph,
-        transfers: [],
     }
     // console.log('munged tx      ', transaction)
     return transaction

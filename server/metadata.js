@@ -76,7 +76,7 @@ async function getMetadata(id) {
         }
         return decoded
     })()
-    // await browser.close()
+    await browser.close()
 }
 
 module.exports = { getMetadata }

@@ -52,9 +52,13 @@
                 />
             </p>
             <div class="meta_value values">
-                <router-link :to="`/evmaddress/${tx.toAddr}`">{{
-                    tx.toAddr
-                }}</router-link>
+                <router-link :to="`/evmaddress/${tx.toAddr}`">
+                    <template v-if="tx.toName !== null">
+                        {{ tx.toName }} (</template
+                    >
+                    {{ tx.toAddr
+                    }}<template v-if="tx.toName !== null">) </template>
+                </router-link>
             </div>
         </article>
         <article class="meta_row">
@@ -74,6 +78,7 @@
                 />
             </p>
             <div class="meta_value values breakall monospace">
+                <p v-if="tx.toName !== undefined">{{ tx.inputDecoded }}</p>
                 {{ tx.input }}
             </div>
         </article>

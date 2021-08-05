@@ -53,6 +53,7 @@ const sources_module: Module<SourcesState, IRootState> = {
             console.log('verified contract res: ', res)
             if (res.abi !== null) {
                 const parsedABI = JSON.parse(res.abi)
+                console.log('parsedABI', parsedABI)
                 await abiDecoder.addABI(parsedABI)
             }
             await commit('addContract', res)
@@ -137,6 +138,9 @@ const sources_module: Module<SourcesState, IRootState> = {
     getters: {
         getVerifiedContracts(state: SourcesState) {
             return state.verifiedContracts
+        },
+        getABIDecoder(state: SourcesState) {
+            return state.abiDecoder
         },
     },
 }

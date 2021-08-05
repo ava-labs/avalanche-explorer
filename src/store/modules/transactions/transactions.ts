@@ -168,6 +168,7 @@ const transactions_module: Module<TransactionsState, IRootState> = {
                 const verifiedContracts = await store.getters[
                     'verifiedContracts'
                 ]
+                const abiDecoder = await store.getters['abiDecoder']
 
                 // Get the Tx's Block
                 const blockRes: EVMBlockQueryResponse = await getEVMBlock(
@@ -178,7 +179,8 @@ const transactions_module: Module<TransactionsState, IRootState> = {
                 const parsedTx = await parseEVMTxs(
                     tx,
                     blockRes,
-                    verifiedContracts
+                    verifiedContracts,
+                    abiDecoder
                 )
 
                 store.commit('addEVMTx', parsedTx)
@@ -188,6 +190,9 @@ const transactions_module: Module<TransactionsState, IRootState> = {
     getters: {
         verifiedContracts(state, getters, rootState) {
             return rootState.Sources.verifiedContracts
+        },
+        abiDecoder(state, getters, rootState) {
+            return rootState.Sources.abiDecoder
         },
     },
 }
