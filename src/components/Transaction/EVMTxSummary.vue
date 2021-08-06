@@ -102,7 +102,7 @@ export default class EVMTxSummary extends Vue {
     }
 
     get hasTransfers() {
-        return this.tx.transfers.length > 0 ? true : false
+        return this.tx.transfers ? true : false
     }
 
     get hasLogs() {

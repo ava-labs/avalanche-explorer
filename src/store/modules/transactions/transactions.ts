@@ -148,41 +148,51 @@ const transactions_module: Module<TransactionsState, IRootState> = {
             const txRes: EVMTransactionQueryResponse = await getEVMTransaction(
                 params
             )
-            const tx = txRes.Transactions[0]
+            const tx = txRes.Transactions[0] // for now...
 
-            // Since EVM bytecode is not human-readable
-            // We need to find the Ethereum Contract ABIs to decode the data
             if (tx) {
-                // Get Contracts in Tx
-                const allContracts = tx.traces
-                    .map((trace: TraceResponse) => trace.to)
-                    .filter((res: string) => res !== '')
-                const uniqueContracts = new Set(allContracts)
-
-                // Find Verified Sources for Contracts
-                for (const id of uniqueContracts) {
-                    await store.dispatch('Sources/getContract', id, {
-                        root: true,
-                    })
-                }
-                const verifiedContracts = await store.getters[
-                    'verifiedContracts'
-                ]
-                const abiDecoder = await store.getters['abiDecoder']
+                let parsedTx
 
                 // Get the Tx's Block
                 const blockRes: EVMBlockQueryResponse = await getEVMBlock(
                     tx.block
                 )
 
-                // Semantically lift the Tx
-                const parsedTx = await parseEVMTxs(
-                    tx,
-                    blockRes,
-                    verifiedContracts,
-                    abiDecoder
-                )
+                // Value Tx
+                if (!tx.input) {
+                    parsedTx = await parseEVMTxs(tx, blockRes)
+                }
+                // Call Tx
+                else {
+                    // Since EVM bytecode is not human-readable
+                    // We need to find the Ethereum Contract ABIs to decode the data
 
+                    // Get Contracts in Tx
+                    const allContracts = tx.traces
+                        .map((trace: TraceResponse) => trace.to)
+                        .filter((res: string) => res !== '')
+                    const uniqueContracts = new Set(allContracts)
+
+                    // Find Verified Sources for Contracts
+                    for (const id of uniqueContracts) {
+                        await store.dispatch('Sources/getContract', id, {
+                            root: true,
+                        })
+                    }
+
+                    const verifiedContracts = await store.getters[
+                        'verifiedContracts'
+                    ]
+                    const abiDecoder = await store.getters['abiDecoder']
+
+                    // Semantically lift the Call Tx
+                    parsedTx = await parseEVMTxs(
+                        tx,
+                        blockRes,
+                        verifiedContracts,
+                        abiDecoder
+                    )
+                }
                 store.commit('addEVMTx', parsedTx)
             }
         },

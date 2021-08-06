@@ -7,5 +7,5 @@ export function decodeFunction(data: string, abiDecoder: any) {
         data
     )
     // console.log('decodedData:     ', decodedData)
-    return decodedData
+    return decodedData ? decodedData : null
 }

@@ -35,6 +35,13 @@
         </article>
         <article class="meta_row">
             <p class="meta_label">
+                Type
+                <Tooltip content="Type of EVM transaction" />
+            </p>
+            <div class="meta_value values">{{ tx.type }} Tx</div>
+        </article>
+        <article class="meta_row">
+            <p class="meta_label">
                 From
                 <Tooltip content="The sending account of the transaction" />
             </p>
@@ -70,7 +77,7 @@
                 {{ tx.value }} {{ nativeSymbol }}
             </div>
         </article>
-        <article class="meta_row">
+        <article v-if="tx.type === 'Call'" class="meta_row">
             <p class="meta_label">
                 Input
                 <Tooltip

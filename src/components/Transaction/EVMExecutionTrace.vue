@@ -80,7 +80,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+import { Vue, Component, Prop } from 'vue-property-decorator'
 import 'reflect-metadata'
 import {
     cChainExplorerURL,
@@ -94,15 +94,6 @@ import {
 })
 export default class EVMExecutionTrace extends Vue {
     @Prop() traces!: any[]
-
-    // get verifiedContracts() {
-    //     return this.$store.state.Sources.verifiedContracts
-    // }
-
-    // @Watch('verifiedContracts')
-    // onVerifiedContracts() {
-    //     this.$forceUpdate()
-    // }
 
     cURL(id: string) {
         return `${
