@@ -17,9 +17,7 @@
                 />
             </p>
             <div class="meta_value values">
-                <router-link :to="`/evmblock/${tx.block}`">{{
-                    tx.block
-                }}</router-link>
+                <Block :number="tx.block" :link="true" />
             </div>
         </article>
         <article class="meta_row">
@@ -30,7 +28,7 @@
                 />
             </p>
             <div class="meta_value values">
-                {{ tx.createdAt }}
+                <Timestamp :timestamp="tx.createdAt" />
             </div>
         </article>
         <article class="meta_row">
@@ -68,15 +66,6 @@
                 </router-link>
             </div>
         </article>
-        <article class="meta_row">
-            <p class="meta_label">
-                Value
-                <Tooltip content="The value being transacted in AVAX." />
-            </p>
-            <div class="meta_value values">
-                {{ tx.value }} {{ nativeSymbol }}
-            </div>
-        </article>
         <article v-if="tx.type === 'Call'" class="meta_row">
             <p class="meta_label">
                 Input
@@ -87,6 +76,15 @@
             <div class="meta_value values breakall monospace">
                 <p v-if="tx.toName !== undefined">{{ tx.inputDecoded }}</p>
                 {{ tx.input }}
+            </div>
+        </article>
+        <article class="meta_row">
+            <p class="meta_label">
+                Value
+                <Tooltip content="The value being transacted in AVAX." />
+            </p>
+            <div class="meta_value values">
+                {{ tx.value }} {{ nativeSymbol }}
             </div>
         </article>
         <article class="meta_row">
@@ -118,6 +116,8 @@
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import Tooltip from '@/components/rows/Tooltip.vue'
+import Block from '@/components/EVM/Block.vue'
+import Timestamp from '@/components/EVM/Timestamp.vue'
 import { getAssetType } from '@/services/assets'
 import { getMappingForType } from '@/store/modules/transactions/maps'
 import { EVMTransactionResponse } from '@/store/modules/transactions/models'
@@ -126,6 +126,8 @@ import { AVAX_ID } from '@/known_assets'
 @Component({
     components: {
         Tooltip,
+        Block,
+        Timestamp,
     },
 
     filters: {

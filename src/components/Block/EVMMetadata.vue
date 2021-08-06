@@ -8,46 +8,7 @@
                 />
             </p>
             <div class="meta_value values">
-                {{ block.number }}
-                <div class="block_link">
-                    <router-link
-                        v-if="block.number > 0"
-                        :to="`/evmblock/${block.number - 1}`"
-                    >
-                        <v-tooltip top>
-                            <template v-slot:activator="{ on }">
-                                <fa
-                                    icon="arrow-left"
-                                    color="#c4c4c4"
-                                    v-on="on"
-                                ></fa>
-                            </template>
-                            <div>
-                                <p>
-                                    {{ block.number - 1 }}
-                                </p>
-                            </div>
-                        </v-tooltip>
-                    </router-link>
-                </div>
-                <div class="block_link">
-                    <router-link :to="`/evmblock/${block.number + 1}`">
-                        <v-tooltip top>
-                            <template v-slot:activator="{ on }">
-                                <fa
-                                    icon="arrow-right"
-                                    color="#c4c4c4"
-                                    v-on="on"
-                                ></fa>
-                            </template>
-                            <div>
-                                <p>
-                                    {{ block.number + 1 }}
-                                </p>
-                            </div>
-                        </v-tooltip>
-                    </router-link>
-                </div>
+                <Block :number="block.number" />
             </div>
         </article>
         <article class="meta_row">
@@ -56,20 +17,15 @@
                 <Tooltip content="This block's inception date and time." />
             </p>
             <div class="meta_value values">
-                <p class="date">
-                    <fa :icon="['far', 'clock']" class="time_icon"></fa>
-                    <span class="timestamp"
-                        >{{ date | fromNow }} ({{
-                            date.toLocaleString()
-                        }})</span
-                    >
-                </p>
+                <Timestamp :timestamp="block.timestamp" />
             </div>
         </article>
         <article class="meta_row">
             <p class="meta_label">
                 Transactions
-                <Tooltip content="" />
+                <Tooltip
+                    content="The number of transactions contained in this block."
+                />
             </p>
             <div class="meta_value values">
                 <template v-if="block.transactions.length === 0"
@@ -83,7 +39,9 @@
         <article class="meta_row">
             <p class="meta_label">
                 Atomic Txs
-                <Tooltip content="" />
+                <Tooltip
+                    content="The number of atomic transfers contained in this block."
+                />
             </p>
             <div class="meta_value values">
                 <template v-if="block.atomicTransactions.length === 0"
@@ -99,7 +57,7 @@
             <p class="meta_label">
                 Gas Used
                 <Tooltip
-                    content="A scalar value equal to the total gas used by all transactions in this block."
+                    content="The total gas used by all transactions in this block."
                 />
             </p>
             <div class="meta_value values">
@@ -110,7 +68,7 @@
             <p class="meta_label">
                 Gas Limit
                 <Tooltip
-                    content="A scalar value equal to the current limit of gas expenditure per block."
+                    content="The current limit of gas expenditure per block."
                 />
             </p>
             <div class="meta_value values">
@@ -122,7 +80,7 @@
         <article class="meta_row">
             <p class="meta_label">
                 Hash
-                <Tooltip content="" />
+                <Tooltip content="The hash of this block." />
             </p>
             <div class="meta_value values">
                 {{ block.hash }}
@@ -139,7 +97,6 @@
                 {{ block.parentHash }}
             </div>
         </article>
-
         <article class="meta_row">
             <p class="meta_label">
                 State Root
@@ -149,7 +106,6 @@
                 {{ block.stateRoot }}
             </div>
         </article>
-
         <article class="meta_row">
             <p class="meta_label">
                 Tx Root
@@ -159,7 +115,6 @@
                 {{ block.transactionsRoot }}
             </div>
         </article>
-
         <article class="meta_row">
             <p class="meta_label">
                 Receipts Root
@@ -186,30 +141,20 @@
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import Tooltip from '@/components/rows/Tooltip.vue'
+import Block from '@/components/EVM/Block.vue'
+import Timestamp from '@/components/EVM/Timestamp.vue'
 
 @Component({
     components: {
         Tooltip,
+        Block,
+        Timestamp,
     },
     filters: {},
 })
 export default class EVMMetadata extends Vue {
     @Prop() block!: any
-
-    get date(): Date {
-        return new Date(this.block.timestamp)
-    }
 }
 </script>
 
-<style scoped lang="scss">
-.block_link {
-    display: inline-block;
-    line-height: 1em;
-
-    &:first-of-type {
-        margin-left: 30px;
-        margin-right: 30px;
-    }
-}
-</style>
+<style scoped lang="scss"></style>
