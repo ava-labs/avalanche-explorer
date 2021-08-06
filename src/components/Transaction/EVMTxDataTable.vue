@@ -26,11 +26,13 @@
                 </div>
             </template>
             <template #item.value="{ item }">
-                <div>{{ item.value }} <NativeSymbol /></div>
+                <div>{{ item.value.toLocaleString() }} <NativeSymbol /></div>
             </template>
             <template #item.input="{ item }">
                 <div>
-                    <span class="id_overflow">{{ item.input }}</span>
+                    <span class="id_overflow">{{
+                        item.input.substring(0, 10)
+                    }}</span>
                 </div>
             </template>
             <template #item.to="{ item }">

@@ -16,10 +16,6 @@ import { abbreviateHex } from '@/helper'
 export default class AddressLink extends Vue {
     @Prop() id!: string
 
-    created() {
-        console.log(this.id)
-    }
-
     get abbrevHex() {
         return abbreviateHex(this.id)
     }

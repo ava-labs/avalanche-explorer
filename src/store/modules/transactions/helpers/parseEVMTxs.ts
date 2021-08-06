@@ -2,7 +2,6 @@ import { EVMTransactionResponse } from '../models'
 import { EVMBlockQueryResponse, EVMBlockLog } from '@/store/modules/blocks'
 import { parseLogs } from '../../blocks/helpers/parseEVMLogs'
 import { getError, parseEVMTraces } from './parseEVMTraces'
-import { toAVAX } from '@/helper'
 import { DecodedContractMap, DecodedFunction } from '../../sources'
 //@ts-ignore
 import { decodeFunction } from '../../sources/helpers/decodeFunction'
@@ -59,7 +58,7 @@ export async function parseEVMTxs(
             transfers = null
         }
 
-        // Get Traces
+        // Decode Traces as a Graph
         tracesGraph = verifiedContracts
             ? await parseEVMTraces(
                   [...tx.traces], // clone this bc we will manipulate the array
@@ -74,7 +73,7 @@ export async function parseEVMTxs(
 
     const transaction = {
         hash: tx.hash,
-        createdAt: tx.createdAt, // "2021-05-20T23:30:03.532054Z"
+        createdAt: tx.createdAt,
         type: tx.input ? 'Call' : 'Value',
 
         // SENDER

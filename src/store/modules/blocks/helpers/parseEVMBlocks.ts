@@ -13,8 +13,9 @@ export function parseEVMBlockTxs(txs: EVMBlockTransaction[] | null) {
     // console.log('txs                ', txs)
     if (!txs) return []
     const parsedTxs = txs.map((tx) => {
-        // console.log('tx.input           ', web3.utils.hexToAscii(tx.input))
+        console.log('tx           ', tx)
 
+        // TODO: ecrecover https://ethereum.stackexchange.com/questions/12571/getting-an-address-from-ethereumjs-utils-ecrecover
         return {
             hash: tx.hash,
             type: tx.type,
@@ -25,8 +26,10 @@ export function parseEVMBlockTxs(txs: EVMBlockTransaction[] | null) {
             nonce: '',
 
             // PAYLOAD
-            value: toAVAX(parseInt(web3.utils.hexToNumberString(tx.value)), 18),
-            input: web3.utils.hexToAscii(tx.input), //TODO https://ethereum.stackexchange.com/questions/11144/how-to-decode-input-data-from-a-transaction
+            value: new Big(web3.utils.hexToNumberString(tx.value)).div(
+                Math.pow(10, 18)
+            ),
+            input: tx.input,
             gasPrice: new Big(web3.utils.hexToNumberString(tx.gasPrice)),
             gas: parseInt(web3.utils.hexToNumberString(tx.gas)),
 
