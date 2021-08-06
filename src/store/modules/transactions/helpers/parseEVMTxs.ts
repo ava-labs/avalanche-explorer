@@ -1,13 +1,14 @@
 import { EVMTransactionResponse } from '../models'
 import { EVMBlockQueryResponse, EVMBlockLog } from '@/store/modules/blocks'
 import { parseLogs } from '../../blocks/helpers/parseEVMLogs'
-import { parseEVMTraces } from './parseEVMTraces'
+import { getError, parseEVMTraces } from './parseEVMTraces'
 import { toAVAX } from '@/helper'
 import web3 from 'web3'
 import { DecodedContractMap } from '../../sources'
 //@ts-ignore
 import abiDecoder from 'abi-decoder'
-import { decodeTxData } from '../../sources/helpers/decodeInput'
+import { decodeFunction } from '../../sources/helpers/decodeFunction'
+import { getAddressFromOrtelius } from '@/services/addresses/addresses.service'
 
 export function getLogs(
     block: EVMBlockQueryResponse,
@@ -38,15 +39,21 @@ export async function parseEVMTxs(
     }
 
     // Get Traces
-    const tracesGraph = await parseEVMTraces(
-        [...tx.traces], // clone this bc we will manipulate the array
-        tx.input,
-        verifiedContracts
-    )
+    const tracesGraph = tx.input
+        ? await parseEVMTraces(
+              [...tx.traces], // clone this bc we will manipulate the array
+              tx.input,
+              verifiedContracts
+          )
+        : null
+
+    // console.log('tx.traces:     ', tx.traces)
+    // console.log('tracesGraph:   ', tracesGraph)
 
     const transaction = {
         hash: tx.hash,
         createdAt: tx.createdAt, // "2021-05-20T23:30:03.532054Z"
+        type: tx.input ? 'Call Tx' : 'Value Tx',
 
         // SENDER
         fromAddr: tx.fromAddr,
@@ -54,8 +61,13 @@ export async function parseEVMTxs(
 
         // PAYLOAD
         value: toAVAX(parseInt(tx.value), 18),
-        input: web3.utils.utf8ToHex(tx.input),
-        inputDecoded: decodeTxData(web3.utils.utf8ToHex(tx.input), abiDecoder),
+        input: tx.input
+            ? `0x${Buffer.from(tx.input, 'base64').toString('hex')}`
+            : null,
+        inputDecoded: tx.traces[0].input
+            ? decodeFunction(tx.traces[0].input, abiDecoder)
+            : null,
+        inputError: getError(tx.traces[0]),
         gasLimit: tx.gasLimit,
         gasPrice: toAVAX(parseInt(tx.gasPrice), 18),
 

@@ -16,3 +16,14 @@ export interface SourcesState {
 export interface DecodedContractMap {
     [key: string]: DecodedContractResponse
 }
+
+export interface DecodedFunction {
+    name: string
+    params: DecodedParam[]
+}
+
+export interface DecodedParam {
+    name: string
+    type: string
+    value: string
+}

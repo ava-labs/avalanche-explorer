@@ -152,7 +152,7 @@ export interface EVMTransactionResponse {
     value: string /* A scalar value equal to the number of Wei to be transferred to the Message call's recipient. 
                         In the case of contract creation it is the initial balance of 
                         the contract account, paid by the sending account. */
-    input: string // An unlimited size byte array specifying the input data of the call.
+    input?: string // An unlimited size byte array specifying the input data of the call.
     gasPrice: string /* A scalar value equal to the number of Wei to be paid per unit of gas for all 
                         computation costs incurred as a result of the execution of this transaction. */
     gasLimit: number /* A scalar value equal to the maximum amount of gas that should be used in executing this transaction. 
@@ -218,17 +218,20 @@ export interface TraceResponse {
     // SENDER
     from: string // Relates a message to the account it originates from.
     // PAYLOAD
-    input: string // An unlimited size byte array specifying the input data of the call.
+    input?: string // An unlimited size byte array specifying the input data of the call.
     output?: string // return value
-    value: string // amount to be transferred in wei
+    value: string /* amount to be transferred in wei
+                        NOTE: for value txs, this will be the same as Tx.value*/
     // RECEIVER
     to: string /* Relates a message with the account it is sent to. 
                     refunds - Relates a selfdestruct contract message to the contract account it sends its refund balance to.
                     creates - Relates a create transaction to the contract account it creates. */
 
     gasUsed: string /* The amount of gas that was used for processing a single message
-                        regardless of which type of message it may be. */
-    gas: string // ??? could be msgGasLimit - A scalar value equal to the maximum amount of gas that should be used in executing this transaction. This is paid up-front, before any computation is done and may not be increased later. If used with contract messages it represents the fraction of the original transaction gas limit still available for execution of the contract message. After all resulting computations are done, excess gas is returned to the sender of the original transaction.
+                        regardless of which type of message it may be. 
+                        NOTE: for value txs, this will be 0. refer to Tx.blockGasUsed */
+    gas: string /* ??? could be msgGasLimit - A scalar value equal to the maximum amountv of gas that should be used in executing this transaction. This is paid up-front, before any computation is done and may not be increased later. If used with contract messages it represents the fraction of the original transaction gas limit still available for execution of the contract message. After all resulting computations are done, excess gas is returned to the sender of the original transaction.
+                    NOTE: for value txs, this will be 0. refer to Tx.blockGasLimit */
 
     traceAddress?: number[]
 

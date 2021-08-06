@@ -16,6 +16,13 @@ async function getPossibleSigs(trace: TraceResponse): Promise<string[]> {
 }
 */
 
+export function getError(trace: TraceResponse) {
+    const errorMsg = trace.error
+        ? `${trace.error}: ${trace.revertReasonUnpacked}`
+        : null
+    return errorMsg
+}
+
 /**
  * inits a list to store children and adds props for UI
  * */
