@@ -6,6 +6,7 @@ import { toAVAX } from '@/helper'
 import { DecodedContractMap, DecodedFunction } from '../../sources'
 //@ts-ignore
 import { decodeFunction } from '../../sources/helpers/decodeFunction'
+import Big from 'big.js'
 
 export function getLogs(
     block: EVMBlockQueryResponse,
@@ -81,12 +82,12 @@ export async function parseEVMTxs(
         nonce: tx.nonce,
 
         // PAYLOAD
-        value: toAVAX(parseInt(tx.value), 18),
+        value: new Big(tx.value).div(Math.pow(10, 18)),
         input,
         inputDecoded,
         inputError,
         gasLimit: tx.gasLimit,
-        gasPrice: toAVAX(parseInt(tx.gasPrice), 18),
+        gasPrice: new Big(tx.gasPrice),
 
         // RECIPIENT
         toAddr: tx.toAddr,

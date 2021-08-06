@@ -84,7 +84,7 @@
                 <Tooltip content="The value being transacted in AVAX." />
             </p>
             <div class="meta_value values">
-                {{ tx.value }} {{ nativeSymbol }}
+                {{ tx.value.toLocaleString() }} <NativeSymbol />
             </div>
         </article>
         <article class="meta_row">
@@ -95,7 +95,7 @@
                 />
             </p>
             <div class="meta_value values">
-                {{ tx.gasPrice }} {{ nativeSymbol }}
+                <GasPrice :price="tx.gasPrice" />
             </div>
         </article>
         <article class="meta_row">
@@ -106,7 +106,7 @@
                 />
             </p>
             <div class="meta_value values">
-                {{ tx.gasLimit }}
+                {{ tx.gasLimit.toLocaleString() }}
             </div>
         </article>
     </section>
@@ -118,16 +118,19 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 import Tooltip from '@/components/rows/Tooltip.vue'
 import Block from '@/components/EVM/Block.vue'
 import Timestamp from '@/components/EVM/Timestamp.vue'
+import GasPrice from '@/components/EVM/GasPrice.vue'
 import { getAssetType } from '@/services/assets'
 import { getMappingForType } from '@/store/modules/transactions/maps'
 import { EVMTransactionResponse } from '@/store/modules/transactions/models'
-import { AVAX_ID } from '@/known_assets'
+import NativeSymbol from '@/components/misc/NativeSymbol.vue'
 
 @Component({
     components: {
         Tooltip,
         Block,
         Timestamp,
+        GasPrice,
+        NativeSymbol,
     },
 
     filters: {
@@ -137,14 +140,6 @@ import { AVAX_ID } from '@/known_assets'
 })
 export default class EVMMetadata extends Vue {
     @Prop() tx!: EVMTransactionResponse
-
-    get assetsLoaded(): boolean {
-        return this.$store.state.assetsLoaded
-    }
-
-    get nativeSymbol() {
-        return this.$store.state.assets[AVAX_ID].symbol
-    }
 }
 </script>
 
