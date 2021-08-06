@@ -38,9 +38,8 @@ export async function parseEVMTxs(
     }
 
     // Get Traces
-    const traces = tx.traces
     const tracesGraph = await parseEVMTraces(
-        tx.traces,
+        [...tx.traces], // clone this bc we will manipulate the array
         tx.input,
         verifiedContracts
     )
@@ -80,7 +79,7 @@ export async function parseEVMTxs(
         transfers: [],
 
         // TRACES
-        traces,
+        traces: tx.traces,
         tracesGraph,
     }
     // console.log('munged tx      ', transaction)
