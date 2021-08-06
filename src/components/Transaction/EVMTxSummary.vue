@@ -96,17 +96,21 @@ export default class EVMTxSummary extends Vue {
         this.$router.replace({ query: { ...this.$route.query, tab } })
     }
 
-    // all txs will have one trace, but we only care about call txs
     get hasTraces() {
-        return this.tx.traces[0].input > 0 ? true : false
+        // we only care about call txs
+        return this.tx.traces[0].input ? true : false
     }
 
     get hasTransfers() {
-        return this.tx.transfers ? true : false
+        return this.tx.transfers
+            ? this.tx.transfers.length > 0
+                ? true
+                : false
+            : false
     }
 
     get hasLogs() {
-        return this.tx.logs.length > 0 ? true : false
+        return this.tx.logs ? (this.tx.logs.length > 0 ? true : false) : false
     }
 }
 </script>
