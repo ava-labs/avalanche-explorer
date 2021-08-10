@@ -1,8 +1,13 @@
 const puppeteer = require('puppeteer')
 
+const browser = await puppeteer.launch()
+const page = await browser.newPage()
+
+/**
+ * TODO: create folder by address
+ * - file for constructor, ABI, etc.
+ */
 async function getMetadata(id) {
-    const browser = await puppeteer.launch()
-    const page = await browser.newPage()
     page.on('console', (msg) => console.log('PAGE LOG:', msg))
 
     console.log('======================================')
