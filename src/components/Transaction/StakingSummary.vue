@@ -93,7 +93,7 @@ export default class StakingSummary extends Vue {
     currentTime: number = Math.round(new Date().getTime() / 1000)
 
     get rewardedDate() {
-        return this.tx.rewardedTime ? new Date(this.tx.rewardedTime) : null
+        return new Date(this.tx.validatorEnd * 1000)
     }
 
     get elapsed() {
