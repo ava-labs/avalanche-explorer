@@ -6,7 +6,6 @@ import createHash from 'create-hash'
 import { getTransaction } from '@/services/transactions'
 import { Transaction } from '@/js/Transaction'
 import { parseLogs } from './parseEVMLogs'
-import { toAVAX } from '@/helper'
 import Big from 'big.js'
 
 export function parseEVMBlockTxs(txs: EVMBlockTransaction[] | null) {

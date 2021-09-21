@@ -1,5 +1,5 @@
 <template>
-    <router-link :to="`/evmtx/${this.id}`" class="addr monospace">
+    <router-link :to="`/evmtx/${id}`" class="addr monospace">
         <span>{{ abbrevHex[0] }}</span>
         <span class="bold">{{ abbrevHex[1] }}</span>
         <span>{{ abbrevHex[2] }}</span>

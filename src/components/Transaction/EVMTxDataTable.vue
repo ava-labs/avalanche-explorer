@@ -13,7 +13,7 @@
             <template #item.type="{ item }">{{ item.type }}</template>
             <template #item.hash="{ item }">
                 <div>
-                    <TxLink class="id_overflow" :id="item.hash" />
+                    <TxLink :id="item.hash" class="id_overflow" />
                 </div>
             </template>
             <template #item.v="{ item }">
@@ -37,7 +37,7 @@
             </template>
             <template #item.to="{ item }">
                 <div class="id_overflow">
-                    <AddressLink class="id_overflow" :id="item.to" />
+                    <AddressLink :id="item.to" class="id_overflow" />
                 </div>
             </template>
             <template #item.gasPrice="{ item }">
