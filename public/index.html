@@ -1,24 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Avalanche Explorer is an analytics tool that enables people to search the Avalanche blockchain for transactions, addresses, and other platform activities." vue-router-data="">
-    <meta property="og:description" content="Avalanche Explorer is an analytics tool that enables people to search the Avalanche blockchain for transactions, addresses, and other platform activities." vue-router-data="">
-    <meta property="og:image" content="<%= BASE_URL %>og-image-avalanche.png">
-    <meta property="og:url" content="https://explorer.avax.network/">
-    <meta property="og:type" content="website">    
-    <title>Avalanche Explorer: View All Activity on Avalanche</title>
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900"> -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
-  </head>
-  <body>
-    <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"
+        />
+        <title>Avalanche Explorer: View All Activity on Avalanche</title>
+        <meta
+            name="description"
+            content="An analytics tool for searching the Avalanche platform for transactions, addresses, and other on-chain activities."
+            vue-router-data=""
+        />
+        <!-- OPEN GRAPH -->
+        <meta
+            property="og:description"
+            content="An analytics tool for searching the Avalanche platform for transactions, addresses, and other on-chain activities."
+            vue-router-data=""
+        />
+        <meta
+            property="og:image"
+            content="<%= BASE_URL %>og-image-avalanche.png"
+        />
+        <meta
+            property="og:title"
+            content="Avalanche Explorer: View All Activity on Avalanche"
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://explorer.avax.network/" />
+        <!-- TWITTER -->
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@avalancheavax" />
+        <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css"
+        />
+    </head>
+    <body>
+        <noscript>
+            <strong
+                >We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't
+                work properly without JavaScript enabled. Please enable it to
+                continue.</strong
+            >
+        </noscript>
+        <div id="app"></div>
+        <!-- built files will be auto injected -->
+    </body>
 </html>

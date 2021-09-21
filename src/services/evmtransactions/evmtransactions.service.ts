@@ -8,7 +8,7 @@ const EVM_TRANSACTIONS_API_BASE_URL = process.env
 export interface IEVMTransactionParams {
     toAddress?: string // address
     fromAddress?: string // address
-    address?: string // address (to or from)yarn
+    address?: string // address (to or from)
     hash?: string // tx hash
     blockStart?: number // Starting block number inclusive
     blockEnd?: number // Ending block number exclusive
