@@ -47,6 +47,15 @@ export default class PeerCount extends Vue {
                 },
                 aspectRatio: 1.25,
                 responsive: true,
+                scales: {
+                    xAxes: [
+                        {
+                            ticks: {
+                                beginAtZero: true,
+                            },
+                        },
+                    ],
+                },
             },
         })
     }
