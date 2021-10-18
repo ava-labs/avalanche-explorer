@@ -32,33 +32,6 @@
                         >
                     </div>
                 </div>
-                <div class="resource">
-                    <img src="@/assets/resources_view/Blog.png" />
-                    <h3>Social</h3>
-                    <p>Get close to the Avalanche community</p>
-                    <div class="buts">
-                        <a href="https://chat.avax.network" target="_blank"
-                            >Discord</a
-                        >
-                        <a
-                            href="https://twitter.com/avalancheavax"
-                            target="_blank"
-                            >Twitter</a
-                        >
-                    </div>
-                </div>
-                <div class="resource ava_x">
-                    <img src="@/assets/resources_view/ice_cream.png" />
-                    <h3>Avalanche-X</h3>
-                    <p>Apply for grants to build on Avalanche.</p>
-                    <div class="buts">
-                        <a
-                            href="https://www.avalabs.org/avalanche-x"
-                            target="_blank"
-                            >Apply for Grants</a
-                        >
-                    </div>
-                </div>
             </div>
         </div>
     </div>
