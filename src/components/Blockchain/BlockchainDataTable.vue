@@ -29,30 +29,6 @@
                     </span>
                 </div>
             </template>
-            <template #item.addressCount="{ item }">
-                <div>
-                    <template v-if="item.addressCount !== null">{{
-                        parseInt(item.addressCount).toLocaleString()
-                    }}</template>
-                </div>
-            </template>
-            <template #item.txCount="{ item }">
-                <div>
-                    <template v-if="item.txCount !== null">{{
-                        parseInt(item.txCount).toLocaleString()
-                    }}</template>
-                </div>
-            </template>
-            <template #item.burned="{ item }">
-                <div>
-                    <template v-if="item.burned !== null"
-                        >{{
-                            parseFloat(item.burned.toFixed(2)).toLocaleString()
-                        }}
-                        AVAX</template
-                    >
-                </div>
-            </template>
             <template #item.indexed="{ item }">
                 <Indexed :indexed="item.indexed" :not-indexed-label="false" />
             </template>
@@ -98,9 +74,6 @@ export default class BlockchainDataTable extends Vue {
     get headers(): any[] {
         const headers = [
             { text: 'Name', value: 'name', width: 200, fixed: true },
-            { text: 'Addresses', value: 'addressCount', width: 140 },
-            { text: 'Transactions', value: 'txCount', width: 125 },
-            { text: 'Burned Fees', value: 'burned', width: 125 },
             { text: 'VM', value: 'vmID', width: 125 },
             { text: 'Subnet', value: 'subnetID', width: 300 },
             { text: 'Index', value: 'indexed', width: 125 },

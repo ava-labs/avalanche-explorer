@@ -9,7 +9,6 @@
         <div class="two_column">
             <Metadata :asset="asset" :genesis-tx="genesisTx" />
             <section>
-                <TransactionHistory v-if="isAVAX" />
                 <NFTRenderer v-if="isNFT" :asset="asset" />
             </section>
         </div>
@@ -22,14 +21,12 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 import { Asset } from '@/js/Asset'
 import { AVAX_ID } from '@/known_assets'
 import Metadata from '@/components/Asset/Metadata.vue'
-import TransactionHistory from '@/components/Home/TopInfo/TransactionHistory.vue'
 import NFTRenderer from '@/components/Asset/NFTRenderer.vue'
 import { Transaction } from '@/js/Transaction'
 
 @Component({
     components: {
         Metadata,
-        TransactionHistory,
         NFTRenderer,
     },
 })

@@ -45,15 +45,6 @@
                         Name
                         <Tooltip content="Name for the asset" />
                     </p>
-                    <p class="volume_day">
-                        <Tooltip content="Volume for the past 24h" />24h Volume
-                    </p>
-                    <p class="txCount_day">
-                        <Tooltip
-                            content="Number of transactions for the past 24h"
-                        />
-                        24h Tx
-                    </p>
                 </div>
                 <AssetRow
                     v-for="asset in assets"
@@ -131,7 +122,7 @@ export default class AssetsPage extends Vue {
 
 .asset_row {
     display: grid;
-    grid-template-columns: 60px 1fr 150px 75px;
+    grid-template-columns: 60px 1fr;
     padding: 10px 0;
     border-bottom: 1px solid #e7e7e7;
     column-gap: 10px;

@@ -71,38 +71,6 @@
                 <span class="unit">{{ asset.symbol }}</span>
             </p>
         </article>
-        <!-- STATS -->
-        <article v-if="!isNFT" class="meta_row">
-            <p class="meta_label">
-                24h Volume
-                <TooltipMeta
-                    :content="
-                        'Total value of ' +
-                        asset.symbol +
-                        ' transferred on Avalanche in the past 24 hours'
-                    "
-                />
-            </p>
-            <p class="meta_value">
-                {{ parseInt(asset.volume_day.toFixed(0)).toLocaleString() }}
-                <span class="unit">{{ asset.symbol }}</span>
-            </p>
-        </article>
-        <article class="meta_row">
-            <p class="meta_label">
-                24h Tx
-                <TooltipMeta
-                    :content="
-                        'Total number of state queries or modifications of blockchains involving ' +
-                        asset.symbol +
-                        ' in the past 24 hours'
-                    "
-                />
-            </p>
-            <p class="meta_value">
-                {{ asset.txCount_day.toLocaleString() }}
-            </p>
-        </article>
     </section>
 </template>
 
@@ -111,7 +79,6 @@ import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { Asset } from '@/js/Asset'
 import TooltipMeta from '@/components/misc/TooltipMeta.vue'
-import TransactionHistory from '@/components/Home/TopInfo/TransactionHistory.vue'
 import { Transaction } from '@/js/Transaction'
 import { getAssetType } from '@/services/assets'
 import { backgroundColor } from '@/helper'
@@ -120,7 +87,6 @@ import { getTxChainType } from '@/known_blockchains'
 @Component({
     components: {
         TooltipMeta,
-        TransactionHistory,
     },
     filters: {
         getAssetType,

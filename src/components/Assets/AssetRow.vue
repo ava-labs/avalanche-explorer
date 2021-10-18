@@ -9,15 +9,6 @@
                 asset | nameOrID
             }}</router-link>
         </p>
-        <p class="volume_day">
-            {{ asset.volume_day.toLocaleString() }}
-            <span v-if="$vuetify.breakpoint.xs" class="unit">{{
-                asset.symbol
-            }}</span>
-        </p>
-        <p class="txCount_day">
-            {{ asset.txCount_day.toLocaleString() }}
-        </p>
     </div>
 </template>
 
