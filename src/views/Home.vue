@@ -1,18 +1,15 @@
 <template>
     <div class="home">
-        <TopInfo />
         <RecentTransactions class="card recent_tx" />
     </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import TopInfo from '@/components/Home/TopInfo/TopInfo.vue'
 import RecentTransactions from '@/components/Home/RecentTransactions.vue'
 
 @Component({
     components: {
-        TopInfo,
         RecentTransactions,
     },
 })
