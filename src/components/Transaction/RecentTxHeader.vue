@@ -2,6 +2,15 @@
     <div class="header">
         <div class="left">
             <h2>{{ heading }}</h2>
+
+            <v-alert class="testnet_alert" text type="info" rounded="0">
+                <p class="description">
+                    Notice: This explorer only indexes the X-Chain and P-Chain.
+                    For C-Chain transactions (EVM Chain) go
+                    <a class="bold c_chain_link" :href="cChainURL">here</a>.
+                </p>
+            </v-alert>
+
             <p class="chain">
                 <span class="label">You are viewing transactions for</span>
                 <v-tooltip>
@@ -58,11 +67,6 @@
                         fees and faster transactions.</span
                     >
                 </v-tooltip>
-            </p>
-            <p class="chain">
-                This explorer only indexes the X-Chain and P-Chain. For C-Chain
-                transactions (EVM-based Chain) go
-                <a class="c_chain_link" :href="cChainURL">here</a>.
             </p>
         </div>
         <div class="right" bottom>
@@ -126,6 +130,20 @@ export default class RecentTxHeader extends Vue {
 }
 </script>
 <style scoped lang="scss">
+.testnet_alert {
+    background-color: $white !important;
+}
+
+@if $VUE_APP_DEFAULT_NETWORKID == 1 {
+    .v-alert--text:before {
+        background-color: $white;
+    }
+}
+
+.bold {
+    font-weight: 700;
+}
+
 .margin-left {
     margin-left: 10px;
 }
@@ -139,6 +157,7 @@ export default class RecentTxHeader extends Vue {
 }
 
 .c_chain_link {
+    color: #2196f3 !important;
     text-decoration: underline;
 }
 
