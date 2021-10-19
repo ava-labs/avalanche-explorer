@@ -48,7 +48,7 @@
                                 backgroundColor: cChain.darkColor,
                             }"
                             v-on="on"
-                            >{{ cChain.name }}</span
+                            >{{ cChain.name }} (atomic txs only)</span
                         >
                     </template>
                     <span
@@ -58,6 +58,11 @@
                         fees and faster transactions.</span
                     >
                 </v-tooltip>
+            </p>
+            <p class="chain">
+                This explorer only indexes the X-Chain and P-Chain. For C-Chain
+                transactions (EVM-based Chain) go
+                <a class="c_chain_link" :href="cChainURL">here</a>.
             </p>
         </div>
         <div class="right" bottom>
@@ -80,6 +85,11 @@
 import 'reflect-metadata'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { P, X, C, getTxChainType } from '@/known_blockchains'
+import {
+    DEFAULT_NETWORK_ID,
+    cChainExplorerURL,
+    cChainExplorerURL_test,
+} from '@/store/modules/network/network'
 
 @Component({
     components: {},
@@ -104,6 +114,12 @@ export default class RecentTxHeader extends Vue {
         return getTxChainType(C.id)
     }
 
+    get cChainURL() {
+        return DEFAULT_NETWORK_ID === 1
+            ? cChainExplorerURL
+            : cChainExplorerURL_test
+    }
+
     goToTx() {
         this.$router.push('/tx')
     }
@@ -122,7 +138,8 @@ export default class RecentTxHeader extends Vue {
     padding-left: 8px;
 }
 
-.chain_tag {
+.c_chain_link {
+    text-decoration: underline;
 }
 
 .header {

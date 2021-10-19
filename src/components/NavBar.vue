@@ -30,6 +30,7 @@
                     <router-link to="/validators">Validators</router-link>
                     <router-link to="/assets">Assets</router-link>
                     <router-link to="/blockchains">Blockchains</router-link>
+                    <a v-if="isMainnet" :href="statsURL">Stats</a>
                     <a :href="cChainURL">C-Chain</a>
                     <a :href="statusPageURL">Status</a>
                     <router-link to="/resources">Resources</router-link>
@@ -111,6 +112,14 @@ export default class Navbar extends Mixins(PlatformGettersMixin) {
         return DEFAULT_NETWORK_ID === 1
             ? cChainExplorerURL
             : cChainExplorerURL_test
+    }
+
+    get statsURL() {
+        return 'https://stats.avax.network/'
+    }
+
+    get isMainnet() {
+        return DEFAULT_NETWORK_ID === 1 ? true : false
     }
 
     get pricesLoaded() {
