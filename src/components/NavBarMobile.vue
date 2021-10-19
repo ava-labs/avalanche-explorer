@@ -44,7 +44,7 @@
                     <v-list-item to="/blockchains">Blockchains</v-list-item>
                     <v-list-item to="/tx">Transactions</v-list-item>
                     <v-list-item v-if="isMainnet" :href="statsURL"
-                        >C-Chain</v-list-item
+                        >Stats</v-list-item
                     >
                     <v-list-item :href="cChainURL">C-Chain</v-list-item>
                     <v-list-item :href="statusPageURL">Status</v-list-item>
