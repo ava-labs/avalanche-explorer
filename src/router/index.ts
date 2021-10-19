@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import { IMetaTag } from '@/router/IMetaTag'
-import { DEFAULT_NETWORK_ID } from '@/store/modules/network'
 
 Vue.use(VueRouter)
 
