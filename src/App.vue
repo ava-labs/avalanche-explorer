@@ -132,9 +132,9 @@ export default Vue.extend({
         padding: $container_padding_xl;
         padding-top: 0 !important;
 
-        @if $VUE_APP_DEFAULT_NETWORKID == 1 {
-            padding-top: $navbar_height_offset_xl !important;
-        }
+        // @if $VUE_APP_DEFAULT_NETWORKID == 1 {
+        //     padding-top: $navbar_height_offset_xl !important;
+        // }
     }
 }
 
@@ -147,9 +147,9 @@ export default Vue.extend({
     .content {
         padding-top: 0 !important;
 
-        @if $VUE_APP_DEFAULT_NETWORKID == 1 {
-            padding-top: $navbar_height_offset_lg !important;
-        }
+        // @if $VUE_APP_DEFAULT_NETWORKID == 1 {
+        //     padding-top: $navbar_height_offset_lg !important;
+        // }
     }
 }
 
@@ -162,9 +162,9 @@ export default Vue.extend({
     .content {
         padding-top: 0 !important;
 
-        @if $VUE_APP_DEFAULT_NETWORKID == 1 {
-            padding-top: $navbar_height_offset_md !important;
-        }
+        // @if $VUE_APP_DEFAULT_NETWORKID == 1 {
+        //     padding-top: $navbar_height_offset_md !important;
+        // }
     }
 }
 
@@ -180,9 +180,9 @@ export default Vue.extend({
     .content {
         padding-top: 0 !important;
 
-        @if $VUE_APP_DEFAULT_NETWORKID == 1 {
-            padding-top: $navbar_height_offset_sm !important;
-        }
+        // @if $VUE_APP_DEFAULT_NETWORKID == 1 {
+        //     padding-top: $navbar_height_offset_sm !important;
+        // }
     }
 }
 
@@ -201,9 +201,9 @@ export default Vue.extend({
     .content {
         padding-top: 0 !important;
 
-        @if $VUE_APP_DEFAULT_NETWORKID == 1 {
-            padding-top: $navbar_height_offset_xs !important;
-        }
+        // @if $VUE_APP_DEFAULT_NETWORKID == 1 {
+        //     padding-top: $navbar_height_offset_xs !important;
+        // }
     }
 }
 </style>

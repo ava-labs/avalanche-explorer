@@ -1,13 +1,17 @@
 <template>
     <div>
         <template v-if="networkID === 1">
-            <!-- <v-alert
+            <v-alert
+                id="mainnet_announce"
                 class="testnet_alert mainnet_announcement"
                 text
                 rounded="0"
             >
-                <p class="description">Per consensum ad astra</p>
-            </v-alert> -->
+                <p class="description">
+                    Explore network activity and staking metrics using
+                    <a class="bold" :href="statsURL">Avalanche Stats</a>.
+                </p>
+            </v-alert>
         </template>
         <template v-else>
             <v-alert class="testnet_alert" text type="info" rounded="0">
@@ -38,6 +42,10 @@ export default class TestnetAlert extends Vue {
     get networkName(): string {
         return DEFAULT_NETWORK_NAME
     }
+
+    get statsURL() {
+        return 'https://stats.avax.network/'
+    }
 }
 </script>
 
@@ -47,20 +55,22 @@ export default class TestnetAlert extends Vue {
     background-color: $white !important;
 }
 
+#mainnet_announce {
+    > .v-alert__wrapper {
+        .info--text {
+            color: $white !important;
+            caret-color: #fff !important;
+        }
+    }
+}
 .mainnet_announcement {
     color: $white !important;
-    font-weight: 400;
-    font-style: italic;
-    background-image: linear-gradient(
-        to left,
-        #ff8080,
-        #f6a06a,
-        #debf6f,
-        #c2da8f,
-        #a9efbf
-    ) !important;
+    font-weight: 500;
+    background-image: linear-gradient(to left, #2196f3) !important;
 
     .description {
+        color: #fff !important;
+        caret-color: #fff !important;
         text-align: center;
     }
 }
@@ -73,6 +83,8 @@ export default class TestnetAlert extends Vue {
 
 .bold {
     font-weight: 700;
+    color: $white !important;
+    text-decoration: underline;
 }
 
 @include lgOrBigger {
