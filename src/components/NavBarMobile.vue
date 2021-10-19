@@ -40,9 +40,12 @@
                     <v-list-item to="/">Home</v-list-item>
                     <v-list-item to="/subnets">Subnets</v-list-item>
                     <v-list-item to="/validators">Validators</v-list-item>
-                    <v-list-item to="/assets">Assets</v-list-item>
+                    <v-list-item :href="tokensURL">Tokens</v-list-item>
                     <v-list-item to="/blockchains">Blockchains</v-list-item>
                     <v-list-item to="/tx">Transactions</v-list-item>
+                    <v-list-item v-if="isMainnet" :href="statsURL"
+                        >C-Chain</v-list-item
+                    >
                     <v-list-item :href="cChainURL">C-Chain</v-list-item>
                     <v-list-item :href="statusPageURL">Status</v-list-item>
                     <v-list-item to="/resources">Resources</v-list-item>
@@ -112,6 +115,20 @@ export default class NavbarMobile extends Vue {
         return DEFAULT_NETWORK_ID === 1
             ? cChainExplorerURL
             : cChainExplorerURL_test
+    }
+
+    get tokensURL() {
+        return DEFAULT_NETWORK_ID === 1
+            ? 'https://avascan.info/tokens'
+            : 'https://testnet.avascan.info/tokens'
+    }
+
+    get statsURL() {
+        return 'https://stats.avax.network/'
+    }
+
+    get isMainnet() {
+        return DEFAULT_NETWORK_ID === 1 ? true : false
     }
 
     get statusPageURL() {

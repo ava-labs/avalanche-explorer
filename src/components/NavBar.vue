@@ -28,7 +28,7 @@
                     <router-link to="/">Home</router-link>
                     <router-link to="/subnets">Subnets</router-link>
                     <router-link to="/validators">Validators</router-link>
-                    <router-link to="/assets">Assets</router-link>
+                    <a :href="tokensURL">Tokens</a>
                     <router-link to="/blockchains">Blockchains</router-link>
                     <a v-if="isMainnet" :href="statsURL">Stats</a>
                     <a :href="cChainURL">C-Chain</a>
@@ -112,6 +112,12 @@ export default class Navbar extends Mixins(PlatformGettersMixin) {
         return DEFAULT_NETWORK_ID === 1
             ? cChainExplorerURL
             : cChainExplorerURL_test
+    }
+
+    get tokensURL() {
+        return DEFAULT_NETWORK_ID === 1
+            ? 'https://avascan.info/tokens'
+            : 'https://testnet.avascan.info/tokens'
     }
 
     get statsURL() {

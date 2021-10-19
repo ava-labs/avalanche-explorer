@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import { IMetaTag } from '@/router/IMetaTag'
+import { DEFAULT_NETWORK_ID } from '@/store/modules/network'
 
 Vue.use(VueRouter)
 
@@ -159,6 +160,15 @@ const routes = [
         name: 'Assets',
         component: () =>
             import(/* webpackChunkName: "assets" */ '../views/Assets.vue'),
+        beforeEnter() {
+            const NETWORK_ID = parseInt(
+                process.env.VUE_APP_DEFAULT_NETWORKID || '1'
+            )
+            window.location.href =
+                NETWORK_ID === 1
+                    ? 'https://avascan.info/tokens'
+                    : 'https://testnet.avascan.info/tokens'
+        },
         meta: {
             auth: false,
             title: prefix + 'Assets',

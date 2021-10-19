@@ -62,6 +62,10 @@ export default class TestnetAlert extends Vue {
             caret-color: #fff !important;
         }
     }
+
+    .bold {
+        color: $white !important;
+    }
 }
 .mainnet_announcement {
     color: $white !important;
@@ -83,7 +87,6 @@ export default class TestnetAlert extends Vue {
 
 .bold {
     font-weight: 700;
-    color: $white !important;
     text-decoration: underline;
 }
 
