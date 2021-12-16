@@ -26,7 +26,7 @@ const routes = [
         component: Home,
         meta: {
             auth: false,
-            title: 'View All Activities | Avalanche Explorer',
+            title: 'View All Activities' + suffix,
             metaTags: metaTags,
         },
     },
