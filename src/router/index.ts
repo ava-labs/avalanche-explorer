@@ -8,7 +8,7 @@ Vue.use(VueRouter)
 const suffix = ' | Avalanche Explorer'
 const description =
     'Avalanche Explorer is an analytics tool that enables people to search the Avalanche blockchain for transactions, addresses, and other platform activities.'
-const metaTags: IMetaTag[] = [
+const defaultMetaTags: IMetaTag[] = [
     {
         name: 'description',
         content: description,
@@ -27,7 +27,7 @@ const routes = [
         meta: {
             auth: false,
             title: 'View All Activities' + suffix,
-            metaTags: metaTags,
+            metaTags: defaultMetaTags,
         },
     },
     {
@@ -38,7 +38,7 @@ const routes = [
         meta: {
             auth: false,
             title: 'Subnets' + suffix,
-            metaTags: metaTags,
+            metaTags: defaultMetaTags,
         },
     },
     {
@@ -49,7 +49,7 @@ const routes = [
         meta: {
             auth: false,
             title: 'Subnet' + suffix,
-            metaTags: metaTags,
+            metaTags: defaultMetaTags,
         },
     },
     {
@@ -62,7 +62,18 @@ const routes = [
         meta: {
             auth: false,
             title: 'Validators Transparency' + suffix,
-            metaTags: metaTags,
+            metaTags: [
+                {
+                    name: 'description',
+                    content:
+                        'Avalanche Explorer for validators is the perfect analytics tool that enables transactions, addresses, and other platform transparency.',
+                },
+                {
+                    property: 'og:description',
+                    content:
+                        'Avalanche Explorer for validators is the perfect analytics tool that enables transactions, addresses, and other platform transparency.',
+                },
+            ],
         },
     },
     {
@@ -75,7 +86,18 @@ const routes = [
         meta: {
             auth: false,
             title: 'Transactions' + suffix,
-            metaTags: metaTags,
+            metaTags: [
+                {
+                    name: 'description',
+                    content:
+                        'View transactions on P-Chain, X-Chain, and C-Chain with the Avalanche Explorer. Providing our community of individuals, developers, and investors piece of mind.',
+                },
+                {
+                    property: 'og:description',
+                    content:
+                        'View transactions on P-Chain, X-Chain, and C-Chain with the Avalanche Explorer. Providing our community of individuals, developers, and investors piece of mind.',
+                },
+            ],
         },
     },
     {
@@ -88,7 +110,18 @@ const routes = [
         meta: {
             auth: false,
             title: 'Transaction' + suffix,
-            metaTags: metaTags,
+            metaTags: [
+                {
+                    name: 'description',
+                    content:
+                        'View transactions on P-Chain, X-Chain, and C-Chain with the Avalanche Explorer. Providing our community of individuals, developers, and investors piece of mind.',
+                },
+                {
+                    property: 'og:description',
+                    content:
+                        'View transactions on P-Chain, X-Chain, and C-Chain with the Avalanche Explorer. Providing our community of individuals, developers, and investors piece of mind.',
+                },
+            ],
         },
     },
     {
@@ -101,7 +134,7 @@ const routes = [
         meta: {
             auth: false,
             title: 'Transaction' + suffix,
-            metaTags: metaTags,
+            metaTags: defaultMetaTags,
         },
     },
     {
@@ -112,7 +145,7 @@ const routes = [
         meta: {
             auth: false,
             title: 'Block' + suffix,
-            metaTags: metaTags,
+            metaTags: defaultMetaTags,
         },
     },
     {
@@ -125,7 +158,7 @@ const routes = [
         meta: {
             auth: false,
             title: 'Address' + suffix,
-            metaTags: metaTags,
+            metaTags: defaultMetaTags,
         },
     },
     {
@@ -138,7 +171,18 @@ const routes = [
         meta: {
             auth: false,
             title: 'Blockchains' + suffix,
-            metaTags: metaTags,
+            metaTags: [
+                {
+                    name: 'description',
+                    content:
+                        'Blockchain transparency with the Avalanche Explorer enables people to search for transactions, addresses, and other platform activities.',
+                },
+                {
+                    property: 'og:description',
+                    content:
+                        'Blockchain transparency with the Avalanche Explorer enables people to search for transactions, addresses, and other platform activities.',
+                },
+            ],
         },
     },
     {
@@ -151,7 +195,18 @@ const routes = [
         meta: {
             auth: false,
             title: 'Blockchain' + suffix,
-            metaTags: metaTags,
+            metaTags: [
+                {
+                    name: 'description',
+                    content:
+                        'Blockchain transparency with the Avalanche Explorer enables people to search for transactions, addresses, and other platform activities.',
+                },
+                {
+                    property: 'og:description',
+                    content:
+                        'Blockchain transparency with the Avalanche Explorer enables people to search for transactions, addresses, and other platform activities.',
+                },
+            ],
         },
     },
     {
@@ -171,7 +226,7 @@ const routes = [
         meta: {
             auth: false,
             title: 'Assets' + suffix,
-            metaTags: metaTags,
+            metaTags: defaultMetaTags,
         },
     },
     {
@@ -182,7 +237,7 @@ const routes = [
         meta: {
             auth: false,
             title: 'Asset' + suffix,
-            metaTags: metaTags,
+            metaTags: defaultMetaTags,
         },
     },
     {
@@ -195,7 +250,7 @@ const routes = [
         meta: {
             auth: false,
             title: 'Addresses' + suffix,
-            metaTags: metaTags,
+            metaTags: defaultMetaTags,
         },
     },
     {
@@ -206,7 +261,7 @@ const routes = [
         meta: {
             auth: false,
             title: 'Address' + suffix,
-            metaTags: metaTags,
+            metaTags: defaultMetaTags,
         },
     },
     {
@@ -217,7 +272,7 @@ const routes = [
         meta: {
             auth: false,
             title: 'Search' + suffix,
-            metaTags: metaTags,
+            metaTags: defaultMetaTags,
         },
     },
     {
@@ -230,7 +285,7 @@ const routes = [
         meta: {
             auth: false,
             title: 'Resources' + suffix,
-            metaTags: metaTags,
+            metaTags: defaultMetaTags,
         },
     },
 ]
