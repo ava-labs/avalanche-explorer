@@ -5,7 +5,7 @@ import { IMetaTag } from '@/router/IMetaTag'
 
 Vue.use(VueRouter)
 
-const prefix = 'Avalanche '
+const suffix = ' | Avalanche Explorer'
 const description =
     'Avalanche Explorer is an analytics tool that enables people to search the Avalanche blockchain for transactions, addresses, and other platform activities.'
 const metaTags: IMetaTag[] = [
@@ -26,7 +26,7 @@ const routes = [
         component: Home,
         meta: {
             auth: false,
-            title: 'Avalanche Explorer: View All Activity on Avalanche',
+            title: 'View All Activities | Avalanche Explorer',
             metaTags: metaTags,
         },
     },
@@ -37,7 +37,7 @@ const routes = [
             import(/* webpackChunkName: "subnets" */ '../views/Subnets.vue'),
         meta: {
             auth: false,
-            title: prefix + 'Subnets',
+            title: 'Subnets' + suffix,
             metaTags: metaTags,
         },
     },
@@ -48,7 +48,7 @@ const routes = [
             import(/* webpackChunkName: "subnet" */ '../views/Subnet.vue'),
         meta: {
             auth: false,
-            title: prefix + 'Subnet',
+            title: 'Subnet' + suffix,
             metaTags: metaTags,
         },
     },
@@ -61,7 +61,7 @@ const routes = [
             ),
         meta: {
             auth: false,
-            title: prefix + 'Validators',
+            title: 'Validators Transparency' + suffix,
             metaTags: metaTags,
         },
     },
@@ -74,7 +74,7 @@ const routes = [
             ),
         meta: {
             auth: false,
-            title: prefix + 'Transactions',
+            title: 'Transactions' + suffix,
             metaTags: metaTags,
         },
     },
@@ -87,7 +87,7 @@ const routes = [
             ),
         meta: {
             auth: false,
-            title: prefix + 'Transaction',
+            title: 'Transaction' + suffix,
             metaTags: metaTags,
         },
     },
@@ -100,7 +100,7 @@ const routes = [
             ),
         meta: {
             auth: false,
-            title: prefix + 'Transaction',
+            title: 'Transaction' + suffix,
             metaTags: metaTags,
         },
     },
@@ -111,7 +111,7 @@ const routes = [
             import(/* webpackChunkName: "evmblock" */ '../views/EVMBlock.vue'),
         meta: {
             auth: false,
-            title: prefix + 'Block',
+            title: 'Block' + suffix,
             metaTags: metaTags,
         },
     },
@@ -124,7 +124,7 @@ const routes = [
             ),
         meta: {
             auth: false,
-            title: prefix + 'Address',
+            title: 'Address' + suffix,
             metaTags: metaTags,
         },
     },
@@ -137,7 +137,7 @@ const routes = [
             ),
         meta: {
             auth: false,
-            title: prefix + 'Blockchains',
+            title: 'Blockchains' + suffix,
             metaTags: metaTags,
         },
     },
@@ -150,7 +150,7 @@ const routes = [
             ),
         meta: {
             auth: false,
-            title: prefix + 'Blockchain',
+            title: 'Blockchain' + suffix,
             metaTags: metaTags,
         },
     },
@@ -170,7 +170,7 @@ const routes = [
         },
         meta: {
             auth: false,
-            title: prefix + 'Assets',
+            title: 'Assets' + suffix,
             metaTags: metaTags,
         },
     },
@@ -181,7 +181,7 @@ const routes = [
             import(/* webpackChunkName: "asset" */ '../views/Asset.vue'),
         meta: {
             auth: false,
-            title: prefix + 'Asset',
+            title: 'Asset' + suffix,
             metaTags: metaTags,
         },
     },
@@ -194,7 +194,7 @@ const routes = [
             ),
         meta: {
             auth: false,
-            title: prefix + 'Addresses',
+            title: 'Addresses' + suffix,
             metaTags: metaTags,
         },
     },
@@ -205,7 +205,7 @@ const routes = [
             import(/* webpackChunkName: "address" */ '../views/Address.vue'),
         meta: {
             auth: false,
-            title: prefix + 'Address',
+            title: 'Address' + suffix,
             metaTags: metaTags,
         },
     },
@@ -216,7 +216,7 @@ const routes = [
             import(/* webpackChunkName: "search" */ '../views/Search.vue'),
         meta: {
             auth: false,
-            title: prefix + 'Search',
+            title: 'Search' + suffix,
             metaTags: metaTags,
         },
     },
@@ -229,7 +229,7 @@ const routes = [
             ),
         meta: {
             auth: false,
-            title: prefix + 'Resources',
+            title: 'Resources' + suffix,
             metaTags: metaTags,
         },
     },
