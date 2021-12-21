@@ -5,10 +5,10 @@ import { IMetaTag } from '@/router/IMetaTag'
 
 Vue.use(VueRouter)
 
-const prefix = 'Avalanche '
+const suffix = ' | Avalanche Explorer'
 const description =
     'Avalanche Explorer is an analytics tool that enables people to search the Avalanche blockchain for transactions, addresses, and other platform activities.'
-const metaTags: IMetaTag[] = [
+const defaultMetaTags: IMetaTag[] = [
     {
         name: 'description',
         content: description,
@@ -26,8 +26,8 @@ const routes = [
         component: Home,
         meta: {
             auth: false,
-            title: 'Avalanche Explorer: View All Activity on Avalanche',
-            metaTags: metaTags,
+            title: 'View All Activities' + suffix,
+            metaTags: defaultMetaTags,
         },
     },
     {
@@ -37,8 +37,8 @@ const routes = [
             import(/* webpackChunkName: "subnets" */ '../views/Subnets.vue'),
         meta: {
             auth: false,
-            title: prefix + 'Subnets',
-            metaTags: metaTags,
+            title: 'Subnets' + suffix,
+            metaTags: defaultMetaTags,
         },
     },
     {
@@ -48,8 +48,8 @@ const routes = [
             import(/* webpackChunkName: "subnet" */ '../views/Subnet.vue'),
         meta: {
             auth: false,
-            title: prefix + 'Subnet',
-            metaTags: metaTags,
+            title: 'Subnet' + suffix,
+            metaTags: defaultMetaTags,
         },
     },
     {
@@ -61,8 +61,19 @@ const routes = [
             ),
         meta: {
             auth: false,
-            title: prefix + 'Validators',
-            metaTags: metaTags,
+            title: 'Validators Transparency' + suffix,
+            metaTags: [
+                {
+                    name: 'description',
+                    content:
+                        'Avalanche Explorer for validators is the perfect analytics tool that enables transactions, addresses, and other platform transparency.',
+                },
+                {
+                    property: 'og:description',
+                    content:
+                        'Avalanche Explorer for validators is the perfect analytics tool that enables transactions, addresses, and other platform transparency.',
+                },
+            ],
         },
     },
     {
@@ -74,8 +85,19 @@ const routes = [
             ),
         meta: {
             auth: false,
-            title: prefix + 'Transactions',
-            metaTags: metaTags,
+            title: 'Transactions' + suffix,
+            metaTags: [
+                {
+                    name: 'description',
+                    content:
+                        'View transactions on P-Chain, X-Chain, and C-Chain with the Avalanche Explorer. Providing our community of individuals, developers, and investors piece of mind.',
+                },
+                {
+                    property: 'og:description',
+                    content:
+                        'View transactions on P-Chain, X-Chain, and C-Chain with the Avalanche Explorer. Providing our community of individuals, developers, and investors piece of mind.',
+                },
+            ],
         },
     },
     {
@@ -87,8 +109,19 @@ const routes = [
             ),
         meta: {
             auth: false,
-            title: prefix + 'Transaction',
-            metaTags: metaTags,
+            title: 'Transaction' + suffix,
+            metaTags: [
+                {
+                    name: 'description',
+                    content:
+                        'View transactions on P-Chain, X-Chain, and C-Chain with the Avalanche Explorer. Providing our community of individuals, developers, and investors piece of mind.',
+                },
+                {
+                    property: 'og:description',
+                    content:
+                        'View transactions on P-Chain, X-Chain, and C-Chain with the Avalanche Explorer. Providing our community of individuals, developers, and investors piece of mind.',
+                },
+            ],
         },
     },
     {
@@ -100,8 +133,8 @@ const routes = [
             ),
         meta: {
             auth: false,
-            title: prefix + 'Transaction',
-            metaTags: metaTags,
+            title: 'Transaction' + suffix,
+            metaTags: defaultMetaTags,
         },
     },
     {
@@ -111,8 +144,8 @@ const routes = [
             import(/* webpackChunkName: "evmblock" */ '../views/EVMBlock.vue'),
         meta: {
             auth: false,
-            title: prefix + 'Block',
-            metaTags: metaTags,
+            title: 'Block' + suffix,
+            metaTags: defaultMetaTags,
         },
     },
     {
@@ -124,8 +157,8 @@ const routes = [
             ),
         meta: {
             auth: false,
-            title: prefix + 'Address',
-            metaTags: metaTags,
+            title: 'Address' + suffix,
+            metaTags: defaultMetaTags,
         },
     },
     {
@@ -137,8 +170,19 @@ const routes = [
             ),
         meta: {
             auth: false,
-            title: prefix + 'Blockchains',
-            metaTags: metaTags,
+            title: 'Blockchains' + suffix,
+            metaTags: [
+                {
+                    name: 'description',
+                    content:
+                        'Blockchain transparency with the Avalanche Explorer enables people to search for transactions, addresses, and other platform activities.',
+                },
+                {
+                    property: 'og:description',
+                    content:
+                        'Blockchain transparency with the Avalanche Explorer enables people to search for transactions, addresses, and other platform activities.',
+                },
+            ],
         },
     },
     {
@@ -150,8 +194,19 @@ const routes = [
             ),
         meta: {
             auth: false,
-            title: prefix + 'Blockchain',
-            metaTags: metaTags,
+            title: 'Blockchain' + suffix,
+            metaTags: [
+                {
+                    name: 'description',
+                    content:
+                        'Blockchain transparency with the Avalanche Explorer enables people to search for transactions, addresses, and other platform activities.',
+                },
+                {
+                    property: 'og:description',
+                    content:
+                        'Blockchain transparency with the Avalanche Explorer enables people to search for transactions, addresses, and other platform activities.',
+                },
+            ],
         },
     },
     {
@@ -170,8 +225,8 @@ const routes = [
         },
         meta: {
             auth: false,
-            title: prefix + 'Assets',
-            metaTags: metaTags,
+            title: 'Assets' + suffix,
+            metaTags: defaultMetaTags,
         },
     },
     {
@@ -181,8 +236,8 @@ const routes = [
             import(/* webpackChunkName: "asset" */ '../views/Asset.vue'),
         meta: {
             auth: false,
-            title: prefix + 'Asset',
-            metaTags: metaTags,
+            title: 'Asset' + suffix,
+            metaTags: defaultMetaTags,
         },
     },
     {
@@ -194,8 +249,8 @@ const routes = [
             ),
         meta: {
             auth: false,
-            title: prefix + 'Addresses',
-            metaTags: metaTags,
+            title: 'Addresses' + suffix,
+            metaTags: defaultMetaTags,
         },
     },
     {
@@ -205,8 +260,8 @@ const routes = [
             import(/* webpackChunkName: "address" */ '../views/Address.vue'),
         meta: {
             auth: false,
-            title: prefix + 'Address',
-            metaTags: metaTags,
+            title: 'Address' + suffix,
+            metaTags: defaultMetaTags,
         },
     },
     {
@@ -216,8 +271,8 @@ const routes = [
             import(/* webpackChunkName: "search" */ '../views/Search.vue'),
         meta: {
             auth: false,
-            title: prefix + 'Search',
-            metaTags: metaTags,
+            title: 'Search' + suffix,
+            metaTags: defaultMetaTags,
         },
     },
     {
@@ -229,8 +284,8 @@ const routes = [
             ),
         meta: {
             auth: false,
-            title: prefix + 'Resources',
-            metaTags: metaTags,
+            title: 'Resources' + suffix,
+            metaTags: defaultMetaTags,
         },
     },
 ]

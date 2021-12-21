@@ -4,7 +4,7 @@ Frontend Vue.js application for displaying Avalanche network activity and blockc
 
 ## Prerequisites
 
--   Node v14.16
+-   Node v14
 
 ## Installation
 
