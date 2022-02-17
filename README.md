@@ -1,3 +1,7 @@
+# DEPRECATION NOTICE
+
+This project is in **deprecated** and, and the Avalanche Explorer is in the process of being migrated to this [React App](https://github.com/ava-labs/explorer-v2) instead. As such, some URLs will redirect to the new explorer experience as it is developed, starting with the HomePage and C-Chain pages. See [this PR](https://github.com/ava-labs/avalanche-explorer/pull/157) for more details.
+
 # Avalanche Explorer
 
 Frontend Vue.js application for displaying Avalanche network activity and blockchains data from the [Ortelius indexer](https://github.com/ava-labs/ortelius) and [Avalanche-Go client](https://github.com/ava-labs/gecko).
