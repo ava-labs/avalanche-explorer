@@ -29,6 +29,9 @@ const routes = [
             title: 'View All Activities' + suffix,
             metaTags: defaultMetaTags,
         },
+        beforeEnter() {
+            window.location.href = 'https://explorer.avax.network/'
+        },
     },
     {
         path: '/subnets',
