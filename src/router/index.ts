@@ -38,7 +38,9 @@ const routes = [
             metaTags: defaultMetaTags,
         },
         beforeEnter() {
-            window.location.href = cChainURL
+            if (window.location.href !== cChainURL) {
+                window.location.href = cChainURL
+            }
         },
     },
     {
