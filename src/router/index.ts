@@ -2,6 +2,11 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import { IMetaTag } from '@/router/IMetaTag'
+import {
+    DEFAULT_NETWORK_ID,
+    cChainExplorerURL,
+    cChainExplorerURL_test,
+} from '@/store/modules/network/network'
 
 Vue.use(VueRouter)
 
@@ -19,6 +24,9 @@ const defaultMetaTags: IMetaTag[] = [
     },
 ]
 
+const cChainURL =
+    DEFAULT_NETWORK_ID === 1 ? cChainExplorerURL : cChainExplorerURL_test
+
 const routes = [
     {
         path: '/',
@@ -28,6 +36,11 @@ const routes = [
             auth: false,
             title: 'View All Activities' + suffix,
             metaTags: defaultMetaTags,
+        },
+        beforeEnter() {
+            if (window.location.href !== cChainURL) {
+                window.location.href = cChainURL
+            }
         },
     },
     {

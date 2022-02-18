@@ -10,7 +10,7 @@
     >
         <div class="top">
             <div class="logo">
-                <router-link to="/">
+                <a :href="cChainURL">
                     <img
                         style="height: 30px"
                         :src="
@@ -20,12 +20,12 @@
                     <h1>
                         <span class="hide">Avalanche Explorer</span>
                     </h1>
-                </router-link>
+                </a>
             </div>
             <v-spacer class="spacer_mid"></v-spacer>
             <div class="links">
                 <div class="routes">
-                    <router-link to="/">Home</router-link>
+                    <a :href="cChainURL">Home</a>
                     <router-link to="/subnets">Subnets</router-link>
                     <router-link to="/validators">Validators</router-link>
                     <a :href="tokensURL">Tokens</a>

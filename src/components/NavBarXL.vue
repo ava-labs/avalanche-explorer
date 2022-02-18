@@ -10,7 +10,8 @@
     >
         <!-- LEFT -->
         <div class="logo">
-            <router-link to="/">
+            <!-- Just hardcoding to mainnet explorer since this file isn't used -->
+            <a href="https://explorer.avax.network/">
                 <img
                     style="height: 31px"
                     src="@/assets/explorer_logo_black.png"
@@ -18,7 +19,7 @@
                 <h1>
                     <span class="hide">Avalanche Explorer</span>
                 </h1>
-            </router-link>
+            </a>
         </div>
         <v-spacer class="spacer_mid"></v-spacer>
         <!-- MIDDLE -->

@@ -3,7 +3,7 @@
         <!--   TOOLBAR    -->
         <div class="inner">
             <div class="logo">
-                <router-link to="/">
+                <a :href="cChainURL">
                     <img
                         style="height: 20px"
                         :src="
@@ -11,7 +11,7 @@
                         "
                     />
                     <h1><span class="hide">Avalanche Explorer</span></h1>
-                </router-link>
+                </a>
             </div>
             <div class="buttons">
                 <NetworkMenu />
@@ -37,7 +37,7 @@
                     </div>
                 </v-list-item>
                 <template>
-                    <v-list-item to="/">Home</v-list-item>
+                    <v-list-item :href="cChainURL">Home</v-list-item>
                     <v-list-item to="/subnets">Subnets</v-list-item>
                     <v-list-item to="/validators">Validators</v-list-item>
                     <v-list-item :href="tokensURL">Tokens</v-list-item>

@@ -1,7 +1,7 @@
 <template>
     <div class="navbar_side">
         <v-list dense nav>
-            <v-list-item to="/">Home</v-list-item>
+            <v-list-item :href="cChainURL">Home</v-list-item>
             <v-list-item to="/subnets">Subnets</v-list-item>
             <v-list-item to="/validators">Validators</v-list-item>
             <v-list-item to="/blockchains">Blockchains</v-list-item>

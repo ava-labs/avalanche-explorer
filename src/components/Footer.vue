@@ -23,7 +23,7 @@
             <div class="lists">
                 <div class="list">
                     <h4>Menu</h4>
-                    <router-link to="/">Home</router-link>
+                    <a :href="cChainURL">Home</a>
                     <router-link to="/subnets">Subnets</router-link>
                     <router-link to="/validators">Validators</router-link>
                     <router-link to="/assets">Assets</router-link>
