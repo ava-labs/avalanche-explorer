@@ -31,6 +31,7 @@ import {
     faTwitter,
     faDiscord,
     faReddit,
+    faGithub,
 } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -49,6 +50,7 @@ library.add(
     faCopy,
     faDiscord,
     faFont,
+    faGithub,
     faExclamation,
     faInfo,
     faInfoCircle,

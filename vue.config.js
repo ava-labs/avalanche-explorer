@@ -28,6 +28,15 @@ module.exports = {
         https: !process.env.USE_HTTP,
         port: process.env.VUE_APP_HTTP_PORT,
     },
+    chainWebpack: (config) => {
+        config.module
+            .rule('vue')
+            .use('vue-loader')
+            .tap((options) => {
+                options.compiler = require('vue-template-babel-compiler')
+                return options
+            })
+    },
     transpileDependencies: ['vuetify'],
     css: {
         loaderOptions: {

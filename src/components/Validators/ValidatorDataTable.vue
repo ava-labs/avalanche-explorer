@@ -117,16 +117,16 @@
             <template #item.duration="{ item }">
                 {{ (item.endTime - item.startTime) | duration }}
             </template>
-            <template #item.rewardOwner.addresses[0]="{ item }">
-                <router-link :to="`/address/${item.rewardOwner.addresses[0]}`"
-                    >{{ item.rewardOwner.addresses[0] }}
+            <template #item.rewardOwner.addresses?.[0]="{ item }">
+                <router-link :to="`/address/${item.rewardOwner.addresses?.[0]}`"
+                    >{{ item.rewardOwner.addresses?.[0] }}
                 </router-link>
             </template>
             <template #item.delegationFee="{ item }">
                 <div>{{ item.delegationFee }}%</div>
             </template>
             <template #item.uptime="{ item }">
-                <div>{{ item.uptime.toFixed(2) }}%</div>
+                <div>{{ item.uptime?.toFixed(2) }}%</div>
             </template>
             <template #item.delegators="{ item }">
                 <div v-show="item.delegators && item.delegators.length > 0">
