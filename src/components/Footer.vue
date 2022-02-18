@@ -43,6 +43,9 @@
                     <a href="https://reddit.com/r/avax" target="_blank">
                         <fa :icon="['fab', 'reddit']"></fa>Reddit
                     </a>
+                    <a href="https://github.com/ava-labs/avalanche-explorer" target="_blank">
+                        <fa :icon="['fab', 'github']"></fa>GitHub
+                    </a>
                 </div>
             </div>
         </div>
