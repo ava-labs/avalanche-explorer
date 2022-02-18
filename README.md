@@ -1,6 +1,6 @@
 # DEPRECATION NOTICE
 
-This project is in **deprecated**, and the Avalanche Explorer is in the process of being migrated to this [React App](https://github.com/ava-labs/explorer-v2) instead. As such, some URLs will redirect to the new explorer experience as it is developed, starting with the Home page and C-Chain page. See [this PR](https://github.com/ava-labs/avalanche-explorer/pull/157) for more details.
+This project is in **deprecated**, and the Avalanche Explorer is in the process of being migrated to this [React App](https://github.com/ava-labs/explorer-v2) instead. As such, some URLs will redirect to the new explorer experience as it is developed, starting with the Home page and C-Chain page.
 
 # Avalanche Explorer
 
