@@ -11,7 +11,7 @@
         <!-- LEFT -->
         <div class="logo">
             <!-- Just hardcoding to mainnet explorer since this file isn't used -->
-            <a href="https://explorer.avax.network/">
+            <a href="https://subnets.avax.network/">
                 <img
                     style="height: 31px"
                     src="@/assets/explorer_logo_black.png"
