@@ -4,8 +4,8 @@ import Home from '../views/Home.vue'
 import { IMetaTag } from '@/router/IMetaTag'
 import {
     DEFAULT_NETWORK_ID,
-    cChainExplorerURL,
-    cChainExplorerURL_test,
+    explorerFEUrl,
+    explorerFEUrl_test,
 } from '@/store/modules/network/network'
 
 Vue.use(VueRouter)
@@ -24,8 +24,8 @@ const defaultMetaTags: IMetaTag[] = [
     },
 ]
 
-const cChainURL =
-    DEFAULT_NETWORK_ID === 1 ? cChainExplorerURL : cChainExplorerURL_test
+const explorerFEURL =
+    DEFAULT_NETWORK_ID === 1 ? explorerFEUrl : explorerFEUrl_test
 
 const routes = [
     {
@@ -38,8 +38,8 @@ const routes = [
             metaTags: defaultMetaTags,
         },
         beforeEnter() {
-            if (window.location.href !== cChainURL) {
-                window.location.href = cChainURL
+            if (window.location.href !== explorerFEURL) {
+                window.location.href = explorerFEURL
             }
         },
     },
