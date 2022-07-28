@@ -10,7 +10,7 @@
     >
         <div class="top">
             <div class="logo">
-                <a :href="cChainURL">
+                <a :href="explorerFEUrl">
                     <img
                         style="height: 30px"
                         :src="
@@ -25,7 +25,7 @@
             <v-spacer class="spacer_mid"></v-spacer>
             <div class="links">
                 <div class="routes">
-                    <a :href="cChainURL">Home</a>
+                    <a :href="explorerFEUrl">Home</a>
                     <router-link to="/subnets">Subnets</router-link>
                     <router-link to="/validators">Validators</router-link>
                     <a :href="tokensURL">Tokens</a>
@@ -80,6 +80,8 @@ import {
     cChainExplorerURL_test,
     statusURL,
     statusURL_test,
+    explorerFEUrl,
+    explorerFEUrl_test,
 } from '@/store/modules/network/network'
 import { PlatformGettersMixin } from '@/store/modules/platform/platform.mixins'
 import { getMarketCapUSD } from '@/store/modules/platform/platform.getters'
@@ -108,6 +110,11 @@ export default class Navbar extends Mixins(PlatformGettersMixin) {
     get logoColor() {
         return DEFAULT_NETWORK_ID === 1 ? 'black' : 'white'
     }
+
+    get explorerFEUrl() {
+        return DEFAULT_NETWORK_ID === 1 ? explorerFEUrl : explorerFEUrl_test
+    }
+
     get cChainURL() {
         return DEFAULT_NETWORK_ID === 1
             ? cChainExplorerURL

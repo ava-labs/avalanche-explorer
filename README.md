@@ -20,6 +20,8 @@ Frontend Vue.js application for displaying Avalanche network activity and blockc
 
 When you go to the app on your browser, you might get a warning saying "Site is not secure." This is because we are signing our own SSL Certificates. Please ignore and continue to the website.
 
+The homepage currently redirects to the subnet explorer so to view the app you'll need to go to a specific blockchain url such as: `https://localhost:8081/blockchain/11111111111111111111111111111111LpoYY`
+
 ## Configuration
 
 See `.env`. By default, the Avalanche Explorer interfaces with the Everest test network.
