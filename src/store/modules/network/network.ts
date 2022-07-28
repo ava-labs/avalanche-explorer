@@ -15,7 +15,7 @@ export const DEFAULT_NETWORK_NAME =
 
 // Mainnet
 const networkName = process.env.VUE_APP_NETWORKNAME
-const explorerFEUrl = process.env.VUE_APP_EXPLORER_FE_URL || ''
+export const explorerFEUrl = process.env.VUE_APP_EXPLORER_FE_URL || ''
 const orteliusURL = process.env.VUE_APP_ORTELIUS_URL || ''
 export const ethereumAPI = process.env.VUE_APP_AVALANCHE_GO_ETH_URL || ''
 export const peerInfoURL = process.env.VUE_APP_PEER_INFO_URL || ''
@@ -31,7 +31,7 @@ export const statusURL = process.env.VUE_APP_STATUS_URL || ''
 
 // Testnet
 const networkName_test = process.env.VUE_APP_TEST_NETWORKNAME || ''
-const explorerFEUrl_test = process.env.VUE_APP_TEST_EXPLORER_FE_URL || ''
+export const explorerFEUrl_test = process.env.VUE_APP_TEST_EXPLORER_FE_URL || ''
 const orteliusURL_test = process.env.VUE_APP_TEST_ORTELIUS_URL || ''
 export const ethereumAPI_test =
     process.env.VUE_APP_TEST_AVALANCHE_GO_ETH_URL || ''
