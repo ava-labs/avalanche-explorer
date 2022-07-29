@@ -11,27 +11,10 @@ import Blockchain from '@/js/Blockchain'
 import { C, P } from '@/known_blockchains'
 import { getAddressCounts } from '@/services/addressCounts/addressCounts.service'
 import { AddressCount } from '@/services/addressCounts/models'
-import { calculateStakingReward } from './helpers'
+import { calculateStakingReward, chunkRunner } from './helpers'
 import { getTxCounts } from '@/services/transactionCounts/transactionCounts.service'
 import { TxCount } from '@/services/transactionCounts/models'
 import { getBurnedC } from '@/services/burned/burned.service'
-
-export const chunkRunner = (
-    data: any[],
-    chunkSize: number,
-    timeout: number,
-    callback: Function
-) => {
-    const numChunks = Math.ceil(data.length / chunkSize)
-    for (let index = 0; index < numChunks; index++) {
-        const chunk = data.slice(index * chunkSize, chunkSize * (index + 1))
-        const isLastRun = index >= numChunks - 1
-
-        setTimeout(() => {
-            callback(chunk, isLastRun)
-        }, timeout * index)
-    }
-}
 
 export const AVALANCHE_SUBNET_ID = P.id
 
@@ -100,7 +83,7 @@ const platform_module: Module<PlatformState, IRootState> = {
                 {}
             )
 
-            chunkRunner(subnets, 1, 5, (chunk: Subnet[]) => {
+            chunkRunner(subnets, 5, 25, (chunk: Subnet[]) => {
                 chunk.forEach((s) => {
                     s.updateValidators('platform.getCurrentValidators')
                     s.updateValidators('platform.getPendingValidators')
