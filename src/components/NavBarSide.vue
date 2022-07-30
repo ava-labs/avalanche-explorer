@@ -1,7 +1,7 @@
 <template>
     <div class="navbar_side">
         <v-list dense nav>
-            <v-list-item :href="cChainURL">Home</v-list-item>
+            <v-list-item :href="explorerFEUrl">Home</v-list-item>
             <v-list-item to="/subnets">Subnets</v-list-item>
             <v-list-item to="/validators">Validators</v-list-item>
             <v-list-item to="/blockchains">Blockchains</v-list-item>
@@ -20,6 +20,8 @@ import {
     DEFAULT_NETWORK_ID,
     cChainExplorerURL,
     cChainExplorerURL_test,
+    explorerFEUrl,
+    explorerFEUrl_test,
     statusURL,
     statusURL_test,
 } from '@/store/modules/network/network'
@@ -30,6 +32,10 @@ export default class NavbarSide extends Vue {
         return DEFAULT_NETWORK_ID === 1
             ? cChainExplorerURL
             : cChainExplorerURL_test
+    }
+
+    get explorerFEUrl() {
+        return DEFAULT_NETWORK_ID === 1 ? explorerFEUrl : explorerFEUrl_test
     }
 
     get statusPageURL() {

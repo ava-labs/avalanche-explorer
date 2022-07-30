@@ -23,7 +23,7 @@
             <div class="lists">
                 <div class="list">
                     <h4>Menu</h4>
-                    <a :href="cChainURL">Home</a>
+                    <a :href="explorerFEUrl">Home</a>
                     <router-link to="/subnets">Subnets</router-link>
                     <router-link to="/validators">Validators</router-link>
                     <router-link to="/assets">Assets</router-link>
@@ -43,7 +43,10 @@
                     <a href="https://reddit.com/r/avax" target="_blank">
                         <fa :icon="['fab', 'reddit']"></fa>Reddit
                     </a>
-                    <a href="https://github.com/ava-labs/avalanche-explorer" target="_blank">
+                    <a
+                        href="https://github.com/ava-labs/avalanche-explorer"
+                        target="_blank"
+                    >
                         <fa :icon="['fab', 'github']"></fa>GitHub
                     </a>
                 </div>
@@ -58,6 +61,8 @@ import {
     DEFAULT_NETWORK_ID,
     cChainExplorerURL,
     cChainExplorerURL_test,
+    explorerFEUrl,
+    explorerFEUrl_test,
     statusURL,
     statusURL_test,
 } from '@/store/modules/network/network'
@@ -68,6 +73,10 @@ export default class Footer extends Vue {
         return DEFAULT_NETWORK_ID === 1
             ? cChainExplorerURL
             : cChainExplorerURL_test
+    }
+
+    get explorerFEUrl() {
+        return DEFAULT_NETWORK_ID === 1 ? explorerFEUrl : explorerFEUrl_test
     }
 
     get statusPageURL() {

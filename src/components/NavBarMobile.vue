@@ -3,7 +3,7 @@
         <!--   TOOLBAR    -->
         <div class="inner">
             <div class="logo">
-                <a :href="cChainURL">
+                <a :href="explorerFEUrl">
                     <img
                         style="height: 20px"
                         :src="
@@ -37,7 +37,7 @@
                     </div>
                 </v-list-item>
                 <template>
-                    <v-list-item :href="cChainURL">Home</v-list-item>
+                    <v-list-item :href="explorerFEUrl">Home</v-list-item>
                     <v-list-item to="/subnets">Subnets</v-list-item>
                     <v-list-item to="/validators">Validators</v-list-item>
                     <v-list-item :href="tokensURL">Tokens</v-list-item>
@@ -81,6 +81,8 @@ import {
     DEFAULT_NETWORK_ID,
     cChainExplorerURL,
     cChainExplorerURL_test,
+    explorerFEUrl,
+    explorerFEUrl_test,
     statusURL,
     statusURL_test,
 } from '@/store/modules/network/network'
@@ -115,6 +117,10 @@ export default class NavbarMobile extends Vue {
         return DEFAULT_NETWORK_ID === 1
             ? cChainExplorerURL
             : cChainExplorerURL_test
+    }
+
+    get explorerFEUrl() {
+        return DEFAULT_NETWORK_ID === 1 ? explorerFEUrl : explorerFEUrl_test
     }
 
     get tokensURL() {
