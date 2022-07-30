@@ -11,7 +11,7 @@ import Blockchain from '@/js/Blockchain'
 import { C, P } from '@/known_blockchains'
 import { getAddressCounts } from '@/services/addressCounts/addressCounts.service'
 import { AddressCount } from '@/services/addressCounts/models'
-import { calculateStakingReward } from './helpers'
+import { calculateStakingReward, chunkRunner } from './helpers'
 import { getTxCounts } from '@/services/transactionCounts/transactionCounts.service'
 import { TxCount } from '@/services/transactionCounts/models'
 import { getBurnedC } from '@/services/burned/burned.service'
@@ -61,13 +61,6 @@ const platform_module: Module<PlatformState, IRootState> = {
                 (s: ISubnetData) => new Subnet(s)
             )
 
-            // Get and set validators for each subnet
-            subnets.forEach((s) => {
-                s.updateValidators('platform.getCurrentValidators')
-                s.updateValidators('platform.getPendingValidators')
-                commit('setSubnet', s)
-            })
-
             // Get blockchains and init classes
             state.blockchains = ((await platform.getBlockchains()) as IBlockchainData[]).map(
                 (b: IBlockchainData) => new Blockchain(b)
@@ -81,17 +74,30 @@ const platform_module: Module<PlatformState, IRootState> = {
                 vmID: '',
             })
             state.blockchains.unshift(pChain)
+            const blockchainMap: any = state.blockchains.reduce(
+                (acc, b) => ({ ...acc, [b.id]: b }),
+                {}
+            )
+            const blockchainSubnetsMap: any = state.blockchains.reduce(
+                (acc, b) => ({ ...acc, [b.subnetID]: b.id }),
+                {}
+            )
 
-            // Map blockchains to their subnet
-            state.blockchains.forEach((b) => {
-                const subnetID = b.subnetID
-                try {
-                    state.subnets[subnetID].addBlockchain(b)
-                } catch (err) {
-                    console.log(err)
-                }
+            chunkRunner(subnets, 5, 25, (chunk: Subnet[]) => {
+                chunk.forEach((s) => {
+                    s.updateValidators('platform.getCurrentValidators')
+                    s.updateValidators('platform.getPendingValidators')
+                    try {
+                        const b = blockchainMap[blockchainSubnetsMap[s.id]]
+                        if (b) {
+                            s.addBlockchain(b)
+                        }
+                    } catch (err) {
+                        console.log(err)
+                    }
+                    commit('setSubnet', s)
+                })
             })
-
             state.subnetsLoaded = true
         },
 
