@@ -84,11 +84,7 @@ export function getCumulativePendingStake(): number[] {
  * @returns Count of blockchains across all subnets
  */
 export function getTotalBlockchains(): number {
-    let total = 0
-    for (const subnetID of Object.keys(store.state.Platform.subnets)) {
-        total += store.state.Platform.subnets[subnetID].blockchains.length
-    }
-    return total
+    return store.state.Platform.blockchains.length
 }
 
 /**
