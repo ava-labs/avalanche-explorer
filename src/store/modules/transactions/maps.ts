@@ -66,21 +66,21 @@ export const txTypeMap = new Map<string, TxType>([
         'add_validator',
         {
             long: 'Add Validator',
-            short: 'Validate',
+            short: 'Add Validator',
         },
     ],
     [
         'add_subnet_validator',
         {
             long: 'Add Subnet Validator',
-            short: 'Validate Subnet',
+            short: 'Add Subnet Validator',
         },
     ],
     [
         'add_delegator',
         {
             long: 'Add Delegator',
-            short: 'Delegate',
+            short: 'Add Delegator',
         },
     ],
     [
@@ -129,7 +129,7 @@ export const txTypeMap = new Map<string, TxType>([
         'remove_subnet_validator',
         {
             long: 'Remove Subnet Validator',
-            short: 'Remove Validator',
+            short: 'Remove Subnet Validator',
         },
     ],
     [
@@ -142,15 +142,15 @@ export const txTypeMap = new Map<string, TxType>([
     [
         'add_permissionless_validator',
         {
-            long: 'Add Permissionless Validator',
-            short: 'Validate',
+            long: 'Add Elastic Validator',
+            short: 'Add Elastic Validator',
         },
     ],
     [
         'add_permissionless_delegator',
         {
-            long: 'Add Permissionless Delegator',
-            short: 'Delegate',
+            long: 'Add Elastic Delegator',
+            short: 'Add Elastic Delegator',
         },
     ],
 ])
