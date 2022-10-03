@@ -38,6 +38,13 @@ export const P: ChainMap = {
         ['create_chain', txTypeMap.get('create_chain')!],
         ['pvm_export', txTypeMap.get('pvm_export')!],
         ['pvm_import', txTypeMap.get('pvm_import')!],
+        ['reward_validator', txTypeMap.get('reward_validator')!],
+        ['remove_subnet_validator', txTypeMap.get('remove_subnet_validator')!],
+        ['transform_subnet', txTypeMap.get('transform_subnet')!],
+        [
+            'add_permissionless_validator',
+            txTypeMap.get('add_permissionless_validator')!,
+        ],
     ],
 }
 

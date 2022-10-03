@@ -58,7 +58,10 @@ export default class TransactionSummary extends Vue {
 
     get isStaking() {
         return this.tx.type === 'add_validator' ||
-            this.tx.type === 'add_delegator'
+            this.tx.type === 'add_delegator' ||
+            this.tx.type === 'add_permissionless_validator' ||
+            this.tx.type === 'add_permissionless_delegator' ||
+            this.tx.type === 'remove_subnet_validator'
             ? true
             : false
     }
