@@ -125,6 +125,34 @@ export const txTypeMap = new Map<string, TxType>([
             short: 'Reward',
         },
     ],
+    [
+        'remove_subnet_validator',
+        {
+            long: 'Remove Subnet Validator',
+            short: 'Remove Validator',
+        },
+    ],
+    [
+        'transform_subnet',
+        {
+            long: 'Transform Subnet',
+            short: 'Transform',
+        },
+    ],
+    [
+        'add_permissionless_validator',
+        {
+            long: 'Add Permissionless Validator',
+            short: 'Add Validator',
+        },
+    ],
+    [
+        'add_permissionless_delegator',
+        {
+            long: 'Add Permissionless Validator',
+            short: 'Add Validator',
+        },
+    ],
 ])
 
 export function getMappingForType(type: string) {
