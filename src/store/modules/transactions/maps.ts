@@ -143,14 +143,14 @@ export const txTypeMap = new Map<string, TxType>([
         'add_permissionless_validator',
         {
             long: 'Add Permissionless Validator',
-            short: 'Add Validator',
+            short: 'Validate',
         },
     ],
     [
         'add_permissionless_delegator',
         {
             long: 'Add Permissionless Delegator',
-            short: 'Add Delegator',
+            short: 'Delegate',
         },
     ],
 ])
