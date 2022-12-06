@@ -41,7 +41,7 @@
         "moment": "2.24.0",
         "path": "0.12.7",
         "punycode": "^2.1.1",
-        "qs": "^6.10.1",
+        "qs": "^6.10.3",
         "reflect-metadata": "0.1.13",
         "vue": "2.6.12",
         "vue-analytics": "5.22.1",
