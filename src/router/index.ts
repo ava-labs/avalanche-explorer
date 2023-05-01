@@ -6,6 +6,8 @@ import {
     DEFAULT_NETWORK_ID,
     explorerFEUrl,
     explorerFEUrl_test,
+    subnetExplorerUrl as subnetExplorerUrl_main,
+    subnetExplorerUrl_test,
 } from '@/store/modules/network/network'
 
 Vue.use(VueRouter)
@@ -27,6 +29,9 @@ const defaultMetaTags: IMetaTag[] = [
 const explorerFEURL =
     DEFAULT_NETWORK_ID === 1 ? explorerFEUrl : explorerFEUrl_test
 
+const subnetExplorerUrl =
+    DEFAULT_NETWORK_ID === 1 ? subnetExplorerUrl_main : subnetExplorerUrl_test
+
 const routes = [
     {
         path: '/',
@@ -46,12 +51,8 @@ const routes = [
     {
         path: '/subnets',
         name: 'Subnets',
-        component: () =>
-            import(/* webpackChunkName: "subnets" */ '../views/Subnets.vue'),
-        meta: {
-            auth: false,
-            title: 'Subnets' + suffix,
-            metaTags: defaultMetaTags,
+        beforeEnter() {
+            window.location.href = `${subnetExplorerUrl}/subnets`
         },
     },
     {
@@ -177,25 +178,8 @@ const routes = [
     {
         path: '/blockchains',
         name: 'Blockchains',
-        component: () =>
-            import(
-                /* webpackChunkName: "blockchains" */ '../views/Blockchains.vue'
-            ),
-        meta: {
-            auth: false,
-            title: 'Blockchains' + suffix,
-            metaTags: [
-                {
-                    name: 'description',
-                    content:
-                        'Blockchain transparency with the Avalanche Explorer enables people to search for transactions, addresses, and other platform activities.',
-                },
-                {
-                    property: 'og:description',
-                    content:
-                        'Blockchain transparency with the Avalanche Explorer enables people to search for transactions, addresses, and other platform activities.',
-                },
-            ],
+        beforeEnter() {
+            window.location.href = `${subnetExplorerUrl}/subnets`
         },
     },
     {
