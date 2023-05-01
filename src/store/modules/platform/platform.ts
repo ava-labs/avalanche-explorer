@@ -83,7 +83,7 @@ const platform_module: Module<PlatformState, IRootState> = {
                 {}
             )
 
-            chunkRunner(subnets, 5, 25, (chunk: Subnet[]) => {
+            chunkRunner(subnets, 5, 100, (chunk: Subnet[]) => {
                 chunk.forEach((s) => {
                     s.updateValidators('platform.getCurrentValidators')
                     s.updateValidators('platform.getPendingValidators')
