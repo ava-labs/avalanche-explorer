@@ -51,6 +51,11 @@ const routes = [
     {
         path: '/subnets',
         name: 'Subnets',
+        meta: {
+            auth: false,
+            title: 'Subnets' + suffix,
+            metaTags: defaultMetaTags,
+        },
         beforeEnter() {
             window.location.href = `${subnetExplorerUrl}/subnets`
         },
