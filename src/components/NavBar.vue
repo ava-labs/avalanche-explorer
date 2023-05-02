@@ -27,7 +27,7 @@
                 <div class="routes">
                     <a :href="explorerFEUrl">Home</a>
                     <router-link to="/subnets">Subnets</router-link>
-                    <router-link to="/validators">Validators</router-link>
+                    <a :href="validatorsURL">Validators</a>
                     <a :href="tokensURL">Tokens</a>
                     <router-link to="/blockchains">Blockchains</router-link>
                     <a v-if="isMainnet" :href="statsURL">Stats</a>
@@ -80,6 +80,8 @@ import {
     cChainExplorerURL_test,
     statusURL,
     statusURL_test,
+    subnetExplorerUrl,
+    subnetExplorerUrl_test,
     explorerFEUrl,
     explorerFEUrl_test,
 } from '@/store/modules/network/network'
@@ -129,6 +131,12 @@ export default class Navbar extends Mixins(PlatformGettersMixin) {
 
     get statsURL() {
         return 'https://stats.avax.network/'
+    }
+
+    get validatorsURL() {
+        return DEFAULT_NETWORK_ID === 1
+            ? `${subnetExplorerUrl}/validators`
+            : `${subnetExplorerUrl_test}/validators`
     }
 
     get isMainnet() {

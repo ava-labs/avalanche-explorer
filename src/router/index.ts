@@ -95,6 +95,9 @@ const routes = [
                 },
             ],
         },
+        beforeEnter() {
+            window.location.href = `${subnetExplorerUrl}/validators`
+        },
     },
     {
         path: '/tx',
