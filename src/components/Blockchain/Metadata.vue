@@ -19,12 +19,6 @@
             </p>
         </article>
         <article class="meta_row">
-            <p class="meta_label">Validators</p>
-            <p class="meta_value">
-                <span>{{ validatorsCount }}</span>
-            </p>
-        </article>
-        <article class="meta_row">
             <p class="meta_label">VM ID</p>
             <p class="meta_value">
                 <span>{{ blockchain.vmID }}</span>
@@ -55,11 +49,6 @@ import Indexed from '@/components/Blockchain/Indexed.vue'
 })
 export default class Metadata extends Vue {
     @Prop() blockchain!: Blockchain
-
-    get validatorsCount() {
-        return this.$store.state.Platform.subnets[this.blockchain.subnetID]
-            .validators.length
-    }
 }
 </script>
 
