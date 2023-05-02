@@ -9,6 +9,7 @@ import {
     subnetExplorerUrl as subnetExplorerUrl_main,
     subnetExplorerUrl_test,
 } from '@/store/modules/network/network'
+import { C, P, X } from '@/known_blockchains'
 
 Vue.use(VueRouter)
 
@@ -209,6 +210,14 @@ const routes = [
                         'Blockchain transparency with the Avalanche Explorer enables people to search for transactions, addresses, and other platform activities.',
                 },
             ],
+        },
+        beforeEnter(to: any, from: any, next: any) {
+            if ([C.id, P.id, X.id].includes(to.params.id)) {
+                next()
+                return
+            }
+
+            window.location.href = `${subnetExplorerUrl}/subnets`
         },
     },
     {
